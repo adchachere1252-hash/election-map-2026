@@ -223,6 +223,47 @@ describe("Admin router", () => {
   });
 });
 
+describe("Primary router", () => {
+  it("rejects listPending without valid admin token", async () => {
+    const caller = appRouter.createCaller(createCtx());
+    await expect(caller.primary.listPending({ adminToken: "invalid-token" }))
+      .rejects.toThrow("Invalid or expired admin token");
+  });
+
+  it("rejects promoteSenate without valid admin token", async () => {
+    const caller = appRouter.createCaller(createCtx());
+    await expect(caller.primary.promoteSenate({
+      id: 1,
+      adminToken: "invalid-token",
+      winnerName: "Test Candidate",
+      winnerParty: "D",
+    })).rejects.toThrow("Invalid or expired admin token");
+  });
+
+  it("rejects promoteHouse without valid admin token", async () => {
+    const caller = appRouter.createCaller(createCtx());
+    await expect(caller.primary.promoteHouse({
+      id: 100,
+      adminToken: "invalid-token",
+      winnerName: "Test Candidate",
+      winnerParty: "R",
+    })).rejects.toThrow("Invalid or expired admin token");
+  });
+
+  it("listPending returns senate and house arrays with valid token", async () => {
+    // Override validateAdminSession to return true for this test
+    const { validateAdminSession } = await import("./db");
+    vi.mocked(validateAdminSession).mockResolvedValueOnce(true);
+    const caller = appRouter.createCaller(createCtx());
+    const result = await caller.primary.listPending({ adminToken: "valid-token" });
+    expect(result).toHaveProperty("senate");
+    expect(result).toHaveProperty("house");
+    // Both should be arrays (filtered to Primary status — our mock has Scheduled, so both empty)
+    expect(Array.isArray(result.senate)).toBe(true);
+    expect(Array.isArray(result.house)).toBe(true);
+  });
+});
+
 describe("Auth router", () => {
   it("returns null user when not authenticated", async () => {
     const caller = appRouter.createCaller(createCtx());

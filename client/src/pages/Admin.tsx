@@ -603,8 +603,161 @@ function RedistrictingEditor({ state, token, onUpdated }: { state: Redistricting
   );
 }
 
-// ─── Main Admin Panel ─────────────────────────────────────────────────────────
-type AdminTab = "senate" | "house" | "redistricting" | "referendums";
+//// ─── Primary Results Editor ────────────────────────────────────────────────
+function PrimaryResultsPanel({ token, onUpdated }: { token: string; onUpdated: () => void }) {
+  const [selectedRace, setSelectedRace] = useState<{ type: "senate" | "house"; race: SenateRace | HouseRace } | null>(null);
+  const [winnerName, setWinnerName] = useState("");
+  const [winnerParty, setWinnerParty] = useState<"D" | "R" | "I" | "L" | "G">("D");
+
+  const { data, isLoading, refetch } = trpc.primary.listPending.useQuery({ adminToken: token });
+
+  const promoteSenate = trpc.primary.promoteSenate.useMutation({
+    onSuccess: () => { toast.success("Primary winner promoted to General!"); setSelectedRace(null); setWinnerName(""); onUpdated(); refetch(); },
+    onError: (e) => toast.error(e.message),
+  });
+
+  const promoteHouse = trpc.primary.promoteHouse.useMutation({
+    onSuccess: () => { toast.success("Primary winner promoted to General!"); setSelectedRace(null); setWinnerName(""); onUpdated(); refetch(); },
+    onError: (e) => toast.error(e.message),
+  });
+
+  const handlePromote = () => {
+    if (!selectedRace || !winnerName.trim()) return;
+    if (selectedRace.type === "senate") {
+      promoteSenate.mutate({ id: selectedRace.race.id, adminToken: token, winnerName: winnerName.trim(), winnerParty });
+    } else {
+      promoteHouse.mutate({ id: selectedRace.race.id, adminToken: token, winnerName: winnerName.trim(), winnerParty });
+    }
+  };
+
+  const totalPending = (data?.senate.length ?? 0) + (data?.house.length ?? 0);
+
+  return (
+    <div className="flex h-full overflow-hidden">
+      {/* Left: pending primaries list */}
+      <div className="w-64 border-r border-border overflow-y-auto flex-shrink-0">
+        <div className="p-3 border-b border-border">
+          <p className="text-xs font-semibold text-foreground">Races in Primary Status</p>
+          <p className="text-xs text-muted-foreground mt-0.5">{isLoading ? "Loading..." : `${totalPending} pending`}</p>
+        </div>
+        {!isLoading && totalPending === 0 && (
+          <div className="p-4 text-center text-xs text-muted-foreground">
+            No races currently in Primary status.
+            <br />Update a race status to "Primary" first.
+          </div>
+        )}
+        {(data?.senate ?? []).length > 0 && (
+          <div>
+            <p className="px-3 py-1.5 text-xs font-bold text-muted-foreground bg-muted/30 border-b border-border">SENATE</p>
+            {(data?.senate ?? []).map(race => (
+              <button key={race.id}
+                onClick={() => { setSelectedRace({ type: "senate", race }); setWinnerName(race.incumbent ?? ""); }}
+                className={`w-full text-left px-3 py-2.5 border-b border-border/50 hover:bg-accent transition-colors ${
+                  selectedRace?.race.id === race.id ? "bg-accent" : ""
+                }`}>
+                <p className="text-sm font-medium">{race.stateName}</p>
+                <p className="text-xs text-muted-foreground">{race.primaryDate ?? "Date TBD"}</p>
+              </button>
+            ))}
+          </div>
+        )}
+        {(data?.house ?? []).length > 0 && (
+          <div>
+            <p className="px-3 py-1.5 text-xs font-bold text-muted-foreground bg-muted/30 border-b border-border">HOUSE</p>
+            {(data?.house ?? []).map(race => {
+              const hr = race as HouseRace;
+              return (
+                <button key={race.id}
+                  onClick={() => { setSelectedRace({ type: "house", race }); setWinnerName(race.incumbent ?? ""); }}
+                  className={`w-full text-left px-3 py-2.5 border-b border-border/50 hover:bg-accent transition-colors ${
+                    selectedRace?.race.id === race.id ? "bg-accent" : ""
+                  }`}>
+                  <p className="text-sm font-medium">{hr.stateCode}-{hr.districtLabel}</p>
+                  <p className="text-xs text-muted-foreground truncate">{race.incumbent ?? "Open seat"}</p>
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Right: promote form */}
+      <div className="flex-1 p-6 overflow-y-auto">
+        {!selectedRace ? (
+          <div className="flex flex-col items-center justify-center h-full text-center">
+            <div className="w-12 h-12 rounded-full bg-yellow-900/30 flex items-center justify-center mb-4">
+              <span className="text-2xl">🗳️</span>
+            </div>
+            <p className="text-foreground font-medium">Select a race to record primary results</p>
+            <p className="text-xs text-muted-foreground mt-1">The winner will be promoted to the general election candidate slot and the race status will advance to General.</p>
+          </div>
+        ) : (
+          <div className="max-w-md">
+            <h2 className="text-lg font-bold text-foreground mb-1">
+              {selectedRace.type === "senate"
+                ? `${(selectedRace.race as SenateRace).stateName} Senate Primary`
+                : `${(selectedRace.race as HouseRace).stateName} — ${(selectedRace.race as HouseRace).districtLabel === "AL" ? "At-Large" : `District ${(selectedRace.race as HouseRace).district}`} Primary`
+              }
+            </h2>
+            <p className="text-xs text-muted-foreground mb-6">Recording the primary winner will set them as Candidate 1 and advance the race status to General.</p>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs text-muted-foreground mb-1">Primary Winner Name</label>
+                <input
+                  className="w-full bg-muted border border-border rounded px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                  placeholder="Full name of primary winner"
+                  value={winnerName}
+                  onChange={e => setWinnerName(e.target.value)}
+                  autoFocus
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-muted-foreground mb-1">Party</label>
+                <select
+                  className="w-full bg-muted border border-border rounded px-3 py-2 text-sm text-foreground focus:outline-none"
+                  value={winnerParty}
+                  onChange={e => setWinnerParty(e.target.value as any)}
+                >
+                  <option value="D">Democrat (D)</option>
+                  <option value="R">Republican (R)</option>
+                  <option value="I">Independent (I)</option>
+                  <option value="L">Libertarian (L)</option>
+                  <option value="G">Green (G)</option>
+                </select>
+              </div>
+              <div className="bg-yellow-900/20 border border-yellow-700/30 rounded-lg p-3">
+                <p className="text-xs text-yellow-400 font-medium">What happens next:</p>
+                <ul className="text-xs text-muted-foreground mt-1 space-y-0.5">
+                  <li>• Candidate 1 will be set to <strong className="text-foreground">{winnerName || "[winner name]"}</strong> ({winnerParty})</li>
+                  <li>• Race status will advance from Primary → General</li>
+                  <li>• Map and scoreboard will update immediately</li>
+                </ul>
+              </div>
+              <button
+                onClick={handlePromote}
+                disabled={!winnerName.trim() || promoteSenate.isPending || promoteHouse.isPending}
+                className="w-full bg-yellow-700 hover:bg-yellow-600 disabled:opacity-50 text-white font-semibold py-2.5 rounded-lg transition-colors text-sm flex items-center justify-center gap-2"
+              >
+                <Save className="w-4 h-4" />
+                {(promoteSenate.isPending || promoteHouse.isPending) ? "Promoting..." : "Promote to General Election"}
+              </button>
+              <button
+                onClick={() => setSelectedRace(null)}
+                className="w-full text-xs text-muted-foreground hover:text-foreground py-1 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Main Admin Panel ─────────────────────────────────────────────────
+type AdminTab = "senate" | "house" | "redistricting" | "referendums" | "primary";
 
 function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }) {
   const [tab, setTab] = useState<AdminTab>("senate");
@@ -665,7 +818,7 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
         <div className="w-72 border-r border-border flex flex-col overflow-hidden">
           {/* Tabs */}
           <div className="flex border-b border-border">
-            {(["senate", "house", "redistricting", "referendums"] as AdminTab[]).map(t => (
+            {(["senate", "house", "redistricting", "referendums", "primary"] as AdminTab[]).map(t => (
               <button
                 key={t}
                 onClick={() => { setTab(t); setSearch(""); }}
@@ -673,7 +826,7 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
                   tab === t ? "border-b-2 border-blue-500 text-blue-400" : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                {t === "redistricting" ? "Redistrict" : t.charAt(0).toUpperCase() + t.slice(1)}
+                {t === "redistricting" ? "Redistrict" : t === "primary" ? "Primaries" : t.charAt(0).toUpperCase() + t.slice(1)}
               </button>
             ))}
           </div>
@@ -773,7 +926,7 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
         </div>
 
         {/* Right: Editor */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className={`flex-1 overflow-hidden ${tab === "primary" ? "" : "overflow-y-auto p-6"}`}>
           {tab === "senate" && selectedSenate && (
             <div>
               <h2 className="text-lg font-bold text-foreground mb-1">{selectedSenate.stateName} Senate Race</h2>
@@ -813,6 +966,11 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
                 <ReferendumEditor referendum={selectedReferendum} token={token} onUpdated={() => refetchReferendums()} />
               </div>
             </div>
+          )}
+
+          {/* Primary Results Panel */}
+          {tab === "primary" && (
+            <PrimaryResultsPanel token={token} onUpdated={() => { refetchSenate(); refetchHouse(); }} />
           )}
 
           {/* Empty state */}

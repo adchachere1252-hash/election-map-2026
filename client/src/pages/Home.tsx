@@ -1,10 +1,12 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
 import ElectionMap from "@/components/ElectionMap";
 import Scoreboard from "@/components/Scoreboard";
 import RacePopup from "@/components/RacePopup";
 import RaceList from "@/components/RaceList";
-import { Map, RefreshCw, Lock } from "lucide-react";
+import ElectionCalendar from "@/components/ElectionCalendar";
+import GlobalSearch from "@/components/GlobalSearch";
+import { Map, RefreshCw, Lock, Calendar, ChevronRight } from "lucide-react";
 import { Link } from "wouter";
 import type { SenateRace, HouseRace, RedistrictingState, Referendum } from "../../../drizzle/schema";
 
@@ -30,6 +32,8 @@ export default function Home() {
   } | null>(null);
   const [selectedStateCode, setSelectedStateCode] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const { data: senateRaces = [], refetch: refetchSenate } = trpc.senate.list.useQuery();
   const { data: houseRaces = [], refetch: refetchHouse } = trpc.house.list.useQuery();
@@ -67,24 +71,30 @@ export default function Home() {
     setPopup({ type: "senate", data: race });
     setSelectedStateCode(race.stateCode);
     setSelectedId(race.id);
+    setCalendarOpen(false);
+    setSearchOpen(false);
   }, []);
 
   const handleSelectHouse = useCallback((race: HouseRace) => {
     setPopup({ type: "house", data: race });
     setSelectedStateCode(race.stateCode);
     setSelectedId(race.id);
+    setSearchOpen(false);
   }, []);
 
   const handleSelectRedistricting = useCallback((state: RedistrictingState) => {
     setPopup({ type: "redistricting", data: state });
     setSelectedStateCode(state.stateCode);
     setSelectedId(state.id);
+    setSearchOpen(false);
   }, []);
 
   const handleSelectReferendum = useCallback((ref: Referendum) => {
     setPopup({ type: "referendum", data: ref });
     setSelectedStateCode(ref.stateCode);
     setSelectedId(ref.id);
+    setCalendarOpen(false);
+    setSearchOpen(false);
   }, []);
 
   const closePopup = useCallback(() => {
@@ -93,25 +103,70 @@ export default function Home() {
     setSelectedId(null);
   }, []);
 
+  // Count upcoming events for calendar badge
+  const upcomingCount = useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    let count = 0;
+    for (const r of senateRaces) {
+      if (r.primaryDate) {
+        const d = new Date(r.primaryDate);
+        if (!isNaN(d.getTime()) && d >= today) count++;
+      }
+    }
+    for (const ref of referendums) {
+      if (ref.electionDate) {
+        const d = new Date(ref.electionDate);
+        if (!isNaN(d.getTime()) && d >= today && ref.status !== "Certified") count++;
+      }
+    }
+    return count;
+  }, [senateRaces, referendums]);
+
   return (
     <div className="h-screen flex flex-col bg-background overflow-hidden">
       {/* Header */}
       <header className="flex-shrink-0 border-b border-border bg-card px-4 py-2.5">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded bg-blue-700 flex items-center justify-center">
-                <Map className="w-4 h-4 text-white" />
-              </div>
-              <div>
-                <h1 className="text-sm font-bold text-foreground leading-tight">2026 U.S. Election Center</h1>
-                <p className="text-xs text-muted-foreground leading-tight">Interactive Congressional Tracker</p>
-              </div>
+        <div className="flex items-center justify-between gap-3">
+          {/* Logo */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="w-7 h-7 rounded bg-blue-700 flex items-center justify-center">
+              <Map className="w-4 h-4 text-white" />
+            </div>
+            <div className="hidden md:block">
+              <h1 className="text-sm font-bold text-foreground leading-tight">2026 U.S. Election Center</h1>
+              <p className="text-xs text-muted-foreground leading-tight">Interactive Congressional Tracker</p>
             </div>
           </div>
 
+          {/* Global Search — center */}
+          <div className="flex-1 max-w-md relative">
+            {searchOpen ? (
+              <GlobalSearch
+                senateRaces={senateRaces}
+                houseRaces={houseRaces}
+                redistrictingStates={redistrictingStates}
+                referendums={referendums}
+                onSelectSenate={handleSelectSenate}
+                onSelectHouse={handleSelectHouse}
+                onSelectRedistricting={handleSelectRedistricting}
+                onSelectReferendum={handleSelectReferendum}
+              />
+            ) : (
+              <button
+                onClick={() => setSearchOpen(true)}
+                className="w-full flex items-center gap-2 bg-muted/60 border border-border rounded-lg px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <span>Search races, states, candidates...</span>
+              </button>
+            )}
+          </div>
+
           {/* View Toggle */}
-          <div className="flex items-center gap-1 bg-muted rounded-lg p-1">
+          <div className="flex items-center gap-1 bg-muted rounded-lg p-1 flex-shrink-0">
             {(["senate", "house", "redistricting"] as MapView[]).map(v => (
               <button
                 key={v}
@@ -127,7 +182,25 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="flex items-center gap-2">
+          {/* Right actions */}
+          <div className="flex items-center gap-1.5 flex-shrink-0">
+            {/* Calendar toggle */}
+            <button
+              onClick={() => setCalendarOpen(o => !o)}
+              className={`relative flex items-center gap-1.5 text-xs px-2 py-1.5 rounded hover:bg-muted transition-colors border ${
+                calendarOpen ? "border-blue-600 text-blue-400 bg-blue-900/20" : "border-border text-muted-foreground hover:text-foreground"
+              }`}
+              title="Election Calendar"
+            >
+              <Calendar className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Calendar</span>
+              {upcomingCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-blue-600 text-white text-xs rounded-full flex items-center justify-center leading-none">
+                  {upcomingCount > 9 ? "9+" : upcomingCount}
+                </span>
+              )}
+            </button>
+
             <button
               onClick={handleRefresh}
               className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground px-2 py-1.5 rounded hover:bg-muted transition-colors"
@@ -135,6 +208,7 @@ export default function Home() {
               <RefreshCw className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Refresh</span>
             </button>
+
             <Link href="/admin" className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground px-2 py-1.5 rounded hover:bg-muted transition-colors border border-border">
               <Lock className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Admin</span>
@@ -182,7 +256,7 @@ export default function Home() {
 
       {/* Main content */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Sidebar */}
+        {/* Left Sidebar: Scoreboard + Race List */}
         <aside className="w-64 flex-shrink-0 border-r border-border flex flex-col overflow-hidden bg-card/50">
           <div className="flex-shrink-0 p-3 border-b border-border">
             <Scoreboard />
@@ -211,7 +285,9 @@ export default function Home() {
             houseRaces={houseRaces}
             redistrictingStates={redistrictingStates}
             onStateClick={handleStateClick}
+            onDistrictClick={handleSelectHouse}
             selectedStateCode={selectedStateCode}
+            selectedDistrictId={selectedId}
           />
 
           {/* Popup */}
@@ -226,13 +302,50 @@ export default function Home() {
           )}
 
           {/* Map hint */}
-          {!popup && (
+          {!popup && !calendarOpen && (
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-card/80 backdrop-blur border border-border rounded-full px-3 py-1.5 text-xs text-muted-foreground pointer-events-none">
               Click any state to view race details · Scroll to zoom
             </div>
           )}
         </main>
+
+        {/* Right Panel: Election Calendar */}
+        {calendarOpen && (
+          <aside className="w-72 flex-shrink-0 border-l border-border flex flex-col overflow-hidden bg-card/50">
+            {/* Panel header */}
+            <div className="flex-shrink-0 flex items-center justify-between px-3 py-2 border-b border-border">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-3.5 h-3.5 text-blue-400" />
+                <span className="text-xs font-bold text-foreground">Election Calendar</span>
+              </div>
+              <button
+                onClick={() => setCalendarOpen(false)}
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                title="Close calendar"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+            <div className="flex-1 overflow-hidden flex flex-col">
+              <ElectionCalendar
+                senateRaces={senateRaces}
+                houseRaces={houseRaces}
+                referendums={referendums}
+                onSelectSenate={handleSelectSenate}
+                onSelectReferendum={handleSelectReferendum}
+              />
+            </div>
+          </aside>
+        )}
       </div>
+
+      {/* Search overlay — full-width dropdown when search is open */}
+      {searchOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm"
+          onClick={() => setSearchOpen(false)}
+        />
+      )}
     </div>
   );
 }

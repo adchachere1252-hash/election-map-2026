@@ -228,6 +228,64 @@ export const appRouter = router({
       }),
   }),
 
+  // ─── Primary Results Workflow ─────────────────────────────────────────────────
+  primary: router({
+    // Promote a primary winner to the general election candidate slot
+    promoteSenate: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        adminToken: z.string(),
+        winnerName: z.string().min(1),
+        winnerParty: partyEnum,
+        primaryVotePct: z.number().min(0).max(100).nullable().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        // Set candidate1 to the primary winner and advance status to General
+        await updateSenateRace(input.id, {
+          candidate1Name: input.winnerName,
+          candidate1Party: input.winnerParty as any,
+          status: "General",
+          notes: `Primary winner: ${input.winnerName} (${input.winnerParty})`,
+        });
+        return { success: true };
+      }),
+
+    promoteHouse: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        adminToken: z.string(),
+        winnerName: z.string().min(1),
+        winnerParty: partyEnum,
+        primaryVotePct: z.number().min(0).max(100).nullable().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        await updateHouseRace(input.id, {
+          candidate1Name: input.winnerName,
+          candidate1Party: input.winnerParty as any,
+          status: "General",
+          notes: `Primary winner: ${input.winnerName} (${input.winnerParty})`,
+        });
+        return { success: true };
+      }),
+
+    // List all races currently in Primary status
+    listPending: publicProcedure
+      .input(z.object({ adminToken: z.string() }))
+      .query(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        const [senateRaces, houseRaces] = await Promise.all([
+          getAllSenateRaces(),
+          getAllHouseRaces(),
+        ]);
+        return {
+          senate: senateRaces.filter(r => r.status === "Primary"),
+          house: houseRaces.filter(r => r.status === "Primary"),
+        };
+      }),
+  }),
+
   // ─── Scoreboard ─────────────────────────────────────────────────────────────
   scoreboard: router({
     get: publicProcedure.query(async () => {

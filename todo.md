@@ -78,3 +78,19 @@
 - [x] Vitest: scoreboard aggregation shape
 - [x] Vitest: admin auth guard (wrong password, invalid token, all update mutations rejected)
 - [x] All 13 tests passing
+
+## New Features (Round 2)
+- [x] Download congressional districts TopoJSON/GeoJSON for all 435 districts
+- [x] Build district-level House SVG map rendering (color each district by rating/called party)
+- [x] House map: click individual district to open race pop-up
+- [x] House map: zoom into state to see individual districts
+- [x] Admin panel: Primary Results workflow tab — mark primary winner, auto-promote to candidate1
+- [x] Admin panel: Primary Results shows all races in Primary status
+- [x] Election calendar sidebar component — upcoming primaries sorted by date
+- [x] Election calendar: show next 30 days of scheduled races
+- [x] Election calendar: distinguish Senate specials, Senate primaries, House primaries, referendums
+- [x] Real-time global search bar — search by state name, candidate name, incumbent name
+- [x] Search results overlay showing matching Senate and House races
+- [x] Filter panel: filter by type and rating across all views
+- [x] Search clears on result selection
+- [x] Vitest: primary router auth guards (4 new tests — 17 total passing)
