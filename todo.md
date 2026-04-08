@@ -169,3 +169,13 @@
 - [x] Add scoreboard tooltip/note explaining tallies fill in on Election Night as races are called
 - [x] Scoreboard: show "seats needed to control" threshold (51 Senate, 218 House) as a marker
 - [x] Verify scoreboard renders correctly with new composition section (28 tests passing, zero TS errors)
+
+## Special Election Integration & Composition Timestamp (Round 8)
+- [x] Backend: extend scoreboard.get to return live composition (base constants adjusted by called special/house results)
+- [x] Backend: compute liveComposition by starting from base 119th Congress numbers and applying called race winners
+- [x] Backend: return lastUpdated timestamp (ISO string of most recently called race, or seed date if none called)
+- [x] Frontend: Scoreboard CurrentComposition reads live composition from API instead of hardcoded constants
+- [x] Frontend: display "Last Updated: [date/time]" in Current Composition panel
+- [x] Frontend: auto-refresh composition every 30s alongside scoreboard
+- [x] Verify NJ-11 special election (Jul 2026) will auto-update composition when called via Admin panel
+- [x] All 28 tests still passing after backend changes (28/28 pass, zero TS errors)

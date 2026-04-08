@@ -123,9 +123,26 @@ export async function updateReferendum(id: number, data: Partial<typeof referend
 }
 
 // ─── Scoreboard ───────────────────────────────────────────────────────────────
+// ─── 119th Congress base composition (start of Congress, Jan 2025) ───────────
+// Source: senate.gov (Party Division) + pressgallery.house.gov (Apr 2026)
+// These are the pre-election baselines. Called races in 2026 will adjust them.
+const BASE_COMPOSITION = {
+  senate: { D: 45, R: 53, I: 2, total: 100, vacancies: 0 },
+  // House: 217R / 214D / 1I / 3 vacancies as of Apr 2026
+  // FL-01 (R→R Patronis), FL-06 (R→R Fine), NJ-11 (D→vacant Sherrill resigned)
+  house: { D: 214, R: 217, I: 1, total: 435, vacancies: 3 },
+} as const;
+
 export async function getScoreboard() {
   const db = await getDb();
-  if (!db) return { senate: { D: 0, R: 0, I: 0, uncalled: 0, total: 0 }, house: { D: 0, R: 0, I: 0, uncalled: 0, total: 0 } };
+  if (!db) return {
+    senate: { D: 0, R: 0, I: 0, uncalled: 0, total: 0 },
+    house: { D: 0, R: 0, I: 0, uncalled: 0, total: 0 },
+    composition: {
+      senate: { ...BASE_COMPOSITION.senate, lastUpdated: new Date('2026-04-08').toISOString(), source: 'senate.gov / pressgallery.house.gov' },
+      house: { ...BASE_COMPOSITION.house, lastUpdated: new Date('2026-04-08').toISOString(), source: 'senate.gov / pressgallery.house.gov' },
+    },
+  };
 
   const senateRows = await db.select().from(senateRaces);
   const houseRows = await db.select().from(houseRaces);
@@ -146,7 +163,86 @@ export async function getScoreboard() {
     return counts;
   };
 
-  return { senate: tally(senateRows), house: tally(houseRows) };
+  // ── Live composition: base + adjustments from called 2026 races ──────────────
+  // Strategy: for each called race, if the winner's party differs from previousParty,
+  // the seat moves from one party to another in the live composition.
+  // For special elections (isSpecial=true) that are already Called/Certified,
+  // they represent seats that were vacant or held by a different party.
+  type CompRow = {
+    status: string | null;
+    calledParty: string | null;
+    previousParty: string | null;
+    isSpecial?: boolean | null;
+    updatedAt: Date;
+  };
+
+  const computeLiveComposition = (
+    base: typeof BASE_COMPOSITION.senate | typeof BASE_COMPOSITION.house,
+    rows: CompRow[]
+  ) => {
+    let D: number = base.D;
+    let R: number = base.R;
+    let I: number = base.I;
+    let vacancies: number = base.vacancies;
+    let latestUpdate: Date | null = null;
+
+    for (const r of rows) {
+      if (r.status !== 'Called' && r.status !== 'Certified') continue;
+      if (!r.calledParty) continue;
+
+      // Track the most recent update timestamp
+      if (!latestUpdate || r.updatedAt > latestUpdate) latestUpdate = r.updatedAt;
+
+      // If previousParty is known and differs from calledParty → flip the seat
+      if (r.previousParty && r.previousParty !== r.calledParty) {
+        if (r.previousParty === 'D') D--;
+        else if (r.previousParty === 'R') R--;
+        else if (r.previousParty === 'I') I--;
+
+        if (r.calledParty === 'D') D++;
+        else if (r.calledParty === 'R') R++;
+        else if (r.calledParty === 'I') I++;
+      }
+
+      // Special elections filling a vacancy: decrement vacancies, add to party
+      if (r.isSpecial && !r.previousParty && vacancies > 0) {
+        vacancies--;
+        if (r.calledParty === 'D') D++;
+        else if (r.calledParty === 'R') R++;
+        else if (r.calledParty === 'I') I++;
+      }
+    }
+
+    // Clamp to valid range
+    D = Math.max(0, D);
+    R = Math.max(0, R);
+    I = Math.max(0, I);
+    vacancies = Math.max(0, vacancies);
+
+    const lastUpdated = latestUpdate
+      ? latestUpdate.toISOString()
+      : new Date('2026-04-08').toISOString();
+
+    return { D, R, I, total: base.total, vacancies, lastUpdated, source: 'senate.gov / pressgallery.house.gov (119th Congress base)' };
+  };
+
+  const senateComp = computeLiveComposition(
+    BASE_COMPOSITION.senate,
+    senateRows.map(r => ({ ...r, isSpecial: r.isSpecial ?? false }))
+  );
+  const houseComp = computeLiveComposition(
+    BASE_COMPOSITION.house,
+    houseRows.map(r => ({ ...r, isSpecial: false, previousParty: r.previousParty ?? null }))
+  );
+
+  return {
+    senate: tally(senateRows),
+    house: tally(houseRows),
+    composition: {
+      senate: senateComp,
+      house: houseComp,
+    },
+  };
 }
 
 // ─── Flip Tracker ────────────────────────────────────────────────────────────

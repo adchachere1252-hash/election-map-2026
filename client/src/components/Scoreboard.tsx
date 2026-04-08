@@ -9,12 +9,15 @@ interface ScoreboardData {
   total: number;
 }
 
-// Official 119th Congress composition as of April 2026
-// Source: senate.gov (Party Division) + pressgallery.house.gov (Party Breakdown)
-const CURRENT_COMPOSITION = {
-  senate: { D: 45, R: 53, I: 2, total: 100 },
-  house: { D: 214, R: 217, I: 1, vacancies: 3, total: 435 },
-};
+interface CompositionData {
+  D: number;
+  R: number;
+  I: number;
+  total: number;
+  vacancies: number;
+  lastUpdated: string;
+  source: string;
+}
 
 function CompositionBar({
   d,
@@ -68,15 +71,37 @@ function CompositionBar({
   );
 }
 
-function CurrentComposition() {
-  const { senate, house } = CURRENT_COMPOSITION;
+function formatLastUpdated(iso: string): string {
+  try {
+    const d = new Date(iso);
+    return d.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZoneName: "short",
+    });
+  } catch {
+    return iso;
+  }
+}
+
+function CurrentComposition({ composition }: { composition: { senate: CompositionData; house: CompositionData } }) {
+  const { senate, house } = composition;
   const senateMajority = 51;
   const houseMajority = 218;
 
+  // Use the more recent of the two timestamps
+  const lastUpdatedRaw = senate.lastUpdated > house.lastUpdated ? senate.lastUpdated : house.lastUpdated;
+  const lastUpdatedDisplay = formatLastUpdated(lastUpdatedRaw);
+
   return (
     <div className="bg-muted/30 border border-border/50 rounded-md p-3 space-y-3">
-      <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
-        Current Composition — 119th Congress
+      <div className="flex items-start justify-between gap-2">
+        <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+          Current Composition — 119th Congress
+        </div>
       </div>
 
       {/* Senate */}
@@ -122,7 +147,16 @@ function CurrentComposition() {
             <span className="text-muted-foreground">D</span>
           </div>
           <div className="flex items-center justify-center gap-1">
-            <span className="text-[10px] text-muted-foreground/60">{house.vacancies} vacant</span>
+            {house.I > 0 && (
+              <>
+                <div className="w-2 h-2 rounded-sm flex-shrink-0" style={{ background: "#4a5568" }} />
+                <span className="font-semibold text-gray-400">{house.I}</span>
+                <span className="text-muted-foreground">Ind.</span>
+              </>
+            )}
+            {house.vacancies > 0 && (
+              <span className="text-muted-foreground/60">{house.vacancies} vacant</span>
+            )}
           </div>
           <div className="flex items-center justify-end gap-1">
             <span className="text-muted-foreground">R</span>
@@ -132,8 +166,18 @@ function CurrentComposition() {
         </div>
       </div>
 
-      <div className="text-[10px] text-muted-foreground/60 leading-tight">
-        <span className="text-yellow-400/80">│</span> = majority threshold · Source: senate.gov, pressgallery.house.gov (Apr 2026)
+      {/* Last Updated + source */}
+      <div className="pt-1 border-t border-border/40 space-y-0.5">
+        <div className="flex items-center gap-1 text-[10px] text-muted-foreground/80">
+          <span className="text-yellow-400/80">●</span>
+          <span>
+            <span className="font-semibold text-foreground/70">Last updated:</span>{" "}
+            {lastUpdatedDisplay}
+          </span>
+        </div>
+        <div className="text-[10px] text-muted-foreground/50 leading-tight">
+          <span className="text-yellow-400/60">│</span> = majority threshold · Updates automatically when races are called
+        </div>
       </div>
     </div>
   );
@@ -198,20 +242,17 @@ function ElectionScoreBar({
         </div>
       </div>
 
-      {/* Legend row — three columns with fixed widths */}
+      {/* Legend row */}
       <div className="grid grid-cols-3 text-xs">
-        {/* Democrat */}
         <div className="flex items-center gap-1">
           <div className="w-2 h-2 rounded-sm flex-shrink-0" style={{ background: "#1a4fa0" }} />
           <span className="font-bold text-blue-400">{data.D}</span>
           <span className="text-muted-foreground">D</span>
         </div>
-        {/* Uncalled — centered */}
         <div className="flex items-center justify-center gap-1">
           <span className="font-semibold text-muted-foreground">{data.uncalled + data.I}</span>
           <span className="text-muted-foreground/70">Unc.</span>
         </div>
-        {/* Republican — right-aligned */}
         <div className="flex items-center justify-end gap-1">
           <span className="text-muted-foreground">R</span>
           <span className="font-bold text-red-400">{data.R}</span>
@@ -232,7 +273,7 @@ export default function Scoreboard() {
       <div className="bg-card border border-border rounded-lg p-4">
         <div className="animate-pulse space-y-3">
           <div className="h-3 bg-muted rounded w-2/3" />
-          <div className="h-5 bg-muted rounded" />
+          <div className="h-4 bg-muted rounded" />
           <div className="h-3 bg-muted rounded w-full" />
           <div className="h-3 bg-muted rounded w-2/3 mt-4" />
           <div className="h-5 bg-muted rounded" />
@@ -242,10 +283,16 @@ export default function Scoreboard() {
     );
   }
 
+  // Fallback composition if backend doesn't return it (older cache)
+  const composition = (data as any).composition ?? {
+    senate: { D: 45, R: 53, I: 2, total: 100, vacancies: 0, lastUpdated: new Date('2026-04-08').toISOString(), source: '' },
+    house: { D: 214, R: 217, I: 1, total: 435, vacancies: 3, lastUpdated: new Date('2026-04-08').toISOString(), source: '' },
+  };
+
   return (
     <div className="bg-card border border-border rounded-lg p-4 space-y-4">
       {/* ── Current Composition ── */}
-      <CurrentComposition />
+      <CurrentComposition composition={composition} />
 
       {/* ── 2026 Election Results ── */}
       <div>

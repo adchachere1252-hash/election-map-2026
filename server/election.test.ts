@@ -105,6 +105,10 @@ vi.mock("./db", () => ({
   getScoreboard: vi.fn().mockResolvedValue({
     senate: { D: 0, R: 0, I: 0, uncalled: 35, total: 35 },
     house: { D: 0, R: 0, I: 0, uncalled: 435, total: 435 },
+    composition: {
+      senate: { D: 45, R: 53, I: 2, total: 100, vacancies: 0, lastUpdated: '2026-04-08T00:00:00.000Z', source: 'senate.gov' },
+      house: { D: 214, R: 217, I: 1, total: 435, vacancies: 3, lastUpdated: '2026-04-08T00:00:00.000Z', source: 'pressgallery.house.gov' },
+    },
   }),
   getFlipTracker: vi.fn().mockResolvedValue({
     senate: {
@@ -183,6 +187,28 @@ describe("Scoreboard router", () => {
     expect(board).toHaveProperty("house");
     expect(board.senate.total).toBe(35);
     expect(board.house.total).toBe(435);
+  });
+
+  it("returns live composition with 119th Congress base numbers", async () => {
+    const caller = appRouter.createCaller(createCtx());
+    const board = await caller.scoreboard.get();
+    expect(board).toHaveProperty("composition");
+    const comp = (board as any).composition;
+    // Senate: 53R / 45D / 2I (119th Congress)
+    expect(comp.senate.R).toBe(53);
+    expect(comp.senate.D).toBe(45);
+    expect(comp.senate.I).toBe(2);
+    expect(comp.senate.total).toBe(100);
+    // House: 217R / 214D / 1I / 3 vacancies
+    expect(comp.house.R).toBe(217);
+    expect(comp.house.D).toBe(214);
+    expect(comp.house.total).toBe(435);
+    expect(comp.house.vacancies).toBe(3);
+    // lastUpdated must be a valid ISO string
+    expect(typeof comp.senate.lastUpdated).toBe("string");
+    expect(new Date(comp.senate.lastUpdated).getTime()).not.toBeNaN();
+    expect(typeof comp.house.lastUpdated).toBe("string");
+    expect(new Date(comp.house.lastUpdated).getTime()).not.toBeNaN();
   });
 });
 
