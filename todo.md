@@ -266,3 +266,16 @@
 - [x] Last Updated timestamp auto-refreshes every 10 minutes via setInterval
 - [x] Verified: 8 Senate key races (GA/MI Toss-up, CO/IL/MN Lean D, etc.) + 12 House key races
 - [x] 32 tests passing, zero TypeScript errors
+
+## Candidate Photos, Party Logos & Key Races Filter (Round 17)
+- [ ] Source official candidate headshots for all Key Races (Congress.gov, official campaign sites)
+- [ ] Source Democratic Party and Republican Party logos (official SVGs)
+- [ ] Upload all photos and logos to CDN via manus-upload-file --webdev
+- [ ] Add candidatePhotoUrl fields to senate_races and house_races schema (nullable text)
+- [ ] Seed photo URLs for all Key Races candidates
+- [ ] Update keyRaces.get procedure to return photo URLs
+- [ ] Update KeyRaces component: show circular candidate headshot next to name (fallback to party initial)
+- [ ] Add party logo/badge next to each candidate's party label in Key Races cards
+- [ ] Add dropdown filter to Key Races section: filter by Chamber (All/Senate/House), Rating (All/Toss-up/Lean D/Lean R), Party (All/D/R)
+- [ ] Add sort option: by competitiveness (default), by state alphabetical, by chamber
+- [ ] Full verification: photos load correctly, filter works, 32 tests still passing

@@ -15,6 +15,7 @@ import {
 import { nanoid } from "nanoid";
 import { ENV } from "./_core/env";
 import { broadcastElectionEvent, getConnectedClientCount } from "./ws";
+import { getCandidatePhoto, PARTY_LOGOS } from "./candidatePhotos";
 
 // ─── Admin password (stored as env var, fallback to a default for dev) ────────
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "election2026admin";
@@ -449,8 +450,11 @@ export const appRouter = router({
           incumbentParty: r.incumbentParty,
           candidate1Name: r.candidate1Name,
           candidate1Party: r.candidate1Party,
+          candidate1Photo: getCandidatePhoto(r.candidate1Name),
           candidate2Name: r.candidate2Name,
           candidate2Party: r.candidate2Party,
+          candidate2Photo: getCandidatePhoto(r.candidate2Name),
+          partyLogos: PARTY_LOGOS,
           status: r.status,
           calledParty: r.calledParty,
           calledWinner: r.calledWinner,
@@ -474,8 +478,11 @@ export const appRouter = router({
           incumbentParty: r.incumbentParty,
           candidate1Name: r.candidate1Name,
           candidate1Party: r.candidate1Party,
+          candidate1Photo: getCandidatePhoto(r.candidate1Name),
           candidate2Name: r.candidate2Name,
           candidate2Party: r.candidate2Party,
+          candidate2Photo: getCandidatePhoto(r.candidate2Name),
+          partyLogos: PARTY_LOGOS,
           status: r.status,
           calledParty: r.calledParty,
           calledWinner: r.calledWinner,
