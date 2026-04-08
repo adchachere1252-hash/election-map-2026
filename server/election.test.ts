@@ -332,6 +332,84 @@ describe("Flip Tracker router", () => {
   });
 });
 
+describe("Election Night router", () => {
+  it("rejects queue without valid admin token", async () => {
+    const caller = appRouter.createCaller(createCtx());
+    await expect(caller.electionNight.queue({ adminToken: "invalid-token" }))
+      .rejects.toThrow("Invalid or expired admin token");
+  });
+
+  it("queue returns senate and house arrays with valid token", async () => {
+    const { validateAdminSession, getAllSenateRaces, getAllHouseRaces } = await import("./db");
+    vi.mocked(validateAdminSession).mockResolvedValueOnce(true);
+    // Override senate mock to have a General-status race
+    vi.mocked(getAllSenateRaces).mockResolvedValueOnce([
+      {
+        id: 1, stateCode: "GA", stateName: "Georgia", isSpecial: false, specialNote: null,
+        incumbent: "Jon Ossoff", incumbentParty: "D" as any, incumbentRetiring: false,
+        candidate1Name: "Jon Ossoff", candidate1Party: "D" as any, candidate1VotePct: null,
+        candidate2Name: "Brian Kemp", candidate2Party: "R" as any, candidate2VotePct: null,
+        calledWinner: null, calledParty: null, rating: "Toss-up", status: "General",
+        primaryDate: "May 19, 2026", primaryRunoffDate: null, generalDate: "November 3, 2026",
+        pctReporting: "0.00", notes: null, previousParty: null, createdAt: new Date(), updatedAt: new Date(),
+      },
+    ] as any);
+    vi.mocked(getAllHouseRaces).mockResolvedValueOnce([]);
+    const caller = appRouter.createCaller(createCtx());
+    const result = await caller.electionNight.queue({ adminToken: "valid-token" });
+    expect(result).toHaveProperty("senate");
+    expect(result).toHaveProperty("house");
+    expect(result.senate.length).toBe(1);
+    expect(result.senate[0].status).toBe("General");
+  });
+
+  it("queue filters out non-General/Called races", async () => {
+    const { validateAdminSession } = await import("./db");
+    vi.mocked(validateAdminSession).mockResolvedValueOnce(true);
+    // Mock returns Scheduled status — should be filtered out
+    const caller = appRouter.createCaller(createCtx());
+    const result = await caller.electionNight.queue({ adminToken: "valid-token" });
+    // Default mock has status: "Scheduled" so both queues should be empty
+    expect(result.senate.length).toBe(0);
+    expect(result.house.length).toBe(0);
+  });
+
+  it("rejects updateRace without valid admin token", async () => {
+    const caller = appRouter.createCaller(createCtx());
+    await expect(caller.electionNight.updateRace({
+      adminToken: "invalid-token",
+      chamber: "senate",
+      id: 1,
+      candidate1VotePct: 52.3,
+    })).rejects.toThrow("Invalid or expired admin token");
+  });
+
+  it("rejects batchUpdate without valid admin token", async () => {
+    const caller = appRouter.createCaller(createCtx());
+    await expect(caller.electionNight.batchUpdate({
+      adminToken: "invalid-token",
+      updates: [{ chamber: "senate", id: 1, candidate1VotePct: 52.3 }],
+    })).rejects.toThrow("Invalid or expired admin token");
+  });
+
+  it("batchUpdate processes multiple races with valid token", async () => {
+    const { validateAdminSession, updateSenateRace, updateHouseRace } = await import("./db");
+    vi.mocked(validateAdminSession).mockResolvedValueOnce(true);
+    const caller = appRouter.createCaller(createCtx());
+    const result = await caller.electionNight.batchUpdate({
+      adminToken: "valid-token",
+      updates: [
+        { chamber: "senate", id: 1, candidate1VotePct: 52.3, candidate2VotePct: 47.7, pctReporting: 85 },
+        { chamber: "house", id: 100, candidate1VotePct: 60.0, calledWinner: "Doug LaMalfa", calledParty: "R", status: "Called" },
+      ],
+    });
+    expect(result.succeeded).toBe(2);
+    expect(result.failed).toBe(0);
+    expect(vi.mocked(updateSenateRace)).toHaveBeenCalledWith(1, expect.objectContaining({ candidate1VotePct: 52.3 }));
+    expect(vi.mocked(updateHouseRace)).toHaveBeenCalledWith(100, expect.objectContaining({ calledWinner: "Doug LaMalfa" }));
+  });
+});
+
 describe("Auth router", () => {
   it("returns null user when not authenticated", async () => {
     const caller = appRouter.createCaller(createCtx());

@@ -132,3 +132,22 @@
 - [x] Verification: 22 tests passing, zero TypeScript errors, zero console errors
 - [x] Verification: election night mode visual QA — toggle works, map goes gray, legend updates
 - [x] Verification: live search "Georgia" returns 16 results, dims all non-GA states on map
+
+## New Features (Round 5 — Election Night Admin Tab)
+- [ ] Admin panel: "Election Night" tab visible alongside Senate/House/Primary/Redistricting tabs
+- [ ] Election Night tab: race queue showing all General/Called races sorted by competitiveness (Toss-up first)
+- [ ] Election Night tab: filter queue by chamber (All / Senate / House) and status (All / General / Called)
+- [ ] Election Night tab: rapid entry form with large, keyboard-optimized fields per race
+- [ ] Election Night tab: Candidate 1 vote % input + Candidate 2 vote % input (Tab to advance)
+- [ ] Election Night tab: % Reporting input field
+- [ ] Election Night tab: "Call Race" button with winner dropdown (Candidate 1 / Candidate 2 / TBD)
+- [ ] Election Night tab: status auto-advances to "Called" when winner is set
+- [ ] Election Night tab: keyboard shortcut — Enter submits current race and advances to next
+- [ ] Election Night tab: keyboard shortcut — Escape clears current entry
+- [ ] Election Night tab: live results feed sidebar showing recently updated races with timestamps
+- [ ] Election Night tab: "Uncall" button to revert a called race back to General
+- [ ] Election Night tab: visual called/uncalled state per race row (green border = called)
+- [ ] Server: batchUpdateResults mutation for bulk vote % + called winner updates
+- [ ] Vitest: election night batch update auth guard
+- [ ] Full verification: all tests pass, zero TypeScript errors, zero console errors
+- [ ] Full verification: visual QA of Election Night tab in Admin panel

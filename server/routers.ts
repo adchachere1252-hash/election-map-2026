@@ -286,6 +286,95 @@ export const appRouter = router({
       }),
   }),
 
+  // ─── Election Night Rapid Entry ─────────────────────────────────────────────
+  electionNight: router({
+    // Returns all General + Called races sorted by competitiveness for rapid entry
+    queue: publicProcedure
+      .input(z.object({ adminToken: z.string() }))
+      .query(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        const [senateRaces, houseRaces] = await Promise.all([
+          getAllSenateRaces(),
+          getAllHouseRaces(),
+        ]);
+        const ratingOrder: Record<string, number> = {
+          "Toss-up": 0, "Lean D": 1, "Lean R": 2, "Solid D": 3, "Solid R": 4,
+        };
+        const senateQueue = senateRaces
+          .filter(r => r.status === "General" || r.status === "Called" || r.status === "Certified")
+          .sort((a, b) => (ratingOrder[a.rating ?? ""] ?? 5) - (ratingOrder[b.rating ?? ""] ?? 5));
+        const houseQueue = houseRaces
+          .filter(r => r.status === "General" || r.status === "Called" || r.status === "Certified")
+          .sort((a, b) => (ratingOrder[a.rating ?? ""] ?? 5) - (ratingOrder[b.rating ?? ""] ?? 5));
+        return { senate: senateQueue, house: houseQueue };
+      }),
+
+    // Rapid single-race update: vote pcts + called winner + pct reporting
+    updateRace: publicProcedure
+      .input(z.object({
+        adminToken: z.string(),
+        chamber: z.enum(["senate", "house"]),
+        id: z.number(),
+        candidate1VotePct: z.number().min(0).max(100).nullable().optional(),
+        candidate2VotePct: z.number().min(0).max(100).nullable().optional(),
+        pctReporting: z.number().min(0).max(100).nullable().optional(),
+        calledWinner: z.string().nullable().optional(),
+        calledParty: partyMainEnum.nullable().optional(),
+        status: raceStatusEnum.optional(),
+      }))
+      .mutation(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        const { id, adminToken: _t, chamber, ...data } = input;
+        const updateData: Record<string, unknown> = {};
+        for (const [k, v] of Object.entries(data)) {
+          if (v !== undefined) updateData[k] = v;
+        }
+        if (chamber === "senate") {
+          await updateSenateRace(id, updateData as Parameters<typeof updateSenateRace>[1]);
+        } else {
+          await updateHouseRace(id, updateData as Parameters<typeof updateHouseRace>[1]);
+        }
+        return { success: true };
+      }),
+
+    // Batch update: submit multiple race results at once
+    batchUpdate: publicProcedure
+      .input(z.object({
+        adminToken: z.string(),
+        updates: z.array(z.object({
+          chamber: z.enum(["senate", "house"]),
+          id: z.number(),
+          candidate1VotePct: z.number().min(0).max(100).nullable().optional(),
+          candidate2VotePct: z.number().min(0).max(100).nullable().optional(),
+          pctReporting: z.number().min(0).max(100).nullable().optional(),
+          calledWinner: z.string().nullable().optional(),
+          calledParty: partyMainEnum.nullable().optional(),
+          status: raceStatusEnum.optional(),
+        })),
+      }))
+      .mutation(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        const results = await Promise.allSettled(
+          input.updates.map(async (u) => {
+            const { id, chamber, ...data } = u;
+            const updateData: Record<string, unknown> = {};
+            for (const [k, v] of Object.entries(data)) {
+              if (v !== undefined) updateData[k] = v;
+            }
+            if (chamber === "senate") {
+              await updateSenateRace(id, updateData as Parameters<typeof updateSenateRace>[1]);
+            } else {
+              await updateHouseRace(id, updateData as Parameters<typeof updateHouseRace>[1]);
+            }
+            return { id, chamber };
+          })
+        );
+        const succeeded = results.filter(r => r.status === "fulfilled").length;
+        const failed = results.filter(r => r.status === "rejected").length;
+        return { succeeded, failed };
+      }),
+  }),
+
    // ─── Scoreboard ────────────────────────────────────────────────────────────
   scoreboard: router({
     get: publicProcedure.query(async () => {

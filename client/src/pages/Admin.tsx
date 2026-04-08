@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { Lock, LogOut, Search, ChevronDown, ChevronUp, Save, ArrowLeft, RefreshCw, AlertTriangle } from "lucide-react";
+import { Lock, LogOut, Search, ChevronDown, ChevronUp, Save, ArrowLeft, RefreshCw, AlertTriangle, Zap } from "lucide-react";
+import ElectionNightPanel from "@/components/ElectionNightPanel";
 import { Link } from "wouter";
 import { getRatingClass } from "@/lib/electionUtils";
 import type { SenateRace, HouseRace, RedistrictingState, Referendum } from "../../../drizzle/schema";
@@ -757,7 +758,7 @@ function PrimaryResultsPanel({ token, onUpdated }: { token: string; onUpdated: (
 }
 
 // ─── Main Admin Panel ─────────────────────────────────────────────────
-type AdminTab = "senate" | "house" | "redistricting" | "referendums" | "primary";
+type AdminTab = "senate" | "house" | "redistricting" | "referendums" | "primary" | "election-night";
 
 function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }) {
   const [tab, setTab] = useState<AdminTab>("senate");
@@ -814,19 +815,26 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
       </header>
 
       <div className="flex-1 flex overflow-hidden" style={{ height: "calc(100vh - 57px)" }}>
-        {/* Left: Race list */}
-        <div className="w-72 border-r border-border flex flex-col overflow-hidden">
+        {/* Left: Race list — hidden in Election Night mode (full-width layout) */}
+        <div className={`border-r border-border flex flex-col overflow-hidden transition-all ${tab === "election-night" ? "w-0 overflow-hidden border-0" : "w-72"}`}>
           {/* Tabs */}
-          <div className="flex border-b border-border">
-            {(["senate", "house", "redistricting", "referendums", "primary"] as AdminTab[]).map(t => (
+          <div className="flex flex-wrap border-b border-border">
+            {(["senate", "house", "redistricting", "referendums", "primary", "election-night"] as AdminTab[]).map(t => (
               <button
                 key={t}
                 onClick={() => { setTab(t); setSearch(""); }}
-                className={`flex-1 py-2 text-xs font-semibold capitalize transition-colors ${
-                  tab === t ? "border-b-2 border-blue-500 text-blue-400" : "text-muted-foreground hover:text-foreground"
+                className={`flex-1 py-2 text-xs font-semibold capitalize transition-colors min-w-[60px] ${
+                  tab === t
+                    ? t === "election-night"
+                      ? "border-b-2 border-yellow-500 text-yellow-400"
+                      : "border-b-2 border-blue-500 text-blue-400"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                {t === "redistricting" ? "Redistrict" : t === "primary" ? "Primaries" : t.charAt(0).toUpperCase() + t.slice(1)}
+                {t === "redistricting" ? "Redistrict"
+                  : t === "primary" ? "Primaries"
+                  : t === "election-night" ? <span className="flex items-center justify-center gap-0.5"><Zap className="w-3 h-3" />Night</span>
+                  : t.charAt(0).toUpperCase() + t.slice(1)}
               </button>
             ))}
           </div>
@@ -926,7 +934,7 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
         </div>
 
         {/* Right: Editor */}
-        <div className={`flex-1 overflow-hidden ${tab === "primary" ? "" : "overflow-y-auto p-6"}`}>
+        <div className={`flex-1 overflow-hidden ${tab === "primary" || tab === "election-night" ? "" : "overflow-y-auto p-6"}`}>
           {tab === "senate" && selectedSenate && (
             <div>
               <h2 className="text-lg font-bold text-foreground mb-1">{selectedSenate.stateName} Senate Race</h2>
@@ -973,8 +981,27 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
             <PrimaryResultsPanel token={token} onUpdated={() => { refetchSenate(); refetchHouse(); }} />
           )}
 
+          {/* Election Night Rapid Entry Panel */}
+          {tab === "election-night" && (
+            <div className="h-full overflow-hidden p-4 flex flex-col">
+              <div className="flex items-center gap-2 mb-4">
+                <Zap className="w-5 h-5 text-yellow-400" />
+                <h2 className="text-lg font-bold text-foreground">Election Night Mode</h2>
+                <span className="text-xs bg-yellow-900/50 text-yellow-300 border border-yellow-700/40 px-2 py-0.5 rounded">Rapid Entry</span>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                Optimized for fast vote percentage and called-winner entry. Races are sorted by competitiveness — Toss-ups first.
+                Use <kbd className="bg-muted border border-border px-1 rounded text-xs">Tab</kbd> to advance fields and click a candidate name to call the race.
+              </p>
+              <div className="flex-1 min-h-0 overflow-hidden">
+                <ElectionNightPanel adminToken={token} />
+              </div>
+            </div>
+          )}
+
           {/* Empty state */}
-          {((tab === "senate" && !selectedSenate) ||
+          {tab !== "election-night" && tab !== "primary" &&
+            ((tab === "senate" && !selectedSenate) ||
             (tab === "house" && !selectedHouse) ||
             (tab === "redistricting" && !selectedRedistricting) ||
             (tab === "referendums" && !selectedReferendum)) && (
