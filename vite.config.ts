@@ -179,6 +179,13 @@ export default defineConfig({
       "localhost",
       "127.0.0.1",
     ],
+    hmr: {
+      // When running behind a reverse proxy (Manus tunnel), the browser must
+      // connect to the HMR WebSocket on port 443 (HTTPS/WSS) rather than the
+      // internal Vite port. clientPort=443 tells the browser-side HMR client
+      // to use the same port as the page URL, which the proxy forwards correctly.
+      clientPort: 443,
+    },
     fs: {
       strict: true,
       deny: ["**/.*"],

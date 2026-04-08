@@ -14,7 +14,7 @@ import {
 } from "./db";
 import { nanoid } from "nanoid";
 import { ENV } from "./_core/env";
-import { broadcastElectionEvent } from "./ws";
+import { broadcastElectionEvent, getConnectedClientCount } from "./ws";
 
 // ─── Admin password (stored as env var, fallback to a default for dev) ────────
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "election2026admin";
@@ -424,11 +424,57 @@ export const appRouter = router({
       return getScoreboard();
     }),
   }),
-
   // ─── Flip Tracker ────────────────────────────────────────────────────────────
   flips: router({
     get: publicProcedure.query(async () => {
       return getFlipTracker();
+    }),
+  }),
+  // ─── Live Status (viewer count + recent results for ticker) ──────────────────
+  live: router({
+    // Returns the number of WebSocket clients currently connected
+    viewerCount: publicProcedure.query(() => {
+      return { count: getConnectedClientCount() };
+    }),
+    // Returns the most recent called races for the results ticker (up to 20)
+    recentResults: publicProcedure.query(async () => {
+      const [senateRaces, houseRaces] = await Promise.all([
+        getAllSenateRaces(),
+        getAllHouseRaces(),
+      ]);
+      const called = [
+        ...senateRaces
+          .filter(r => r.calledWinner && r.calledParty)
+          .map(r => ({
+            id: `senate-${r.id}`,
+            chamber: "senate" as const,
+            stateCode: r.stateCode,
+            stateName: r.stateName,
+            district: null as number | null,
+            calledWinner: r.calledWinner!,
+            calledParty: r.calledParty!,
+            updatedAt: r.updatedAt,
+          })),
+        ...houseRaces
+          .filter(r => r.calledWinner && r.calledParty)
+          .map(r => ({
+            id: `house-${r.id}`,
+            chamber: "house" as const,
+            stateCode: r.stateCode,
+            stateName: r.stateName,
+            district: r.district,
+            calledWinner: r.calledWinner!,
+            calledParty: r.calledParty!,
+            updatedAt: r.updatedAt,
+          })),
+      ]
+        .sort((a, b) => {
+          const ta = a.updatedAt ? new Date(a.updatedAt).getTime() : 0;
+          const tb = b.updatedAt ? new Date(b.updatedAt).getTime() : 0;
+          return tb - ta; // newest first
+        })
+        .slice(0, 20);
+      return called;
     }),
   }),
 });

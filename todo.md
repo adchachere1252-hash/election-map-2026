@@ -222,3 +222,19 @@
 - [x] Graceful fallback: if WebSocket disconnects, polling at 10s continues uninterrupted (max 10 reconnect attempts)
 - [x] Write vitest test for WebSocket broadcast logic (broadcastElectionEvent spy test)
 - [x] 32 tests passing, zero TypeScript errors
+
+## Viewer Count, Ticker & HMR Fix (Round 13)
+- [x] Fix Vite HMR WebSocket error in vite.config.ts (set server.hmr.clientPort: 443)
+- [x] Add tRPC live.viewerCount procedure returning getConnectedClientCount()
+- [x] Add tRPC live.recentResults procedure returning up to 20 most recently called races
+- [x] Add viewer count to LIVE indicator badge: "● LIVE · N watching" (shows when >0 viewers)
+- [x] Viewer count auto-refreshes every 30s via polling
+- [x] Build ResultsTicker component: smooth CSS marquee of recently called races
+- [x] Ticker shows: party color dot, chamber tag (SEN/HSE), state/district, winner name, party badge
+- [x] Ticker only visible when at least 1 race has been called (hidden before election night)
+- [x] Ticker auto-updates via WebSocket push (refetch triggered on race_called event)
+- [x] Ticker positioned at very top of screen, above the header
+- [x] Ticker pauses on hover for easy reading
+- [x] Verified: 7 called races appear in ticker (TX-18 D, GA-14 R, VA-11 D, AZ-7 D, FL-1 R, FL-6 R, TN-7 R)
+- [x] Verified: live.viewerCount returns {count: 2} (2 WebSocket clients connected during test)
+- [x] 32 tests passing, zero TypeScript errors

@@ -10,7 +10,8 @@ import { Map, RefreshCw, Lock, Calendar, ChevronRight, ChevronLeft, Menu, X, Zap
 import { Link } from "wouter";
 import { toast } from "sonner";
 import type { SenateRace, HouseRace, RedistrictingState, Referendum } from "../../../drizzle/schema";
-import { useElectionSocket } from "@/hooks/useElectionSocket";
+import { useElectionSocket } from "@/contexts/ElectionSocketContext";
+import ResultsTicker from "@/components/ResultsTicker";
 
 type MapView = "senate" | "house" | "redistricting";
 
@@ -47,6 +48,12 @@ export default function Home() {
 
   // WebSocket live push — invalidates caches instantly when a race is called
   const { isConnected, lastEvent } = useElectionSocket();
+
+  // Viewer count — polls every 30s (lightweight, no need for 10s)
+  const { data: viewerData } = trpc.live.viewerCount.useQuery(undefined, {
+    refetchInterval: 30_000,
+  });
+  const viewerCount = viewerData?.count ?? 0;
 
   // Show a toast notification whenever a race is called via live push
   useEffect(() => {
@@ -188,6 +195,9 @@ export default function Home() {
   return (
     <div className="h-screen flex flex-col bg-background overflow-hidden">
       {/* ─── Header ─────────────────────────────────────────────────────────── */}
+      {/* Results Ticker — only visible when races have been called */}
+      <ResultsTicker />
+
       <header className="flex-shrink-0 border-b border-border bg-card px-3 py-2">
         <div className="flex items-center gap-2">
           {/* Mobile hamburger */}
@@ -295,17 +305,28 @@ export default function Home() {
               <span className="hidden lg:inline">Refresh</span>
             </button>
 
-            {/* Live WebSocket indicator */}
+            {/* Live WebSocket indicator with viewer count */}
             <div
-              className={`flex items-center gap-1 text-xs px-2 py-1.5 rounded border transition-colors ${
+              className={`flex items-center gap-1.5 text-xs px-2 py-1.5 rounded border transition-colors ${
                 isConnected
                   ? "border-green-600 text-green-400 bg-green-900/20"
                   : "border-border text-muted-foreground"
               }`}
-              title={isConnected ? "Live push connected — map updates instantly when races are called" : "Connecting to live feed..."}
+              title={isConnected ? `Live push connected — ${viewerCount} viewer${viewerCount !== 1 ? "s" : ""} watching` : "Connecting to live feed..."}
             >
-              <Radio className="w-3 h-3" />
-              <span className="hidden lg:inline text-xs">{isConnected ? "LIVE" : "..."}</span>
+              <Radio className={`w-3 h-3 ${isConnected ? "animate-pulse" : ""}`} />
+              <span className="hidden sm:inline text-xs font-semibold">
+                {isConnected ? (
+                  <>
+                    <span className="text-green-400">● LIVE</span>
+                    {viewerCount > 0 && (
+                      <span className="text-muted-foreground font-normal ml-1">· {viewerCount} watching</span>
+                    )}
+                  </>
+                ) : (
+                  <span className="text-muted-foreground">Connecting...</span>
+                )}
+              </span>
             </div>
 
             <Link href="/admin" className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground px-2 py-1.5 rounded hover:bg-muted transition-colors border border-border">
