@@ -268,14 +268,14 @@
 - [x] 32 tests passing, zero TypeScript errors
 
 ## Candidate Photos, Party Logos & Key Races Filter (Round 17)
-- [ ] Source official candidate headshots for all Key Races (Congress.gov, official campaign sites)
-- [ ] Source Democratic Party and Republican Party logos (official SVGs)
-- [ ] Upload all photos and logos to CDN via manus-upload-file --webdev
-- [ ] Add candidatePhotoUrl fields to senate_races and house_races schema (nullable text)
-- [ ] Seed photo URLs for all Key Races candidates
-- [ ] Update keyRaces.get procedure to return photo URLs
-- [ ] Update KeyRaces component: show circular candidate headshot next to name (fallback to party initial)
-- [ ] Add party logo/badge next to each candidate's party label in Key Races cards
-- [ ] Add dropdown filter to Key Races section: filter by Chamber (All/Senate/House), Rating (All/Toss-up/Lean D/Lean R), Party (All/D/R)
-- [ ] Add sort option: by competitiveness (default), by state alphabetical, by chamber
-- [ ] Full verification: photos load correctly, filter works, 32 tests still passing
+- [x] Source official candidate headshots for all Key Races (Congress.gov, official campaign sites)
+- [x] Source Democratic Party and Republican Party logos (official SVGs)
+- [x] Upload all photos and logos to CDN via manus-upload-file --webdev
+- [x] Add candidatePhotoUrl fields to senate_races and house_races schema (nullable text)
+- [x] Seed photo URLs for all Key Races candidates
+- [x] Update keyRaces.get procedure to return photo URLs
+- [x] Update KeyRaces component: show circular candidate headshot next to name (fallback to party initial)
+- [x] Add party logo/badge next to each candidate's party label in Key Races cards
+- [x] Add dropdown filter to Key Races section: filter by Chamber (All/Senate/House), Rating (All/Toss-up/Lean D/Lean R), Party (All/D/R)
+- [x] Add sort option: by competitiveness (default), by state alphabetical, by chamber
+- [x] Full verification: photos load correctly, filter works, 32 tests still passing
