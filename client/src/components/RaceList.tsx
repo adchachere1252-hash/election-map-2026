@@ -43,7 +43,7 @@ function SenateList({ races, onSelect, selectedId }: {
   }, [races, search, filter]);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col">
       <div className="p-3 space-y-2 border-b border-border">
         <div className="relative">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
@@ -69,7 +69,7 @@ function SenateList({ races, onSelect, selectedId }: {
           <option value="Certified">Certified</option>
         </select>
       </div>
-      <div className="flex-1 overflow-y-auto">
+      <div>
         {filtered.map(race => (
           <button
             key={race.id}
@@ -149,7 +149,7 @@ function HouseList({ races, onSelect, selectedId }: {
   const totalFiltered = filteredStates.reduce((sum, [, r]) => sum + r.length, 0);
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col">
       <div className="p-3 space-y-2 border-b border-border">
         <div className="relative">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
@@ -174,7 +174,7 @@ function HouseList({ races, onSelect, selectedId }: {
           <option value="Called">Called</option>
         </select>
       </div>
-      <div className="flex-1 overflow-y-auto">
+      <div>
         {filteredStates.map(([stateCode, stateRaces]) => {
           const isExpanded = expandedState === stateCode;
           const filteredRaces = filter !== "all"
@@ -244,7 +244,7 @@ function RedistrictingList({ states, referendums, onSelectState, onSelectReferen
   const pending = states.filter(s => !s.enacted);
 
   return (
-    <div className="flex flex-col h-full overflow-y-auto">
+    <div className="flex flex-col">
       {referendums.length > 0 && (
         <div className="p-3 border-b border-border">
           <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-2">Active Referendums</p>
@@ -322,7 +322,7 @@ export default function RaceList({
   selectedId,
 }: RaceListProps) {
   return (
-    <div className="h-full flex flex-col">
+    <div className="flex flex-col">
       {view === "senate" && (
         <SenateList races={senateRaces} onSelect={onSelectSenate} selectedId={selectedId} />
       )}

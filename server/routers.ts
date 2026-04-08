@@ -453,6 +453,7 @@ export const appRouter = router({
             district: null as number | null,
             calledWinner: r.calledWinner!,
             calledParty: r.calledParty!,
+            previousParty: r.previousParty ?? null,
             updatedAt: r.updatedAt,
           })),
         ...houseRaces
@@ -465,6 +466,7 @@ export const appRouter = router({
             district: r.district,
             calledWinner: r.calledWinner!,
             calledParty: r.calledParty!,
+            previousParty: r.previousParty ?? null,
             updatedAt: r.updatedAt,
           })),
       ]

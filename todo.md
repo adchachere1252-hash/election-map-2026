@@ -246,3 +246,12 @@
 - [x] Sound plays only when toggle is ON and a race_called WebSocket event arrives
 - [x] Default OFF so first-time visitors are not startled
 - [x] Full verification: ticker shows HOR ✓, sound hook wired ✓, 7 called races in ticker ✓, 32 tests ✓, zero TS errors ✓
+
+## Flip Indicator & Scroll Fix (Round 15)
+- [x] Fix left sidebar scroll: unified single overflow-y-auto column (Scoreboard + RaceList scroll together)
+- [x] Add flip indicator to ticker: yellow pulsing "⇄ FLIP D→R" or "⇄ FLIP R→D" badge when calledParty !== previousParty
+- [x] Flip badge is visually distinct: yellow-300 text, yellow-500/20 bg, yellow-500/40 border, animate-pulse
+- [x] Ticker flip data: live.recentResults now returns previousParty field for both senate and house
+- [x] Verified: all 7 current called races are holds (prev=called) — FLIP badge correctly hidden
+- [x] FLIP badge will appear automatically when any future race flips party on election night
+- [x] 32 tests passing, zero TypeScript errors

@@ -10,6 +10,7 @@ type TickerResult = {
   district: number | null;
   calledWinner: string;
   calledParty: string;
+  previousParty?: string | null;
   updatedAt: string | Date | null;
 };
 
@@ -21,6 +22,19 @@ function TickerItem({ result }: { result: TickerResult }) {
       ? `${result.stateCode}-${result.district}`
       : result.stateName;
   const chamberTag = result.chamber === "senate" ? "SEN" : "HOR";
+
+  // Detect a flip: previousParty exists, is not the same as calledParty, and is not "I" or "Open"
+  const isFlip =
+    result.previousParty &&
+    result.previousParty !== result.calledParty &&
+    result.previousParty !== "I" &&
+    result.previousParty !== "Open" &&
+    result.previousParty !== "VACANT";
+
+  // Direction of flip: D→R or R→D
+  const flipLabel = isFlip
+    ? `${result.previousParty}→${result.calledParty}`
+    : null;
 
   return (
     <span className="inline-flex items-center gap-1.5 mx-6 whitespace-nowrap">
@@ -56,6 +70,12 @@ function TickerItem({ result }: { result: TickerResult }) {
       >
         {result.calledParty}
       </span>
+      {/* FLIP badge — only shown when a seat changed party */}
+      {isFlip && flipLabel && (
+        <span className="inline-flex items-center gap-0.5 text-[10px] font-black px-1.5 py-0.5 rounded bg-yellow-500/20 text-yellow-300 border border-yellow-500/40 animate-pulse">
+          ⇄ FLIP {flipLabel}
+        </span>
+      )}
       {/* Called time */}
       {result.updatedAt && (
         <span className="text-[10px] text-muted-foreground/60 ml-0.5">

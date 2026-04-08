@@ -469,7 +469,7 @@ export default function Home() {
           {/* Sidebar content — hidden when collapsed on desktop */}
           <div className={`flex flex-col h-full overflow-hidden ${sidebarCollapsed ? "md:hidden" : ""}`}>
             {/* Mobile close button */}
-            <div className="md:hidden flex items-center justify-between px-3 py-2 border-b border-border">
+            <div className="md:hidden flex items-center justify-between px-3 py-2 border-b border-border flex-shrink-0">
               <span className="text-sm font-semibold text-foreground">Races & Scoreboard</span>
               <button
                 onClick={() => setSidebarOpen(false)}
@@ -479,10 +479,11 @@ export default function Home() {
               </button>
             </div>
 
-            <div className="flex-shrink-0 p-3 border-b border-border">
-              <Scoreboard />
-            </div>
-            <div className="flex-1 overflow-hidden">
+            {/* Single scrollable column: Scoreboard on top, RaceList below */}
+            <div className="flex-1 overflow-y-auto">
+              <div className="p-3 border-b border-border">
+                <Scoreboard />
+              </div>
               <RaceList
                 view={view}
                 senateRaces={senateRaces}
