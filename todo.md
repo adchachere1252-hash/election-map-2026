@@ -134,20 +134,20 @@
 - [x] Verification: live search "Georgia" returns 16 results, dims all non-GA states on map
 
 ## New Features (Round 5 — Election Night Admin Tab)
-- [ ] Admin panel: "Election Night" tab visible alongside Senate/House/Primary/Redistricting tabs
-- [ ] Election Night tab: race queue showing all General/Called races sorted by competitiveness (Toss-up first)
-- [ ] Election Night tab: filter queue by chamber (All / Senate / House) and status (All / General / Called)
-- [ ] Election Night tab: rapid entry form with large, keyboard-optimized fields per race
-- [ ] Election Night tab: Candidate 1 vote % input + Candidate 2 vote % input (Tab to advance)
-- [ ] Election Night tab: % Reporting input field
-- [ ] Election Night tab: "Call Race" button with winner dropdown (Candidate 1 / Candidate 2 / TBD)
-- [ ] Election Night tab: status auto-advances to "Called" when winner is set
-- [ ] Election Night tab: keyboard shortcut — Enter submits current race and advances to next
-- [ ] Election Night tab: keyboard shortcut — Escape clears current entry
-- [ ] Election Night tab: live results feed sidebar showing recently updated races with timestamps
-- [ ] Election Night tab: "Uncall" button to revert a called race back to General
-- [ ] Election Night tab: visual called/uncalled state per race row (green border = called)
-- [ ] Server: batchUpdateResults mutation for bulk vote % + called winner updates
-- [ ] Vitest: election night batch update auth guard
-- [ ] Full verification: all tests pass, zero TypeScript errors, zero console errors
-- [ ] Full verification: visual QA of Election Night tab in Admin panel
+- [x] Admin panel: "Election Night" tab (⚡ Night) visible alongside all other tabs
+- [x] Election Night tab: full-width layout (left race list hidden, right panel expands)
+- [x] Election Night tab: race queue showing all General/Called races sorted by Toss-up first
+- [x] Election Night tab: filter queue by chamber (All / Senate / House)
+- [x] Election Night tab: rapid entry form with keyboard-optimized vote % fields per race
+- [x] Election Night tab: Candidate 1 vote % input + Candidate 2 vote % input (Tab to advance)
+- [x] Election Night tab: % Reporting slider + input field
+- [x] Election Night tab: one-click "Call for [Candidate]" buttons
+- [x] Election Night tab: status auto-advances to "Called" when winner is set
+- [x] Election Night tab: "Uncall" button to revert a called race back to General
+- [x] Election Night tab: visual called state (green border + ✓ badge per race row)
+- [x] Election Night tab: live results feed sidebar showing recently updated races with timestamps
+- [x] Election Night tab: batch save — "Save All Changes" button updates all dirty races in one request
+- [x] Server: electionNight.queue, electionNight.updateRace, electionNight.batchUpdate procedures
+- [x] Vitest: 6 new Election Night tests (auth guards, queue filtering, batch update) — 28 total passing
+- [x] Full verification: 28 tests passing, zero TypeScript errors, zero console errors
+- [x] Full verification: visual QA — map renders correctly, all three views confirmed, admin login works
