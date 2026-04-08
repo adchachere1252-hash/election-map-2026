@@ -45,23 +45,39 @@ function PartyDot({ party }: { party: string | null | undefined }) {
   );
 }
 
+function VoteBar({ pct, party }: { pct: number; party: string | null | undefined }) {
+  return (
+    <div className="w-full h-1.5 bg-muted/50 rounded-full overflow-hidden mt-1">
+      <div
+        className="h-full rounded-full transition-all duration-500"
+        style={{ width: `${Math.min(100, Math.max(0, pct))}%`, background: getPartyColor(party as any) }}
+      />
+    </div>
+  );
+}
+
 function CandidateRow({
   name, party, votePct, isWinner
 }: { name: string | null | undefined; party: string | null | undefined; votePct: string | number | null | undefined; isWinner?: boolean }) {
   if (!name) return null;
+  const pctNum = votePct !== null && votePct !== undefined ? parseFloat(String(votePct)) : null;
+  const hasVotes = pctNum !== null && !isNaN(pctNum) && pctNum > 0;
   return (
-    <div className={`flex items-center justify-between py-1.5 px-2 rounded ${isWinner ? "bg-green-900/30 border border-green-700/40" : "bg-muted/30"}`}>
-      <div className="flex items-center min-w-0">
-        <PartyDot party={party} />
-        <span className="text-sm font-medium truncate">{name}</span>
-        {party && <span className="ml-1.5 text-xs text-muted-foreground">({party})</span>}
-        {isWinner && <span className="ml-2 text-xs text-green-400 font-bold">✓ Called</span>}
+    <div className={`py-1.5 px-2 rounded ${isWinner ? "bg-green-900/30 border border-green-700/40" : "bg-muted/30"}`}>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center min-w-0">
+          <PartyDot party={party} />
+          <span className="text-sm font-medium truncate">{name}</span>
+          {party && <span className="ml-1.5 text-xs text-muted-foreground">({party})</span>}
+          {isWinner && <span className="ml-2 text-xs text-green-400 font-bold">✓ Called</span>}
+        </div>
+        {hasVotes && (
+          <span className="text-sm font-bold ml-2 flex-shrink-0" style={{ color: getPartyColor(party as any) }}>
+            {formatVotePct(pctNum!)}
+          </span>
+        )}
       </div>
-      {votePct !== null && votePct !== undefined && (
-        <span className="text-sm font-bold ml-2 flex-shrink-0" style={{ color: getPartyColor(party as any) }}>
-          {formatVotePct(votePct)}
-        </span>
-      )}
+      {hasVotes && <VoteBar pct={pctNum!} party={party} />}
     </div>
   );
 }

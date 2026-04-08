@@ -12,6 +12,8 @@ interface GlobalSearchProps {
   onSelectHouse: (race: HouseRace) => void;
   onSelectRedistricting: (state: RedistrictingState) => void;
   onSelectReferendum: (ref: Referendum) => void;
+  /** Called on every keystroke with the current raw query string — used to drive map highlighting */
+  onQueryChange?: (query: string) => void;
 }
 
 type SearchResult =
@@ -42,6 +44,7 @@ export default function GlobalSearch({
   onSelectHouse,
   onSelectRedistricting,
   onSelectReferendum,
+  onQueryChange,
 }: GlobalSearchProps) {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -155,7 +158,7 @@ export default function GlobalSearch({
           ref={inputRef}
           type="text"
           value={query}
-          onChange={e => { setQuery(e.target.value); setIsOpen(true); setActiveIndex(0); }}
+          onChange={e => { setQuery(e.target.value); setIsOpen(true); setActiveIndex(0); onQueryChange?.(e.target.value); }}
           onFocus={() => setIsOpen(true)}
           onKeyDown={handleKeyDown}
           placeholder="Search races, states, candidates..."
@@ -163,7 +166,7 @@ export default function GlobalSearch({
         />
         {query && (
           <button
-            onClick={() => { setQuery(""); setIsOpen(false); }}
+            onClick={() => { setQuery(""); setIsOpen(false); onQueryChange?.(""); }}
             className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
           >
             <X className="w-3.5 h-3.5" />

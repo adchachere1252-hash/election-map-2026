@@ -113,3 +113,22 @@
 - [x] Full verification: Admin panel login page loads, no console errors
 - [x] Full verification: Global search and election calendar — all data populating
 - [x] Full verification: mobile layout — hamburger, bottom sheets, responsive header confirmed
+
+## New Features (Round 4)
+- [x] Election night mode toggle (Results vs Ratings view) in header — yellow border when active
+- [x] Map: in results mode, color called states/districts by winning party (solid D/R) vs uncalled (gray)
+- [x] Map: in results mode, uncalled states shown in neutral dark gray
+- [x] Map: results mode legend shows Called D / Called R / Uncalled
+- [x] Race pop-up: animated vote percentage bars for candidate1 and candidate2
+- [x] Race pop-up: pct_reporting display when > 0
+- [x] Race pop-up: called winner ✓ Called badge
+- [x] Enhanced live search: always-visible inline search bar in header
+- [x] Enhanced live search: onQueryChange prop syncs query to map highlight Set in real time
+- [x] Enhanced live search: filter map by candidate name, state name, state code, district number
+- [x] Enhanced live search: map dims non-matching states/districts to 18% opacity
+- [x] Enhanced live search: match count badge with clear button in legend bar
+- [x] Enhanced live search: clear button resets map to full view
+- [x] Enhanced live search: keyboard navigation (arrow keys, Enter, Escape)
+- [x] Verification: 22 tests passing, zero TypeScript errors, zero console errors
+- [x] Verification: election night mode visual QA — toggle works, map goes gray, legend updates
+- [x] Verification: live search "Georgia" returns 16 results, dims all non-GA states on map

@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { trpc } from "@/lib/trpc";
 import ElectionMap from "@/components/ElectionMap";
 import Scoreboard from "@/components/Scoreboard";
@@ -6,7 +6,7 @@ import RacePopup from "@/components/RacePopup";
 import RaceList from "@/components/RaceList";
 import ElectionCalendar from "@/components/ElectionCalendar";
 import GlobalSearch from "@/components/GlobalSearch";
-import { Map, RefreshCw, Lock, Calendar, ChevronRight, ChevronLeft, Menu, X } from "lucide-react";
+import { Map, RefreshCw, Lock, Calendar, ChevronRight, ChevronLeft, Menu, X, Zap } from "lucide-react";
 import { Link } from "wouter";
 import type { SenateRace, HouseRace, RedistrictingState, Referendum } from "../../../drizzle/schema";
 
@@ -38,11 +38,37 @@ export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   // Desktop sidebar collapsed state
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  // Election night results mode
+  const [resultsMode, setResultsMode] = useState(false);
+  // Live search query for map highlighting
+  const [liveSearchQuery, setLiveSearchQuery] = useState("");
 
   const { data: senateRaces = [], refetch: refetchSenate } = trpc.senate.list.useQuery();
   const { data: houseRaces = [], refetch: refetchHouse } = trpc.house.list.useQuery();
   const { data: redistrictingStates = [], refetch: refetchRedistricting } = trpc.redistricting.list.useQuery();
   const { data: referendums = [], refetch: refetchReferendums } = trpc.referendum.list.useQuery();
+
+  // Build a Set of matching keys for map highlighting based on live search query
+  const searchHighlight = useMemo((): Set<string> | null => {
+    const q = liveSearchQuery.trim().toLowerCase();
+    if (!q) return null;
+    const matches = new Set<string>();
+    const hit = (fields: (string | null | undefined)[]) =>
+      fields.some(f => f && f.toLowerCase().includes(q));
+    for (const r of senateRaces) {
+      if (hit([r.stateName, r.stateCode, r.incumbent, r.candidate1Name, r.candidate2Name, r.calledWinner, r.rating]))
+        matches.add(r.stateCode);
+    }
+    for (const r of houseRaces) {
+      if (hit([r.stateName, r.stateCode, r.incumbent, r.candidate1Name, r.candidate2Name, r.calledWinner, r.rating,
+               `${r.stateCode}-${r.districtLabel}`, `${r.stateCode}-${r.district}`]))
+        matches.add(`${r.stateCode}-${r.district}`);
+    }
+    for (const s of redistrictingStates) {
+      if (hit([s.stateName, s.stateCode])) matches.add(s.stateCode);
+    }
+    return matches.size > 0 ? matches : new Set<string>();
+  }, [liveSearchQuery, senateRaces, houseRaces, redistrictingStates]);
 
   // Close mobile sidebar on view change
   useEffect(() => {
@@ -83,6 +109,7 @@ export default function Home() {
     setCalendarOpen(false);
     setSearchOpen(false);
     setSidebarOpen(false);
+    setLiveSearchQuery("");
   }, []);
 
   const handleSelectHouse = useCallback((race: HouseRace) => {
@@ -91,6 +118,7 @@ export default function Home() {
     setSelectedId(race.id);
     setSearchOpen(false);
     setSidebarOpen(false);
+    setLiveSearchQuery("");
   }, []);
 
   const handleSelectRedistricting = useCallback((state: RedistrictingState) => {
@@ -99,6 +127,7 @@ export default function Home() {
     setSelectedId(state.id);
     setSearchOpen(false);
     setSidebarOpen(false);
+    setLiveSearchQuery("");
   }, []);
 
   const handleSelectReferendum = useCallback((ref: Referendum) => {
@@ -108,6 +137,7 @@ export default function Home() {
     setCalendarOpen(false);
     setSearchOpen(false);
     setSidebarOpen(false);
+    setLiveSearchQuery("");
   }, []);
 
   const closePopup = useCallback(() => {
@@ -161,30 +191,19 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Global Search — center, hidden on very small screens */}
+          {/* Global Search — always visible, inline, center */}
           <div className="flex-1 min-w-0 max-w-md relative hidden sm:block">
-            {searchOpen ? (
-              <GlobalSearch
-                senateRaces={senateRaces}
-                houseRaces={houseRaces}
-                redistrictingStates={redistrictingStates}
-                referendums={referendums}
-                onSelectSenate={handleSelectSenate}
-                onSelectHouse={handleSelectHouse}
-                onSelectRedistricting={handleSelectRedistricting}
-                onSelectReferendum={handleSelectReferendum}
-              />
-            ) : (
-              <button
-                onClick={() => setSearchOpen(true)}
-                className="w-full flex items-center gap-2 bg-muted/60 border border-border rounded-lg px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-              >
-                <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-                <span className="truncate">Search races, states, candidates...</span>
-              </button>
-            )}
+            <GlobalSearch
+              senateRaces={senateRaces}
+              houseRaces={houseRaces}
+              redistrictingStates={redistrictingStates}
+              referendums={referendums}
+              onSelectSenate={handleSelectSenate}
+              onSelectHouse={handleSelectHouse}
+              onSelectRedistricting={handleSelectRedistricting}
+              onSelectReferendum={handleSelectReferendum}
+              onQueryChange={setLiveSearchQuery}
+            />
           </div>
 
           {/* View Toggle */}
@@ -215,6 +234,20 @@ export default function Home() {
               <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
+            </button>
+
+            {/* Election Night Mode toggle */}
+            <button
+              onClick={() => setResultsMode(o => !o)}
+              className={`flex items-center gap-1.5 text-xs px-2 py-1.5 rounded hover:bg-muted transition-colors border ${
+                resultsMode
+                  ? "border-yellow-500 text-yellow-400 bg-yellow-900/20"
+                  : "border-border text-muted-foreground hover:text-foreground"
+              }`}
+              title={resultsMode ? "Switch to Ratings view" : "Switch to Election Night Results view"}
+            >
+              <Zap className="w-3.5 h-3.5" />
+              <span className="hidden lg:inline">{resultsMode ? "Results" : "Ratings"}</span>
             </button>
 
             {/* Calendar toggle */}
@@ -262,6 +295,7 @@ export default function Home() {
               onSelectHouse={handleSelectHouse}
               onSelectRedistricting={handleSelectRedistricting}
               onSelectReferendum={handleSelectReferendum}
+              onQueryChange={setLiveSearchQuery}
             />
           </div>
         )}
@@ -269,6 +303,12 @@ export default function Home() {
         {/* Legend */}
         <div className="flex items-center gap-2 mt-1.5 flex-wrap">
           <span className="text-xs text-muted-foreground">{VIEW_DESCRIPTIONS[view]}</span>
+          {resultsMode && (view === "senate" || view === "house") && (
+            <span className="flex items-center gap-1.5 text-xs bg-yellow-900/30 border border-yellow-700/40 text-yellow-400 px-2 py-0.5 rounded-full">
+              <Zap className="w-3 h-3" />
+              Election Night Mode
+            </span>
+          )}
           {view === "redistricting" && (
             <div className="flex items-center gap-3 ml-2 flex-wrap">
               <span className="flex items-center gap-1 text-xs">
@@ -280,12 +320,12 @@ export default function Home() {
                 <span className="text-muted-foreground">Pending</span>
               </span>
               <span className="flex items-center gap-1 text-xs">
-                <span className="w-2 h-2 rounded-full inline-block bg-muted-foreground/30" />
+                <span className="w-2.5 h-2.5 rounded-sm inline-block bg-muted-foreground/30" />
                 <span className="text-muted-foreground">No activity</span>
               </span>
             </div>
           )}
-          {(view === "senate" || view === "house") && (
+          {(view === "senate" || view === "house") && !resultsMode && (
             <div className="flex items-center gap-2 ml-2 flex-wrap">
               {[
                 { label: "Solid D", color: "#1a4fa0" },
@@ -300,6 +340,26 @@ export default function Home() {
                 </span>
               ))}
             </div>
+          )}
+          {(view === "senate" || view === "house") && resultsMode && (
+            <div className="flex items-center gap-2 ml-2 flex-wrap">
+              {[
+                { label: "Called D", color: "#1a4fa0" },
+                { label: "Called R", color: "#b22222" },
+                { label: "Uncalled", color: "#2a2f3a" },
+              ].map(item => (
+                <span key={item.label} className="flex items-center gap-1 text-xs">
+                  <span className="w-2.5 h-2.5 rounded-sm inline-block border border-border/50" style={{ background: item.color }} />
+                  <span className="text-muted-foreground">{item.label}</span>
+                </span>
+              ))}
+            </div>
+          )}
+          {liveSearchQuery.trim() && searchHighlight && (
+            <span className="flex items-center gap-1.5 text-xs bg-blue-900/30 border border-blue-700/40 text-blue-400 px-2 py-0.5 rounded-full">
+              {searchHighlight.size} match{searchHighlight.size !== 1 ? "es" : ""} highlighted
+              <button onClick={() => setLiveSearchQuery("")} className="ml-0.5 hover:text-blue-200">×</button>
+            </span>
           )}
         </div>
       </header>
@@ -387,6 +447,8 @@ export default function Home() {
             onDistrictClick={handleSelectHouse}
             selectedStateCode={selectedStateCode}
             selectedDistrictId={selectedId}
+            resultsMode={resultsMode}
+            searchHighlight={searchHighlight}
           />
 
           {/* Desktop popup — top-right corner */}

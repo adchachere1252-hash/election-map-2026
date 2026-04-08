@@ -15,6 +15,10 @@ interface ElectionMapProps {
   onDistrictClick?: (race: HouseRace) => void;
   selectedStateCode?: string | null;
   selectedDistrictId?: number | null;
+  /** When true, map colors called seats by winning party; uncalled = neutral gray */
+  resultsMode?: boolean;
+  /** Set of state codes or "stateCode-district" keys that match the active search query */
+  searchHighlight?: Set<string> | null;
 }
 
 // FIPS to state code mapping
@@ -31,6 +35,12 @@ const FIPS_TO_STATE: Record<string, string> = {
   "51": "VA", "53": "WA", "54": "WV", "55": "WI", "56": "WY",
 };
 
+// Results-mode colors
+const CALLED_D_COLOR = "#1a4fa0";
+const CALLED_R_COLOR = "#b22222";
+const UNCALLED_COLOR = "#2a2f3a";
+const DIM_OPACITY = 0.18;
+
 export default function ElectionMap({
   view,
   senateRaces,
@@ -40,6 +50,8 @@ export default function ElectionMap({
   onDistrictClick,
   selectedStateCode,
   selectedDistrictId,
+  resultsMode = false,
+  searchHighlight = null,
 }: ElectionMapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [statesData, setStatesData] = useState<any>(null);
@@ -90,25 +102,35 @@ export default function ElectionMap({
   const getDistrictColor = useCallback((stateCode: string, district: number): string => {
     const key = `${stateCode}-${district}`;
     const race = houseByStateDistrict[key];
-    if (!race) return "#2a2f3a";
+    if (!race) return UNCALLED_COLOR;
+    if (resultsMode) {
+      if (race.calledParty === "D") return CALLED_D_COLOR;
+      if (race.calledParty === "R") return CALLED_R_COLOR;
+      return UNCALLED_COLOR;
+    }
     if (race.calledParty) return getPartyColor(race.calledParty as any);
     return getRatingColor(race.rating as any);
-  }, [houseByStateDistrict]);
+  }, [houseByStateDistrict, resultsMode]);
 
   const getStateColor = useCallback((stateCode: string): string => {
     if (view === "senate") {
       const race = senateByState[stateCode];
-      if (!race) return "#2a2f3a";
+      if (!race) return UNCALLED_COLOR;
+      if (resultsMode) {
+        if (race.calledParty === "D") return CALLED_D_COLOR;
+        if (race.calledParty === "R") return CALLED_R_COLOR;
+        return UNCALLED_COLOR;
+      }
       if (race.calledParty) return getPartyColor(race.calledParty as any);
       return getRatingColor(race.rating as any);
     }
     if (view === "redistricting") {
       const state = redistrictingByState[stateCode];
-      if (!state) return "#2a2f3a";
+      if (!state) return UNCALLED_COLOR;
       return state.enacted ? "#4a7c59" : "#8b6914";
     }
-    return "#2a2f3a";
-  }, [view, senateByState, redistrictingByState]);
+    return UNCALLED_COLOR;
+  }, [view, senateByState, redistrictingByState, resultsMode]);
 
   // Main D3 render effect
   useEffect(() => {
@@ -154,6 +176,11 @@ export default function ElectionMap({
         .attr("fill", (d: any) => {
           const { stateCode, district } = d.properties;
           return getDistrictColor(stateCode, district);
+        })
+        .attr("opacity", (d: any) => {
+          if (!searchHighlight) return 1;
+          const { stateCode, district } = d.properties;
+          return searchHighlight.has(`${stateCode}-${district}`) ? 1 : DIM_OPACITY;
         })
         .attr("stroke", "#0d1117")
         .attr("stroke-width", 0.3)
@@ -225,6 +252,12 @@ export default function ElectionMap({
         })
         .attr("stroke", "#1a1f2e")
         .attr("stroke-width", 0.5)
+        .attr("opacity", (d: any) => {
+          if (!searchHighlight) return 1;
+          const fips = String(d.id).padStart(2, "0");
+          const code = FIPS_TO_STATE[fips];
+          return searchHighlight.has(code) ? 1 : DIM_OPACITY;
+        })
         .on("mouseover", function (event: MouseEvent, d: any) {
           const fips = String(d.id).padStart(2, "0");
           const code = FIPS_TO_STATE[fips];
@@ -276,7 +309,7 @@ export default function ElectionMap({
     // Reset zoom on view change
     svg.call(zoom.transform, d3.zoomIdentity);
 
-  }, [statesData, districtsData, view, senateRaces, houseRaces, redistrictingStates, selectedStateCode, selectedDistrictId, getStateColor, getDistrictColor, houseByStateDistrict]);
+  }, [statesData, districtsData, view, senateRaces, houseRaces, redistrictingStates, selectedStateCode, selectedDistrictId, getStateColor, getDistrictColor, houseByStateDistrict, searchHighlight]);
 
   if (loading) {
     return (
