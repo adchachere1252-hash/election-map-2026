@@ -151,3 +151,12 @@
 - [x] Vitest: 6 new Election Night tests (auth guards, queue filtering, batch update) — 28 total passing
 - [x] Full verification: 28 tests passing, zero TypeScript errors, zero console errors
 - [x] Full verification: visual QA — map renders correctly, all three views confirmed, admin login works
+
+## Data Updates (Round 6)
+- [ ] Research all 435 current House representatives with actual names
+- [ ] Update all 435 House district records with representative names in database
+- [ ] Research 2026 primary results: Illinois Senate (Stratton D vs Tracy R, Nov 3)
+- [ ] Research all other Senate/House primaries held before April 2026
+- [ ] Update Illinois Senate race: Juliana Stratton (D) vs Don Tracy (R), Nov 3 2026
+- [ ] Update all other races with confirmed primary results and general election matchups
+- [ ] Verify all updated races display correctly in pop-ups and race list
