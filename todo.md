@@ -279,3 +279,17 @@
 - [x] Add dropdown filter to Key Races section: filter by Chamber (All/Senate/House), Rating (All/Toss-up/Lean D/Lean R), Party (All/D/R)
 - [x] Add sort option: by competitiveness (default), by state alphabetical, by chamber
 - [x] Full verification: photos load correctly, filter works, 32 tests still passing
+
+## Enhanced Search — Candidate & Member Search (Round 18)
+- [x] Audit current search bar implementation (SearchBar component + backend procedure)
+- [x] Extend search tRPC procedure to match candidate1_name, candidate2_name, incumbent fields
+- [x] Search should work across Senate races, House races, and Key Races
+- [x] Results show: candidate name, party, state/district, chamber (SEN/HOR), race rating
+- [x] Highlight matched text in search results
+- [x] Show candidate photo (if available) next to name in search results
+- [x] Support searching by state name, state abbreviation, district number
+- [x] Support chamber keywords: "senate", "house", "hor", "sen" to filter results
+- [x] Show "No results found" empty state with helpful hint
+- [x] Clicking a search result navigates to / highlights that race on the map
+- [x] Write vitest tests for the new search procedure (client-side, no server procedure needed)
+- [x] Full verification: 32/32 tests passing, zero TypeScript errors
