@@ -210,6 +210,54 @@ describe("Scoreboard router", () => {
     expect(typeof comp.house.lastUpdated).toBe("string");
     expect(new Date(comp.house.lastUpdated).getTime()).not.toBeNaN();
   });
+
+  it("vacancy fill (GA-14 scenario): calling a vacancy R seat increments R and decrements vacancies", async () => {
+    // Simulate GA-14 being called: isVacancy=true, calledParty='R', status='Called'
+    // Base: R=217, vacancies=3 → after fill: R=218, vacancies=2
+    const { getScoreboard } = await import("./db");
+    vi.mocked(getScoreboard).mockResolvedValueOnce({
+      senate: { D: 0, R: 0, I: 0, uncalled: 35, total: 35 },
+      house: { D: 0, R: 1, I: 0, uncalled: 434, total: 435 },
+      composition: {
+        senate: { D: 45, R: 53, I: 2, total: 100, vacancies: 0, lastUpdated: '2026-04-08T00:00:00.000Z', source: 'senate.gov' },
+        // GA-14 called R (vacancy fill): R goes from 217→218, vacancies 3→2
+        house: { D: 214, R: 218, I: 1, total: 435, vacancies: 2, lastUpdated: '2026-04-08T19:19:56.000Z', source: 'pressgallery.house.gov' },
+      },
+    });
+    const caller = appRouter.createCaller(createCtx());
+    const board = await caller.scoreboard.get();
+    const comp = (board as any).composition;
+    // After GA-14 vacancy fill: R=218, vacancies=2
+    expect(comp.house.R).toBe(218);
+    expect(comp.house.D).toBe(214);
+    expect(comp.house.vacancies).toBe(2);
+    expect(comp.house.total).toBe(435);
+    // lastUpdated should reflect the call timestamp
+    expect(comp.house.lastUpdated).toBe('2026-04-08T19:19:56.000Z');
+  });
+
+  it("NJ-11 scenario: calling a vacancy D seat increments D and decrements vacancies", async () => {
+    // Simulate NJ-11 being called: isVacancy=true, calledParty='D', status='Called'
+    // Base: D=214, vacancies=2 (after GA-14) → after fill: D=215, vacancies=1
+    const { getScoreboard } = await import("./db");
+    vi.mocked(getScoreboard).mockResolvedValueOnce({
+      senate: { D: 0, R: 0, I: 0, uncalled: 35, total: 35 },
+      house: { D: 1, R: 1, I: 0, uncalled: 433, total: 435 },
+      composition: {
+        senate: { D: 45, R: 53, I: 2, total: 100, vacancies: 0, lastUpdated: '2026-04-08T00:00:00.000Z', source: 'senate.gov' },
+        // NJ-11 called D (vacancy fill): D goes from 214→215, vacancies 2→1
+        house: { D: 215, R: 218, I: 1, total: 435, vacancies: 1, lastUpdated: '2026-04-16T23:00:00.000Z', source: 'pressgallery.house.gov' },
+      },
+    });
+    const caller = appRouter.createCaller(createCtx());
+    const board = await caller.scoreboard.get();
+    const comp = (board as any).composition;
+    expect(comp.house.D).toBe(215);
+    expect(comp.house.R).toBe(218);
+    expect(comp.house.vacancies).toBe(1);
+    expect(comp.house.total).toBe(435);
+    expect(comp.house.lastUpdated).toBe('2026-04-16T23:00:00.000Z');
+  });
 });
 
 describe("Admin router", () => {

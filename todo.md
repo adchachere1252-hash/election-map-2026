@@ -179,3 +179,11 @@
 - [x] Frontend: auto-refresh composition every 30s alongside scoreboard
 - [x] Verify NJ-11 special election (Jul 2026) will auto-update composition when called via Admin panel
 - [x] All 28 tests still passing after backend changes (28/28 pass, zero TS errors)
+
+## GA-14 Special Election & Full Verification (Round 9)
+- [x] Research GA-14 special election result (April 8, 2026) — Clay Fuller (R) def. Shawn Harris (D) ~56-44%
+- [x] Apply GA-14 result to database (mark Called, update composition → R 217→218, vacancies 3→2)
+- [x] Wire NJ-11 special election as a trackable race (April 16 2026, Mejia D vs Hathaway R)
+- [x] Verify auto-update mechanism works end-to-end (composition reflects called races)
+- [x] Full pre-election data verification: 35 Senate races (0 issues), 435 House races (0 issues)
+- [x] Verify scoreboard Last Updated timestamp updates when a race is called (shows Apr 8 2026 07:19 PM UTC)

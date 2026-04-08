@@ -1,0 +1,1 @@
+ALTER TABLE `house_races` ADD `is_vacancy` boolean DEFAULT false NOT NULL;

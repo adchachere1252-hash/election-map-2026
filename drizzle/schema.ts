@@ -88,6 +88,7 @@ export const houseRaces = mysqlTable("house_races", {
   incumbent: varchar("incumbent", { length: 128 }),
   incumbentParty: mysqlEnum("incumbent_party", ["D", "R", "I"]),
   incumbentRetiring: boolean("incumbent_retiring").default(false).notNull(),
+  isVacancy: boolean("is_vacancy").default(false).notNull(), // true if seat was vacant at start of 119th Congress (CA-01, GA-14, NJ-11)
   candidate1Name: varchar("candidate1_name", { length: 128 }),
   candidate1Party: mysqlEnum("candidate1_party", ["D", "R", "I", "L", "G"]),
   candidate1VotePct: decimal("candidate1_vote_pct", { precision: 5, scale: 2 }),

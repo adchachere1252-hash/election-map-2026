@@ -193,20 +193,45 @@ export async function getScoreboard() {
       // Track the most recent update timestamp
       if (!latestUpdate || r.updatedAt > latestUpdate) latestUpdate = r.updatedAt;
 
-      // If previousParty is known and differs from calledParty → flip the seat
-      if (r.previousParty && r.previousParty !== r.calledParty) {
+      // Determine if this race fills a vacancy.
+      // A vacancy is a seat that was in the base composition as "vacant" —
+      // i.e., the incumbent was VACANT and the seat was already counted in
+      // the base party totals as a vacancy (not assigned to D/R/I).
+      // We detect this by checking if previousParty matches the base party
+      // but the seat was listed as vacant in the base (GA-14, NJ-11, CA-01).
+      // Simplest heuristic: if the seat was previously vacant (no previous party
+      // in DB OR previousParty matches the party that held it before the vacancy),
+      // and vacancies > 0, decrement vacancies and add to winning party.
+      //
+      // For a vacancy fill (seat was vacant in base):
+      //   - Remove from vacancies count
+      //   - Add to calledParty count
+      // For a regular seat flip (seat was held by a party in base):
+      //   - Remove from previousParty count
+      //   - Add to calledParty count
+      //
+      // The 3 vacancies in our base are: CA-01 (R), GA-14 (R), NJ-11 (D)
+      // These seats are NOT counted in D/R/I in the base — they are in vacancies.
+      // So when called, we decrement vacancies and add to calledParty.
+      // We identify vacancy fills by checking if the race was previously VACANT
+      // (incumbent = VACANT in the DB). Since we don't have that field here,
+      // we use a simpler approach: track which seats are vacancy fills via
+      // the isVacancyFill flag passed in from the caller.
+
+      if (r.isSpecial) {
+        // This is a special election filling a vacancy
+        if (vacancies > 0) {
+          vacancies--;
+          if (r.calledParty === 'D') D++;
+          else if (r.calledParty === 'R') R++;
+          else if (r.calledParty === 'I') I++;
+        }
+      } else if (r.previousParty && r.previousParty !== r.calledParty) {
+        // Regular seat flip
         if (r.previousParty === 'D') D--;
         else if (r.previousParty === 'R') R--;
         else if (r.previousParty === 'I') I--;
 
-        if (r.calledParty === 'D') D++;
-        else if (r.calledParty === 'R') R++;
-        else if (r.calledParty === 'I') I++;
-      }
-
-      // Special elections filling a vacancy: decrement vacancies, add to party
-      if (r.isSpecial && !r.previousParty && vacancies > 0) {
-        vacancies--;
         if (r.calledParty === 'D') D++;
         else if (r.calledParty === 'R') R++;
         else if (r.calledParty === 'I') I++;
@@ -230,9 +255,17 @@ export async function getScoreboard() {
     BASE_COMPOSITION.senate,
     senateRows.map(r => ({ ...r, isSpecial: r.isSpecial ?? false }))
   );
+  // For House races, detect vacancy fills using the data-driven isVacancy flag.
+  // The 3 base vacancies (CA-01, GA-14, NJ-11) have is_vacancy=true in the DB.
+  // When a vacancy seat is called, we decrement vacancies and add to calledParty.
   const houseComp = computeLiveComposition(
     BASE_COMPOSITION.house,
-    houseRows.map(r => ({ ...r, isSpecial: false, previousParty: r.previousParty ?? null }))
+    houseRows.map(r => ({
+      ...r,
+      // isSpecial = true if this seat was vacant at start of 119th Congress
+      isSpecial: r.isVacancy === true,
+      previousParty: r.previousParty ?? null,
+    }))
   );
 
   return {
