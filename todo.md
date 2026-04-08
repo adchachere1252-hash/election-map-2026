@@ -153,10 +153,19 @@
 - [x] Full verification: visual QA — map renders correctly, all three views confirmed, admin login works
 
 ## Data Updates (Round 6)
-- [ ] Research all 435 current House representatives with actual names
-- [ ] Update all 435 House district records with representative names in database
-- [ ] Research 2026 primary results: Illinois Senate (Stratton D vs Tracy R, Nov 3)
-- [ ] Research all other Senate/House primaries held before April 2026
-- [ ] Update Illinois Senate race: Juliana Stratton (D) vs Don Tracy (R), Nov 3 2026
-- [ ] Update all other races with confirmed primary results and general election matchups
-- [ ] Verify all updated races display correctly in pop-ups and race list
+- [x] Research all 435 current House representatives with actual names (Congress.gov API, 119th Congress)
+- [x] Update all 435 House district records with representative names in database (432 active + 3 vacancies)
+- [x] Research 2026 primary results: Illinois Senate (Stratton D vs Tracy R, Nov 3)
+- [x] Research all other Senate/House primaries held before April 2026 (TX, NC, MS, AR, IL-09)
+- [x] Update Illinois Senate race: Juliana Stratton (D) vs Don Tracy (R), Nov 3 2026
+- [x] Update all other races with confirmed primary results and general election matchups
+- [x] Verify all updated races display correctly in pop-ups and race list (28 tests passing, API verified)
+
+## Scoreboard Improvements (Round 7)
+- [x] Clarify Senate scoreboard: label "35 seats up in 2026" (not total 100)
+- [x] Add "Current Composition" section to scoreboard showing full 100-seat Senate breakdown (D/R/I)
+- [x] Add "Current Composition" section to scoreboard showing full 435-seat House breakdown (D/R/I)
+- [x] Seed current_composition table (or constants) with April 2026 party breakdown for both chambers
+- [x] Add scoreboard tooltip/note explaining tallies fill in on Election Night as races are called
+- [x] Scoreboard: show "seats needed to control" threshold (51 Senate, 218 House) as a marker
+- [x] Verify scoreboard renders correctly with new composition section (28 tests passing, zero TS errors)
