@@ -268,12 +268,29 @@ export async function getScoreboard() {
     }))
   );
 
+  // ── Flip counts (seats that changed party) ─────────────────────────────────
+  type FlipRow = { status: string | null; calledParty: string | null; previousParty: string | null };
+  const countFlips = (rows: FlipRow[]) => {
+    let dToR = 0, rToD = 0;
+    for (const r of rows) {
+      if ((r.status === 'Called' || r.status === 'Certified') && r.calledParty && r.previousParty) {
+        if (r.previousParty === 'D' && r.calledParty === 'R') dToR++;
+        else if (r.previousParty === 'R' && r.calledParty === 'D') rToD++;
+      }
+    }
+    return { dToR, rToD, total: dToR + rToD };
+  };
+
   return {
     senate: tally(senateRows),
     house: tally(houseRows),
     composition: {
       senate: senateComp,
       house: houseComp,
+    },
+    flips: {
+      senate: countFlips(senateRows),
+      house: countFlips(houseRows),
     },
   };
 }

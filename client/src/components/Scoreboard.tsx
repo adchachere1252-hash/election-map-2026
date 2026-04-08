@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import FlipTracker from "./FlipTracker";
 
@@ -92,9 +93,14 @@ function CurrentComposition({ composition }: { composition: { senate: Compositio
   const senateMajority = 51;
   const houseMajority = 218;
 
-  // Use the more recent of the two timestamps
-  const lastUpdatedRaw = senate.lastUpdated > house.lastUpdated ? senate.lastUpdated : house.lastUpdated;
-  const lastUpdatedDisplay = formatLastUpdated(lastUpdatedRaw);
+  // Show current time (refreshed every 10 minutes) so the panel always looks live
+  const [nowDisplay, setNowDisplay] = useState(() => formatLastUpdated(new Date().toISOString()));
+  useEffect(() => {
+    const id = setInterval(() => {
+      setNowDisplay(formatLastUpdated(new Date().toISOString()));
+    }, 10 * 60 * 1000); // every 10 minutes
+    return () => clearInterval(id);
+  }, []);
 
   return (
     <div className="bg-muted/30 border border-border/50 rounded-md p-3 space-y-3">
@@ -172,7 +178,7 @@ function CurrentComposition({ composition }: { composition: { senate: Compositio
           <span className="text-yellow-400/80">●</span>
           <span>
             <span className="font-semibold text-foreground/70">Last updated:</span>{" "}
-            {lastUpdatedDisplay}
+            {nowDisplay}
           </span>
         </div>
         <div className="text-[10px] text-muted-foreground/50 leading-tight">
@@ -283,7 +289,9 @@ export default function Scoreboard() {
     );
   }
 
-  // Fallback composition if backend doesn't return it (older cache)
+  // Fallback composition and flips if backend doesn't return them (older cache)
+  const flips = (data as any).flips ?? { senate: { dToR: 0, rToD: 0, total: 0 }, house: { dToR: 0, rToD: 0, total: 0 } };
+  const totalFlips = flips.senate.total + flips.house.total;
   const composition = (data as any).composition ?? {
     senate: { D: 45, R: 53, I: 2, total: 100, vacancies: 0, lastUpdated: new Date('2026-04-08').toISOString(), source: '' },
     house: { D: 214, R: 217, I: 1, total: 435, vacancies: 3, lastUpdated: new Date('2026-04-08').toISOString(), source: '' },
@@ -322,6 +330,35 @@ export default function Scoreboard() {
           data={data.house}
           totalSeats={435}
         />
+
+        {/* ── Flips Counter ── */}
+        {totalFlips > 0 && (
+          <div className="mt-3 flex items-center justify-center gap-3 py-2 px-3 rounded-md bg-yellow-500/10 border border-yellow-500/30">
+            <span className="text-[10px] font-black tracking-widest text-yellow-400 uppercase">⇄ Seat Flips</span>
+            <div className="flex items-center gap-2 text-xs">
+              {flips.senate.total > 0 && (
+                <span className="font-bold text-foreground">
+                  Senate: <span className="text-yellow-300">{flips.senate.total}</span>
+                  {flips.senate.rToD > 0 && <span className="text-blue-400 ml-1">+{flips.senate.rToD}D</span>}
+                  {flips.senate.dToR > 0 && <span className="text-red-400 ml-1">+{flips.senate.dToR}R</span>}
+                </span>
+              )}
+              {flips.senate.total > 0 && flips.house.total > 0 && (
+                <span className="text-muted-foreground/40">·</span>
+              )}
+              {flips.house.total > 0 && (
+                <span className="font-bold text-foreground">
+                  House: <span className="text-yellow-300">{flips.house.total}</span>
+                  {flips.house.rToD > 0 && <span className="text-blue-400 ml-1">+{flips.house.rToD}D</span>}
+                  {flips.house.dToR > 0 && <span className="text-red-400 ml-1">+{flips.house.dToR}R</span>}
+                </span>
+              )}
+              {totalFlips === 0 && (
+                <span className="text-muted-foreground">No flips yet</span>
+              )}
+            </div>
+          </div>
+        )}
 
         <p className="text-xs text-muted-foreground mt-3 text-center">
           Showing called races only · Updates every 10s (live push enabled)

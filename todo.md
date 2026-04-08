@@ -255,3 +255,14 @@
 - [x] Verified: all 7 current called races are holds (prev=called) — FLIP badge correctly hidden
 - [x] FLIP badge will appear automatically when any future race flips party on election night
 - [x] 32 tests passing, zero TypeScript errors
+
+## Flips Counter, Key Races & Timestamp Fix (Round 16)
+- [x] Add flips counter to scoreboard backend: count races where calledParty !== previousParty
+- [x] Display Flips counter in Scoreboard UI (Senate flips + House flips, yellow pulsing badge when > 0)
+- [x] Build Key Races section on homepage: 8 Senate + 12 House most competitive contests (Toss-up + Lean)
+- [x] Key Races section shows: state/district, incumbent, rating badge, D vs R candidates
+- [x] Key Races section updates live via WebSocket push (refetch on race_called)
+- [x] Fix Last Updated timestamp: shows actual current client time (not last called race time)
+- [x] Last Updated timestamp auto-refreshes every 10 minutes via setInterval
+- [x] Verified: 8 Senate key races (GA/MI Toss-up, CO/IL/MN Lean D, etc.) + 12 House key races
+- [x] 32 tests passing, zero TypeScript errors

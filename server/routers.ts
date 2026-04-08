@@ -418,7 +418,75 @@ export const appRouter = router({
       }),
   }),
 
-   // ─── Scoreboard ────────────────────────────────────────────────────────────
+   // ─── Key Races ────────────────────────────────────────────────────────────
+  keyRaces: router({
+    get: publicProcedure.query(async () => {
+      const [senateRaces, houseRaces] = await Promise.all([
+        getAllSenateRaces(),
+        getAllHouseRaces(),
+      ]);
+
+      const RATING_ORDER: Record<string, number> = {
+        "Toss-up": 0,
+        "Lean D": 1,
+        "Lean R": 2,
+        "Solid D": 3,
+        "Solid R": 4,
+      };
+
+      // Senate key races: Toss-up + Lean (not yet called)
+      const senateKey = senateRaces
+        .filter(r => r.rating && ["Toss-up", "Lean D", "Lean R"].includes(r.rating) && r.status !== "Called" && r.status !== "Certified")
+        .sort((a, b) => (RATING_ORDER[a.rating ?? ""] ?? 9) - (RATING_ORDER[b.rating ?? ""] ?? 9))
+        .slice(0, 8)
+        .map(r => ({
+          id: r.id,
+          chamber: "senate" as const,
+          stateCode: r.stateCode,
+          stateName: r.stateName,
+          rating: r.rating,
+          incumbent: r.incumbent,
+          incumbentParty: r.incumbentParty,
+          candidate1Name: r.candidate1Name,
+          candidate1Party: r.candidate1Party,
+          candidate2Name: r.candidate2Name,
+          candidate2Party: r.candidate2Party,
+          status: r.status,
+          calledParty: r.calledParty,
+          calledWinner: r.calledWinner,
+          generalDate: r.generalDate,
+        }));
+
+      // House key races: Toss-up + Lean (not yet called)
+      const houseKey = houseRaces
+        .filter(r => r.rating && ["Toss-up", "Lean D", "Lean R"].includes(r.rating) && r.status !== "Called" && r.status !== "Certified")
+        .sort((a, b) => (RATING_ORDER[a.rating ?? ""] ?? 9) - (RATING_ORDER[b.rating ?? ""] ?? 9))
+        .slice(0, 12)
+        .map(r => ({
+          id: r.id,
+          chamber: "house" as const,
+          stateCode: r.stateCode,
+          stateName: r.stateName,
+          district: r.district,
+          districtLabel: r.districtLabel,
+          rating: r.rating,
+          incumbent: r.incumbent,
+          incumbentParty: r.incumbentParty,
+          candidate1Name: r.candidate1Name,
+          candidate1Party: r.candidate1Party,
+          candidate2Name: r.candidate2Name,
+          candidate2Party: r.candidate2Party,
+          status: r.status,
+          calledParty: r.calledParty,
+          calledWinner: r.calledWinner,
+          generalDate: r.generalDate,
+        }));
+
+      return { senate: senateKey, house: houseKey };
+    }),
+  }),
+
+  // ─── Scoreboard ────────────────────────────────────────────────────────────
   scoreboard: router({
     get: publicProcedure.query(async () => {
       return getScoreboard();

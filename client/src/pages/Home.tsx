@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import type { SenateRace, HouseRace, RedistrictingState, Referendum } from "../../../drizzle/schema";
 import { useElectionSocket } from "@/contexts/ElectionSocketContext";
 import ResultsTicker from "@/components/ResultsTicker";
+import KeyRaces from "@/components/KeyRaces";
 import { useElectionChime } from "@/hooks/useElectionChime";
 
 type MapView = "senate" | "house" | "redistricting";
@@ -479,10 +480,19 @@ export default function Home() {
               </button>
             </div>
 
-            {/* Single scrollable column: Scoreboard on top, RaceList below */}
+            {/* Single scrollable column: Scoreboard on top, Key Races, then RaceList below */}
             <div className="flex-1 overflow-y-auto">
               <div className="p-3 border-b border-border">
                 <Scoreboard />
+              </div>
+              {/* Key Races Section */}
+              <div className="p-3 border-b border-border">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="w-1.5 h-3.5 bg-yellow-500 rounded-sm inline-block flex-shrink-0" />
+                  <span className="text-xs font-bold text-foreground uppercase tracking-wider">Key Races</span>
+                  <span className="text-[10px] text-muted-foreground font-normal normal-case tracking-normal">most competitive contests</span>
+                </div>
+                <KeyRaces />
               </div>
               <RaceList
                 view={view}
