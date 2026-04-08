@@ -15,6 +15,13 @@
       "when": 1775655740486,
       "tag": "0001_quiet_zuras",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1775668772934,
+      "tag": "0002_sudden_husk",
+      "breakpoints": true
     }
   ]
 }

@@ -106,6 +106,20 @@ vi.mock("./db", () => ({
     senate: { D: 0, R: 0, I: 0, uncalled: 35, total: 35 },
     house: { D: 0, R: 0, I: 0, uncalled: 435, total: 435 },
   }),
+  getFlipTracker: vi.fn().mockResolvedValue({
+    senate: {
+      dToR: [{ id: 1, stateCode: "WV", stateName: "West Virginia", calledParty: "R", previousParty: "D", calledWinner: "John Smith", status: "Called" }],
+      rToD: [],
+      netD: -1,
+      netR: 1,
+    },
+    house: {
+      dToR: [],
+      rToD: [{ id: 200, stateCode: "NY", stateName: "New York", districtLabel: "3", calledParty: "D", previousParty: "R", calledWinner: "Jane Doe", status: "Called" }],
+      netD: 1,
+      netR: -1,
+    },
+  }),
   createAdminSession: vi.fn().mockResolvedValue(undefined),
   validateAdminSession: vi.fn().mockResolvedValue(false),
   deleteAdminSession: vi.fn().mockResolvedValue(undefined),
@@ -261,6 +275,60 @@ describe("Primary router", () => {
     // Both should be arrays (filtered to Primary status — our mock has Scheduled, so both empty)
     expect(Array.isArray(result.senate)).toBe(true);
     expect(Array.isArray(result.house)).toBe(true);
+  });
+});
+
+describe("Flip Tracker router", () => {
+  it("returns flip tracker data with senate and house chambers", async () => {
+    const caller = appRouter.createCaller(createCtx());
+    const flips = await caller.flips.get();
+    expect(flips).toHaveProperty("senate");
+    expect(flips).toHaveProperty("house");
+  });
+
+  it("senate flips contain expected D→R flip entry", async () => {
+    const caller = appRouter.createCaller(createCtx());
+    const flips = await caller.flips.get();
+    expect(flips.senate.dToR.length).toBe(1);
+    expect(flips.senate.dToR[0].stateCode).toBe("WV");
+    expect(flips.senate.dToR[0].calledParty).toBe("R");
+    expect(flips.senate.dToR[0].previousParty).toBe("D");
+  });
+
+  it("house flips contain expected R→D flip entry", async () => {
+    const caller = appRouter.createCaller(createCtx());
+    const flips = await caller.flips.get();
+    expect(flips.house.rToD.length).toBe(1);
+    expect(flips.house.rToD[0].stateCode).toBe("NY");
+    expect(flips.house.rToD[0].calledParty).toBe("D");
+    expect(flips.house.rToD[0].previousParty).toBe("R");
+  });
+
+  it("net seat gains are correctly signed", async () => {
+    const caller = appRouter.createCaller(createCtx());
+    const flips = await caller.flips.get();
+    // Senate: 1 D→R flip means Dems lost 1, Reps gained 1
+    expect(flips.senate.netD).toBe(-1);
+    expect(flips.senate.netR).toBe(1);
+    // House: 1 R→D flip means Dems gained 1, Reps lost 1
+    expect(flips.house.netD).toBe(1);
+    expect(flips.house.netR).toBe(-1);
+  });
+
+  it("returns empty flip lists when no seats have changed party", async () => {
+    const { getFlipTracker } = await import("./db");
+    vi.mocked(getFlipTracker).mockResolvedValueOnce({
+      senate: { dToR: [], rToD: [], netD: 0, netR: 0 },
+      house: { dToR: [], rToD: [], netD: 0, netR: 0 },
+    });
+    const caller = appRouter.createCaller(createCtx());
+    const flips = await caller.flips.get();
+    expect(flips.senate.dToR).toHaveLength(0);
+    expect(flips.senate.rToD).toHaveLength(0);
+    expect(flips.house.dToR).toHaveLength(0);
+    expect(flips.house.rToD).toHaveLength(0);
+    expect(flips.senate.netD).toBe(0);
+    expect(flips.senate.netR).toBe(0);
   });
 });
 

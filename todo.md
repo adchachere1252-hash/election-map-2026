@@ -94,3 +94,22 @@
 - [x] Filter panel: filter by type and rating across all views
 - [x] Search clears on result selection
 - [x] Vitest: primary router auth guards (4 new tests — 17 total passing)
+
+## New Features (Round 3)
+- [x] Add previousParty field to senate_races and house_races schema for flip detection
+- [x] Seed previousParty values for all 35 Senate races and 435 House districts
+- [x] Add flip tracker API: count flips (D→R, R→D) per chamber
+- [x] Build FlipTracker component with net gain/loss display per party
+- [x] Integrate FlipTracker into Scoreboard
+- [x] Mobile-responsive layout: collapsible left sidebar (race list + scoreboard)
+- [x] Mobile-responsive layout: bottom-sheet pop-up for race details on mobile
+- [x] Mobile-responsive layout: collapsible right calendar panel on mobile
+- [x] Mobile-responsive layout: map fills full screen on mobile
+- [x] Mobile-responsive layout: touch-friendly tap targets on map
+- [x] Mobile-responsive layout: responsive header with hamburger menu
+- [x] Full verification: 17 tests passing (2 test files)
+- [x] Full verification: zero TypeScript errors
+- [x] Full verification: visual QA Senate/House/Redistricting map views — all rendering correctly
+- [x] Full verification: Admin panel login page loads, no console errors
+- [x] Full verification: Global search and election calendar — all data populating
+- [x] Full verification: mobile layout — hamburger, bottom sheets, responsive header confirmed

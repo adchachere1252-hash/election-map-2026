@@ -149,6 +149,51 @@ export async function getScoreboard() {
   return { senate: tally(senateRows), house: tally(houseRows) };
 }
 
+// ─── Flip Tracker ────────────────────────────────────────────────────────────
+export async function getFlipTracker() {
+  const db = await getDb();
+  if (!db) return {
+    senate: { dToR: [], rToD: [], netD: 0, netR: 0 },
+    house: { dToR: [], rToD: [], netD: 0, netR: 0 },
+  };
+
+  const senateRows = await db.select().from(senateRaces);
+  const houseRows = await db.select().from(houseRaces);
+
+  type FlipRow = {
+    id: number;
+    stateName: string;
+    stateCode: string;
+    calledParty: string | null;
+    previousParty: string | null;
+    calledWinner: string | null;
+    status: string | null;
+    districtLabel?: string;
+  };
+
+  const detectFlips = (rows: FlipRow[]) => {
+    const dToR: FlipRow[] = [];
+    const rToD: FlipRow[] = [];
+    for (const r of rows) {
+      if ((r.status === 'Called' || r.status === 'Certified') && r.calledParty && r.previousParty) {
+        if (r.previousParty === 'D' && r.calledParty === 'R') dToR.push(r);
+        else if (r.previousParty === 'R' && r.calledParty === 'D') rToD.push(r);
+      }
+    }
+    return {
+      dToR,
+      rToD,
+      netD: rToD.length - dToR.length,
+      netR: dToR.length - rToD.length,
+    };
+  };
+
+  return {
+    senate: detectFlips(senateRows as FlipRow[]),
+    house: detectFlips(houseRows.map(r => ({ ...r, districtLabel: r.districtLabel })) as FlipRow[]),
+  };
+}
+
 // ─── Admin Sessions ───────────────────────────────────────────────────────────
 export async function createAdminSession(token: string, expiresAt: Date) {
   const db = await getDb();

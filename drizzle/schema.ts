@@ -63,6 +63,7 @@ export const senateRaces = mysqlTable("senate_races", {
   candidate2VotePct: decimal("candidate2_vote_pct", { precision: 5, scale: 2 }),
   calledWinner: varchar("called_winner", { length: 128 }),
   calledParty: mysqlEnum("called_party", ["D", "R", "I"]),
+  previousParty: mysqlEnum("previous_party", ["D", "R", "I"]), // party that held seat before this election
   rating: mysqlEnum("rating", ["Solid D", "Lean D", "Toss-up", "Lean R", "Solid R", "Safe D", "Safe R"]),
   status: mysqlEnum("status", ["Scheduled", "Primary", "General", "Called", "Certified"]).default("Scheduled").notNull(),
   primaryDate: varchar("primary_date", { length: 32 }),
@@ -95,6 +96,7 @@ export const houseRaces = mysqlTable("house_races", {
   candidate2VotePct: decimal("candidate2_vote_pct", { precision: 5, scale: 2 }),
   calledWinner: varchar("called_winner", { length: 128 }),
   calledParty: mysqlEnum("called_party", ["D", "R", "I"]),
+  previousParty: mysqlEnum("previous_party", ["D", "R", "I"]), // party that held seat before this election
   rating: mysqlEnum("rating", ["Solid D", "Lean D", "Toss-up", "Lean R", "Solid R", "Safe D", "Safe R"]),
   status: mysqlEnum("status", ["Scheduled", "Primary", "General", "Called", "Certified"]).default("Scheduled").notNull(),
   primaryDate: varchar("primary_date", { length: 32 }),

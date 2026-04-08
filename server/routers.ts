@@ -9,7 +9,7 @@ import {
   getAllHouseRaces, getHouseRaceById, getHouseRacesByState, updateHouseRace,
   getAllRedistrictingStates, updateRedistrictingState,
   getAllReferendums, updateReferendum,
-  getScoreboard,
+  getScoreboard, getFlipTracker,
   createAdminSession, validateAdminSession, deleteAdminSession,
 } from "./db";
 import { nanoid } from "nanoid";
@@ -286,10 +286,17 @@ export const appRouter = router({
       }),
   }),
 
-  // ─── Scoreboard ─────────────────────────────────────────────────────────────
+   // ─── Scoreboard ────────────────────────────────────────────────────────────
   scoreboard: router({
     get: publicProcedure.query(async () => {
       return getScoreboard();
+    }),
+  }),
+
+  // ─── Flip Tracker ────────────────────────────────────────────────────────────
+  flips: router({
+    get: publicProcedure.query(async () => {
+      return getFlipTracker();
     }),
   }),
 });

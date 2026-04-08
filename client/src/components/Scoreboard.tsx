@@ -1,4 +1,5 @@
 import { trpc } from "@/lib/trpc";
+import FlipTracker from "./FlipTracker";
 
 interface ScoreboardData {
   D: number;
@@ -98,6 +99,9 @@ export default function Scoreboard() {
       <p className="text-xs text-muted-foreground mt-3 text-center">
         Showing called races only · Updates every 30s
       </p>
+      <div className="mt-3">
+        <FlipTracker />
+      </div>
     </div>
   );
 }
