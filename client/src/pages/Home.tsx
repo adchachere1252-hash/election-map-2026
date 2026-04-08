@@ -135,11 +135,9 @@ export default function Home() {
               <RefreshCw className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Refresh</span>
             </button>
-            <Link href="/admin">
-              <a className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground px-2 py-1.5 rounded hover:bg-muted transition-colors border border-border">
-                <Lock className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Admin</span>
-              </a>
+            <Link href="/admin" className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground px-2 py-1.5 rounded hover:bg-muted transition-colors border border-border">
+              <Lock className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Admin</span>
             </Link>
           </div>
         </div>

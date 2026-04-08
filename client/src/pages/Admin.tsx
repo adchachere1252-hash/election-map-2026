@@ -69,11 +69,9 @@ function LoginScreen({ onLogin }: { onLogin: (token: string) => void }) {
         </form>
 
         <div className="text-center mt-4">
-          <Link href="/">
-            <a className="text-xs text-muted-foreground hover:text-foreground flex items-center justify-center gap-1">
-              <ArrowLeft className="w-3 h-3" />
-              Back to Election Map
-            </a>
+          <Link href="/" className="text-xs text-muted-foreground hover:text-foreground flex items-center justify-center gap-1">
+            <ArrowLeft className="w-3 h-3" />
+            Back to Election Map
           </Link>
         </div>
       </div>
@@ -641,10 +639,8 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
       {/* Admin Header */}
       <header className="border-b border-border bg-card px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Link href="/">
-            <a className="text-muted-foreground hover:text-foreground">
-              <ArrowLeft className="w-4 h-4" />
-            </a>
+          <Link href="/" className="text-muted-foreground hover:text-foreground">
+            <ArrowLeft className="w-4 h-4" />
           </Link>
           <div className="flex items-center gap-2">
             <Lock className="w-4 h-4 text-blue-400" />
