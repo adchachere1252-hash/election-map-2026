@@ -320,7 +320,7 @@ export default function ElectionNightPanel({ adminToken }: ElectionNightPanelPro
 
   const { data: queue, isLoading, refetch } = trpc.electionNight.queue.useQuery(
     { adminToken },
-    { refetchInterval: 30_000, staleTime: 10_000 }
+    { refetchInterval: 10_000, staleTime: 10_000 }
   );
 
   const updateRace = trpc.electionNight.updateRace.useMutation({

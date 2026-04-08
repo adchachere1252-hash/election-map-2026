@@ -14,6 +14,7 @@ import {
 } from "./db";
 import { nanoid } from "nanoid";
 import { ENV } from "./_core/env";
+import { broadcastElectionEvent } from "./ws";
 
 // ─── Admin password (stored as env var, fallback to a default for dev) ────────
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "election2026admin";
@@ -334,6 +335,36 @@ export const appRouter = router({
         } else {
           await updateHouseRace(id, updateData as Parameters<typeof updateHouseRace>[1]);
         }
+        // Broadcast live push to all connected WebSocket clients
+        // Fetch race metadata to get real stateCode and district label
+        if (input.calledWinner && input.calledParty) {
+          const raceInfo = chamber === "senate"
+            ? await getSenateRaceById(id)
+            : await getHouseRaceById(id);
+          broadcastElectionEvent({
+            type: "race_called",
+            chamber: input.chamber,
+            stateCode: raceInfo?.stateCode ?? String(id),
+            stateName: raceInfo?.stateName ?? undefined,
+            district: chamber === "house" && raceInfo && "district" in raceInfo ? raceInfo.district : undefined,
+            districtLabel: chamber === "house" && raceInfo && "districtLabel" in raceInfo ? raceInfo.districtLabel : undefined,
+            calledParty: input.calledParty,
+            calledWinner: input.calledWinner,
+            timestamp: new Date().toISOString(),
+          });
+        } else if (input.status === "General" && !input.calledWinner) {
+          const raceInfo = chamber === "senate"
+            ? await getSenateRaceById(id)
+            : await getHouseRaceById(id);
+          broadcastElectionEvent({
+            type: "race_uncalled",
+            chamber: input.chamber,
+            stateCode: raceInfo?.stateCode ?? String(id),
+            stateName: raceInfo?.stateName ?? undefined,
+            district: chamber === "house" && raceInfo && "district" in raceInfo ? raceInfo.district : undefined,
+            timestamp: new Date().toISOString(),
+          });
+        }
         return { success: true };
       }),
 
@@ -365,6 +396,18 @@ export const appRouter = router({
               await updateSenateRace(id, updateData as Parameters<typeof updateSenateRace>[1]);
             } else {
               await updateHouseRace(id, updateData as Parameters<typeof updateHouseRace>[1]);
+            }
+            // Broadcast live push for each called race in the batch
+            if (u.calledWinner && u.calledParty) {
+              broadcastElectionEvent({
+                type: "race_called",
+                chamber,
+                stateCode: String(id),
+                district: chamber === "house" ? id : undefined,
+                calledParty: u.calledParty,
+                calledWinner: u.calledWinner,
+                timestamp: new Date().toISOString(),
+              });
             }
             return { id, chamber };
           })

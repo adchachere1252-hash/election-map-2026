@@ -111,7 +111,7 @@ function ChamberFlipSection({ label, data }: { label: string; data: ChamberFlips
 
 export default function FlipTracker({ className = "" }: FlipTrackerProps) {
   const { data, isLoading } = trpc.flips.get.useQuery(undefined, {
-    refetchInterval: 30_000,
+    refetchInterval: 10_000,
   });
 
   return (

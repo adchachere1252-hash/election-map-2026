@@ -2,6 +2,13 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 import { appRouter } from "./routers";
 import type { TrpcContext } from "./_core/context";
 
+// ─── Mock WebSocket broadcast module ────────────────────────────────────────
+vi.mock("./ws", () => ({
+  broadcastElectionEvent: vi.fn(),
+  getConnectedClientCount: vi.fn().mockReturnValue(0),
+  attachWebSocketServer: vi.fn(),
+}));
+
 // ─── Mock DB helpers ──────────────────────────────────────────────────────────
 vi.mock("./db", () => ({
   getAllSenateRaces: vi.fn().mockResolvedValue([
@@ -481,6 +488,29 @@ describe("Election Night router", () => {
     expect(result.failed).toBe(0);
     expect(vi.mocked(updateSenateRace)).toHaveBeenCalledWith(1, expect.objectContaining({ candidate1VotePct: 52.3 }));
     expect(vi.mocked(updateHouseRace)).toHaveBeenCalledWith(100, expect.objectContaining({ calledWinner: "Doug LaMalfa" }));
+  });
+
+  it("updateRace broadcasts race_called event when winner is set", async () => {
+    const { validateAdminSession, updateHouseRace } = await import("./db");
+    const { broadcastElectionEvent } = await import("./ws");
+    vi.mocked(validateAdminSession).mockResolvedValueOnce(true);
+    const broadcastSpy = vi.mocked(broadcastElectionEvent);
+    const caller = appRouter.createCaller(createCtx());
+    await caller.electionNight.updateRace({
+      adminToken: "valid-token",
+      chamber: "house",
+      id: 42,
+      calledWinner: "Clay Fuller",
+      calledParty: "R",
+      status: "Called",
+    });
+    expect(vi.mocked(updateHouseRace)).toHaveBeenCalledWith(42, expect.objectContaining({ calledWinner: "Clay Fuller" }));
+    expect(broadcastSpy).toHaveBeenCalledWith(expect.objectContaining({
+      type: "race_called",
+      chamber: "house",
+      calledWinner: "Clay Fuller",
+      calledParty: "R",
+    }));
   });
 });
 

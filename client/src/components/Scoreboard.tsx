@@ -265,7 +265,7 @@ function ElectionScoreBar({
 
 export default function Scoreboard() {
   const { data, isLoading } = trpc.scoreboard.get.useQuery(undefined, {
-    refetchInterval: 30000,
+    refetchInterval: 10000,
   });
 
   if (isLoading || !data) {
@@ -324,7 +324,7 @@ export default function Scoreboard() {
         />
 
         <p className="text-xs text-muted-foreground mt-3 text-center">
-          Showing called races only · Updates every 30s
+          Showing called races only · Updates every 10s (live push enabled)
         </p>
       </div>
 

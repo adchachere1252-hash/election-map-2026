@@ -6,9 +6,11 @@ import RacePopup from "@/components/RacePopup";
 import RaceList from "@/components/RaceList";
 import ElectionCalendar from "@/components/ElectionCalendar";
 import GlobalSearch from "@/components/GlobalSearch";
-import { Map, RefreshCw, Lock, Calendar, ChevronRight, ChevronLeft, Menu, X, Zap } from "lucide-react";
+import { Map, RefreshCw, Lock, Calendar, ChevronRight, ChevronLeft, Menu, X, Zap, Radio } from "lucide-react";
 import { Link } from "wouter";
+import { toast } from "sonner";
 import type { SenateRace, HouseRace, RedistrictingState, Referendum } from "../../../drizzle/schema";
+import { useElectionSocket } from "@/hooks/useElectionSocket";
 
 type MapView = "senate" | "house" | "redistricting";
 
@@ -42,6 +44,23 @@ export default function Home() {
   const [resultsMode, setResultsMode] = useState(false);
   // Live search query for map highlighting
   const [liveSearchQuery, setLiveSearchQuery] = useState("");
+
+  // WebSocket live push — invalidates caches instantly when a race is called
+  const { isConnected, lastEvent } = useElectionSocket();
+
+  // Show a toast notification whenever a race is called via live push
+  useEffect(() => {
+    if (!lastEvent || lastEvent.type !== "race_called") return;
+    const partyLabel = lastEvent.calledParty === "D" ? "Democrat" : lastEvent.calledParty === "R" ? "Republican" : lastEvent.calledParty;
+    const chamberLabel = lastEvent.chamber === "senate" ? "Senate" : "House";
+    const locationLabel = lastEvent.chamber === "house" && lastEvent.districtLabel
+      ? `${lastEvent.stateCode}-${lastEvent.districtLabel}`
+      : lastEvent.stateName ?? lastEvent.stateCode;
+    toast.success(`⚡ ${chamberLabel} race called — ${locationLabel}`, {
+      description: `${lastEvent.calledWinner} (${partyLabel}) wins`,
+      duration: 6000,
+    });
+  }, [lastEvent]);
 
   const { data: senateRaces = [], refetch: refetchSenate } = trpc.senate.list.useQuery();
   const { data: houseRaces = [], refetch: refetchHouse } = trpc.house.list.useQuery();
@@ -275,6 +294,19 @@ export default function Home() {
               <RefreshCw className="w-3.5 h-3.5" />
               <span className="hidden lg:inline">Refresh</span>
             </button>
+
+            {/* Live WebSocket indicator */}
+            <div
+              className={`flex items-center gap-1 text-xs px-2 py-1.5 rounded border transition-colors ${
+                isConnected
+                  ? "border-green-600 text-green-400 bg-green-900/20"
+                  : "border-border text-muted-foreground"
+              }`}
+              title={isConnected ? "Live push connected — map updates instantly when races are called" : "Connecting to live feed..."}
+            >
+              <Radio className="w-3 h-3" />
+              <span className="hidden lg:inline text-xs">{isConnected ? "LIVE" : "..."}</span>
+            </div>
 
             <Link href="/admin" className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground px-2 py-1.5 rounded hover:bg-muted transition-colors border border-border">
               <Lock className="w-3.5 h-3.5" />

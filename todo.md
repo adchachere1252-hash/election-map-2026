@@ -208,3 +208,17 @@
 - [x] Fixed party assignment errors: TX-18/19/23/38 had swapped D/R slots — all corrected
 - [x] Fixed open seat incumbents: TX-2/8/10/19/21/30/32/33/38, IL-2/7/9 all marked Open Seat
 - [x] 31 tests passing, zero TypeScript errors
+
+## Live Push & Fast Refresh (Round 12)
+- [x] Reduce all polling intervals from 30s to 10s (Scoreboard, FlipTracker, ElectionNightPanel)
+- [x] Add WebSocket server using the ws package on the Express backend (server/ws.ts)
+- [x] Expose WebSocket on the same port as the HTTP server (path: /ws)
+- [x] Broadcast a JSON event to all connected clients when any race is called/updated via Election Night
+- [x] Broadcast event shape: { type: 'race_called', chamber, stateCode, district, calledParty, calledWinner }
+- [x] Add useElectionSocket() custom hook on the frontend (client/src/hooks/useElectionSocket.ts)
+- [x] Hook triggers instant tRPC cache invalidation for scoreboard, house.list, senate.list on race_called event
+- [x] Show a live "● LIVE" indicator in the header when WebSocket is connected (green Radio icon)
+- [x] Show a "⚡ Race called: [winner] wins" toast notification when a race is pushed
+- [x] Graceful fallback: if WebSocket disconnects, polling at 10s continues uninterrupted (max 10 reconnect attempts)
+- [x] Write vitest test for WebSocket broadcast logic (broadcastElectionEvent spy test)
+- [x] 32 tests passing, zero TypeScript errors
