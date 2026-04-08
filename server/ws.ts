@@ -31,7 +31,7 @@ export type ElectionEvent = RaceCalledEvent | RaceUncalledEvent;
  * Clients connect at ws://<host>/ws
  */
 export function attachWebSocketServer(httpServer: Server): WebSocketServer {
-  wss = new WebSocketServer({ server: httpServer, path: "/ws" });
+  wss = new WebSocketServer({ server: httpServer, path: "/election-ws" });
 
   wss.on("connection", (ws) => {
     // Send a welcome ping so the client knows it's connected
@@ -42,7 +42,7 @@ export function attachWebSocketServer(httpServer: Server): WebSocketServer {
     });
   });
 
-  console.log("[WS] WebSocket server attached at /ws");
+  console.log("[WS] WebSocket server attached at /election-ws");
   return wss;
 }
 

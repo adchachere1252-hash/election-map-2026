@@ -61,7 +61,7 @@ export function ElectionSocketProvider({ children }: { children: React.ReactNode
     if (wsRef.current && wsRef.current.readyState <= WebSocket.OPEN) return;
 
     const proto = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const ws = new WebSocket(`${proto}//${window.location.host}/ws`);
+    const ws = new WebSocket(`${proto}//${window.location.host}/election-ws`);
     wsRef.current = ws;
 
     ws.onopen = () => {

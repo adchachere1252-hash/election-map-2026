@@ -293,3 +293,7 @@
 - [x] Clicking a search result navigates to / highlights that race on the map
 - [x] Write vitest tests for the new search procedure (client-side, no server procedure needed)
 - [x] Full verification: 32/32 tests passing, zero TypeScript errors
+
+## Bug Fix — Vite HMR WebSocket Error (Round 19)
+- [ ] Fix Vite HMR WebSocket failing to connect through Manus proxy domain
+- [ ] Configure vite.config.ts server.hmr to use correct host/port for proxy environment

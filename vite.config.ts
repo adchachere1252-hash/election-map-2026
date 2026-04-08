@@ -179,13 +179,13 @@ export default defineConfig({
       "localhost",
       "127.0.0.1",
     ],
-    hmr: {
-      // When running behind a reverse proxy (Manus tunnel), the browser must
-      // connect to the HMR WebSocket on port 443 (HTTPS/WSS) rather than the
-      // internal Vite port. clientPort=443 tells the browser-side HMR client
-      // to use the same port as the page URL, which the proxy forwards correctly.
-      clientPort: 443,
-    },
+    // HMR is disabled because the Manus reverse proxy only forwards WebSocket
+    // connections on the /election-ws path (used by the app's own live push).
+    // Vite HMR requires the 'vite-hmr' WebSocket subprotocol which the proxy
+    // rejects, causing console errors. Disabling HMR here prevents the
+    // '@vite/client' from attempting WebSocket connections through the proxy.
+    // When developing locally (localhost:3000), restart the server to see changes.
+    hmr: false,
     fs: {
       strict: true,
       deny: ["**/.*"],
