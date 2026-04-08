@@ -1,0 +1,100 @@
+CREATE TABLE `admin_sessions` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`token` varchar(128) NOT NULL,
+	`created_at` timestamp NOT NULL DEFAULT (now()),
+	`expires_at` timestamp NOT NULL,
+	CONSTRAINT `admin_sessions_id` PRIMARY KEY(`id`),
+	CONSTRAINT `admin_sessions_token_unique` UNIQUE(`token`)
+);
+--> statement-breakpoint
+CREATE TABLE `house_races` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`state_code` varchar(2) NOT NULL,
+	`state_name` varchar(64) NOT NULL,
+	`district` int NOT NULL,
+	`district_label` varchar(16) NOT NULL,
+	`incumbent` varchar(128),
+	`incumbent_party` enum('D','R','I'),
+	`incumbent_retiring` boolean NOT NULL DEFAULT false,
+	`candidate1_name` varchar(128),
+	`candidate1_party` enum('D','R','I','L','G'),
+	`candidate1_vote_pct` decimal(5,2),
+	`candidate2_name` varchar(128),
+	`candidate2_party` enum('D','R','I','L','G'),
+	`candidate2_vote_pct` decimal(5,2),
+	`called_winner` varchar(128),
+	`called_party` enum('D','R','I'),
+	`rating` enum('Solid D','Lean D','Toss-up','Lean R','Solid R','Safe D','Safe R'),
+	`status` enum('Scheduled','Primary','General','Called','Certified') NOT NULL DEFAULT 'Scheduled',
+	`primary_date` varchar(32),
+	`general_date` varchar(32) DEFAULT 'November 3, 2026',
+	`pct_reporting` decimal(5,2) DEFAULT '0',
+	`notes` text,
+	`created_at` timestamp NOT NULL DEFAULT (now()),
+	`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `house_races_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `redistricting_states` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`state_code` varchar(2) NOT NULL,
+	`state_name` varchar(64) NOT NULL,
+	`enacted` boolean NOT NULL DEFAULT false,
+	`reason` text,
+	`status` varchar(128),
+	`method` varchar(128),
+	`delegation_before` varchar(64),
+	`projected_impact` varchar(64),
+	`litigation_notes` text,
+	`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `redistricting_states_id` PRIMARY KEY(`id`),
+	CONSTRAINT `redistricting_states_state_code_unique` UNIQUE(`state_code`)
+);
+--> statement-breakpoint
+CREATE TABLE `referendums` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`state_code` varchar(2) NOT NULL,
+	`state_name` varchar(64) NOT NULL,
+	`name` varchar(256) NOT NULL,
+	`description` text,
+	`yes_label` varchar(128) DEFAULT 'Yes',
+	`no_label` varchar(128) DEFAULT 'No',
+	`yes_votes` bigint DEFAULT 0,
+	`no_votes` bigint DEFAULT 0,
+	`pct_reporting` decimal(5,2) DEFAULT '0',
+	`election_date` varchar(64) NOT NULL,
+	`status` enum('Scheduled','Voting','Called','Certified') NOT NULL DEFAULT 'Scheduled',
+	`called_result` enum('Yes','No'),
+	`notes` text,
+	`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `referendums_id` PRIMARY KEY(`id`)
+);
+--> statement-breakpoint
+CREATE TABLE `senate_races` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`state_code` varchar(2) NOT NULL,
+	`state_name` varchar(64) NOT NULL,
+	`is_special` boolean NOT NULL DEFAULT false,
+	`special_note` text,
+	`incumbent` varchar(128),
+	`incumbent_party` enum('D','R','I'),
+	`incumbent_retiring` boolean NOT NULL DEFAULT false,
+	`candidate1_name` varchar(128),
+	`candidate1_party` enum('D','R','I','L','G'),
+	`candidate1_vote_pct` decimal(5,2),
+	`candidate2_name` varchar(128),
+	`candidate2_party` enum('D','R','I','L','G'),
+	`candidate2_vote_pct` decimal(5,2),
+	`called_winner` varchar(128),
+	`called_party` enum('D','R','I'),
+	`rating` enum('Solid D','Lean D','Toss-up','Lean R','Solid R','Safe D','Safe R'),
+	`status` enum('Scheduled','Primary','General','Called','Certified') NOT NULL DEFAULT 'Scheduled',
+	`primary_date` varchar(32),
+	`primary_runoff_date` varchar(32),
+	`general_date` varchar(32) DEFAULT 'November 3, 2026',
+	`pct_reporting` decimal(5,2) DEFAULT '0',
+	`notes` text,
+	`created_at` timestamp NOT NULL DEFAULT (now()),
+	`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `senate_races_id` PRIMARY KEY(`id`)
+);

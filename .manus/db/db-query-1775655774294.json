@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE `admin_sessions` (`id` int AUTO_INCREMENT NOT NULL, `token` varchar(128) NOT NULL, `created_at` timestamp NOT NULL DEFAULT (now()), `expires_at` timestamp NOT NULL, CONSTRAINT `admin_sessions_id` PRIMARY KEY(`id`), CONSTRAINT `admin_sessions_token_unique` UNIQUE(`token`))",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute CREATE TABLE `admin_sessions` (`id` int AUTO_INCREMENT NOT NULL, `token` varchar(128) NOT NULL, `created_at` timestamp NOT NULL DEFAULT (now()), `expires_at` timestamp NOT NULL, CONSTRAINT `admin_sessions_id` PRIMARY KEY(`id`), CONSTRAINT `admin_sessions_token_unique` UNIQUE(`token`))",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 582
+}
