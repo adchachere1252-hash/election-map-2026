@@ -187,3 +187,14 @@
 - [x] Verify auto-update mechanism works end-to-end (composition reflects called races)
 - [x] Full pre-election data verification: 35 Senate races (0 issues), 435 House races (0 issues)
 - [x] Verify scoreboard Last Updated timestamp updates when a race is called (shows Apr 8 2026 07:19 PM UTC)
+
+## Full Special Election Verification (Round 10)
+- [x] Research all 2025-2026 U.S. House special elections (completed and upcoming) — 9 House + 2 Senate
+- [x] Verify FL-01 (Patronis), FL-06 (Fine), GA-14 (Fuller) are correctly marked Called in DB
+- [x] Verify AZ-7 (Grijalva D), TN-7 (Van Epps R), TX-18 (Menefee D), VA-11 (Walkinshaw D) marked Called
+- [x] Research CA-01 special election status — primary Jun 2, general Aug 4, 2026; candidate: James Gallagher (R)
+- [x] Fix TX-18 previous_party (D not R) and is_vacancy flag
+- [x] Fix NJ-11 incumbent name (Mikie Sherrill, not VACANT)
+- [x] Fix CA-01 general_date to August 4, 2026 (was incorrectly Nov 3)
+- [x] Final composition verified: R=218, D=215, I=1, vacancies=1 (only CA-01 remains unfilled)
+- [x] 31 tests passing, zero TypeScript errors
