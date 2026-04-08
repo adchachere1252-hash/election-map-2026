@@ -20,7 +20,7 @@ function TickerItem({ result }: { result: TickerResult }) {
     result.chamber === "house" && result.district != null
       ? `${result.stateCode}-${result.district}`
       : result.stateName;
-  const chamberTag = result.chamber === "senate" ? "SEN" : "HSE";
+  const chamberTag = result.chamber === "senate" ? "SEN" : "HOR";
 
   return (
     <span className="inline-flex items-center gap-1.5 mx-6 whitespace-nowrap">

@@ -6,12 +6,13 @@ import RacePopup from "@/components/RacePopup";
 import RaceList from "@/components/RaceList";
 import ElectionCalendar from "@/components/ElectionCalendar";
 import GlobalSearch from "@/components/GlobalSearch";
-import { Map, RefreshCw, Lock, Calendar, ChevronRight, ChevronLeft, Menu, X, Zap, Radio } from "lucide-react";
+import { Map, RefreshCw, Lock, Calendar, ChevronRight, ChevronLeft, Menu, X, Zap, Radio, Volume2, VolumeX } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
 import type { SenateRace, HouseRace, RedistrictingState, Referendum } from "../../../drizzle/schema";
 import { useElectionSocket } from "@/contexts/ElectionSocketContext";
 import ResultsTicker from "@/components/ResultsTicker";
+import { useElectionChime } from "@/hooks/useElectionChime";
 
 type MapView = "senate" | "house" | "redistricting";
 
@@ -49,6 +50,9 @@ export default function Home() {
   // WebSocket live push — invalidates caches instantly when a race is called
   const { isConnected, lastEvent } = useElectionSocket();
 
+  // Sound chime for election night watch parties
+  const { soundEnabled, toggleSound, playChime } = useElectionChime();
+
   // Viewer count — polls every 30s (lightweight, no need for 10s)
   const { data: viewerData } = trpc.live.viewerCount.useQuery(undefined, {
     refetchInterval: 30_000,
@@ -67,7 +71,8 @@ export default function Home() {
       description: `${lastEvent.calledWinner} (${partyLabel}) wins`,
       duration: 6000,
     });
-  }, [lastEvent]);
+    playChime();
+  }, [lastEvent, playChime]);
 
   const { data: senateRaces = [], refetch: refetchSenate } = trpc.senate.list.useQuery();
   const { data: houseRaces = [], refetch: refetchHouse } = trpc.house.list.useQuery();
@@ -303,6 +308,24 @@ export default function Home() {
             >
               <RefreshCw className="w-3.5 h-3.5" />
               <span className="hidden lg:inline">Refresh</span>
+            </button>
+
+            {/* Sound toggle — chime on race called */}
+            <button
+              onClick={toggleSound}
+              className={`flex items-center gap-1.5 text-xs px-2 py-1.5 rounded border transition-colors ${
+                soundEnabled
+                  ? "border-yellow-600 text-yellow-400 bg-yellow-900/20 hover:bg-yellow-900/30"
+                  : "border-border text-muted-foreground hover:text-foreground hover:bg-muted"
+              }`}
+              title={soundEnabled ? "Sound ON — click to mute election chime" : "Sound OFF — click to enable election chime"}
+            >
+              {soundEnabled ? (
+                <Volume2 className="w-3.5 h-3.5" />
+              ) : (
+                <VolumeX className="w-3.5 h-3.5" />
+              )}
+              <span className="hidden lg:inline">{soundEnabled ? "Sound ON" : "Sound OFF"}</span>
             </button>
 
             {/* Live WebSocket indicator with viewer count */}

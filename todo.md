@@ -238,3 +238,11 @@
 - [x] Verified: 7 called races appear in ticker (TX-18 D, GA-14 R, VA-11 D, AZ-7 D, FL-1 R, FL-6 R, TN-7 R)
 - [x] Verified: live.viewerCount returns {count: 2} (2 WebSocket clients connected during test)
 - [x] 32 tests passing, zero TypeScript errors
+
+## HOR Label & Sound Effect (Round 14)
+- [x] Change ticker chamber label from HSE to HOR (House of Representatives)
+- [x] Add sound effect chime (two-tone C5→G4 broadcast bell) using Web Audio API — no external files
+- [x] Add sound toggle button in the header (Volume2 icon ON / VolumeX icon OFF), persisted in localStorage
+- [x] Sound plays only when toggle is ON and a race_called WebSocket event arrives
+- [x] Default OFF so first-time visitors are not startled
+- [x] Full verification: ticker shows HOR ✓, sound hook wired ✓, 7 called races in ticker ✓, 32 tests ✓, zero TS errors ✓
