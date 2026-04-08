@@ -198,3 +198,13 @@
 - [x] Fix CA-01 general_date to August 4, 2026 (was incorrectly Nov 3)
 - [x] Final composition verified: R=218, D=215, I=1, vacancies=1 (only CA-01 remains unfilled)
 - [x] 31 tests passing, zero TypeScript errors
+
+## Primary Results Verification (Round 11 — as of April 8, 2026)
+- [x] Research which states held 2026 primaries before April 8, 2026 — AR/NC/TX (Mar 3), MS (Mar 10), IL (Mar 17)
+- [x] Verify all 35 Senate race matchups — AR, IL, MS, NC all General; TX Primary (R runoff May 26)
+- [x] Verify key House races — 18 races with confirmed candidates, party assignments verified and corrected
+- [x] Ensure no race shows election night results for November 3 general — all vote_pct fields NULL/0
+- [x] Apply missing/incorrect candidate names: TX-2 (Toth), TX-8 (Steinmann), TX-10 (Gober), TX-21 (Teixeira), TX-34 (Flores), NC-1 (Buckhout), AR-1 (Yarbrough Green), IL-2/7/9 (primary winners), MS-2 (Thompson)
+- [x] Fixed party assignment errors: TX-18/19/23/38 had swapped D/R slots — all corrected
+- [x] Fixed open seat incumbents: TX-2/8/10/19/21/30/32/33/38, IL-2/7/9 all marked Open Seat
+- [x] 31 tests passing, zero TypeScript errors
