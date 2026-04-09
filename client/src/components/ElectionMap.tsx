@@ -195,11 +195,11 @@ export default function ElectionMap({
     pattern.append("rect")
       .attr("x", 0).attr("y", 0)
       .attr("width", 4).attr("height", 8)
-      .attr("fill", "#3b82f628");
+      .attr("fill", "#3b82f699");
     pattern.append("rect")
       .attr("x", 4).attr("y", 0)
       .attr("width", 4).attr("height", 8)
-      .attr("fill", "#ef444428");
+      .attr("fill", "#ef444499");
 
     const g = svg.append("g");
     if (view === "house" && districtsData) {
@@ -483,7 +483,7 @@ export default function ElectionMap({
               <span>Split (D + R)</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-3.5 h-3.5 rounded flex-shrink-0" style={{ border: "1px solid rgba(255,255,255,0.15)", background: "repeating-linear-gradient(45deg, #3b82f628 0px, #3b82f628 4px, #ef444428 4px, #ef444428 8px), #1e2433" }} />
+              <div className="w-3.5 h-3.5 rounded flex-shrink-0" style={{ border: "1px solid rgba(255,255,255,0.15)", background: "repeating-linear-gradient(45deg, #3b82f699 0px, #3b82f699 4px, #ef444499 4px, #ef444499 8px), #1e2433" }} />
               <span>No 2026 Race</span>
             </div>
           </div>
