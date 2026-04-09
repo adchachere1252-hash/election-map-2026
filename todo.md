@@ -383,3 +383,20 @@
 - [x] Fix MI-4 Huizenga: Lean R → Likely R (Cook Apr 7)
 - [x] Fix TX-9 and TX-32 contradictory notes (ratings were correct, notes were wrong)
 - [x] 32/32 tests passing, zero TypeScript errors
+
+## Round 24 Verification (Apr 9, 2026)
+- [x] ME Senate: Lean R → Toss-up (Sabato Oct 14, 2025 + Cook Jan 12, 2026 — 2 of 3 sources say Toss-up; polls show Collins trailing)
+- [x] MT Senate: Updated incumbent label to Open Seat (Daines retired Mar 4, 2026), added Kurt Alme (R) as candidate2
+- [x] KY Senate: Updated incumbent to Open Seat (McConnell retiring), added Andy Barr (R) as candidate2
+- [x] GA Senate: Confirmed Toss-up — IE Mar 25 + Cook Jan 12 = Toss-up; Sabato Jan 29 = Lean D; majority says Toss-up
+- [x] FL Special: Confirmed Solid R — IE Mar 25 + Cook Jan 12 = Solid R; Sabato Jan 29 = Likely R; majority says Solid R
+- [x] OK Senate: Confirmed Alan Armstrong (appointed) — correct per Politico Mar 24
+- [x] NE Senate: Confirmed Solid R — IE Mar 25 + Cook Jan 12 = Solid R; Sabato Jul 8 2025 = Likely R; majority says Solid R
+- [x] MI-3 Scholten: Likely D → Solid D (Sabato Nov 19, 2025 + Cook Apr 7, 2026 consensus)
+- [x] NJ-9 Pou: Lean D → Likely D (Cook Apr 7, 2026)
+- [x] NH-1 OPEN Pappas: Lean D → Likely D (Cook Apr 7, 2026)
+- [x] KY-6: Solid R → Likely R (Sabato Jun 3, 2025 — Barr vacating seat to run for Senate)
+- [x] CA-6 Kiley: Updated incumbent to Kevin Kiley (I/NPP), confirmed Solid D (Cook Apr 7)
+- [x] NC-11 Edwards: Confirmed Likely R — CORRECT
+- [x] MN-2 OPEN Craig: Confirmed Likely D — CORRECT
+- [x] 32/32 tests passing, zero TypeScript errors
