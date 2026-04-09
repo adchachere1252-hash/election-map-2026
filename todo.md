@@ -498,3 +498,7 @@
 - [x] No breaking news affecting ratings since Round 30
 - [x] Run full test suite: 32/32 passing, zero TypeScript errors
 - [x] CONFIRMED PUBLICATION-READY — Round 31 clean pass, zero corrections needed
+
+## Map Size Fix (Apr 9, 2026)
+- [x] Reduce map height/size slightly: projection scale reduced from 1.25 to 1.05 — map now fits on screen with breathing room
+- [x] Verified in browser — full US map visible with comfortable margins, no overflow

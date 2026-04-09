@@ -144,7 +144,7 @@ export default function ElectionMap({
     const height = svgRef.current.clientHeight || 500;
 
     const projection = d3.geoAlbersUsa()
-      .scale(width * 1.25)
+      .scale(width * 1.05)
       .translate([width / 2, height / 2]);
 
     const path = d3.geoPath().projection(projection);
