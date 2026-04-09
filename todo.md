@@ -593,3 +593,12 @@
 - [x] Verified in browser: Arizona tooltip shows "Arizona — No 2026 Senate Race / Next race: 2028 / Ruben Gallego (D) · Mark Kelly (D)"
 - [x] 37 tests pass, 0 TypeScript errors
 - [x] Checkpoint saved
+
+## No-Race State Pop-up & Election Dates in Race List (Apr 9, 2026)
+- [x] Create NoRaceStatePopup component: shows state name header + both senators' full cards (name, party, class, bio snippet, committees, website link)
+- [x] Wire click handler in ElectionMap: when user clicks a striped (no-race) state, call onStateClick with a special "no-race" payload
+- [x] Handle "no-race" payload in Home.tsx to open NoRaceStatePopup instead of RacePopup
+- [x] Add primary election date and general election date to each race item in the RaceList sidebar
+- [x] Add primaryDate and isSpecial fields to KeyRaces sidebar cards with formatted date footer
+- [x] Format dates as "Primary: Jun 2, 2026" and "General: Nov 3, 2026" (or "Special: Apr 7, 2026" for specials)
+- [x] Verify both features in browser, run tests (37/37 passing), save checkpoint

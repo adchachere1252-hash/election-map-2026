@@ -464,6 +464,8 @@ export const appRouter = router({
           incumbentRetiring: r.incumbentRetiring,
           notes: r.notes,
           generalDate: r.generalDate,
+          primaryDate: r.primaryDate ?? null,
+          isSpecial: r.isSpecial ?? false,
         }));
 
       // House key races: Toss-up + Lean + Likely (not yet called)

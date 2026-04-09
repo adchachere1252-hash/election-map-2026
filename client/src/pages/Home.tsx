@@ -14,6 +14,7 @@ import { useElectionSocket } from "@/contexts/ElectionSocketContext";
 import ResultsTicker from "@/components/ResultsTicker";
 import KeyRaces from "@/components/KeyRaces";
 import { useElectionChime } from "@/hooks/useElectionChime";
+import NoRaceStatePopup from "@/components/NoRaceStatePopup";
 
 type MapView = "senate" | "house" | "redistricting";
 
@@ -32,8 +33,10 @@ const VIEW_DESCRIPTIONS: Record<MapView, string> = {
 export default function Home() {
   const [view, setView] = useState<MapView>("senate");
   const [popup, setPopup] = useState<{
-    type: "senate" | "house" | "redistricting" | "referendum";
+    type: "senate" | "house" | "redistricting" | "referendum" | "no-race";
     data: SenateRace | HouseRace | RedistrictingState | Referendum | null;
+    stateCode?: string;
+    stateName?: string;
   } | null>(null);
   const [selectedStateCode, setSelectedStateCode] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -120,6 +123,11 @@ export default function Home() {
     if (view === "senate") {
       const race = senateRaces.find(r => r.stateCode === stateCode);
       if (race) { setPopup({ type: "senate", data: race }); setSelectedId(race.id); }
+      else {
+        // No 2026 race — show senator info popup for this state
+        const STATE_NAMES: Record<string, string> = { AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming" };
+        setPopup({ type: "no-race", data: null, stateCode, stateName: STATE_NAMES[stateCode] ?? stateCode });
+      }
     } else if (view === "house") {
       const stateRaces = houseRaces.filter(r => r.stateCode === stateCode);
       if (stateRaces.length === 1) { setPopup({ type: "house", data: stateRaces[0] }); setSelectedId(stateRaces[0].id); }
@@ -543,11 +551,20 @@ export default function Home() {
           />
 
           {/* Desktop popup — top-right corner */}
-          {popup && (
+          {popup && popup.type !== "no-race" && (
             <div className="hidden md:block absolute top-4 right-4 z-20 max-w-xs w-full">
               <RacePopup
-                type={popup.type}
+                type={popup.type as any}
                 data={popup.data}
+                onClose={closePopup}
+              />
+            </div>
+          )}
+          {popup && popup.type === "no-race" && popup.stateCode && popup.stateName && (
+            <div className="hidden md:block absolute top-4 right-4 z-20 max-w-xs w-full bg-card border border-border rounded-xl shadow-xl p-4 overflow-y-auto max-h-[80vh]">
+              <NoRaceStatePopup
+                stateCode={popup.stateCode}
+                stateName={popup.stateName}
                 onClose={closePopup}
               />
             </div>
@@ -606,11 +623,19 @@ export default function Home() {
               <div className="w-10 h-1 rounded-full bg-muted-foreground/30" />
             </div>
             <div className="px-4 pb-6">
-              <RacePopup
-                type={popup.type}
-                data={popup.data}
-                onClose={closePopup}
-              />
+              {popup.type === "no-race" && popup.stateCode && popup.stateName ? (
+                <NoRaceStatePopup
+                  stateCode={popup.stateCode}
+                  stateName={popup.stateName}
+                  onClose={closePopup}
+                />
+              ) : (
+                <RacePopup
+                  type={popup.type as any}
+                  data={popup.data}
+                  onClose={closePopup}
+                />
+              )}
             </div>
           </div>
         </div>

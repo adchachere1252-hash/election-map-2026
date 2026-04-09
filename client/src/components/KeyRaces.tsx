@@ -40,6 +40,8 @@ type KeyRace = {
   calledParty: string | null;
   calledWinner: string | null;
   generalDate: string | null;
+  primaryDate?: string | null;
+  isSpecial?: boolean;
 };
 
 /** Circular candidate avatar: photo if available, else party-colored initial */
@@ -135,6 +137,17 @@ function KeyRaceCard({ race }: { race: KeyRace }) {
   // Fallback: if no candidate slots filled, show incumbent
   const showIncumbentFallback = !dCandidate && !rCandidate;
   const retirementReason = getRetirementReason(race.notes);
+
+  // Format a date string like "2026-06-02" → "Jun 2, 2026"
+  function fmtDate(d: string | null | undefined): string | null {
+    if (!d) return null;
+    const [y, m, day] = d.split("-").map(Number);
+    return new Date(y, m - 1, day).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  }
+
+  const primaryFmt = fmtDate((race as any).primaryDate);
+  const generalFmt = fmtDate(race.generalDate);
+  const isSpecial = !!(race as any).isSpecial;
 
   return (
     <div
@@ -242,6 +255,26 @@ function KeyRaceCard({ race }: { race: KeyRace }) {
               <span className="text-[10px] text-muted-foreground/50 italic">TBD (R)</span>
             )}
           </div>
+        </div>
+      )}
+
+      {/* Election date footer */}
+      {(primaryFmt || generalFmt) && (
+        <div className="flex items-center gap-2 mt-1.5 pt-1.5 border-t border-border/20">
+          {isSpecial && (
+            <span className="text-[9px] font-bold px-1 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30 flex-shrink-0">SPECIAL</span>
+          )}
+          {primaryFmt && (
+            <span className="text-[9px] text-muted-foreground/70">
+              <span className="text-muted-foreground/50">Primary:</span> {primaryFmt}
+            </span>
+          )}
+          {primaryFmt && generalFmt && <span className="text-muted-foreground/30 text-[9px]">·</span>}
+          {generalFmt && (
+            <span className="text-[9px] text-muted-foreground/70">
+              <span className="text-muted-foreground/50">{isSpecial ? "Special:" : "General:"}</span> {generalFmt}
+            </span>
+          )}
         </div>
       )}
     </div>
