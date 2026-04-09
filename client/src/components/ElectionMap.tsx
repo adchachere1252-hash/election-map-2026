@@ -180,8 +180,28 @@ export default function ElectionMap({
     // @ts-ignore
     const stateMesh = topojson.mesh(statesData, statesData.objects.states, (a: any, b: any) => a !== b);
 
-    const g = svg.append("g");
+     // Add defs for stripe pattern (no-race states in senate view)
+    const defs = svg.append("defs");
+    const pattern = defs.append("pattern")
+      .attr("id", "no-race-stripe")
+      .attr("patternUnits", "userSpaceOnUse")
+      .attr("width", 8)
+      .attr("height", 8)
+      .attr("patternTransform", "rotate(45)");
+    pattern.append("rect")
+      .attr("width", 8)
+      .attr("height", 8)
+      .attr("fill", "#1e2433");
+    pattern.append("rect")
+      .attr("x", 0).attr("y", 0)
+      .attr("width", 4).attr("height", 8)
+      .attr("fill", "#3b82f628");
+    pattern.append("rect")
+      .attr("x", 4).attr("y", 0)
+      .attr("width", 4).attr("height", 8)
+      .attr("fill", "#ef444428");
 
+    const g = svg.append("g");
     if (view === "house" && districtsData) {
       // ── House view: render individual districts ──────────────────────────────
       // @ts-ignore
@@ -274,6 +294,10 @@ export default function ElectionMap({
         .attr("fill", (d: any) => {
           const fips = String(d.id).padStart(2, "0");
           const code = FIPS_TO_STATE[fips];
+          // In senate view, states with no 2026 race get a stripe pattern
+          if (view === "senate" && !senateByState[code]) {
+            return "url(#no-race-stripe)";
+          }
           return getStateColor(code);
         })
         .attr("stroke", "#1a1f2e")
@@ -367,30 +391,13 @@ export default function ElectionMap({
           const r = 4;
 
           if (isSplit) {
-            // Split: two half-circles (D=blue left, R=red right)
-            const partyLeft = partyList[0];
-            const partyRight = partyList[1];
-            const colorLeft = partyLeft === "D" ? "#3b82f6" : partyLeft === "R" ? "#ef4444" : "#9ca3af";
-            const colorRight = partyRight === "D" ? "#3b82f6" : partyRight === "R" ? "#ef4444" : "#9ca3af";
-
-            // Left half
-            g.append("path")
-              .attr("d", `M ${cx} ${cy - r} A ${r} ${r} 0 0 0 ${cx} ${cy + r} Z`)
-              .attr("fill", colorLeft)
-              .attr("opacity", 0.9)
-              .attr("pointer-events", "none");
-            // Right half
-            g.append("path")
-              .attr("d", `M ${cx} ${cy - r} A ${r} ${r} 0 0 1 ${cx} ${cy + r} Z`)
-              .attr("fill", colorRight)
-              .attr("opacity", 0.9)
-              .attr("pointer-events", "none");
-            // Border circle
+            // Split: solid purple circle
             g.append("circle")
               .attr("cx", cx)
               .attr("cy", cy)
               .attr("r", r)
-              .attr("fill", "none")
+              .attr("fill", "#8b5cf6")
+              .attr("opacity", 0.95)
               .attr("stroke", "#0d1117")
               .attr("stroke-width", 0.8)
               .attr("pointer-events", "none");
@@ -472,11 +479,12 @@ export default function ElectionMap({
               <span>Unified Republican</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-3.5 h-3.5 rounded-full overflow-hidden border border-black/30 flex-shrink-0 flex">
-                <div className="w-1/2 h-full" style={{ background: "#3b82f6" }} />
-                <div className="w-1/2 h-full" style={{ background: "#ef4444" }} />
-              </div>
+              <div className="w-3.5 h-3.5 rounded-full flex-shrink-0" style={{ background: "#8b5cf6", border: "1px solid rgba(0,0,0,0.3)" }} />
               <span>Split (D + R)</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <div className="w-3.5 h-3.5 rounded flex-shrink-0" style={{ border: "1px solid rgba(255,255,255,0.15)", background: "repeating-linear-gradient(45deg, #3b82f628 0px, #3b82f628 4px, #ef444428 4px, #ef444428 8px), #1e2433" }} />
+              <span>No 2026 Race</span>
             </div>
           </div>
         </div>

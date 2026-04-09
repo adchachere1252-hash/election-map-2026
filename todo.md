@@ -571,3 +571,13 @@
 - [x] Verified in browser: Maine popup shows King(I) Cl.1 2030 and Collins(R) Cl.2 2026
 - [x] 37 tests pass, 0 TypeScript errors
 - [x] Checkpoint saved
+
+## Split Indicator Purple + No-Race Stripe Pattern (Apr 9, 2026)
+- [x] Changed split state indicator dot to solid purple (#8b5cf6) — removed half-blue/half-red
+- [x] Updated legend entry for Split (D+R) to show purple dot
+- [x] Added SVG defs diagonal stripe pattern (blue + red alternating stripes, 45°, 8px repeat)
+- [x] Applied stripe fill (url(#no-race-stripe)) to states with no 2026 Senate race
+- [x] Verified: 35 non-stripe states (matching 35 senate races), 21 stripe features (15 no-race states + DC + territories)
+- [x] Updated legend to include "No 2026 Race" entry with matching stripe CSS pattern
+- [x] 37 tests pass, 0 TypeScript errors
+- [x] Checkpoint saved
