@@ -358,3 +358,28 @@
 - [x] Remove 11 duplicate district entries (CA-48, UT-1, PA-1, MO-5, MI-10, NY-19, IN-1, FL-23, NJ-7, VA-1, NJ-9)
 - [x] Fix ratings on original duplicate records (UT-1, PA-1, MI-10, NY-19, IN-1, FL-23, NJ-7, VA-1, NJ-9)
 - [x] 32/32 tests passing, zero TypeScript errors
+
+## Round 23 Verification (Apr 9, 2026)
+- [x] Senate ratings verified against Inside Elections March 25, 2026 — all 35 correct
+- [x] Senate candidates updated for 13 races (AK, ME, MI, IA, MT, KY, WY, AL, MN, TX, FL, OK, GA) using Ballotpedia/AP/Politico
+- [x] Fix PA-17 Deluzio: Likely D → Solid D (Sabato Mar 26, 2026)
+- [x] Fix CA-22 Valadao: Lean R → Toss-up (Cook Apr 7, 2026)
+- [x] Fix CA-1 LaMalfa: Solid R → Solid D (Sabato Feb 5, 2026 — redistricting, LaMalfa deceased Jan 6 2026)
+- [x] Fix KY-6 Barr: Barr running for Senate (KY-6 now open seat)
+- [x] Fix UT-1: Lean R → Solid D (Sabato Nov 11, 2025 — redistricting)
+- [x] Fix MD-6 incumbent: David J. Trone → April McClain Delaney (elected 2024)
+- [x] Verify Senate candidate names using Ballotpedia/AP/Politico (no Wikipedia) — 13 races updated
+- [x] Fix MI-3 Scholten: Solid D → Likely D (IE Mar 12, Sabato Nov 19 2025)
+- [x] Fix CO-5 Crank: Solid D → Likely R (IE Mar 12, Cook Apr 7)
+- [x] Fix OR-5 Bynum: Toss-up → Likely D (Cook Apr 7)
+- [x] Fix WI-1 Steil: Solid R → Likely R (Cook Apr 7)
+- [x] Fix VA-7 Vindman: Likely D → Lean D (Cook Apr 7, IE Mar 12 consensus)
+- [x] Fix CO-3 Hurd: Likely R → Solid R (Cook Apr 7)
+- [x] Fix TX-18: Solid R → Solid D (Cook Apr 7 — D-safe merged seat after redistricting)
+- [x] Fix CA-40: Solid D → Solid R (Cook Apr 7 — R-safe merged seat after redistricting)
+- [x] Fix IA-3 Nunn: Lean R → Toss-up (Cook Apr 7)
+- [x] Fix PA-10 Perry: Lean R → Toss-up (Cook Apr 7)
+- [x] Fix PA-1 Fitzpatrick: Lean R → Likely R (Cook Apr 7)
+- [x] Fix MI-4 Huizenga: Lean R → Likely R (Cook Apr 7)
+- [x] Fix TX-9 and TX-32 contradictory notes (ratings were correct, notes were wrong)
+- [x] 32/32 tests passing, zero TypeScript errors
