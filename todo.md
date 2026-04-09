@@ -561,3 +561,13 @@
 - [x] Verified in browser: legend shows crisp half-blue/half-red, Maine popup shows Angus King (I) + Susan Collins (R)
 - [x] 37 tests pass, 0 TypeScript errors
 - [x] Save checkpoint
+
+## Next Election Year Display for Non-2026 Senators (Apr 9, 2026)
+- [x] RacePopup: non-2026 senators now show grey badge with next election year (e.g., "2030" for King, "2028" for Class 3)
+- [x] RacePopup: 2026 senators keep amber "2026" badge; non-2026 get slate-grey year badge
+- [x] SenatorDetailPopup: header now shows "Up in 2028" or "Up in 2030" badge for non-2026 senators (slate-grey)
+- [x] SenatorDetailPopup: term info grid already shows "Next Election" year in all cases
+- [x] GlobalSearch: senator rows now show "Up 2026" (amber) or "Up 2028/2030" (grey) badge + "Term ends Jan 202X" subtitle
+- [x] Verified in browser: Maine popup shows King(I) Cl.1 2030 and Collins(R) Cl.2 2026
+- [x] 37 tests pass, 0 TypeScript errors
+- [x] Checkpoint saved

@@ -138,8 +138,10 @@ function SenatePopup({ race, onClose }: { race: SenateRace; onClose: () => void 
                 </div>
                 <div className="flex items-center gap-1 flex-shrink-0">
                   <span className="text-xs text-muted-foreground">Cl.{s.senateClass}</span>
-                  {s.isUpIn2026 && (
+                  {s.isUpIn2026 ? (
                     <span className="bg-amber-900/60 text-amber-300 text-xs px-1 py-0.5 rounded font-semibold">2026</span>
+                  ) : (
+                    <span className="bg-slate-700/60 text-slate-400 text-xs px-1 py-0.5 rounded">{s.nextElectionYear}</span>
                   )}
                   <ChevronRight className="w-3 h-3 text-muted-foreground ml-0.5" />
                 </div>

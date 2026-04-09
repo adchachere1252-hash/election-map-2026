@@ -555,10 +555,14 @@ export default function GlobalSearch({
                 </span>
                 <span className="text-xs text-muted-foreground">{s.stateCode}</span>
                 <span className="text-[10px] font-bold bg-blue-900/40 text-blue-300 px-1.5 py-0.5 rounded uppercase tracking-wide">Senator</span>
-                {s.isUpIn2026 && <span className="text-[10px] font-bold bg-amber-900/40 text-amber-300 px-1.5 py-0.5 rounded">2026</span>}
+                {s.isUpIn2026 ? (
+                  <span className="text-[10px] font-bold bg-amber-900/40 text-amber-300 px-1.5 py-0.5 rounded">Up 2026</span>
+                ) : (
+                  <span className="text-[10px] bg-slate-700/60 text-slate-400 px-1.5 py-0.5 rounded">Up {s.nextElectionYear}</span>
+                )}
               </div>
               <p className="text-xs text-muted-foreground">
-                {s.stateName} · Class {s.senateClass} · Next election: {s.nextElectionYear}
+                {s.stateName} · Class {s.senateClass} · Term ends {s.nextElectionYear === 2028 ? "Jan 2029" : s.nextElectionYear === 2030 ? "Jan 2031" : "Jan 2027"}
               </p>
             </div>
             <ChevronRight className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />

@@ -84,9 +84,13 @@ export default function SenatorDetailPopup({ senatorId, onClose }: SenatorDetail
                 <Calendar className="w-3 h-3 inline mr-1" />
                 {classLabel(senator.senateClass)}
               </span>
-              {senator.isUpIn2026 && (
+              {senator.isUpIn2026 ? (
                 <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-amber-900/40 text-amber-300 border border-amber-700/40">
                   ⚡ Up in 2026
+                </span>
+              ) : (
+                <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-slate-700/40 text-slate-300 border border-slate-600/40">
+                  Up in {senator.nextElectionYear}
                 </span>
               )}
             </div>
