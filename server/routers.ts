@@ -435,9 +435,9 @@ export const appRouter = router({
         "Solid R": 4,
       };
 
-      // Senate key races: Toss-up + Lean (not yet called)
+      // Senate key races: Toss-up + Lean + Likely (not yet called)
       const senateKey = senateRaces
-        .filter(r => r.rating && ["Toss-up", "Lean D", "Lean R"].includes(r.rating) && r.status !== "Called" && r.status !== "Certified")
+        .filter(r => r.rating && ["Toss-up", "Lean D", "Lean R", "Likely D", "Likely R"].includes(r.rating) && r.status !== "Called" && r.status !== "Certified")
         .sort((a, b) => (RATING_ORDER[a.rating ?? ""] ?? 9) - (RATING_ORDER[b.rating ?? ""] ?? 9))
         .slice(0, 8)
         .map(r => ({
@@ -458,12 +458,14 @@ export const appRouter = router({
           status: r.status,
           calledParty: r.calledParty,
           calledWinner: r.calledWinner,
+          incumbentRetiring: r.incumbentRetiring,
+          notes: r.notes,
           generalDate: r.generalDate,
         }));
 
-      // House key races: Toss-up + Lean (not yet called)
+      // House key races: Toss-up + Lean + Likely (not yet called)
       const houseKey = houseRaces
-        .filter(r => r.rating && ["Toss-up", "Lean D", "Lean R"].includes(r.rating) && r.status !== "Called" && r.status !== "Certified")
+        .filter(r => r.rating && ["Toss-up", "Lean D", "Lean R", "Likely D", "Likely R"].includes(r.rating) && r.status !== "Called" && r.status !== "Certified")
         .sort((a, b) => (RATING_ORDER[a.rating ?? ""] ?? 9) - (RATING_ORDER[b.rating ?? ""] ?? 9))
         .slice(0, 12)
         .map(r => ({
@@ -486,6 +488,8 @@ export const appRouter = router({
           status: r.status,
           calledParty: r.calledParty,
           calledWinner: r.calledWinner,
+          incumbentRetiring: r.incumbentRetiring,
+          notes: r.notes,
           generalDate: r.generalDate,
         }));
 

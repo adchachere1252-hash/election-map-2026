@@ -307,3 +307,13 @@
 - [x] Verify redistricting states status and methods
 - [x] Fix all identified inaccuracies in the database
 - [x] Run 32+ tests passing after all fixes (32/32)
+
+## Retiring Badge & Open Seat Visual Feature (Round 21)
+
+- [ ] Verify all open-seat races: Senate retirements, House retirements, redistricting departures
+- [ ] Verify incumbent_retiring flag is set correctly in database for all known open seats
+- [ ] Add "Open Seat" badge to Key Races cards for open-seat contests
+- [ ] Show retirement reason in card subtext (retiring, running for governor, redistricting)
+- [ ] Visually distinguish open-seat races from incumbent races (different card header style)
+- [ ] Update keyRaces.get tRPC procedure to return incumbent_retiring and notes fields
+- [ ] Full verification: all retiring flags correct, badges display, 32+ tests passing

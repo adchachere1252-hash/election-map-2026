@@ -27,6 +27,8 @@ type KeyRace = {
   rating: string | null;
   incumbent: string | null;
   incumbentParty: string | null;
+  incumbentRetiring?: boolean | null;
+  notes?: string | null;
   candidate1Name: string | null;
   candidate1Party: string | null;
   candidate1Photo: string | null;
@@ -86,8 +88,21 @@ function CandidateAvatar({
   );
 }
 
+/** Derive a short retirement reason from the notes field */
+function getRetirementReason(notes: string | null | undefined): string {
+  if (!notes) return "Open Seat";
+  const n = notes.toLowerCase();
+  if (n.includes("governor")) return "Running for Gov.";
+  if (n.includes("senate")) return "Running for Senate";
+  if (n.includes("redistrict")) return "Redistricting";
+  if (n.includes("appointed")) return "Appointed, Not Running";
+  if (n.includes("not running")) return "Not Seeking Re-election";
+  return "Open Seat";
+}
+
 function KeyRaceCard({ race }: { race: KeyRace }) {
   const isCalled = race.status === "Called" || race.status === "Certified";
+  const isOpenSeat = !!race.incumbentRetiring;
   const ratingClass = race.rating
     ? RATING_COLORS[race.rating] ?? "bg-gray-700/40 text-gray-300 border-gray-600/40"
     : "";
@@ -119,16 +134,19 @@ function KeyRaceCard({ race }: { race: KeyRace }) {
 
   // Fallback: if no candidate slots filled, show incumbent
   const showIncumbentFallback = !dCandidate && !rCandidate;
+  const retirementReason = getRetirementReason(race.notes);
 
   return (
     <div
       className={`px-3 py-2 rounded-md border transition-colors ${
         isCalled
           ? "bg-muted/20 border-border/30 opacity-70"
+          : isOpenSeat
+          ? "bg-amber-950/20 border-amber-700/40 hover:bg-amber-950/30"
           : "bg-muted/30 border-border/50 hover:bg-muted/50"
       }`}
     >
-      {/* Top row: rating badge + location */}
+      {/* Top row: rating badge + location + open seat badge */}
       <div className="flex items-center gap-2 mb-1.5">
         <span
           className={`text-[9px] font-black tracking-wider px-1.5 py-0.5 rounded border flex-shrink-0 ${ratingClass}`}
@@ -136,6 +154,11 @@ function KeyRaceCard({ race }: { race: KeyRace }) {
           {race.rating ?? "?"}
         </span>
         <span className="text-xs font-bold text-foreground flex-1 min-w-0 truncate">{label}</span>
+        {isOpenSeat && (
+          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded border flex-shrink-0 bg-amber-500/20 text-amber-300 border-amber-500/40">
+            OPEN
+          </span>
+        )}
         {race.chamber === "senate" && (
           <span className="text-[9px] text-muted-foreground/60 flex-shrink-0">SEN</span>
         )}
@@ -143,6 +166,14 @@ function KeyRaceCard({ race }: { race: KeyRace }) {
           <span className="text-[9px] text-muted-foreground/60 flex-shrink-0">HOR</span>
         )}
       </div>
+      {/* Open seat subtext: retiring incumbent name + reason */}
+      {isOpenSeat && race.incumbent && (
+        <div className="flex items-center gap-1 mb-1.5">
+          <span className="text-[9px] text-amber-400/80 truncate">
+            {race.incumbent} retiring · {retirementReason}
+          </span>
+        </div>
+      )}
 
       {/* Candidates row */}
       {isCalled ? (
@@ -161,14 +192,26 @@ function KeyRaceCard({ race }: { race: KeyRace }) {
         </div>
       ) : showIncumbentFallback ? (
         <div className="flex items-center gap-1.5">
-          <CandidateAvatar
-            name={race.incumbent}
-            party={race.incumbentParty}
-            photo={null}
-          />
+          {isOpenSeat ? (
+            <div className="w-6 h-6 bg-amber-500/20 rounded-full flex items-center justify-center flex-shrink-0 border-2 border-amber-500/40">
+              <span className="text-[9px] font-bold text-amber-300">?</span>
+            </div>
+          ) : (
+            <CandidateAvatar
+              name={race.incumbent}
+              party={race.incumbentParty}
+              photo={null}
+            />
+          )}
           <div className="min-w-0">
-            <span className="text-[10px] text-muted-foreground truncate block">{race.incumbent}</span>
-            <span className="text-[9px] text-muted-foreground/60">Incumbent · TBD challenger</span>
+            {isOpenSeat ? (
+              <span className="text-[10px] text-amber-300/80 truncate block">Candidates TBD</span>
+            ) : (
+              <span className="text-[10px] text-muted-foreground truncate block">{race.incumbent}</span>
+            )}
+            <span className="text-[9px] text-muted-foreground/60">
+              {isOpenSeat ? "Primary not yet held" : "Incumbent · TBD challenger"}
+            </span>
           </div>
         </div>
       ) : (
@@ -209,6 +252,7 @@ function KeyRaceCard({ race }: { race: KeyRace }) {
 type ChamberFilter = "all" | "senate" | "house";
 type RatingFilter  = "all" | "Toss-up" | "Lean D" | "Likely D" | "Lean R" | "Likely R";
 type SortOption    = "competitiveness" | "alphabetical" | "chamber";
+type OpenSeatFilter = "all" | "open" | "incumbent";
 
 export default function KeyRaces() {
   const { lastEvent } = useElectionSocket();
@@ -216,6 +260,7 @@ export default function KeyRaces() {
   const [chamberFilter, setChamberFilter] = useState<ChamberFilter>("all");
   const [ratingFilter, setRatingFilter]   = useState<RatingFilter>("all");
   const [sortOption, setSortOption]       = useState<SortOption>("competitiveness");
+  const [openSeatFilter, setOpenSeatFilter] = useState<OpenSeatFilter>("all");
 
   const { data, isLoading, refetch } = trpc.keyRaces.get.useQuery(undefined, {
     refetchInterval: 10_000,
@@ -252,6 +297,8 @@ export default function KeyRaces() {
   const filtered = allRaces.filter(r => {
     if (chamberFilter !== "all" && r.chamber !== chamberFilter) return false;
     if (ratingFilter !== "all" && r.rating !== ratingFilter) return false;
+    if (openSeatFilter === "open" && !r.incumbentRetiring) return false;
+    if (openSeatFilter === "incumbent" && r.incumbentRetiring) return false;
     return true;
   });
 
@@ -306,6 +353,17 @@ export default function KeyRaces() {
             <SelectItem value="Likely D">Likely D</SelectItem>
             <SelectItem value="Lean R">Lean R</SelectItem>
             <SelectItem value="Likely R">Likely R</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Select value={openSeatFilter} onValueChange={(v) => setOpenSeatFilter(v as OpenSeatFilter)}>
+          <SelectTrigger className="h-6 text-[10px] px-2 py-0 w-auto min-w-[90px] bg-muted/30 border-border/50">
+            <SelectValue placeholder="Seat Type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Seats</SelectItem>
+            <SelectItem value="open">Open Seats</SelectItem>
+            <SelectItem value="incumbent">With Incumbent</SelectItem>
           </SelectContent>
         </Select>
 
