@@ -1,8 +1,8 @@
-import { useRef, useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 import { getRatingColor, getPartyColor } from "@/lib/electionUtils";
-import type { SenateRace, HouseRace, RedistrictingState } from "../../../drizzle/schema";
+import type { SenateRace, HouseRace, RedistrictingState, Senator } from "../../../drizzle/schema";
 
 type MapView = "senate" | "house" | "redistricting";
 
@@ -11,6 +11,7 @@ interface ElectionMapProps {
   senateRaces: SenateRace[];
   houseRaces: HouseRace[];
   redistrictingStates: RedistrictingState[];
+  senators?: Senator[];
   onStateClick?: (stateCode: string) => void;
   onDistrictClick?: (race: HouseRace) => void;
   selectedStateCode?: string | null;
@@ -46,6 +47,7 @@ export default function ElectionMap({
   senateRaces,
   houseRaces,
   redistrictingStates,
+  senators = [],
   onStateClick,
   onDistrictClick,
   selectedStateCode,
@@ -98,6 +100,24 @@ export default function ElectionMap({
     Object.fromEntries(redistrictingStates.map(r => [r.stateCode, r])),
     [redistrictingStates]
   );
+
+  // Build party split map: stateCode -> { parties: string[], split: boolean }
+  const senatorsByState = useMemo(() => {
+    const map: Record<string, string[]> = {};
+    for (const s of senators) {
+      if (!map[s.stateCode]) map[s.stateCode] = [];
+      map[s.stateCode].push(s.party);
+    }
+    return map;
+  }, [senators]);
+
+  // Determine split/unified for each state
+  const getStateSplitInfo = useCallback((stateCode: string): { split: boolean; parties: string[] } | null => {
+    const parties = senatorsByState[stateCode];
+    if (!parties || parties.length < 2) return null;
+    const unique = Array.from(new Set(parties));
+    return { split: unique.length > 1, parties };
+  }, [senatorsByState]);
 
   const getDistrictColor = useCallback((stateCode: string, district: number): string => {
     const key = `${stateCode}-${district}`;
@@ -295,6 +315,77 @@ export default function ElectionMap({
         .attr("stroke", "#0d1117")
         .attr("stroke-width", 0.8)
         .attr("d", path as any);
+
+      // ── Party split/unified indicators (senate view only) ──────────────────
+      if (view === "senate" && senators.length > 0) {
+        // Build per-state senator party data
+        const stateParties: Record<string, string[]> = {};
+        for (const s of senators) {
+          if (!stateParties[s.stateCode]) stateParties[s.stateCode] = [];
+          stateParties[s.stateCode].push(s.party);
+        }
+
+        // Render indicator group for each state
+        // @ts-ignore
+        stateFeatures.features.forEach((d: any) => {
+          const fips = String(d.id).padStart(2, "0");
+          const code = FIPS_TO_STATE[fips];
+          if (!code) return;
+          const parties = stateParties[code];
+          if (!parties || parties.length < 2) return;
+
+          const centroid = path.centroid(d);
+          if (!centroid || isNaN(centroid[0]) || isNaN(centroid[1])) return;
+
+          const isSplit = new Set(parties).size > 1;
+          const cx = centroid[0];
+          const cy = centroid[1];
+          const r = 4;
+
+          if (isSplit) {
+            // Split: two half-circles (D=blue left, R=red right)
+            const partyLeft = parties[0];
+            const partyRight = parties[1];
+            const colorLeft = partyLeft === "D" ? "#3b82f6" : partyLeft === "R" ? "#ef4444" : "#9ca3af";
+            const colorRight = partyRight === "D" ? "#3b82f6" : partyRight === "R" ? "#ef4444" : "#9ca3af";
+
+            // Left half
+            g.append("path")
+              .attr("d", `M ${cx} ${cy - r} A ${r} ${r} 0 0 0 ${cx} ${cy + r} Z`)
+              .attr("fill", colorLeft)
+              .attr("opacity", 0.9)
+              .attr("pointer-events", "none");
+            // Right half
+            g.append("path")
+              .attr("d", `M ${cx} ${cy - r} A ${r} ${r} 0 0 1 ${cx} ${cy + r} Z`)
+              .attr("fill", colorRight)
+              .attr("opacity", 0.9)
+              .attr("pointer-events", "none");
+            // Border circle
+            g.append("circle")
+              .attr("cx", cx)
+              .attr("cy", cy)
+              .attr("r", r)
+              .attr("fill", "none")
+              .attr("stroke", "#0d1117")
+              .attr("stroke-width", 0.8)
+              .attr("pointer-events", "none");
+          } else {
+            // Unified: single solid circle
+            const party = parties[0];
+            const color = party === "D" ? "#3b82f6" : party === "R" ? "#ef4444" : "#9ca3af";
+            g.append("circle")
+              .attr("cx", cx)
+              .attr("cy", cy)
+              .attr("r", r)
+              .attr("fill", color)
+              .attr("opacity", 0.9)
+              .attr("stroke", "#0d1117")
+              .attr("stroke-width", 0.8)
+              .attr("pointer-events", "none");
+          }
+        });
+      }
     }
 
     // Add zoom & pan
@@ -309,7 +400,7 @@ export default function ElectionMap({
     // Reset zoom on view change
     svg.call(zoom.transform, d3.zoomIdentity);
 
-  }, [statesData, districtsData, view, senateRaces, houseRaces, redistrictingStates, selectedStateCode, selectedDistrictId, getStateColor, getDistrictColor, houseByStateDistrict, searchHighlight]);
+  }, [statesData, districtsData, view, senateRaces, houseRaces, redistrictingStates, senators, selectedStateCode, selectedDistrictId, getStateColor, getDistrictColor, getStateSplitInfo, houseByStateDistrict, searchHighlight]);
 
   if (loading) {
     return (
@@ -340,6 +431,27 @@ export default function ElectionMap({
       {view === "house" && (
         <div className="absolute bottom-12 right-3 bg-card/80 backdrop-blur border border-border rounded px-2 py-1 text-xs text-muted-foreground pointer-events-none">
           Scroll to zoom · Click district for details
+        </div>
+      )}
+
+      {/* Party split/unified legend for senate view */}
+      {view === "senate" && (
+        <div className="absolute bottom-3 right-3 bg-card/90 backdrop-blur border border-border rounded-lg px-3 py-2 text-xs text-muted-foreground pointer-events-none shadow-lg">
+          <p className="font-semibold text-foreground/70 mb-1.5 uppercase tracking-wide text-[10px]">Senator Composition</p>
+          <div className="space-y-1">
+            <div className="flex items-center gap-1.5">
+              <div className="w-3.5 h-3.5 rounded-full bg-blue-500 border border-black/30 flex-shrink-0" />
+              <span>Unified Democrat</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <div className="w-3.5 h-3.5 rounded-full bg-red-500 border border-black/30 flex-shrink-0" />
+              <span>Unified Republican</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <div className="w-3.5 h-3.5 rounded-full overflow-hidden border border-black/30 flex-shrink-0" style={{ background: "linear-gradient(to right, #3b82f6 50%, #ef4444 50%)" }} />
+              <span>Split (D + R)</span>
+            </div>
+          </div>
         </div>
       )}
     </div>

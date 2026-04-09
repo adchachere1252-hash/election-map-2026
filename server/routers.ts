@@ -11,7 +11,7 @@ import {
   getAllReferendums, updateReferendum,
   getScoreboard, getFlipTracker,
   createAdminSession, validateAdminSession, deleteAdminSession,
-  getAllSenators, getSenatorsByState, searchSenators,
+  getAllSenators, getSenatorsByState, searchSenators, getSenatorById,
 } from "./db";
 import { nanoid } from "nanoid";
 import { ENV } from "./_core/env";
@@ -582,6 +582,12 @@ export const appRouter = router({
       .input(z.object({ query: z.string().min(1).max(100) }))
       .query(async ({ input }) => {
         return searchSenators(input.query);
+      }),
+    // Get a single senator by ID (full detail including bio, committees, website)
+    getById: publicProcedure
+      .input(z.object({ id: z.number().int().positive() }))
+      .query(async ({ input }) => {
+        return getSenatorById(input.id);
       }),
   }),
 });

@@ -378,6 +378,12 @@ export async function searchSenators(query: string) {
     sql`LOWER(name) LIKE LOWER(${q}) OR LOWER(state_name) LIKE LOWER(${q}) OR LOWER(state_code) LIKE LOWER(${q})`
   ).orderBy(senators.stateCode).limit(20);
 }
+export async function getSenatorById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(senators).where(eq(senators.id, id)).limit(1);
+  return result[0] ?? null;
+}
 
 // ─── Admin Sessions ───────────────────────────────────────────────────────────
 export async function createAdminSession(token: string, expiresAt: Date) {

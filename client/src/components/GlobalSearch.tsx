@@ -3,6 +3,7 @@ import { Search, X, MapPin, Building2, Vote, ChevronRight, User } from "lucide-r
 import { getRatingClass, getPartyColor } from "@/lib/electionUtils";
 import type { SenateRace, HouseRace, RedistrictingState, Referendum, Senator } from "../../../drizzle/schema";
 import { trpc } from "@/lib/trpc";
+import SenatorDetailPopup from "./SenatorDetailPopup";
 
 // CDN base for candidate photos (same base as server/candidatePhotos.ts)
 const CDN_BASE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663521029713/Duqshn4D3kdv9jkbtBdj4X";
@@ -169,6 +170,7 @@ export default function GlobalSearch({
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [selectedSenatorId, setSelectedSenatorId] = useState<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -537,9 +539,10 @@ export default function GlobalSearch({
     if (result.kind === "senator") {
       const s = result.data as Senator;
       return (
-        <div
+        <button
           key={`senator-${s.id}`}
-          className={`w-full text-left px-3 py-2.5 border-b border-border/30 ${isActive ? "bg-accent" : ""}`}
+          onClick={() => { setIsOpen(false); setQuery(""); onQueryChange?.(""); setSelectedSenatorId(s.id); }}
+          className={`w-full text-left px-3 py-2.5 border-b border-border/30 hover:bg-accent transition-colors cursor-pointer ${isActive ? "bg-accent" : ""}`}
         >
           <div className="flex items-center gap-2.5">
             <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: getPartyColor(s.party as any) + "33", border: `1.5px solid ${getPartyColor(s.party as any)}66` }}>
@@ -558,8 +561,9 @@ export default function GlobalSearch({
                 {s.stateName} · Class {s.senateClass} · Next election: {s.nextElectionYear}
               </p>
             </div>
+            <ChevronRight className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
           </div>
-        </div>
+        </button>
       );
     }
 
@@ -567,6 +571,7 @@ export default function GlobalSearch({
   };
 
   return (
+    <>
     <div ref={containerRef} className="relative w-full">
       {/* Search input */}
       <div className="relative">
@@ -674,5 +679,14 @@ export default function GlobalSearch({
         </div>
       )}
     </div>
+
+    {/* Senator detail popup */}
+    {selectedSenatorId !== null && (
+      <SenatorDetailPopup
+        senatorId={selectedSenatorId}
+        onClose={() => setSelectedSenatorId(null)}
+      />
+    )}
+    </>
   );
 }

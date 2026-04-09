@@ -27,13 +27,16 @@ function SenateList({ races, onSelect, selectedId }: {
 }) {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<string>("all");
+  const [only2026, setOnly2026] = useState(false);
 
   const filtered = useMemo(() => {
     return races.filter(r => {
       const matchSearch = !search || r.stateName.toLowerCase().includes(search.toLowerCase()) ||
         (r.incumbent?.toLowerCase().includes(search.toLowerCase()) ?? false);
       const matchFilter = filter === "all" || r.rating === filter || r.status === filter;
-      return matchSearch && matchFilter;
+      // 2026 filter: show only races with a general election date in 2026
+      const match2026 = !only2026 || (r.generalDate && r.generalDate.includes("2026"));
+      return matchSearch && matchFilter && match2026;
     }).sort((a, b) => {
       const ai = RATINGS_ORDER.indexOf(a.rating ?? "");
       const bi = RATINGS_ORDER.indexOf(b.rating ?? "");
@@ -70,6 +73,18 @@ function SenateList({ races, onSelect, selectedId }: {
           <option value="Called">Called</option>
           <option value="Certified">Certified</option>
         </select>
+        {/* 2026-only toggle */}
+        <button
+          onClick={() => setOnly2026(v => !v)}
+          className={`w-full flex items-center justify-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold border transition-colors ${
+            only2026
+              ? "bg-amber-900/60 text-amber-200 border-amber-700/60 hover:bg-amber-900/80"
+              : "bg-muted text-muted-foreground border-border hover:bg-accent hover:text-foreground"
+          }`}
+        >
+          <span className={`w-1.5 h-1.5 rounded-full ${only2026 ? "bg-amber-400" : "bg-muted-foreground"}`} />
+          {only2026 ? "Showing 2026 Races Only" : "Show 2026 Races Only"}
+        </button>
       </div>
       <div>
         {filtered.map(race => (

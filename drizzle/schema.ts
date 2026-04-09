@@ -162,6 +162,8 @@ export const senators = mysqlTable("senators", {
   nextElectionYear: int("next_election_year").notNull(), // 2026, 2028, or 2030
   isUpIn2026: boolean("is_up_in_2026").default(false).notNull(),
   bio: text("bio"),
+  committees: text("committees"), // JSON array of committee names
+  websiteUrl: varchar("website_url", { length: 256 }), // Official senate.gov page URL
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 });
 

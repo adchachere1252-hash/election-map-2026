@@ -79,6 +79,7 @@ export default function Home() {
   const { data: houseRaces = [], refetch: refetchHouse } = trpc.house.list.useQuery();
   const { data: redistrictingStates = [], refetch: refetchRedistricting } = trpc.redistricting.list.useQuery();
   const { data: referendums = [], refetch: refetchReferendums } = trpc.referendum.list.useQuery();
+  const { data: senators = [] } = trpc.senators.list.useQuery();
 
   // Build a Set of matching keys for map highlighting based on live search query
   const searchHighlight = useMemo((): Set<string> | null => {
@@ -532,6 +533,7 @@ export default function Home() {
             senateRaces={senateRaces}
             houseRaces={houseRaces}
             redistrictingStates={redistrictingStates}
+            senators={senators}
             onStateClick={handleStateClick}
             onDistrictClick={handleSelectHouse}
             selectedStateCode={selectedStateCode}

@@ -145,6 +145,9 @@ vi.mock("./db", () => ({
   searchSenators: vi.fn().mockResolvedValue([
     { id: 1, stateCode: "GA", stateName: "Georgia", name: "Jon Ossoff", party: "D", senateClass: 2, nextElectionYear: 2026, isUpIn2026: true, bio: null, updatedAt: new Date() },
   ]),
+  getSenatorById: vi.fn().mockResolvedValue(
+    { id: 1, stateCode: "GA", stateName: "Georgia", name: "Jon Ossoff", party: "D", senateClass: 2, nextElectionYear: 2026, isUpIn2026: true, bio: "Jon Ossoff is a U.S. Senator from Georgia.", committees: "Banking; Foreign Relations", websiteUrl: "https://www.ossoff.senate.gov", updatedAt: new Date() }
+  ),
 }));
 
 function createCtx(): TrpcContext {
@@ -574,5 +577,17 @@ describe("Senators router", () => {
     expect(warnock?.senateClass).toBe(3);
     expect(warnock?.nextElectionYear).toBe(2028);
     expect(warnock?.isUpIn2026).toBe(false);
+  });
+});
+
+describe("Senator getById", () => {
+  it("returns senator by id with bio, committees, and websiteUrl", async () => {
+    const caller = appRouter.createCaller(createCtx());
+    const senator = await caller.senators.getById({ id: 1 });
+    expect(senator).toBeDefined();
+    expect(senator?.name).toBe("Jon Ossoff");
+    expect(senator?.bio).toBeTruthy();
+    expect(senator?.committees).toContain("Banking");
+    expect(senator?.websiteUrl).toBe("https://www.ossoff.senate.gov");
   });
 });

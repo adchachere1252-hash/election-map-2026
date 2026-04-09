@@ -36,6 +36,13 @@
       "when": 1775760931970,
       "tag": "0004_even_electro",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1775762532708,
+      "tag": "0005_flat_wendigo",
+      "breakpoints": true
     }
   ]
 }

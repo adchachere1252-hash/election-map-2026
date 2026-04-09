@@ -1,7 +1,9 @@
-import { X, MapPin, Calendar, Users, TrendingUp, AlertCircle } from "lucide-react";
+import { useState } from "react";
+import { X, MapPin, Calendar, Users, TrendingUp, AlertCircle, ChevronRight } from "lucide-react";
 import { getRatingClass, getRatingColor, getPartyColor, getStatusColor, formatVotePct, getPartyLabel } from "@/lib/electionUtils";
 import type { SenateRace, HouseRace, RedistrictingState, Referendum } from "../../../drizzle/schema";
 import { trpc } from "@/lib/trpc";
+import SenatorDetailPopup from "./SenatorDetailPopup";
 
 interface RacePopupProps {
   type: "senate" | "house" | "redistricting" | "referendum";
@@ -85,6 +87,7 @@ function CandidateRow({
 
 function SenatePopup({ race, onClose }: { race: SenateRace; onClose: () => void }) {
   const { data: senators } = trpc.senators.byState.useQuery({ stateCode: race.stateCode });
+  const [selectedSenatorId, setSelectedSenatorId] = useState<number | null>(null);
   return (
     <div className="popup-enter">
       <div className="flex items-start justify-between mb-3">
@@ -120,7 +123,11 @@ function SenatePopup({ race, onClose }: { race: SenateRace; onClose: () => void 
           </p>
           <div className="space-y-1">
             {senators.map(s => (
-              <div key={s.id} className="flex items-center justify-between py-1 px-2 rounded bg-muted/30">
+              <button
+                key={s.id}
+                onClick={() => setSelectedSenatorId(s.id)}
+                className="w-full flex items-center justify-between py-1 px-2 rounded bg-muted/30 hover:bg-muted/50 transition-colors cursor-pointer text-left"
+              >
                 <div className="flex items-center gap-1.5 min-w-0">
                   <span
                     className="inline-block w-2 h-2 rounded-full flex-shrink-0"
@@ -134,11 +141,18 @@ function SenatePopup({ race, onClose }: { race: SenateRace; onClose: () => void 
                   {s.isUpIn2026 && (
                     <span className="bg-amber-900/60 text-amber-300 text-xs px-1 py-0.5 rounded font-semibold">2026</span>
                   )}
+                  <ChevronRight className="w-3 h-3 text-muted-foreground ml-0.5" />
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>
+      )}
+      {selectedSenatorId !== null && (
+        <SenatorDetailPopup
+          senatorId={selectedSenatorId}
+          onClose={() => setSelectedSenatorId(null)}
+        />
       )}
 
       {race.incumbent && (

@@ -530,3 +530,19 @@
 - [x] Update Senate state pop-up to show both senators per state
 - [x] Update global search bar to include all 100 senators in results
 - [x] Run tests and save checkpoint
+
+## Senator Detail Pop-up, Race List Filter & Map Indicators (Apr 9, 2026)
+- [x] Extend senators table schema: add committees (text/JSON), websiteUrl, bioExpanded fields
+- [x] Generate migration SQL and apply via webdev_execute_sql
+- [x] Update seed script with committee assignments and official senate.gov website URLs for all 100 senators
+- [x] Add senators.getById tRPC procedure for fetching a single senator's full details
+- [x] Build SenatorDetailPopup component: bio, committees list, official website link, party badge, class/term info
+- [x] Wire SenatorDetailPopup to GlobalSearch senator result rows (click opens pop-up)
+- [x] Wire SenatorDetailPopup to RacePopup senator cards (click opens pop-up)
+- [x] Add "2026 Only" toggle filter to Senate race list sidebar
+- [x] Filter logic: when toggled, show only races with a 2026 general election date
+- [x] Add party split/unified indicator overlay on Senate map per state (D3 centroid circles)
+- [x] Indicator: split half-circle for D+R states, solid circle for unified D or R
+- [x] Senate map legend: "Unified Democrat", "Unified Republican", "Split (D+R)" entries
+- [x] Run tests (37 passing), zero TypeScript errors
+- [x] Save checkpoint
