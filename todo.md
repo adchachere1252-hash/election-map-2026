@@ -418,3 +418,27 @@
 - [x] MI-4 Huizenga: Lean R → Likely R (Cook Apr 7)
 - [x] Confirmed correct: OH-1 Lean D, WA-3 Lean D, OH-13 Likely D, OR-5 Likely D, WI-1 Likely R, CO-5 Likely R, MI-10 Lean R, IA-3 Toss-up, PA-10 Toss-up, CA-22 Toss-up, PA-1 Likely R
 - [x] 32/32 tests passing, zero TypeScript errors
+
+## Key Races Filter Update & Round 26 Verification (Apr 9, 2026)
+- [ ] Update Key Races: expand Toss-up display to show all 16 House Toss-up races (was capped at 12)
+- [ ] Update Key Races: ensure NJ-7, WI-3, OH-9, PA-8 (newly Toss-up) appear in the section
+- [ ] Update Key Races: fix filter logic so "Toss-up" filter shows all 16 races, not just the first 12
+- [ ] Update Key Races: show all 9 Senate Toss-up/Lean D/Lean R races in Senate tab
+- [ ] Round 26: Full verification of all competitive House and Senate races against IE, Sabato, Cook
+- [ ] Round 26: Apply any remaining corrections
+
+## Key Races Filter Update (Apr 9, 2026)
+- [x] Backend: removed .slice(0,12) cap on House key races (now returns all competitive races up to 60)
+- [x] Backend: removed .slice(0,8) cap on Senate key races (now returns all competitive races up to 20)
+- [x] Backend: fixed RATING_ORDER to include Likely D (3) and Likely R (4) for correct sort order
+- [x] Frontend: filter logic confirmed correct — shows all races returned from backend with no additional cap
+- [x] All 16 Toss-up races (NJ-7, WI-3, OH-9, PA-8 newly added) now appear in Key Races section
+
+## Round 26 Verification (Apr 9, 2026)
+- [x] Full three-source cross-reference: all 11 Senate + 61 House competitive races checked
+- [x] All 11 Senate races confirmed correct against IE (Mar 25), Sabato (Mar 26), Cook (Jan 12)
+- [x] WA-3 Perez: Lean D → Toss-up (Cook Apr 7 — Cook most recent source)
+- [x] NV-1 Titus: Lean D → Likely D (Cook Apr 7 — Cook most recent source)
+- [x] All other 59 competitive House races confirmed correct (no further changes needed)
+- [x] Final competitive counts: 17 Toss-up, 14 Lean D, 3 Lean R, 10 Likely D, 17 Likely R = 61 total
+- [x] 32/32 tests passing, zero TypeScript errors

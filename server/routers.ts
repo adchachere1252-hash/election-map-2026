@@ -431,15 +431,17 @@ export const appRouter = router({
         "Toss-up": 0,
         "Lean D": 1,
         "Lean R": 2,
-        "Solid D": 3,
-        "Solid R": 4,
+        "Likely D": 3,
+        "Likely R": 4,
+        "Solid D": 5,
+        "Solid R": 6,
       };
 
       // Senate key races: Toss-up + Lean + Likely (not yet called)
       const senateKey = senateRaces
         .filter(r => r.rating && ["Toss-up", "Lean D", "Lean R", "Likely D", "Likely R"].includes(r.rating) && r.status !== "Called" && r.status !== "Certified")
         .sort((a, b) => (RATING_ORDER[a.rating ?? ""] ?? 9) - (RATING_ORDER[b.rating ?? ""] ?? 9))
-        .slice(0, 8)
+        .slice(0, 20)
         .map(r => ({
           id: r.id,
           chamber: "senate" as const,
@@ -467,7 +469,7 @@ export const appRouter = router({
       const houseKey = houseRaces
         .filter(r => r.rating && ["Toss-up", "Lean D", "Lean R", "Likely D", "Likely R"].includes(r.rating) && r.status !== "Called" && r.status !== "Certified")
         .sort((a, b) => (RATING_ORDER[a.rating ?? ""] ?? 9) - (RATING_ORDER[b.rating ?? ""] ?? 9))
-        .slice(0, 12)
+        .slice(0, 60)
         .map(r => ({
           id: r.id,
           chamber: "house" as const,
