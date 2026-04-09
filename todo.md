@@ -490,3 +490,11 @@
 - [x] Full cross-reference: all Senate competitive races vs Cook Jan 12, IE Mar 25, Sabato Mar 26 — ZERO issues (13 races confirmed)
 - [x] Verify all candidate names — confirmed correct
 - [x] CONFIRMED: ZERO CORRECTIONS NEEDED — Site is publication-ready as of Round 30
+
+## Round 31 Final Pre-Publication Verification (Apr 9, 2026)
+- [x] Cross-reference all 61 competitive House races vs Cook Apr 7 — ZERO issues confirmed
+- [x] Cross-reference all 13 competitive Senate races vs Cook, IE, Sabato — ZERO issues confirmed
+- [x] Verify composition counts: House 214D/217R/1I/2 vacant (NJ-11 special Apr 16), Senate 45D/53R/2I — confirmed
+- [x] No breaking news affecting ratings since Round 30
+- [x] Run full test suite: 32/32 passing, zero TypeScript errors
+- [x] CONFIRMED PUBLICATION-READY — Round 31 clean pass, zero corrections needed
