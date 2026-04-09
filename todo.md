@@ -444,13 +444,13 @@
 - [x] 32/32 tests passing, zero TypeScript errors
 
 ## Round 27 Pre-Publication Verification (Apr 9, 2026)
-- [ ] Verify all 35 Senate races: ratings, candidates, incumbents, special elections
-- [ ] Verify all 61 competitive House races: ratings and candidate names
-- [ ] Verify composition counts (House 214D/218R/1I/1 vacant, Senate 45D/2I/53R)
-- [ ] Verify special elections are correctly flagged
-- [ ] Check UI for any display issues or broken data
-- [ ] Apply all corrections found
-- [ ] Run full test suite
+- [x] Verify all 35 Senate races: ratings, candidates, incumbents, special elections
+- [x] Verify all 62 competitive House races: ratings and candidate names (KY-6 added)
+- [x] Verify composition counts: House 214D/217R/1I/2 vacant (GA-14 filled Apr 7), Senate 45D/53R/2I
+- [x] Verify special elections: FL Senate Special (Solid R), OH Senate Special (Lean R) — both correctly flagged
+- [x] Check UI: all competitive races display correctly, KY-6 now shows in Likely R section
+- [x] Apply all corrections: KY-6 Solid R→Likely R, TX-23/TX-35 candidate names, CA-48 R candidate→Jim Desmond
+- [x] Run full test suite: 32/32 passing, zero TypeScript errors
 
 ## Round 27 Pre-Publication Verification Results (Apr 9, 2026)
 - [x] Verified all 35 Senate races against IE (Mar 25), Sabato (Mar 4/Jan 29), Cook (Jan 12), Ballotpedia
@@ -467,3 +467,11 @@
 - [x] Confirmed OH-9: Toss-up is correct (Cook + IE consensus; only Sabato says Lean R)
 - [x] Confirmed VA-7: Lean D is correct (Cook + IE consensus; only Sabato says Likely D)
 - [x] All 32/32 tests passing, zero TypeScript errors
+
+## Round 28 Final Pre-Publication Verification (Apr 9, 2026)
+- [x] Verify all Senate ratings against Cook (Apr 7), IE (Mar 25), Sabato (Mar 26)
+- [x] Verify all competitive House ratings against Cook (Apr 7), IE (Mar 25), Sabato (Mar 26)
+- [x] Verify candidate names for all competitive races
+- [x] Verify composition counts: House 214D/217R/1I/2 vacant, Senate 45D/53R/2I — confirmed current
+- [x] Applied 2 corrections: KY-6 Likely R→Solid R (Cook+IE consensus), NE Senate Solid R→Likely R (all 3 sources)
+- [x] Run full test suite: 32/32 passing, zero TypeScript errors — READY TO PUBLISH
