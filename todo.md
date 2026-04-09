@@ -586,3 +586,10 @@
 - [x] Increased blue/red stripe opacity in SVG defs pattern (from #28 ~16% to #99 ~60%)
 - [x] Updated legend stripe swatch CSS to match brighter colors
 - [x] Save checkpoint
+
+## No-Race State Tooltip Enhancement (Apr 9, 2026)
+- [x] Updated senate mouseover tooltip for striped states: shows "No 2026 Senate Race — Next race: 2028/2030" + both senators' names and parties
+- [x] Next race year derived from min(nextElectionYear) of state's senators
+- [x] Verified in browser: Arizona tooltip shows "Arizona — No 2026 Senate Race / Next race: 2028 / Ruben Gallego (D) · Mark Kelly (D)"
+- [x] 37 tests pass, 0 TypeScript errors
+- [x] Checkpoint saved

@@ -319,19 +319,30 @@ export default function ElectionMap({
             if (race) {
               content = `${race.stateName} — ${race.rating || "No rating"}`;
               if (race.incumbent) content += `\n${race.incumbent} (${race.incumbentParty})`;
+              // For split states, append both senators
+              if (sens && sens.length >= 2) {
+                const parties = sens.map(s => s.party);
+                const isSplit = new Set(parties).size > 1;
+                if (isSplit) {
+                  const s1 = sens[0];
+                  const s2 = sens[1];
+                  content += `\n${s1.name} (${s1.party}) + ${s2.name} (${s2.party})`;
+                }
+              }
             } else if (sens && sens.length > 0) {
-              // No 2026 race — use stateName from senator record
-              const stateName = senators.find(s => s.stateCode === code)?.stateName || code;
-              content = `${stateName} — No 2026 race`;
-            }
-            // For split states, append both senators on a new line
-            if (sens && sens.length >= 2) {
-              const parties = sens.map(s => s.party);
-              const isSplit = new Set(parties).size > 1;
-              if (isSplit) {
+              // No 2026 race — show both senators and next race year
+              const stateSens = senators.filter(s => s.stateCode === code);
+              const stateName = stateSens[0]?.stateName || code;
+              // Find the earliest next election year among the state's senators
+              const nextYear = stateSens.reduce((min, s) => Math.min(min, s.nextElectionYear), 9999);
+              content = `${stateName} — No 2026 Senate Race`;
+              content += `\nNext race: ${nextYear === 9999 ? "Unknown" : nextYear}`;
+              if (sens.length >= 2) {
                 const s1 = sens[0];
                 const s2 = sens[1];
-                content += `\n${s1.name} (${s1.party}) + ${s2.name} (${s2.party})`;
+                content += `\n${s1.name} (${s1.party}) · ${s2.name} (${s2.party})`;
+              } else if (sens.length === 1) {
+                content += `\n${sens[0].name} (${sens[0].party})`;
               }
             }
           } else if (view === "redistricting" && redistrictingByState[code]) {
