@@ -106,20 +106,21 @@ export default function ElectionMap({
     [redistrictingStates]
   );
 
-  // Build party split map: stateCode -> { parties: string[], split: boolean }
+  // Build party split map: stateCode -> { name, party }[]
   const senatorsByState = useMemo(() => {
-    const map: Record<string, string[]> = {};
+    const map: Record<string, { name: string; party: string }[]> = {};
     for (const s of senators) {
       if (!map[s.stateCode]) map[s.stateCode] = [];
-      map[s.stateCode].push(s.party);
+      map[s.stateCode].push({ name: s.name, party: s.party });
     }
     return map;
   }, [senators]);
 
   // Determine split/unified for each state
   const getStateSplitInfo = useCallback((stateCode: string): { split: boolean; parties: string[] } | null => {
-    const parties = senatorsByState[stateCode];
-    if (!parties || parties.length < 2) return null;
+    const sens = senatorsByState[stateCode];
+    if (!sens || sens.length < 2) return null;
+    const parties = sens.map(s => s.party);
     const unique = Array.from(new Set(parties));
     return { split: unique.length > 1, parties };
   }, [senatorsByState]);
@@ -288,10 +289,27 @@ export default function ElectionMap({
           const code = FIPS_TO_STATE[fips];
           d3.select(this).attr("opacity", 0.85).attr("filter", "brightness(1.15)");
           let content = code;
-          if (view === "senate" && senateByState[code]) {
-            const r = senateByState[code];
-            content = `${r.stateName} — ${r.rating || "No rating"}`;
-            if (r.incumbent) content += `\n${r.incumbent} (${r.incumbentParty})`;
+          if (view === "senate") {
+            const race = senateByState[code];
+            const sens = senatorsByState[code];
+            if (race) {
+              content = `${race.stateName} — ${race.rating || "No rating"}`;
+              if (race.incumbent) content += `\n${race.incumbent} (${race.incumbentParty})`;
+            } else if (sens && sens.length > 0) {
+              // No 2026 race — use stateName from senator record
+              const stateName = senators.find(s => s.stateCode === code)?.stateName || code;
+              content = `${stateName} — No 2026 race`;
+            }
+            // For split states, append both senators on a new line
+            if (sens && sens.length >= 2) {
+              const parties = sens.map(s => s.party);
+              const isSplit = new Set(parties).size > 1;
+              if (isSplit) {
+                const s1 = sens[0];
+                const s2 = sens[1];
+                content += `\n${s1.name} (${s1.party}) + ${s2.name} (${s2.party})`;
+              }
+            }
           } else if (view === "redistricting" && redistrictingByState[code]) {
             const r = redistrictingByState[code];
             content = `${r.stateName} — ${r.enacted ? "Enacted" : "Pending"}`;
@@ -323,11 +341,11 @@ export default function ElectionMap({
 
       // ── Party split/unified indicators (senate view only) ──────────────────
       if (view === "senate" && senators.length > 0) {
-        // Build per-state senator party data
-        const stateParties: Record<string, string[]> = {};
+        // Build per-state senator data (name + party)
+        const stateParties: Record<string, { name: string; party: string }[]> = {};
         for (const s of senators) {
           if (!stateParties[s.stateCode]) stateParties[s.stateCode] = [];
-          stateParties[s.stateCode].push(s.party);
+          stateParties[s.stateCode].push({ name: s.name, party: s.party });
         }
 
         // Render indicator group for each state
@@ -336,21 +354,22 @@ export default function ElectionMap({
           const fips = String(d.id).padStart(2, "0");
           const code = FIPS_TO_STATE[fips];
           if (!code) return;
-          const parties = stateParties[code];
-          if (!parties || parties.length < 2) return;
+          const sens = stateParties[code];
+          if (!sens || sens.length < 2) return;
 
           const centroid = path.centroid(d);
           if (!centroid || isNaN(centroid[0]) || isNaN(centroid[1])) return;
 
-          const isSplit = new Set(parties).size > 1;
+          const partyList = sens.map(s => s.party);
+          const isSplit = new Set(partyList).size > 1;
           const cx = centroid[0];
           const cy = centroid[1];
           const r = 4;
 
           if (isSplit) {
             // Split: two half-circles (D=blue left, R=red right)
-            const partyLeft = parties[0];
-            const partyRight = parties[1];
+            const partyLeft = partyList[0];
+            const partyRight = partyList[1];
             const colorLeft = partyLeft === "D" ? "#3b82f6" : partyLeft === "R" ? "#ef4444" : "#9ca3af";
             const colorRight = partyRight === "D" ? "#3b82f6" : partyRight === "R" ? "#ef4444" : "#9ca3af";
 
@@ -377,7 +396,7 @@ export default function ElectionMap({
               .attr("pointer-events", "none");
           } else {
             // Unified: single solid circle
-            const party = parties[0];
+            const party = partyList[0];
             const color = party === "D" ? "#3b82f6" : party === "R" ? "#ef4444" : "#9ca3af";
             g.append("circle")
               .attr("cx", cx)
@@ -453,7 +472,10 @@ export default function ElectionMap({
               <span>Unified Republican</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-3.5 h-3.5 rounded-full overflow-hidden border border-black/30 flex-shrink-0" style={{ background: "linear-gradient(to right, #3b82f6 50%, #ef4444 50%)" }} />
+              <div className="w-3.5 h-3.5 rounded-full overflow-hidden border border-black/30 flex-shrink-0 flex">
+                <div className="w-1/2 h-full" style={{ background: "#3b82f6" }} />
+                <div className="w-1/2 h-full" style={{ background: "#ef4444" }} />
+              </div>
               <span>Split (D + R)</span>
             </div>
           </div>

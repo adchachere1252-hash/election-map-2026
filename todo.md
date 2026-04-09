@@ -553,3 +553,11 @@
 - [x] Fix: use useRef pattern (onStateClickRef, onDistrictClickRef) so D3 always calls latest callback
 - [x] Verify popup opens correctly — Nebraska popup opens, senator detail popup opens, 37 tests pass
 - [x] Save checkpoint
+
+## Split State Indicator Color Fix & Tooltip Enhancement (Apr 9, 2026)
+- [x] Change split state dot from purple to half-blue/half-red SVG design (no purple — purple = swing states)
+- [x] Update legend entry from purple circle to half-blue/half-red circle (two separate divs: rgb(59,130,246) left | rgb(239,68,68) right)
+- [x] Enhance Senate map hover tooltip for split states: show both senators' names and parties
+- [x] Verified in browser: legend shows crisp half-blue/half-red, Maine popup shows Angus King (I) + Susan Collins (R)
+- [x] 37 tests pass, 0 TypeScript errors
+- [x] Save checkpoint
