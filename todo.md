@@ -420,12 +420,12 @@
 - [x] 32/32 tests passing, zero TypeScript errors
 
 ## Key Races Filter Update & Round 26 Verification (Apr 9, 2026)
-- [ ] Update Key Races: expand Toss-up display to show all 16 House Toss-up races (was capped at 12)
-- [ ] Update Key Races: ensure NJ-7, WI-3, OH-9, PA-8 (newly Toss-up) appear in the section
-- [ ] Update Key Races: fix filter logic so "Toss-up" filter shows all 16 races, not just the first 12
-- [ ] Update Key Races: show all 9 Senate Toss-up/Lean D/Lean R races in Senate tab
-- [ ] Round 26: Full verification of all competitive House and Senate races against IE, Sabato, Cook
-- [ ] Round 26: Apply any remaining corrections
+- [x] Update Key Races: expand Toss-up display to show all 16 House Toss-up races (was capped at 12)
+- [x] Update Key Races: ensure NJ-7, WI-3, OH-9, PA-8 (newly Toss-up) appear in the section
+- [x] Update Key Races: fix filter logic so "Toss-up" filter shows all 17 races (now 17 Toss-ups after WA-3 added)
+- [x] Update Key Races: show all 11 Senate competitive races in Senate tab (cap raised to 20)
+- [x] Round 26: Full verification of all competitive House and Senate races against IE, Sabato, Cook
+- [x] Round 26: Applied 2 corrections (WA-3 Toss-up, NV-1 Likely D)
 
 ## Key Races Filter Update (Apr 9, 2026)
 - [x] Backend: removed .slice(0,12) cap on House key races (now returns all competitive races up to 60)
@@ -442,3 +442,28 @@
 - [x] All other 59 competitive House races confirmed correct (no further changes needed)
 - [x] Final competitive counts: 17 Toss-up, 14 Lean D, 3 Lean R, 10 Likely D, 17 Likely R = 61 total
 - [x] 32/32 tests passing, zero TypeScript errors
+
+## Round 27 Pre-Publication Verification (Apr 9, 2026)
+- [ ] Verify all 35 Senate races: ratings, candidates, incumbents, special elections
+- [ ] Verify all 61 competitive House races: ratings and candidate names
+- [ ] Verify composition counts (House 214D/218R/1I/1 vacant, Senate 45D/2I/53R)
+- [ ] Verify special elections are correctly flagged
+- [ ] Check UI for any display issues or broken data
+- [ ] Apply all corrections found
+- [ ] Run full test suite
+
+## Round 27 Pre-Publication Verification Results (Apr 9, 2026)
+- [x] Verified all 35 Senate races against IE (Mar 25), Sabato (Mar 4/Jan 29), Cook (Jan 12), Ballotpedia
+- [x] Confirmed AK Senate: Mary Peltola IS the Democratic Senate candidate (confirmed via Ballotpedia - she left House after 2024 loss)
+- [x] Confirmed GA Senate: No R nominee yet (primary May 19: Carter, Collins, Coyne, Dooley, McColumn)
+- [x] Confirmed MI Senate: No D nominee yet (primary Aug 4: El-Sayed, McMorrow, Stevens)
+- [x] Confirmed ME Senate: Toss-up is correct (Sabato/Cook consensus; IE says Tilt R but same meaning)
+- [x] Confirmed NH Senate: Lean D is correct (Sabato Mar 12, 2025 moved to Leans D)
+- [x] Confirmed TX-23: Updated candidates to Katy Padilla Stout (D) vs Tony Gonzales/Brandon Herrera (R runoff May 26)
+- [x] Confirmed TX-35: Updated candidates to Greg Casar/TBD (D runoff May 26) vs De La Cruz/Lujan (R runoff May 26)
+- [x] Fixed CA-48: Updated R candidate from Darrell Issa to Jim Desmond (Issa retired Mar 6, 2026)
+- [x] Fixed KY-6: Solid R → Likely R (all 3 sources agree: Cook Apr 7, Sabato Jun 3, IE; Barr vacating for Senate)
+- [x] Confirmed TN-7: Solid R is correct for regular 2026 election (Van Epps won special Dec 2025; Cook says Solid R for regular)
+- [x] Confirmed OH-9: Toss-up is correct (Cook + IE consensus; only Sabato says Lean R)
+- [x] Confirmed VA-7: Lean D is correct (Cook + IE consensus; only Sabato says Likely D)
+- [x] All 32/32 tests passing, zero TypeScript errors
