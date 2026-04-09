@@ -2,22 +2,53 @@ import { useMemo, useState } from "react";
 import { Calendar, ChevronRight } from "lucide-react";
 import type { SenateRace, HouseRace, Referendum } from "../../../drizzle/schema";
 
+// Governor race type (matches DB shape)
+interface GovernorRace {
+  id: number;
+  stateCode: string;
+  stateName: string;
+  rating: string | null;
+  incumbentName: string | null;
+  incumbentParty: string | null;
+  isOpen: boolean;
+  isTermLimited: boolean;
+  isSpecial: boolean;
+  primaryDate: string | null;
+  runoffDate: string | null;
+  generalDate: string | null;
+  status: string | null;
+  calledParty: string | null;
+  demCandidate: string | null;
+  repCandidate: string | null;
+}
+
 interface ElectionCalendarProps {
   senateRaces: SenateRace[];
   houseRaces: HouseRace[];
   referendums: Referendum[];
+  governorRaces?: GovernorRace[];
   onSelectSenate?: (race: SenateRace) => void;
   onSelectReferendum?: (ref: Referendum) => void;
+  onSelectGovernor?: (race: GovernorRace) => void;
 }
+
+type EventType =
+  | "senate-primary"
+  | "senate-special"
+  | "house-primary"
+  | "referendum"
+  | "general"
+  | "governor-primary"
+  | "governor-general";
 
 interface CalendarEvent {
   date: Date;
   dateStr: string;
   label: string;
   sublabel: string;
-  type: "senate-primary" | "senate-special" | "house-primary" | "referendum" | "general";
+  type: EventType;
   stateCode: string;
-  data: SenateRace | HouseRace | Referendum;
+  data: SenateRace | HouseRace | Referendum | GovernorRace;
 }
 
 function parseDate(dateStr: string | null | undefined): Date | null {
@@ -43,28 +74,34 @@ function daysFromNow(date: Date): number {
   return Math.round((target.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
 }
 
-const TYPE_COLORS: Record<CalendarEvent["type"], string> = {
+const TYPE_COLORS: Record<EventType, string> = {
   "senate-primary": "#5b8fd4",
   "senate-special": "#c8a951",
   "house-primary": "#7c9e6b",
   "referendum": "#9b6b9b",
   "general": "#d96b4a",
+  "governor-primary": "#2dd4bf",   // teal
+  "governor-general": "#f97316",   // orange
 };
 
-const TYPE_LABELS: Record<CalendarEvent["type"], string> = {
+const TYPE_LABELS: Record<EventType, string> = {
   "senate-primary": "Senate Primary",
   "senate-special": "Senate Special",
   "house-primary": "House Primary",
   "referendum": "Referendum",
   "general": "General Election",
+  "governor-primary": "Governor Primary",
+  "governor-general": "Governor General",
 };
 
 export default function ElectionCalendar({
   senateRaces,
   houseRaces,
   referendums,
+  governorRaces = [],
   onSelectSenate,
   onSelectReferendum,
+  onSelectGovernor,
 }: ElectionCalendarProps) {
   const [showAll, setShowAll] = useState(false);
 
@@ -165,9 +202,93 @@ export default function ElectionCalendar({
       }
     }
 
+    // Governor primaries — group by date to avoid 36 individual entries on the same day
+    const govPrimaryMap: Record<string, { date: Date; dateStr: string; races: GovernorRace[] }> = {};
+    for (const race of governorRaces) {
+      if (race.primaryDate) {
+        const date = parseDate(race.primaryDate);
+        if (date && date >= today && (!cutoff || date <= cutoff)) {
+          const key = race.primaryDate;
+          if (!govPrimaryMap[key]) {
+            govPrimaryMap[key] = { date, dateStr: race.primaryDate, races: [] };
+          }
+          govPrimaryMap[key].races.push(race);
+        }
+      }
+    }
+    for (const [, val] of Object.entries(govPrimaryMap)) {
+      const count = val.races.length;
+      if (count === 1) {
+        const race = val.races[0];
+        evts.push({
+          date: val.date,
+          dateStr: val.dateStr,
+          label: race.stateName,
+          sublabel: `${race.incumbentName ?? "Open Seat"} (${race.incumbentParty ?? "?"})${race.isOpen || race.isTermLimited ? " — Open" : ""}`,
+          type: "governor-primary",
+          stateCode: race.stateCode,
+          data: race,
+        });
+      } else {
+        const stateNames = val.races.map(r => r.stateCode).sort().slice(0, 4).join(", ");
+        const more = val.races.length > 4 ? ` +${val.races.length - 4}` : "";
+        evts.push({
+          date: val.date,
+          dateStr: val.dateStr,
+          label: `${count} Governor Primaries`,
+          sublabel: `${stateNames}${more}`,
+          type: "governor-primary",
+          stateCode: val.races[0].stateCode,
+          data: val.races[0],
+        });
+      }
+    }
+
+    // Governor general elections — group by date
+    const govGeneralMap: Record<string, { date: Date; dateStr: string; races: GovernorRace[] }> = {};
+    for (const race of governorRaces) {
+      if (race.generalDate) {
+        const date = parseDate(race.generalDate);
+        if (date && date >= today && (!cutoff || date <= cutoff)) {
+          const key = race.generalDate;
+          if (!govGeneralMap[key]) {
+            govGeneralMap[key] = { date, dateStr: race.generalDate, races: [] };
+          }
+          govGeneralMap[key].races.push(race);
+        }
+      }
+    }
+    for (const [, val] of Object.entries(govGeneralMap)) {
+      const count = val.races.length;
+      if (count === 1) {
+        const race = val.races[0];
+        evts.push({
+          date: val.date,
+          dateStr: val.dateStr,
+          label: race.stateName,
+          sublabel: `${race.demCandidate ?? "Dem TBD"} vs ${race.repCandidate ?? "Rep TBD"}`,
+          type: "governor-general",
+          stateCode: race.stateCode,
+          data: race,
+        });
+      } else {
+        const stateNames = val.races.map(r => r.stateCode).sort().slice(0, 5).join(", ");
+        const more = val.races.length > 5 ? ` +${val.races.length - 5}` : "";
+        evts.push({
+          date: val.date,
+          dateStr: val.dateStr,
+          label: `${count} Governor Races`,
+          sublabel: `General Election — ${stateNames}${more}`,
+          type: "governor-general",
+          stateCode: val.races[0].stateCode,
+          data: val.races[0],
+        });
+      }
+    }
+
     // Sort by date ascending
     return evts.sort((a, b) => a.date.getTime() - b.date.getTime());
-  }, [senateRaces, houseRaces, referendums, today, windowEnd, showAll]);
+  }, [senateRaces, houseRaces, referendums, governorRaces, today, windowEnd, showAll]);
 
   // Group by date
   const grouped = useMemo(() => {
@@ -250,7 +371,13 @@ export default function ElectionCalendar({
               {/* Events on this date */}
               {group.events.map((evt, i) => {
                 const color = TYPE_COLORS[evt.type];
-                const isClickable = evt.type === "senate-primary" || evt.type === "senate-special" || evt.type === "general" || evt.type === "referendum";
+                const isClickable =
+                  evt.type === "senate-primary" ||
+                  evt.type === "senate-special" ||
+                  evt.type === "general" ||
+                  evt.type === "referendum" ||
+                  evt.type === "governor-primary" ||
+                  evt.type === "governor-general";
 
                 return (
                   <button
@@ -260,6 +387,8 @@ export default function ElectionCalendar({
                         onSelectSenate(evt.data as SenateRace);
                       } else if (evt.type === "referendum" && onSelectReferendum) {
                         onSelectReferendum(evt.data as Referendum);
+                      } else if ((evt.type === "governor-primary" || evt.type === "governor-general") && onSelectGovernor) {
+                        onSelectGovernor(evt.data as GovernorRace);
                       }
                     }}
                     disabled={!isClickable}

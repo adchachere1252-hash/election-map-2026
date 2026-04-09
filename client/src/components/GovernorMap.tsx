@@ -187,6 +187,52 @@ export default function GovernorMap({
       .attr("stroke-width", 0.8)
       .attr("d", path as any);
 
+    // Rating dots — one per state with a 2026 governor race
+    const RATING_DOT_COLORS: Record<string, string> = {
+      "Solid D": "#1a4fa0",
+      "Likely D": "#3b82f6",
+      "Lean D": "#60a5fa",
+      "Toss-up": "#c8a951",
+      "Lean R": "#f87171",
+      "Likely R": "#ef4444",
+      "Solid R": "#b22222",
+    };
+    // @ts-ignore
+    stateFeatures.features.forEach((d: any) => {
+      const fips = String(d.id).padStart(2, "0");
+      const code = FIPS_TO_STATE[fips];
+      if (!code) return;
+      const race = raceByState[code];
+      if (!race) return; // no 2026 race — skip dot
+      const centroid = path.centroid(d);
+      if (!centroid || isNaN(centroid[0]) || isNaN(centroid[1])) return;
+      const cx = centroid[0];
+      const cy = centroid[1];
+      const r = 5;
+      const dotColor = race.calledParty === "D" ? "#1a4fa0"
+        : race.calledParty === "R" ? "#b22222"
+        : RATING_DOT_COLORS[race.rating ?? ""] ?? "#c8a951";
+      // Outer ring for open/term-limited seats
+      if (race.isOpen || race.isTermLimited) {
+        g.append("circle")
+          .attr("cx", cx).attr("cy", cy)
+          .attr("r", r + 2.5)
+          .attr("fill", "none")
+          .attr("stroke", "#ffffff")
+          .attr("stroke-width", 1.2)
+          .attr("opacity", 0.7)
+          .attr("pointer-events", "none");
+      }
+      g.append("circle")
+        .attr("cx", cx).attr("cy", cy)
+        .attr("r", r)
+        .attr("fill", dotColor)
+        .attr("opacity", 0.95)
+        .attr("stroke", "#0d1117")
+        .attr("stroke-width", 0.8)
+        .attr("pointer-events", "none");
+    });
+
     // Zoom & pan
     const zoom = d3.zoom<SVGSVGElement, unknown>()
       .scaleExtent([1, 12])
@@ -224,19 +270,31 @@ export default function GovernorMap({
       )}
       {/* Governor legend */}
       <div className="absolute bottom-3 right-3 bg-card/90 backdrop-blur border border-border rounded-lg px-3 py-2 text-xs text-muted-foreground pointer-events-none shadow-lg">
-        <p className="font-semibold text-foreground/70 mb-1.5 uppercase tracking-wide text-[10px]">Governor Race Type</p>
+        <p className="font-semibold text-foreground/70 mb-1.5 uppercase tracking-wide text-[10px]">Governor Race Rating</p>
         <div className="space-y-1">
           <div className="flex items-center gap-1.5">
-            <div className="w-3.5 h-3.5 rounded-sm flex-shrink-0" style={{ background: "#1a4fa0" }} />
-            <span>Incumbent D</span>
+            <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: "#1a4fa0" }} />
+            <span>Solid D</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-3.5 h-3.5 rounded-sm flex-shrink-0" style={{ background: "#b22222" }} />
-            <span>Incumbent R</span>
+            <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: "#3b82f6" }} />
+            <span>Likely D</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-3.5 h-3.5 rounded-sm flex-shrink-0" style={{ background: "#c8a951" }} />
-            <span>Toss-up / Open</span>
+            <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: "#c8a951" }} />
+            <span>Toss-up</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: "#ef4444" }} />
+            <span>Likely R</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: "#b22222" }} />
+            <span>Solid R</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <div className="w-3 h-3 rounded-full flex-shrink-0 border border-white/60" style={{ background: "transparent" }} />
+            <span>Open / Term-Limited</span>
           </div>
           <div className="flex items-center gap-1.5">
             <div className="w-3.5 h-3.5 rounded-sm flex-shrink-0" style={{ border: "1px solid rgba(255,255,255,0.1)", background: "repeating-linear-gradient(45deg, #3b82f633 0px, #3b82f633 4px, #ef444433 4px, #ef444433 8px), #1e2433" }} />

@@ -643,3 +643,16 @@
 - [x] GovernorRacePopup: isOpen / isTermLimited badge prominently in header
 - [x] GovernorRacePopup: analyst consensus from Cook, IE, Sabato with source labels
 - [x] 37/37 tests passing, 0 TypeScript errors, all 36 states clickable on map, browser verified
+
+## Governor Races in Election Calendar + Candidate Research + Map Dots + PST Clock (Apr 9, 2026)
+- [x] Research all declared D and R candidates for all 36 governor races via Ballotpedia parallel research
+- [x] Update demCandidate, repCandidate, demBio, repBio, demPreviousOffice, repPreviousOffice for all 36 races
+- [x] Add governor-primary and governor-general event types to ElectionCalendar component
+- [x] Add GovernorRace to ElectionCalendar props and build governor events in the useMemo (grouped by date)
+- [x] Wire governorRaces prop into both ElectionCalendar calls in Home.tsx (desktop + mobile)
+- [x] Add onSelectGovernor callback so clicking a governor calendar event opens the GovernorRacePopup
+- [x] Calendar now shows 34 events (up from 28) with governor primaries grouped chronologically
+- [x] Add rating dots to GovernorMap SVG at state centroids (open circle = open/term-limited, filled = incumbent)
+- [x] Update GovernorMap legend to show full rating dot color scale
+- [x] Add live date/PST time clock to page header (ticks every second, shows weekday + date + time)
+- [x] 37/37 tests passing, 0 TypeScript errors, browser verified

@@ -35,7 +35,29 @@ const VIEW_DESCRIPTIONS: Record<MapView, string> = {
   senate: "35 races · Nov 3, 2026",
 };
 
+// Live clock hook — ticks every second
+function usePSTClock() {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const pst = now.toLocaleString("en-US", {
+    timeZone: "America/Los_Angeles",
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  });
+  return pst;
+}
+
 export default function Home() {
+  const pstClock = usePSTClock();
   const [view, setView] = useState<MapView>("senate");
   const [popup, setPopup] = useState<{
     type: "senate" | "house" | "redistricting" | "referendum" | "no-race" | "governor";
@@ -280,6 +302,13 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Live PST clock */}
+          <div className="hidden xl:flex flex-col items-end flex-shrink-0 ml-1 mr-1">
+            <span className="text-xs font-mono text-muted-foreground leading-tight" title="Pacific Standard Time">
+              {pstClock}
+            </span>
+            <span className="text-xs text-muted-foreground/50 leading-tight">PST</span>
+          </div>
           {/* Global Search — always visible, inline, center */}
           <div className="flex-1 min-w-0 max-w-md relative hidden sm:block">
             <GlobalSearch
@@ -669,8 +698,10 @@ export default function Home() {
                 senateRaces={senateRaces}
                 houseRaces={houseRaces}
                 referendums={referendums}
+                governorRaces={governorRaces as any}
                 onSelectSenate={handleSelectSenate}
                 onSelectReferendum={handleSelectReferendum}
+                onSelectGovernor={handleSelectGovernor}
               />
             </div>
           </aside>
@@ -766,8 +797,10 @@ export default function Home() {
                 senateRaces={senateRaces}
                 houseRaces={houseRaces}
                 referendums={referendums}
+                governorRaces={governorRaces as any}
                 onSelectSenate={handleSelectSenate}
                 onSelectReferendum={handleSelectReferendum}
+                onSelectGovernor={handleSelectGovernor}
               />
             </div>
           </div>
