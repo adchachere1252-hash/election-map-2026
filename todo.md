@@ -633,3 +633,13 @@
 - [x] Wire Governor tab into Home.tsx: tab state, popup handler, sidebar, scoreboard row
 - [x] Governor legend: Incumbent D / Incumbent R / Toss-up / Open in bottom-right corner
 - [x] 37/37 tests passing, 0 TypeScript errors, browser verified
+
+## Governor Map — Clickable States & Rich Candidate Bios (Apr 9, 2026)
+- [x] GovernorMap already uses D3/TopoJSON SVG rendering — all 36 states directly clickable on the map
+- [x] Add demBio, repBio, demPreviousOffice, repPreviousOffice columns to governor_races schema (migration 0008)
+- [x] Research and seed candidate bios for all 36 governor races (incumbents + major challengers via Ballotpedia)
+- [x] Enrich GovernorRacePopup: expandable candidate bio cards with party badge, previous office, incumbent badge
+- [x] GovernorRacePopup: primary date, runoff date (if applicable), general election date in structured table
+- [x] GovernorRacePopup: isOpen / isTermLimited badge prominently in header
+- [x] GovernorRacePopup: analyst consensus from Cook, IE, Sabato with source labels
+- [x] 37/37 tests passing, 0 TypeScript errors, all 36 states clickable on map, browser verified

@@ -213,6 +213,11 @@ export const governorRaces = mysqlTable("governor_races", {
   // Candidates (leading candidates pre-election)
   demCandidate: varchar("dem_candidate", { length: 128 }),
   repCandidate: varchar("rep_candidate", { length: 128 }),
+  // Candidate bios & background
+  demPreviousOffice: varchar("dem_previous_office", { length: 256 }),
+  repPreviousOffice: varchar("rep_previous_office", { length: 256 }),
+  demBio: text("dem_bio"),
+  repBio: text("rep_bio"),
   // Notes / context
   notes: text("notes"),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
