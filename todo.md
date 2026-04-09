@@ -400,3 +400,21 @@
 - [x] NC-11 Edwards: Confirmed Likely R — CORRECT
 - [x] MN-2 OPEN Craig: Confirmed Likely D — CORRECT
 - [x] 32/32 tests passing, zero TypeScript errors
+
+## Round 25 Verification (Apr 9, 2026)
+- [x] Full three-source cross-reference: IE (Mar 12), Sabato (Mar 26), Cook (Apr 7)
+- [x] IN-1 Mrvan: Lean D → Likely D (Cook Apr 7)
+- [x] AZ-4 Stanton: Lean D → Solid D (Cook Apr 7 — in Solid D section, not competitive)
+- [x] GA-6 McBath: Lean D → Solid D (Cook Apr 7 — in Solid D section, not competitive)
+- [x] GA-7 McCormick: Lean R → Solid R (Cook Apr 7 — not in competitive list)
+- [x] NC-6 McDowell: Lean R → Solid R (no source lists as competitive Apr 2026)
+- [x] NC-13 Knott: Lean R → Solid R (no source lists as competitive Apr 2026)
+- [x] NY-1 LaLota: Lean R → Solid R (Cook Apr 7 — not in competitive list)
+- [x] KY-6 OPEN: Likely R → Solid R (Cook Apr 7 — not in competitive list)
+- [x] NJ-7 Kean: Lean R → Toss-up (Cook Apr 7)
+- [x] WI-3 Van Orden: Lean R → Toss-up (Cook Apr 7)
+- [x] OH-9 Kaptur: Lean R → Toss-up (Cook Apr 7)
+- [x] PA-8 Bresnahan: Lean R → Toss-up (Cook Apr 7)
+- [x] MI-4 Huizenga: Lean R → Likely R (Cook Apr 7)
+- [x] Confirmed correct: OH-1 Lean D, WA-3 Lean D, OH-13 Likely D, OR-5 Likely D, WI-1 Likely R, CO-5 Likely R, MI-10 Lean R, IA-3 Toss-up, PA-10 Toss-up, CA-22 Toss-up, PA-1 Likely R
+- [x] 32/32 tests passing, zero TypeScript errors
