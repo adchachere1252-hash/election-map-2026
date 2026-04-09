@@ -310,10 +310,51 @@
 
 ## Retiring Badge & Open Seat Visual Feature (Round 21)
 
-- [ ] Verify all open-seat races: Senate retirements, House retirements, redistricting departures
-- [ ] Verify incumbent_retiring flag is set correctly in database for all known open seats
-- [ ] Add "Open Seat" badge to Key Races cards for open-seat contests
-- [ ] Show retirement reason in card subtext (retiring, running for governor, redistricting)
-- [ ] Visually distinguish open-seat races from incumbent races (different card header style)
-- [ ] Update keyRaces.get tRPC procedure to return incumbent_retiring and notes fields
-- [ ] Full verification: all retiring flags correct, badges display, 32+ tests passing
+- [x] Verify all open-seat races: Senate retirements, House retirements, redistricting departures
+- [x] Verify incumbent_retiring flag is set correctly in database for all known open seats
+- [x] Add "Open Seat" badge to Key Races cards for open-seat contests
+- [x] Show retirement reason in card subtext (retiring, running for governor, redistricting)
+- [x] Visually distinguish open-seat races from incumbent races (different card header style)
+- [x] Update keyRaces.get tRPC procedure to return incumbent_retiring and notes fields
+- [x] Full verification: all retiring flags correct, badges display, 32+ tests passing
+
+## Full Accuracy Audit Round 22 (April 9, 2026)
+
+- [x] Cross-reference all 35 Senate races against Inside Elections (March 25, 2026) — all ratings confirmed
+- [x] Cross-reference all competitive House races against Inside Elections (March 12, 2026) and Sabato (March 26, 2026)
+- [x] Fix 6 House races upgraded to Toss-up: AZ-6, IA-1, MI-7, NY-17, PA-7, VA-2 (were Lean R, IE says Toss-up)
+- [x] Fix TX-34: rating Solid R → Toss-up (Vicente Gonzalez D incumbent, IE says Toss-up)
+- [x] Fix CA-48: rating Solid D → Lean D (Issa retiring, IE/Sabato say Lean D)
+- [x] Fix NE-2: Toss-up → Lean D (IE: Tilt D, Sabato: Lean D)
+- [x] Fix TX-28: Toss-up → Lean D (IE: Tilt D, Sabato: Lean D)
+- [x] Fix CA-13: Toss-up → Lean D (IE: Tilt D)
+- [x] Fix NY-3: Toss-up → Lean D (IE: Lean D)
+- [x] Fix OH-9: Lean D → Lean R (IE: Tilt R, Kaptur D in R-leaning district)
+- [x] Fix PA-8: Toss-up → Lean R (IE: Tilt R)
+- [x] Fix IA-3: Toss-up → Lean R (IE: Lean R)
+- [x] Fix NC-1: Toss-up → Lean R (IE: Lean R, Sabato: Lean R)
+- [x] Fix CA-21: Lean D → Likely D (IE: Likely D)
+- [x] Fix NV-4: Lean D → Likely D (IE: Likely D)
+- [x] Fix PA-17: Lean D → Likely D (IE: Likely D, Sabato: Likely D)
+- [x] Fix AK-0: Lean R → Likely R (IE: Likely R)
+- [x] Fix AZ-2: Lean R → Likely R (IE: Likely R)
+- [x] Fix ME-2: Lean R → Likely R (IE: Likely R)
+- [x] Fix TX-15: Lean R → Likely R (IE: Likely R)
+- [x] Fix NV-1: Solid D → Lean D (IE: Lean D — Titus competitive)
+- [x] Fix CA-6: Solid D → Likely D (IE: Likely D — Bera retiring)
+- [x] Fix MN-2: Solid D → Likely D (IE: Likely D, Sabato: Likely D)
+- [x] Fix NH-2: Solid D → Likely D (IE: Likely D)
+- [x] Fix MI-4: Solid D → Lean R (IE: Tilt R — Huizenga R incumbent)
+- [x] Fix CO-3: Safe R → Likely R (IE: Likely R)
+- [x] Fix FL-13, FL-27, FL-7: Solid R → Likely R (IE: Likely R)
+- [x] Fix IA-2: Solid R → Likely R (IE: Likely R — Hinson retiring)
+- [x] Fix MT-1: Solid R → Likely R (IE: Likely R — Zinke)
+- [x] Fix NC-11: Solid R → Likely R (IE: Likely R, Sabato: Likely R)
+- [x] Fix TN-5: Solid R → Likely R (IE: Likely R)
+- [x] Fix TX-23: Solid R → Likely R (IE: Likely R — T. Gonzales retiring)
+- [x] Fix TX-35: Solid R → Likely R (IE: Likely R — Casar D in R-leaning district)
+- [x] Fix CA-9, CA-27, CA-47, NY-18, OR-6, VA-10, WA-8: Lean D → Solid D (Sabato: Safe D)
+- [x] Fix CA-3, CA-41: Lean R → Solid D (Sabato: Safe D — redistricting made them D-safe)
+- [x] Remove 11 duplicate district entries (CA-48, UT-1, PA-1, MO-5, MI-10, NY-19, IN-1, FL-23, NJ-7, VA-1, NJ-9)
+- [x] Fix ratings on original duplicate records (UT-1, PA-1, MI-10, NY-19, IN-1, FL-23, NJ-7, VA-1, NJ-9)
+- [x] 32/32 tests passing, zero TypeScript errors
