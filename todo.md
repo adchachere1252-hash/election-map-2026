@@ -546,3 +546,10 @@
 - [x] Senate map legend: "Unified Democrat", "Unified Republican", "Split (D+R)" entries
 - [x] Run tests (37 passing), zero TypeScript errors
 - [x] Save checkpoint
+
+## Bug Fix: State Click Handler Broken (Apr 9, 2026)
+- [x] Diagnose why clicking a state on the Senate map does nothing (no popup opens)
+- [x] Root cause: stale closure — onStateClick/onDistrictClick not in D3 useEffect deps; senators loading triggered re-render with stale handlers
+- [x] Fix: use useRef pattern (onStateClickRef, onDistrictClickRef) so D3 always calls latest callback
+- [x] Verify popup opens correctly — Nebraska popup opens, senator detail popup opens, 37 tests pass
+- [x] Save checkpoint

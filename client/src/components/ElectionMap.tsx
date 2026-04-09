@@ -60,6 +60,11 @@ export default function ElectionMap({
   const [districtsData, setDistrictsData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [tooltip, setTooltip] = useState<{ x: number; y: number; content: string } | null>(null);
+  // Use refs for callbacks to avoid stale closures in D3 event handlers
+  const onStateClickRef = useRef(onStateClick);
+  const onDistrictClickRef = useRef(onDistrictClick);
+  useEffect(() => { onStateClickRef.current = onStateClick; }, [onStateClick]);
+  useEffect(() => { onDistrictClickRef.current = onDistrictClick; }, [onDistrictClick]);
 
   // Load both topojson files in parallel
   useEffect(() => {
@@ -230,7 +235,7 @@ export default function ElectionMap({
           const { stateCode, district } = d.properties;
           const key = `${stateCode}-${district}`;
           const race = houseByStateDistrict[key];
-          if (race && onDistrictClick) onDistrictClick(race);
+          if (race && onDistrictClickRef.current) onDistrictClickRef.current(race);
         });
 
       // State borders on top of districts
@@ -305,7 +310,7 @@ export default function ElectionMap({
         .on("click", function (_event: MouseEvent, d: any) {
           const fips = String(d.id).padStart(2, "0");
           const code = FIPS_TO_STATE[fips];
-          if (code && onStateClick) onStateClick(code);
+          if (code && onStateClickRef.current) onStateClickRef.current(code);
         });
 
       // State borders
