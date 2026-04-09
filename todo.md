@@ -299,11 +299,11 @@
 - [x] Configure vite.config.ts server.hmr to use correct host/port for proxy environment (patched @vite/client to return mock WebSocket, moved app WS to /election-ws)
 
 ## Full Accuracy Audit (Round 20)
-- [ ] Verify all 35 Senate race incumbents, party, and retiring/appointed status
-- [ ] Verify all Senate race ratings against Cook Political Report / Sabato's Crystal Ball
-- [ ] Verify Senate primary dates and special election designations
-- [ ] Verify 119th Congress current composition (D/R/Ind seat counts)
-- [ ] Verify all Key Races House candidates and challengers
-- [ ] Verify redistricting states status and methods
-- [ ] Fix all identified inaccuracies in the database
-- [ ] Run 32+ tests passing after all fixes
+- [x] Verify all 35 Senate race incumbents, party, and retiring/appointed status
+- [x] Verify all Senate race ratings against Cook Political Report / Sabato's Crystal Ball
+- [x] Verify Senate primary dates and special election designations
+- [x] Verify 119th Congress current composition (D/R/Ind seat counts)
+- [x] Verify all Key Races House candidates and challengers
+- [x] Verify redistricting states status and methods
+- [x] Fix all identified inaccuracies in the database
+- [x] Run 32+ tests passing after all fixes (32/32)

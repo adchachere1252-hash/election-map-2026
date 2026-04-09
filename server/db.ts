@@ -128,9 +128,10 @@ export async function updateReferendum(id: number, data: Partial<typeof referend
 // These are the pre-election baselines. Called races in 2026 will adjust them.
 const BASE_COMPOSITION = {
   senate: { D: 45, R: 53, I: 2, total: 100, vacancies: 0 },
-  // House: 217R / 214D / 1I / 3 vacancies as of Apr 2026
-  // FL-01 (R→R Patronis), FL-06 (R→R Fine), NJ-11 (D→vacant Sherrill resigned)
-  house: { D: 214, R: 217, I: 1, total: 435, vacancies: 3 },
+  // House: 217R / 214D / 1I / 2 vacancies as of Apr 8, 2026 (CNN, Apr 8 2026)
+  // GA-14 filled Apr 7 by Clay Fuller (R) - special election won
+  // NJ-11 still vacant (special election Apr 16, 2026)
+  house: { D: 214, R: 217, I: 1, total: 435, vacancies: 2 },
 } as const;
 
 export async function getScoreboard() {
