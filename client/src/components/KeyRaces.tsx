@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const RATING_COLORS: Record<string, string> = {
-  "Toss-up": "bg-yellow-500/20 text-yellow-300 border-yellow-500/40",
-  "Lean D":  "bg-blue-500/20 text-blue-300 border-blue-500/40",
-  "Lean R":  "bg-red-500/20 text-red-300 border-red-500/40",
+  "Toss-up":  "bg-yellow-500/20 text-yellow-300 border-yellow-500/40",
+  "Lean D":   "bg-blue-500/20 text-blue-300 border-blue-500/40",
+  "Likely D": "bg-blue-600/20 text-blue-200 border-blue-600/40",
+  "Lean R":   "bg-red-500/20 text-red-300 border-red-500/40",
+  "Likely R": "bg-red-600/20 text-red-200 border-red-600/40",
 };
 
 const PARTY_BG: Record<string, string> = {
@@ -205,7 +207,7 @@ function KeyRaceCard({ race }: { race: KeyRace }) {
 
 // ─── Filter types ─────────────────────────────────────────────────────────────
 type ChamberFilter = "all" | "senate" | "house";
-type RatingFilter  = "all" | "Toss-up" | "Lean D" | "Lean R";
+type RatingFilter  = "all" | "Toss-up" | "Lean D" | "Likely D" | "Lean R" | "Likely R";
 type SortOption    = "competitiveness" | "alphabetical" | "chamber";
 
 export default function KeyRaces() {
@@ -237,7 +239,7 @@ export default function KeyRaces() {
   }
 
   const RATING_ORDER: Record<string, number> = {
-    "Toss-up": 0, "Lean D": 1, "Lean R": 2,
+    "Toss-up": 0, "Lean D": 1, "Lean R": 2, "Likely D": 3, "Likely R": 4,
   };
 
   // Combine senate + house into one list for filtering/sorting
@@ -301,7 +303,9 @@ export default function KeyRaces() {
             <SelectItem value="all">All Ratings</SelectItem>
             <SelectItem value="Toss-up">Toss-up</SelectItem>
             <SelectItem value="Lean D">Lean D</SelectItem>
+            <SelectItem value="Likely D">Likely D</SelectItem>
             <SelectItem value="Lean R">Lean R</SelectItem>
+            <SelectItem value="Likely R">Likely R</SelectItem>
           </SelectContent>
         </Select>
 

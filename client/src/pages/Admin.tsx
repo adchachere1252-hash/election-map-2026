@@ -155,7 +155,7 @@ function SenateEditor({ race, token, onUpdated }: { race: SenateRace; token: str
           <label className="block text-xs text-muted-foreground mb-1">Rating</label>
           <select className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
             value={form.rating} onChange={e => set("rating", e.target.value)}>
-            {["Solid D", "Lean D", "Toss-up", "Lean R", "Solid R"].map(r => (
+            {["Solid D", "Likely D", "Lean D", "Toss-up", "Lean R", "Likely R", "Solid R"].map(r => (
               <option key={r} value={r}>{r}</option>
             ))}
           </select>
@@ -340,7 +340,7 @@ function HouseEditor({ race, token, onUpdated }: { race: HouseRace; token: strin
           <label className="block text-xs text-muted-foreground mb-1">Rating</label>
           <select className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
             value={form.rating} onChange={e => set("rating", e.target.value)}>
-            {["Solid D", "Lean D", "Toss-up", "Lean R", "Solid R"].map(r => (
+            {["Solid D", "Likely D", "Lean D", "Toss-up", "Lean R", "Likely R", "Solid R"].map(r => (
               <option key={r} value={r}>{r}</option>
             ))}
           </select>

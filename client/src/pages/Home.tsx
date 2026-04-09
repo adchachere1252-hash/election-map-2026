@@ -406,9 +406,11 @@ export default function Home() {
             <div className="flex items-center gap-2 ml-2 flex-wrap">
               {[
                 { label: "Solid D", color: "#1a4fa0" },
+                { label: "Likely D", color: "#3a6fc0" },
                 { label: "Lean D", color: "#5b8fd4" },
                 { label: "Toss-up", color: "#c8a951" },
                 { label: "Lean R", color: "#d96b4a" },
+                { label: "Likely R", color: "#c04040" },
                 { label: "Solid R", color: "#b22222" },
               ].map(item => (
                 <span key={item.label} className="flex items-center gap-1 text-xs">

@@ -18,7 +18,7 @@ interface RaceListProps {
   selectedId?: number | null;
 }
 
-const RATINGS_ORDER = ["Toss-up", "Lean D", "Lean R", "Solid D", "Solid R"];
+const RATINGS_ORDER = ["Toss-up", "Lean D", "Likely D", "Lean R", "Likely R", "Solid D", "Solid R"];
 
 function SenateList({ races, onSelect, selectedId }: {
   races: SenateRace[];
@@ -62,7 +62,9 @@ function SenateList({ races, onSelect, selectedId }: {
           <option value="all">All Races</option>
           <option value="Toss-up">Toss-up</option>
           <option value="Lean D">Lean D</option>
+          <option value="Likely D">Likely D</option>
           <option value="Lean R">Lean R</option>
+          <option value="Likely R">Likely R</option>
           <option value="Solid D">Solid D</option>
           <option value="Solid R">Solid R</option>
           <option value="Called">Called</option>
@@ -168,7 +170,9 @@ function HouseList({ races, onSelect, selectedId }: {
           <option value="all">All Districts</option>
           <option value="Toss-up">Toss-up</option>
           <option value="Lean D">Lean D</option>
+          <option value="Likely D">Likely D</option>
           <option value="Lean R">Lean R</option>
+          <option value="Likely R">Likely R</option>
           <option value="Solid D">Solid D</option>
           <option value="Solid R">Solid R</option>
           <option value="Called">Called</option>

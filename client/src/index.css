@@ -156,9 +156,11 @@
 
   /* Rating badge colors */
   .rating-solid-d { background-color: var(--solid-d); color: #fff; }
+  .rating-likely-d { background-color: #3a6fc0; color: #fff; }
   .rating-lean-d { background-color: var(--lean-d); color: #fff; }
   .rating-toss-up { background-color: var(--toss-up); color: #1a1a1a; }
   .rating-lean-r { background-color: var(--lean-r); color: #fff; }
+  .rating-likely-r { background-color: #c04040; color: #fff; }
   .rating-solid-r { background-color: var(--solid-r); color: #fff; }
   .rating-safe-d { background-color: var(--safe-d); color: #fff; }
   .rating-safe-r { background-color: var(--safe-r); color: #fff; }

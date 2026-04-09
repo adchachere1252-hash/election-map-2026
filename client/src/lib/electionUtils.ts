@@ -1,21 +1,25 @@
 // ─── Rating color utilities ───────────────────────────────────────────────────
-export type Rating = "Solid D" | "Lean D" | "Toss-up" | "Lean R" | "Solid R" | null | undefined;
+export type Rating = "Solid D" | "Likely D" | "Lean D" | "Toss-up" | "Lean R" | "Likely R" | "Solid R" | null | undefined;
 export type Party = "D" | "R" | "I" | "L" | "G" | null | undefined;
 export type RaceStatus = "Scheduled" | "Primary" | "General" | "Called" | "Certified" | null | undefined;
 
 export const RATING_COLORS: Record<string, string> = {
   "Solid D": "#1a4fa0",
+  "Likely D": "#3a6fc0",
   "Lean D": "#5b8fd4",
   "Toss-up": "#c8a951",
   "Lean R": "#d96b4a",
+  "Likely R": "#c04040",
   "Solid R": "#b22222",
 };
 
 export const RATING_TEXT_COLORS: Record<string, string> = {
   "Solid D": "#ffffff",
+  "Likely D": "#ffffff",
   "Lean D": "#ffffff",
   "Toss-up": "#1a1a1a",
   "Lean R": "#ffffff",
+  "Likely R": "#ffffff",
   "Solid R": "#ffffff",
 };
 
@@ -47,9 +51,11 @@ export function getRatingClass(rating: Rating): string {
   if (!rating) return "";
   const map: Record<string, string> = {
     "Solid D": "rating-solid-d",
+    "Likely D": "rating-likely-d",
     "Lean D": "rating-lean-d",
     "Toss-up": "rating-toss-up",
     "Lean R": "rating-lean-r",
+    "Likely R": "rating-likely-r",
     "Solid R": "rating-solid-r",
   };
   return map[rating] ?? "";
