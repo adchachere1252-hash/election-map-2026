@@ -44,6 +44,30 @@ export default function Home() {
   const [searchOpen, setSearchOpen] = useState(false);
   // Mobile sidebar state
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  // Mobile bottom sheet swipe-to-dismiss
+  const [sheetDragY, setSheetDragY] = useState(0);
+  const sheetDragStart = useRef<number | null>(null);
+  const sheetScrollRef = useRef<HTMLDivElement>(null);
+  const [sheetCanScroll, setSheetCanScroll] = useState(false);
+
+  const handleSheetTouchStart = useCallback((e: React.TouchEvent) => {
+    // Only begin drag if the scroll container is at the top
+    const el = sheetScrollRef.current;
+    if (el && el.scrollTop > 0) return;
+    sheetDragStart.current = e.touches[0].clientY;
+  }, []);
+
+  const handleSheetTouchMove = useCallback((e: React.TouchEvent) => {
+    if (sheetDragStart.current === null) return;
+    const delta = e.touches[0].clientY - sheetDragStart.current;
+    if (delta > 0) setSheetDragY(delta);
+  }, []);
+
+  const handleSheetTouchEnd = useCallback(() => {
+    if (sheetDragY > 80) closePopup();
+    setSheetDragY(0);
+    sheetDragStart.current = null;
+  }, [sheetDragY]);
   // Desktop sidebar collapsed state
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   // Election night results mode
@@ -185,6 +209,8 @@ export default function Home() {
     setPopup(null);
     setSelectedStateCode(null);
     setSelectedId(null);
+    setSheetDragY(0);
+    setSheetCanScroll(false);
   }, []);
 
   // Count upcoming events for calendar badge
@@ -617,25 +643,51 @@ export default function Home() {
             onClick={closePopup}
           />
           {/* Sheet */}
-          <div className="relative bg-card border-t border-border rounded-t-2xl max-h-[80vh] overflow-y-auto shadow-2xl">
-            {/* Drag handle */}
-            <div className="flex justify-center pt-3 pb-1">
-              <div className="w-10 h-1 rounded-full bg-muted-foreground/30" />
+          <div
+            className="relative bg-card border-t border-border rounded-t-2xl shadow-2xl flex flex-col"
+            style={{
+              maxHeight: "80vh",
+              transform: sheetDragY > 0 ? `translateY(${sheetDragY}px)` : undefined,
+              transition: sheetDragY === 0 ? "transform 0.25s ease" : "none",
+              opacity: sheetDragY > 0 ? Math.max(0.5, 1 - sheetDragY / 200) : 1,
+            }}
+            onTouchStart={handleSheetTouchStart}
+            onTouchMove={handleSheetTouchMove}
+            onTouchEnd={handleSheetTouchEnd}
+          >
+            {/* Drag handle — tap to close, swipe down to dismiss */}
+            <div
+              className="flex justify-center pt-3 pb-2 flex-shrink-0 cursor-grab active:cursor-grabbing"
+              onClick={() => { if (sheetDragY === 0) closePopup(); }}
+            >
+              <div className="w-10 h-1 rounded-full bg-muted-foreground/40" />
             </div>
-            <div className="px-4 pb-6">
-              {popup.type === "no-race" && popup.stateCode && popup.stateName ? (
-                <NoRaceStatePopup
-                  stateCode={popup.stateCode}
-                  stateName={popup.stateName}
-                  onClose={closePopup}
-                />
-              ) : (
-                <RacePopup
-                  type={popup.type as any}
-                  data={popup.data}
-                  onClose={closePopup}
-                />
-              )}
+            {/* Scrollable content with bottom fade indicator */}
+            <div
+              ref={sheetScrollRef}
+              className="overflow-y-auto flex-1 relative"
+              onScroll={(e) => setSheetCanScroll((e.currentTarget.scrollHeight - e.currentTarget.scrollTop - e.currentTarget.clientHeight) > 20)}
+            >
+              <div className="px-4 pb-8">
+                {popup.type === "no-race" && popup.stateCode && popup.stateName ? (
+                  <NoRaceStatePopup
+                    stateCode={popup.stateCode}
+                    stateName={popup.stateName}
+                    onClose={closePopup}
+                  />
+                ) : (
+                  <RacePopup
+                    type={popup.type as any}
+                    data={popup.data}
+                    onClose={closePopup}
+                  />
+                )}
+              </div>
+              {/* Scroll fade indicator — shows when more content is below */}
+              <div
+                className="pointer-events-none sticky bottom-0 left-0 right-0 h-10 transition-opacity duration-200"
+                style={{ background: "linear-gradient(to top, hsl(var(--card)) 30%, transparent)", opacity: sheetCanScroll ? 1 : 0 }}
+              />
             </div>
           </div>
         </div>

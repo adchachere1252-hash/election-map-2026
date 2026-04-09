@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { Lock, LogOut, Search, ChevronDown, ChevronUp, Save, ArrowLeft, RefreshCw, AlertTriangle, Zap } from "lucide-react";
+import { Lock, LogOut, Search, ChevronDown, ChevronUp, Save, ArrowLeft, RefreshCw, AlertTriangle, Zap, Star, StarOff, Pin, PinOff } from "lucide-react";
 import ElectionNightPanel from "@/components/ElectionNightPanel";
 import { Link } from "wouter";
 import { getRatingClass } from "@/lib/electionUtils";
@@ -758,7 +758,7 @@ function PrimaryResultsPanel({ token, onUpdated }: { token: string; onUpdated: (
 }
 
 // ─── Main Admin Panel ─────────────────────────────────────────────────
-type AdminTab = "senate" | "house" | "redistricting" | "referendums" | "primary" | "election-night";
+type AdminTab = "senate" | "house" | "redistricting" | "referendums" | "primary" | "election-night" | "key-races";
 
 function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }) {
   const [tab, setTab] = useState<AdminTab>("senate");
@@ -772,10 +772,26 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
   const { data: houseRaces = [], refetch: refetchHouse } = trpc.house.list.useQuery();
   const { data: redistrictingStates = [], refetch: refetchRedistricting } = trpc.redistricting.list.useQuery();
   const { data: referendums = [], refetch: refetchReferendums } = trpc.referendum.list.useQuery();
+  const { data: pinnedRaces = [], refetch: refetchPinned } = trpc.keyRaces.listPinned.useQuery();
+
+  const pinMutation = trpc.keyRaces.pin.useMutation({ onSuccess: () => { refetchPinned(); toast.success("Race pinned to Key Races sidebar"); } });
+  const unpinMutation = trpc.keyRaces.unpin.useMutation({ onSuccess: () => { refetchPinned(); toast.success("Race unpinned"); } });
+  const clearAllMutation = trpc.keyRaces.clearAll.useMutation({ onSuccess: (d) => { refetchPinned(); toast.success(`Cleared ${d.cleared} pinned races — sidebar reverts to auto-computed`); } });
 
   const handleRefresh = () => {
-    refetchSenate(); refetchHouse(); refetchRedistricting(); refetchReferendums();
+    refetchSenate(); refetchHouse(); refetchRedistricting(); refetchReferendums(); refetchPinned();
     toast.success("Data refreshed");
+  };
+
+  const isPinned = (chamber: "senate" | "house", raceId: number) =>
+    pinnedRaces.some(p => p.chamber === chamber && p.raceId === raceId);
+
+  const togglePin = (chamber: "senate" | "house", raceId: number) => {
+    if (isPinned(chamber, raceId)) {
+      unpinMutation.mutate({ adminToken: token, chamber, raceId });
+    } else {
+      pinMutation.mutate({ adminToken: token, chamber, raceId });
+    }
   };
 
   const filteredSenate = senateRaces.filter(r =>
@@ -819,7 +835,7 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
         <div className={`border-r border-border flex flex-col overflow-hidden transition-all ${tab === "election-night" ? "w-0 overflow-hidden border-0" : "w-72"}`}>
           {/* Tabs */}
           <div className="flex flex-wrap border-b border-border">
-            {(["senate", "house", "redistricting", "referendums", "primary", "election-night"] as AdminTab[]).map(t => (
+            {(["senate", "house", "redistricting", "referendums", "primary", "key-races", "election-night"] as AdminTab[]).map(t => (
               <button
                 key={t}
                 onClick={() => { setTab(t); setSearch(""); }}
@@ -834,6 +850,7 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
                 {t === "redistricting" ? "Redistrict"
                   : t === "primary" ? "Primaries"
                   : t === "election-night" ? <span className="flex items-center justify-center gap-0.5"><Zap className="w-3 h-3" />Night</span>
+                  : t === "key-races" ? <span className="flex items-center justify-center gap-0.5"><Star className="w-3 h-3" />Key Races</span>
                   : t.charAt(0).toUpperCase() + t.slice(1)}
               </button>
             ))}
@@ -930,11 +947,12 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
             {tab === "house" && `${filteredHouse.length} districts`}
             {tab === "redistricting" && `${redistrictingStates.length} states`}
             {tab === "referendums" && `${referendums.length} referendums`}
+            {tab === "key-races" && `${pinnedRaces.length} pinned`}
           </div>
         </div>
 
         {/* Right: Editor */}
-        <div className={`flex-1 overflow-hidden ${tab === "primary" || tab === "election-night" ? "" : "overflow-y-auto p-6"}`}>
+        <div className={`flex-1 overflow-hidden ${tab === "primary" || tab === "election-night" || tab === "key-races" ? "" : "overflow-y-auto p-6"}`}>
           {tab === "senate" && selectedSenate && (
             <div>
               <h2 className="text-lg font-bold text-foreground mb-1">{selectedSenate.stateName} Senate Race</h2>
@@ -976,6 +994,126 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
             </div>
           )}
 
+          {/* Key Races Curation Panel */}
+          {tab === "key-races" && (
+            <div className="h-full overflow-y-auto p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
+                    <Star className="w-5 h-5 text-yellow-400" />
+                    Key Races Sidebar
+                  </h2>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    {pinnedRaces.length > 0
+                      ? `${pinnedRaces.length} races pinned — sidebar shows your curated selection`
+                      : "No races pinned — sidebar auto-computes competitive races"}
+                  </p>
+                </div>
+                {pinnedRaces.length > 0 && (
+                  <button
+                    onClick={() => clearAllMutation.mutate({ adminToken: token })}
+                    disabled={clearAllMutation.isPending}
+                    className="flex items-center gap-1.5 text-xs text-red-400 hover:text-red-300 border border-red-800 hover:border-red-600 px-3 py-1.5 rounded transition-colors"
+                  >
+                    <PinOff className="w-3.5 h-3.5" />
+                    Clear All Pins
+                  </button>
+                )}
+              </div>
+
+              {/* Pinned races preview */}
+              {pinnedRaces.length > 0 && (
+                <div className="mb-6">
+                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Currently Pinned</h3>
+                  <div className="space-y-1">
+                    {pinnedRaces.map(p => {
+                      const senateRace = senateRaces.find(r => r.id === p.raceId && p.chamber === "senate");
+                      const houseRace = houseRaces.find(r => r.id === p.raceId && p.chamber === "house");
+                      const label = senateRace ? `${senateRace.stateName} Senate` : houseRace ? `${houseRace.stateCode}-${houseRace.districtLabel}` : `${p.chamber} #${p.raceId}`;
+                      const rating = senateRace?.rating ?? houseRace?.rating;
+                      return (
+                        <div key={p.id} className="flex items-center justify-between bg-card border border-border rounded-lg px-3 py-2">
+                          <div className="flex items-center gap-2">
+                            <Pin className="w-3.5 h-3.5 text-yellow-400" />
+                            <span className="text-sm font-medium">{label}</span>
+                            <span className="text-xs text-muted-foreground capitalize">{p.chamber}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            {rating && <span className={`text-xs px-1.5 py-0.5 rounded font-semibold ${getRatingClass(rating as any)}`}>{rating}</span>}
+                            <button
+                              onClick={() => togglePin(p.chamber, p.raceId)}
+                              className="text-xs text-red-400 hover:text-red-300 px-2 py-1 rounded hover:bg-muted transition-colors"
+                            >
+                              Unpin
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Senate races to pin */}
+              <div className="mb-6">
+                <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Senate Races</h3>
+                <div className="space-y-1">
+                  {senateRaces.filter(r => r.rating && ["Toss-up", "Lean D", "Lean R", "Likely D", "Likely R"].includes(r.rating)).map(race => (
+                    <div key={race.id} className="flex items-center justify-between bg-card border border-border rounded-lg px-3 py-2">
+                      <div>
+                        <span className="text-sm font-medium">{race.stateName}</span>
+                        <span className="text-xs text-muted-foreground ml-2">{race.incumbent ?? "Open"}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {race.rating && <span className={`text-xs px-1.5 py-0.5 rounded font-semibold ${getRatingClass(race.rating as any)}`}>{race.rating}</span>}
+                        <button
+                          onClick={() => togglePin("senate", race.id)}
+                          className={`flex items-center gap-1 text-xs px-2 py-1 rounded transition-colors ${
+                            isPinned("senate", race.id)
+                              ? "bg-yellow-900/40 text-yellow-300 hover:bg-yellow-900/60"
+                              : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                          }`}
+                        >
+                          {isPinned("senate", race.id) ? <StarOff className="w-3 h-3" /> : <Star className="w-3 h-3" />}
+                          {isPinned("senate", race.id) ? "Pinned" : "Pin"}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* House races to pin */}
+              <div>
+                <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">House Toss-ups &amp; Lean Races</h3>
+                <div className="space-y-1">
+                  {houseRaces.filter(r => r.rating && ["Toss-up", "Lean D", "Lean R"].includes(r.rating)).map(race => (
+                    <div key={race.id} className="flex items-center justify-between bg-card border border-border rounded-lg px-3 py-2">
+                      <div>
+                        <span className="text-sm font-medium">{race.stateCode}-{race.districtLabel}</span>
+                        <span className="text-xs text-muted-foreground ml-2">{race.incumbent ?? "Open"}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {race.rating && <span className={`text-xs px-1.5 py-0.5 rounded font-semibold ${getRatingClass(race.rating as any)}`}>{race.rating}</span>}
+                        <button
+                          onClick={() => togglePin("house", race.id)}
+                          className={`flex items-center gap-1 text-xs px-2 py-1 rounded transition-colors ${
+                            isPinned("house", race.id)
+                              ? "bg-yellow-900/40 text-yellow-300 hover:bg-yellow-900/60"
+                              : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                          }`}
+                        >
+                          {isPinned("house", race.id) ? <StarOff className="w-3 h-3" /> : <Star className="w-3 h-3" />}
+                          {isPinned("house", race.id) ? "Pinned" : "Pin"}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Primary Results Panel */}
           {tab === "primary" && (
             <PrimaryResultsPanel token={token} onUpdated={() => { refetchSenate(); refetchHouse(); }} />
@@ -1000,7 +1138,7 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
           )}
 
           {/* Empty state */}
-          {tab !== "election-night" && tab !== "primary" &&
+          {tab !== "election-night" && tab !== "primary" && tab !== "key-races" &&
             ((tab === "senate" && !selectedSenate) ||
             (tab === "house" && !selectedHouse) ||
             (tab === "redistricting" && !selectedRedistricting) ||

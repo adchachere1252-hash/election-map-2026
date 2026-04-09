@@ -170,6 +170,18 @@ export const senators = mysqlTable("senators", {
 export type Senator = typeof senators.$inferSelect;
 export type InsertSenator = typeof senators.$inferInsert;
 
+// ─── Pinned Key Races ────────────────────────────────────────────────────────
+export const pinnedKeyRaces = mysqlTable("pinned_key_races", {
+  id: int("id").autoincrement().primaryKey(),
+  chamber: mysqlEnum("chamber", ["senate", "house"]).notNull(),
+  raceId: int("race_id").notNull(), // FK to senate_races.id or house_races.id
+  sortOrder: int("sort_order").default(0).notNull(), // lower = higher in list
+  pinnedAt: timestamp("pinned_at").defaultNow().notNull(),
+});
+
+export type PinnedKeyRace = typeof pinnedKeyRaces.$inferSelect;
+export type InsertPinnedKeyRace = typeof pinnedKeyRaces.$inferInsert;
+
 // ─── Admin Sessions ───────────────────────────────────────────────────────────
 export const adminSessions = mysqlTable("admin_sessions", {
   id: int("id").autoincrement().primaryKey(),

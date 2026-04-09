@@ -602,3 +602,16 @@
 - [x] Add primaryDate and isSpecial fields to KeyRaces sidebar cards with formatted date footer
 - [x] Format dates as "Primary: Jun 2, 2026" and "General: Nov 3, 2026" (or "Special: Apr 7, 2026" for specials)
 - [x] Verify both features in browser, run tests (37/37 passing), save checkpoint
+
+## Admin Key Races Management & Mobile NoRaceStatePopup Polish (Apr 9, 2026)
+- [x] Add pinned_key_races table to schema (chamber, race_id, sort_order, pinned_at)
+- [x] Run Drizzle migration and apply SQL to database
+- [x] Add DB helpers: getPinnedKeyRaces, pinKeyRace, unpinKeyRaceByRace
+- [x] Add tRPC procedures: keyRaces.listPinned, keyRaces.pin, keyRaces.unpin, keyRaces.clearAll
+- [x] Update keyRaces.get to use pinned races when any exist, fall back to auto-computed
+- [x] Build Admin Key Races tab in the admin panel: pin/unpin UI for senate and house races
+- [x] Show "Currently Pinned" section with unpin buttons and "Clear All Pins" action
+- [x] Mobile bottom sheet: add swipe-to-dismiss gesture (drag handle + touch events)
+- [x] Mobile bottom sheet: add scroll fade indicator (gradient overlay when content overflows)
+- [x] Reset sheet state (dragY, canScroll) when popup closes
+- [x] All 37 tests passing, 0 TypeScript errors

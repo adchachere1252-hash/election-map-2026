@@ -12,6 +12,7 @@ import {
   getScoreboard, getFlipTracker,
   createAdminSession, validateAdminSession, deleteAdminSession,
   getAllSenators, getSenatorsByState, searchSenators, getSenatorById,
+  getPinnedKeyRaces, pinKeyRace, unpinKeyRaceByRace,
 } from "./db";
 import { nanoid } from "nanoid";
 import { ENV } from "./_core/env";
@@ -420,12 +421,14 @@ export const appRouter = router({
       }),
   }),
 
-   // ─── Key Races ────────────────────────────────────────────────────────────
+   // ─── Key Races ───────────────────────────────────────────────────────────
   keyRaces: router({
+    // Returns pinned key races (admin-curated) if any exist, otherwise falls back to auto-computed
     get: publicProcedure.query(async () => {
-      const [senateRaces, houseRaces] = await Promise.all([
+      const [senateRaces, houseRaces, pinned] = await Promise.all([
         getAllSenateRaces(),
         getAllHouseRaces(),
+        getPinnedKeyRaces(),
       ]);
 
       const RATING_ORDER: Record<string, number> = {
@@ -438,68 +441,141 @@ export const appRouter = router({
         "Solid R": 6,
       };
 
-      // Senate key races: Toss-up + Lean + Likely (not yet called)
+      const mapSenate = (r: typeof senateRaces[0], pinnedId?: number) => ({
+        id: r.id,
+        pinnedId: pinnedId ?? null,
+        chamber: "senate" as const,
+        stateCode: r.stateCode,
+        stateName: r.stateName,
+        rating: r.rating,
+        incumbent: r.incumbent,
+        incumbentParty: r.incumbentParty,
+        candidate1Name: r.candidate1Name,
+        candidate1Party: r.candidate1Party,
+        candidate1Photo: getCandidatePhoto(r.candidate1Name),
+        candidate2Name: r.candidate2Name,
+        candidate2Party: r.candidate2Party,
+        candidate2Photo: getCandidatePhoto(r.candidate2Name),
+        partyLogos: PARTY_LOGOS,
+        status: r.status,
+        calledParty: r.calledParty,
+        calledWinner: r.calledWinner,
+        incumbentRetiring: r.incumbentRetiring,
+        notes: r.notes,
+        generalDate: r.generalDate,
+        primaryDate: r.primaryDate ?? null,
+        isSpecial: r.isSpecial ?? false,
+      });
+
+      const mapHouse = (r: typeof houseRaces[0], pinnedId?: number) => ({
+        id: r.id,
+        pinnedId: pinnedId ?? null,
+        chamber: "house" as const,
+        stateCode: r.stateCode,
+        stateName: r.stateName,
+        district: r.district,
+        districtLabel: r.districtLabel,
+        rating: r.rating,
+        incumbent: r.incumbent,
+        incumbentParty: r.incumbentParty,
+        candidate1Name: r.candidate1Name,
+        candidate1Party: r.candidate1Party,
+        candidate1Photo: getCandidatePhoto(r.candidate1Name),
+        candidate2Name: r.candidate2Name,
+        candidate2Party: r.candidate2Party,
+        candidate2Photo: getCandidatePhoto(r.candidate2Name),
+        partyLogos: PARTY_LOGOS,
+        status: r.status,
+        calledParty: r.calledParty,
+        calledWinner: r.calledWinner,
+        incumbentRetiring: r.incumbentRetiring,
+        notes: r.notes,
+        generalDate: r.generalDate,
+        primaryDate: r.primaryDate ?? null,
+        isSpecial: false,
+      });
+
+      // If admin has pinned races, use those (sorted by sortOrder)
+      if (pinned.length > 0) {
+        const pinnedSenate = pinned
+          .filter(p => p.chamber === "senate")
+          .map(p => {
+            const race = senateRaces.find(r => r.id === p.raceId);
+            return race ? mapSenate(race, p.id) : null;
+          })
+          .filter(Boolean) as ReturnType<typeof mapSenate>[];
+
+        const pinnedHouse = pinned
+          .filter(p => p.chamber === "house")
+          .map(p => {
+            const race = houseRaces.find(r => r.id === p.raceId);
+            return race ? mapHouse(race, p.id) : null;
+          })
+          .filter(Boolean) as ReturnType<typeof mapHouse>[];
+
+        return { senate: pinnedSenate, house: pinnedHouse, isPinned: true };
+      }
+
+      // Fallback: auto-compute from competitive ratings
       const senateKey = senateRaces
         .filter(r => r.rating && ["Toss-up", "Lean D", "Lean R", "Likely D", "Likely R"].includes(r.rating) && r.status !== "Called" && r.status !== "Certified")
         .sort((a, b) => (RATING_ORDER[a.rating ?? ""] ?? 9) - (RATING_ORDER[b.rating ?? ""] ?? 9))
         .slice(0, 20)
-        .map(r => ({
-          id: r.id,
-          chamber: "senate" as const,
-          stateCode: r.stateCode,
-          stateName: r.stateName,
-          rating: r.rating,
-          incumbent: r.incumbent,
-          incumbentParty: r.incumbentParty,
-          candidate1Name: r.candidate1Name,
-          candidate1Party: r.candidate1Party,
-          candidate1Photo: getCandidatePhoto(r.candidate1Name),
-          candidate2Name: r.candidate2Name,
-          candidate2Party: r.candidate2Party,
-          candidate2Photo: getCandidatePhoto(r.candidate2Name),
-          partyLogos: PARTY_LOGOS,
-          status: r.status,
-          calledParty: r.calledParty,
-          calledWinner: r.calledWinner,
-          incumbentRetiring: r.incumbentRetiring,
-          notes: r.notes,
-          generalDate: r.generalDate,
-          primaryDate: r.primaryDate ?? null,
-          isSpecial: r.isSpecial ?? false,
-        }));
+        .map(r => mapSenate(r));
 
-      // House key races: Toss-up + Lean + Likely (not yet called)
       const houseKey = houseRaces
         .filter(r => r.rating && ["Toss-up", "Lean D", "Lean R", "Likely D", "Likely R"].includes(r.rating) && r.status !== "Called" && r.status !== "Certified")
         .sort((a, b) => (RATING_ORDER[a.rating ?? ""] ?? 9) - (RATING_ORDER[b.rating ?? ""] ?? 9))
         .slice(0, 60)
-        .map(r => ({
-          id: r.id,
-          chamber: "house" as const,
-          stateCode: r.stateCode,
-          stateName: r.stateName,
-          district: r.district,
-          districtLabel: r.districtLabel,
-          rating: r.rating,
-          incumbent: r.incumbent,
-          incumbentParty: r.incumbentParty,
-          candidate1Name: r.candidate1Name,
-          candidate1Party: r.candidate1Party,
-          candidate1Photo: getCandidatePhoto(r.candidate1Name),
-          candidate2Name: r.candidate2Name,
-          candidate2Party: r.candidate2Party,
-          candidate2Photo: getCandidatePhoto(r.candidate2Name),
-          partyLogos: PARTY_LOGOS,
-          status: r.status,
-          calledParty: r.calledParty,
-          calledWinner: r.calledWinner,
-          incumbentRetiring: r.incumbentRetiring,
-          notes: r.notes,
-          generalDate: r.generalDate,
-        }));
+        .map(r => mapHouse(r));
 
-      return { senate: senateKey, house: houseKey };
+      return { senate: senateKey, house: houseKey, isPinned: false };
     }),
+
+    // Admin: list all pinned races with their pin IDs
+    listPinned: publicProcedure.query(async () => {
+      return getPinnedKeyRaces();
+    }),
+
+    // Admin: pin a race to the Key Races sidebar
+    pin: publicProcedure
+      .input((input: unknown) => {
+        const i = input as { adminToken: string; chamber: "senate" | "house"; raceId: number };
+        if (!i.adminToken || !i.chamber || !i.raceId) throw new TRPCError({ code: "BAD_REQUEST", message: "adminToken, chamber, raceId required" });
+        return i;
+      })
+      .mutation(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        await pinKeyRace(input.chamber, input.raceId);
+        return { success: true };
+      }),
+
+    // Admin: unpin a race from the Key Races sidebar
+    unpin: publicProcedure
+      .input((input: unknown) => {
+        const i = input as { adminToken: string; chamber: "senate" | "house"; raceId: number };
+        if (!i.adminToken || !i.chamber || !i.raceId) throw new TRPCError({ code: "BAD_REQUEST", message: "adminToken, chamber, raceId required" });
+        return i;
+      })
+      .mutation(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        await unpinKeyRaceByRace(input.chamber, input.raceId);
+        return { success: true };
+      }),
+
+    // Admin: clear all pinned races (revert to auto-computed)
+    clearAll: publicProcedure
+      .input((input: unknown) => {
+        const i = input as { adminToken: string };
+        if (!i.adminToken) throw new TRPCError({ code: "BAD_REQUEST", message: "adminToken required" });
+        return i;
+      })
+      .mutation(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        const pinned = await getPinnedKeyRaces();
+        await Promise.all(pinned.map(p => unpinKeyRaceByRace(p.chamber, p.raceId)));
+        return { success: true, cleared: pinned.length };
+      }),
   }),
 
   // ─── Scoreboard ────────────────────────────────────────────────────────────

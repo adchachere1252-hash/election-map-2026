@@ -43,6 +43,13 @@
       "when": 1775762532708,
       "tag": "0005_flat_wendigo",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1775770733711,
+      "tag": "0006_wandering_skaar",
+      "breakpoints": true
     }
   ]
 }

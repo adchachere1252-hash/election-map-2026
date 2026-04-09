@@ -1,7 +1,7 @@
 import { eq, and, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { createRequire } from "module";
-import { InsertUser, users, senateRaces, houseRaces, redistrictingStates, referendums, adminSessions, senators } from "../drizzle/schema";
+import { InsertUser, users, senateRaces, houseRaces, redistrictingStates, referendums, adminSessions, senators, pinnedKeyRaces } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 const _require = createRequire(import.meta.url);
@@ -405,4 +405,36 @@ export async function deleteAdminSession(token: string) {
   const db = await getDb();
   if (!db) return;
   await db.delete(adminSessions).where(eq(adminSessions.token, token));
+}
+
+// ─── Pinned Key Races ─────────────────────────────────────────────────────────
+export async function getPinnedKeyRaces() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(pinnedKeyRaces).orderBy(pinnedKeyRaces.sortOrder, pinnedKeyRaces.pinnedAt);
+}
+
+export async function pinKeyRace(chamber: "senate" | "house", raceId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  // Prevent duplicate pins
+  const existing = await db.select().from(pinnedKeyRaces)
+    .where(and(eq(pinnedKeyRaces.chamber, chamber), eq(pinnedKeyRaces.raceId, raceId)))
+    .limit(1);
+  if (existing.length > 0) return existing[0];
+  const [result] = await db.insert(pinnedKeyRaces).values({ chamber, raceId, sortOrder: 0 });
+  return result;
+}
+
+export async function unpinKeyRace(id: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(pinnedKeyRaces).where(eq(pinnedKeyRaces.id, id));
+}
+
+export async function unpinKeyRaceByRace(chamber: "senate" | "house", raceId: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.delete(pinnedKeyRaces)
+    .where(and(eq(pinnedKeyRaces.chamber, chamber), eq(pinnedKeyRaces.raceId, raceId)));
 }
