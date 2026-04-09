@@ -118,10 +118,10 @@ function SenateList({ races, onSelect, selectedId }: {
             {(race.primaryDate || race.generalDate) && (
               <p className="text-[10px] text-muted-foreground/60 mt-0.5 pl-4 flex gap-2">
                 {race.primaryDate && (
-                  <span>Primary: {new Date(race.primaryDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                  <span>Primary: {race.primaryDate}</span>
                 )}
                 {race.generalDate && (
-                  <span>{race.isSpecial ? 'Special' : 'General'}: {new Date(race.generalDate + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                  <span>{race.isSpecial ? 'Special' : 'General'}: {race.generalDate}</span>
                 )}
               </p>
             )}

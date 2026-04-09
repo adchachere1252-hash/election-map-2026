@@ -138,15 +138,10 @@ function KeyRaceCard({ race }: { race: KeyRace }) {
   const showIncumbentFallback = !dCandidate && !rCandidate;
   const retirementReason = getRetirementReason(race.notes);
 
-  // Format a date string like "2026-06-02" → "Jun 2, 2026"
-  function fmtDate(d: string | null | undefined): string | null {
-    if (!d) return null;
-    const [y, m, day] = d.split("-").map(Number);
-    return new Date(y, m - 1, day).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-  }
-
-  const primaryFmt = fmtDate((race as any).primaryDate);
-  const generalFmt = fmtDate(race.generalDate);
+  // Dates are stored as human-readable strings like "June 2, 2026" or "November 3, 2026"
+  // Use them directly — no parsing needed
+  const primaryFmt = (race as any).primaryDate || null;
+  const generalFmt = race.generalDate || null;
   const isSpecial = !!(race as any).isSpecial;
 
   return (
