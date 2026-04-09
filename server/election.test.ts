@@ -134,6 +134,17 @@ vi.mock("./db", () => ({
   createAdminSession: vi.fn().mockResolvedValue(undefined),
   validateAdminSession: vi.fn().mockResolvedValue(false),
   deleteAdminSession: vi.fn().mockResolvedValue(undefined),
+  getAllSenators: vi.fn().mockResolvedValue([
+    { id: 1, stateCode: "GA", stateName: "Georgia", name: "Jon Ossoff", party: "D", senateClass: 2, nextElectionYear: 2026, isUpIn2026: true, bio: null, updatedAt: new Date() },
+    { id: 2, stateCode: "GA", stateName: "Georgia", name: "Raphael Warnock", party: "D", senateClass: 3, nextElectionYear: 2028, isUpIn2026: false, bio: null, updatedAt: new Date() },
+  ]),
+  getSenatorsByState: vi.fn().mockResolvedValue([
+    { id: 1, stateCode: "GA", stateName: "Georgia", name: "Jon Ossoff", party: "D", senateClass: 2, nextElectionYear: 2026, isUpIn2026: true, bio: null, updatedAt: new Date() },
+    { id: 2, stateCode: "GA", stateName: "Georgia", name: "Raphael Warnock", party: "D", senateClass: 3, nextElectionYear: 2028, isUpIn2026: false, bio: null, updatedAt: new Date() },
+  ]),
+  searchSenators: vi.fn().mockResolvedValue([
+    { id: 1, stateCode: "GA", stateName: "Georgia", name: "Jon Ossoff", party: "D", senateClass: 2, nextElectionYear: 2026, isUpIn2026: true, bio: null, updatedAt: new Date() },
+  ]),
 }));
 
 function createCtx(): TrpcContext {
@@ -519,5 +530,49 @@ describe("Auth router", () => {
     const caller = appRouter.createCaller(createCtx());
     const user = await caller.auth.me();
     expect(user).toBeNull();
+  });
+});
+
+describe("Senators router", () => {
+  it("lists all senators", async () => {
+    const caller = appRouter.createCaller(createCtx());
+    const senators = await caller.senators.list();
+    expect(Array.isArray(senators)).toBe(true);
+    expect(senators.length).toBe(2);
+    expect(senators[0].name).toBe("Jon Ossoff");
+    expect(senators[0].party).toBe("D");
+    expect(senators[0].senateClass).toBe(2);
+    expect(senators[0].isUpIn2026).toBe(true);
+  });
+
+  it("gets senators by state", async () => {
+    const caller = appRouter.createCaller(createCtx());
+    const senators = await caller.senators.byState({ stateCode: "GA" });
+    expect(Array.isArray(senators)).toBe(true);
+    expect(senators.length).toBe(2);
+    expect(senators[0].stateCode).toBe("GA");
+  });
+
+  it("searches senators by name", async () => {
+    const caller = appRouter.createCaller(createCtx());
+    const results = await caller.senators.search({ query: "Ossoff" });
+    expect(Array.isArray(results)).toBe(true);
+    expect(results.length).toBe(1);
+    expect(results[0].name).toBe("Jon Ossoff");
+  });
+
+  it("returns senators with correct class and election year", async () => {
+    const caller = appRouter.createCaller(createCtx());
+    const senators = await caller.senators.list();
+    const ossoff = senators.find(s => s.name === "Jon Ossoff");
+    expect(ossoff).toBeDefined();
+    expect(ossoff?.senateClass).toBe(2);
+    expect(ossoff?.nextElectionYear).toBe(2026);
+    expect(ossoff?.isUpIn2026).toBe(true);
+    const warnock = senators.find(s => s.name === "Raphael Warnock");
+    expect(warnock).toBeDefined();
+    expect(warnock?.senateClass).toBe(3);
+    expect(warnock?.nextElectionYear).toBe(2028);
+    expect(warnock?.isUpIn2026).toBe(false);
   });
 });

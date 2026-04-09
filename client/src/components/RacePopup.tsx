@@ -1,6 +1,7 @@
 import { X, MapPin, Calendar, Users, TrendingUp, AlertCircle } from "lucide-react";
 import { getRatingClass, getRatingColor, getPartyColor, getStatusColor, formatVotePct, getPartyLabel } from "@/lib/electionUtils";
 import type { SenateRace, HouseRace, RedistrictingState, Referendum } from "../../../drizzle/schema";
+import { trpc } from "@/lib/trpc";
 
 interface RacePopupProps {
   type: "senate" | "house" | "redistricting" | "referendum";
@@ -83,6 +84,7 @@ function CandidateRow({
 }
 
 function SenatePopup({ race, onClose }: { race: SenateRace; onClose: () => void }) {
+  const { data: senators } = trpc.senators.byState.useQuery({ stateCode: race.stateCode });
   return (
     <div className="popup-enter">
       <div className="flex items-start justify-between mb-3">
@@ -108,6 +110,36 @@ function SenatePopup({ race, onClose }: { race: SenateRace; onClose: () => void 
         <StatusBadge status={race.status} />
         <RatingBadge rating={race.rating} />
       </div>
+
+      {/* Current Senators for this state */}
+      {senators && senators.length > 0 && (
+        <div className="mb-3">
+          <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-1.5 flex items-center gap-1">
+            <Users className="w-3 h-3" />
+            Current Senators (119th Congress)
+          </p>
+          <div className="space-y-1">
+            {senators.map(s => (
+              <div key={s.id} className="flex items-center justify-between py-1 px-2 rounded bg-muted/30">
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <span
+                    className="inline-block w-2 h-2 rounded-full flex-shrink-0"
+                    style={{ background: getPartyColor(s.party as any) }}
+                  />
+                  <span className="text-sm font-medium truncate">{s.name}</span>
+                  <span className="text-xs text-muted-foreground">({s.party})</span>
+                </div>
+                <div className="flex items-center gap-1 flex-shrink-0">
+                  <span className="text-xs text-muted-foreground">Cl.{s.senateClass}</span>
+                  {s.isUpIn2026 && (
+                    <span className="bg-amber-900/60 text-amber-300 text-xs px-1 py-0.5 rounded font-semibold">2026</span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {race.incumbent && (
         <div className="flex items-center gap-2 mb-3 text-sm">

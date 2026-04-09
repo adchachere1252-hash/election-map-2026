@@ -507,3 +507,26 @@
 - [x] Diagnose TRPCClientError "Unexpected token '<'": caused by MySQL idle connection drops returning no response
 - [x] Fix: replaced drizzle(DATABASE_URL string) with mysql2 createPool (keepAlive=true, keepAliveInitialDelay=10s, connectionLimit=10) to prevent dropped idle connections
 - [x] Run tests: 32/32 passing, zero TypeScript errors, all 6 main queries return HTTP 200
+
+## All 100 Senators Feature (Apr 9, 2026)
+- [x] Research all 100 current U.S. Senators (name, party, state, class, next election year) using Ballotpedia and senate.gov
+- [x] Add senators table to drizzle schema with fields: id, name, party, stateCode, stateName, class (1/2/3), nextElectionYear, isUpIn2026, senateRaceId (FK, nullable)
+- [x] Generate migration SQL and apply via webdev_execute_sql
+- [x] Seed all 100 senators into the new table
+- [x] Add senators.list tRPC procedure to return all senators (optionally filtered by state)
+- [x] Add senators.search tRPC procedure to search senators by name
+- [x] Update Senate state pop-up to show both senators per state (one with race details if up in 2026, one with next election year)
+- [x] Update global search bar to include senators not up in 2026 in results
+- [x] Run tests and save checkpoint
+- [x] Update results ticker: replace timestamp with election date (e.g., "Nov 3, 2026" or "Apr 16, 2026" for specials)
+
+## Ticker & Senators Feature (Apr 9, 2026)
+- [x] Update results ticker: replace timestamp with election date (e.g., "Nov 3, 2026" for general, "Apr 16, 2026" for NJ-11 special)
+- [x] Add senators table to drizzle schema (id, name, party, stateCode, stateName, class, nextElectionYear, isUpIn2026, senateRaceId FK nullable)
+- [x] Generate migration SQL and apply via webdev_execute_sql
+- [x] Seed all 100 current U.S. Senators into the senators table
+- [x] Add senators.byState tRPC procedure (returns both senators for a given state)
+- [x] Add senators.search tRPC procedure (search by name across all 100)
+- [x] Update Senate state pop-up to show both senators per state
+- [x] Update global search bar to include all 100 senators in results
+- [x] Run tests and save checkpoint

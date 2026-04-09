@@ -1,7 +1,7 @@
 import { eq, and, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { createRequire } from "module";
-import { InsertUser, users, senateRaces, houseRaces, redistrictingStates, referendums, adminSessions } from "../drizzle/schema";
+import { InsertUser, users, senateRaces, houseRaces, redistrictingStates, referendums, adminSessions, senators } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 const _require = createRequire(import.meta.url);
@@ -357,6 +357,26 @@ export async function getFlipTracker() {
     senate: detectFlips(senateRows as FlipRow[]),
     house: detectFlips(houseRows.map(r => ({ ...r, districtLabel: r.districtLabel })) as FlipRow[]),
   };
+}
+
+// ─── Senators ───────────────────────────────────────────────────────────
+export async function getAllSenators() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(senators).orderBy(senators.stateCode, senators.senateClass);
+}
+export async function getSenatorsByState(stateCode: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(senators).where(eq(senators.stateCode, stateCode)).orderBy(senators.senateClass);
+}
+export async function searchSenators(query: string) {
+  const db = await getDb();
+  if (!db) return [];
+  const q = `%${query}%`;
+  return db.select().from(senators).where(
+    sql`LOWER(name) LIKE LOWER(${q}) OR LOWER(state_name) LIKE LOWER(${q}) OR LOWER(state_code) LIKE LOWER(${q})`
+  ).orderBy(senators.stateCode).limit(20);
 }
 
 // ─── Admin Sessions ───────────────────────────────────────────────────────────

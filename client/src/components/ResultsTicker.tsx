@@ -12,6 +12,8 @@ type TickerResult = {
   calledParty: string;
   previousParty?: string | null;
   updatedAt: string | Date | null;
+  generalDate?: string | null;
+  isSpecial?: boolean;
 };
 
 function TickerItem({ result }: { result: TickerResult }) {
@@ -36,6 +38,9 @@ function TickerItem({ result }: { result: TickerResult }) {
     ? `${result.previousParty}→${result.calledParty}`
     : null;
 
+  // Show election date (generalDate) instead of the called timestamp
+  const electionDateLabel = result.generalDate ?? null;
+
   return (
     <span className="inline-flex items-center gap-1.5 mx-6 whitespace-nowrap">
       {/* Party color dot */}
@@ -48,6 +53,12 @@ function TickerItem({ result }: { result: TickerResult }) {
       <span className="text-[10px] font-bold tracking-wider text-muted-foreground">
         {chamberTag}
       </span>
+      {/* Special badge */}
+      {result.isSpecial && (
+        <span className="text-[10px] font-bold px-1 py-0.5 rounded bg-yellow-900/60 text-yellow-300">
+          SPECIAL
+        </span>
+      )}
       {/* Location */}
       <span className="text-xs font-semibold text-foreground">{label}</span>
       {/* Winner */}
@@ -76,10 +87,10 @@ function TickerItem({ result }: { result: TickerResult }) {
           ⇄ FLIP {flipLabel}
         </span>
       )}
-      {/* Called time */}
-      {result.updatedAt && (
+      {/* Election date */}
+      {electionDateLabel && (
         <span className="text-[10px] text-muted-foreground/60 ml-0.5">
-          {new Date(result.updatedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+          {electionDateLabel}
         </span>
       )}
       {/* Separator */}

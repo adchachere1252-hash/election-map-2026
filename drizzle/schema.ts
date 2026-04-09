@@ -151,6 +151,23 @@ export const referendums = mysqlTable("referendums", {
 export type Referendum = typeof referendums.$inferSelect;
 export type InsertReferendum = typeof referendums.$inferInsert;
 
+// ─── Senators (all 100, all 3 classes) ──────────────────────────────────────
+export const senators = mysqlTable("senators", {
+  id: int("id").autoincrement().primaryKey(),
+  stateCode: varchar("state_code", { length: 2 }).notNull(),
+  stateName: varchar("state_name", { length: 64 }).notNull(),
+  name: varchar("name", { length: 128 }).notNull(),
+  party: mysqlEnum("party", ["D", "R", "I"]).notNull(),
+  senateClass: int("senate_class").notNull(), // 1, 2, or 3
+  nextElectionYear: int("next_election_year").notNull(), // 2026, 2028, or 2030
+  isUpIn2026: boolean("is_up_in_2026").default(false).notNull(),
+  bio: text("bio"),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Senator = typeof senators.$inferSelect;
+export type InsertSenator = typeof senators.$inferInsert;
+
 // ─── Admin Sessions ───────────────────────────────────────────────────────────
 export const adminSessions = mysqlTable("admin_sessions", {
   id: int("id").autoincrement().primaryKey(),

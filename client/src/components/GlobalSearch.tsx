@@ -1,7 +1,8 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { Search, X, MapPin, Building2, Vote, ChevronRight, User } from "lucide-react";
-import { getRatingClass } from "@/lib/electionUtils";
-import type { SenateRace, HouseRace, RedistrictingState, Referendum } from "../../../drizzle/schema";
+import { getRatingClass, getPartyColor } from "@/lib/electionUtils";
+import type { SenateRace, HouseRace, RedistrictingState, Referendum, Senator } from "../../../drizzle/schema";
+import { trpc } from "@/lib/trpc";
 
 // CDN base for candidate photos (same base as server/candidatePhotos.ts)
 const CDN_BASE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663521029713/Duqshn4D3kdv9jkbtBdj4X";
@@ -56,7 +57,8 @@ type SearchResult =
   | { kind: "senate"; data: SenateRace; score: number; matchedField: string }
   | { kind: "house"; data: HouseRace; score: number; matchedField: string }
   | { kind: "redistricting"; data: RedistrictingState; score: number; matchedField: string }
-  | { kind: "referendum"; data: Referendum; score: number; matchedField: string };
+  | { kind: "referendum"; data: Referendum; score: number; matchedField: string }
+  | { kind: "senator"; data: Senator; score: number; matchedField: string };
 
 /** Returns a score 0-100 for how well needle matches haystack */
 function scoreMatch(haystack: string, needle: string): number {
@@ -265,13 +267,32 @@ export default function GlobalSearch({
     return all.sort((a, b) => b.score - a.score).slice(0, 50);
   }, [query, chamberKeyword, senateRaces, houseRaces, redistrictingStates, referendums]);
 
+  // Senator search — separate query to the senators endpoint
+  const debouncedQuery = query.trim();
+  const { data: senatorResults } = trpc.senators.search.useQuery(
+    { query: debouncedQuery },
+    { enabled: debouncedQuery.length >= 2 }
+  );
+
+  // Merge senator results into the combined result list
+  const allResults = useMemo((): SearchResult[] => {
+    const senatorHits: SearchResult[] = (senatorResults ?? []).map(s => ({
+      kind: "senator" as const,
+      data: s,
+      score: 90,
+      matchedField: "senator",
+    }));
+    return [...results, ...senatorHits].sort((a, b) => b.score - a.score).slice(0, 60);
+  }, [results, senatorResults]);
+
   // Group results by kind for display
   const grouped = useMemo(() => {
-    const senate = results.filter(r => r.kind === "senate");
-    const house = results.filter(r => r.kind === "house");
-    const other = results.filter(r => r.kind !== "senate" && r.kind !== "house");
-    return { senate, house, other };
-  }, [results]);
+    const senate = allResults.filter(r => r.kind === "senate");
+    const senators = allResults.filter(r => r.kind === "senator");
+    const house = allResults.filter(r => r.kind === "house");
+    const other = allResults.filter(r => r.kind !== "senate" && r.kind !== "house" && r.kind !== "senator");
+    return { senate, senators, house, other };
+  }, [allResults]);
 
   // Close on outside click
   useEffect(() => {
@@ -296,13 +317,13 @@ export default function GlobalSearch({
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!isOpen || results.length === 0) return;
-    if (e.key === "ArrowDown") { e.preventDefault(); setActiveIndex(i => Math.min(i + 1, results.length - 1)); }
+    if (e.key === "ArrowDown") { e.preventDefault(); setActiveIndex(i => Math.min(i + 1, allResults.length - 1)); }
     if (e.key === "ArrowUp") { e.preventDefault(); setActiveIndex(i => Math.max(i - 1, 0)); }
-    if (e.key === "Enter") { e.preventDefault(); if (results[activeIndex]) handleSelect(results[activeIndex]); }
+    if (e.key === "Enter") { e.preventDefault(); if (allResults[activeIndex]) handleSelect(allResults[activeIndex]); }
     if (e.key === "Escape") { setIsOpen(false); inputRef.current?.blur(); }
   };
 
-  const showResults = isOpen && (results.length > 0 || query.trim().length >= 2);
+  const showResults = isOpen && (allResults.length > 0 || query.trim().length >= 2);
   const q = query.trim();
 
   // Render a single result row
@@ -513,6 +534,35 @@ export default function GlobalSearch({
       );
     }
 
+    if (result.kind === "senator") {
+      const s = result.data as Senator;
+      return (
+        <div
+          key={`senator-${s.id}`}
+          className={`w-full text-left px-3 py-2.5 border-b border-border/30 ${isActive ? "bg-accent" : ""}`}
+        >
+          <div className="flex items-center gap-2.5">
+            <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: getPartyColor(s.party as any) + "33", border: `1.5px solid ${getPartyColor(s.party as any)}66` }}>
+              <span className="text-[9px] font-bold" style={{ color: getPartyColor(s.party as any) }}>{s.party}</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-1.5">
+                <span className="text-sm font-semibold text-foreground">
+                  <HighlightText text={s.name} query={q} />
+                </span>
+                <span className="text-xs text-muted-foreground">{s.stateCode}</span>
+                <span className="text-[10px] font-bold bg-blue-900/40 text-blue-300 px-1.5 py-0.5 rounded uppercase tracking-wide">Senator</span>
+                {s.isUpIn2026 && <span className="text-[10px] font-bold bg-amber-900/40 text-amber-300 px-1.5 py-0.5 rounded">2026</span>}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {s.stateName} · Class {s.senateClass} · Next election: {s.nextElectionYear}
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return null;
   };
 
@@ -549,7 +599,7 @@ export default function GlobalSearch({
       {/* Results dropdown */}
       {showResults && (
         <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden max-h-[480px] overflow-y-auto">
-          {results.length === 0 ? (
+          {allResults.length === 0 ? (
             <div className="px-4 py-6 text-center">
               <User className="w-8 h-8 text-muted-foreground/30 mx-auto mb-2" />
               <p className="text-sm text-muted-foreground">No results for &ldquo;{query}&rdquo;</p>
@@ -562,23 +612,34 @@ export default function GlobalSearch({
               {/* Header */}
               <div className="px-3 py-1.5 border-b border-border bg-muted/20 flex items-center justify-between">
                 <span className="text-xs text-muted-foreground">
-                  {results.length} result{results.length !== 1 ? "s" : ""}
+                  {allResults.length} result{allResults.length !== 1 ? "s" : ""}
                   {chamberKeyword && <span className="ml-1 text-muted-foreground/60">— showing all {chamberKeyword} races</span>}
                 </span>
                 <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground/50">
                   {grouped.senate.length > 0 && <span className="bg-blue-900/30 text-blue-400 px-1.5 py-0.5 rounded">{grouped.senate.length} Senate</span>}
+                  {grouped.senators.length > 0 && <span className="bg-indigo-900/30 text-indigo-400 px-1.5 py-0.5 rounded">{grouped.senators.length} Senators</span>}
                   {grouped.house.length > 0 && <span className="bg-green-900/30 text-green-400 px-1.5 py-0.5 rounded">{grouped.house.length} House</span>}
                   {grouped.other.length > 0 && <span className="bg-muted text-muted-foreground px-1.5 py-0.5 rounded">{grouped.other.length} Other</span>}
                 </div>
               </div>
 
-              {/* Senate section */}
+              {/* Senators section (current members) */}
+              {grouped.senators.length > 0 && (
+                <>
+                  <div className="px-3 py-1 bg-indigo-900/10 border-b border-border/20">
+                    <span className="text-[10px] font-semibold text-indigo-400 uppercase tracking-wider">Current Senators (119th Congress)</span>
+                  </div>
+                  {grouped.senators.map((r, i) => renderResult(r, i))}
+                </>
+              )}
+
+              {/* Senate Races section */}
               {grouped.senate.length > 0 && (
                 <>
                   <div className="px-3 py-1 bg-blue-900/10 border-b border-border/20">
-                    <span className="text-[10px] font-semibold text-blue-400 uppercase tracking-wider">U.S. Senate</span>
+                    <span className="text-[10px] font-semibold text-blue-400 uppercase tracking-wider">U.S. Senate Races</span>
                   </div>
-                  {grouped.senate.map((r, i) => renderResult(r, i))}
+                  {grouped.senate.map((r, i) => renderResult(r, grouped.senators.length + i))}
                 </>
               )}
 
@@ -588,7 +649,7 @@ export default function GlobalSearch({
                   <div className="px-3 py-1 bg-green-900/10 border-b border-border/20">
                     <span className="text-[10px] font-semibold text-green-400 uppercase tracking-wider">U.S. House of Representatives</span>
                   </div>
-                  {grouped.house.map((r, i) => renderResult(r, grouped.senate.length + i))}
+                  {grouped.house.map((r, i) => renderResult(r, grouped.senators.length + grouped.senate.length + i))}
                 </>
               )}
 
@@ -598,7 +659,7 @@ export default function GlobalSearch({
                   <div className="px-3 py-1 bg-muted/20 border-b border-border/20">
                     <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">Other</span>
                   </div>
-                  {grouped.other.map((r, i) => renderResult(r, grouped.senate.length + grouped.house.length + i))}
+                  {grouped.other.map((r, i) => renderResult(r, grouped.senators.length + grouped.senate.length + grouped.house.length + i))}
                 </>
               )}
 

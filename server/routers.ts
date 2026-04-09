@@ -11,6 +11,7 @@ import {
   getAllReferendums, updateReferendum,
   getScoreboard, getFlipTracker,
   createAdminSession, validateAdminSession, deleteAdminSession,
+  getAllSenators, getSenatorsByState, searchSenators,
 } from "./db";
 import { nanoid } from "nanoid";
 import { ENV } from "./_core/env";
@@ -536,6 +537,8 @@ export const appRouter = router({
             calledParty: r.calledParty!,
             previousParty: r.previousParty ?? null,
             updatedAt: r.updatedAt,
+            generalDate: r.generalDate ?? null,
+            isSpecial: r.isSpecial ?? false,
           })),
         ...houseRaces
           .filter(r => r.calledWinner && r.calledParty)
@@ -549,6 +552,8 @@ export const appRouter = router({
             calledParty: r.calledParty!,
             previousParty: r.previousParty ?? null,
             updatedAt: r.updatedAt,
+            generalDate: r.generalDate ?? null,
+            isSpecial: false,
           })),
       ]
         .sort((a, b) => {
@@ -559,6 +564,25 @@ export const appRouter = router({
         .slice(0, 20);
       return called;
     }),
+  }),
+  // ─── Senators (all 100 members of the 119th Congress) ──────────────────────────────────────────
+  senators: router({
+    // Get all 100 senators
+    list: publicProcedure.query(async () => {
+      return getAllSenators();
+    }),
+    // Get senators for a specific state (2 per state)
+    byState: publicProcedure
+      .input(z.object({ stateCode: z.string().length(2) }))
+      .query(async ({ input }) => {
+        return getSenatorsByState(input.stateCode);
+      }),
+    // Search senators by name, state name, or state code
+    search: publicProcedure
+      .input(z.object({ query: z.string().min(1).max(100) }))
+      .query(async ({ input }) => {
+        return searchSenators(input.query);
+      }),
   }),
 });
 
