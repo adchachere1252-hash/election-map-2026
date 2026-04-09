@@ -38,19 +38,33 @@ export async function setupVite(app: Express, server: Server) {
         // Replace the WebSocket connect call with a mock that never connects.
         // The mock satisfies the HMR client's interface (onopen/onclose/send)
         // but never fires onopen, so the client silently gives up after retries.
+        // Full mock that satisfies every method Vite's HMR client calls.
+        // IMPORTANT: addEventListener must NOT fire any events — if 'close' fires
+        // before 'open', Vite throws "WebSocket closed without opened".
+        // readyState=1 (OPEN) prevents the "closed without opened" rejection path.
         const mockWs = `({
-          readyState: 3,
+          readyState: 1,
           send: () => {},
           close: () => {},
+          addEventListener: () => {},
+          removeEventListener: () => {},
+          dispatchEvent: () => false,
           set onopen(fn) {},
-          set onclose(fn) { setTimeout(() => fn && fn({ code: 1000 }), 0); },
+          set onclose(fn) {},
           set onerror(fn) {},
           set onmessage(fn) {}
         })`;
         const patched = clientScript.code
+          // Patch the main HMR transport createConnection
           .replace(
             /createConnection:\s*\(\)\s*=>\s*new WebSocket\([^)]+\),/g,
             `createConnection: () => ${mockWs},`
+          )
+          // Patch the vite-ping WebSocket (used to check if server is alive after disconnect)
+          // Replace it with a mock that immediately resolves as "not reachable" (false)
+          .replace(
+            /const socket = new WebSocket\(socketUrl, "vite-ping"\);/g,
+            `const socket = ${mockWs}; if (false) /* vite-ping disabled */`
           );
         res.set("Content-Type", "application/javascript");
         res.set("Cache-Control", "no-cache");

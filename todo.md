@@ -295,5 +295,5 @@
 - [x] Full verification: 32/32 tests passing, zero TypeScript errors
 
 ## Bug Fix — Vite HMR WebSocket Error (Round 19)
-- [ ] Fix Vite HMR WebSocket failing to connect through Manus proxy domain
-- [ ] Configure vite.config.ts server.hmr to use correct host/port for proxy environment
+- [x] Fix Vite HMR WebSocket failing to connect through Manus proxy domain
+- [x] Configure vite.config.ts server.hmr to use correct host/port for proxy environment (patched @vite/client to return mock WebSocket, moved app WS to /election-ws)
