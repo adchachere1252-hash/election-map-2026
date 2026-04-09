@@ -4,7 +4,7 @@ import * as topojson from "topojson-client";
 import { getRatingColor, getPartyColor } from "@/lib/electionUtils";
 import type { SenateRace, HouseRace, RedistrictingState, Senator } from "../../../drizzle/schema";
 
-type MapView = "senate" | "house" | "redistricting";
+type MapView = "governor" | "senate" | "house" | "redistricting";
 
 interface ElectionMapProps {
   view: MapView;

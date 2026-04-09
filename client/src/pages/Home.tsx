@@ -15,25 +15,30 @@ import ResultsTicker from "@/components/ResultsTicker";
 import KeyRaces from "@/components/KeyRaces";
 import { useElectionChime } from "@/hooks/useElectionChime";
 import NoRaceStatePopup from "@/components/NoRaceStatePopup";
+import GovernorRacePopup from "@/components/GovernorRacePopup";
+import GovernorRaceList from "@/components/GovernorRaceList";
+import GovernorMap from "@/components/GovernorMap";
 
-type MapView = "senate" | "house" | "redistricting";
+type MapView = "governor" | "house" | "redistricting" | "senate";
 
 const VIEW_LABELS: Record<MapView, string> = {
-  senate: "Senate",
+  governor: "Governor",
   house: "House",
   redistricting: "Redistricting",
+  senate: "Senate",
 };
 
 const VIEW_DESCRIPTIONS: Record<MapView, string> = {
-  senate: "35 races · Nov 3, 2026",
+  governor: "36 races · Nov 3, 2026",
   house: "435 districts · Nov 3, 2026",
   redistricting: "12 states · 2025–2026",
+  senate: "35 races · Nov 3, 2026",
 };
 
 export default function Home() {
   const [view, setView] = useState<MapView>("senate");
   const [popup, setPopup] = useState<{
-    type: "senate" | "house" | "redistricting" | "referendum" | "no-race";
+    type: "senate" | "house" | "redistricting" | "referendum" | "no-race" | "governor";
     data: SenateRace | HouseRace | RedistrictingState | Referendum | null;
     stateCode?: string;
     stateName?: string;
@@ -107,6 +112,7 @@ export default function Home() {
   const { data: redistrictingStates = [], refetch: refetchRedistricting } = trpc.redistricting.list.useQuery();
   const { data: referendums = [], refetch: refetchReferendums } = trpc.referendum.list.useQuery();
   const { data: senators = [] } = trpc.senators.list.useQuery();
+  const { data: governorRaces = [], refetch: refetchGovernor } = trpc.governor.list.useQuery();
 
   // Build a Set of matching keys for map highlighting based on live search query
   const searchHighlight = useMemo((): Set<string> | null => {
@@ -140,11 +146,15 @@ export default function Home() {
     refetchHouse();
     refetchRedistricting();
     refetchReferendums();
-  }, [refetchSenate, refetchHouse, refetchRedistricting, refetchReferendums]);
+    refetchGovernor();
+  }, [refetchSenate, refetchHouse, refetchRedistricting, refetchReferendums, refetchGovernor]);
 
   const handleStateClick = useCallback((stateCode: string) => {
     setSelectedStateCode(stateCode);
-    if (view === "senate") {
+    if (view === "governor") {
+      const race = governorRaces.find((r: any) => r.stateCode === stateCode);
+      if (race) { setPopup({ type: "governor", data: race as any }); setSelectedId(race.id); }
+    } else if (view === "senate") {
       const race = senateRaces.find(r => r.stateCode === stateCode);
       if (race) { setPopup({ type: "senate", data: race }); setSelectedId(race.id); }
       else {
@@ -165,7 +175,7 @@ export default function Home() {
         if (ref) { setPopup({ type: "referendum", data: ref }); setSelectedId(ref.id); }
       }
     }
-  }, [view, senateRaces, houseRaces, redistrictingStates, referendums]);
+  }, [view, governorRaces, senateRaces, houseRaces, redistrictingStates, referendums]);
 
   const handleSelectSenate = useCallback((race: SenateRace) => {
     setPopup({ type: "senate", data: race });
@@ -200,6 +210,15 @@ export default function Home() {
     setSelectedStateCode(ref.stateCode);
     setSelectedId(ref.id);
     setCalendarOpen(false);
+    setSearchOpen(false);
+    setSidebarOpen(false);
+    setLiveSearchQuery("");
+  }, []);
+
+  const handleSelectGovernor = useCallback((race: any) => {
+    setPopup({ type: "governor", data: race });
+    setSelectedStateCode(race.stateCode);
+    setSelectedId(race.id);
     setSearchOpen(false);
     setSidebarOpen(false);
     setLiveSearchQuery("");
@@ -278,7 +297,7 @@ export default function Home() {
 
           {/* View Toggle */}
           <div className="flex items-center gap-0.5 bg-muted rounded-lg p-1 flex-shrink-0">
-            {(["senate", "house", "redistricting"] as MapView[]).map(v => (
+            {(["governor", "house", "redistricting", "senate"] as MapView[]).map(v => (
               <button
                 key={v}
                 onClick={() => { setView(v); closePopup(); }}
@@ -531,18 +550,26 @@ export default function Home() {
                 </div>
                 <KeyRaces />
               </div>
-              <RaceList
-                view={view}
-                senateRaces={senateRaces}
-                houseRaces={houseRaces}
-                redistrictingStates={redistrictingStates}
-                referendums={referendums}
-                onSelectSenate={handleSelectSenate}
-                onSelectHouse={handleSelectHouse}
-                onSelectRedistricting={handleSelectRedistricting}
-                onSelectReferendum={handleSelectReferendum}
-                selectedId={selectedId}
-              />
+              {view === "governor" ? (
+                <GovernorRaceList
+                  governorRaces={governorRaces as any}
+                  onSelectGovernor={handleSelectGovernor}
+                  selectedId={selectedId}
+                />
+              ) : (
+                <RaceList
+                  view={view}
+                  senateRaces={senateRaces}
+                  houseRaces={houseRaces}
+                  redistrictingStates={redistrictingStates}
+                  referendums={referendums}
+                  onSelectSenate={handleSelectSenate}
+                  onSelectHouse={handleSelectHouse}
+                  onSelectRedistricting={handleSelectRedistricting}
+                  onSelectReferendum={handleSelectReferendum}
+                  selectedId={selectedId}
+                />
+              )}
             </div>
           </div>
         </aside>
@@ -562,22 +589,38 @@ export default function Home() {
 
         {/* ── Map area ── */}
         <main className="flex-1 relative overflow-hidden">
-          <ElectionMap
-            view={view}
-            senateRaces={senateRaces}
-            houseRaces={houseRaces}
-            redistrictingStates={redistrictingStates}
-            senators={senators}
-            onStateClick={handleStateClick}
-            onDistrictClick={handleSelectHouse}
-            selectedStateCode={selectedStateCode}
-            selectedDistrictId={selectedId}
-            resultsMode={resultsMode}
-            searchHighlight={searchHighlight}
-          />
+          {view === "governor" ? (
+            <GovernorMap
+              governorRaces={governorRaces as any}
+              onStateClick={handleStateClick}
+              selectedStateCode={selectedStateCode}
+            />
+          ) : (
+            <ElectionMap
+              view={view}
+              senateRaces={senateRaces}
+              houseRaces={houseRaces}
+              redistrictingStates={redistrictingStates}
+              senators={senators}
+              onStateClick={handleStateClick}
+              onDistrictClick={handleSelectHouse}
+              selectedStateCode={selectedStateCode}
+              selectedDistrictId={selectedId}
+              resultsMode={resultsMode}
+              searchHighlight={searchHighlight}
+            />
+          )}
 
           {/* Desktop popup — top-right corner */}
-          {popup && popup.type !== "no-race" && (
+          {popup && popup.type === "governor" && (
+            <div className="hidden md:block absolute top-4 right-4 z-20 max-w-xs w-full overflow-y-auto max-h-[80vh]">
+              <GovernorRacePopup
+                race={popup.data as any}
+                onClose={closePopup}
+              />
+            </div>
+          )}
+          {popup && popup.type !== "no-race" && popup.type !== "governor" && (
             <div className="hidden md:block absolute top-4 right-4 z-20 max-w-xs w-full">
               <RacePopup
                 type={popup.type as any}
@@ -669,7 +712,12 @@ export default function Home() {
               onScroll={(e) => setSheetCanScroll((e.currentTarget.scrollHeight - e.currentTarget.scrollTop - e.currentTarget.clientHeight) > 20)}
             >
               <div className="px-4 pb-8">
-                {popup.type === "no-race" && popup.stateCode && popup.stateName ? (
+                {popup.type === "governor" ? (
+                  <GovernorRacePopup
+                    race={popup.data as any}
+                    onClose={closePopup}
+                  />
+                ) : popup.type === "no-race" && popup.stateCode && popup.stateName ? (
                   <NoRaceStatePopup
                     stateCode={popup.stateCode}
                     stateName={popup.stateName}

@@ -13,6 +13,7 @@ import {
   createAdminSession, validateAdminSession, deleteAdminSession,
   getAllSenators, getSenatorsByState, searchSenators, getSenatorById,
   getPinnedKeyRaces, pinKeyRace, unpinKeyRaceByRace,
+  getAllGovernorRaces, getGovernorRaceByState, updateGovernorRace,
 } from "./db";
 import { nanoid } from "nanoid";
 import { ENV } from "./_core/env";
@@ -666,6 +667,55 @@ export const appRouter = router({
       .input(z.object({ id: z.number().int().positive() }))
       .query(async ({ input }) => {
         return getSenatorById(input.id);
+      }),
+  }),
+
+  // ─── Governor Races ─────────────────────────────────────────────────────────
+  governor: router({
+    // List all 36 governor races
+    list: publicProcedure.query(async () => {
+      return getAllGovernorRaces();
+    }),
+
+    // Get a single governor race by state code
+    byState: publicProcedure
+      .input(z.object({ stateCode: z.string().length(2) }))
+      .query(async ({ input }) => {
+        return getGovernorRaceByState(input.stateCode);
+      }),
+
+    // Admin: update a governor race (rating, candidates, results, status)
+    update: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        adminToken: z.string(),
+        incumbentName: z.string().nullable().optional(),
+        incumbentParty: z.enum(["D", "R", "I"]).nullable().optional(),
+        isOpen: z.boolean().optional(),
+        isTermLimited: z.boolean().optional(),
+        previousParty: z.enum(["D", "R", "I"]).optional(),
+        rating: z.enum(["Solid D", "Likely D", "Lean D", "Toss-up", "Lean R", "Likely R", "Solid R"]).optional(),
+        primaryDate: z.string().nullable().optional(),
+        runoffDate: z.string().nullable().optional(),
+        generalDate: z.string().optional(),
+        demCandidate: z.string().nullable().optional(),
+        repCandidate: z.string().nullable().optional(),
+        status: z.enum(["Scheduled", "Voting", "Called", "Certified"]).optional(),
+        calledParty: z.enum(["D", "R", "I"]).nullable().optional(),
+        demVotes: z.number().min(0).optional(),
+        repVotes: z.number().min(0).optional(),
+        pctReporting: z.number().min(0).max(100).optional(),
+        notes: z.string().nullable().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        const { id, adminToken: _t, ...data } = input;
+        const updateData: Record<string, unknown> = {};
+        for (const [k, v] of Object.entries(data)) {
+          if (v !== undefined) updateData[k] = v;
+        }
+        await updateGovernorRace(id, updateData as Parameters<typeof updateGovernorRace>[1]);
+        return { success: true };
       }),
   }),
 });

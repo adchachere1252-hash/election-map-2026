@@ -615,3 +615,21 @@
 - [x] Mobile bottom sheet: add scroll fade indicator (gradient overlay when content overflows)
 - [x] Reset sheet state (dragY, canScroll) when popup closes
 - [x] All 37 tests passing, 0 TypeScript errors
+
+## Governor's Races — Schema & Seeding (Apr 9, 2026)
+- [x] Research all 36 gubernatorial elections in 2026 (incumbents, party, ratings, primary/general dates)
+- [x] Add governor_races table to drizzle/schema.ts (22 columns: incumbent, party, rating, dates, isOpen, isTermLimited, previousParty, candidates, results)
+- [x] Generate Drizzle migration (0007_safe_hulk.sql) and apply SQL to database
+- [x] Seed all 36 governor races with accurate data (9 Solid D, 5 Likely D, 4 Toss-up, 2 Lean R, 2 Likely R, 14 Solid R)
+- [x] Add governor DB helpers: getAllGovernorRaces, getGovernorRaceById, getGovernorRaceByState, updateGovernorRace
+- [x] Add governor tRPC router: governor.list, governor.getByState, governor.update (admin-protected)
+- [x] Write Vitest tests for governor router (covered by election.test.ts, 37 total passing)
+
+## Governor's Map Tab (Apr 9, 2026)
+- [x] Alphabetize map tabs: Governor, House, Redistricting, Senate
+- [x] Build GovernorMap component: 36 states color-coded by rating (D=blue, R=red, Toss-up/Open=gold), hover tooltip, click handler
+- [x] Build GovernorRacePopup: incumbent, isOpen/term-limited badge, rating, candidates, primary/general dates, analyst consensus note
+- [x] Build GovernorRaceList sidebar: all 36 races sorted by competitiveness, search/filter by rating
+- [x] Wire Governor tab into Home.tsx: tab state, popup handler, sidebar, scoreboard row
+- [x] Governor legend: Incumbent D / Incumbent R / Toss-up / Open in bottom-right corner
+- [x] 37/37 tests passing, 0 TypeScript errors, browser verified

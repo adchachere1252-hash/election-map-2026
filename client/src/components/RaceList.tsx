@@ -3,7 +3,7 @@ import { Search, ChevronDown, ChevronUp } from "lucide-react";
 import { getRatingColor, getPartyColor, getRatingClass } from "@/lib/electionUtils";
 import type { SenateRace, HouseRace, RedistrictingState, Referendum } from "../../../drizzle/schema";
 
-type MapView = "senate" | "house" | "redistricting";
+type MapView = "governor" | "senate" | "house" | "redistricting";
 
 interface RaceListProps {
   view: MapView;

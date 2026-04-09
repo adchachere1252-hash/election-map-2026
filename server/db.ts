@@ -1,7 +1,7 @@
 import { eq, and, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { createRequire } from "module";
-import { InsertUser, users, senateRaces, houseRaces, redistrictingStates, referendums, adminSessions, senators, pinnedKeyRaces } from "../drizzle/schema";
+import { InsertUser, users, senateRaces, houseRaces, redistrictingStates, referendums, adminSessions, senators, pinnedKeyRaces, governorRaces } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 const _require = createRequire(import.meta.url);
@@ -437,4 +437,31 @@ export async function unpinKeyRaceByRace(chamber: "senate" | "house", raceId: nu
   if (!db) return;
   await db.delete(pinnedKeyRaces)
     .where(and(eq(pinnedKeyRaces.chamber, chamber), eq(pinnedKeyRaces.raceId, raceId)));
+}
+
+// ─── Governor Races ───────────────────────────────────────────────────────────
+export async function getAllGovernorRaces() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(governorRaces).orderBy(governorRaces.stateName);
+}
+
+export async function getGovernorRaceById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(governorRaces).where(eq(governorRaces.id, id)).limit(1);
+  return result[0] ?? null;
+}
+
+export async function getGovernorRaceByState(stateCode: string) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(governorRaces).where(eq(governorRaces.stateCode, stateCode)).limit(1);
+  return result[0] ?? null;
+}
+
+export async function updateGovernorRace(id: number, data: Partial<typeof governorRaces.$inferInsert>) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.update(governorRaces).set(data).where(eq(governorRaces.id, id));
 }

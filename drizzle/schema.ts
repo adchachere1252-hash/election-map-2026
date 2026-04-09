@@ -182,6 +182,44 @@ export const pinnedKeyRaces = mysqlTable("pinned_key_races", {
 export type PinnedKeyRace = typeof pinnedKeyRaces.$inferSelect;
 export type InsertPinnedKeyRace = typeof pinnedKeyRaces.$inferInsert;
 
+// ─── Governor Races ─────────────────────────────────────────────────────────
+export const governorRaces = mysqlTable("governor_races", {
+  id: int("id").autoincrement().primaryKey(),
+  stateCode: varchar("state_code", { length: 2 }).notNull().unique(),
+  stateName: varchar("state_name", { length: 64 }).notNull(),
+  // Incumbent info
+  incumbentName: varchar("incumbent_name", { length: 128 }),       // null if open seat
+  incumbentParty: mysqlEnum("incumbent_party", ["D", "R", "I"]),  // party of outgoing/current gov
+  isOpen: boolean("is_open").default(false).notNull(),             // true = no incumbent running
+  isTermLimited: boolean("is_term_limited").default(false).notNull(),
+  // Previous party (for flip tracking)
+  previousParty: mysqlEnum("previous_party", ["D", "R", "I"]).notNull(), // party that currently holds seat
+  // Race rating
+  rating: mysqlEnum("rating", [
+    "Solid D", "Likely D", "Lean D", "Toss-up", "Lean R", "Likely R", "Solid R"
+  ]).notNull().default("Solid R"),
+  // Election dates
+  primaryDate: varchar("primary_date", { length: 64 }),            // e.g. "June 2, 2026"
+  runoffDate: varchar("runoff_date", { length: 64 }),
+  generalDate: varchar("general_date", { length: 64 }).notNull().default("November 3, 2026"),
+  isSpecial: boolean("is_special").default(false).notNull(),
+  // Election night results
+  status: mysqlEnum("status", ["Scheduled", "Voting", "Called", "Certified"])
+    .default("Scheduled").notNull(),
+  calledParty: mysqlEnum("called_party", ["D", "R", "I"]),         // set when called
+  demVotes: bigint("dem_votes", { mode: "number" }).default(0),
+  repVotes: bigint("rep_votes", { mode: "number" }).default(0),
+  pctReporting: decimal("pct_reporting", { precision: 5, scale: 2 }).default("0"),
+  // Candidates (leading candidates pre-election)
+  demCandidate: varchar("dem_candidate", { length: 128 }),
+  repCandidate: varchar("rep_candidate", { length: 128 }),
+  // Notes / context
+  notes: text("notes"),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+export type GovernorRace = typeof governorRaces.$inferSelect;
+export type InsertGovernorRace = typeof governorRaces.$inferInsert;
+
 // ─── Admin Sessions ───────────────────────────────────────────────────────────
 export const adminSessions = mysqlTable("admin_sessions", {
   id: int("id").autoincrement().primaryKey(),
