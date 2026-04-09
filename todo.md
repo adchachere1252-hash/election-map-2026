@@ -502,3 +502,8 @@
 ## Map Size Fix (Apr 9, 2026)
 - [x] Reduce map height/size slightly: projection scale reduced from 1.25 to 1.05 — map now fits on screen with breathing room
 - [x] Verified in browser — full US map visible with comfortable margins, no overflow
+
+## TRPC API Error Fix (Apr 9, 2026)
+- [x] Diagnose TRPCClientError "Unexpected token '<'": caused by MySQL idle connection drops returning no response
+- [x] Fix: replaced drizzle(DATABASE_URL string) with mysql2 createPool (keepAlive=true, keepAliveInitialDelay=10s, connectionLimit=10) to prevent dropped idle connections
+- [x] Run tests: 32/32 passing, zero TypeScript errors, all 6 main queries return HTTP 200
