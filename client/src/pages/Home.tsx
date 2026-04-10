@@ -665,7 +665,7 @@ export default function Home() {
         </button>
 
         {/* ── Map area ── */}
-        <main className="flex-1 relative overflow-hidden" style={{ background: "#0d1117" }}>
+        <main className="flex-1 relative overflow-hidden" style={{ background: "#080b14 url('https://d2xsxph8kpxj0f.cloudfront.net/310519663521029713/Duqshn4D3kdv9jkbtBdj4X/bg-starfield-mockup-JqYe2bKJ8FLDDszMe8FmV9.webp') center/cover no-repeat" }}>
           {view === "governor" ? (
             <GovernorMap
               governorRaces={governorRaces as any}
