@@ -19,7 +19,7 @@ import NoRaceStatePopup from "@/components/NoRaceStatePopup";
 import GovernorRacePopup from "@/components/GovernorRacePopup";
 import GovernorRaceList from "@/components/GovernorRaceList";
 import GovernorMap from "@/components/GovernorMap";
-import { AnimatedCircuitBackground } from "@/components/AnimatedCircuitBackground";
+import { TwinklingStars } from "@/components/TwinklingStars";
 
 type MapView = "governor" | "house" | "redistricting" | "senate";
 
@@ -666,6 +666,7 @@ export default function Home() {
 
         {/* ── Map area ── */}
         <main className="flex-1 relative overflow-hidden" style={{ background: "#080b14 url('https://d2xsxph8kpxj0f.cloudfront.net/310519663521029713/Duqshn4D3kdv9jkbtBdj4X/bg-starfield-mockup-JqYe2bKJ8FLDDszMe8FmV9.webp') center/cover no-repeat" }}>
+          <TwinklingStars />
           {view === "governor" ? (
             <GovernorMap
               governorRaces={governorRaces as any}
