@@ -13,7 +13,7 @@ import {
   createAdminSession, validateAdminSession, deleteAdminSession,
   getAllSenators, getSenatorsByState, searchSenators, getSenatorById,
   getPinnedKeyRaces, pinKeyRace, unpinKeyRaceByRace,
-  getAllGovernorRaces, getGovernorRaceByState, updateGovernorRace,
+  getAllGovernorRaces, getGovernorRaceById, getGovernorRaceByState, updateGovernorRace,
 } from "./db";
 import { nanoid } from "nanoid";
 import { ENV } from "./_core/env";
@@ -298,53 +298,73 @@ export const appRouter = router({
       .input(z.object({ adminToken: z.string() }))
       .query(async ({ input }) => {
         await requireAdminToken(input.adminToken);
-        const [senateRaces, houseRaces] = await Promise.all([
+        const [senateRaces, houseRaces, govRaces] = await Promise.all([
           getAllSenateRaces(),
           getAllHouseRaces(),
+          getAllGovernorRaces(),
         ]);
         const ratingOrder: Record<string, number> = {
-          "Toss-up": 0, "Lean D": 1, "Lean R": 2, "Solid D": 3, "Solid R": 4,
+          "Toss-up": 0, "Lean D": 1, "Lean R": 2, "Likely D": 3, "Likely R": 4, "Solid D": 5, "Solid R": 6,
         };
         const senateQueue = senateRaces
           .filter(r => r.status === "General" || r.status === "Called" || r.status === "Certified")
-          .sort((a, b) => (ratingOrder[a.rating ?? ""] ?? 5) - (ratingOrder[b.rating ?? ""] ?? 5));
+          .sort((a, b) => (ratingOrder[a.rating ?? ""] ?? 7) - (ratingOrder[b.rating ?? ""] ?? 7));
         const houseQueue = houseRaces
           .filter(r => r.status === "General" || r.status === "Called" || r.status === "Certified")
-          .sort((a, b) => (ratingOrder[a.rating ?? ""] ?? 5) - (ratingOrder[b.rating ?? ""] ?? 5));
-        return { senate: senateQueue, house: houseQueue };
+          .sort((a, b) => (ratingOrder[a.rating ?? ""] ?? 7) - (ratingOrder[b.rating ?? ""] ?? 7));
+        const governorQueue = govRaces
+          .filter(r => r.status === "Voting" || r.status === "Called" || r.status === "Certified")
+          .sort((a, b) => (ratingOrder[a.rating ?? ""] ?? 7) - (ratingOrder[b.rating ?? ""] ?? 7));
+        return { senate: senateQueue, house: houseQueue, governors: governorQueue };
       }),
 
     // Rapid single-race update: vote pcts + called winner + pct reporting
     updateRace: publicProcedure
       .input(z.object({
         adminToken: z.string(),
-        chamber: z.enum(["senate", "house"]),
+        chamber: z.enum(["senate", "house", "governor"]),
         id: z.number(),
         candidate1VotePct: z.number().min(0).max(100).nullable().optional(),
         candidate2VotePct: z.number().min(0).max(100).nullable().optional(),
+        // Governor-specific vote fields (dem/rep votes as raw numbers)
+        demVotes: z.number().min(0).optional(),
+        repVotes: z.number().min(0).optional(),
         pctReporting: z.number().min(0).max(100).nullable().optional(),
         calledWinner: z.string().nullable().optional(),
         calledParty: partyMainEnum.nullable().optional(),
         status: raceStatusEnum.optional(),
+        // Governor status uses different enum values
+        govStatus: z.enum(["Scheduled", "Voting", "Called", "Certified"]).optional(),
       }))
       .mutation(async ({ input }) => {
         await requireAdminToken(input.adminToken);
-        const { id, adminToken: _t, chamber, ...data } = input;
+        const { id, adminToken: _t, chamber, govStatus, ...data } = input;
         const updateData: Record<string, unknown> = {};
         for (const [k, v] of Object.entries(data)) {
           if (v !== undefined) updateData[k] = v;
         }
         if (chamber === "senate") {
           await updateSenateRace(id, updateData as Parameters<typeof updateSenateRace>[1]);
-        } else {
+        } else if (chamber === "house") {
           await updateHouseRace(id, updateData as Parameters<typeof updateHouseRace>[1]);
+        } else {
+          // Governor: map govStatus → status, remove senate/house-specific fields
+          const govData: Record<string, unknown> = {};
+          if (input.pctReporting !== undefined) govData.pctReporting = input.pctReporting;
+          if (input.calledWinner !== undefined) govData.calledWinner = input.calledWinner;
+          if (input.calledParty !== undefined) govData.calledParty = input.calledParty;
+          if (input.demVotes !== undefined) govData.demVotes = input.demVotes;
+          if (input.repVotes !== undefined) govData.repVotes = input.repVotes;
+          if (govStatus !== undefined) govData.status = govStatus;
+          await updateGovernorRace(id, govData as Parameters<typeof updateGovernorRace>[1]);
         }
         // Broadcast live push to all connected WebSocket clients
-        // Fetch race metadata to get real stateCode and district label
         if (input.calledWinner && input.calledParty) {
           const raceInfo = chamber === "senate"
             ? await getSenateRaceById(id)
-            : await getHouseRaceById(id);
+            : chamber === "house"
+            ? await getHouseRaceById(id)
+            : await getGovernorRaceById(id);
           broadcastElectionEvent({
             type: "race_called",
             chamber: input.chamber,
@@ -356,10 +376,12 @@ export const appRouter = router({
             calledWinner: input.calledWinner,
             timestamp: new Date().toISOString(),
           });
-        } else if (input.status === "General" && !input.calledWinner) {
+        } else if ((input.status === "General" || govStatus === "Voting") && !input.calledWinner) {
           const raceInfo = chamber === "senate"
             ? await getSenateRaceById(id)
-            : await getHouseRaceById(id);
+            : chamber === "house"
+            ? await getHouseRaceById(id)
+            : await getGovernorRaceById(id);
           broadcastElectionEvent({
             type: "race_uncalled",
             chamber: input.chamber,
@@ -599,9 +621,10 @@ export const appRouter = router({
     }),
     // Returns the most recent called races for the results ticker (up to 20)
     recentResults: publicProcedure.query(async () => {
-      const [senateRaces, houseRaces] = await Promise.all([
+      const [senateRaces, houseRaces, govRaces] = await Promise.all([
         getAllSenateRaces(),
         getAllHouseRaces(),
+        getAllGovernorRaces(),
       ]);
       const called = [
         ...senateRaces
@@ -633,6 +656,21 @@ export const appRouter = router({
             updatedAt: r.updatedAt,
             generalDate: r.generalDate ?? null,
             isSpecial: false,
+          })),
+        ...govRaces
+          .filter(r => r.calledWinner && r.calledParty)
+          .map(r => ({
+            id: `governor-${r.id}`,
+            chamber: "governor" as const,
+            stateCode: r.stateCode,
+            stateName: r.stateName,
+            district: null as number | null,
+            calledWinner: r.calledWinner!,
+            calledParty: r.calledParty!,
+            previousParty: r.previousParty ?? null,
+            updatedAt: r.updatedAt,
+            generalDate: r.generalDate ?? null,
+            isSpecial: r.isSpecial ?? false,
           })),
       ]
         .sort((a, b) => {

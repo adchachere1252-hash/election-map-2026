@@ -130,6 +130,12 @@ vi.mock("./db", () => ({
       netD: 1,
       netR: -1,
     },
+    governors: {
+      dToR: [],
+      rToD: [],
+      netD: 0,
+      netR: 0,
+    },
   }),
   createAdminSession: vi.fn().mockResolvedValue(undefined),
   validateAdminSession: vi.fn().mockResolvedValue(false),
@@ -148,6 +154,13 @@ vi.mock("./db", () => ({
   getSenatorById: vi.fn().mockResolvedValue(
     { id: 1, stateCode: "GA", stateName: "Georgia", name: "Jon Ossoff", party: "D", senateClass: 2, nextElectionYear: 2026, isUpIn2026: true, bio: "Jon Ossoff is a U.S. Senator from Georgia.", committees: "Banking; Foreign Relations", websiteUrl: "https://www.ossoff.senate.gov", updatedAt: new Date() }
   ),
+  getAllGovernorRaces: vi.fn().mockResolvedValue([]),
+  getGovernorRaceById: vi.fn().mockResolvedValue(null),
+  getGovernorRaceByState: vi.fn().mockResolvedValue(null),
+  updateGovernorRace: vi.fn().mockResolvedValue(undefined),
+  getPinnedKeyRaces: vi.fn().mockResolvedValue([]),
+  pinKeyRace: vi.fn().mockResolvedValue(undefined),
+  unpinKeyRaceByRace: vi.fn().mockResolvedValue(undefined),
 }));
 
 function createCtx(): TrpcContext {
@@ -415,6 +428,7 @@ describe("Flip Tracker router", () => {
     vi.mocked(getFlipTracker).mockResolvedValueOnce({
       senate: { dToR: [], rToD: [], netD: 0, netR: 0 },
       house: { dToR: [], rToD: [], netD: 0, netR: 0 },
+      governors: { dToR: [], rToD: [], netD: 0, netR: 0 },
     });
     const caller = appRouter.createCaller(createCtx());
     const flips = await caller.flips.get();

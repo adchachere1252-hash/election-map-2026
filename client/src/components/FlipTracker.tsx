@@ -135,6 +135,7 @@ export default function FlipTracker({ className = "" }: FlipTrackerProps) {
         <>
           <ChamberFlipSection label="U.S. Senate" data={data.senate as ChamberFlips} />
           <ChamberFlipSection label="U.S. House" data={data.house as ChamberFlips} />
+          <ChamberFlipSection label="Governors" data={(data as any).governors as ChamberFlips} />
         </>
       )}
     </div>

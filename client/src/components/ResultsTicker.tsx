@@ -4,7 +4,7 @@ import { useElectionSocket } from "@/contexts/ElectionSocketContext";
 
 type TickerResult = {
   id: string;
-  chamber: "senate" | "house";
+  chamber: "senate" | "house" | "governor";
   stateCode: string;
   stateName: string;
   district: number | null;
@@ -23,7 +23,9 @@ function TickerItem({ result }: { result: TickerResult }) {
     result.chamber === "house" && result.district != null
       ? `${result.stateCode}-${result.district}`
       : result.stateName;
-  const chamberTag = result.chamber === "senate" ? "SEN" : "HOR";
+  const chamberTag =
+    result.chamber === "senate" ? "SEN" :
+    result.chamber === "governor" ? "GOV" : "HOR";
 
   // Detect a flip: previousParty exists, is not the same as calledParty, and is not "I" or "Open"
   const isFlip =
@@ -50,7 +52,9 @@ function TickerItem({ result }: { result: TickerResult }) {
         }`}
       />
       {/* Chamber tag */}
-      <span className="text-[10px] font-bold tracking-wider text-muted-foreground">
+      <span className={`text-[10px] font-bold tracking-wider ${
+        result.chamber === "governor" ? "text-purple-400" : "text-muted-foreground"
+      }`}>
         {chamberTag}
       </span>
       {/* Special badge */}

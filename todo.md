@@ -723,3 +723,20 @@
 - [x] Apply all database corrections for Senate and House via senate_house_corrections.mjs
 - [x] Full app verification check: Senate/Governor map dots consistent (r=4), popups correct, 37/37 tests
 - [x] Run tests (37/37 passing), save checkpoint (1782780b)
+
+## Final Verification Check (Apr 10, 2026)
+- [x] Verified governor race dates are in human-readable format in DB
+- [x] Verified AR governor primary date is March 3, 2026 (confirmed via Ballotpedia)
+- [x] Added calledWinner column to governor_races table via SQL migration
+- [x] Extended getFlipTracker() in db.ts to include governor races
+- [x] Extended live.recentResults router to include called governor races with 'governor' chamber tag
+- [x] Updated ResultsTicker.tsx to support 'governor' chamber type with GOV tag
+- [x] Added Governors section to FlipTracker.tsx component
+- [x] Extended electionNight.queue to include governor races in Voting or Called status
+- [x] Extended electionNight.updateRace to support governor chamber with govStatus field
+- [x] Extended ws.ts ElectionEvent types to allow 'governor' chamber
+- [x] Rewrote ElectionNightPanel.tsx to add governor filter tab and governor race entries
+- [x] TX Senate runoff indicator already present: primaryRunoffDate=May 26, 2026 + notes
+- [x] Updated election.test.ts mocks to include governor functions and governors flip tracker shape
+- [x] All 37 tests passing (pnpm test --run)
+- [x] TypeScript: 0 errors

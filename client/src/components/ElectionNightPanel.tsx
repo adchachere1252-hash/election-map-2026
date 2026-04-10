@@ -1,20 +1,20 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import { Zap, CheckCircle2, Circle, ChevronDown, ChevronUp, RefreshCw, AlertTriangle, Trophy, Undo2, Keyboard } from "lucide-react";
 import { getPartyColor, getRatingClass } from "@/lib/electionUtils";
-import type { SenateRace, HouseRace } from "../../../drizzle/schema";
+import type { SenateRace, HouseRace, GovernorRace } from "../../../drizzle/schema";
 import { toast } from "sonner";
 
 interface ElectionNightPanelProps {
   adminToken: string;
 }
 
-type Chamber = "all" | "senate" | "house";
+type Chamber = "all" | "senate" | "house" | "governor";
 type QueueFilter = "all" | "uncalled" | "called";
 
 type RaceEntry = {
   id: number;
-  chamber: "senate" | "house";
+  chamber: "senate" | "house" | "governor";
   label: string;
   sublabel: string;
   rating: string | null;
@@ -32,7 +32,7 @@ type RaceEntry = {
 
 type RecentUpdate = {
   id: number;
-  chamber: "senate" | "house";
+  chamber: "senate" | "house" | "governor";
   label: string;
   calledWinner: string | null;
   calledParty: string | null;
@@ -43,7 +43,33 @@ type RecentUpdate = {
 
 function toRaceEntry(r: SenateRace, chamber: "senate"): RaceEntry;
 function toRaceEntry(r: HouseRace, chamber: "house"): RaceEntry;
-function toRaceEntry(r: SenateRace | HouseRace, chamber: "senate" | "house"): RaceEntry {
+function toRaceEntry(r: GovernorRace, chamber: "governor"): RaceEntry;
+function toRaceEntry(r: SenateRace | HouseRace | GovernorRace, chamber: "senate" | "house" | "governor"): RaceEntry {
+  if (chamber === "governor") {
+    const g = r as GovernorRace;
+    return {
+      id: g.id,
+      chamber: "governor",
+      label: g.stateName,
+      sublabel: `Governor${g.isOpen ? " (Open)" : ""}`,
+      rating: g.rating,
+      status: g.status,
+      candidate1Name: g.demCandidate ?? null,
+      candidate1Party: "D",
+      candidate2Name: g.repCandidate ?? null,
+      candidate2Party: "R",
+      calledWinner: g.calledWinner ?? null,
+      calledParty: g.calledParty ?? null,
+      // Convert raw vote counts to percentages for display
+      candidate1VotePct: g.demVotes && g.repVotes && (g.demVotes + g.repVotes) > 0
+        ? ((g.demVotes / (g.demVotes + g.repVotes)) * 100).toFixed(1)
+        : null,
+      candidate2VotePct: g.demVotes && g.repVotes && (g.demVotes + g.repVotes) > 0
+        ? ((g.repVotes / (g.demVotes + g.repVotes)) * 100).toFixed(1)
+        : null,
+      pctReporting: g.pctReporting != null ? String(g.pctReporting) : null,
+    };
+  }
   const label = chamber === "senate"
     ? (r as SenateRace).stateName ?? ""
     : `${(r as HouseRace).stateCode}-${(r as HouseRace).districtLabel}`;
@@ -57,14 +83,14 @@ function toRaceEntry(r: SenateRace | HouseRace, chamber: "senate" | "house"): Ra
     sublabel,
     rating: r.rating,
     status: r.status,
-    candidate1Name: r.candidate1Name ?? null,
-    candidate1Party: r.candidate1Party ?? null,
-    candidate2Name: r.candidate2Name ?? null,
-    candidate2Party: r.candidate2Party ?? null,
+    candidate1Name: (r as SenateRace | HouseRace).candidate1Name ?? null,
+    candidate1Party: (r as SenateRace | HouseRace).candidate1Party ?? null,
+    candidate2Name: (r as SenateRace | HouseRace).candidate2Name ?? null,
+    candidate2Party: (r as SenateRace | HouseRace).candidate2Party ?? null,
     calledWinner: r.calledWinner ?? null,
     calledParty: r.calledParty ?? null,
-    candidate1VotePct: r.candidate1VotePct != null ? String(r.candidate1VotePct) : null,
-    candidate2VotePct: r.candidate2VotePct != null ? String(r.candidate2VotePct) : null,
+    candidate1VotePct: (r as SenateRace | HouseRace).candidate1VotePct != null ? String((r as SenateRace | HouseRace).candidate1VotePct) : null,
+    candidate2VotePct: (r as SenateRace | HouseRace).candidate2VotePct != null ? String((r as SenateRace | HouseRace).candidate2VotePct) : null,
     pctReporting: r.pctReporting != null ? String(r.pctReporting) : null,
   };
 }
@@ -84,13 +110,48 @@ function PartyChip({ party }: { party: string | null | undefined }) {
 function RatingBadge({ rating }: { rating: string | null | undefined }) {
   if (!rating) return null;
   return (
-    <span className={`text-xs px-1.5 py-0.5 rounded font-semibold ${getRatingClass(rating as any)}`}>
+    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${getRatingClass(rating as any)}`}>
       {rating}
     </span>
   );
 }
 
-interface RaceRowProps {
+function VotePctInput({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div className="flex items-center gap-1">
+      <span className="text-xs text-muted-foreground w-16 truncate">{label}</span>
+      <input
+        type="number"
+        min={0}
+        max={100}
+        step={0.1}
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        className="w-16 text-xs bg-muted border border-border rounded px-1.5 py-0.5 text-foreground focus:outline-none focus:ring-1 focus:ring-blue-500"
+        placeholder="0.0"
+      />
+      <span className="text-xs text-muted-foreground">%</span>
+    </div>
+  );
+}
+
+function RaceRow({
+  race,
+  isActive,
+  onActivate,
+  onUpdate,
+  onCall,
+  onUncall,
+  isSubmitting,
+}: {
   race: RaceEntry;
   isActive: boolean;
   onActivate: () => void;
@@ -98,210 +159,136 @@ interface RaceRowProps {
   onCall: (winner: "1" | "2" | null) => void;
   onUncall: () => void;
   isSubmitting: boolean;
-}
-
-function RaceRow({ race, isActive, onActivate, onUpdate, onCall, onUncall, isSubmitting }: RaceRowProps) {
+}) {
   const isCalled = race.status === "Called" || race.status === "Certified";
-  const pct1Ref = useRef<HTMLInputElement>(null);
-  const pct2Ref = useRef<HTMLInputElement>(null);
-  const pctRepRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (isActive && pct1Ref.current) {
-      pct1Ref.current.focus();
-      pct1Ref.current.select();
-    }
-  }, [isActive]);
-
-  const handleKeyDown = (e: React.KeyboardEvent, field: "pct1" | "pct2" | "pctRep") => {
-    if (e.key === "Tab" && !e.shiftKey) {
-      if (field === "pct1") { e.preventDefault(); pct2Ref.current?.focus(); pct2Ref.current?.select(); }
-      if (field === "pct2") { e.preventDefault(); pctRepRef.current?.focus(); pctRepRef.current?.select(); }
-    }
-    if (e.key === "Escape") { onActivate(); }
-  };
+  const chamberTag = race.chamber === "senate" ? "SEN" : race.chamber === "governor" ? "GOV" : "HSE";
+  const chamberTagColor = race.chamber === "governor" ? "text-purple-400" : "text-muted-foreground";
 
   return (
     <div
-      className={`border rounded-lg transition-all duration-150 ${
+      className={`border rounded-lg transition-all ${
         isCalled
-          ? "border-green-700/50 bg-green-950/20"
+          ? "border-green-800/50 bg-green-950/20"
           : isActive
-          ? "border-yellow-500/60 bg-yellow-950/10"
-          : "border-border bg-card hover:border-border/80 hover:bg-muted/10 cursor-pointer"
+          ? "border-blue-600/60 bg-blue-950/20"
+          : "border-border bg-card hover:border-border/80"
       }`}
-      onClick={!isActive ? onActivate : undefined}
     >
-      {/* Race header */}
-      <div className="flex items-center gap-2 px-3 py-2">
+      {/* Race header — always visible */}
+      <button
+        className="w-full flex items-center gap-2 px-3 py-2 text-left"
+        onClick={onActivate}
+      >
+        {isCalled ? (
+          <CheckCircle2 className="w-4 h-4 text-green-400 flex-shrink-0" />
+        ) : (
+          <Circle className="w-4 h-4 text-muted-foreground/40 flex-shrink-0" />
+        )}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <span className={`font-bold text-sm ${isCalled ? "text-green-300" : "text-foreground"}`}>
-              {race.label}
-            </span>
-            <span className="text-xs text-muted-foreground">{race.sublabel}</span>
-            <RatingBadge rating={race.rating} />
-            {isCalled && (
-              <span className="flex items-center gap-1 text-xs text-green-400 font-semibold">
-                <CheckCircle2 className="w-3 h-3" /> Called
-              </span>
-            )}
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className={`text-[10px] font-bold ${chamberTagColor}`}>{chamberTag}</span>
+            <span className="text-sm font-semibold text-foreground truncate">{race.label}</span>
+            {race.rating && <RatingBadge rating={race.rating} />}
           </div>
           {isCalled && race.calledWinner && (
-            <div className="flex items-center gap-1.5 mt-0.5">
+            <div className="flex items-center gap-1 mt-0.5">
               <Trophy className="w-3 h-3 text-yellow-400" />
               <span className="text-xs text-yellow-300 font-medium">{race.calledWinner}</span>
-              {race.calledParty && <PartyChip party={race.calledParty} />}
+              <PartyChip party={race.calledParty} />
             </div>
           )}
         </div>
-        <div className="flex items-center gap-1.5 flex-shrink-0">
-          {isCalled ? (
-            <button
-              onClick={(e) => { e.stopPropagation(); onUncall(); }}
-              disabled={isSubmitting}
-              className="flex items-center gap-1 text-xs text-orange-400 hover:text-orange-300 border border-orange-700/40 hover:border-orange-500/60 px-2 py-1 rounded transition-colors"
-            >
-              <Undo2 className="w-3 h-3" /> Uncall
-            </button>
-          ) : (
-            <button
-              onClick={(e) => { e.stopPropagation(); onActivate(); }}
-              className="text-muted-foreground hover:text-foreground"
-            >
-              {isActive ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
-          )}
-        </div>
-      </div>
+        {isActive ? (
+          <ChevronUp className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+        ) : (
+          <ChevronDown className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+        )}
+      </button>
 
-      {/* Expanded entry form */}
-      {isActive && !isCalled && (
-        <div className="px-3 pb-3 border-t border-border/40 pt-2.5 space-y-3" onClick={e => e.stopPropagation()}>
-          {/* Vote percentage inputs */}
-          <div className="grid grid-cols-2 gap-2">
-            {/* Candidate 1 */}
-            <div className="space-y-1">
-              <div className="flex items-center gap-1.5">
-                <PartyChip party={race.candidate1Party} />
-                <span className="text-xs text-muted-foreground truncate">
-                  {race.candidate1Name ?? "Candidate 1"}
-                </span>
-              </div>
-              <div className="relative">
-                <input
-                  ref={pct1Ref}
-                  type="number"
-                  min="0"
-                  max="100"
-                  step="0.1"
-                  value={race.candidate1VotePct ?? ""}
-                  onChange={e => onUpdate({ candidate1VotePct: e.target.value || null })}
-                  onKeyDown={e => handleKeyDown(e, "pct1")}
-                  placeholder="0.0"
-                  className="w-full bg-muted/50 border border-border rounded px-2 py-1.5 text-sm text-right font-mono focus:outline-none focus:ring-1 focus:ring-yellow-500/50 pr-6"
-                />
-                <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">%</span>
-              </div>
+      {/* Expanded edit panel */}
+      {isActive && (
+        <div className="px-3 pb-3 border-t border-border/50 pt-2 space-y-3">
+          {/* Candidates */}
+          <div className="flex gap-2 flex-wrap">
+            <div className="flex items-center gap-1.5">
+              <PartyChip party={race.candidate1Party} />
+              <span className="text-xs text-foreground">{race.candidate1Name ?? "—"}</span>
             </div>
-
-            {/* Candidate 2 */}
-            <div className="space-y-1">
-              <div className="flex items-center gap-1.5">
-                <PartyChip party={race.candidate2Party} />
-                <span className="text-xs text-muted-foreground truncate">
-                  {race.candidate2Name ?? "Candidate 2"}
-                </span>
-              </div>
-              <div className="relative">
-                <input
-                  ref={pct2Ref}
-                  type="number"
-                  min="0"
-                  max="100"
-                  step="0.1"
-                  value={race.candidate2VotePct ?? ""}
-                  onChange={e => onUpdate({ candidate2VotePct: e.target.value || null })}
-                  onKeyDown={e => handleKeyDown(e, "pct2")}
-                  placeholder="0.0"
-                  className="w-full bg-muted/50 border border-border rounded px-2 py-1.5 text-sm text-right font-mono focus:outline-none focus:ring-1 focus:ring-yellow-500/50 pr-6"
-                />
-                <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">%</span>
-              </div>
+            <span className="text-muted-foreground/40 text-xs">vs</span>
+            <div className="flex items-center gap-1.5">
+              <PartyChip party={race.candidate2Party} />
+              <span className="text-xs text-foreground">{race.candidate2Name ?? "—"}</span>
             </div>
           </div>
 
-          {/* % Reporting */}
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground w-24 flex-shrink-0">% Reporting</span>
-            <div className="relative flex-1">
+          {/* Vote pct inputs */}
+          <div className="space-y-1.5">
+            <VotePctInput
+              label={race.candidate1Name ?? "Candidate 1"}
+              value={race.candidate1VotePct ?? ""}
+              onChange={v => onUpdate({ candidate1VotePct: v })}
+            />
+            <VotePctInput
+              label={race.candidate2Name ?? "Candidate 2"}
+              value={race.candidate2VotePct ?? ""}
+              onChange={v => onUpdate({ candidate2VotePct: v })}
+            />
+            <div className="flex items-center gap-1">
+              <span className="text-xs text-muted-foreground w-16">% Reporting</span>
               <input
-                ref={pctRepRef}
                 type="number"
-                min="0"
-                max="100"
-                step="1"
+                min={0}
+                max={100}
+                step={1}
                 value={race.pctReporting ?? ""}
-                onChange={e => onUpdate({ pctReporting: e.target.value || null })}
-                onKeyDown={e => handleKeyDown(e, "pctRep")}
+                onChange={e => onUpdate({ pctReporting: e.target.value })}
+                className="w-16 text-xs bg-muted border border-border rounded px-1.5 py-0.5 text-foreground focus:outline-none focus:ring-1 focus:ring-blue-500"
                 placeholder="0"
-                className="w-full bg-muted/50 border border-border rounded px-2 py-1.5 text-sm text-right font-mono focus:outline-none focus:ring-1 focus:ring-yellow-500/50 pr-6"
               />
-              <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">%</span>
+              <span className="text-xs text-muted-foreground">%</span>
             </div>
           </div>
 
-          {/* Action buttons */}
-          <div className="flex items-center gap-2 pt-1">
-            {/* Save vote pcts without calling */}
-            <button
-              onClick={() => onCall(null)}
-              disabled={isSubmitting}
-              className="flex-1 flex items-center justify-center gap-1.5 bg-muted/60 hover:bg-muted border border-border text-sm py-1.5 rounded transition-colors disabled:opacity-50"
-            >
-              {isSubmitting ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <RefreshCw className="w-3.5 h-3.5" />}
-              Save
-            </button>
-
-            {/* Call for Candidate 1 */}
-            {race.candidate1Name && (
+          {/* Call buttons */}
+          <div className="flex items-center gap-2 flex-wrap">
+            {!isCalled ? (
+              <>
+                <button
+                  onClick={() => onCall("1")}
+                  disabled={isSubmitting || !race.candidate1Name}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-bold text-white disabled:opacity-50 transition-opacity"
+                  style={{ background: getPartyColor((race.candidate1Party ?? "D") as "D" | "R" | "I") }}
+                >
+                  <Trophy className="w-3 h-3" />
+                  Call {race.candidate1Name ?? "Cand. 1"}
+                </button>
+                <button
+                  onClick={() => onCall("2")}
+                  disabled={isSubmitting || !race.candidate2Name}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-bold text-white disabled:opacity-50 transition-opacity"
+                  style={{ background: getPartyColor((race.candidate2Party ?? "R") as "D" | "R" | "I") }}
+                >
+                  <Trophy className="w-3 h-3" />
+                  Call {race.candidate2Name ?? "Cand. 2"}
+                </button>
+                <button
+                  onClick={() => onCall(null)}
+                  disabled={isSubmitting}
+                  className="px-3 py-1.5 rounded text-xs font-medium border border-border text-muted-foreground hover:text-foreground disabled:opacity-50"
+                >
+                  Save Pcts
+                </button>
+              </>
+            ) : (
               <button
-                onClick={() => onCall("1")}
+                onClick={onUncall}
                 disabled={isSubmitting}
-                className="flex-1 flex items-center justify-center gap-1.5 text-sm py-1.5 rounded border transition-colors disabled:opacity-50"
-                style={{
-                  background: `${getPartyColor(race.candidate1Party as any)}22`,
-                  borderColor: `${getPartyColor(race.candidate1Party as any)}55`,
-                  color: getPartyColor(race.candidate1Party as any),
-                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-medium border border-border text-muted-foreground hover:text-foreground disabled:opacity-50"
               >
-                <Trophy className="w-3.5 h-3.5" />
-                <span className="truncate max-w-[80px]">{race.candidate1Name.split(" ").pop()}</span>
-              </button>
-            )}
-
-            {/* Call for Candidate 2 */}
-            {race.candidate2Name && (
-              <button
-                onClick={() => onCall("2")}
-                disabled={isSubmitting}
-                className="flex-1 flex items-center justify-center gap-1.5 text-sm py-1.5 rounded border transition-colors disabled:opacity-50"
-                style={{
-                  background: `${getPartyColor(race.candidate2Party as any)}22`,
-                  borderColor: `${getPartyColor(race.candidate2Party as any)}55`,
-                  color: getPartyColor(race.candidate2Party as any),
-                }}
-              >
-                <Trophy className="w-3.5 h-3.5" />
-                <span className="truncate max-w-[80px]">{race.candidate2Name.split(" ").pop()}</span>
+                <Undo2 className="w-3 h-3" /> Uncall
               </button>
             )}
           </div>
-
-          <p className="text-xs text-muted-foreground/60 flex items-center gap-1">
-            <Keyboard className="w-3 h-3" />
-            Tab to advance fields · Esc to collapse · Click candidate name to call race
-          </p>
         </div>
       )}
     </div>
@@ -335,6 +322,7 @@ export default function ElectionNightPanel({ adminToken }: ElectionNightPanelPro
   const allRaces: RaceEntry[] = [
     ...(queue?.senate ?? []).map(r => toRaceEntry(r, "senate")),
     ...(queue?.house ?? []).map(r => toRaceEntry(r, "house")),
+    ...((queue as any)?.governors ?? []).map((r: GovernorRace) => toRaceEntry(r, "governor")),
   ].map(r => {
     const key = `${r.chamber}-${r.id}`;
     return { ...r, ...localEdits[key] };
@@ -372,19 +360,34 @@ export default function ElectionNightPanel({ adminToken }: ElectionNightPanelPro
       : null;
 
     try {
-      await updateRace.mutateAsync({
-        adminToken,
-        chamber: race.chamber,
-        id: race.id,
-        candidate1VotePct: pct1,
-        candidate2VotePct: pct2,
-        pctReporting: pctRep,
-        ...(winner !== null ? {
-          calledWinner,
-          calledParty: calledParty as "D" | "R" | "I" | null,
-          status: "Called",
-        } : {}),
-      });
+      if (race.chamber === "governor") {
+        // Governor uses different vote fields and status enum
+        await updateRace.mutateAsync({
+          adminToken,
+          chamber: "governor",
+          id: race.id,
+          pctReporting: pctRep,
+          ...(winner !== null ? {
+            calledWinner,
+            calledParty: calledParty as "D" | "R" | "I" | null,
+            govStatus: "Called",
+          } : {}),
+        });
+      } else {
+        await updateRace.mutateAsync({
+          adminToken,
+          chamber: race.chamber,
+          id: race.id,
+          candidate1VotePct: pct1,
+          candidate2VotePct: pct2,
+          pctReporting: pctRep,
+          ...(winner !== null ? {
+            calledWinner,
+            calledParty: calledParty as "D" | "R" | "I" | null,
+            status: "Called",
+          } : {}),
+        });
+      }
 
       // Clear local edits for this race
       setLocalEdits(prev => { const next = { ...prev }; delete next[key]; return next; });
@@ -420,15 +423,26 @@ export default function ElectionNightPanel({ adminToken }: ElectionNightPanelPro
 
   const handleUncall = useCallback(async (race: RaceEntry) => {
     try {
-      await updateRace.mutateAsync({
-        adminToken,
-        chamber: race.chamber,
-        id: race.id,
-        calledWinner: null,
-        calledParty: null,
-        status: "General",
-      });
-      toast.success(`${race.label} uncalled — reverted to General`);
+      if (race.chamber === "governor") {
+        await updateRace.mutateAsync({
+          adminToken,
+          chamber: "governor",
+          id: race.id,
+          calledWinner: null,
+          calledParty: null,
+          govStatus: "Voting",
+        });
+      } else {
+        await updateRace.mutateAsync({
+          adminToken,
+          chamber: race.chamber,
+          id: race.id,
+          calledWinner: null,
+          calledParty: null,
+          status: "General",
+        });
+      }
+      toast.success(`${race.label} uncalled`);
     } catch {
       toast.error(`Failed to uncall ${race.label}`);
     }
@@ -442,19 +456,32 @@ export default function ElectionNightPanel({ adminToken }: ElectionNightPanelPro
     );
   }
 
-  if (!queue || (queue.senate.length === 0 && queue.house.length === 0)) {
+  const hasAnyRaces = queue && (
+    queue.senate.length > 0 ||
+    queue.house.length > 0 ||
+    ((queue as any).governors?.length ?? 0) > 0
+  );
+
+  if (!hasAnyRaces) {
     return (
       <div className="flex flex-col items-center justify-center h-48 gap-3 text-center">
         <AlertTriangle className="w-8 h-8 text-yellow-500" />
         <div>
-          <p className="font-semibold text-foreground">No races in General status yet</p>
+          <p className="font-semibold text-foreground">No races in General/Voting status yet</p>
           <p className="text-sm text-muted-foreground mt-1">
-            Use the Senate or House tabs to advance races from Primary → General first.
+            Use the Senate, House, or Governors tabs to advance races first.
           </p>
         </div>
       </div>
     );
   }
+
+  const chamberOptions: { value: Chamber; label: string }[] = [
+    { value: "all", label: "All Chambers" },
+    { value: "senate", label: "Senate" },
+    { value: "house", label: "House" },
+    { value: "governor", label: "Governors" },
+  ];
 
   return (
     <div className="flex gap-4 h-full min-h-0">
@@ -469,12 +496,15 @@ export default function ElectionNightPanel({ adminToken }: ElectionNightPanelPro
               {calledCount} called · {uncalledCount} remaining
             </span>
           </div>
-          <button
-            onClick={() => refetch()}
-            className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1"
-          >
-            <RefreshCw className="w-3 h-3" /> Refresh
-          </button>
+          <div className="flex items-center gap-2">
+            <Keyboard className="w-3.5 h-3.5 text-muted-foreground/50" />
+            <button
+              onClick={() => refetch()}
+              className="text-xs text-muted-foreground hover:text-foreground flex items-center gap-1"
+            >
+              <RefreshCw className="w-3 h-3" /> Refresh
+            </button>
+          </div>
         </div>
 
         {/* Progress bar */}
@@ -488,17 +518,19 @@ export default function ElectionNightPanel({ adminToken }: ElectionNightPanelPro
         {/* Filters */}
         <div className="flex items-center gap-2 flex-wrap">
           {/* Chamber */}
-          {(["all", "senate", "house"] as Chamber[]).map(c => (
+          {chamberOptions.map(({ value: c, label }) => (
             <button
               key={c}
               onClick={() => setChamberFilter(c)}
               className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${
                 chamberFilter === c
-                  ? "bg-blue-700 border-blue-600 text-white"
+                  ? c === "governor"
+                    ? "bg-purple-700 border-purple-600 text-white"
+                    : "bg-blue-700 border-blue-600 text-white"
                   : "border-border text-muted-foreground hover:text-foreground"
               }`}
             >
-              {c === "all" ? "All Chambers" : c === "senate" ? "Senate" : "House"}
+              {label}
             </button>
           ))}
           <span className="text-muted-foreground/30 text-xs">|</span>
@@ -573,8 +605,8 @@ export default function ElectionNightPanel({ adminToken }: ElectionNightPanelPro
                   <div className="flex items-center gap-1.5 mb-1">
                     <CheckCircle2 className="w-3 h-3 text-green-400 flex-shrink-0" />
                     <span className="text-xs font-bold text-foreground truncate">{u.label}</span>
-                    <span className="text-xs text-muted-foreground flex-shrink-0">
-                      {u.chamber === "senate" ? "SEN" : "HSE"}
+                    <span className={`text-xs flex-shrink-0 ${u.chamber === "governor" ? "text-purple-400" : "text-muted-foreground"}`}>
+                      {u.chamber === "senate" ? "SEN" : u.chamber === "governor" ? "GOV" : "HSE"}
                     </span>
                   </div>
                   {u.calledWinner && (

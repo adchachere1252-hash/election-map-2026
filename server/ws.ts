@@ -5,7 +5,7 @@ let wss: WebSocketServer | null = null;
 
 export interface RaceCalledEvent {
   type: "race_called";
-  chamber: "senate" | "house";
+  chamber: "senate" | "house" | "governor";
   stateCode: string;
   stateName?: string;
   districtLabel?: string;
@@ -17,7 +17,7 @@ export interface RaceCalledEvent {
 
 export interface RaceUncalledEvent {
   type: "race_uncalled";
-  chamber: "senate" | "house";
+  chamber: "senate" | "house" | "governor";
   stateCode: string;
   stateName?: string;
   district?: number;

@@ -207,6 +207,7 @@ export const governorRaces = mysqlTable("governor_races", {
   status: mysqlEnum("status", ["Scheduled", "Voting", "Called", "Certified"])
     .default("Scheduled").notNull(),
   calledParty: mysqlEnum("called_party", ["D", "R", "I"]),         // set when called
+  calledWinner: varchar("called_winner", { length: 128 }),          // winner name when called
   demVotes: bigint("dem_votes", { mode: "number" }).default(0),
   repVotes: bigint("rep_votes", { mode: "number" }).default(0),
   pctReporting: decimal("pct_reporting", { precision: 5, scale: 2 }).default("0"),

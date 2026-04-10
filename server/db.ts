@@ -341,10 +341,14 @@ export async function getFlipTracker() {
   if (!db) return {
     senate: { dToR: [], rToD: [], netD: 0, netR: 0 },
     house: { dToR: [], rToD: [], netD: 0, netR: 0 },
+    governors: { dToR: [], rToD: [], netD: 0, netR: 0 },
   };
 
-  const senateRows = await db.select().from(senateRaces);
-  const houseRows = await db.select().from(houseRaces);
+  const [senateRows, houseRows, govRows] = await Promise.all([
+    db.select().from(senateRaces),
+    db.select().from(houseRaces),
+    db.select().from(governorRaces),
+  ]);
 
   type FlipRow = {
     id: number;
@@ -377,6 +381,7 @@ export async function getFlipTracker() {
   return {
     senate: detectFlips(senateRows as FlipRow[]),
     house: detectFlips(houseRows.map(r => ({ ...r, districtLabel: r.districtLabel })) as FlipRow[]),
+    governors: detectFlips(govRows.map(r => ({ ...r, calledWinner: r.calledWinner ?? null })) as FlipRow[]),
   };
 }
 
