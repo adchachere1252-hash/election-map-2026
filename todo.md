@@ -777,3 +777,7 @@
 - [x] Diagnose why only Redistricting shows red/blue stripes after last ElectionMap.tsx change
 - [x] Fix stripe pattern to correctly show on non-participating states in Senate, House, and Governor views (Senate view was returning UNCALLED_COLOR instead of url(#no-race-stripe) for states with no 2026 race)
 - [x] Verify all 4 map views show consistent stripes in browser
+
+## Governor Map Color Fix (Apr 10, 2026)
+- [x] Fix Governor map colors to use same bright red/blue as Senate and House maps — stripe pattern was using semi-transparent colors (#3b82f699, #ef444499) on dark background; updated to fully opaque #1a4fa0 (Solid D blue) and #b22222 (Solid R red) matching rated state colors
+- [x] Verify all rating colors match across all map views

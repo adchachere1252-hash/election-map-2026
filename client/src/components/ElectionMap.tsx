@@ -209,15 +209,11 @@ export default function ElectionMap({
     pattern.append("rect")
       .attr("width", 8)
       .attr("height", 8)
-      .attr("fill", "#1e2433");
-    pattern.append("rect")
-      .attr("x", 0).attr("y", 0)
-      .attr("width", 4).attr("height", 8)
-      .attr("fill", "#3b82f699");
+      .attr("fill", "#1a4fa0");
     pattern.append("rect")
       .attr("x", 4).attr("y", 0)
       .attr("width", 4).attr("height", 8)
-      .attr("fill", "#ef444499");
+      .attr("fill", "#b22222");
 
     const g = svg.append("g");
     if (view === "house" && districtsData) {
