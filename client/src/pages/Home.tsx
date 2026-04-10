@@ -539,41 +539,78 @@ export default function Home() {
       {/* ─── Main content ────────────────────────────────────────────────────── */}
       <div className="flex-1 flex overflow-hidden relative">
 
-        {/* ── Mobile sidebar overlay backdrop ── */}
+        {/* ── Mobile Bottom-Sheet Sidebar ── */}
         {sidebarOpen && (
-          <div
-            className="md:hidden fixed inset-0 z-30 bg-black/50 backdrop-blur-sm"
-            onClick={() => setSidebarOpen(false)}
-          />
+          <div className="md:hidden fixed inset-0 z-40 flex flex-col justify-end">
+            {/* Backdrop */}
+            <div
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              onClick={() => setSidebarOpen(false)}
+            />
+            {/* Bottom sheet */}
+            <div className="relative bg-card border-t border-border rounded-t-2xl shadow-2xl flex flex-col z-10" style={{ maxHeight: "78vh" }}>
+              {/* Drag handle */}
+              <div className="flex justify-center pt-3 pb-1 flex-shrink-0 cursor-pointer" onClick={() => setSidebarOpen(false)}>
+                <div className="w-10 h-1 rounded-full bg-muted-foreground/30" />
+              </div>
+              {/* Header */}
+              <div className="flex items-center justify-between px-4 pb-2 flex-shrink-0">
+                <span className="text-sm font-bold text-foreground">Races & Scoreboard</span>
+                <button onClick={() => setSidebarOpen(false)} className="p-1 rounded hover:bg-muted transition-colors">
+                  <X className="w-4 h-4 text-muted-foreground" />
+                </button>
+              </div>
+              {/* Scrollable content */}
+              <div className="flex-1 overflow-y-auto">
+                <div className="p-3 border-b border-border">
+                  <Scoreboard />
+                </div>
+                <div className="p-3 border-b border-border">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="w-1.5 h-3.5 bg-yellow-500 rounded-sm inline-block flex-shrink-0" />
+                    <span className="text-xs font-bold text-foreground uppercase tracking-wider">Key Races</span>
+                    <span className="text-[10px] text-muted-foreground font-normal normal-case tracking-normal">most competitive contests</span>
+                  </div>
+                  <KeyRaces />
+                </div>
+                {view === "governor" ? (
+                  <GovernorRaceList
+                    governorRaces={governorRaces as any}
+                    onSelectGovernor={(race) => { handleSelectGovernor(race); setSidebarOpen(false); }}
+                    selectedId={selectedId}
+                  />
+                ) : (
+                  <RaceList
+                    view={view}
+                    senateRaces={senateRaces}
+                    houseRaces={houseRaces}
+                    redistrictingStates={redistrictingStates}
+                    referendums={referendums}
+                    onSelectSenate={(race) => { handleSelectSenate(race); setSidebarOpen(false); }}
+                    onSelectHouse={(race) => { handleSelectHouse(race); setSidebarOpen(false); }}
+                    onSelectRedistricting={(state) => { handleSelectRedistricting(state); setSidebarOpen(false); }}
+                    onSelectReferendum={(ref) => { handleSelectReferendum(ref); setSidebarOpen(false); }}
+                    selectedId={selectedId}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
         )}
 
-        {/* ── Left Sidebar ── */}
+        {/* ── Left Sidebar (desktop only) ── */}
         <aside
           className={`
-            flex-shrink-0 border-r border-border flex flex-col overflow-hidden bg-card/95
+            hidden md:flex flex-shrink-0 border-r border-border flex-col overflow-hidden bg-card/95
             transition-all duration-300 ease-in-out
-            /* Mobile: fixed overlay drawer */
-            fixed md:relative inset-y-0 left-0 z-40
-            ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
-            md:translate-x-0
             /* Desktop: collapsible width */
             ${sidebarCollapsed ? "md:w-0 md:border-r-0 md:overflow-hidden" : "md:w-64"}
-            w-72
           `}
-          style={{ top: 0, bottom: 0 }}
         >
           {/* Sidebar content — hidden when collapsed on desktop */}
           <div className={`flex flex-col h-full overflow-hidden ${sidebarCollapsed ? "md:hidden" : ""}`}>
-            {/* Mobile close button */}
-            <div className="md:hidden flex items-center justify-between px-3 py-2 border-b border-border flex-shrink-0">
-              <span className="text-sm font-semibold text-foreground">Races & Scoreboard</span>
-              <button
-                onClick={() => setSidebarOpen(false)}
-                className="p-1 rounded hover:bg-muted transition-colors"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
+            {/* placeholder for mobile close button removed — desktop only now */}
+            <div className="hidden" />
 
             {/* Single scrollable column: Scoreboard on top, Key Races, then RaceList below */}
             <div className="flex-1 overflow-y-auto">
@@ -831,6 +868,22 @@ export default function Home() {
           senatorId={selectedSenatorId}
           onClose={() => setSelectedSenatorId(null)}
         />
+      )}
+
+      {/* ── Mobile floating Races button ──────────────────────────────────── */}
+      {!sidebarOpen && (
+        <button
+          className="md:hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-5 py-2.5 rounded-full shadow-lg shadow-blue-900/40 transition-colors"
+          onClick={() => setSidebarOpen(true)}
+          aria-label="Open races panel"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+          Races
+        </button>
       )}
     </div>
   );

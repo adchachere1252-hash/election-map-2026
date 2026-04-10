@@ -58,15 +58,26 @@ export default function ElectionMap({
   searchHighlight = null,
 }: ElectionMapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
+  const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
   const [statesData, setStatesData] = useState<any>(null);
   const [districtsData, setDistrictsData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [tooltip, setTooltip] = useState<{ x: number; y: number; content: string } | null>(null);
+  const [isZoomed, setIsZoomed] = useState(false);
   // Use refs for callbacks to avoid stale closures in D3 event handlers
   const onStateClickRef = useRef(onStateClick);
   const onDistrictClickRef = useRef(onDistrictClick);
   useEffect(() => { onStateClickRef.current = onStateClick; }, [onStateClick]);
   useEffect(() => { onDistrictClickRef.current = onDistrictClick; }, [onDistrictClick]);
+
+  const resetZoom = () => {
+    if (svgRef.current && zoomRef.current) {
+      d3.select(svgRef.current)
+        .transition().duration(400)
+        .call(zoomRef.current.transform as any, d3.zoomIdentity);
+      setIsZoomed(false);
+    }
+  };
 
   // Load both topojson files in parallel
   useEffect(() => {
@@ -450,17 +461,46 @@ export default function ElectionMap({
       }
     }
 
+    // ── Small state labels (East Coast, dense states) ──────────────────────
+    const SMALL_STATE_CODES = new Set(["CT","RI","DE","NJ","MD","MA","VT","NH"]);
+    if (view !== "house") {
+      // @ts-ignore
+      stateFeatures.features.forEach((d: any) => {
+        const fips = String(d.id).padStart(2, "0");
+        const code = FIPS_TO_STATE[fips];
+        if (!code || !SMALL_STATE_CODES.has(code)) return;
+        const centroid = path.centroid(d);
+        if (!centroid || isNaN(centroid[0]) || isNaN(centroid[1])) return;
+        g.append("text")
+          .attr("x", centroid[0])
+          .attr("y", centroid[1] + 4)
+          .attr("text-anchor", "middle")
+          .attr("font-size", "7px")
+          .attr("font-family", "sans-serif")
+          .attr("font-weight", "700")
+          .attr("fill", "rgba(255,255,255,0.9)")
+          .attr("stroke", "rgba(0,0,0,0.6)")
+          .attr("stroke-width", "2.5px")
+          .attr("paint-order", "stroke")
+          .attr("pointer-events", "none")
+          .text(code);
+      });
+    }
+
     // Add zoom & pan
     const zoom = d3.zoom<SVGSVGElement, unknown>()
       .scaleExtent([1, 12])
       .on("zoom", (event) => {
         g.attr("transform", event.transform.toString());
+        setIsZoomed(event.transform.k > 1.05);
       });
 
+    zoomRef.current = zoom;
     svg.call(zoom);
 
     // Reset zoom on view change
     svg.call(zoom.transform, d3.zoomIdentity);
+    setIsZoomed(false);
 
   }, [statesData, districtsData, view, senateRaces, houseRaces, redistrictingStates, senators, selectedStateCode, selectedDistrictId, getStateColor, getDistrictColor, getStateSplitInfo, houseByStateDistrict, searchHighlight]);
 
@@ -482,6 +522,19 @@ export default function ElectionMap({
         className="w-full h-full"
         style={{ background: "#0d1117" }}
       />
+      {/* Zoom-to-fit reset button — only visible when zoomed in */}
+      {isZoomed && (
+        <button
+          onClick={resetZoom}
+          className="absolute top-3 left-3 z-20 flex items-center gap-1.5 bg-card/90 backdrop-blur border border-border rounded-lg px-2.5 py-1.5 text-xs text-foreground shadow-lg hover:bg-card transition-colors"
+          title="Reset zoom to fit all states"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 3h6M3 3v6M21 3h-6M21 3v6M3 21h6M3 21v-6M21 21h-6M21 21v-6"/>
+          </svg>
+          Fit Map
+        </button>
+      )}
       {tooltip && (
         <div
           className="absolute pointer-events-none bg-popover border border-border rounded px-2 py-1 text-xs text-popover-foreground shadow-lg z-10 whitespace-pre-line"
