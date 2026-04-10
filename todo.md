@@ -783,6 +783,6 @@
 - [x] Verify all rating colors match across all map views
 
 ## Governor Map Rated State Color Brightness Fix (Apr 10, 2026)
-- [ ] Identify why solid red/blue Governor states appear darker than Senate/House rated states
-- [ ] Fix Governor rated state colors to match Senate/House brightness
-- [ ] Verify in browser all four maps have consistent color brightness
+- [x] Identify why solid red/blue Governor states appear darker than Senate/House rated states — root cause was GovernorMap.tsx using its own separate SVG stripe pattern with semi-transparent dark colors, making the entire map appear darker
+- [x] Fix Governor rated state colors to match Senate/House brightness — fixed by updating GovernorMap.tsx stripe pattern to use same bright opaque colors (#2563eb blue, #dc2626 red, 12px width) as ElectionMap.tsx
+- [x] Verify in browser all four maps have consistent color brightness — confirmed visually: all 4 map views show identical bright red/blue stripes on non-participating states
