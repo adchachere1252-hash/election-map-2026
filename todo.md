@@ -675,3 +675,20 @@
 - [x] Governor editor: rating, demCandidate, repCandidate, winner, vote%, status, notes
 - [x] Election night call buttons: "Call for Dem" / "Call for Rep" / "Uncall"
 - [x] Run tests, verify dot size and admin tab in browser, save checkpoint (37/37 passing, 0 TS errors)
+
+## Governor Candidate Accuracy Audit (Apr 9, 2026)
+- [ ] Research which 2026 governor primaries have occurred before Apr 9, 2026 (TX Mar 4, NC Mar 4, AR Mar 4 — check all)
+- [ ] For states with no primary yet: clear demCandidate/repCandidate if they are speculative/guessed names
+- [ ] For states with confirmed nominees: verify names against Ballotpedia/AP
+- [ ] For incumbents running for re-election: keep incumbent name as candidate (they are confirmed)
+- [ ] Update database with corrected candidate data
+- [ ] Run tests, verify in browser, save checkpoint
+
+## Governor Candidate Accuracy Audit — Continued (Apr 9, 2026)
+- [x] Query all 36 governor races from DB to see current demCandidate/repCandidate values
+- [x] Keep confirmed matchups: AR (Love D vs Sanders R), IL (Pritzker D vs Bailey R), TX (Hinojosa D vs Abbott R)
+- [x] Keep incumbents running for re-election as their own party's candidate (they are on ballot automatically)
+- [x] Clear repCandidate for all open-seat R races with no confirmed nominee yet
+- [x] Clear demCandidate for all open-seat D races with no confirmed nominee yet
+- [x] Clear challenger names for all incumbent races where challenger is speculative
+- [x] Run tests (37/37 passing), verify in browser, save checkpoint
