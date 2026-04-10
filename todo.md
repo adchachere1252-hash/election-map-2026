@@ -740,3 +740,13 @@
 - [x] Updated election.test.ts mocks to include governor functions and governors flip tracker shape
 - [x] All 37 tests passing (pnpm test --run)
 - [x] TypeScript: 0 errors
+
+## TX Senate Race Fix (Apr 10, 2026)
+- [x] Clear TX Senate candidate1_name (Talarico) and candidate2_name (Cornyn) — race undecided pending R runoff May 26
+- [x] Update TX Senate notes to reflect runoff status clearly
+- [x] Verify fix in DB
+
+## TX Senate Talarico Correction (Apr 10, 2026)
+- [x] Restore James Talarico as candidate1_name (D) — confirmed D primary winner March 3, 2026
+- [x] Set candidate2_name to TBD — Republican Primary Runoff (R runoff May 26: Cornyn vs Paxton)
+- [x] Update notes to reflect Talarico confirmed D nominee
