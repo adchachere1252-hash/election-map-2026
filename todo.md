@@ -807,3 +807,12 @@
 - [x] Audit Redistricting data: 12 redistricting states with valid data
 - [x] Fix 17 Senate races missing candidate names — added known incumbents: Hickenlooper (CO), Coons (DE), Risch (ID), Marshall (KS), Cassidy (LA), Markey (MA), Ricketts (NE), Booker (NJ), Luján (NM), Merkley (OR), Reed (RI), Graham (SC), Rounds (SD), Hagerty (TN), Warner (VA), Capito (WV); open seat note for AL (Tuberville running for governor)
 - [x] All 37 tests pass, 0 TypeScript errors, all structural checks clean
+
+## Deep Audit Fixes (Apr 10, 2026)
+- [x] Fix 6 Senate races with "Likely R/D" ratings → confirmed valid (frontend supports 7-tier scale); no change needed
+- [x] Fix 27 House districts with "Likely R/D" ratings → confirmed valid (frontend supports 7-tier scale); no change needed
+- [x] Add Governor candidate names for all 36 races → populated demCandidate/repCandidate for all 36 states using Ballotpedia incumbents
+- [x] Fix 7 Governor races with "Likely R/D" ratings → confirmed valid (governor.update schema accepts Likely tier)
+- [x] Fix House incumbentName field → confirmed field name mismatch in audit only; actual data is correct
+- [x] Final audit: ALL CHECKS PASSED — 35 Senate, 435 House, 36 Governor, 12 Redistricting all clean
+- [x] All 37 tests pass, 0 TypeScript errors
