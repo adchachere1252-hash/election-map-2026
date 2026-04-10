@@ -666,7 +666,6 @@ export default function Home() {
 
         {/* ── Map area ── */}
         <main className="flex-1 relative overflow-hidden" style={{ background: "#0d1117" }}>
-          <AnimatedCircuitBackground />
           {view === "governor" ? (
             <GovernorMap
               governorRaces={governorRaces as any}
