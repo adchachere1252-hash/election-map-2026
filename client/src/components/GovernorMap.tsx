@@ -112,20 +112,16 @@ export default function GovernorMap({
     const pattern = defs.append("pattern")
       .attr("id", "no-gov-race-stripe")
       .attr("patternUnits", "userSpaceOnUse")
-      .attr("width", 8)
-      .attr("height", 8)
+      .attr("width", 12)
+      .attr("height", 12)
       .attr("patternTransform", "rotate(45)");
     pattern.append("rect")
-      .attr("width", 8).attr("height", 8)
-      .attr("fill", "#1e2433");
+      .attr("width", 12).attr("height", 12)
+      .attr("fill", "#2563eb");
     pattern.append("rect")
-      .attr("x", 0).attr("y", 0)
-      .attr("width", 4).attr("height", 8)
-      .attr("fill", "#3b82f633");
-    pattern.append("rect")
-      .attr("x", 4).attr("y", 0)
-      .attr("width", 4).attr("height", 8)
-      .attr("fill", "#ef444433");
+      .attr("x", 6).attr("y", 0)
+      .attr("width", 6).attr("height", 12)
+      .attr("fill", "#dc2626");
 
     const g = svg.append("g");
 
@@ -299,7 +295,7 @@ export default function GovernorMap({
             <span>Open / Term-Limited</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-3.5 h-3.5 rounded-sm flex-shrink-0" style={{ border: "1px solid rgba(255,255,255,0.1)", background: "repeating-linear-gradient(45deg, #3b82f633 0px, #3b82f633 4px, #ef444433 4px, #ef444433 8px), #1e2433" }} />
+            <div className="w-3.5 h-3.5 rounded-sm flex-shrink-0" style={{ border: "1px solid rgba(255,255,255,0.2)", background: "repeating-linear-gradient(45deg, #2563eb 0px, #2563eb 6px, #dc2626 6px, #dc2626 12px)" }} />
             <span>No 2026 Race</span>
           </div>
         </div>

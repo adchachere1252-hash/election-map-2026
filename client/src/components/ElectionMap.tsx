@@ -203,17 +203,17 @@ export default function ElectionMap({
     const pattern = defs.append("pattern")
       .attr("id", "no-race-stripe")
       .attr("patternUnits", "userSpaceOnUse")
-      .attr("width", 8)
-      .attr("height", 8)
+      .attr("width", 12)
+      .attr("height", 12)
       .attr("patternTransform", "rotate(45)");
     pattern.append("rect")
-      .attr("width", 8)
-      .attr("height", 8)
-      .attr("fill", "#1a4fa0");
+      .attr("width", 12)
+      .attr("height", 12)
+      .attr("fill", "#2563eb");
     pattern.append("rect")
-      .attr("x", 4).attr("y", 0)
-      .attr("width", 4).attr("height", 8)
-      .attr("fill", "#b22222");
+      .attr("x", 6).attr("y", 0)
+      .attr("width", 6).attr("height", 12)
+      .attr("fill", "#dc2626");
 
     const g = svg.append("g");
     if (view === "house" && districtsData) {
