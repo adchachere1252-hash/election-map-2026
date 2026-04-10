@@ -3,7 +3,7 @@ import { Search, X, MapPin, Building2, Vote, ChevronRight, User } from "lucide-r
 import { getRatingClass, getPartyColor } from "@/lib/electionUtils";
 import type { SenateRace, HouseRace, RedistrictingState, Referendum, Senator } from "../../../drizzle/schema";
 import { trpc } from "@/lib/trpc";
-import SenatorDetailPopup from "./SenatorDetailPopup";
+
 
 // CDN base for candidate photos (same base as server/candidatePhotos.ts)
 const CDN_BASE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663521029713/Duqshn4D3kdv9jkbtBdj4X";
@@ -52,6 +52,7 @@ interface GlobalSearchProps {
   onSelectRedistricting: (state: RedistrictingState) => void;
   onSelectReferendum: (ref: Referendum) => void;
   onQueryChange?: (query: string) => void;
+  onSelectSenator?: (senator: Senator) => void;
 }
 
 type SearchResult =
@@ -166,11 +167,12 @@ export default function GlobalSearch({
   onSelectRedistricting,
   onSelectReferendum,
   onQueryChange,
+  onSelectSenator,
 }: GlobalSearchProps) {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [selectedSenatorId, setSelectedSenatorId] = useState<number | null>(null);
+
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -315,10 +317,11 @@ export default function GlobalSearch({
     else if (result.kind === "house") onSelectHouse(result.data);
     else if (result.kind === "redistricting") onSelectRedistricting(result.data);
     else if (result.kind === "referendum") onSelectReferendum(result.data);
+    else if (result.kind === "senator") onSelectSenator?.(result.data);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!isOpen || results.length === 0) return;
+    if (!isOpen || allResults.length === 0) return;
     if (e.key === "ArrowDown") { e.preventDefault(); setActiveIndex(i => Math.min(i + 1, allResults.length - 1)); }
     if (e.key === "ArrowUp") { e.preventDefault(); setActiveIndex(i => Math.max(i - 1, 0)); }
     if (e.key === "Enter") { e.preventDefault(); if (allResults[activeIndex]) handleSelect(allResults[activeIndex]); }
@@ -541,7 +544,7 @@ export default function GlobalSearch({
       return (
         <button
           key={`senator-${s.id}`}
-          onClick={() => { setIsOpen(false); setQuery(""); onQueryChange?.(""); setSelectedSenatorId(s.id); }}
+          onClick={() => handleSelect(result)}
           className={`w-full text-left px-3 py-2.5 border-b border-border/30 hover:bg-accent transition-colors cursor-pointer ${isActive ? "bg-accent" : ""}`}
         >
           <div className="flex items-center gap-2.5">
@@ -685,12 +688,6 @@ export default function GlobalSearch({
     </div>
 
     {/* Senator detail popup */}
-    {selectedSenatorId !== null && (
-      <SenatorDetailPopup
-        senatorId={selectedSenatorId}
-        onClose={() => setSelectedSenatorId(null)}
-      />
-    )}
     </>
   );
 }

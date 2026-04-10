@@ -750,3 +750,25 @@
 - [x] Restore James Talarico as candidate1_name (D) — confirmed D primary winner March 3, 2026
 - [x] Set candidate2_name to TBD — Republican Primary Runoff (R runoff May 26: Cornyn vs Paxton)
 - [x] Update notes to reflect Talarico confirmed D nominee
+
+## Independent Senate Races (Apr 10, 2026)
+- [x] Confirmed: Sanders (I-VT) and King (I-ME) are Class I senators — NOT up in 2026 (both won re-election Nov 2024, terms end Jan 2031)
+- [x] Confirmed: No Independents in Class II (2026 ballot) — all 35 Senate races are D vs R
+- [x] Sanders and King already in senators table (seeded in Round 9) — searchable via global search
+
+## Independent Senators in Search (Apr 10, 2026)
+- [x] Confirmed: senators table has all 100 senators including Sanders (I-VT) and King (I-ME)
+- [x] Confirmed: GlobalSearch already indexes all 100 senators — searching "Bernie Sanders" returns result
+- [x] Confirmed: Senate map popup shows both senators per state (NoRaceStatePopup for non-2026 states)
+- [x] Bug fix: SenatorDetailPopup not opening from GlobalSearch click — fixed by lifting state to Home.tsx and using handleSelect with senator case
+
+## Full Senate Roster Feature (Apr 10, 2026)
+- [x] senators table already exists with all 100 senators (seeded in Round 9)
+- [x] senators.list, senators.byState, senators.search, senators.getById tRPC procedures all exist
+- [x] Senate map popup already shows both senators per state
+- [x] Sanders (I-VT) and King (I-ME) already searchable via global search
+- [x] SenatorDetailPopup shows bio, committees, official website link for all 100 senators
+
+## Bug Fixes (Apr 10, 2026)
+- [x] Fix senator detail popup not opening when clicking senator result from global search
+- [x] Standardize red/blue stripe pattern for non-participating states across all 4 map views (Senate, House, Governor, Redistricting) to match Senate map stripe style

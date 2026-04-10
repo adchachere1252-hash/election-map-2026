@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 import { getRatingColor, getPartyColor } from "@/lib/electionUtils";
-import type { SenateRace, HouseRace, RedistrictingState, Senator } from "../../../drizzle/schema";
+import type { SenateRace, HouseRace, RedistrictingState, Senator, GovernorRace } from "../../../drizzle/schema";
 
 type MapView = "governor" | "senate" | "house" | "redistricting";
 
@@ -11,6 +11,7 @@ interface ElectionMapProps {
   senateRaces: SenateRace[];
   houseRaces: HouseRace[];
   redistrictingStates: RedistrictingState[];
+  governorRaces?: GovernorRace[];
   senators?: Senator[];
   onStateClick?: (stateCode: string) => void;
   onDistrictClick?: (race: HouseRace) => void;
@@ -47,6 +48,7 @@ export default function ElectionMap({
   senateRaces,
   houseRaces,
   redistrictingStates,
+  governorRaces = [],
   senators = [],
   onStateClick,
   onDistrictClick,
@@ -106,6 +108,11 @@ export default function ElectionMap({
     [redistrictingStates]
   );
 
+  const govByState = useMemo(() =>
+    Object.fromEntries(governorRaces.map(r => [r.stateCode, r])),
+    [governorRaces]
+  );
+
   // Build party split map: stateCode -> { name, party }[]
   const senatorsByState = useMemo(() => {
     const map: Record<string, { name: string; party: string }[]> = {};
@@ -128,7 +135,7 @@ export default function ElectionMap({
   const getDistrictColor = useCallback((stateCode: string, district: number): string => {
     const key = `${stateCode}-${district}`;
     const race = houseByStateDistrict[key];
-    if (!race) return UNCALLED_COLOR;
+    if (!race) return "url(#no-race-stripe)";
     if (resultsMode) {
       if (race.calledParty === "D") return CALLED_D_COLOR;
       if (race.calledParty === "R") return CALLED_R_COLOR;
@@ -150,13 +157,24 @@ export default function ElectionMap({
       if (race.calledParty) return getPartyColor(race.calledParty as any);
       return getRatingColor(race.rating as any);
     }
+    if (view === "governor") {
+      const race = govByState[stateCode];
+      if (!race) return "url(#no-race-stripe)";
+      if (resultsMode) {
+        if (race.calledWinner === race.demCandidate) return CALLED_D_COLOR;
+        if (race.calledWinner === race.repCandidate) return CALLED_R_COLOR;
+        return UNCALLED_COLOR;
+      }
+      if (race.calledWinner) return getPartyColor(race.calledWinner === race.demCandidate ? "D" : "R" as any);
+      return getRatingColor(race.rating as any);
+    }
     if (view === "redistricting") {
       const state = redistrictingByState[stateCode];
-      if (!state) return UNCALLED_COLOR;
+      if (!state) return "url(#no-race-stripe)";
       return state.enacted ? "#4a7c59" : "#8b6914";
     }
-    return UNCALLED_COLOR;
-  }, [view, senateByState, redistrictingByState, resultsMode]);
+    return "url(#no-race-stripe)";
+  }, [view, senateByState, redistrictingByState, govByState, resultsMode]);
 
   // Main D3 render effect
   useEffect(() => {
@@ -294,10 +312,6 @@ export default function ElectionMap({
         .attr("fill", (d: any) => {
           const fips = String(d.id).padStart(2, "0");
           const code = FIPS_TO_STATE[fips];
-          // In senate view, states with no 2026 race get a stripe pattern
-          if (view === "senate" && !senateByState[code]) {
-            return "url(#no-race-stripe)";
-          }
           return getStateColor(code);
         })
         .attr("stroke", "#1a1f2e")

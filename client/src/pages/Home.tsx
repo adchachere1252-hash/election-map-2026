@@ -9,7 +9,8 @@ import GlobalSearch from "@/components/GlobalSearch";
 import { Map, RefreshCw, Lock, Calendar, ChevronRight, ChevronLeft, Menu, X, Zap, Radio, Volume2, VolumeX } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
-import type { SenateRace, HouseRace, RedistrictingState, Referendum } from "../../../drizzle/schema";
+import type { SenateRace, HouseRace, RedistrictingState, Referendum, Senator } from "../../../drizzle/schema";
+import SenatorDetailPopup from "@/components/SenatorDetailPopup";
 import { useElectionSocket } from "@/contexts/ElectionSocketContext";
 import ResultsTicker from "@/components/ResultsTicker";
 import KeyRaces from "@/components/KeyRaces";
@@ -101,6 +102,8 @@ export default function Home() {
   const [resultsMode, setResultsMode] = useState(false);
   // Live search query for map highlighting
   const [liveSearchQuery, setLiveSearchQuery] = useState("");
+  // Senator detail popup (opened from global search)
+  const [selectedSenatorId, setSelectedSenatorId] = useState<number | null>(null);
 
   // WebSocket live push — invalidates caches instantly when a race is called
   const { isConnected, lastEvent } = useElectionSocket();
@@ -321,6 +324,7 @@ export default function Home() {
               onSelectRedistricting={handleSelectRedistricting}
               onSelectReferendum={handleSelectReferendum}
               onQueryChange={setLiveSearchQuery}
+              onSelectSenator={(s: Senator) => setSelectedSenatorId(s.id)}
             />
           </div>
 
@@ -456,6 +460,7 @@ export default function Home() {
               onSelectRedistricting={handleSelectRedistricting}
               onSelectReferendum={handleSelectReferendum}
               onQueryChange={setLiveSearchQuery}
+              onSelectSenator={(s: Senator) => setSelectedSenatorId(s.id)}
             />
           </div>
         )}
@@ -812,6 +817,14 @@ export default function Home() {
         <div
           className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm sm:block hidden"
           onClick={() => setSearchOpen(false)}
+        />
+      )}
+
+      {/* Senator detail popup — opened from global search */}
+      {selectedSenatorId !== null && (
+        <SenatorDetailPopup
+          senatorId={selectedSenatorId}
+          onClose={() => setSelectedSenatorId(null)}
         />
       )}
     </div>
