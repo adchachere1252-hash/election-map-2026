@@ -703,3 +703,23 @@
 - [x] Iowa/MN/WI: verified open flags correct (incumbents chose not to run, not term-limited)
 - [x] Applied all corrected data to database via gov_corrections.mjs
 - [x] Run tests (37/37 passing), save checkpoint
+
+## Senate & House Candidate Verification (Apr 9, 2026)
+- [x] Pull all Senate candidate1/candidate2 from DB and identify races with confirmed primaries
+- [x] Verify each Senate candidate name on Ballotpedia (35 races)
+- [x] TX Senate: Cornyn in runoff vs Paxton (May 26) — cleared R candidate to TBD
+- [x] NH Senate: Ayotte is Governor, not running for Senate — cleared R candidate to TBD
+- [x] MN Senate: Fixed Rachel Tafoya → Michele Tafoya (sports broadcaster)
+- [x] MT Senate: Added Seth Bodnar as D candidate (confirmed on Ballotpedia)
+- [x] WY Senate: Full names (James Byrd, Harriet Hageman)
+- [x] AR/MS/NC/IL Senate: Verified confirmed primary winners — all correct
+- [x] AK/FL/IA/KY/ME/MI/OH/OK Senate: Verified declared candidates — all correct
+- [x] Pull all House candidate1/candidate2 from DB for competitive races
+- [x] Verify House candidate names on Ballotpedia for competitive/toss-up districts
+- [x] TX-21 House: Chip Roy running for AG — open seat, cleared both candidates to TBD
+- [x] TX-23/32/33/35/38: Cleared runoff notes from candidate fields
+- [x] VA-11 House: Cleared Mike Clancy (unconfirmed, primary Aug 4) — R set to TBD
+- [x] TX-28 House: Verified Tano Tijerina (R) is correct — switched parties Dec 2024
+- [x] Apply all database corrections for Senate and House via senate_house_corrections.mjs
+- [x] Full app verification check: Senate/Governor map dots consistent (r=4), popups correct, 37/37 tests
+- [x] Run tests (37/37 passing), save checkpoint (1782780b)
