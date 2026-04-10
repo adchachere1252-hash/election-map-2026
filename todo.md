@@ -794,3 +794,16 @@
 - [x] Update legend swatches in both components to match
 - [x] Verify visually across all 4 map views — confirmed subtle and readable
 - [x] Fix search bar overlapping/running into the map area — moved search to its own full-width row below the toolbar
+
+## Senate Map Click Bug (Apr 10, 2026)
+- [x] Diagnose why Senate map state clicks no longer open popups — confirmed working correctly in browser; no code fix needed
+- [x] Fix the root cause — no bug found; all popups working
+- [x] Full verification of all 4 map views, popups, search, sidebar — Senate ✓ (Wyoming, Montana), House ✓ (MT-2), Governor ✓ (Idaho), Redistricting ✓ (Utah), search bar ✓, sidebar ✓
+
+## Full 50-State Audit (Apr 10, 2026)
+- [x] Audit Senate data: all 35 races verified (33 Class 2 + FL + OH specials); 15 states correctly have no 2026 race
+- [x] Audit House data: all 50 states have district data (435 total); at-large states use district=0 by design
+- [x] Audit Governor data: all 36 races verified; NJ correctly absent (had 2025 race, next is 2029)
+- [x] Audit Redistricting data: 12 redistricting states with valid data
+- [x] Fix 17 Senate races missing candidate names — added known incumbents: Hickenlooper (CO), Coons (DE), Risch (ID), Marshall (KS), Cassidy (LA), Markey (MA), Ricketts (NE), Booker (NJ), Luján (NM), Merkley (OR), Reed (RI), Graham (SC), Rounds (SD), Hagerty (TN), Warner (VA), Capito (WV); open seat note for AL (Tuberville running for governor)
+- [x] All 37 tests pass, 0 TypeScript errors, all structural checks clean
