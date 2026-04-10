@@ -816,3 +816,6 @@
 - [x] Fix House incumbentName field → confirmed field name mismatch in audit only; actual data is correct
 - [x] Final audit: ALL CHECKS PASSED — 35 Senate, 435 House, 36 Governor, 12 Redistricting all clean
 - [x] All 37 tests pass, 0 TypeScript errors
+
+## Map Sizing Fix (Apr 10, 2026)
+- [x] Reduce map container size so all 50 states fit in the viewport without scrolling — changed D3 AlbersUSA projection scale from width*1.05 to width*0.82 in both ElectionMap.tsx and GovernorMap.tsx; all states now fit with comfortable padding
