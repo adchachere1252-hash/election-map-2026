@@ -148,7 +148,7 @@ export default function ElectionMap({
   const getStateColor = useCallback((stateCode: string): string => {
     if (view === "senate") {
       const race = senateByState[stateCode];
-      if (!race) return UNCALLED_COLOR;
+      if (!race) return "url(#no-race-stripe)";
       if (resultsMode) {
         if (race.calledParty === "D") return CALLED_D_COLOR;
         if (race.calledParty === "R") return CALLED_R_COLOR;

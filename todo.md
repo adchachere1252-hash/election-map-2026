@@ -772,3 +772,8 @@
 ## Bug Fixes (Apr 10, 2026)
 - [x] Fix senator detail popup not opening when clicking senator result from global search
 - [x] Standardize red/blue stripe pattern for non-participating states across all 4 map views (Senate, House, Governor, Redistricting) to match Senate map stripe style
+
+## Stripe Pattern Regression Fix (Apr 10, 2026)
+- [x] Diagnose why only Redistricting shows red/blue stripes after last ElectionMap.tsx change
+- [x] Fix stripe pattern to correctly show on non-participating states in Senate, House, and Governor views (Senate view was returning UNCALLED_COLOR instead of url(#no-race-stripe) for states with no 2026 race)
+- [x] Verify all 4 map views show consistent stripes in browser
