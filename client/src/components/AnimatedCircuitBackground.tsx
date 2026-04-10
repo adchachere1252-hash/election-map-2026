@@ -77,9 +77,9 @@ const PULSES = CIRCUIT_PATHS.map((_, i) => ({
   pathIndex: i,
   duration: 3 + (i % 7) * 0.8,  // 3–8.6s per pulse
   delay: (i * 0.4) % 6,           // staggered starts
-  color: i % 8 === 0 ? "rgba(134,239,172,0.85)"  // lighter green accent
-       : i % 5 === 0 ? "rgba(74,222,128,0.85)"   // medium green
-       : "rgba(34,197,94,0.85)",                  // default green
+  color: i % 8 === 0 ? "rgba(103,232,249,0.85)"  // light cyan accent (#67e8f9)
+       : i % 5 === 0 ? "rgba(6,182,212,0.85)"    // medium cyan (#06b6d4)
+       : "rgba(45,212,191,0.85)",                 // default teal (#2dd4bf)
   size: i % 3 === 0 ? 5 : 4,
 }));
 
@@ -136,7 +136,7 @@ export function AnimatedCircuitBackground() {
               key={`line-${i}`}
               d={d}
               fill="none"
-              stroke="#4ade80"
+              stroke="#2dd4bf"
               strokeWidth="1.0"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -152,7 +152,7 @@ export function AnimatedCircuitBackground() {
               cx={n.x}
               cy={n.y}
               r={i % 4 === 0 ? 3.0 : 1.8}
-              fill="#86efac"
+              fill="#67e8f9"
             />
           ))}
         </g>

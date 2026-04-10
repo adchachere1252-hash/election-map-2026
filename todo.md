@@ -848,3 +848,6 @@
 - [x] Reduce node opacity from 0.55 to 0.30 with smaller radii (3.0/1.8px)
 - [x] Keep pulse size at 4-5px but reduce peak opacity to 0.85
 - [x] Verified in browser — green pulses visible, lines dimmer, map colors unaffected
+
+## Circuit Teal/Cyan Color Update (Apr 10, 2026)
+- [x] Change circuit pulses and lines from green to teal/cyan (#2dd4bf / #06b6d4 / #67e8f9) — verified in browser, looks clean against dark background
