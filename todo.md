@@ -677,12 +677,12 @@
 - [x] Run tests, verify dot size and admin tab in browser, save checkpoint (37/37 passing, 0 TS errors)
 
 ## Governor Candidate Accuracy Audit (Apr 9, 2026)
-- [ ] Research which 2026 governor primaries have occurred before Apr 9, 2026 (TX Mar 4, NC Mar 4, AR Mar 4 — check all)
-- [ ] For states with no primary yet: clear demCandidate/repCandidate if they are speculative/guessed names
-- [ ] For states with confirmed nominees: verify names against Ballotpedia/AP
-- [ ] For incumbents running for re-election: keep incumbent name as candidate (they are confirmed)
-- [ ] Update database with corrected candidate data
-- [ ] Run tests, verify in browser, save checkpoint
+- [x] Research which 2026 governor primaries have occurred before Apr 9, 2026 (AR Mar 3, IL Mar 17, TX Mar 3)
+- [x] For states with no primary yet: clear demCandidate/repCandidate if they are speculative/guessed names
+- [x] For states with confirmed nominees: verify names against Ballotpedia
+- [x] For incumbents running for re-election: keep incumbent name as candidate (they are confirmed)
+- [x] Update database with corrected candidate data
+- [x] Run tests (37/37), verify in browser, save checkpoint (1c008e96)
 
 ## Governor Candidate Accuracy Audit — Continued (Apr 9, 2026)
 - [x] Query all 36 governor races from DB to see current demCandidate/repCandidate values
@@ -692,3 +692,14 @@
 - [x] Clear demCandidate for all open-seat D races with no confirmed nominee yet
 - [x] Clear challenger names for all incumbent races where challenger is speculative
 - [x] Run tests (37/37 passing), verify in browser, save checkpoint
+
+## Governor Candidate Verification + TBD Standardization (Apr 9, 2026)
+- [x] Verify all current DB candidates are actually running for governor (not mayor, sheriff, etc.)
+- [x] Replace any unverified/incorrect names with "TBD — Democratic Primary" or "TBD — Republican Primary"
+- [x] Verify AR, IL, TX confirmed nominees are accurate (Ballotpedia confirmed)
+- [x] Verify all incumbents listed as running for re-election are actually seeking re-election
+- [x] Nebraska: corrected — Jim Pillen is term-limited, not running; set isTermLimited=true, isOpen=true
+- [x] Hawaii: corrected — Josh Green has not officially filed (deadline June 2, 2026); set to TBD
+- [x] Iowa/MN/WI: verified open flags correct (incumbents chose not to run, not term-limited)
+- [x] Applied all corrected data to database via gov_corrections.mjs
+- [x] Run tests (37/37 passing), save checkpoint
