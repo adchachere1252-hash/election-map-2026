@@ -208,21 +208,11 @@ export default function GovernorMap({
       if (!centroid || isNaN(centroid[0]) || isNaN(centroid[1])) return;
       const cx = centroid[0];
       const cy = centroid[1];
-      const r = 5;
+      const r = 4;
       const dotColor = race.calledParty === "D" ? "#1a4fa0"
         : race.calledParty === "R" ? "#b22222"
         : RATING_DOT_COLORS[race.rating ?? ""] ?? "#c8a951";
-      // Outer ring for open/term-limited seats
-      if (race.isOpen || race.isTermLimited) {
-        g.append("circle")
-          .attr("cx", cx).attr("cy", cy)
-          .attr("r", r + 2.5)
-          .attr("fill", "none")
-          .attr("stroke", "#ffffff")
-          .attr("stroke-width", 1.2)
-          .attr("opacity", 0.7)
-          .attr("pointer-events", "none");
-      }
+      // Inner dot — same size as Senate/House dots (r=4)
       g.append("circle")
         .attr("cx", cx).attr("cy", cy)
         .attr("r", r)
@@ -231,6 +221,18 @@ export default function GovernorMap({
         .attr("stroke", "#0d1117")
         .attr("stroke-width", 0.8)
         .attr("pointer-events", "none");
+      // Small outer ring for open/term-limited seats (dash pattern to distinguish)
+      if (race.isOpen || race.isTermLimited) {
+        g.append("circle")
+          .attr("cx", cx).attr("cy", cy)
+          .attr("r", r + 1.5)
+          .attr("fill", "none")
+          .attr("stroke", "#ffffff")
+          .attr("stroke-width", 0.8)
+          .attr("stroke-dasharray", "2,2")
+          .attr("opacity", 0.6)
+          .attr("pointer-events", "none");
+      }
     });
 
     // Zoom & pan

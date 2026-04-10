@@ -269,6 +269,61 @@ function ElectionScoreBar({
   );
 }
 
+function GovernorScoreRow({ governors }: { governors: { D: number; R: number; tossup: number; total: number } }) {
+  const { D, R, tossup, total } = governors;
+  const dPct = total > 0 ? (D / total) * 100 : 0;
+  const rPct = total > 0 ? (R / total) * 100 : 0;
+  const tossupPct = total > 0 ? (tossup / total) * 100 : 100;
+
+  return (
+    <div className="w-full">
+      <div className="flex items-center justify-between mb-1">
+        <div>
+          <span className="text-xs font-bold text-foreground uppercase tracking-wider">U.S. Governors</span>
+          <span className="text-[10px] text-muted-foreground ml-2">{total} races in 2026</span>
+        </div>
+        <span className="text-[10px] text-muted-foreground">26 to control</span>
+      </div>
+      <div className="h-5 rounded overflow-hidden flex mb-2">
+        <div
+          className="h-full transition-all duration-500 flex items-center justify-end pr-1"
+          style={{ width: `${dPct}%`, background: "linear-gradient(90deg, #0d3070, #1a4fa0)" }}
+        >
+          {D > 0 && <span className="text-white text-xs font-bold leading-none">{D}</span>}
+        </div>
+        <div
+          className="h-full transition-all duration-500 flex items-center justify-center"
+          style={{ width: `${tossupPct}%`, background: "#2a2f3a" }}
+        >
+          {tossup > 0 && <span className="text-gray-400 text-xs font-bold leading-none">{tossup}</span>}
+        </div>
+        <div
+          className="h-full transition-all duration-500 flex items-center justify-start pl-1"
+          style={{ width: `${rPct}%`, background: "linear-gradient(90deg, #b22222, #7a1010)" }}
+        >
+          {R > 0 && <span className="text-white text-xs font-bold leading-none">{R}</span>}
+        </div>
+      </div>
+      <div className="grid grid-cols-3 text-xs">
+        <div className="flex items-center gap-1">
+          <div className="w-2 h-2 rounded-sm flex-shrink-0" style={{ background: "#1a4fa0" }} />
+          <span className="font-bold text-blue-400">{D}</span>
+          <span className="text-muted-foreground">D</span>
+        </div>
+        <div className="flex items-center justify-center gap-1">
+          <span className="font-semibold text-muted-foreground">{tossup}</span>
+          <span className="text-muted-foreground/70">Comp.</span>
+        </div>
+        <div className="flex items-center justify-end gap-1">
+          <span className="text-muted-foreground">R</span>
+          <span className="font-bold text-red-400">{R}</span>
+          <div className="w-2 h-2 rounded-sm flex-shrink-0" style={{ background: "#b22222" }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Scoreboard() {
   const { data, isLoading } = trpc.scoreboard.get.useQuery(undefined, {
     refetchInterval: 10000,
@@ -330,6 +385,14 @@ export default function Scoreboard() {
           data={data.house}
           totalSeats={435}
         />
+
+        {/* Divider */}
+        <div className="h-px bg-border my-3" />
+
+        {/* Governors */}
+        {(data as any).governors && (
+          <GovernorScoreRow governors={(data as any).governors} />
+        )}
 
         {/* ── Flips Counter ── */}
         {totalFlips > 0 && (

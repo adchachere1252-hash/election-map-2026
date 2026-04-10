@@ -656,3 +656,22 @@
 - [x] Update GovernorMap legend to show full rating dot color scale
 - [x] Add live date/PST time clock to page header (ticks every second, shows weekday + date + time)
 - [x] 37/37 tests passing, 0 TypeScript errors, browser verified
+
+## Governors Admin Tab (Apr 9, 2026)
+- [ ] Add governor tab to admin panel tab list (alongside Senate, House, Redistricting, Key Races, Election Night)
+- [ ] Build governor race list in admin: all 36 races sortable by state, rating, competitiveness
+- [ ] Build governor race editor form: rating dropdown, demCandidate, repCandidate, winner, vote%, status, notes
+- [ ] Add election night call buttons: "Call for Dem" / "Call for Rep" / "Uncall" per governor race
+- [ ] Add pct_reporting slider for governor races on election night
+- [ ] Ensure governor.update tRPC procedure is admin-protected and handles all editor fields
+- [ ] Wire governor admin mutations with optimistic updates and toast notifications
+- [ ] Run tests, verify in browser, save checkpoint
+
+## Governor Map Dot Size Fix + Governors Admin Tab (Apr 9, 2026)
+- [ ] Fix GovernorMap dot radius to match Senate/House maps (check ElectionMap dot radius value)
+- [ ] Add Governors tab to admin panel tab list
+- [ ] Build GovernorEditor component matching SenateEditor pattern
+- [ ] Governor race list in admin: all 36 races sortable, search by state
+- [ ] Governor editor: rating, demCandidate, repCandidate, winner, vote%, status, notes
+- [ ] Election night call buttons: "Call for Dem" / "Call for Rep" / "Uncall"
+- [ ] Run tests, verify dot size and admin tab in browser, save checkpoint

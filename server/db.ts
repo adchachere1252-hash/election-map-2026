@@ -300,9 +300,30 @@ export async function getScoreboard() {
     return { dToR, rToD, total: dToR + rToD };
   };
 
+  // ── Governor scoreboard ──────────────────────────────────────────────────────
+  const govRows = await db.select().from(governorRaces);
+  const govTally = (() => {
+    let D = 0, R = 0, tossup = 0;
+    for (const r of govRows) {
+      if (r.status === 'Called' || r.status === 'Certified') {
+        if (r.calledParty === 'D') D++;
+        else if (r.calledParty === 'R') R++;
+        else tossup++;
+      } else {
+        // Not yet called — categorize by rating
+        const rating = r.rating ?? '';
+        if (rating === 'Solid D' || rating === 'Likely D') D++;
+        else if (rating === 'Solid R' || rating === 'Likely R') R++;
+        else tossup++; // Lean D, Lean R, Toss-up
+      }
+    }
+    return { D, R, tossup, total: govRows.length };
+  })();
+
   return {
     senate: tally(senateRows),
     house: tally(houseRows),
+    governors: govTally,
     composition: {
       senate: senateComp,
       house: houseComp,
