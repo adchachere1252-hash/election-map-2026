@@ -833,3 +833,11 @@
 - [x] Add CSS keyframe animations for flowing light pulses along circuit paths — using SVG animateMotion + animate opacity; blue/red/gold pulses, 3–8.6s duration, staggered delays
 - [x] Integrate component into Home.tsx behind the map area — absolute positioned, z-index 0, pointer-events none, prefers-reduced-motion respected
 - [x] Verify animation flows correctly in browser — confirmed: 42 animateMotion elements running, SVG currentTime=47.99s (looping), SMIL enabled
+
+## Circuit Background Visibility Fix (Apr 10, 2026)
+- [x] Increase circuit line opacity from 0.12 to 0.40 — now clearly visible
+- [x] Increase node opacity from 0.18 to 0.55 with larger radii (3.5px/2.2px)
+- [x] Increase pulse size from 2-3px to 4-5px
+- [x] Increase pulse peak opacity to 1.0 with brighter colors (full RGB values)
+- [x] Strengthen glow filter blur radius from 2.5 to 4
+- [x] Make both ElectionMap.tsx and GovernorMap.tsx SVG backgrounds transparent so circuit shows through

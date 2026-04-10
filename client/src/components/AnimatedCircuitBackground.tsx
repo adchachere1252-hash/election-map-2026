@@ -77,10 +77,10 @@ const PULSES = CIRCUIT_PATHS.map((_, i) => ({
   pathIndex: i,
   duration: 3 + (i % 7) * 0.8,  // 3–8.6s per pulse
   delay: (i * 0.4) % 6,           // staggered starts
-  color: i % 5 === 0 ? "rgba(239,68,68,0.7)"    // red accent every 5th
-       : i % 7 === 0 ? "rgba(250,204,21,0.6)"   // gold accent every 7th
-       : "rgba(96,165,250,0.75)",                // default blue
-  size: i % 3 === 0 ? 3 : 2,
+  color: i % 5 === 0 ? "rgba(248,113,113,1.0)"   // bright red accent every 5th
+       : i % 7 === 0 ? "rgba(251,191,36,1.0)"    // bright gold accent every 7th
+       : "rgba(147,197,253,1.0)",                 // bright blue default
+  size: i % 3 === 0 ? 5 : 4,
 }));
 
 export function AnimatedCircuitBackground() {
@@ -109,7 +109,7 @@ export function AnimatedCircuitBackground() {
         <defs>
           {/* Glow filter for pulses */}
           <filter id="circuit-glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="2.5" result="blur" />
+            <feGaussianBlur stdDeviation="4" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
@@ -130,14 +130,14 @@ export function AnimatedCircuitBackground() {
         </defs>
 
         {/* Static circuit lines */}
-        <g opacity="0.12">
+        <g opacity="0.40">
           {CIRCUIT_PATHS.map((d, i) => (
             <path
               key={`line-${i}`}
               d={d}
               fill="none"
-              stroke="#60a5fa"
-              strokeWidth="0.8"
+              stroke={i % 9 === 0 ? "#f87171" : i % 13 === 0 ? "#fbbf24" : "#60a5fa"}
+              strokeWidth="1.2"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
@@ -145,14 +145,14 @@ export function AnimatedCircuitBackground() {
         </g>
 
         {/* Junction nodes */}
-        <g opacity="0.18" filter="url(#node-glow)">
+        <g opacity="0.55" filter="url(#node-glow)">
           {NODES.map((n, i) => (
             <circle
               key={`node-${i}`}
               cx={n.x}
               cy={n.y}
-              r={i % 4 === 0 ? 2.5 : 1.5}
-              fill="#93c5fd"
+              r={i % 4 === 0 ? 3.5 : 2.2}
+              fill={i % 6 === 0 ? "#f87171" : "#93c5fd"}
             />
           ))}
         </g>
