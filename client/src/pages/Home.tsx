@@ -284,6 +284,7 @@ export default function Home() {
       <ResultsTicker />
 
       <header className="flex-shrink-0 border-b border-border bg-card px-3 py-2">
+        {/* ── Row 1: Logo + Tabs + Actions ── */}
         <div className="flex items-center gap-2">
           {/* Mobile hamburger */}
           <button
@@ -312,21 +313,9 @@ export default function Home() {
             </span>
             <span className="text-xs text-muted-foreground/50 leading-tight">PST</span>
           </div>
-          {/* Global Search — always visible, inline, center */}
-          <div className="flex-1 min-w-0 max-w-md relative hidden sm:block">
-            <GlobalSearch
-              senateRaces={senateRaces}
-              houseRaces={houseRaces}
-              redistrictingStates={redistrictingStates}
-              referendums={referendums}
-              onSelectSenate={handleSelectSenate}
-              onSelectHouse={handleSelectHouse}
-              onSelectRedistricting={handleSelectRedistricting}
-              onSelectReferendum={handleSelectReferendum}
-              onQueryChange={setLiveSearchQuery}
-              onSelectSenator={(s: Senator) => setSelectedSenatorId(s.id)}
-            />
-          </div>
+
+          {/* Spacer — pushes tabs and actions to the right */}
+          <div className="flex-1" />
 
           {/* View Toggle */}
           <div className="flex items-center gap-0.5 bg-muted rounded-lg p-1 flex-shrink-0">
@@ -445,6 +434,22 @@ export default function Home() {
               <span className="hidden lg:inline">Admin</span>
             </Link>
           </div>
+        </div>
+
+        {/* Row 2: Search bar — full width, always visible on sm+, below toolbar */}
+        <div className="hidden sm:block mt-1.5">
+          <GlobalSearch
+            senateRaces={senateRaces}
+            houseRaces={houseRaces}
+            redistrictingStates={redistrictingStates}
+            referendums={referendums}
+            onSelectSenate={handleSelectSenate}
+            onSelectHouse={handleSelectHouse}
+            onSelectRedistricting={handleSelectRedistricting}
+            onSelectReferendum={handleSelectReferendum}
+            onQueryChange={setLiveSearchQuery}
+            onSelectSenator={(s: Senator) => setSelectedSenatorId(s.id)}
+          />
         </div>
 
         {/* Mobile search bar — full width below header */}

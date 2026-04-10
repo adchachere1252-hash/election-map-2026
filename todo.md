@@ -786,3 +786,11 @@
 - [x] Identify why solid red/blue Governor states appear darker than Senate/House rated states — root cause was GovernorMap.tsx using its own separate SVG stripe pattern with semi-transparent dark colors, making the entire map appear darker
 - [x] Fix Governor rated state colors to match Senate/House brightness — fixed by updating GovernorMap.tsx stripe pattern to use same bright opaque colors (#2563eb blue, #dc2626 red, 12px width) as ElectionMap.tsx
 - [x] Verify in browser all four maps have consistent color brightness — confirmed visually: all 4 map views show identical bright red/blue stripes on non-participating states
+
+## Stripe Pattern Subtlety Fix (Apr 10, 2026)
+- [x] Reduce stripe width and lower contrast so non-participating states are clearly marked but not dizzying
+- [x] Update ElectionMap.tsx stripe pattern (id="no-race-stripe") — dark #252b3b base, thin 3px blue/red lines at 55% opacity
+- [x] Update GovernorMap.tsx stripe pattern (id="no-gov-race-stripe") — same subtle pattern
+- [x] Update legend swatches in both components to match
+- [x] Verify visually across all 4 map views — confirmed subtle and readable
+- [x] Fix search bar overlapping/running into the map area — moved search to its own full-width row below the toolbar

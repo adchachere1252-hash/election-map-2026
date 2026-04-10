@@ -108,20 +108,30 @@ export default function GovernorMap({
     const stateMesh = topojson.mesh(statesData, statesData.objects.states, (a: any, b: any) => a !== b);
 
     // Stripe pattern for states with no 2026 governor race
+    // Subtle: dark base with thin low-opacity red/blue lines — avoids optical illusion
     const defs = svg.append("defs");
     const pattern = defs.append("pattern")
       .attr("id", "no-gov-race-stripe")
       .attr("patternUnits", "userSpaceOnUse")
-      .attr("width", 12)
-      .attr("height", 12)
+      .attr("width", 10)
+      .attr("height", 10)
       .attr("patternTransform", "rotate(45)");
+    // Dark neutral base
     pattern.append("rect")
-      .attr("width", 12).attr("height", 12)
-      .attr("fill", "#2563eb");
+      .attr("width", 10).attr("height", 10)
+      .attr("fill", "#252b3b");
+    // Thin blue line
     pattern.append("rect")
-      .attr("x", 6).attr("y", 0)
-      .attr("width", 6).attr("height", 12)
-      .attr("fill", "#dc2626");
+      .attr("x", 0).attr("y", 0)
+      .attr("width", 3).attr("height", 10)
+      .attr("fill", "#4a7fc1")
+      .attr("opacity", "0.55");
+    // Thin red line
+    pattern.append("rect")
+      .attr("x", 5).attr("y", 0)
+      .attr("width", 3).attr("height", 10)
+      .attr("fill", "#c04040")
+      .attr("opacity", "0.55");
 
     const g = svg.append("g");
 
@@ -295,7 +305,7 @@ export default function GovernorMap({
             <span>Open / Term-Limited</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-3.5 h-3.5 rounded-sm flex-shrink-0" style={{ border: "1px solid rgba(255,255,255,0.2)", background: "repeating-linear-gradient(45deg, #2563eb 0px, #2563eb 6px, #dc2626 6px, #dc2626 12px)" }} />
+            <div className="w-3.5 h-3.5 rounded-sm flex-shrink-0" style={{ border: "1px solid rgba(255,255,255,0.2)", background: "repeating-linear-gradient(45deg, #252b3b 0px, #252b3b 2px, #4a7fc1 2px, #4a7fc1 5px, #252b3b 5px, #252b3b 7px, #c04040 7px, #c04040 10px)" }} />
             <span>No 2026 Race</span>
           </div>
         </div>
