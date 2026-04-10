@@ -824,3 +824,12 @@
 - [x] Add zoom-to-fit reset button on the map (ElectionMap.tsx + GovernorMap.tsx) — button appears in top-left when zoomed in (k > 1.05), animated 400ms transition back to identity
 - [x] Add abbreviated state labels for small East Coast states (RI, CT, DE, NJ, MD, MA, VT, NH) on the map — 7px bold white text with dark stroke, rendered in all views except House
 - [x] Implement mobile bottom-sheet drawer for the sidebar in Home.tsx — slides up from bottom (78vh max), drag handle, backdrop dismiss; floating blue “Races” pill button at bottom center triggers it; desktop left sidebar unchanged
+
+## Map Scale Adjustment (Apr 10, 2026)
+- [x] Increase D3 projection scale from width*0.82 to width*0.95 in ElectionMap.tsx and GovernorMap.tsx — map now fills ~16% more of the viewport; all 50 states remain visible including Alaska and Hawaii
+
+## Animated Circuit Background (Apr 10, 2026)
+- [x] Create AnimatedCircuitBackground React component with SVG circuit paths — 42 paths, 44 junction nodes, 42 animated pulse circles
+- [x] Add CSS keyframe animations for flowing light pulses along circuit paths — using SVG animateMotion + animate opacity; blue/red/gold pulses, 3–8.6s duration, staggered delays
+- [x] Integrate component into Home.tsx behind the map area — absolute positioned, z-index 0, pointer-events none, prefers-reduced-motion respected
+- [x] Verify animation flows correctly in browser — confirmed: 42 animateMotion elements running, SVG currentTime=47.99s (looping), SMIL enabled

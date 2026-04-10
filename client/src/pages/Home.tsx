@@ -19,6 +19,7 @@ import NoRaceStatePopup from "@/components/NoRaceStatePopup";
 import GovernorRacePopup from "@/components/GovernorRacePopup";
 import GovernorRaceList from "@/components/GovernorRaceList";
 import GovernorMap from "@/components/GovernorMap";
+import { AnimatedCircuitBackground } from "@/components/AnimatedCircuitBackground";
 
 type MapView = "governor" | "house" | "redistricting" | "senate";
 
@@ -664,7 +665,8 @@ export default function Home() {
         </button>
 
         {/* ── Map area ── */}
-        <main className="flex-1 relative overflow-hidden">
+        <main className="flex-1 relative overflow-hidden" style={{ background: "#0d1117" }}>
+          <AnimatedCircuitBackground />
           {view === "governor" ? (
             <GovernorMap
               governorRaces={governorRaces as any}

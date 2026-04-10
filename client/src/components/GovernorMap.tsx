@@ -108,7 +108,7 @@ export default function GovernorMap({
     const height = svgRef.current.clientHeight || 500;
 
     const projection = d3.geoAlbersUsa()
-      .scale(width * 0.82)
+      .scale(width * 0.95)
       .translate([width / 2, height / 2]);
 
     const path = d3.geoPath().projection(projection);
