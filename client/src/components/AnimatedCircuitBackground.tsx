@@ -77,9 +77,9 @@ const PULSES = CIRCUIT_PATHS.map((_, i) => ({
   pathIndex: i,
   duration: 3 + (i % 7) * 0.8,  // 3–8.6s per pulse
   delay: (i * 0.4) % 6,           // staggered starts
-  color: i % 5 === 0 ? "rgba(248,113,113,1.0)"   // bright red accent every 5th
-       : i % 7 === 0 ? "rgba(251,191,36,1.0)"    // bright gold accent every 7th
-       : "rgba(147,197,253,1.0)",                 // bright blue default
+  color: i % 8 === 0 ? "rgba(134,239,172,0.85)"  // lighter green accent
+       : i % 5 === 0 ? "rgba(74,222,128,0.85)"   // medium green
+       : "rgba(34,197,94,0.85)",                  // default green
   size: i % 3 === 0 ? 5 : 4,
 }));
 
@@ -130,14 +130,14 @@ export function AnimatedCircuitBackground() {
         </defs>
 
         {/* Static circuit lines */}
-        <g opacity="0.40">
+        <g opacity="0.22">
           {CIRCUIT_PATHS.map((d, i) => (
             <path
               key={`line-${i}`}
               d={d}
               fill="none"
-              stroke={i % 9 === 0 ? "#f87171" : i % 13 === 0 ? "#fbbf24" : "#60a5fa"}
-              strokeWidth="1.2"
+              stroke="#4ade80"
+              strokeWidth="1.0"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
@@ -145,14 +145,14 @@ export function AnimatedCircuitBackground() {
         </g>
 
         {/* Junction nodes */}
-        <g opacity="0.55" filter="url(#node-glow)">
+        <g opacity="0.30" filter="url(#node-glow)">
           {NODES.map((n, i) => (
             <circle
               key={`node-${i}`}
               cx={n.x}
               cy={n.y}
-              r={i % 4 === 0 ? 3.5 : 2.2}
-              fill={i % 6 === 0 ? "#f87171" : "#93c5fd"}
+              r={i % 4 === 0 ? 3.0 : 1.8}
+              fill="#86efac"
             />
           ))}
         </g>

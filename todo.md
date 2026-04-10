@@ -841,3 +841,10 @@
 - [x] Increase pulse peak opacity to 1.0 with brighter colors (full RGB values)
 - [x] Strengthen glow filter blur radius from 2.5 to 4
 - [x] Make both ElectionMap.tsx and GovernorMap.tsx SVG backgrounds transparent so circuit shows through
+
+## Circuit Green Pulse Update (Apr 10, 2026)
+- [x] Change all circuit pulses to green (#4ade80 / #22c55e / #86efac) — three shades for variety
+- [x] Reduce circuit line opacity from 0.40 to 0.22 (less bright, more subtle)
+- [x] Reduce node opacity from 0.55 to 0.30 with smaller radii (3.0/1.8px)
+- [x] Keep pulse size at 4-5px but reduce peak opacity to 0.85
+- [x] Verified in browser — green pulses visible, lines dimmer, map colors unaffected
