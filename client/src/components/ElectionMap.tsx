@@ -317,7 +317,7 @@ export default function ElectionMap({
       const LARGE_STATES_H  = new Set(["AK","TX","CA","MT","NM","AZ","NV","CO","OR","WY","ID","UT","WA","MN","KS","NE","SD","ND","OK","MO"]);
       const MEDIUM_STATES_H = new Set(["AR","AL","MS","GA","FL","SC","NC","TN","KY","VA","WV","OH","IN","IL","MI","WI","IA","LA","PA","NY","ME","HI"]);
       const NUDGE_H: Record<string, [number, number]> = {
-        "MI": [0, 12], "FL": [8, -4], "LA": [4, 0], "VA": [-4, 0], "NY": [0, 4], "ME": [0, 4],
+        "MI": [0, 12], "FL": [8, -4], "LA": [-8, 0], "VA": [-4, 0], "NY": [0, 4], "ME": [0, 4],
       };
       // @ts-ignore
       stateFeatures.features.forEach((d: any) => {
@@ -505,7 +505,7 @@ export default function ElectionMap({
     const CENTROID_NUDGE: Record<string, [number, number]> = {
       "MI": [0, 12],   // Lower Peninsula
       "FL": [8, -4],
-      "LA": [4, 0],
+      "LA": [-8, 0],
       "HI": [0, 0],
       "AK": [0, 0],
       "ME": [0, 4],
