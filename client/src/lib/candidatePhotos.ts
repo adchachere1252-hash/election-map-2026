@@ -217,7 +217,7 @@ export const BIOGUIDE_MAP: Record<string, string> = {
   "John R. Carter": "C001051",
   "John W. Mannion": "M001231",
   "John W. Rose": "R000612",
-  "Jon Husted": "H001104",
+  // Jon Husted: photo not yet on unitedstates CDN — removed to avoid 404
   "Jon Ossoff": "O000174",
   "Jonathan L. Jackson": "J000309",
   "Joseph D. Morelle": "M001206",
@@ -275,7 +275,7 @@ export const BIOGUIDE_MAP: Record<string, string> = {
   "Mark E. Alford": "A000379",
   "Mark E. Amodei": "A000369",
   "Mark Harris": "H001102",
-  "Mark Messmer": "M001233",
+  // Mark Messmer: photo not yet on unitedstates CDN — removed to avoid 404
   "Mark Pocan": "P000607",
   "Mark Takano": "T000472",
   "Mark Warner": "W000805",
@@ -438,34 +438,103 @@ export const BIOGUIDE_MAP: Record<string, string> = {
   "Warren Davidson": "D000626",
   "William R. Keating": "K000375",
   "William R. Timmons IV": "T000480",
-  "Yassamin Ansari": "A000381",
+  // Yassamin Ansari: photo not yet on unitedstates CDN — removed to avoid 404
   "Young Kim": "K000397",
   "Yvette D. Clarke": "C001067",
   "Zoe Lofgren": "L000397",
+  // Additional name variants and previously missing Congress members
+  "Bob Latta": "L000566",
+  "Robert E. Latta": "L000566",
+  "Glenn Thompson": "T000467",
+  "Glenn W. Thompson": "T000467",
+  "Harold Rogers": "R000395",
+  "Harold D. Rogers": "R000395",
+  "Jim Risch": "R000584",
+  "James E. Risch": "R000584",
+  "Jim Baird": "B001307",
+  "James R. Baird": "B001307",
+  "Jason Smith": "S001195",
+  "Jason T. Smith": "S001195",
+  "Mike Simpson": "S001148",
+  "Mike K. Simpson": "S001148",
+  "Michael K. Simpson": "S001148",
+  "Greg Steube": "S001214",
+  "W. Gregory Steube": "S001214",
+  "Tom Tiffany": "T000165",
+  "Thomas P. Tiffany": "T000165",
+  "Tom Suozzi": "S001201",
+  "Thomas R. Suozzi": "S001201",
+  "Jen Kiggans": "K000399",
+  "Jennifer A. Kiggans": "K000399",
+  "Rob Wittman": "W000804",
+  "Robert J. Wittman": "W000804",
+  "Robert E. Wittman": "W000804",
+  "Lou Correa": "C001110",
+  "J. Luis Correa": "C001110",
+  "Nick Langworthy": "L000600",
+  "Nicholas A. Langworthy": "L000600",
+  "Nydia Velazquez": "V000081",
+  "Nydia M. Velazquez": "V000081",
+  "Nanette Barragan": "B001300",
+  "Nanette Diaz Barragan": "B001300",
+  "Chuy Garcia": "G000586",
+  "Hank Johnson": "J000288",
+  "Henry C. Johnson Jr.": "J000288",
+  "Morgan Griffith": "G000568",
+  "H. Morgan Griffith": "G000568",
+  "Don Davis": "D000230",
+  "Donald G. Davis": "D000230",
+  "Greg Murphy": "M001210",
+  "Gregory F. Murphy": "M001210",
+  "Zach Nunn": "N000193",
+  "Zachary Nunn": "N000193",
+  "Chris Coons": "C001088",
+  "Christopher A. Coons": "C001088",
+  "Dutch Ruppersberger": "R000576",
+  "C. A. Dutch Ruppersberger": "R000576",
 };
-
 /**
- * Returns the official Congressional headshot URL for a candidate,
- * or null if no bioguide ID is known for that name.
+ * Normalizes a candidate display name for bioguide lookup..
+ * Handles common DB suffixes like "(incumbent)", "(appointed)", "(retiring)",
+ * honorific prefixes, generational suffixes, and middle initials.
  */
+function normalizeName(raw: string): string[] {
+  const base = raw
+    .trim()
+    // Strip parenthetical notes: (incumbent), (appointed), (retiring), (D Primary), etc.
+    .replace(/\s*\([^)]*\)/g, "")
+    // Strip trailing punctuation/whitespace
+    .trim()
+    // Strip generational suffixes
+    .replace(/,?\s+(Jr\.?|Sr\.?|II|III|IV)$/i, "")
+    // Strip honorific prefixes
+    .replace(/^(Rep\.|Sen\.|Gov\.|Dr\.)\s+/i, "")
+    .trim();
+
+  const variants: string[] = [base];
+
+  // Also try removing a middle initial: "Mike D. Rogers" → "Mike Rogers"
+  const noMiddle = base.replace(/\s+[A-Z]\.[\s]/, " ");
+  if (noMiddle !== base) variants.push(noMiddle);
+
+  // Also try removing a middle name (two+ chars): "Mary Jo Kilroy" stays, but
+  // "Addison P. McDowell" → already handled by middle initial above
+  // Try last-name-only for very common names (not used — too ambiguous)
+
+  return variants;
+}
+
 export function getCandidatePhotoUrl(name: string | null | undefined): string | null {
   if (!name) return null;
 
-  // Direct lookup
-  const bioguide = BIOGUIDE_MAP[name.trim()];
-  if (bioguide) {
-    return `${PHOTO_BASE}/${bioguide}.jpg`;
-  }
+  // 1. Direct lookup first (fastest path)
+  const direct = BIOGUIDE_MAP[name.trim()];
+  if (direct) return `${PHOTO_BASE}/${direct}.jpg`;
 
-  // Try stripping common suffixes/prefixes
-  const cleaned = name
-    .trim()
-    .replace(/\s+(Jr\.?|Sr\.?|II|III|IV)$/i, "")
-    .replace(/^(Rep\.|Sen\.|Gov\.)\s+/i, "");
-
-  const bioguide2 = BIOGUIDE_MAP[cleaned];
-  if (bioguide2) {
-    return `${PHOTO_BASE}/${bioguide2}.jpg`;
+  // 2. Try normalized variants
+  for (const variant of normalizeName(name)) {
+    const bioguide = BIOGUIDE_MAP[variant];
+    if (bioguide) return `${PHOTO_BASE}/${bioguide}.jpg`;
   }
 
   return null;
