@@ -857,4 +857,9 @@
 - [x] Add showLabels prop to ElectionMap and GovernorMap to gate abbreviation rendering
 - [x] Add "Labels" toggle switch to Home.tsx toolbar
 - [x] Pass showLabels state from Home.tsx down to both map components
-- [ ] Add Northeast callout leader lines (AP/NYT style) for CT, RI, MA, VT, NH, NJ, DE, MD on all map views
+- [x] Add Northeast callout leader lines (AP/NYT style) for CT, RI, MA, VT, NH, NJ, DE, MD on all map views
+
+## NE Callout & Zoom Fix
+- [x] Shorten NE callout leader line lx offsets in ElectionMap and GovernorMap
+- [ ] Verify zoom +/- buttons and scroll-to-zoom work on all map views
+- [x] Run full TypeScript + test verification

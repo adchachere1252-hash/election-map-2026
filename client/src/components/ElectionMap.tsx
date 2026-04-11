@@ -78,6 +78,7 @@ export default function ElectionMap({
       d3.select(svgRef.current)
         .transition().duration(400)
         .call(zoomRef.current.transform as any, d3.zoomIdentity);
+      savedTransformRef.current = d3.zoomIdentity;
       setIsZoomed(false);
     }
   };
@@ -206,12 +207,17 @@ export default function ElectionMap({
     return "url(#no-race-stripe)";
   }, [view, senateByState, redistrictingByState, govByState, resultsMode]);
 
+  // Persist zoom transform across D3 re-renders
+  const savedTransformRef = useRef<d3.ZoomTransform>(d3.zoomIdentity);
+
   // Main D3 render effect
   useEffect(() => {
     if (!statesData || !svgRef.current) return;
     if (view === "house" && !districtsData) return;
 
     const svg = d3.select(svgRef.current);
+    // Save current zoom transform before clearing
+    const prevTransform = savedTransformRef.current;
     svg.selectAll("*").remove();
 
     const width = svgRef.current.clientWidth || 960;
@@ -489,14 +495,14 @@ export default function ElectionMap({
       // Positive lx = right. Labels stagger vertically so they don't overlap.
       // Centroids are ~x:770-825; SVG width ~1024 → keep labels ≤ x:920
       const NE_CALLOUTS: Record<string, { lx: number; ly: number }> = {
-        "VT": { lx:  60, ly: -55 },
-        "NH": { lx:  75, ly: -35 },
-        "MA": { lx:  80, ly: -12 },
-        "RI": { lx:  82, ly:   6 },
-        "CT": { lx:  78, ly:  22 },
-        "NJ": { lx:  72, ly:  40 },
-        "DE": { lx:  68, ly:  58 },
-        "MD": { lx:  58, ly:  75 },
+        "VT": { lx:  36, ly: -42 },
+        "NH": { lx:  44, ly: -26 },
+        "MA": { lx:  48, ly:  -8 },
+        "RI": { lx:  50, ly:   7 },
+        "CT": { lx:  47, ly:  20 },
+        "NJ": { lx:  43, ly:  34 },
+        "DE": { lx:  40, ly:  48 },
+        "MD": { lx:  34, ly:  62 },
       };
 
       // @ts-ignore
@@ -570,15 +576,22 @@ export default function ElectionMap({
       .scaleExtent([1, 12])
       .on("zoom", (event) => {
         g.attr("transform", event.transform.toString());
+        savedTransformRef.current = event.transform;
         setIsZoomed(event.transform.k > 1.05);
       });
 
     zoomRef.current = zoom;
     svg.call(zoom);
 
-    // Reset zoom on view change
-    svg.call(zoom.transform, d3.zoomIdentity);
-    setIsZoomed(false);
+    // Restore previous zoom transform (persists across re-renders)
+    // Only reset to identity when view changes
+    if (prevTransform && prevTransform.k > 1.01) {
+      svg.call(zoom.transform, prevTransform);
+      g.attr("transform", prevTransform.toString());
+    } else {
+      svg.call(zoom.transform, d3.zoomIdentity);
+      setIsZoomed(false);
+    }
 
   }, [statesData, districtsData, view, senateRaces, houseRaces, redistrictingStates, senators, selectedStateCode, selectedDistrictId, getStateColor, getDistrictColor, getStateSplitInfo, houseByStateDistrict, searchHighlight, showLabels]);
 

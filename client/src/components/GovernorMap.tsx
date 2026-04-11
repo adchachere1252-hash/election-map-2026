@@ -59,6 +59,7 @@ export default function GovernorMap({
 }: GovernorMapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
+  const savedTransformRef = useRef<d3.ZoomTransform>(d3.zoomIdentity);
   const [statesData, setStatesData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [tooltip, setTooltip] = useState<{ x: number; y: number; content: string } | null>(null);
@@ -71,6 +72,7 @@ export default function GovernorMap({
       d3.select(svgRef.current)
         .transition().duration(400)
         .call(zoomRef.current.transform as any, d3.zoomIdentity);
+      savedTransformRef.current = d3.zoomIdentity;
       setIsZoomed(false);
     }
   };
@@ -229,14 +231,14 @@ export default function GovernorMap({
       "MI": [6, 12], "FL": [8, -4], "LA": [-8, 0], "VA": [-4, 0], "NY": [0, 4], "ME": [0, 4],
     };
     const NE_CALLOUTS_GOV: Record<string, { lx: number; ly: number }> = {
-      "VT": { lx:  60, ly: -55 },
-      "NH": { lx:  75, ly: -35 },
-      "MA": { lx:  80, ly: -12 },
-      "RI": { lx:  82, ly:   6 },
-      "CT": { lx:  78, ly:  22 },
-      "NJ": { lx:  72, ly:  40 },
-      "DE": { lx:  68, ly:  58 },
-      "MD": { lx:  58, ly:  75 },
+      "VT": { lx:  36, ly: -42 },
+      "NH": { lx:  44, ly: -26 },
+      "MA": { lx:  48, ly:  -8 },
+      "RI": { lx:  50, ly:   7 },
+      "CT": { lx:  47, ly:  20 },
+      "NJ": { lx:  43, ly:  34 },
+      "DE": { lx:  40, ly:  48 },
+      "MD": { lx:  34, ly:  62 },
     };
     // @ts-ignore
     stateFeatures.features.forEach((d: any) => {
@@ -293,17 +295,25 @@ export default function GovernorMap({
     });
     } // end showLabels
 
-    // Zoom & pan
+    // Zoom & pan — persist transform across re-renders
+    const prevTransform = savedTransformRef.current;
     const zoom = d3.zoom<SVGSVGElement, unknown>()
       .scaleExtent([1, 12])
       .on("zoom", (event) => {
         g.attr("transform", event.transform.toString());
+        savedTransformRef.current = event.transform;
         setIsZoomed(event.transform.k > 1.05);
       });
     zoomRef.current = zoom;
     svg.call(zoom);
-    svg.call(zoom.transform, d3.zoomIdentity);
-    setIsZoomed(false);
+    // Restore previous zoom transform if zoomed in
+    if (prevTransform && prevTransform.k > 1.01) {
+      svg.call(zoom.transform, prevTransform);
+      g.attr("transform", prevTransform.toString());
+    } else {
+      svg.call(zoom.transform, d3.zoomIdentity);
+      setIsZoomed(false);
+    }
 
   }, [statesData, governorRaces, selectedStateCode, getStateColor, racingStates, raceByState, showLabels]);
 
