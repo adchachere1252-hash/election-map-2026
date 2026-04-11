@@ -851,3 +851,9 @@
 
 ## Circuit Teal/Cyan Color Update (Apr 10, 2026)
 - [x] Change circuit pulses and lines from green to teal/cyan (#2dd4bf / #06b6d4 / #67e8f9) — verified in browser, looks clean against dark background
+
+## Zoom & Label Toggle (Round N)
+- [x] Add zoom/pan controls (+/- buttons, reset) to ElectionMap and GovernorMap
+- [x] Add showLabels prop to ElectionMap and GovernorMap to gate abbreviation rendering
+- [x] Add "Labels" toggle switch to Home.tsx toolbar
+- [x] Pass showLabels state from Home.tsx down to both map components

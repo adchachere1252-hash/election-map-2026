@@ -7,6 +7,8 @@ import RaceList from "@/components/RaceList";
 import ElectionCalendar from "@/components/ElectionCalendar";
 import GlobalSearch from "@/components/GlobalSearch";
 import { Map, RefreshCw, Lock, Calendar, ChevronRight, ChevronLeft, Menu, X, Zap, Radio, Volume2, VolumeX } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { Link } from "wouter";
 import { toast } from "sonner";
 import type { SenateRace, HouseRace, RedistrictingState, Referendum, Senator } from "../../../drizzle/schema";
@@ -106,6 +108,8 @@ export default function Home() {
   const [liveSearchQuery, setLiveSearchQuery] = useState("");
   // Senator detail popup (opened from global search)
   const [selectedSenatorId, setSelectedSenatorId] = useState<number | null>(null);
+  // Show/hide state abbreviation labels on the map
+  const [showLabels, setShowLabels] = useState(true);
 
   // WebSocket live push — invalidates caches instantly when a race is called
   const { isConnected, lastEvent } = useElectionSocket();
@@ -348,6 +352,17 @@ export default function Home() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </button>
+
+            {/* Labels toggle switch */}
+            <div className="hidden lg:flex items-center gap-1.5 px-2 py-1.5 rounded border border-border text-xs text-muted-foreground">
+              <Switch
+                id="labels-toggle"
+                checked={showLabels}
+                onCheckedChange={setShowLabels}
+                className="scale-75 origin-left"
+              />
+              <Label htmlFor="labels-toggle" className="text-xs cursor-pointer select-none">Labels</Label>
+            </div>
 
             {/* Election Night Mode toggle */}
             <button
@@ -674,6 +689,7 @@ export default function Home() {
               governorRaces={governorRaces as any}
               onStateClick={handleStateClick}
               selectedStateCode={selectedStateCode}
+              showLabels={showLabels}
             />
           ) : (
             <ElectionMap
@@ -688,6 +704,7 @@ export default function Home() {
               selectedDistrictId={selectedId}
               resultsMode={resultsMode}
               searchHighlight={searchHighlight}
+              showLabels={showLabels}
             />
           )}
 

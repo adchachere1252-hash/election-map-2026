@@ -47,12 +47,15 @@ interface GovernorMapProps {
   governorRaces: GovernorRace[];
   onStateClick?: (stateCode: string) => void;
   selectedStateCode?: string | null;
+  /** Whether to render state abbreviation labels on the map */
+  showLabels?: boolean;
 }
 
 export default function GovernorMap({
   governorRaces,
   onStateClick,
   selectedStateCode,
+  showLabels = true,
 }: GovernorMapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
@@ -69,6 +72,22 @@ export default function GovernorMap({
         .transition().duration(400)
         .call(zoomRef.current.transform as any, d3.zoomIdentity);
       setIsZoomed(false);
+    }
+  };
+
+  const zoomIn = () => {
+    if (svgRef.current && zoomRef.current) {
+      d3.select(svgRef.current)
+        .transition().duration(250)
+        .call(zoomRef.current.scaleBy as any, 1.5);
+    }
+  };
+
+  const zoomOut = () => {
+    if (svgRef.current && zoomRef.current) {
+      d3.select(svgRef.current)
+        .transition().duration(250)
+        .call(zoomRef.current.scaleBy as any, 1 / 1.5);
     }
   };
 
@@ -204,10 +223,9 @@ export default function GovernorMap({
       .attr("stroke-width", 0.8)
       .attr("d", path as any);
 
-
-
-    // ── State abbreviation labels for all 50 states ──────────────────────────
-    const LARGE_STATES_GOV  = new Set(["AK","TX","CA","MT","NM","AZ","NV","CO","OR","WY","ID","UT","WA","MN","KS","NE","SD","ND","OK","MO"]);
+    // ── State abbreviation labels for all 50 states ────────────────────────────────────────
+    if (showLabels) {
+    const LARGE_STATES_GOV = new Set(["AK","TX","CA","MT","NM","AZ","NV","CO","OR","WY","ID","UT","WA","MN","KS","NE","SD","ND","OK","MO"]);
     const MEDIUM_STATES_GOV = new Set(["AR","AL","MS","GA","FL","SC","NC","TN","KY","VA","WV","OH","IN","IL","MI","WI","IA","LA","PA","NY","ME","HI"]);
     const CENTROID_NUDGE_GOV: Record<string, [number, number]> = {
       "MI": [6, 12], "FL": [8, -4], "LA": [-8, 0], "VA": [-4, 0], "NY": [0, 4], "ME": [0, 4],
@@ -237,8 +255,9 @@ export default function GovernorMap({
         .attr("paint-order", "stroke")
         .attr("pointer-events", "none")
         .attr("letter-spacing", "0.02em")
-        .text(code);
+          .text(code);
     });
+    } // end showLabels
 
     // Zoom & pan
     const zoom = d3.zoom<SVGSVGElement, unknown>()
@@ -252,7 +271,7 @@ export default function GovernorMap({
     svg.call(zoom.transform, d3.zoomIdentity);
     setIsZoomed(false);
 
-  }, [statesData, governorRaces, selectedStateCode, getStateColor, racingStates, raceByState]);
+  }, [statesData, governorRaces, selectedStateCode, getStateColor, racingStates, raceByState, showLabels]);
 
   if (loading) {
     return (
@@ -272,19 +291,30 @@ export default function GovernorMap({
         className="w-full h-full"
         style={{ background: "transparent" }}
       />
-      {/* Zoom-to-fit reset button */}
-      {isZoomed && (
+      {/* Zoom controls */}
+      <div className="absolute bottom-4 left-4 z-20 flex flex-col gap-1">
         <button
-          onClick={resetZoom}
-          className="absolute top-3 left-3 z-20 flex items-center gap-1.5 bg-card/90 backdrop-blur border border-border rounded-lg px-2.5 py-1.5 text-xs text-foreground shadow-lg hover:bg-card transition-colors"
-          title="Reset zoom to fit all states"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M3 3h6M3 3v6M21 3h-6M21 3v6M3 21h6M3 21v-6M21 21h-6M21 21v-6"/>
-          </svg>
-          Fit Map
-        </button>
-      )}
+          onClick={zoomIn}
+          className="w-8 h-8 flex items-center justify-center bg-card/90 backdrop-blur border border-border rounded-md text-foreground shadow-md hover:bg-card transition-colors text-base font-bold leading-none"
+          title="Zoom in"
+        >+</button>
+        <button
+          onClick={zoomOut}
+          className="w-8 h-8 flex items-center justify-center bg-card/90 backdrop-blur border border-border rounded-md text-foreground shadow-md hover:bg-card transition-colors text-base font-bold leading-none"
+          title="Zoom out"
+        >−</button>
+        {isZoomed && (
+          <button
+            onClick={resetZoom}
+            className="w-8 h-8 flex items-center justify-center bg-card/90 backdrop-blur border border-border rounded-md text-foreground shadow-md hover:bg-card transition-colors"
+            title="Reset zoom"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 3h6M3 3v6M21 3h-6M21 3v6M3 21h6M3 21v-6M21 21h-6M21 21v-6"/>
+            </svg>
+          </button>
+        )}
+      </div>
       {tooltip && (
         <div
           className="absolute pointer-events-none bg-popover border border-border rounded px-2 py-1 text-xs text-popover-foreground shadow-lg z-10 whitespace-pre-line"

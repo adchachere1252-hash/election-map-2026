@@ -21,6 +21,8 @@ interface ElectionMapProps {
   resultsMode?: boolean;
   /** Set of state codes or "stateCode-district" keys that match the active search query */
   searchHighlight?: Set<string> | null;
+  /** Whether to render state abbreviation labels on the map */
+  showLabels?: boolean;
 }
 
 // FIPS to state code mapping
@@ -56,6 +58,7 @@ export default function ElectionMap({
   selectedDistrictId,
   resultsMode = false,
   searchHighlight = null,
+  showLabels = true,
 }: ElectionMapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
@@ -76,6 +79,22 @@ export default function ElectionMap({
         .transition().duration(400)
         .call(zoomRef.current.transform as any, d3.zoomIdentity);
       setIsZoomed(false);
+    }
+  };
+
+  const zoomIn = () => {
+    if (svgRef.current && zoomRef.current) {
+      d3.select(svgRef.current)
+        .transition().duration(250)
+        .call(zoomRef.current.scaleBy as any, 1.5);
+    }
+  };
+
+  const zoomOut = () => {
+    if (svgRef.current && zoomRef.current) {
+      d3.select(svgRef.current)
+        .transition().duration(250)
+        .call(zoomRef.current.scaleBy as any, 1 / 1.5);
     }
   };
 
@@ -314,6 +333,7 @@ export default function ElectionMap({
         .attr("d", path as any);
 
       // ── State abbreviation labels on House view (rendered over districts) ──
+      if (showLabels) {
       const LARGE_STATES_H  = new Set(["AK","TX","CA","MT","NM","AZ","NV","CO","OR","WY","ID","UT","WA","MN","KS","NE","SD","ND","OK","MO"]);
       const MEDIUM_STATES_H = new Set(["AR","AL","MS","GA","FL","SC","NC","TN","KY","VA","WV","OH","IN","IL","MI","WI","IA","LA","PA","NY","ME","HI"]);
       const NUDGE_H: Record<string, [number, number]> = {
@@ -346,6 +366,7 @@ export default function ElectionMap({
           .attr("letter-spacing", "0.02em")
           .text(code);
       });
+      } // end showLabels
 
     } else {
       // ── Senate / Redistricting view: render states ───────────────────────────
@@ -460,7 +481,7 @@ export default function ElectionMap({
       "NY": [0, 4],
     };
     // Show labels on senate, governor, and redistricting views — skip house (districts too small)
-    if (view !== "house") {
+    if (view !== "house" && showLabels) {
       // @ts-ignore
       stateFeatures.features.forEach((d: any) => {
         const fips = String(d.id).padStart(2, "0");
@@ -490,7 +511,7 @@ export default function ElectionMap({
       });
     }
 
-    // Add zoom & pan
+    // Add zoom & pan (with +/- button support via programmatic zoom)
     const zoom = d3.zoom<SVGSVGElement, unknown>()
       .scaleExtent([1, 12])
       .on("zoom", (event) => {
@@ -505,7 +526,7 @@ export default function ElectionMap({
     svg.call(zoom.transform, d3.zoomIdentity);
     setIsZoomed(false);
 
-  }, [statesData, districtsData, view, senateRaces, houseRaces, redistrictingStates, senators, selectedStateCode, selectedDistrictId, getStateColor, getDistrictColor, getStateSplitInfo, houseByStateDistrict, searchHighlight]);
+  }, [statesData, districtsData, view, senateRaces, houseRaces, redistrictingStates, senators, selectedStateCode, selectedDistrictId, getStateColor, getDistrictColor, getStateSplitInfo, houseByStateDistrict, searchHighlight, showLabels]);
 
   if (loading) {
     return (
@@ -528,19 +549,30 @@ export default function ElectionMap({
           filter: "drop-shadow(0 0 18px rgba(100,160,255,0.28)) drop-shadow(0 0 48px rgba(80,120,220,0.14)) drop-shadow(0 0 90px rgba(60,90,200,0.08))",
         }}
       />
-      {/* Zoom-to-fit reset button — only visible when zoomed in */}
-      {isZoomed && (
+      {/* Zoom controls — always visible in bottom-left */}
+      <div className="absolute bottom-4 left-4 z-20 flex flex-col gap-1">
         <button
-          onClick={resetZoom}
-          className="absolute top-3 left-3 z-20 flex items-center gap-1.5 bg-card/90 backdrop-blur border border-border rounded-lg px-2.5 py-1.5 text-xs text-foreground shadow-lg hover:bg-card transition-colors"
-          title="Reset zoom to fit all states"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M3 3h6M3 3v6M21 3h-6M21 3v6M3 21h6M3 21v-6M21 21h-6M21 21v-6"/>
-          </svg>
-          Fit Map
-        </button>
-      )}
+          onClick={zoomIn}
+          className="w-8 h-8 flex items-center justify-center bg-card/90 backdrop-blur border border-border rounded-md text-foreground shadow-md hover:bg-card transition-colors text-base font-bold leading-none"
+          title="Zoom in"
+        >+</button>
+        <button
+          onClick={zoomOut}
+          className="w-8 h-8 flex items-center justify-center bg-card/90 backdrop-blur border border-border rounded-md text-foreground shadow-md hover:bg-card transition-colors text-base font-bold leading-none"
+          title="Zoom out"
+        >−</button>
+        {isZoomed && (
+          <button
+            onClick={resetZoom}
+            className="w-8 h-8 flex items-center justify-center bg-card/90 backdrop-blur border border-border rounded-md text-foreground shadow-md hover:bg-card transition-colors"
+            title="Reset zoom"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 3h6M3 3v6M21 3h-6M21 3v6M3 21h6M3 21v-6M21 21h-6M21 21v-6"/>
+            </svg>
+          </button>
+        )}
+      </div>
       {tooltip && (
         <div
           className="absolute pointer-events-none bg-popover border border-border rounded px-2 py-1 text-xs text-popover-foreground shadow-lg z-10 whitespace-pre-line"
