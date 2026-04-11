@@ -259,14 +259,14 @@ const GovernorMap = forwardRef(function GovernorMap({
     const CENTROID_NUDGE_GOV: Record<string, [number, number]> = {
       "MI": [6, 12], "FL": [8, -4], "LA": [-8, 0], "VA": [-4, 0], "NY": [0, 4],
       "ME": [-4, 0],   // nudge ME dot left to separate from VT dot
-      "VT": [-10, 2],  // nudge VT dot left so it sits on VT's shape, not ME's edge
+      "VT": [0, 0],    // VT callout goes left, dot stays at natural centroid
       "HI": [10, -8],
     };
     const NE_CALLOUTS_GOV: Record<string, { lx: number; ly: number; anchor?: string }> = {
       // ME is the top label — it's the largest/most northern NE state
       "ME": { lx:  62, ly: -60 },
       // VT is below ME — tiny state tucked left of ME's lower body
-      "VT": { lx:  54, ly: -42 },
+      "VT": { lx: -46, ly: -14, anchor: "end" },  // VT label sits just to the LEFT of Vermont
       "NH": { lx:  54, ly: -24 },
       "MA": { lx:  54, ly:   0 },
       "RI": { lx:  54, ly:  14 },
