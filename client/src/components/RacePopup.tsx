@@ -4,6 +4,7 @@ import { getRatingClass, getRatingColor, getPartyColor, getStatusColor, formatVo
 import type { SenateRace, HouseRace, RedistrictingState, Referendum } from "../../../drizzle/schema";
 import { trpc } from "@/lib/trpc";
 import SenatorDetailPopup from "./SenatorDetailPopup";
+import { CandidateAvatar } from "./CandidateAvatar";
 
 interface RacePopupProps {
   type: "senate" | "house" | "redistricting" | "referendum";
@@ -69,11 +70,13 @@ function CandidateRow({
   return (
     <div className={`py-1.5 px-2 rounded ${isWinner ? "bg-green-900/30 border border-green-700/40" : "bg-muted/30"}`}>
       <div className="flex items-center justify-between">
-        <div className="flex items-center min-w-0">
-          <PartyDot party={party} />
-          <span className="text-sm font-medium truncate">{name}</span>
-          {party && <span className="ml-1.5 text-xs text-muted-foreground">({party})</span>}
-          {isWinner && <span className="ml-2 text-xs text-green-400 font-bold">✓ Called</span>}
+        <div className="flex items-center gap-2 min-w-0">
+          <CandidateAvatar name={name} party={party} size={32} />
+          <div className="flex items-center min-w-0">
+            <span className="text-sm font-medium truncate">{name}</span>
+            {party && <span className="ml-1.5 text-xs text-muted-foreground">({party})</span>}
+            {isWinner && <span className="ml-2 text-xs text-green-400 font-bold">✓ Called</span>}
+          </div>
         </div>
         {hasVotes && (
           <span className="text-sm font-bold ml-2 flex-shrink-0" style={{ color: getPartyColor(party as any) }}>

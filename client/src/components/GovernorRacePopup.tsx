@@ -1,6 +1,7 @@
 import { X, User, Calendar, TrendingUp, Award, Briefcase, ChevronDown, ChevronUp, Crosshair } from "lucide-react";
 import { useState } from "react";
 import { getRatingColor } from "@/lib/electionUtils";
+import { CandidateAvatar } from "./CandidateAvatar";
 
 interface GovernorRace {
   id: number;
@@ -131,10 +132,7 @@ function CandidateCard({
       {/* Candidate header */}
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-start gap-2 min-w-0 flex-1">
-          <div
-            className="w-2.5 h-2.5 rounded-full mt-0.5 flex-shrink-0"
-            style={{ background: PARTY_COLORS[party] ?? "#9ca3af" }}
-          />
+          <CandidateAvatar name={isTbd ? null : name} party={party} size={36} className="mt-0.5" />
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5 flex-wrap">
               <span className={`text-xs font-semibold ${isTbd ? "text-muted-foreground italic" : "text-foreground"}`}>

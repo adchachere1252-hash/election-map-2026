@@ -885,3 +885,20 @@
 - [x] Move VT callout label from left-side (lx=-57) to directly above Vermont's shape (lx=0, ly=-38, anchor=middle)
 - [x] Leader line now drops straight down from label into Vermont - no longer crosses through New Hampshire
 - [x] Applied to both ElectionMap.tsx and GovernorMap.tsx
+
+## Candidate Headshot Photos (Apr 11, 2026)
+- [ ] Build BIOGUIDE_MAP: static name->bioguide ID mapping for all Senate/House/Governor candidates
+- [ ] Create useCandidatePhoto(name) hook returning unitedstates.github.io photo URL or null
+- [ ] Add CandidateAvatar component: 36px circle, photo if available, party-colored initial fallback
+- [ ] Integrate CandidateAvatar into RacePopup for candidate1 and candidate2
+- [ ] Integrate CandidateAvatar into GovernorRacePopup for demCandidate and repCandidate
+- [ ] Verify photos load for incumbents; verify fallback initials for non-Congress challengers
+
+## Candidate Headshot Photos (Apr 11, 2026)
+- [x] Create candidatePhotos.ts with BIOGUIDE_MAP covering all 2026 Senate candidates, key House incumbents, and governors who served in Congress
+- [x] Build CandidateAvatar component with official Congressional bioguide photos and party-colored initial fallback
+- [x] Integrate CandidateAvatar into RacePopup (Senate + House candidate rows)
+- [x] Integrate CandidateAvatar into GovernorRacePopup CandidateCard
+- [x] Integrate CandidateAvatar into SenatorDetailPopup header
+- [x] Verified Jon Ossoff photo loads correctly from unitedstates.github.io
+- [x] Verified party-colored initial fallback works for non-Congress candidates (Kurt Alme, TBD)

@@ -1,5 +1,6 @@
 import { X, ExternalLink, BookOpen, Users, Calendar, Award } from "lucide-react";
 import { trpc } from "@/lib/trpc";
+import { CandidateAvatar } from "./CandidateAvatar";
 
 interface SenatorDetailPopupProps {
   senatorId: number;
@@ -50,10 +51,8 @@ export default function SenatorDetailPopup({ senatorId, onClose }: SenatorDetail
         <div className={`px-6 pt-5 pb-4 border-b border-border ${colors.bg}`}>
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-3">
-              {/* Party circle */}
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl font-black border-2 ${colors.border} ${colors.bg}`}>
-                <span className={colors.text}>{senator?.party ?? "…"}</span>
-              </div>
+              {/* Candidate headshot */}
+              <CandidateAvatar name={senator?.name} party={senator?.party} size={48} />
               <div>
                 {isLoading ? (
                   <div className="h-6 w-40 bg-muted/40 rounded animate-pulse mb-1" />
