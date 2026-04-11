@@ -1,10 +1,15 @@
-import { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback, forwardRef, useImperativeHandle } from "react";
+import type React from "react";
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 import { getRatingColor, getPartyColor } from "@/lib/electionUtils";
 import type { SenateRace, HouseRace, RedistrictingState, Senator, GovernorRace } from "../../../drizzle/schema";
 
 type MapView = "governor" | "senate" | "house" | "redistricting";
+
+export interface ElectionMapHandle {
+  resetZoom: () => void;
+}
 
 interface ElectionMapProps {
   view: MapView;
@@ -45,7 +50,7 @@ const CALLED_R_COLOR = "#b22222";
 const UNCALLED_COLOR = "#2a2f3a";
 const DIM_OPACITY = 0.18;
 
-export default function ElectionMap({
+const ElectionMap = forwardRef(function ElectionMap({
   view,
   senateRaces,
   houseRaces,
@@ -59,7 +64,7 @@ export default function ElectionMap({
   resultsMode = false,
   searchHighlight = null,
   showLabels = true,
-}: ElectionMapProps) {
+}: ElectionMapProps, ref: React.ForwardedRef<ElectionMapHandle>) {
   const svgRef = useRef<SVGSVGElement>(null);
   const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
   const gRef = useRef<SVGGElement | null>(null);
@@ -80,15 +85,17 @@ export default function ElectionMap({
   useEffect(() => { onStateClickRef.current = onStateClick; }, [onStateClick]);
   useEffect(() => { onDistrictClickRef.current = onDistrictClick; }, [onDistrictClick]);
 
-  const resetZoom = () => {
+  const resetZoom = useCallback(() => {
     if (svgRef.current && zoomRef.current) {
       d3.select(svgRef.current)
-        .transition().duration(400)
+        .transition().duration(600)
         .call(zoomRef.current.transform as any, d3.zoomIdentity);
       savedTransformRef.current = d3.zoomIdentity;
       setIsZoomed(false);
     }
-  };
+  }, []);
+
+  useImperativeHandle(ref, () => ({ resetZoom }), [resetZoom]);
 
   const zoomIn = () => {
     if (svgRef.current && zoomRef.current) {
@@ -693,4 +700,6 @@ export default function ElectionMap({
 
     </div>
   );
-}
+});
+
+export default ElectionMap;

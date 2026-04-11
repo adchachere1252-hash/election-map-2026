@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback, forwardRef, useImperativeHandle } from "react";
+import type React from "react";
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 import { getRatingColor } from "@/lib/electionUtils";
@@ -43,6 +44,10 @@ interface GovernorRace {
   repCandidate: string | null;
 }
 
+export interface GovernorMapHandle {
+  resetZoom: () => void;
+}
+
 interface GovernorMapProps {
   governorRaces: GovernorRace[];
   onStateClick?: (stateCode: string) => void;
@@ -51,12 +56,12 @@ interface GovernorMapProps {
   showLabels?: boolean;
 }
 
-export default function GovernorMap({
+const GovernorMap = forwardRef(function GovernorMap({
   governorRaces,
   onStateClick,
   selectedStateCode,
   showLabels = true,
-}: GovernorMapProps) {
+}: GovernorMapProps, ref: React.ForwardedRef<GovernorMapHandle>) {
   const svgRef = useRef<SVGSVGElement>(null);
   const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
   const savedTransformRef = useRef<d3.ZoomTransform>(d3.zoomIdentity);
@@ -68,15 +73,17 @@ export default function GovernorMap({
   const onStateClickRef = useRef(onStateClick);
   useEffect(() => { onStateClickRef.current = onStateClick; }, [onStateClick]);
 
-  const resetZoom = () => {
+  const resetZoom = useCallback(() => {
     if (svgRef.current && zoomRef.current) {
       d3.select(svgRef.current)
-        .transition().duration(400)
+        .transition().duration(600)
         .call(zoomRef.current.transform as any, d3.zoomIdentity);
       savedTransformRef.current = d3.zoomIdentity;
       setIsZoomed(false);
     }
-  };
+  }, []);
+
+  useImperativeHandle(ref, () => ({ resetZoom }), [resetZoom]);
 
   const zoomIn = () => {
     if (svgRef.current && zoomRef.current) {
@@ -433,4 +440,6 @@ export default function GovernorMap({
       </div>
     </div>
   );
-}
+});
+
+export default GovernorMap;

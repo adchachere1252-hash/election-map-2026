@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { trpc } from "@/lib/trpc";
-import ElectionMap from "@/components/ElectionMap";
+import ElectionMap, { type ElectionMapHandle } from "@/components/ElectionMap";
 import Scoreboard from "@/components/Scoreboard";
 import RacePopup from "@/components/RacePopup";
 import RaceList from "@/components/RaceList";
@@ -20,7 +20,7 @@ import { useElectionChime } from "@/hooks/useElectionChime";
 import NoRaceStatePopup from "@/components/NoRaceStatePopup";
 import GovernorRacePopup from "@/components/GovernorRacePopup";
 import GovernorRaceList from "@/components/GovernorRaceList";
-import GovernorMap from "@/components/GovernorMap";
+import GovernorMap, { type GovernorMapHandle } from "@/components/GovernorMap";
 import { TwinklingStars } from "@/components/TwinklingStars";
 import { ShootingStar } from "@/components/ShootingStar";
 
@@ -80,6 +80,9 @@ export default function Home() {
   const [sheetDragY, setSheetDragY] = useState(0);
   const sheetDragStart = useRef<number | null>(null);
   const sheetScrollRef = useRef<HTMLDivElement>(null);
+  // Map refs for programmatic zoom control
+  const electionMapRef = useRef<ElectionMapHandle>(null);
+  const governorMapRef = useRef<GovernorMapHandle>(null);
   const [sheetCanScroll, setSheetCanScroll] = useState(false);
 
   const handleSheetTouchStart = useCallback((e: React.TouchEvent) => {
@@ -261,6 +264,9 @@ export default function Home() {
     setSelectedId(null);
     setSheetDragY(0);
     setSheetCanScroll(false);
+    // Zoom back out to full map when popup is closed
+    electionMapRef.current?.resetZoom();
+    governorMapRef.current?.resetZoom();
   }, []);
 
   // Count upcoming events for calendar badge
@@ -686,6 +692,7 @@ export default function Home() {
           <ShootingStar />
           {view === "governor" ? (
             <GovernorMap
+              ref={governorMapRef}
               governorRaces={governorRaces as any}
               onStateClick={handleStateClick}
               selectedStateCode={selectedStateCode}
@@ -693,6 +700,7 @@ export default function Home() {
             />
           ) : (
             <ElectionMap
+              ref={electionMapRef}
               view={view}
               senateRaces={senateRaces}
               houseRaces={houseRaces}
