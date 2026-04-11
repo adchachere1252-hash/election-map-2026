@@ -482,6 +482,23 @@ export default function ElectionMap({
     };
     // Show labels on senate, governor, and redistricting views — skip house (districts too small)
     if (view !== "house" && showLabels) {
+      // Northeast small states get callout leader lines (AP/NYT style)
+      // Offsets are in SVG pixels relative to the state centroid.
+      // lx/ly = label position, dot = small circle at centroid end.
+      // lx/ly are pixel offsets from the state centroid.
+      // Positive lx = right. Labels stagger vertically so they don't overlap.
+      // Centroids are ~x:770-825; SVG width ~1024 → keep labels ≤ x:920
+      const NE_CALLOUTS: Record<string, { lx: number; ly: number }> = {
+        "VT": { lx:  60, ly: -55 },
+        "NH": { lx:  75, ly: -35 },
+        "MA": { lx:  80, ly: -12 },
+        "RI": { lx:  82, ly:   6 },
+        "CT": { lx:  78, ly:  22 },
+        "NJ": { lx:  72, ly:  40 },
+        "DE": { lx:  68, ly:  58 },
+        "MD": { lx:  58, ly:  75 },
+      };
+
       // @ts-ignore
       stateFeatures.features.forEach((d: any) => {
         const fips = String(d.id).padStart(2, "0");
@@ -492,22 +509,59 @@ export default function ElectionMap({
         const nudge = CENTROID_NUDGE[code] ?? [0, 0];
         const cx = centroid[0] + nudge[0];
         const cy = centroid[1] + nudge[1];
-        const fontSize = "9px";
-        const strokeW  = "2.8px";
-        g.append("text")
-          .attr("x", cx)
-          .attr("y", cy + 4)
-          .attr("text-anchor", "middle")
-          .attr("font-size", fontSize)
-          .attr("font-family", "system-ui, sans-serif")
-          .attr("font-weight", "700")
-          .attr("fill", "rgba(255,255,255,0.92)")
-          .attr("stroke", "rgba(0,0,0,0.65)")
-          .attr("stroke-width", strokeW)
-          .attr("paint-order", "stroke")
-          .attr("pointer-events", "none")
-          .attr("letter-spacing", "0.02em")
-          .text(code);
+
+        const callout = NE_CALLOUTS[code];
+        if (callout) {
+          // Label position (to the right of the NE cluster)
+          const lx = cx + callout.lx;
+          const ly = cy + callout.ly;
+          // Elbow: go right from centroid then up/down to label
+          const elbowX = cx + callout.lx * 0.55;
+          // Leader line: centroid → elbow → label
+          g.append("polyline")
+            .attr("points", `${cx},${cy} ${elbowX},${cy} ${lx},${ly}`)
+            .attr("fill", "none")
+            .attr("stroke", "rgba(255,255,255,0.45)")
+            .attr("stroke-width", "0.7")
+            .attr("pointer-events", "none");
+          // Dot at state centroid
+          g.append("circle")
+            .attr("cx", cx)
+            .attr("cy", cy)
+            .attr("r", 1.8)
+            .attr("fill", "rgba(255,255,255,0.75)")
+            .attr("pointer-events", "none");
+          // Label at callout position
+          g.append("text")
+            .attr("x", lx)
+            .attr("y", ly + 4)
+            .attr("text-anchor", "start")
+            .attr("font-size", "8.5px")
+            .attr("font-family", "system-ui, sans-serif")
+            .attr("font-weight", "700")
+            .attr("fill", "rgba(255,255,255,0.92)")
+            .attr("stroke", "rgba(0,0,0,0.65)")
+            .attr("stroke-width", "2.5px")
+            .attr("paint-order", "stroke")
+            .attr("pointer-events", "none")
+            .text(code);
+        } else {
+          // Regular inline label for all other states
+          g.append("text")
+            .attr("x", cx)
+            .attr("y", cy + 4)
+            .attr("text-anchor", "middle")
+            .attr("font-size", "9px")
+            .attr("font-family", "system-ui, sans-serif")
+            .attr("font-weight", "700")
+            .attr("fill", "rgba(255,255,255,0.92)")
+            .attr("stroke", "rgba(0,0,0,0.65)")
+            .attr("stroke-width", "2.8px")
+            .attr("paint-order", "stroke")
+            .attr("pointer-events", "none")
+            .attr("letter-spacing", "0.02em")
+            .text(code);
+        }
       });
     }
 

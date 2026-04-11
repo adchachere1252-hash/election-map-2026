@@ -225,10 +225,18 @@ export default function GovernorMap({
 
     // ── State abbreviation labels for all 50 states ────────────────────────────────────────
     if (showLabels) {
-    const LARGE_STATES_GOV = new Set(["AK","TX","CA","MT","NM","AZ","NV","CO","OR","WY","ID","UT","WA","MN","KS","NE","SD","ND","OK","MO"]);
-    const MEDIUM_STATES_GOV = new Set(["AR","AL","MS","GA","FL","SC","NC","TN","KY","VA","WV","OH","IN","IL","MI","WI","IA","LA","PA","NY","ME","HI"]);
     const CENTROID_NUDGE_GOV: Record<string, [number, number]> = {
       "MI": [6, 12], "FL": [8, -4], "LA": [-8, 0], "VA": [-4, 0], "NY": [0, 4], "ME": [0, 4],
+    };
+    const NE_CALLOUTS_GOV: Record<string, { lx: number; ly: number }> = {
+      "VT": { lx:  60, ly: -55 },
+      "NH": { lx:  75, ly: -35 },
+      "MA": { lx:  80, ly: -12 },
+      "RI": { lx:  82, ly:   6 },
+      "CT": { lx:  78, ly:  22 },
+      "NJ": { lx:  72, ly:  40 },
+      "DE": { lx:  68, ly:  58 },
+      "MD": { lx:  58, ly:  75 },
     };
     // @ts-ignore
     stateFeatures.features.forEach((d: any) => {
@@ -240,22 +248,48 @@ export default function GovernorMap({
       const nudge = CENTROID_NUDGE_GOV[code] ?? [0, 0];
       const cx = centroid[0] + nudge[0];
       const cy = centroid[1] + nudge[1];
-      const fontSize = "9px";
-      const strokeW  = "2.8px";
-      g.append("text")
-        .attr("x", cx)
-        .attr("y", cy + 4)
-        .attr("text-anchor", "middle")
-        .attr("font-size", fontSize)
-        .attr("font-family", "system-ui, sans-serif")
-        .attr("font-weight", "700")
-        .attr("fill", "rgba(255,255,255,0.92)")
-        .attr("stroke", "rgba(0,0,0,0.65)")
-        .attr("stroke-width", strokeW)
-        .attr("paint-order", "stroke")
-        .attr("pointer-events", "none")
-        .attr("letter-spacing", "0.02em")
+      const callout = NE_CALLOUTS_GOV[code];
+      if (callout) {
+        const lx = cx + callout.lx;
+        const ly = cy + callout.ly;
+        const elbowX = cx + callout.lx * 0.55;
+        g.append("polyline")
+          .attr("points", `${cx},${cy} ${elbowX},${cy} ${lx},${ly}`)
+          .attr("fill", "none")
+          .attr("stroke", "rgba(255,255,255,0.45)")
+          .attr("stroke-width", "0.7")
+          .attr("pointer-events", "none");
+        g.append("circle")
+          .attr("cx", cx).attr("cy", cy).attr("r", 1.8)
+          .attr("fill", "rgba(255,255,255,0.75)")
+          .attr("pointer-events", "none");
+        g.append("text")
+          .attr("x", lx).attr("y", ly + 4)
+          .attr("text-anchor", "start")
+          .attr("font-size", "8.5px")
+          .attr("font-family", "system-ui, sans-serif")
+          .attr("font-weight", "700")
+          .attr("fill", "rgba(255,255,255,0.92)")
+          .attr("stroke", "rgba(0,0,0,0.65)")
+          .attr("stroke-width", "2.5px")
+          .attr("paint-order", "stroke")
+          .attr("pointer-events", "none")
           .text(code);
+      } else {
+        g.append("text")
+          .attr("x", cx).attr("y", cy + 4)
+          .attr("text-anchor", "middle")
+          .attr("font-size", "9px")
+          .attr("font-family", "system-ui, sans-serif")
+          .attr("font-weight", "700")
+          .attr("fill", "rgba(255,255,255,0.92)")
+          .attr("stroke", "rgba(0,0,0,0.65)")
+          .attr("stroke-width", "2.8px")
+          .attr("paint-order", "stroke")
+          .attr("pointer-events", "none")
+          .attr("letter-spacing", "0.02em")
+          .text(code);
+      }
     });
     } // end showLabels
 
