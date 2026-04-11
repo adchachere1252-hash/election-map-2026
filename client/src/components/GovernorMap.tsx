@@ -60,6 +60,7 @@ export default function GovernorMap({
   const svgRef = useRef<SVGSVGElement>(null);
   const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
   const savedTransformRef = useRef<d3.ZoomTransform>(d3.zoomIdentity);
+  const pendingZoomRef = useRef<d3.ZoomTransform | null>(null);
   const [statesData, setStatesData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [tooltip, setTooltip] = useState<{ x: number; y: number; content: string } | null>(null);
@@ -79,17 +80,21 @@ export default function GovernorMap({
 
   const zoomIn = () => {
     if (svgRef.current && zoomRef.current) {
+      const w = svgRef.current.clientWidth;
+      const h = svgRef.current.clientHeight;
       d3.select(svgRef.current)
-        .transition().duration(250)
-        .call(zoomRef.current.scaleBy as any, 1.5);
+        .transition().duration(300)
+        .call(zoomRef.current.scaleBy as any, 1.5, [w / 2, h / 2]);
     }
   };
 
   const zoomOut = () => {
     if (svgRef.current && zoomRef.current) {
+      const w = svgRef.current.clientWidth;
+      const h = svgRef.current.clientHeight;
       d3.select(svgRef.current)
-        .transition().duration(250)
-        .call(zoomRef.current.scaleBy as any, 1 / 1.5);
+        .transition().duration(300)
+        .call(zoomRef.current.scaleBy as any, 1 / 1.5, [w / 2, h / 2]);
     }
   };
 
@@ -123,6 +128,8 @@ export default function GovernorMap({
     if (!statesData || !svgRef.current) return;
 
     const svg = d3.select(svgRef.current);
+    // Save current zoom transform before clearing so it can be restored
+    const prevTransform = savedTransformRef.current;
     svg.selectAll("*").remove();
 
     const width = svgRef.current.clientWidth || 960;
@@ -214,6 +221,21 @@ export default function GovernorMap({
       })
       .on("click", function (_event: MouseEvent, d: any) {
         const code = FIPS_TO_STATE[String(d.id).padStart(2, "0")];
+        // Apply zoom directly to the SVG element NOW, before React re-renders.
+        const [[x0, y0], [x1, y1]] = path.bounds(d);
+        const bw = x1 - x0;
+        const bh = y1 - y0;
+        if (bw > 0 && bh > 0 && zoomRef.current && svgRef.current) {
+          const scale = Math.min(8, 0.9 / Math.max(bw / width, bh / height));
+          const tx = width / 2 - scale * (x0 + bw / 2);
+          const ty = height / 2 - scale * (y0 + bh / 2);
+          const targetTransform = d3.zoomIdentity.translate(tx, ty).scale(scale);
+          savedTransformRef.current = targetTransform;
+          pendingZoomRef.current = targetTransform;
+          d3.select(svgRef.current)
+            .transition().duration(650)
+            .call(zoomRef.current.transform as any, targetTransform);
+        }
         if (code && onStateClickRef.current) onStateClickRef.current(code);
       });
 
@@ -228,7 +250,7 @@ export default function GovernorMap({
     // ── State abbreviation labels for all 50 states ────────────────────────────────────────
     if (showLabels) {
     const CENTROID_NUDGE_GOV: Record<string, [number, number]> = {
-      "MI": [6, 12], "FL": [8, -4], "LA": [-8, 0], "VA": [-4, 0], "NY": [0, 4], "ME": [0, 4],
+      "MI": [6, 12], "FL": [8, -4], "LA": [-8, 0], "VA": [-4, 0], "NY": [0, 4], "ME": [0, 4], "HI": [10, -8],
     };
     const NE_CALLOUTS_GOV: Record<string, { lx: number; ly: number }> = {
       "VT": { lx:  36, ly: -42 },
@@ -295,10 +317,10 @@ export default function GovernorMap({
     });
     } // end showLabels
 
-    // Zoom & pan — persist transform across re-renders
-    const prevTransform = savedTransformRef.current;
+    // Zoom & pan
     const zoom = d3.zoom<SVGSVGElement, unknown>()
-      .scaleExtent([1, 12])
+      .scaleExtent([1, 10])
+      .translateExtent([[-width * 0.5, -height * 0.5], [width * 1.5, height * 1.5]])
       .on("zoom", (event) => {
         g.attr("transform", event.transform.toString());
         savedTransformRef.current = event.transform;
@@ -306,10 +328,18 @@ export default function GovernorMap({
       });
     zoomRef.current = zoom;
     svg.call(zoom);
-    // Restore previous zoom transform if zoomed in
-    if (prevTransform && prevTransform.k > 1.01) {
+    // Apply pending zoom (click-to-zoom) or restore saved transform after rebuild
+    if (pendingZoomRef.current) {
+      const t = pendingZoomRef.current;
+      pendingZoomRef.current = null;
+      svg.call(zoom.transform, d3.zoomIdentity);
+      svg.transition().duration(650)
+        .call(zoom.transform as any, t);
+      setIsZoomed(true);
+    } else if (prevTransform && prevTransform.k > 1.01) {
       svg.call(zoom.transform, prevTransform);
       g.attr("transform", prevTransform.toString());
+      setIsZoomed(true);
     } else {
       svg.call(zoom.transform, d3.zoomIdentity);
       setIsZoomed(false);

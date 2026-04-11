@@ -861,5 +861,8 @@
 
 ## NE Callout & Zoom Fix
 - [x] Shorten NE callout leader line lx offsets in ElectionMap and GovernorMap
-- [ ] Verify zoom +/- buttons and scroll-to-zoom work on all map views
+- [x] Verify zoom +/- buttons and scroll-to-zoom work on all map views
 - [x] Run full TypeScript + test verification
+- [ ] Fix Hawaii abbreviation position on all map views
+- [ ] Overhaul zoom: smooth center-based zoom, proper step size, no jitter on re-render
+- [ ] Click-to-zoom: clicking a state zooms/pans to fit that state's bounding box on all map views

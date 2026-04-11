@@ -62,6 +62,13 @@ export default function ElectionMap({
 }: ElectionMapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
+  const gRef = useRef<SVGGElement | null>(null);
+  const savedTransformRef = useRef<d3.ZoomTransform>(d3.zoomIdentity);
+  // pendingZoomRef: a zoom transform to apply after the next D3 re-render
+  // Used for click-to-zoom: the click triggers a state update (selectedStateCode)
+  // which causes a re-render; we store the desired transform here and restore it
+  // after the rebuild instead of fighting the transition timing.
+  const pendingZoomRef = useRef<d3.ZoomTransform | null>(null);
   const [statesData, setStatesData] = useState<any>(null);
   const [districtsData, setDistrictsData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -85,17 +92,21 @@ export default function ElectionMap({
 
   const zoomIn = () => {
     if (svgRef.current && zoomRef.current) {
+      const w = svgRef.current.clientWidth;
+      const h = svgRef.current.clientHeight;
       d3.select(svgRef.current)
-        .transition().duration(250)
-        .call(zoomRef.current.scaleBy as any, 1.5);
+        .transition().duration(300)
+        .call(zoomRef.current.scaleBy as any, 1.5, [w / 2, h / 2]);
     }
   };
 
   const zoomOut = () => {
     if (svgRef.current && zoomRef.current) {
+      const w = svgRef.current.clientWidth;
+      const h = svgRef.current.clientHeight;
       d3.select(svgRef.current)
-        .transition().duration(250)
-        .call(zoomRef.current.scaleBy as any, 1 / 1.5);
+        .transition().duration(300)
+        .call(zoomRef.current.scaleBy as any, 1 / 1.5, [w / 2, h / 2]);
     }
   };
 
@@ -206,9 +217,6 @@ export default function ElectionMap({
     }
     return "url(#no-race-stripe)";
   }, [view, senateByState, redistrictingByState, govByState, resultsMode]);
-
-  // Persist zoom transform across D3 re-renders
-  const savedTransformRef = useRef<d3.ZoomTransform>(d3.zoomIdentity);
 
   // Main D3 render effect
   useEffect(() => {
@@ -343,7 +351,7 @@ export default function ElectionMap({
       const LARGE_STATES_H  = new Set(["AK","TX","CA","MT","NM","AZ","NV","CO","OR","WY","ID","UT","WA","MN","KS","NE","SD","ND","OK","MO"]);
       const MEDIUM_STATES_H = new Set(["AR","AL","MS","GA","FL","SC","NC","TN","KY","VA","WV","OH","IN","IL","MI","WI","IA","LA","PA","NY","ME","HI"]);
       const NUDGE_H: Record<string, [number, number]> = {
-        "MI": [6, 12], "FL": [8, -4], "LA": [-8, 0], "VA": [-4, 0], "NY": [0, 4], "ME": [0, 4],
+        "MI": [6, 12], "FL": [8, -4], "LA": [-8, 0], "VA": [-4, 0], "NY": [0, 4], "ME": [0, 4], "HI": [10, -8],
       };
       // @ts-ignore
       stateFeatures.features.forEach((d: any) => {
@@ -455,6 +463,24 @@ export default function ElectionMap({
         .on("click", function (_event: MouseEvent, d: any) {
           const fips = String(d.id).padStart(2, "0");
           const code = FIPS_TO_STATE[fips];
+          // Apply zoom directly to the SVG element NOW, before React re-renders.
+          // This avoids the React 18 concurrent mode race where the D3 effect
+          // re-runs synchronously during onStateClick, wiping pendingZoomRef.
+          const [[x0, y0], [x1, y1]] = path.bounds(d);
+          const bw = x1 - x0;
+          const bh = y1 - y0;
+          if (bw > 0 && bh > 0 && zoomRef.current && svgRef.current) {
+            const scale = Math.min(8, 0.9 / Math.max(bw / width, bh / height));
+            const tx = width / 2 - scale * (x0 + bw / 2);
+            const ty = height / 2 - scale * (y0 + bh / 2);
+            const targetTransform = d3.zoomIdentity.translate(tx, ty).scale(scale);
+            // Save so the D3 re-render restores this transform instead of resetting
+            savedTransformRef.current = targetTransform;
+            pendingZoomRef.current = targetTransform;
+            d3.select(svgRef.current)
+              .transition().duration(650)
+              .call(zoomRef.current.transform as any, targetTransform);
+          }
           if (code && onStateClickRef.current) onStateClickRef.current(code);
         });
 
@@ -479,7 +505,7 @@ export default function ElectionMap({
       "MI": [6, 12],   // Lower Peninsula
       "FL": [8, -4],
       "LA": [-8, 0],
-      "HI": [0, 0],
+      "HI": [10, -8],
       "AK": [0, 0],
       "ME": [0, 4],
       "VA": [-4, 0],
@@ -573,7 +599,9 @@ export default function ElectionMap({
 
     // Add zoom & pan (with +/- button support via programmatic zoom)
     const zoom = d3.zoom<SVGSVGElement, unknown>()
-      .scaleExtent([1, 12])
+      .scaleExtent([1, 10])
+      // Prevent panning the map completely off-screen
+      .translateExtent([[-width * 0.5, -height * 0.5], [width * 1.5, height * 1.5]])
       .on("zoom", (event) => {
         g.attr("transform", event.transform.toString());
         savedTransformRef.current = event.transform;
@@ -583,14 +611,22 @@ export default function ElectionMap({
     zoomRef.current = zoom;
     svg.call(zoom);
 
-    // Restore previous zoom transform (persists across re-renders)
-    // Only reset to identity when view changes
-    if (prevTransform && prevTransform.k > 1.01) {
+    // Apply pending zoom (click-to-zoom) or restore saved transform after rebuild
+    console.log('[ElectionMap] zoom restore: pending=', !!pendingZoomRef.current, 'prevK=', prevTransform?.k);
+    if (pendingZoomRef.current) {
+      // A click-to-zoom was requested — apply it with a smooth transition
+      const t = pendingZoomRef.current;
+      console.log('[ElectionMap] applying pending zoom t=', t.toString());
+      pendingZoomRef.current = null;
+      svg.call(zoom.transform, d3.zoomIdentity); // reset first so transition starts from identity
+      svg.transition().duration(650)
+        .call(zoom.transform as any, t);
+    } else if (prevTransform && prevTransform.k > 1.01) {
+      // Restore zoom state that was active before the re-render
       svg.call(zoom.transform, prevTransform);
       g.attr("transform", prevTransform.toString());
     } else {
       svg.call(zoom.transform, d3.zoomIdentity);
-      setIsZoomed(false);
     }
 
   }, [statesData, districtsData, view, senateRaces, houseRaces, redistrictingStates, senators, selectedStateCode, selectedDistrictId, getStateColor, getDistrictColor, getStateSplitInfo, houseByStateDistrict, searchHighlight, showLabels]);
