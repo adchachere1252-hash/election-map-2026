@@ -868,3 +868,10 @@
 - [x] Click-to-zoom: clicking a state zooms/pans to fit that state's bounding box on all map views
 - [ ] Add Hawaii callout leader line (white thin line) matching NE style on all map views
 - [ ] 50-state verification: confirm all states render correctly on Senate, House, Governor, Redistricting views
+
+## Zoom-Out on Popup Close (Apr 10, 2026)
+- [x] Expose resetZoom() from ElectionMap via forwardRef + useImperativeHandle
+- [x] Expose resetZoom() from GovernorMap via forwardRef + useImperativeHandle
+- [x] Add electionMapRef and governorMapRef in Home.tsx
+- [x] Call resetZoom() in closePopup() so closing any popup zooms back to full US map
+- [x] All 37 tests pass, 0 TypeScript errors

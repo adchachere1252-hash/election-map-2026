@@ -259,7 +259,7 @@ const GovernorMap = forwardRef(function GovernorMap({
     const CENTROID_NUDGE_GOV: Record<string, [number, number]> = {
       "MI": [6, 12], "FL": [8, -4], "LA": [-8, 0], "VA": [-4, 0], "NY": [0, 4], "ME": [0, 4], "HI": [10, -8],
     };
-    const NE_CALLOUTS_GOV: Record<string, { lx: number; ly: number }> = {
+    const NE_CALLOUTS_GOV: Record<string, { lx: number; ly: number; anchor?: string }> = {
       "VT": { lx:  36, ly: -42 },
       "NH": { lx:  44, ly: -26 },
       "MA": { lx:  48, ly:  -8 },
@@ -268,6 +268,8 @@ const GovernorMap = forwardRef(function GovernorMap({
       "NJ": { lx:  43, ly:  34 },
       "DE": { lx:  40, ly:  48 },
       "MD": { lx:  34, ly:  62 },
+      // Hawaii callout — leader line going down-right toward open ocean label
+      "HI": { lx:  38, ly:  36, anchor: "start" },
     };
     // @ts-ignore
     stateFeatures.features.forEach((d: any) => {
@@ -296,7 +298,7 @@ const GovernorMap = forwardRef(function GovernorMap({
           .attr("pointer-events", "none");
         g.append("text")
           .attr("x", lx).attr("y", ly + 4)
-          .attr("text-anchor", "start")
+          .attr("text-anchor", callout.anchor ?? "start")
           .attr("font-size", "8.5px")
           .attr("font-family", "system-ui, sans-serif")
           .attr("font-weight", "700")
@@ -327,6 +329,9 @@ const GovernorMap = forwardRef(function GovernorMap({
     // Zoom & pan
     const zoom = d3.zoom<SVGSVGElement, unknown>()
       .scaleExtent([1, 10])
+      // Explicit extent prevents D3 from reading SVG width/height SVGLength attributes
+      // (which fail when the SVG uses CSS sizing only — NotSupportedError)
+      .extent([[0, 0], [width, height]])
       .translateExtent([[-width * 0.5, -height * 0.5], [width * 1.5, height * 1.5]])
       .on("zoom", (event) => {
         g.attr("transform", event.transform.toString());

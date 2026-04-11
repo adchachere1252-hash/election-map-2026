@@ -527,7 +527,7 @@ const ElectionMap = forwardRef(function ElectionMap({
       // lx/ly are pixel offsets from the state centroid.
       // Positive lx = right. Labels stagger vertically so they don't overlap.
       // Centroids are ~x:770-825; SVG width ~1024 → keep labels ≤ x:920
-      const NE_CALLOUTS: Record<string, { lx: number; ly: number }> = {
+      const NE_CALLOUTS: Record<string, { lx: number; ly: number; anchor?: string }> = {
         "VT": { lx:  36, ly: -42 },
         "NH": { lx:  44, ly: -26 },
         "MA": { lx:  48, ly:  -8 },
@@ -536,6 +536,8 @@ const ElectionMap = forwardRef(function ElectionMap({
         "NJ": { lx:  43, ly:  34 },
         "DE": { lx:  40, ly:  48 },
         "MD": { lx:  34, ly:  62 },
+        // Hawaii callout — leader line going down-right toward open ocean label
+        "HI": { lx:  38, ly:  36, anchor: "start" },
       };
 
       // @ts-ignore
@@ -551,10 +553,10 @@ const ElectionMap = forwardRef(function ElectionMap({
 
         const callout = NE_CALLOUTS[code];
         if (callout) {
-          // Label position (to the right of the NE cluster)
+          // Label position (to the right of the NE cluster, or below for HI)
           const lx = cx + callout.lx;
           const ly = cy + callout.ly;
-          // Elbow: go right from centroid then up/down to label
+          // Elbow: go horizontally from centroid then diagonally to label
           const elbowX = cx + callout.lx * 0.55;
           // Leader line: centroid → elbow → label
           g.append("polyline")
@@ -574,7 +576,7 @@ const ElectionMap = forwardRef(function ElectionMap({
           g.append("text")
             .attr("x", lx)
             .attr("y", ly + 4)
-            .attr("text-anchor", "start")
+            .attr("text-anchor", callout.anchor ?? "start")
             .attr("font-size", "8.5px")
             .attr("font-family", "system-ui, sans-serif")
             .attr("font-weight", "700")
@@ -607,6 +609,9 @@ const ElectionMap = forwardRef(function ElectionMap({
     // Add zoom & pan (with +/- button support via programmatic zoom)
     const zoom = d3.zoom<SVGSVGElement, unknown>()
       .scaleExtent([1, 10])
+      // Explicit extent prevents D3 from reading SVG width/height SVGLength attributes
+      // (which fail when the SVG uses CSS sizing only — NotSupportedError)
+      .extent([[0, 0], [width, height]])
       // Prevent panning the map completely off-screen
       .translateExtent([[-width * 0.5, -height * 0.5], [width * 1.5, height * 1.5]])
       .on("zoom", (event) => {
