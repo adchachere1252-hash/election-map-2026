@@ -40,6 +40,16 @@ const VIEW_DESCRIPTIONS: Record<MapView, string> = {
   senate: "35 races · Nov 3, 2026",
 };
 
+// Election countdown hook — days until Nov 3, 2026
+function useDaysUntilElection() {
+  const electionDay = new Date("2026-11-03T00:00:00");
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const diff = electionDay.getTime() - today.getTime();
+  const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+  return days;
+}
+
 // Live clock hook — ticks every second
 function usePSTClock() {
   const [now, setNow] = useState(() => new Date());
@@ -63,6 +73,7 @@ function usePSTClock() {
 
 export default function Home() {
   const pstClock = usePSTClock();
+  const daysUntilElection = useDaysUntilElection();
   const [view, setView] = useState<MapView>("senate");
   const [popup, setPopup] = useState<{
     type: "senate" | "house" | "redistricting" | "referendum" | "no-race" | "governor";
@@ -584,6 +595,10 @@ export default function Home() {
               <button onClick={() => setLiveSearchQuery("")} className="ml-0.5 hover:text-blue-200">×</button>
             </span>
           )}
+          {/* Election countdown */}
+          <span className="ml-auto flex items-center gap-1.5 text-xs bg-amber-950/40 border border-amber-700/40 text-amber-400 px-2 py-0.5 rounded-full font-semibold flex-shrink-0">
+            ⏳ {daysUntilElection > 0 ? `${daysUntilElection} days until Nov 3, 2026` : daysUntilElection === 0 ? "Election Day — Nov 3, 2026" : "Election has passed"}
+          </span>
         </div>
       </header>
 

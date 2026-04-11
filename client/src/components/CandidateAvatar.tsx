@@ -25,10 +25,13 @@ export function CandidateAvatar({
   const partyKey = (party || "").toUpperCase();
   const isD = partyKey === "D" || partyKey === "DEM" || partyKey === "DEMOCRAT" || partyKey === "DEMOCRATIC";
   const isR = partyKey === "R" || partyKey === "REP" || partyKey === "REPUBLICAN";
+  const isI = partyKey === "I" || partyKey === "IND" || partyKey === "INDEPENDENT";
   const bgColor = isD
     ? "oklch(0.45 0.18 260)"   // blue
     : isR
     ? "oklch(0.45 0.20 25)"    // red
+    : isI
+    ? "oklch(0.50 0.12 75)"    // amber/gold for Independent
     : "oklch(0.40 0.00 0)";    // gray
 
   // Get initials from name
