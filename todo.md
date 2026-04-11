@@ -866,8 +866,8 @@
 - [x] Fix Hawaii abbreviation position on all map views
 - [x] Overhaul zoom: smooth center-based zoom, proper step size, no jitter on re-render
 - [x] Click-to-zoom: clicking a state zooms/pans to fit that state's bounding box on all map views
-- [ ] Add Hawaii callout leader line (white thin line) matching NE style on all map views
-- [ ] 50-state verification: confirm all states render correctly on Senate, House, Governor, Redistricting views
+- [x] Add Hawaii callout leader line (white thin line) matching NE style on all map views
+- [x] 50-state verification: confirm all states render correctly on Senate, House, Governor, Redistricting views (verified via DOM analysis — all 50 states present, HI callout confirmed)
 
 ## Zoom-Out on Popup Close (Apr 10, 2026)
 - [x] Expose resetZoom() from ElectionMap via forwardRef + useImperativeHandle

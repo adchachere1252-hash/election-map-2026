@@ -528,14 +528,17 @@ const ElectionMap = forwardRef(function ElectionMap({
       // Positive lx = right. Labels stagger vertically so they don't overlap.
       // Centroids are ~x:770-825; SVG width ~1024 → keep labels ≤ x:920
       const NE_CALLOUTS: Record<string, { lx: number; ly: number; anchor?: string }> = {
-        "VT": { lx:  36, ly: -42 },
-        "NH": { lx:  44, ly: -26 },
-        "MA": { lx:  48, ly:  -8 },
-        "RI": { lx:  50, ly:   7 },
-        "CT": { lx:  47, ly:  20 },
-        "NJ": { lx:  43, ly:  34 },
-        "DE": { lx:  40, ly:  48 },
-        "MD": { lx:  34, ly:  62 },
+        // VT: push far up-right so it clears Maine's body
+        "VT": { lx:  54, ly: -54 },
+        // ME: add callout — its inline centroid overlaps VT's callout label
+        "ME": { lx:  54, ly: -36 },
+        "NH": { lx:  54, ly: -18 },
+        "MA": { lx:  54, ly:   0 },
+        "RI": { lx:  54, ly:  14 },
+        "CT": { lx:  52, ly:  28 },
+        "NJ": { lx:  46, ly:  42 },
+        "DE": { lx:  42, ly:  56 },
+        "MD": { lx:  36, ly:  70 },
         // Hawaii callout — leader line going down-right toward open ocean label
         "HI": { lx:  38, ly:  36, anchor: "start" },
       };
