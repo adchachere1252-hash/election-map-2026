@@ -252,27 +252,37 @@ export default function GovernorMap({
       }
     });
 
-    // ── Small state labels (East Coast) ────────────────────────────────────
-    const SMALL_STATE_CODES = new Set(["CT","RI","DE","NJ","MD","MA","VT","NH"]);
+    // ── State abbreviation labels for all 50 states ──────────────────────────
+    const LARGE_STATES_GOV  = new Set(["AK","TX","CA","MT","NM","AZ","NV","CO","OR","WY","ID","UT","WA","MN","KS","NE","SD","ND","OK","MO"]);
+    const MEDIUM_STATES_GOV = new Set(["AR","AL","MS","GA","FL","SC","NC","TN","KY","VA","WV","OH","IN","IL","MI","WI","IA","LA","PA","NY","ME","HI"]);
+    const CENTROID_NUDGE_GOV: Record<string, [number, number]> = {
+      "MI": [0, 12], "FL": [8, -4], "LA": [4, 0], "VA": [-4, 0], "NY": [0, 4], "ME": [0, 4],
+    };
     // @ts-ignore
     stateFeatures.features.forEach((d: any) => {
       const fips = String(d.id).padStart(2, "0");
       const code = FIPS_TO_STATE[fips];
-      if (!code || !SMALL_STATE_CODES.has(code)) return;
+      if (!code) return;
       const centroid = path.centroid(d);
       if (!centroid || isNaN(centroid[0]) || isNaN(centroid[1])) return;
+      const nudge = CENTROID_NUDGE_GOV[code] ?? [0, 0];
+      const cx = centroid[0] + nudge[0];
+      const cy = centroid[1] + nudge[1];
+      const fontSize = LARGE_STATES_GOV.has(code) ? "11px" : MEDIUM_STATES_GOV.has(code) ? "9px" : "7px";
+      const strokeW  = LARGE_STATES_GOV.has(code) ? "3px"  : MEDIUM_STATES_GOV.has(code) ? "2.8px" : "2.5px";
       g.append("text")
-        .attr("x", centroid[0])
-        .attr("y", centroid[1] + 4)
+        .attr("x", cx)
+        .attr("y", cy + 4)
         .attr("text-anchor", "middle")
-        .attr("font-size", "7px")
-        .attr("font-family", "sans-serif")
+        .attr("font-size", fontSize)
+        .attr("font-family", "system-ui, sans-serif")
         .attr("font-weight", "700")
-        .attr("fill", "rgba(255,255,255,0.9)")
-        .attr("stroke", "rgba(0,0,0,0.6)")
-        .attr("stroke-width", "2.5px")
+        .attr("fill", "rgba(255,255,255,0.92)")
+        .attr("stroke", "rgba(0,0,0,0.65)")
+        .attr("stroke-width", strokeW)
         .attr("paint-order", "stroke")
         .attr("pointer-events", "none")
+        .attr("letter-spacing", "0.02em")
         .text(code);
     });
 

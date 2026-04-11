@@ -313,6 +313,40 @@ export default function ElectionMap({
         .attr("stroke-width", 1.5)
         .attr("d", path as any);
 
+      // ── State abbreviation labels on House view (rendered over districts) ──
+      const LARGE_STATES_H  = new Set(["AK","TX","CA","MT","NM","AZ","NV","CO","OR","WY","ID","UT","WA","MN","KS","NE","SD","ND","OK","MO"]);
+      const MEDIUM_STATES_H = new Set(["AR","AL","MS","GA","FL","SC","NC","TN","KY","VA","WV","OH","IN","IL","MI","WI","IA","LA","PA","NY","ME","HI"]);
+      const NUDGE_H: Record<string, [number, number]> = {
+        "MI": [0, 12], "FL": [8, -4], "LA": [4, 0], "VA": [-4, 0], "NY": [0, 4], "ME": [0, 4],
+      };
+      // @ts-ignore
+      stateFeatures.features.forEach((d: any) => {
+        const fips = String(d.id).padStart(2, "0");
+        const code = FIPS_TO_STATE[fips];
+        if (!code) return;
+        const centroid = path.centroid(d);
+        if (!centroid || isNaN(centroid[0]) || isNaN(centroid[1])) return;
+        const nudge = NUDGE_H[code] ?? [0, 0];
+        const cx = centroid[0] + nudge[0];
+        const cy = centroid[1] + nudge[1];
+        const fontSize = LARGE_STATES_H.has(code) ? "10px" : MEDIUM_STATES_H.has(code) ? "8px" : "6.5px";
+        const strokeW  = LARGE_STATES_H.has(code) ? "3px"  : MEDIUM_STATES_H.has(code) ? "2.8px" : "2.5px";
+        g.append("text")
+          .attr("x", cx)
+          .attr("y", cy + 4)
+          .attr("text-anchor", "middle")
+          .attr("font-size", fontSize)
+          .attr("font-family", "system-ui, sans-serif")
+          .attr("font-weight", "700")
+          .attr("fill", "rgba(255,255,255,0.85)")
+          .attr("stroke", "rgba(0,0,0,0.7)")
+          .attr("stroke-width", strokeW)
+          .attr("paint-order", "stroke")
+          .attr("pointer-events", "none")
+          .attr("letter-spacing", "0.02em")
+          .text(code);
+      });
+
     } else {
       // ── Senate / Redistricting view: render states ───────────────────────────
       g.selectAll(".map-state")
@@ -479,6 +513,7 @@ export default function ElectionMap({
       "MD": [0, 0],
       "NY": [0, 4],
     };
+    // Show labels on senate, governor, and redistricting views — skip house (districts too small)
     if (view !== "house") {
       // @ts-ignore
       stateFeatures.features.forEach((d: any) => {
