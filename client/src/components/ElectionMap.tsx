@@ -555,30 +555,7 @@ export default function ElectionMap({
         </div>
       )}
 
-      {/* Party split/unified legend for senate view */}
-      {view === "senate" && (
-        <div className="absolute bottom-3 right-3 bg-card/90 backdrop-blur border border-border rounded-lg px-3 py-2 text-xs text-muted-foreground pointer-events-none shadow-lg">
-          <p className="font-semibold text-foreground/70 mb-1.5 uppercase tracking-wide text-[10px]">Senator Composition</p>
-          <div className="space-y-1">
-            <div className="flex items-center gap-1.5">
-              <div className="w-3.5 h-3.5 rounded-full bg-blue-500 border border-black/30 flex-shrink-0" />
-              <span>Unified Democrat</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="w-3.5 h-3.5 rounded-full bg-red-500 border border-black/30 flex-shrink-0" />
-              <span>Unified Republican</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="w-3.5 h-3.5 rounded-full flex-shrink-0" style={{ background: "#8b5cf6", border: "1px solid rgba(0,0,0,0.3)" }} />
-              <span>Split (D + R)</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="w-3.5 h-3.5 rounded flex-shrink-0" style={{ border: "1px solid rgba(255,255,255,0.15)", background: "repeating-linear-gradient(45deg, #3b82f699 0px, #3b82f699 4px, #ef444499 4px, #ef444499 8px), #1e2433" }} />
-              <span>No 2026 Race</span>
-            </div>
-          </div>
-        </div>
-      )}
+
     </div>
   );
 }

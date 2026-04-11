@@ -351,7 +351,7 @@ function RedistrictingPopup({ state, onClose }: { state: RedistrictingState; onC
         {state.projectedImpact && (
           <div>
             <span className="text-muted-foreground text-xs uppercase tracking-wider">Projected Impact</span>
-            <p className="font-bold mt-0.5" style={{ color: state.projectedImpact.includes("+D") || state.projectedImpact.includes("+5 D") ? "#5b8fd4" : state.projectedImpact.includes("+R") ? "#d96b4a" : "#c8a951" }}>
+            <p className="font-bold mt-0.5" style={{ color: state.projectedImpact.includes("+D") || state.projectedImpact.includes("+5 D") ? "#5b8fd4" : state.projectedImpact.includes("+R") ? "#d96b4a" : "#7c3aed" }}>
               {state.projectedImpact}
             </p>
           </div>

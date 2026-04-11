@@ -76,7 +76,7 @@ function daysFromNow(date: Date): number {
 
 const TYPE_COLORS: Record<EventType, string> = {
   "senate-primary": "#5b8fd4",
-  "senate-special": "#c8a951",
+  "senate-special": "#7c3aed",
   "house-primary": "#7c9e6b",
   "referendum": "#9b6b9b",
   "general": "#d96b4a",

@@ -46,7 +46,7 @@
 :root {
   --solid-d: #1a4fa0;
   --lean-d: #5b8fd4;
-  --toss-up: #c8a951;
+  --toss-up: #7c3aed;
   --lean-r: #d96b4a;
   --solid-r: #b22222;
   --safe-d: #0d3070;
@@ -158,7 +158,7 @@
   .rating-solid-d { background-color: var(--solid-d); color: #fff; }
   .rating-likely-d { background-color: #3a6fc0; color: #fff; }
   .rating-lean-d { background-color: var(--lean-d); color: #fff; }
-  .rating-toss-up { background-color: var(--toss-up); color: #1a1a1a; }
+  .rating-toss-up { background-color: var(--toss-up); color: #ffffff; }
   .rating-lean-r { background-color: var(--lean-r); color: #fff; }
   .rating-likely-r { background-color: #c04040; color: #fff; }
   .rating-solid-r { background-color: var(--solid-r); color: #fff; }

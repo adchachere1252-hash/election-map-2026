@@ -306,7 +306,7 @@ export default function GovernorMap({
             <span>Likely D</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: "#c8a951" }} />
+            <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: "#7c3aed" }} />
             <span>Toss-up</span>
           </div>
           <div className="flex items-center gap-1.5">
