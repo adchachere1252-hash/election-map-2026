@@ -877,6 +877,6 @@
 - [x] All 37 tests pass, 0 TypeScript errors
 
 ## Three Improvements (Apr 11, 2026)
-- [ ] Add Vermont Senate race (Bernie Sanders seat, 2026) to database
-- [ ] Fix DE and MD callout dot centroid nudges so dots land inside state borders
-- [ ] Add "Focus on map" zoom-to-state button in race popup
+- [x] Add Vermont Senate race — confirmed VT has NO 2026 Senate race (Bernie Sanders is Class III, up 2030; Peter Welch is Class II, up 2028). Correctly shows as no-race state.
+- [x] Fix DE and MD callout dot centroid nudges so dots land inside state borders
+- [x] Add "Focus on map" zoom-to-state button in race popup (crosshair icon next to X in all popup types)
