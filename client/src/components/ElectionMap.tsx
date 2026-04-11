@@ -439,60 +439,6 @@ export default function ElectionMap({
         .attr("stroke-width", 0.8)
         .attr("d", path as any);
 
-      // ── Party split/unified indicators (senate view only) ──────────────────
-      if (view === "senate" && senators.length > 0) {
-        // Build per-state senator data (name + party)
-        const stateParties: Record<string, { name: string; party: string }[]> = {};
-        for (const s of senators) {
-          if (!stateParties[s.stateCode]) stateParties[s.stateCode] = [];
-          stateParties[s.stateCode].push({ name: s.name, party: s.party });
-        }
-
-        // Render indicator group for each state
-        // @ts-ignore
-        stateFeatures.features.forEach((d: any) => {
-          const fips = String(d.id).padStart(2, "0");
-          const code = FIPS_TO_STATE[fips];
-          if (!code) return;
-          const sens = stateParties[code];
-          if (!sens || sens.length < 2) return;
-
-          const centroid = path.centroid(d);
-          if (!centroid || isNaN(centroid[0]) || isNaN(centroid[1])) return;
-
-          const partyList = sens.map(s => s.party);
-          const isSplit = new Set(partyList).size > 1;
-          const cx = centroid[0];
-          const cy = centroid[1];
-          const r = 4;
-
-          if (isSplit) {
-            // Split: solid purple circle
-            g.append("circle")
-              .attr("cx", cx)
-              .attr("cy", cy)
-              .attr("r", r)
-              .attr("fill", "#8b5cf6")
-              .attr("opacity", 0.95)
-              .attr("stroke", "#0d1117")
-              .attr("stroke-width", 0.8)
-              .attr("pointer-events", "none");
-          } else {
-            // Unified: single solid circle
-            const party = partyList[0];
-            const color = party === "D" ? "#3b82f6" : party === "R" ? "#ef4444" : "#9ca3af";
-            g.append("circle")
-              .attr("cx", cx)
-              .attr("cy", cy)
-              .attr("r", r)
-              .attr("fill", color)
-              .attr("opacity", 0.9)
-              .attr("stroke", "#0d1117")
-              .attr("stroke-width", 0.8)
-              .attr("pointer-events", "none");
-          }
-        });
-      }
     }
 
     // ── State abbreviation labels for all 50 states ──────────────────────────

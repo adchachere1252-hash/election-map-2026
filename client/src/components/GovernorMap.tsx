@@ -204,53 +204,7 @@ export default function GovernorMap({
       .attr("stroke-width", 0.8)
       .attr("d", path as any);
 
-    // Rating dots — one per state with a 2026 governor race
-    const RATING_DOT_COLORS: Record<string, string> = {
-      "Solid D": "#1a4fa0",
-      "Likely D": "#3b82f6",
-      "Lean D": "#60a5fa",
-      "Toss-up": "#c8a951",
-      "Lean R": "#f87171",
-      "Likely R": "#ef4444",
-      "Solid R": "#b22222",
-    };
-    // @ts-ignore
-    stateFeatures.features.forEach((d: any) => {
-      const fips = String(d.id).padStart(2, "0");
-      const code = FIPS_TO_STATE[fips];
-      if (!code) return;
-      const race = raceByState[code];
-      if (!race) return; // no 2026 race — skip dot
-      const centroid = path.centroid(d);
-      if (!centroid || isNaN(centroid[0]) || isNaN(centroid[1])) return;
-      const cx = centroid[0];
-      const cy = centroid[1];
-      const r = 4;
-      const dotColor = race.calledParty === "D" ? "#1a4fa0"
-        : race.calledParty === "R" ? "#b22222"
-        : RATING_DOT_COLORS[race.rating ?? ""] ?? "#c8a951";
-      // Inner dot — same size as Senate/House dots (r=4)
-      g.append("circle")
-        .attr("cx", cx).attr("cy", cy)
-        .attr("r", r)
-        .attr("fill", dotColor)
-        .attr("opacity", 0.95)
-        .attr("stroke", "#0d1117")
-        .attr("stroke-width", 0.8)
-        .attr("pointer-events", "none");
-      // Small outer ring for open/term-limited seats (dash pattern to distinguish)
-      if (race.isOpen || race.isTermLimited) {
-        g.append("circle")
-          .attr("cx", cx).attr("cy", cy)
-          .attr("r", r + 1.5)
-          .attr("fill", "none")
-          .attr("stroke", "#ffffff")
-          .attr("stroke-width", 0.8)
-          .attr("stroke-dasharray", "2,2")
-          .attr("opacity", 0.6)
-          .attr("pointer-events", "none");
-      }
-    });
+
 
     // ── State abbreviation labels for all 50 states ──────────────────────────
     const LARGE_STATES_GOV  = new Set(["AK","TX","CA","MT","NM","AZ","NV","CO","OR","WY","ID","UT","WA","MN","KS","NE","SD","ND","OK","MO"]);
