@@ -210,7 +210,7 @@ export default function GovernorMap({
     const LARGE_STATES_GOV  = new Set(["AK","TX","CA","MT","NM","AZ","NV","CO","OR","WY","ID","UT","WA","MN","KS","NE","SD","ND","OK","MO"]);
     const MEDIUM_STATES_GOV = new Set(["AR","AL","MS","GA","FL","SC","NC","TN","KY","VA","WV","OH","IN","IL","MI","WI","IA","LA","PA","NY","ME","HI"]);
     const CENTROID_NUDGE_GOV: Record<string, [number, number]> = {
-      "MI": [14, 12], "FL": [8, -4], "LA": [-8, 0], "VA": [-4, 0], "NY": [0, 4], "ME": [0, 4],
+      "MI": [6, 12], "FL": [8, -4], "LA": [-8, 0], "VA": [-4, 0], "NY": [0, 4], "ME": [0, 4],
     };
     // @ts-ignore
     stateFeatures.features.forEach((d: any) => {
@@ -222,8 +222,8 @@ export default function GovernorMap({
       const nudge = CENTROID_NUDGE_GOV[code] ?? [0, 0];
       const cx = centroid[0] + nudge[0];
       const cy = centroid[1] + nudge[1];
-      const fontSize = LARGE_STATES_GOV.has(code) ? "11px" : MEDIUM_STATES_GOV.has(code) ? "9px" : "7px";
-      const strokeW  = LARGE_STATES_GOV.has(code) ? "3px"  : MEDIUM_STATES_GOV.has(code) ? "2.8px" : "2.5px";
+      const fontSize = "9px";
+      const strokeW  = "2.8px";
       g.append("text")
         .attr("x", cx)
         .attr("y", cy + 4)
