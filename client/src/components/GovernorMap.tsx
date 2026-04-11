@@ -210,7 +210,7 @@ export default function GovernorMap({
     const LARGE_STATES_GOV  = new Set(["AK","TX","CA","MT","NM","AZ","NV","CO","OR","WY","ID","UT","WA","MN","KS","NE","SD","ND","OK","MO"]);
     const MEDIUM_STATES_GOV = new Set(["AR","AL","MS","GA","FL","SC","NC","TN","KY","VA","WV","OH","IN","IL","MI","WI","IA","LA","PA","NY","ME","HI"]);
     const CENTROID_NUDGE_GOV: Record<string, [number, number]> = {
-      "MI": [0, 12], "FL": [8, -4], "LA": [-8, 0], "VA": [-4, 0], "NY": [0, 4], "ME": [0, 4],
+      "MI": [14, 12], "FL": [8, -4], "LA": [-8, 0], "VA": [-4, 0], "NY": [0, 4], "ME": [0, 4],
     };
     // @ts-ignore
     stateFeatures.features.forEach((d: any) => {
