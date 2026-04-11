@@ -9,6 +9,7 @@ type MapView = "governor" | "senate" | "house" | "redistricting";
 
 export interface ElectionMapHandle {
   resetZoom: () => void;
+  zoomToState: (stateCode: string) => void;
 }
 
 interface ElectionMapProps {
@@ -74,6 +75,9 @@ const ElectionMap = forwardRef(function ElectionMap({
   // which causes a re-render; we store the desired transform here and restore it
   // after the rebuild instead of fighting the transition timing.
   const pendingZoomRef = useRef<d3.ZoomTransform | null>(null);
+  // Refs to allow zoomToState from outside the D3 effect
+  const pathRef = useRef<d3.GeoPath | null>(null);
+  const stateFeaturesRef = useRef<any>(null);
   const [statesData, setStatesData] = useState<any>(null);
   const [districtsData, setDistrictsData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -85,7 +89,7 @@ const ElectionMap = forwardRef(function ElectionMap({
   useEffect(() => { onStateClickRef.current = onStateClick; }, [onStateClick]);
   useEffect(() => { onDistrictClickRef.current = onDistrictClick; }, [onDistrictClick]);
 
-  const resetZoom = useCallback(() => {
+   const resetZoom = useCallback(() => {
     if (svgRef.current && zoomRef.current) {
       d3.select(svgRef.current)
         .transition().duration(600)
@@ -95,7 +99,33 @@ const ElectionMap = forwardRef(function ElectionMap({
     }
   }, []);
 
-  useImperativeHandle(ref, () => ({ resetZoom }), [resetZoom]);
+  const zoomToState = useCallback((stateCode: string) => {
+    if (!svgRef.current || !zoomRef.current || !pathRef.current || !stateFeaturesRef.current) return;
+    // Find the FIPS code for the state
+    const fips = Object.entries(FIPS_TO_STATE).find(([, code]) => code === stateCode)?.[0];
+    if (!fips) return;
+    const feature = stateFeaturesRef.current.features.find((d: any) => String(d.id).padStart(2, '0') === fips);
+    if (!feature) return;
+    const svgEl = svgRef.current;
+    const width = svgEl.clientWidth || 800;
+    const height = svgEl.clientHeight || 500;
+    const [[x0, y0], [x1, y1]] = pathRef.current.bounds(feature);
+    const bw = x1 - x0;
+    const bh = y1 - y0;
+    if (bw <= 0 || bh <= 0) return;
+    const scale = Math.min(8, 0.9 / Math.max(bw / width, bh / height));
+    const tx = width / 2 - scale * (x0 + bw / 2);
+    const ty = height / 2 - scale * (y0 + bh / 2);
+    const targetTransform = d3.zoomIdentity.translate(tx, ty).scale(scale);
+    savedTransformRef.current = targetTransform;
+    pendingZoomRef.current = targetTransform;
+    d3.select(svgEl)
+      .transition().duration(650)
+      .call(zoomRef.current.transform as any, targetTransform);
+    setIsZoomed(true);
+  }, []);
+
+  useImperativeHandle(ref, () => ({ resetZoom, zoomToState }), [resetZoom, zoomToState]);
 
   const zoomIn = () => {
     if (svgRef.current && zoomRef.current) {
@@ -243,9 +273,11 @@ const ElectionMap = forwardRef(function ElectionMap({
       .translate([width / 2, height / 2]);
 
     const path = d3.geoPath().projection(projection);
+    pathRef.current = path;
 
     // @ts-ignore
     const stateFeatures = topojson.feature(statesData, statesData.objects.states);
+    stateFeaturesRef.current = stateFeatures;
     // @ts-ignore
     const stateMesh = topojson.mesh(statesData, statesData.objects.states, (a: any, b: any) => a !== b);
 
@@ -517,7 +549,8 @@ const ElectionMap = forwardRef(function ElectionMap({
       "ME": [-4, 0],   // nudge ME dot left to separate from VT dot
       "VT": [0, 0],    // VT callout goes left, dot stays at natural centroid
       "VA": [-4, 0],
-      "MD": [0, 0],
+      "DE": [6, 2],   // nudge DE dot toward eastern edge
+      "MD": [4, -2],  // nudge MD dot toward eastern edge
       "NY": [0, 4],
     };
     // Show labels on senate, governor, and redistricting views — skip house (districts too small)

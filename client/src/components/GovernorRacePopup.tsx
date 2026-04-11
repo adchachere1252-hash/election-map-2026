@@ -1,4 +1,4 @@
-import { X, User, Calendar, TrendingUp, Award, Briefcase, ChevronDown, ChevronUp } from "lucide-react";
+import { X, User, Calendar, TrendingUp, Award, Briefcase, ChevronDown, ChevronUp, Crosshair } from "lucide-react";
 import { useState } from "react";
 import { getRatingColor } from "@/lib/electionUtils";
 
@@ -32,6 +32,7 @@ interface GovernorRace {
 interface GovernorRacePopupProps {
   race: GovernorRace;
   onClose: () => void;
+  onFocusMap?: () => void;
 }
 
 const PARTY_COLORS: Record<string, string> = {
@@ -175,7 +176,7 @@ function CandidateCard({
   );
 }
 
-export default function GovernorRacePopup({ race, onClose }: GovernorRacePopupProps) {
+export default function GovernorRacePopup({ race, onClose, onFocusMap }: GovernorRacePopupProps) {
   const isCalled = !!race.calledParty;
   const isOpenSeat = race.isOpen || race.isTermLimited;
 
@@ -219,12 +220,23 @@ export default function GovernorRacePopup({ race, onClose }: GovernorRacePopupPr
             )}
           </div>
         </div>
-        <button
-          onClick={onClose}
-          className="ml-2 flex-shrink-0 p-1 rounded hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
-        >
-          <X className="w-4 h-4" />
-        </button>
+        <div className="flex items-center gap-1 ml-2 flex-shrink-0">
+          {onFocusMap && (
+            <button
+              onClick={onFocusMap}
+              title="Focus on map"
+              className="p-1 rounded hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
+            >
+              <Crosshair className="w-4 h-4" />
+            </button>
+          )}
+          <button
+            onClick={onClose}
+            className="p-1 rounded hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
       </div>
 
       {/* Body */}

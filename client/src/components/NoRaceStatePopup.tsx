@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, MapPin, Users, ChevronRight, Calendar } from "lucide-react";
+import { X, MapPin, Users, ChevronRight, Calendar, Crosshair } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { getPartyColor } from "@/lib/electionUtils";
 import SenatorDetailPopup from "./SenatorDetailPopup";
@@ -8,9 +8,10 @@ interface NoRaceStatePopupProps {
   stateCode: string;
   stateName: string;
   onClose: () => void;
+  onFocusMap?: () => void;
 }
 
-export default function NoRaceStatePopup({ stateCode, stateName, onClose }: NoRaceStatePopupProps) {
+export default function NoRaceStatePopup({ stateCode, stateName, onClose, onFocusMap }: NoRaceStatePopupProps) {
   const { data: senators, isLoading } = trpc.senators.byState.useQuery({ stateCode });
   const [selectedSenatorId, setSelectedSenatorId] = useState<number | null>(null);
 
@@ -30,9 +31,16 @@ export default function NoRaceStatePopup({ stateCode, stateName, onClose }: NoRa
           </div>
           <h3 className="text-lg font-bold text-foreground">{stateName}</h3>
         </div>
-        <button onClick={onClose} className="text-muted-foreground hover:text-foreground p-1 rounded">
-          <X className="w-4 h-4" />
-        </button>
+        <div className="flex items-center gap-1">
+          {onFocusMap && (
+            <button onClick={onFocusMap} title="Focus on map" className="text-muted-foreground hover:text-foreground p-1 rounded">
+              <Crosshair className="w-4 h-4" />
+            </button>
+          )}
+          <button onClick={onClose} className="text-muted-foreground hover:text-foreground p-1 rounded">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
       </div>
 
       {/* No Race Banner */}

@@ -269,6 +269,17 @@ export default function Home() {
     governorMapRef.current?.resetZoom();
   }, []);
 
+  // Focus-on-map: zoom the active map to the state from the current popup
+  const focusOnMap = useCallback(() => {
+    const stateCode = popup?.stateCode ?? (popup?.data as any)?.stateCode;
+    if (!stateCode) return;
+    if (view === "governor") {
+      governorMapRef.current?.zoomToState(stateCode);
+    } else {
+      electionMapRef.current?.zoomToState(stateCode);
+    }
+  }, [popup, view]);
+
   // Count upcoming events for calendar badge
   const upcomingCount = useMemo(() => {
     const today = new Date();
@@ -722,6 +733,7 @@ export default function Home() {
               <GovernorRacePopup
                 race={popup.data as any}
                 onClose={closePopup}
+                onFocusMap={focusOnMap}
               />
             </div>
           )}
@@ -731,6 +743,7 @@ export default function Home() {
                 type={popup.type as any}
                 data={popup.data}
                 onClose={closePopup}
+                onFocusMap={focusOnMap}
               />
             </div>
           )}
@@ -740,6 +753,7 @@ export default function Home() {
                 stateCode={popup.stateCode}
                 stateName={popup.stateName}
                 onClose={closePopup}
+                onFocusMap={focusOnMap}
               />
             </div>
           )}

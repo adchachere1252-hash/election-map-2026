@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, MapPin, Calendar, Users, TrendingUp, AlertCircle, ChevronRight } from "lucide-react";
+import { X, MapPin, Calendar, Users, TrendingUp, AlertCircle, ChevronRight, Crosshair } from "lucide-react";
 import { getRatingClass, getRatingColor, getPartyColor, getStatusColor, formatVotePct, getPartyLabel } from "@/lib/electionUtils";
 import type { SenateRace, HouseRace, RedistrictingState, Referendum } from "../../../drizzle/schema";
 import { trpc } from "@/lib/trpc";
@@ -9,6 +9,7 @@ interface RacePopupProps {
   type: "senate" | "house" | "redistricting" | "referendum";
   data: SenateRace | HouseRace | RedistrictingState | Referendum | null;
   onClose: () => void;
+  onFocusMap?: () => void;
 }
 
 function RatingBadge({ rating }: { rating: string | null | undefined }) {
@@ -85,7 +86,7 @@ function CandidateRow({
   );
 }
 
-function SenatePopup({ race, onClose }: { race: SenateRace; onClose: () => void }) {
+function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose: () => void; onFocusMap?: () => void }) {
   const { data: senators } = trpc.senators.byState.useQuery({ stateCode: race.stateCode });
   const [selectedSenatorId, setSelectedSenatorId] = useState<number | null>(null);
   return (
@@ -104,9 +105,16 @@ function SenatePopup({ race, onClose }: { race: SenateRace; onClose: () => void 
             <p className="text-xs text-yellow-400 mt-0.5">{race.specialNote}</p>
           )}
         </div>
-        <button onClick={onClose} className="text-muted-foreground hover:text-foreground p-1 rounded">
-          <X className="w-4 h-4" />
-        </button>
+        <div className="flex items-center gap-1">
+          {onFocusMap && (
+            <button onClick={onFocusMap} title="Focus on map" className="text-muted-foreground hover:text-foreground p-1 rounded">
+              <Crosshair className="w-4 h-4" />
+            </button>
+          )}
+          <button onClick={onClose} className="text-muted-foreground hover:text-foreground p-1 rounded">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
       </div>
 
       <div className="flex items-center gap-2 mb-3">
@@ -218,7 +226,7 @@ function SenatePopup({ race, onClose }: { race: SenateRace; onClose: () => void 
   );
 }
 
-function HousePopup({ race, onClose }: { race: HouseRace; onClose: () => void }) {
+function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: () => void; onFocusMap?: () => void }) {
   const districtName = race.districtLabel === "AL"
     ? `${race.stateName} At-Large`
     : `${race.stateName} ${race.district}${getOrdinal(race.district)} District`;
@@ -233,9 +241,16 @@ function HousePopup({ race, onClose }: { race: HouseRace; onClose: () => void })
           </div>
           <h3 className="text-base font-bold text-foreground">{districtName}</h3>
         </div>
-        <button onClick={onClose} className="text-muted-foreground hover:text-foreground p-1 rounded">
-          <X className="w-4 h-4" />
-        </button>
+        <div className="flex items-center gap-1">
+          {onFocusMap && (
+            <button onClick={onFocusMap} title="Focus on map" className="text-muted-foreground hover:text-foreground p-1 rounded">
+              <Crosshair className="w-4 h-4" />
+            </button>
+          )}
+          <button onClick={onClose} className="text-muted-foreground hover:text-foreground p-1 rounded">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
       </div>
 
       <div className="flex items-center gap-2 mb-3">
