@@ -76,7 +76,9 @@ export default function Home() {
   const [searchOpen, setSearchOpen] = useState(false);
   // Mobile sidebar state
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  // Mobile bottom sheet swipe-to-dismiss
+  // Mobile bottom sheet: snap positions — 'peek' (40vh) | 'full' (78vh) | closed
+  type SheetSnap = 'peek' | 'full';
+  const [sheetSnap, setSheetSnap] = useState<SheetSnap>('full');
   const [sheetDragY, setSheetDragY] = useState(0);
   const sheetDragStart = useRef<number | null>(null);
   const sheetScrollRef = useRef<HTMLDivElement>(null);
@@ -86,11 +88,11 @@ export default function Home() {
   const [sheetCanScroll, setSheetCanScroll] = useState(false);
 
   const handleSheetTouchStart = useCallback((e: React.TouchEvent) => {
-    // Only begin drag if the scroll container is at the top
+    // Only begin drag if the scroll container is at the top (or we're in peek mode)
     const el = sheetScrollRef.current;
-    if (el && el.scrollTop > 0) return;
+    if (el && el.scrollTop > 0 && sheetSnap === 'full') return;
     sheetDragStart.current = e.touches[0].clientY;
-  }, []);
+  }, [sheetSnap]);
 
   const handleSheetTouchMove = useCallback((e: React.TouchEvent) => {
     if (sheetDragStart.current === null) return;
@@ -99,10 +101,19 @@ export default function Home() {
   }, []);
 
   const handleSheetTouchEnd = useCallback(() => {
-    if (sheetDragY > 80) closePopup();
+    if (sheetDragY > 120) {
+      // Large swipe down — close
+      closePopup();
+    } else if (sheetDragY > 40 && sheetSnap === 'full') {
+      // Medium swipe down from full — snap to peek
+      setSheetSnap('peek');
+    } else if (sheetDragY < -40 && sheetSnap === 'peek') {
+      // Swipe up from peek — snap to full
+      setSheetSnap('full');
+    }
     setSheetDragY(0);
     sheetDragStart.current = null;
-  }, [sheetDragY]);
+  }, [sheetDragY, sheetSnap]);
   // Desktop sidebar collapsed state
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   // Election night results mode
@@ -174,6 +185,11 @@ export default function Home() {
   useEffect(() => {
     setSidebarOpen(false);
   }, [view]);
+
+  // When a popup opens on mobile, start in peek mode so map stays visible
+  useEffect(() => {
+    if (popup) setSheetSnap('peek');
+  }, [popup?.type, (popup?.data as any)?.id]);
 
   const handleRefresh = useCallback(() => {
     refetchSenate();
@@ -264,6 +280,7 @@ export default function Home() {
     setSelectedId(null);
     setSheetDragY(0);
     setSheetCanScroll(false);
+    setSheetSnap('full');
     // Zoom back out to full map when popup is closed
     electionMapRef.current?.resetZoom();
     governorMapRef.current?.resetZoom();
@@ -806,25 +823,35 @@ export default function Home() {
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={closePopup}
           />
-          {/* Sheet */}
+          {/* Sheet — snaps between peek (40vh) and full (78vh) */}
           <div
             className="relative bg-card border-t border-border rounded-t-2xl shadow-2xl flex flex-col"
             style={{
-              maxHeight: "80vh",
+              maxHeight: sheetSnap === 'peek' ? '42vh' : '78vh',
               transform: sheetDragY > 0 ? `translateY(${sheetDragY}px)` : undefined,
-              transition: sheetDragY === 0 ? "transform 0.25s ease" : "none",
+              transition: sheetDragY === 0
+                ? 'max-height 0.35s cubic-bezier(0.32, 0.72, 0, 1), transform 0.35s cubic-bezier(0.32, 0.72, 0, 1)'
+                : 'none',
               opacity: sheetDragY > 0 ? Math.max(0.5, 1 - sheetDragY / 200) : 1,
             }}
             onTouchStart={handleSheetTouchStart}
             onTouchMove={handleSheetTouchMove}
             onTouchEnd={handleSheetTouchEnd}
           >
-            {/* Drag handle — tap to close, swipe down to dismiss */}
+            {/* Drag handle — tap to toggle peek/full, swipe down to dismiss */}
             <div
-              className="flex justify-center pt-3 pb-2 flex-shrink-0 cursor-grab active:cursor-grabbing"
-              onClick={() => { if (sheetDragY === 0) closePopup(); }}
+              className="flex justify-center pt-3 pb-2 flex-shrink-0 cursor-grab active:cursor-grabbing select-none"
+              onClick={() => {
+                if (sheetDragY !== 0) return;
+                if (sheetSnap === 'peek') setSheetSnap('full');
+                else setSheetSnap('peek');
+              }}
             >
               <div className="w-10 h-1 rounded-full bg-muted-foreground/40" />
+              {/* Snap indicator chevron */}
+              <span className="absolute text-muted-foreground/40 text-xs" style={{ top: '10px', right: '16px' }}>
+                {sheetSnap === 'peek' ? '↑' : '↓'}
+              </span>
             </div>
             {/* Scrollable content with bottom fade indicator */}
             <div
