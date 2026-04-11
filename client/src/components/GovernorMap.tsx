@@ -257,14 +257,17 @@ const GovernorMap = forwardRef(function GovernorMap({
     // ── State abbreviation labels for all 50 states ────────────────────────────────────────
     if (showLabels) {
     const CENTROID_NUDGE_GOV: Record<string, [number, number]> = {
-      "MI": [6, 12], "FL": [8, -4], "LA": [-8, 0], "VA": [-4, 0], "NY": [0, 4], "ME": [0, 4], "HI": [10, -8],
+      "MI": [6, 12], "FL": [8, -4], "LA": [-8, 0], "VA": [-4, 0], "NY": [0, 4],
+      "ME": [-4, 0],   // nudge ME dot left to separate from VT dot
+      "VT": [-10, 2],  // nudge VT dot left so it sits on VT's shape, not ME's edge
+      "HI": [10, -8],
     };
     const NE_CALLOUTS_GOV: Record<string, { lx: number; ly: number; anchor?: string }> = {
-      // VT: push far up-right so it clears Maine's body
-      "VT": { lx:  54, ly: -54 },
-      // ME: add callout — its inline centroid overlaps VT's callout label
-      "ME": { lx:  54, ly: -36 },
-      "NH": { lx:  54, ly: -18 },
+      // ME is the top label — it's the largest/most northern NE state
+      "ME": { lx:  62, ly: -60 },
+      // VT is below ME — tiny state tucked left of ME's lower body
+      "VT": { lx:  54, ly: -42 },
+      "NH": { lx:  54, ly: -24 },
       "MA": { lx:  54, ly:   0 },
       "RI": { lx:  54, ly:  14 },
       "CT": { lx:  52, ly:  28 },
@@ -296,8 +299,10 @@ const GovernorMap = forwardRef(function GovernorMap({
           .attr("stroke-width", "0.7")
           .attr("pointer-events", "none");
         g.append("circle")
-          .attr("cx", cx).attr("cy", cy).attr("r", 1.8)
-          .attr("fill", "rgba(255,255,255,0.75)")
+          .attr("cx", cx).attr("cy", cy).attr("r", 2.2)
+          .attr("fill", "rgba(255,255,255,0.9)")
+          .attr("stroke", "rgba(0,0,0,0.7)")
+          .attr("stroke-width", "1px")
           .attr("pointer-events", "none");
         g.append("text")
           .attr("x", lx).attr("y", ly + 4)

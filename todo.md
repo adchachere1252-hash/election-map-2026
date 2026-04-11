@@ -875,3 +875,8 @@
 - [x] Add electionMapRef and governorMapRef in Home.tsx
 - [x] Call resetZoom() in closePopup() so closing any popup zooms back to full US map
 - [x] All 37 tests pass, 0 TypeScript errors
+
+## Three Improvements (Apr 11, 2026)
+- [ ] Add Vermont Senate race (Bernie Sanders seat, 2026) to database
+- [ ] Fix DE and MD callout dot centroid nudges so dots land inside state borders
+- [ ] Add "Focus on map" zoom-to-state button in race popup

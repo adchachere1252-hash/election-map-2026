@@ -514,7 +514,8 @@ const ElectionMap = forwardRef(function ElectionMap({
       "LA": [-8, 0],
       "HI": [10, -8],
       "AK": [0, 0],
-      "ME": [0, 4],
+      "ME": [-4, 0],   // nudge ME dot left to separate from VT dot
+      "VT": [-10, 2],  // nudge VT dot left so it sits on VT's shape, not ME's edge
       "VA": [-4, 0],
       "MD": [0, 0],
       "NY": [0, 4],
@@ -528,11 +529,11 @@ const ElectionMap = forwardRef(function ElectionMap({
       // Positive lx = right. Labels stagger vertically so they don't overlap.
       // Centroids are ~x:770-825; SVG width ~1024 → keep labels ≤ x:920
       const NE_CALLOUTS: Record<string, { lx: number; ly: number; anchor?: string }> = {
-        // VT: push far up-right so it clears Maine's body
-        "VT": { lx:  54, ly: -54 },
-        // ME: add callout — its inline centroid overlaps VT's callout label
-        "ME": { lx:  54, ly: -36 },
-        "NH": { lx:  54, ly: -18 },
+        // ME is the top label — it's the largest/most northern NE state
+        "ME": { lx:  62, ly: -60 },
+        // VT is below ME — tiny state tucked left of ME's lower body
+        "VT": { lx:  54, ly: -42 },
+        "NH": { lx:  54, ly: -24 },
         "MA": { lx:  54, ly:   0 },
         "RI": { lx:  54, ly:  14 },
         "CT": { lx:  52, ly:  28 },
@@ -568,12 +569,14 @@ const ElectionMap = forwardRef(function ElectionMap({
             .attr("stroke", "rgba(255,255,255,0.45)")
             .attr("stroke-width", "0.7")
             .attr("pointer-events", "none");
-          // Dot at state centroid
+          // Dot at state centroid — with dark stroke so it's visible on any fill color
           g.append("circle")
             .attr("cx", cx)
             .attr("cy", cy)
-            .attr("r", 1.8)
-            .attr("fill", "rgba(255,255,255,0.75)")
+            .attr("r", 2.2)
+            .attr("fill", "rgba(255,255,255,0.9)")
+            .attr("stroke", "rgba(0,0,0,0.7)")
+            .attr("stroke-width", "1px")
             .attr("pointer-events", "none");
           // Label at callout position
           g.append("text")
