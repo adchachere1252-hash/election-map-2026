@@ -520,7 +520,10 @@ export default function ElectionMap({
       <svg
         ref={svgRef}
         className="w-full h-full"
-        style={{ background: "transparent" }}
+        style={{
+          background: "transparent",
+          filter: "drop-shadow(0 0 18px rgba(100,160,255,0.28)) drop-shadow(0 0 48px rgba(80,120,220,0.14)) drop-shadow(0 0 90px rgba(60,90,200,0.08))",
+        }}
       />
       {/* Zoom-to-fit reset button — only visible when zoomed in */}
       {isZoomed && (
