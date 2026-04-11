@@ -880,3 +880,8 @@
 - [x] Add Vermont Senate race — confirmed VT has NO 2026 Senate race (Bernie Sanders is Class III, up 2030; Peter Welch is Class II, up 2028). Correctly shows as no-race state.
 - [x] Fix DE and MD callout dot centroid nudges so dots land inside state borders
 - [x] Add "Focus on map" zoom-to-state button in race popup (crosshair icon next to X in all popup types)
+
+## VT Callout Fix (Apr 11, 2026)
+- [x] Move VT callout label from left-side (lx=-57) to directly above Vermont's shape (lx=0, ly=-38, anchor=middle)
+- [x] Leader line now drops straight down from label into Vermont - no longer crosses through New Hampshire
+- [x] Applied to both ElectionMap.tsx and GovernorMap.tsx
