@@ -298,7 +298,7 @@ const GovernorMap = forwardRef(function GovernorMap({
       // ME is the top label — it's the largest/most northern NE state
       "ME": { lx:  62, ly: -60 },
       // VT is below ME — tiny state tucked left of ME's lower body
-      "VT": { lx: -90, ly: -14, anchor: "end" },  // VT label sits just to the LEFT of Vermont
+      "VT": { lx: -68, ly: -14, anchor: "end" },  // VT label sits just to the LEFT of Vermont
       "NH": { lx:  54, ly: -24 },
       "MA": { lx:  54, ly:   0 },
       "RI": { lx:  54, ly:  14 },

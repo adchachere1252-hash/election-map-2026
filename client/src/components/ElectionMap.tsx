@@ -565,7 +565,7 @@ const ElectionMap = forwardRef(function ElectionMap({
         // ME is the top label — it's the largest/most northern NE state
         "ME": { lx:  62, ly: -60 },
         // VT label sits just to the LEFT of Vermont's shape
-        "VT": { lx: -90, ly: -14, anchor: "end" },
+        "VT": { lx: -68, ly: -14, anchor: "end" },
         "NH": { lx:  54, ly: -24 },
         "MA": { lx:  54, ly:   0 },
         "RI": { lx:  54, ly:  14 },
