@@ -170,9 +170,10 @@ const GovernorMap = forwardRef(function GovernorMap({
     const width = svgRef.current.clientWidth || 960;
     const height = svgRef.current.clientHeight || 500;
 
+    // Shift translate slightly upward so Florida's peninsula isn't cut off at the bottom.
     const projection = d3.geoAlbersUsa()
       .scale(width * 0.95)
-      .translate([width / 2, height / 2]);
+      .translate([width / 2, height / 2 - height * 0.04]);
 
     const path = d3.geoPath().projection(projection);
     pathRef.current = path;

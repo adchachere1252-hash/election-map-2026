@@ -268,9 +268,12 @@ const ElectionMap = forwardRef(function ElectionMap({
     const width = svgRef.current.clientWidth || 960;
     const height = svgRef.current.clientHeight || 500;
 
+    // Shift translate slightly upward so Florida's peninsula isn't cut off at the bottom.
+    // geoAlbersUsa centers on ~38N which leaves FL hanging low; moving up by 4% of height
+    // gives FL comfortable room while keeping AK/HI insets fully visible.
     const projection = d3.geoAlbersUsa()
       .scale(width * 0.95)
-      .translate([width / 2, height / 2]);
+      .translate([width / 2, height / 2 - height * 0.04]);
 
     const path = d3.geoPath().projection(projection);
     pathRef.current = path;

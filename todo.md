@@ -902,3 +902,8 @@
 - [x] Integrate CandidateAvatar into SenatorDetailPopup header
 - [x] Verified Jon Ossoff photo loads correctly from unitedstates.github.io
 - [x] Verified party-colored initial fallback works for non-Congress candidates (Kurt Alme, TBD)
+
+## FL Centering & Star Twinkling (Apr 11, 2026)
+- [x] Fix Florida position in all map views so it appears centered/not cut off
+- [x] Add realistic star twinkling (opacity + scale pulse) to background starfield
+- [x] Verification check: all map views render correctly, FL visible, stars animate
