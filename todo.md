@@ -887,12 +887,12 @@
 - [x] Applied to both ElectionMap.tsx and GovernorMap.tsx
 
 ## Candidate Headshot Photos (Apr 11, 2026)
-- [ ] Build BIOGUIDE_MAP: static name->bioguide ID mapping for all Senate/House/Governor candidates
-- [ ] Create useCandidatePhoto(name) hook returning unitedstates.github.io photo URL or null
-- [ ] Add CandidateAvatar component: 36px circle, photo if available, party-colored initial fallback
-- [ ] Integrate CandidateAvatar into RacePopup for candidate1 and candidate2
-- [ ] Integrate CandidateAvatar into GovernorRacePopup for demCandidate and repCandidate
-- [ ] Verify photos load for incumbents; verify fallback initials for non-Congress challengers
+- [x] Build BIOGUIDE_MAP: static name->bioguide ID mapping for all Senate/House/Governor candidates
+- [x] Create useCandidatePhoto(name) hook returning unitedstates.github.io photo URL or null
+- [x] Add CandidateAvatar component: 36px circle, photo if available, party-colored initial fallback
+- [x] Integrate CandidateAvatar into RacePopup for candidate1 and candidate2
+- [x] Integrate CandidateAvatar into GovernorRacePopup for demCandidate and repCandidate
+- [x] Verify photos load for incumbents; verify fallback initials for non-Congress challengers
 
 ## Candidate Headshot Photos (Apr 11, 2026)
 - [x] Create candidatePhotos.ts with BIOGUIDE_MAP covering all 2026 Senate candidates, key House incumbents, and governors who served in Congress
