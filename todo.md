@@ -907,3 +907,6 @@
 - [x] Fix Florida position in all map views so it appears centered/not cut off
 - [x] Add realistic star twinkling (opacity + scale pulse) to background starfield
 - [x] Verification check: all map views render correctly, FL visible, stars animate
+
+## Bug Fix: Admin Rating Validation (Apr 13, 2026)
+- [x] Fix admin page mutation error: ratingEnum was missing "Likely D" and "Likely R" — now includes all 7 values (Solid D, Likely D, Lean D, Toss-up, Lean R, Likely R, Solid R)

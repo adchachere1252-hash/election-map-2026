@@ -31,7 +31,7 @@ async function requireAdminToken(token: string | undefined) {
 }
 
 // ─── Rating / Status enums ────────────────────────────────────────────────────
-const ratingEnum = z.enum(["Solid D", "Lean D", "Toss-up", "Lean R", "Solid R"]);
+const ratingEnum = z.enum(["Solid D", "Likely D", "Lean D", "Toss-up", "Lean R", "Likely R", "Solid R"]);
 const raceStatusEnum = z.enum(["Scheduled", "Primary", "General", "Called", "Certified"]);
 const partyEnum = z.enum(["D", "R", "I", "L", "G"]);
 const partyMainEnum = z.enum(["D", "R", "I"]);
