@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { Lock, LogOut, Search, ChevronDown, ChevronUp, Save, ArrowLeft, RefreshCw, AlertTriangle, Zap, Star, StarOff, Pin, PinOff } from "lucide-react";
+import { Lock, LogOut, Search, ChevronDown, ChevronUp, Save, ArrowLeft, RefreshCw, AlertTriangle, Zap, Star, StarOff, Pin, PinOff, X } from "lucide-react";
 import ElectionNightPanel from "@/components/ElectionNightPanel";
 import { Link } from "wouter";
 import { getRatingClass } from "@/lib/electionUtils";
@@ -988,7 +988,22 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
   const [selectedGovernor, setSelectedGovernor] = useState<GovernorRace | null>(null);
   const [govSearch, setGovSearch] = useState("");
 
-  // Scroll editor panel to top whenever a new race is selected
+  // Derived: is any editor open?
+  const isDrawerOpen = !!(selectedSenate || selectedHouse || selectedGovernor || selectedRedistricting || selectedReferendum);
+
+  // Close drawer on Escape
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedSenate(null); setSelectedHouse(null); setSelectedGovernor(null);
+        setSelectedRedistricting(null); setSelectedReferendum(null);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // Scroll drawer to top whenever a new race is selected
   useEffect(() => {
     if (editorPanelRef.current) editorPanelRef.current.scrollTop = 0;
   }, [selectedSenate, selectedHouse, selectedGovernor, selectedRedistricting, selectedReferendum]);
@@ -1213,8 +1228,45 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
           </div>
         </div>
 
-        {/* Right: Editor */}
-        <div ref={editorPanelRef} className={`flex-1 overflow-hidden ${tab === "primary" || tab === "election-night" || tab === "key-races" ? "" : "overflow-y-auto p-6"}`}>
+        {/* Right: Editor — slide-in drawer */}
+        {/* Backdrop */}
+        {isDrawerOpen && tab !== "primary" && tab !== "election-night" && tab !== "key-races" && (
+          <div
+            className="fixed inset-0 z-40 bg-black/40"
+            onClick={() => { setSelectedSenate(null); setSelectedHouse(null); setSelectedGovernor(null); setSelectedRedistricting(null); setSelectedReferendum(null); }}
+          />
+        )}
+        <div
+          ref={editorPanelRef}
+          className={`fixed top-0 right-0 h-full z-50 bg-background border-l border-border shadow-2xl flex flex-col transition-transform duration-300 ease-in-out
+            ${
+              (tab === "primary" || tab === "election-night" || tab === "key-races")
+                ? "relative translate-x-0 flex-1 shadow-none border-0 overflow-hidden"
+                : isDrawerOpen
+                  ? "w-[480px] translate-x-0 overflow-y-auto"
+                  : "w-[480px] translate-x-full pointer-events-none"
+            }`}
+        >
+          {/* Drawer close button */}
+          {isDrawerOpen && tab !== "primary" && tab !== "election-night" && tab !== "key-races" && (
+            <div className="sticky top-0 z-10 flex items-center justify-between px-5 py-3 border-b border-border bg-background/95 backdrop-blur-sm">
+              <span className="text-sm font-semibold text-foreground">
+                {tab === "senate" && selectedSenate && `${selectedSenate.stateName} — Senate`}
+                {tab === "house" && selectedHouse && `${selectedHouse.stateName} — ${selectedHouse.districtLabel === "AL" ? "At-Large" : `District ${selectedHouse.district}`}`}
+                {tab === "governors" && selectedGovernor && `${selectedGovernor.stateName} — Governor`}
+                {tab === "redistricting" && selectedRedistricting && `${selectedRedistricting.stateName} — Redistricting`}
+                {tab === "referendums" && selectedReferendum && `${selectedReferendum.stateName} — Referendum`}
+              </span>
+              <button
+                onClick={() => { setSelectedSenate(null); setSelectedHouse(null); setSelectedGovernor(null); setSelectedRedistricting(null); setSelectedReferendum(null); }}
+                className="p-1.5 rounded hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
+                aria-label="Close editor"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+          <div className={`${tab === "primary" || tab === "election-night" || tab === "key-races" ? "" : "p-6 flex-1"}`}>
           {tab === "senate" && selectedSenate && (
             <div>
               <h2 className="text-lg font-bold text-foreground mb-1">{selectedSenate.stateName} Senate Race</h2>
@@ -1421,6 +1473,7 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
               <p className="text-xs text-muted-foreground mt-1">All changes reflect instantly on the public map</p>
             </div>
           )}
+          </div>
         </div>
       </div>
     </div>

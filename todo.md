@@ -913,3 +913,10 @@
 
 ## UX Fix: Admin House Section Auto-Scroll (Apr 13, 2026)
 - [x] Admin House tab: when a race row is clicked, auto-scroll the edit form into view (no manual scroll to top required) — also applied to Senate, Governor, Redistricting, Referendum tabs
+
+## UX: Admin Editor Slide-in Drawer (Apr 13, 2026)
+- [x] Replace static right-column editor with a slide-in drawer fixed to the right side of the screen
+- [x] Drawer opens when a race is clicked, slides in from the right with smooth animation
+- [x] Drawer has a close button (X) and clicking outside or pressing Escape closes it
+- [x] Race list takes full width when drawer is closed; drawer overlays on top (does not shrink list)
+- [x] Apply to all tabs: House, Senate, Governor, Redistricting, Referendums
