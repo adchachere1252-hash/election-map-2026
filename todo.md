@@ -947,3 +947,10 @@
 - [x] electionNight.updateRace now stamps calledAt for all three chambers and returns it in the response
 - [x] calledAt display added to all three admin editors (Senate, House, Governor) as read-only green confirmation
 - [x] 37 tests passing, zero TypeScript errors
+
+## Feature: Virginia Referendum Vote Tally Display (Apr 13, 2026)
+- [x] Referendum popup: always show vote tally section (even at 0%), with "No votes yet" placeholder and "Polls not yet open" for pct_reporting
+- [x] Referendum popup: added total votes counted row and precincts reporting row in a bordered card
+- [x] Admin referendum editor: added % Reporting slider (range input) above the number input for faster entry
+- [x] Referendum list row in sidebar: show mini vote bar and % reporting when votes or pct_reporting > 0
+- [x] 37 tests passing, zero TypeScript errors

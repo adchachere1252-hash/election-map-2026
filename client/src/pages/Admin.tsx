@@ -579,7 +579,16 @@ function ReferendumEditor({ referendum, token, onUpdated }: { referendum: Refere
           </div>
         </div>
         <div className="mt-2">
-          <label className="block text-xs text-muted-foreground mb-1">% Precincts Reporting</label>
+          <label className="block text-xs text-muted-foreground mb-1">
+            % Precincts Reporting
+            <span className="ml-2 text-yellow-400 font-semibold">{parseFloat(form.pctReporting || "0").toFixed(1)}%</span>
+          </label>
+          <input
+            type="range" min="0" max="100" step="0.1"
+            value={form.pctReporting}
+            onChange={e => set("pctReporting", e.target.value)}
+            className="w-full accent-yellow-400 mb-1"
+          />
           <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
             type="number" step="0.1" min="0" max="100" value={form.pctReporting} onChange={e => set("pctReporting", e.target.value)} />
         </div>

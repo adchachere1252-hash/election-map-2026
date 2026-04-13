@@ -446,8 +446,8 @@ function ReferendumPopup({ referendum, onClose }: { referendum: Referendum; onCl
         </p>
       )}
 
-      {/* Vote tallies */}
-      <div className="space-y-2 mb-3">
+      {/* Vote tallies — always visible */}
+      <div className="space-y-2 mb-3 border border-border rounded-lg p-3 bg-muted/20">
         <div>
           <div className="flex justify-between text-sm mb-1">
             <span className="font-semibold text-green-400">{referendum.yesLabel || "Yes"}</span>
@@ -459,7 +459,9 @@ function ReferendumPopup({ referendum, onClose }: { referendum: Referendum; onCl
               style={{ width: `${yesPct}%`, background: "#276749" }}
             />
           </div>
-          <p className="text-xs text-muted-foreground mt-0.5 text-right">{yesVotes.toLocaleString()} votes</p>
+          <p className="text-xs text-muted-foreground mt-0.5 text-right">
+            {total > 0 ? `${yesVotes.toLocaleString()} votes` : "No votes yet"}
+          </p>
         </div>
         <div>
           <div className="flex justify-between text-sm mb-1">
@@ -472,15 +474,23 @@ function ReferendumPopup({ referendum, onClose }: { referendum: Referendum; onCl
               style={{ width: `${noPct}%`, background: "#7a1010" }}
             />
           </div>
-          <p className="text-xs text-muted-foreground mt-0.5 text-right">{noVotes.toLocaleString()} votes</p>
+          <p className="text-xs text-muted-foreground mt-0.5 text-right">
+            {total > 0 ? `${noVotes.toLocaleString()} votes` : "No votes yet"}
+          </p>
+        </div>
+        <div className="border-t border-border pt-2 mt-1">
+          <div className="flex justify-between text-xs text-muted-foreground">
+            <span>Total votes counted</span>
+            <span className="font-semibold text-foreground">{total > 0 ? total.toLocaleString() : "—"}</span>
+          </div>
+          <div className="flex justify-between text-xs text-muted-foreground mt-0.5">
+            <span>Precincts reporting</span>
+            <span className={`font-semibold ${pctReporting > 0 ? "text-yellow-400" : "text-muted-foreground"}`}>
+              {pctReporting > 0 ? `${pctReporting.toFixed(1)}%` : "Polls not yet open"}
+            </span>
+          </div>
         </div>
       </div>
-
-      {pctReporting > 0 && (
-        <p className="text-xs text-center text-muted-foreground border-t border-border pt-2">
-          {pctReporting.toFixed(1)}% of precincts reporting
-        </p>
-      )}
 
       {referendum.notes && (
         <div className="flex items-start gap-2 text-xs text-yellow-400 border-t border-border pt-2 mt-2">

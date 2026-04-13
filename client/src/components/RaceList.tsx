@@ -291,6 +291,28 @@ function RedistrictingList({ states, referendums, onSelectState, onSelectReferen
               </div>
               <p className="text-xs text-foreground font-medium leading-tight">{ref.name}</p>
               <p className="text-xs text-muted-foreground mt-0.5">{ref.electionDate}</p>
+              {(() => {
+                const yes = Number(ref.yesVotes) || 0;
+                const no = Number(ref.noVotes) || 0;
+                const tot = yes + no;
+                const pct = ref.pctReporting ? parseFloat(String(ref.pctReporting)) : 0;
+                if (tot === 0 && pct === 0) return null;
+                const yesPct = tot > 0 ? (yes / tot * 100).toFixed(1) : "0.0";
+                const noPct = tot > 0 ? (no / tot * 100).toFixed(1) : "0.0";
+                return (
+                  <div className="mt-1.5">
+                    <div className="flex justify-between text-xs mb-0.5">
+                      <span className="text-green-400">{ref.yesLabel || "Yes"} {yesPct}%</span>
+                      <span className="text-red-400">{ref.noLabel || "No"} {noPct}%</span>
+                    </div>
+                    <div className="h-1.5 bg-muted rounded overflow-hidden flex">
+                      <div style={{ width: `${yesPct}%`, background: "#276749" }} className="h-full" />
+                      <div style={{ width: `${noPct}%`, background: "#7a1010" }} className="h-full" />
+                    </div>
+                    {pct > 0 && <p className="text-xs text-yellow-400/70 mt-0.5">{pct.toFixed(1)}% reporting</p>}
+                  </div>
+                );
+              })()}
             </button>
           ))}
         </div>
