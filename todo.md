@@ -939,9 +939,11 @@
 - [x] 37 tests passing, zero TypeScript errors, zero console errors
 
 ## Feature: Election Night Improvements (Apr 13, 2026)
-- [ ] Add called_at (bigint) column to governor_races table; generate and apply migration
-- [ ] Update governor.update tRPC procedure: auto-stamp called_at when calledWinner is set; clear when unset
-- [ ] Display "Called at [time] PST" in GovernorRacePopup when called_at is set
-- [ ] Add % Reporting slider + input to Election Night rapid-entry tab (alongside existing vote % fields)
-- [ ] Election Night live feed sidebar: replace save-timestamp with called_at time when race is called
-- [ ] 37+ tests passing, zero TypeScript errors
+- [x] Add called_at (bigint) column to governor_races table; generate and apply migration (0011_daffy_radioactive_man.sql)
+- [x] Update governor.update tRPC procedure: auto-stamp called_at when calledWinner is set; clear when unset
+- [x] Display "Called at [time]" in GovernorRacePopup when called_at is set (green text)
+- [x] % Reporting slider already present in Election Night rapid-entry tab (verified)
+- [x] Election Night live feed sidebar: shows "Called at [time]" from DB timestamp when race is called; falls back to "Saved at [time]" for non-called updates
+- [x] electionNight.updateRace now stamps calledAt for all three chambers and returns it in the response
+- [x] calledAt display added to all three admin editors (Senate, House, Governor) as read-only green confirmation
+- [x] 37 tests passing, zero TypeScript errors
