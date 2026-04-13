@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { Lock, LogOut, Search, ChevronDown, ChevronUp, Save, ArrowLeft, RefreshCw, AlertTriangle, Zap, Star, StarOff, Pin, PinOff } from "lucide-react";
@@ -982,10 +982,16 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
   const [search, setSearch] = useState("");
   const [selectedSenate, setSelectedSenate] = useState<SenateRace | null>(null);
   const [selectedHouse, setSelectedHouse] = useState<HouseRace | null>(null);
+  const editorPanelRef = useRef<HTMLDivElement>(null);
   const [selectedRedistricting, setSelectedRedistricting] = useState<RedistrictingState | null>(null);
   const [selectedReferendum, setSelectedReferendum] = useState<Referendum | null>(null);
   const [selectedGovernor, setSelectedGovernor] = useState<GovernorRace | null>(null);
   const [govSearch, setGovSearch] = useState("");
+
+  // Scroll editor panel to top whenever a new race is selected
+  useEffect(() => {
+    if (editorPanelRef.current) editorPanelRef.current.scrollTop = 0;
+  }, [selectedSenate, selectedHouse, selectedGovernor, selectedRedistricting, selectedReferendum]);
 
   const { data: senateRaces = [], refetch: refetchSenate } = trpc.senate.list.useQuery();
   const { data: houseRaces = [], refetch: refetchHouse } = trpc.house.list.useQuery();
@@ -1208,7 +1214,7 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
         </div>
 
         {/* Right: Editor */}
-        <div className={`flex-1 overflow-hidden ${tab === "primary" || tab === "election-night" || tab === "key-races" ? "" : "overflow-y-auto p-6"}`}>
+        <div ref={editorPanelRef} className={`flex-1 overflow-hidden ${tab === "primary" || tab === "election-night" || tab === "key-races" ? "" : "overflow-y-auto p-6"}`}>
           {tab === "senate" && selectedSenate && (
             <div>
               <h2 className="text-lg font-bold text-foreground mb-1">{selectedSenate.stateName} Senate Race</h2>

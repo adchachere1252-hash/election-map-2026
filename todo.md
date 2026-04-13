@@ -910,3 +910,6 @@
 
 ## Bug Fix: Admin Rating Validation (Apr 13, 2026)
 - [x] Fix admin page mutation error: ratingEnum was missing "Likely D" and "Likely R" — now includes all 7 values (Solid D, Likely D, Lean D, Toss-up, Lean R, Likely R, Solid R)
+
+## UX Fix: Admin House Section Auto-Scroll (Apr 13, 2026)
+- [x] Admin House tab: when a race row is clicked, auto-scroll the edit form into view (no manual scroll to top required) — also applied to Senate, Governor, Redistricting, Referendum tabs
