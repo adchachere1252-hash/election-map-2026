@@ -28,6 +28,7 @@ interface GovernorRace {
   repVotes: number | null;
   pctReporting: number | null;
   notes: string | null;
+  calledAt?: number | null;
 }
 
 interface GovernorRacePopupProps {
@@ -280,6 +281,11 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
 
         {/* Vote results (election night) */}
         <VoteBar demVotes={race.demVotes} repVotes={race.repVotes} pctReporting={race.pctReporting} />
+        {race.calledAt && (
+          <p className="text-xs text-green-400 font-semibold text-right">
+            Called at {new Date(race.calledAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" })}
+          </p>
+        )}
 
         {/* Election dates */}
         <div className="space-y-1">

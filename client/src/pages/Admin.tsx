@@ -253,6 +253,11 @@ function SenateEditor({ race, token, onUpdated }: { race: SenateRace; token: str
             {["D", "R", "I"].map(p => <option key={p} value={p}>{p}</option>)}
           </select>
         </div>
+        {race.calledAt && (
+          <p className="text-xs text-green-400 font-semibold mt-1.5">
+            Called at {new Date(race.calledAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" })}
+          </p>
+        )}
       </div>
 
       <div className="border-t border-border pt-3">
@@ -466,6 +471,11 @@ function HouseEditor({ race, token, onUpdated }: { race: HouseRace; token: strin
             {["D", "R", "I"].map(p => <option key={p} value={p}>{p}</option>)}
           </select>
         </div>
+        {race.calledAt && (
+          <p className="text-xs text-green-400 font-semibold mt-1.5">
+            Called at {new Date(race.calledAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" })}
+          </p>
+        )}
         <div className="mt-2">
           <label className="block text-xs text-muted-foreground mb-1">% Reporting</label>
           <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
@@ -959,6 +969,11 @@ function GovernorEditor({ race, token, onUpdated }: { race: GovernorRace; token:
             <option value="I">I — Independent wins</option>
           </select>
         </div>
+        {race.calledAt && (
+          <p className="text-xs text-green-400 font-semibold mt-1.5">
+            Called at {new Date(race.calledAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" })}
+          </p>
+        )}
       </div>
 
       {/* Vote Tallies */}

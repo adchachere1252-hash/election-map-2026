@@ -937,3 +937,11 @@
 - [x] pct_reporting displayed in Senate and House race popups
 - [x] "Called at [time] PST" displayed in Senate and House race popups when called_at is set (green text)
 - [x] 37 tests passing, zero TypeScript errors, zero console errors
+
+## Feature: Election Night Improvements (Apr 13, 2026)
+- [ ] Add called_at (bigint) column to governor_races table; generate and apply migration
+- [ ] Update governor.update tRPC procedure: auto-stamp called_at when calledWinner is set; clear when unset
+- [ ] Display "Called at [time] PST" in GovernorRacePopup when called_at is set
+- [ ] Add % Reporting slider + input to Election Night rapid-entry tab (alongside existing vote % fields)
+- [ ] Election Night live feed sidebar: replace save-timestamp with called_at time when race is called
+- [ ] 37+ tests passing, zero TypeScript errors

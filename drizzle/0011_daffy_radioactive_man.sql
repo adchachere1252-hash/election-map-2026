@@ -1,0 +1,1 @@
+ALTER TABLE `governor_races` ADD `called_at` bigint;

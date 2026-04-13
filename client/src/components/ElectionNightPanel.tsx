@@ -39,6 +39,7 @@ type RecentUpdate = {
   pct1: number | null;
   pct2: number | null;
   timestamp: Date;
+  calledAt?: number | null;
 };
 
 function toRaceEntry(r: SenateRace, chamber: "senate"): RaceEntry;
@@ -360,9 +361,10 @@ export default function ElectionNightPanel({ adminToken }: ElectionNightPanelPro
       : null;
 
     try {
+      let calledAt: number | null = null;
       if (race.chamber === "governor") {
         // Governor uses different vote fields and status enum
-        await updateRace.mutateAsync({
+        const result = await updateRace.mutateAsync({
           adminToken,
           chamber: "governor",
           id: race.id,
@@ -373,8 +375,9 @@ export default function ElectionNightPanel({ adminToken }: ElectionNightPanelPro
             govStatus: "Called",
           } : {}),
         });
+        calledAt = result.calledAt ?? null;
       } else {
-        await updateRace.mutateAsync({
+        const result = await updateRace.mutateAsync({
           adminToken,
           chamber: race.chamber,
           id: race.id,
@@ -387,6 +390,7 @@ export default function ElectionNightPanel({ adminToken }: ElectionNightPanelPro
             status: "Called",
           } : {}),
         });
+        calledAt = result.calledAt ?? null;
       }
 
       // Clear local edits for this race
@@ -404,6 +408,7 @@ export default function ElectionNightPanel({ adminToken }: ElectionNightPanelPro
           pct1,
           pct2,
           timestamp: new Date(),
+          calledAt,
         }, ...prev.slice(0, 19)]);
         toast.success(`${race.label} called for ${calledWinner}`, { duration: 3000 });
       } else {
@@ -630,8 +635,11 @@ export default function ElectionNightPanel({ adminToken }: ElectionNightPanelPro
                       {u.pct2 != null && <span>{u.pct2.toFixed(1)}%</span>}
                     </div>
                   )}
-                  <div className="text-xs text-muted-foreground/50 mt-1">
-                    {u.timestamp.toLocaleTimeString()}
+                  <div className="text-xs text-green-400/80 font-medium mt-1">
+                    {u.calledAt
+                      ? `Called at ${new Date(u.calledAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" })}`
+                      : `Saved at ${u.timestamp.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}`
+                    }
                   </div>
                 </div>
               ))

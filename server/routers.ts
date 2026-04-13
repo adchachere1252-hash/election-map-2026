@@ -355,6 +355,9 @@ export const appRouter = router({
         for (const [k, v] of Object.entries(data)) {
           if (v !== undefined) updateData[k] = v;
         }
+        // Auto-stamp calledAt when a winner is set; clear when winner is removed
+        const calledAtMs = input.calledWinner ? Date.now() : (input.calledWinner === null ? null : undefined);
+        if (calledAtMs !== undefined) updateData.calledAt = calledAtMs;
         if (chamber === "senate") {
           await updateSenateRace(id, updateData as Parameters<typeof updateSenateRace>[1]);
         } else if (chamber === "house") {
@@ -368,6 +371,7 @@ export const appRouter = router({
           if (input.demVotes !== undefined) govData.demVotes = input.demVotes;
           if (input.repVotes !== undefined) govData.repVotes = input.repVotes;
           if (govStatus !== undefined) govData.status = govStatus;
+          if (calledAtMs !== undefined) govData.calledAt = calledAtMs;
           await updateGovernorRace(id, govData as Parameters<typeof updateGovernorRace>[1]);
         }
         // Broadcast live push to all connected WebSocket clients
@@ -403,7 +407,7 @@ export const appRouter = router({
             timestamp: new Date().toISOString(),
           });
         }
-        return { success: true };
+        return { success: true, calledAt: calledAtMs ?? null };
       }),
 
     // Batch update: submit multiple race results at once
@@ -752,6 +756,7 @@ export const appRouter = router({
         repCandidate: z.string().nullable().optional(),
         status: z.enum(["Scheduled", "Voting", "Called", "Certified"]).optional(),
         calledParty: z.enum(["D", "R", "I"]).nullable().optional(),
+        calledWinner: z.string().nullable().optional(),
         demVotes: z.number().min(0).optional(),
         repVotes: z.number().min(0).optional(),
         pctReporting: z.number().min(0).max(100).optional(),
@@ -763,6 +768,10 @@ export const appRouter = router({
         const updateData: Record<string, unknown> = {};
         for (const [k, v] of Object.entries(data)) {
           if (v !== undefined) updateData[k] = v;
+        }
+        // Auto-stamp calledAt when a winner is set; clear when winner is removed
+        if (input.calledWinner !== undefined) {
+          updateData.calledAt = input.calledWinner ? Date.now() : null;
         }
         await updateGovernorRace(id, updateData as Parameters<typeof updateGovernorRace>[1]);
         return { success: true };
