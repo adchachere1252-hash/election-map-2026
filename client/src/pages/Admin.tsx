@@ -88,9 +88,11 @@ function SenateEditor({ race, token, onUpdated }: { race: SenateRace; token: str
     incumbentRetiring: race.incumbentRetiring ?? false,
     candidate1Name: race.candidate1Name ?? "",
     candidate1Party: race.candidate1Party ?? "D",
+    candidate1Votes: race.candidate1Votes ? String(race.candidate1Votes) : "",
     candidate1VotePct: race.candidate1VotePct ? String(race.candidate1VotePct) : "",
     candidate2Name: race.candidate2Name ?? "",
     candidate2Party: race.candidate2Party ?? "R",
+    candidate2Votes: race.candidate2Votes ? String(race.candidate2Votes) : "",
     candidate2VotePct: race.candidate2VotePct ? String(race.candidate2VotePct) : "",
     calledWinner: race.calledWinner ?? "",
     calledParty: race.calledParty ?? "",
@@ -121,9 +123,11 @@ function SenateEditor({ race, token, onUpdated }: { race: SenateRace; token: str
       incumbentRetiring: form.incumbentRetiring,
       candidate1Name: form.candidate1Name || null,
       candidate1Party: (form.candidate1Party as any) || null,
+      candidate1Votes: form.candidate1Votes ? parseInt(form.candidate1Votes) : null,
       candidate1VotePct: form.candidate1VotePct ? parseFloat(form.candidate1VotePct) : null,
       candidate2Name: form.candidate2Name || null,
       candidate2Party: (form.candidate2Party as any) || null,
+      candidate2Votes: form.candidate2Votes ? parseInt(form.candidate2Votes) : null,
       candidate2VotePct: form.candidate2VotePct ? parseFloat(form.candidate2VotePct) : null,
       calledWinner: form.calledWinner || null,
       calledParty: (form.calledParty as any) || null,
@@ -192,9 +196,20 @@ function SenateEditor({ race, token, onUpdated }: { race: SenateRace; token: str
             {["D", "R", "I", "L", "G"].map(p => <option key={p} value={p}>{p}</option>)}
           </select>
         </div>
-        <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
-          placeholder="Vote % (e.g. 52.3)" type="number" step="0.1" min="0" max="100"
-          value={form.candidate1VotePct} onChange={e => set("candidate1VotePct", e.target.value)} />
+        <div className="grid grid-cols-2 gap-2 mt-1.5">
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Vote Tally</label>
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              placeholder="e.g. 1234567" type="number" min="0" step="1"
+              value={form.candidate1Votes} onChange={e => set("candidate1Votes", e.target.value)} />
+          </div>
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Vote %</label>
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              placeholder="e.g. 52.3" type="number" step="0.1" min="0" max="100"
+              value={form.candidate1VotePct} onChange={e => set("candidate1VotePct", e.target.value)} />
+          </div>
+        </div>
       </div>
 
       <div className="border-t border-border pt-3">
@@ -209,9 +224,20 @@ function SenateEditor({ race, token, onUpdated }: { race: SenateRace; token: str
             {["D", "R", "I", "L", "G"].map(p => <option key={p} value={p}>{p}</option>)}
           </select>
         </div>
-        <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
-          placeholder="Vote % (e.g. 47.1)" type="number" step="0.1" min="0" max="100"
-          value={form.candidate2VotePct} onChange={e => set("candidate2VotePct", e.target.value)} />
+        <div className="grid grid-cols-2 gap-2 mt-1.5">
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Vote Tally</label>
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              placeholder="e.g. 1100000" type="number" min="0" step="1"
+              value={form.candidate2Votes} onChange={e => set("candidate2Votes", e.target.value)} />
+          </div>
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Vote %</label>
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              placeholder="e.g. 47.1" type="number" step="0.1" min="0" max="100"
+              value={form.candidate2VotePct} onChange={e => set("candidate2VotePct", e.target.value)} />
+          </div>
+        </div>
       </div>
 
       <div className="border-t border-border pt-3">
@@ -277,9 +303,11 @@ function HouseEditor({ race, token, onUpdated }: { race: HouseRace; token: strin
     incumbentRetiring: race.incumbentRetiring ?? false,
     candidate1Name: race.candidate1Name ?? "",
     candidate1Party: race.candidate1Party ?? "D",
+    candidate1Votes: race.candidate1Votes ? String(race.candidate1Votes) : "",
     candidate1VotePct: race.candidate1VotePct ? String(race.candidate1VotePct) : "",
     candidate2Name: race.candidate2Name ?? "",
     candidate2Party: race.candidate2Party ?? "R",
+    candidate2Votes: race.candidate2Votes ? String(race.candidate2Votes) : "",
     candidate2VotePct: race.candidate2VotePct ? String(race.candidate2VotePct) : "",
     calledWinner: race.calledWinner ?? "",
     calledParty: race.calledParty ?? "",
@@ -308,9 +336,11 @@ function HouseEditor({ race, token, onUpdated }: { race: HouseRace; token: strin
       incumbentRetiring: form.incumbentRetiring,
       candidate1Name: form.candidate1Name || null,
       candidate1Party: (form.candidate1Party as any) || null,
+      candidate1Votes: form.candidate1Votes ? parseInt(form.candidate1Votes) : null,
       candidate1VotePct: form.candidate1VotePct ? parseFloat(form.candidate1VotePct) : null,
       candidate2Name: form.candidate2Name || null,
       candidate2Party: (form.candidate2Party as any) || null,
+      candidate2Votes: form.candidate2Votes ? parseInt(form.candidate2Votes) : null,
       candidate2VotePct: form.candidate2VotePct ? parseFloat(form.candidate2VotePct) : null,
       calledWinner: form.calledWinner || null,
       calledParty: (form.calledParty as any) || null,
@@ -368,34 +398,56 @@ function HouseEditor({ race, token, onUpdated }: { race: HouseRace; token: strin
       <div className="border-t border-border pt-3">
         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Candidates</p>
         <div className="space-y-2">
-          <div className="grid grid-cols-3 gap-2">
-            <div className="col-span-2">
-              <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
-                placeholder="Candidate 1" value={form.candidate1Name} onChange={e => set("candidate1Name", e.target.value)} />
-            </div>
-            <div className="flex gap-1">
-              <select className="flex-1 bg-muted border border-border rounded px-1 py-1.5 text-sm text-foreground focus:outline-none"
+          <div className="space-y-1.5">
+            <div className="grid grid-cols-3 gap-2">
+              <div className="col-span-2">
+                <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+                  placeholder="Candidate 1" value={form.candidate1Name} onChange={e => set("candidate1Name", e.target.value)} />
+              </div>
+              <select className="bg-muted border border-border rounded px-1 py-1.5 text-sm text-foreground focus:outline-none"
                 value={form.candidate1Party} onChange={e => set("candidate1Party", e.target.value)}>
                 {["D", "R", "I", "L", "G"].map(p => <option key={p} value={p}>{p}</option>)}
               </select>
-              <input className="w-14 bg-muted border border-border rounded px-1 py-1.5 text-sm text-foreground focus:outline-none"
-                type="number" step="0.1" min="0" max="100" placeholder="%"
-                value={form.candidate1VotePct} onChange={e => set("candidate1VotePct", e.target.value)} />
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <label className="block text-xs text-muted-foreground mb-1">Vote Tally</label>
+                <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+                  placeholder="e.g. 120000" type="number" min="0" step="1"
+                  value={form.candidate1Votes} onChange={e => set("candidate1Votes", e.target.value)} />
+              </div>
+              <div>
+                <label className="block text-xs text-muted-foreground mb-1">Vote %</label>
+                <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+                  placeholder="e.g. 52.3" type="number" step="0.1" min="0" max="100"
+                  value={form.candidate1VotePct} onChange={e => set("candidate1VotePct", e.target.value)} />
+              </div>
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-2">
-            <div className="col-span-2">
-              <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
-                placeholder="Candidate 2" value={form.candidate2Name} onChange={e => set("candidate2Name", e.target.value)} />
-            </div>
-            <div className="flex gap-1">
-              <select className="flex-1 bg-muted border border-border rounded px-1 py-1.5 text-sm text-foreground focus:outline-none"
+          <div className="space-y-1.5 pt-2 border-t border-border/50">
+            <div className="grid grid-cols-3 gap-2">
+              <div className="col-span-2">
+                <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+                  placeholder="Candidate 2" value={form.candidate2Name} onChange={e => set("candidate2Name", e.target.value)} />
+              </div>
+              <select className="bg-muted border border-border rounded px-1 py-1.5 text-sm text-foreground focus:outline-none"
                 value={form.candidate2Party} onChange={e => set("candidate2Party", e.target.value)}>
                 {["D", "R", "I", "L", "G"].map(p => <option key={p} value={p}>{p}</option>)}
               </select>
-              <input className="w-14 bg-muted border border-border rounded px-1 py-1.5 text-sm text-foreground focus:outline-none"
-                type="number" step="0.1" min="0" max="100" placeholder="%"
-                value={form.candidate2VotePct} onChange={e => set("candidate2VotePct", e.target.value)} />
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <label className="block text-xs text-muted-foreground mb-1">Vote Tally</label>
+                <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+                  placeholder="e.g. 110000" type="number" min="0" step="1"
+                  value={form.candidate2Votes} onChange={e => set("candidate2Votes", e.target.value)} />
+              </div>
+              <div>
+                <label className="block text-xs text-muted-foreground mb-1">Vote %</label>
+                <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+                  placeholder="e.g. 47.1" type="number" step="0.1" min="0" max="100"
+                  value={form.candidate2VotePct} onChange={e => set("candidate2VotePct", e.target.value)} />
+              </div>
             </div>
           </div>
         </div>
@@ -1473,13 +1525,12 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
               <p className="text-xs text-muted-foreground mt-1">All changes reflect instantly on the public map</p>
             </div>
           )}
-          </div>
         </div>
       </div>
     </div>
+  </div>
   );
 }
-
 // ─── Root Admin Component ─────────────────────────────────────────────────────
 export default function Admin() {
   const [token, setToken] = useState<string | null>(() => localStorage.getItem(ADMIN_TOKEN_KEY));

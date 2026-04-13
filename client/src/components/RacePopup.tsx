@@ -62,11 +62,12 @@ function VoteBar({ pct, party }: { pct: number; party: string | null | undefined
 }
 
 function CandidateRow({
-  name, party, votePct, isWinner
-}: { name: string | null | undefined; party: string | null | undefined; votePct: string | number | null | undefined; isWinner?: boolean }) {
+  name, party, votePct, voteCount, isWinner
+}: { name: string | null | undefined; party: string | null | undefined; votePct: string | number | null | undefined; voteCount?: number | null; isWinner?: boolean }) {
   if (!name) return null;
   const pctNum = votePct !== null && votePct !== undefined ? parseFloat(String(votePct)) : null;
   const hasVotes = pctNum !== null && !isNaN(pctNum) && pctNum > 0;
+  const hasTally = voteCount !== null && voteCount !== undefined && voteCount > 0;
   return (
     <div className={`py-1.5 px-2 rounded ${isWinner ? "bg-green-900/30 border border-green-700/40" : "bg-muted/30"}`}>
       <div className="flex items-center justify-between">
@@ -78,11 +79,18 @@ function CandidateRow({
             {isWinner && <span className="ml-2 text-xs text-green-400 font-bold">✓ Called</span>}
           </div>
         </div>
-        {hasVotes && (
-          <span className="text-sm font-bold ml-2 flex-shrink-0" style={{ color: getPartyColor(party as any) }}>
-            {formatVotePct(pctNum!)}
-          </span>
-        )}
+        <div className="flex flex-col items-end ml-2 flex-shrink-0">
+          {hasVotes && (
+            <span className="text-sm font-bold" style={{ color: getPartyColor(party as any) }}>
+              {formatVotePct(pctNum!)}
+            </span>
+          )}
+          {hasTally && (
+            <span className="text-xs text-muted-foreground">
+              {voteCount!.toLocaleString()}
+            </span>
+          )}
+        </div>
       </div>
       {hasVotes && <VoteBar pct={pctNum!} party={party} />}
     </div>
@@ -185,12 +193,14 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
             name={race.candidate1Name}
             party={race.candidate1Party}
             votePct={race.candidate1VotePct}
+            voteCount={race.candidate1Votes}
             isWinner={race.calledWinner === race.candidate1Name}
           />
           <CandidateRow
             name={race.candidate2Name}
             party={race.candidate2Party}
             votePct={race.candidate2VotePct}
+            voteCount={race.candidate2Votes}
             isWinner={race.calledWinner === race.candidate2Name}
           />
           {race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && (
@@ -278,12 +288,14 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
             name={race.candidate1Name}
             party={race.candidate1Party}
             votePct={race.candidate1VotePct}
+            voteCount={race.candidate1Votes}
             isWinner={race.calledWinner === race.candidate1Name}
           />
           <CandidateRow
             name={race.candidate2Name}
             party={race.candidate2Party}
             votePct={race.candidate2VotePct}
+            voteCount={race.candidate2Votes}
             isWinner={race.calledWinner === race.candidate2Name}
           />
           {race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && (

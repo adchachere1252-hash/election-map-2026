@@ -920,3 +920,11 @@
 - [x] Drawer has a close button (X) and clicking outside or pressing Escape closes it
 - [x] Race list takes full width when drawer is closed; drawer overlays on top (does not shrink list)
 - [x] Apply to all tabs: House, Senate, Governor, Redistricting, Referendums
+
+## Feature: Vote Tally & Percentage (Apr 13, 2026)
+- [x] Add candidate1_votes, candidate2_votes columns to senate_races and house_races tables (governor_races already had demVotes/repVotes)
+- [x] Generate and apply DB migration SQL
+- [x] Update tRPC update procedures for Senate and House to include vote count fields
+- [x] Add vote tally + pct input fields to admin editor drawer (SenateEditor, HouseEditor, GovernorEditor)
+- [x] Display vote tallies and percentages in public map race popups (RacePopup.tsx CandidateRow)
+- [x] 37 tests passing, zero TypeScript errors, zero console errors
