@@ -928,3 +928,12 @@
 - [x] Add vote tally + pct input fields to admin editor drawer (SenateEditor, HouseEditor, GovernorEditor)
 - [x] Display vote tallies and percentages in public map race popups (RacePopup.tsx CandidateRow)
 - [x] 37 tests passing, zero TypeScript errors, zero console errors
+
+## Feature: % Reporting + Called At Timestamp (Apr 13, 2026)
+- [x] pct_reporting already existed in senate_races and house_races schema; called_at (bigint) added via migration 0010
+- [x] Generate and apply DB migration SQL (0010_natural_silver_samurai.sql)
+- [x] senate.update and house.update: auto-stamp called_at = Date.now() when calledWinner is set; clear to null when calledWinner is cleared
+- [x] % Reporting input field already present in SenateEditor and HouseEditor admin drawers
+- [x] pct_reporting displayed in Senate and House race popups
+- [x] "Called at [time] PST" displayed in Senate and House race popups when called_at is set (green text)
+- [x] 37 tests passing, zero TypeScript errors, zero console errors

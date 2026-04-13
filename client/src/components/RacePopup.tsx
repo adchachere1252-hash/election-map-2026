@@ -206,6 +206,11 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
           {race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && (
             <p className="text-xs text-muted-foreground text-right">{formatVotePct(race.pctReporting)} reporting</p>
           )}
+          {(race as any).calledAt && (
+            <p className="text-xs text-green-400 font-semibold text-right mt-0.5">
+              Called at {new Date((race as any).calledAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" })}
+            </p>
+          )}
         </div>
       )}
 
@@ -300,6 +305,11 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
           />
           {race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && (
             <p className="text-xs text-muted-foreground text-right">{formatVotePct(race.pctReporting)} reporting</p>
+          )}
+          {(race as any).calledAt && (
+            <p className="text-xs text-green-400 font-semibold text-right mt-0.5">
+              Called at {new Date((race as any).calledAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" })}
+            </p>
           )}
         </div>
       )}

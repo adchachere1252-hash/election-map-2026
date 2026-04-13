@@ -120,6 +120,10 @@ export const appRouter = router({
         for (const [k, v] of Object.entries(data)) {
           if (v !== undefined) updateData[k] = v;
         }
+        // Auto-stamp calledAt when a winner is set; clear when winner is removed
+        if (input.calledWinner !== undefined) {
+          updateData.calledAt = input.calledWinner ? Date.now() : null;
+        }
         await updateSenateRace(id, updateData as Parameters<typeof updateSenateRace>[1]);
         return { success: true };
       }),
@@ -172,6 +176,10 @@ export const appRouter = router({
         const updateData: Record<string, unknown> = {};
         for (const [k, v] of Object.entries(data)) {
           if (v !== undefined) updateData[k] = v;
+        }
+        // Auto-stamp calledAt when a winner is set; clear when winner is removed
+        if (input.calledWinner !== undefined) {
+          updateData.calledAt = input.calledWinner ? Date.now() : null;
         }
         await updateHouseRace(id, updateData as Parameters<typeof updateHouseRace>[1]);
         return { success: true };
