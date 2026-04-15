@@ -968,3 +968,7 @@
 ## Feature: CA-14 Special Election Primary Date Update (Apr 15, 2026)
 - [x] Research actual CA-14 special election timeline: special primary June 16, 2026; runoff August 18, 2026 if no majority (source: Gov. Newsom proclamation Apr 14, East Bay Insiders)
 - [x] Updated CA-14 primary_date to 'Jun 16, 2026 (Special Primary)' and general_date to 'August 18, 2026 (Special Runoff)'; updated notes with full timeline
+
+## Feature: TX-23 Gonzales Resignation / Vacancy (Apr 15, 2026)
+- [x] Research TX-23: Gonzales resigned effective Apr 14, 2026; Gov. Abbott has not yet called a special election; Texas law requires 36-day notice; next uniform date is Nov 3, 2026 (source: Yahoo/KENS5)
+- [x] Updated TX-23: incumbent='Vacant', is_vacancy=true, status='Scheduled', general_date='Nov 3, 2026 (TBD)', notes explain full situation and Abbott's pending decision
