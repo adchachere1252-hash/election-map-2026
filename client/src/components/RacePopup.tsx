@@ -271,12 +271,18 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
         </div>
       </div>
 
-      <div className="flex items-center gap-2 mb-3">
+      <div className="flex items-center gap-2 mb-3 flex-wrap">
         <StatusBadge status={race.status} />
         <RatingBadge rating={race.rating} />
+        {race.isVacancy && (
+          <span className="bg-orange-900/60 text-orange-300 text-xs px-1.5 py-0.5 rounded font-semibold">Vacant</span>
+        )}
+        {race.isVacancy && (
+          <span className="bg-purple-900/60 text-purple-300 text-xs px-1.5 py-0.5 rounded font-semibold">Special Election</span>
+        )}
       </div>
 
-      {race.incumbent && (
+      {race.incumbent && race.incumbent !== 'Vacant' && (
         <div className="flex items-center gap-2 mb-3 text-sm">
           <Users className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
           <span className="text-muted-foreground">Incumbent:</span>

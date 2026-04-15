@@ -954,3 +954,13 @@
 - [x] Admin referendum editor: added % Reporting slider (range input) above the number input for faster entry
 - [x] Referendum list row in sidebar: show mini vote bar and % reporting when votes or pct_reporting > 0
 - [x] 37 tests passing, zero TypeScript errors
+
+## Feature: Swalwell Resignation / CA-14 Special Election (Apr 15, 2026)
+- [x] Find CA-14 house_races record for Eric Swalwell
+- [x] Update CA-14: incumbent='Vacant', is_vacancy=true, incumbent_retiring=true, general_date='August 18, 2026', notes mention Swalwell resignation and Gov. Newsom special election call
+- [x] HousePopup now shows 'Vacant' and 'Special Election' badges when is_vacancy=true; incumbent row hidden when seat is vacant
+
+## Feature: Swalwell Resignation / CA-14 Special Election (Apr 15, 2026)
+- [x] Find CA-14 house_races record for Eric Swalwell
+- [x] Update CA-14: incumbent='Vacant', is_vacancy=true, incumbent_retiring=true, general_date='August 18, 2026', notes mention Swalwell resignation and Gov. Newsom special election call
+- [x] HousePopup now shows 'Vacant' and 'Special Election' badges when is_vacancy=true; incumbent row hidden when seat is vacant
