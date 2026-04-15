@@ -964,3 +964,7 @@
 - [x] Find CA-14 house_races record for Eric Swalwell
 - [x] Update CA-14: incumbent='Vacant', is_vacancy=true, incumbent_retiring=true, general_date='August 18, 2026', notes mention Swalwell resignation and Gov. Newsom special election call
 - [x] HousePopup now shows 'Vacant' and 'Special Election' badges when is_vacancy=true; incumbent row hidden when seat is vacant
+
+## Feature: CA-14 Special Election Primary Date Update (Apr 15, 2026)
+- [x] Research actual CA-14 special election timeline: special primary June 16, 2026; runoff August 18, 2026 if no majority (source: Gov. Newsom proclamation Apr 14, East Bay Insiders)
+- [x] Updated CA-14 primary_date to 'Jun 16, 2026 (Special Primary)' and general_date to 'August 18, 2026 (Special Runoff)'; updated notes with full timeline
