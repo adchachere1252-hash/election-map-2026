@@ -978,3 +978,10 @@
 - [x] Researched Cook Political Report 2026 ratings from 270toWin (as of April 7, 2026)
 - [x] Applied 72 corrections: fixed ratings, parties, and incumbent names across all 435 seats
 - [x] Verified: 0 genuine mismatches remain; 5 remaining edge cases are correct Cook ratings where district lean overrides incumbent party (CA-48, NE-2, ME-2, NC-1, TX-35)
+
+## Feature: Senate & Governor Full Verification Audit (Apr 16, 2026)
+- [x] Exported all 35 Senate and 36 Governor records and identified all mismatches
+- [x] Researched Cook Political Report 2026 Senate ratings (Apr 13, 2026): 9 Solid D, 1 Likely D, 3 Lean D, 3 Toss-up, 1 Lean R, 3 Likely R, 15 Solid R
+- [x] Researched Cook Political Report 2026 Governor ratings (Apr 9, 2026): 12 Solid D, 2 Likely D, 0 Lean D, 6 Toss-up, 2 Lean R, 1 Likely R, 13 Solid R
+- [x] Applied 16 Senate corrections (ratings + incumbent names) and 36 Governor corrections (all incumbents were missing, 5 rating fixes)
+- [x] Verified: 0 genuine mismatches remain; 2 intentional Cook ratings where open seat lean overrides previous party (NC Senate Lean D, KS Governor Lean R)
