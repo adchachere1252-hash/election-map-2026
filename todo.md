@@ -972,3 +972,9 @@
 ## Feature: TX-23 Gonzales Resignation / Vacancy (Apr 15, 2026)
 - [x] Research TX-23: Gonzales resigned effective Apr 14, 2026; Gov. Abbott has not yet called a special election; Texas law requires 36-day notice; next uniform date is Nov 3, 2026 (source: Yahoo/KENS5)
 - [x] Updated TX-23: incumbent='Vacant', is_vacancy=true, status='Scheduled', general_date='Nov 3, 2026 (TBD)', notes explain full situation and Abbott's pending decision
+
+## Feature: Full House Seat Verification Audit (Apr 16, 2026)
+- [x] Exported all 435 House records and identified 52 incumbent party vs. rating mismatches
+- [x] Researched Cook Political Report 2026 ratings from 270toWin (as of April 7, 2026)
+- [x] Applied 72 corrections: fixed ratings, parties, and incumbent names across all 435 seats
+- [x] Verified: 0 genuine mismatches remain; 5 remaining edge cases are correct Cook ratings where district lean overrides incumbent party (CA-48, NE-2, ME-2, NC-1, TX-35)
