@@ -985,3 +985,19 @@
 - [x] Researched Cook Political Report 2026 Governor ratings (Apr 9, 2026): 12 Solid D, 2 Likely D, 0 Lean D, 6 Toss-up, 2 Lean R, 1 Likely R, 13 Solid R
 - [x] Applied 16 Senate corrections (ratings + incumbent names) and 36 Governor corrections (all incumbents were missing, 5 rating fixes)
 - [x] Verified: 0 genuine mismatches remain; 2 intentional Cook ratings where open seat lean overrides previous party (NC Senate Lean D, KS Governor Lean R)
+
+## Feature: NJ Special Election — Analilia Mejia Win (Apr 16, 2026)
+- [x] NJ-11 (id=253) — Sherrill vacated seat to become NJ Governor
+- [x] Updated NJ-11: calledWinner='Analilia Mejia', calledParty='D', candidate1Votes=23780 (69.2%), candidate2Votes=10429 (30.3%), pctReporting=25, status='Called'
+- [x] Popup shows called result, vote bars, and calledAt timestamp correctly
+
+## Feature: Third-Party Candidate Support (Apr 16, 2026)
+- [x] Added other_candidate_name, other_candidate_party, other_votes, other_vote_pct columns to house_races, senate_races, governor_races (migration 0012)
+- [x] Generated and applied Drizzle migration for new columns
+- [x] Updated house.update, senate.update, governor.update tRPC procedures to include new fields
+- [x] Updated house.list, senate.list, governor.list queries to return new fields
+- [x] Populated NJ-11: Alan Bond (I), 172 votes, 0.5%
+- [x] Populated TX-18: Al Green (I) — running as independent after redistricting
+- [x] Updated RacePopup HousePopup and SenatePopup to display other candidate row when present
+- [x] Updated Admin.tsx Senate and House editors with 'Other / Third-Party Candidate' section
+- [x] 37 tests passing, zero TypeScript errors

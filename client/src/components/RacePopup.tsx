@@ -203,6 +203,15 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
             voteCount={race.candidate2Votes}
             isWinner={race.calledWinner === race.candidate2Name}
           />
+          {(race as any).otherCandidateName && (
+            <CandidateRow
+              name={(race as any).otherCandidateName}
+              party={(race as any).otherCandidateParty}
+              votePct={(race as any).otherVotePct}
+              voteCount={(race as any).otherVotes}
+              isWinner={race.calledWinner === (race as any).otherCandidateName}
+            />
+          )}
           {race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && (
             <p className="text-xs text-muted-foreground text-right">{formatVotePct(race.pctReporting)} reporting</p>
           )}
@@ -309,6 +318,15 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
             voteCount={race.candidate2Votes}
             isWinner={race.calledWinner === race.candidate2Name}
           />
+          {(race as any).otherCandidateName && (
+            <CandidateRow
+              name={(race as any).otherCandidateName}
+              party={(race as any).otherCandidateParty}
+              votePct={(race as any).otherVotePct}
+              voteCount={(race as any).otherVotes}
+              isWinner={race.calledWinner === (race as any).otherCandidateName}
+            />
+          )}
           {race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && (
             <p className="text-xs text-muted-foreground text-right">{formatVotePct(race.pctReporting)} reporting</p>
           )}

@@ -94,6 +94,10 @@ function SenateEditor({ race, token, onUpdated }: { race: SenateRace; token: str
     candidate2Party: race.candidate2Party ?? "R",
     candidate2Votes: race.candidate2Votes ? String(race.candidate2Votes) : "",
     candidate2VotePct: race.candidate2VotePct ? String(race.candidate2VotePct) : "",
+    otherCandidateName: (race as any).otherCandidateName ?? "",
+    otherCandidateParty: (race as any).otherCandidateParty ?? "I",
+    otherVotes: (race as any).otherVotes ? String((race as any).otherVotes) : "",
+    otherVotePct: (race as any).otherVotePct ? String((race as any).otherVotePct) : "",
     calledWinner: race.calledWinner ?? "",
     calledParty: race.calledParty ?? "",
     rating: race.rating ?? "Solid R",
@@ -129,6 +133,10 @@ function SenateEditor({ race, token, onUpdated }: { race: SenateRace; token: str
       candidate2Party: (form.candidate2Party as any) || null,
       candidate2Votes: form.candidate2Votes ? parseInt(form.candidate2Votes) : null,
       candidate2VotePct: form.candidate2VotePct ? parseFloat(form.candidate2VotePct) : null,
+      otherCandidateName: form.otherCandidateName || null,
+      otherCandidateParty: (form.otherCandidateParty as any) || null,
+      otherVotes: form.otherVotes ? parseInt(form.otherVotes) : null,
+      otherVotePct: form.otherVotePct ? parseFloat(form.otherVotePct) : null,
       calledWinner: form.calledWinner || null,
       calledParty: (form.calledParty as any) || null,
       rating: form.rating as any,
@@ -241,6 +249,34 @@ function SenateEditor({ race, token, onUpdated }: { race: SenateRace; token: str
       </div>
 
       <div className="border-t border-border pt-3">
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Other / Third-Party Candidate</p>
+        <div className="grid grid-cols-3 gap-2 mb-1.5">
+          <div className="col-span-2">
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              placeholder="Candidate name (optional)" value={form.otherCandidateName} onChange={e => set("otherCandidateName", e.target.value)} />
+          </div>
+          <select className="bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+            value={form.otherCandidateParty} onChange={e => set("otherCandidateParty", e.target.value)}>
+            {["I", "L", "G", "D", "R"].map(p => <option key={p} value={p}>{p}</option>)}
+          </select>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Vote Tally</label>
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              placeholder="e.g. 172" type="number" min="0" step="1"
+              value={form.otherVotes} onChange={e => set("otherVotes", e.target.value)} />
+          </div>
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Vote %</label>
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              placeholder="e.g. 0.5" type="number" step="0.1" min="0" max="100"
+              value={form.otherVotePct} onChange={e => set("otherVotePct", e.target.value)} />
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-border pt-3">
         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Called Result</p>
         <div className="grid grid-cols-3 gap-2">
           <div className="col-span-2">
@@ -314,6 +350,10 @@ function HouseEditor({ race, token, onUpdated }: { race: HouseRace; token: strin
     candidate2Party: race.candidate2Party ?? "R",
     candidate2Votes: race.candidate2Votes ? String(race.candidate2Votes) : "",
     candidate2VotePct: race.candidate2VotePct ? String(race.candidate2VotePct) : "",
+    otherCandidateName: (race as any).otherCandidateName ?? "",
+    otherCandidateParty: (race as any).otherCandidateParty ?? "I",
+    otherVotes: (race as any).otherVotes ? String((race as any).otherVotes) : "",
+    otherVotePct: (race as any).otherVotePct ? String((race as any).otherVotePct) : "",
     calledWinner: race.calledWinner ?? "",
     calledParty: race.calledParty ?? "",
     rating: race.rating ?? "Solid R",
@@ -347,6 +387,10 @@ function HouseEditor({ race, token, onUpdated }: { race: HouseRace; token: strin
       candidate2Party: (form.candidate2Party as any) || null,
       candidate2Votes: form.candidate2Votes ? parseInt(form.candidate2Votes) : null,
       candidate2VotePct: form.candidate2VotePct ? parseFloat(form.candidate2VotePct) : null,
+      otherCandidateName: form.otherCandidateName || null,
+      otherCandidateParty: (form.otherCandidateParty as any) || null,
+      otherVotes: form.otherVotes ? parseInt(form.otherVotes) : null,
+      otherVotePct: form.otherVotePct ? parseFloat(form.otherVotePct) : null,
       calledWinner: form.calledWinner || null,
       calledParty: (form.calledParty as any) || null,
       rating: form.rating as any,
@@ -454,6 +498,34 @@ function HouseEditor({ race, token, onUpdated }: { race: HouseRace; token: strin
                   value={form.candidate2VotePct} onChange={e => set("candidate2VotePct", e.target.value)} />
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-border pt-3">
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Other / Third-Party Candidate</p>
+        <div className="grid grid-cols-3 gap-2 mb-1.5">
+          <div className="col-span-2">
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              placeholder="Candidate name (optional)" value={form.otherCandidateName} onChange={e => set("otherCandidateName", e.target.value)} />
+          </div>
+          <select className="bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+            value={form.otherCandidateParty} onChange={e => set("otherCandidateParty", e.target.value)}>
+            {["I", "L", "G", "D", "R"].map(p => <option key={p} value={p}>{p}</option>)}
+          </select>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Vote Tally</label>
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              placeholder="e.g. 172" type="number" min="0" step="1"
+              value={form.otherVotes} onChange={e => set("otherVotes", e.target.value)} />
+          </div>
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Vote %</label>
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              placeholder="e.g. 0.5" type="number" step="0.1" min="0" max="100"
+              value={form.otherVotePct} onChange={e => set("otherVotePct", e.target.value)} />
           </div>
         </div>
       </div>

@@ -66,6 +66,10 @@ export const senateRaces = mysqlTable("senate_races", {
   calledWinner: varchar("called_winner", { length: 128 }),
   calledParty: mysqlEnum("called_party", ["D", "R", "I"]),
   calledAt: bigint("called_at", { mode: "number" }), // UTC ms timestamp when winner was called
+  otherCandidateName: varchar("other_candidate_name", { length: 128 }), // third-party / independent candidate
+  otherCandidateParty: mysqlEnum("other_candidate_party", ["D", "R", "I", "L", "G"]),
+  otherVotes: bigint("other_votes", { mode: "number" }).default(0),
+  otherVotePct: decimal("other_vote_pct", { precision: 5, scale: 2 }),
   previousParty: mysqlEnum("previous_party", ["D", "R", "I"]), // party that held seat before this election
   rating: mysqlEnum("rating", ["Solid D", "Lean D", "Toss-up", "Lean R", "Solid R", "Safe D", "Safe R"]),
   status: mysqlEnum("status", ["Scheduled", "Primary", "General", "Called", "Certified"]).default("Scheduled").notNull(),
@@ -103,6 +107,10 @@ export const houseRaces = mysqlTable("house_races", {
   calledWinner: varchar("called_winner", { length: 128 }),
   calledParty: mysqlEnum("called_party", ["D", "R", "I"]),
   calledAt: bigint("called_at", { mode: "number" }), // UTC ms timestamp when winner was called
+  otherCandidateName: varchar("other_candidate_name", { length: 128 }), // third-party / independent candidate
+  otherCandidateParty: mysqlEnum("other_candidate_party", ["D", "R", "I", "L", "G"]),
+  otherVotes: bigint("other_votes", { mode: "number" }).default(0),
+  otherVotePct: decimal("other_vote_pct", { precision: 5, scale: 2 }),
   previousParty: mysqlEnum("previous_party", ["D", "R", "I"]), // party that held seat before this election
   rating: mysqlEnum("rating", ["Solid D", "Lean D", "Toss-up", "Lean R", "Solid R", "Safe D", "Safe R"]),
   status: mysqlEnum("status", ["Scheduled", "Primary", "General", "Called", "Certified"]).default("Scheduled").notNull(),
@@ -217,6 +225,10 @@ export const governorRaces = mysqlTable("governor_races", {
   calledAt: bigint("called_at", { mode: "number" }),                // UTC ms timestamp when winner was called
   demVotes: bigint("dem_votes", { mode: "number" }).default(0),
   repVotes: bigint("rep_votes", { mode: "number" }).default(0),
+  otherCandidateName: varchar("other_candidate_name", { length: 128 }), // third-party / independent candidate
+  otherCandidateParty: mysqlEnum("other_candidate_party", ["D", "R", "I", "L", "G"]),
+  otherVotes: bigint("other_votes", { mode: "number" }).default(0),
+  otherVotePct: decimal("other_vote_pct", { precision: 5, scale: 2 }),
   pctReporting: decimal("pct_reporting", { precision: 5, scale: 2 }).default("0"),
   // Candidates (leading candidates pre-election)
   demCandidate: varchar("dem_candidate", { length: 128 }),
