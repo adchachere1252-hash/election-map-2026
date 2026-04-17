@@ -1001,3 +1001,9 @@
 - [x] Updated RacePopup HousePopup and SenatePopup to display other candidate row when present
 - [x] Updated Admin.tsx Senate and House editors with 'Other / Third-Party Candidate' section
 - [x] 37 tests passing, zero TypeScript errors
+
+## Feature: NJ-11 Final Results & Governor Other-Candidate Editor (Apr 16, 2026)
+- [x] Researched NJ-11 final results from AP News (Apr 17, 12:31 AM, 41% reporting): Mejia 38,857 (70.2%), Hathaway 16,233 (29.3%), Bond 283 (0.5%); AP called at 12:07 AM
+- [x] Updated NJ-11 vote totals and pct_reporting to 41% with final AP figures
+- [x] Added Other / Third-Party Candidate section to GovernorEditor in Admin.tsx (name, party, votes, vote %)
+- [x] 37 tests passing, 0 TypeScript errors

@@ -920,6 +920,10 @@ function GovernorEditor({ race, token, onUpdated }: { race: GovernorRace; token:
     runoffDate: race.runoffDate ?? "",
     generalDate: race.generalDate ?? "",
     notes: race.notes ?? "",
+    otherCandidateName: (race as any).otherCandidateName ?? "",
+    otherCandidateParty: (race as any).otherCandidateParty ?? "",
+    otherVotes: (race as any).otherVotes ? String((race as any).otherVotes) : "",
+    otherVotePct: (race as any).otherVotePct ? String((race as any).otherVotePct) : "",
   });
 
   const utils = trpc.useUtils();
@@ -953,6 +957,10 @@ function GovernorEditor({ race, token, onUpdated }: { race: GovernorRace; token:
       runoffDate: form.runoffDate || null,
       generalDate: form.generalDate || undefined,
       notes: form.notes || null,
+      otherCandidateName: form.otherCandidateName || null,
+      otherCandidateParty: form.otherCandidateParty || null,
+      otherVotes: form.otherVotes ? parseInt(form.otherVotes) : undefined,
+      otherVotePct: form.otherVotePct ? parseFloat(form.otherVotePct) : undefined,
     });
   };
 
@@ -1099,6 +1107,35 @@ function GovernorEditor({ race, token, onUpdated }: { race: GovernorRace; token:
           <label className="block text-xs text-muted-foreground mb-1">General Election Date</label>
           <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
             placeholder="e.g. November 3, 2026" value={form.generalDate} onChange={e => set("generalDate", e.target.value)} />
+        </div>
+      </div>
+
+      {/* Other / Third-Party Candidate */}
+      <div className="border-t border-border pt-3">
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Other / Third-Party Candidate</p>
+        <div className="grid grid-cols-3 gap-2 mb-2">
+          <div className="col-span-2">
+            <label className="block text-xs text-purple-400 mb-1">Candidate Name</label>
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              placeholder="e.g. Jane Doe" value={form.otherCandidateName} onChange={e => set("otherCandidateName", e.target.value)} />
+          </div>
+          <div>
+            <label className="block text-xs text-purple-400 mb-1">Party</label>
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              placeholder="I / G / L" value={form.otherCandidateParty} onChange={e => set("otherCandidateParty", e.target.value)} />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-xs text-purple-400 mb-1">Votes</label>
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              type="number" min="0" placeholder="0" value={form.otherVotes} onChange={e => set("otherVotes", e.target.value)} />
+          </div>
+          <div>
+            <label className="block text-xs text-purple-400 mb-1">Vote %</label>
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              type="number" step="0.1" min="0" max="100" placeholder="0.0" value={form.otherVotePct} onChange={e => set("otherVotePct", e.target.value)} />
+          </div>
         </div>
       </div>
 
