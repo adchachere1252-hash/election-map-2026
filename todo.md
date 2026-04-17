@@ -1013,3 +1013,8 @@
 - [x] Updated VoteBar to include gray segment for other votes
 - [x] Updated GovernorRace interface to include otherCandidateName, otherCandidateParty, otherVotes, otherVotePct
 - [x] 37 tests passing, 0 TypeScript errors
+
+## Fix: Senate/Governor Won Tooltip + NJ-11 Popup (Apr 17, 2026)
+- [x] Applied "✓ Won" tooltip to Senate and Governor races when calledWinner is set
+- [x] Updated NJ-11 vote totals to 55% reporting: Mejia 51,348 (68.4%), Hathaway 23,306 (31.1%), Bond 370 (0.5%)
+- [x] Fixed NJ-11 popup: cleared incumbentRetiring flag; HousePopup now shows "Open Seat" when isVacancy=true instead of incumbent name with (Retiring) label

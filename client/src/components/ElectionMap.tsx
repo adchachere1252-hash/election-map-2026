@@ -459,12 +459,29 @@ const ElectionMap = forwardRef(function ElectionMap({
           const code = FIPS_TO_STATE[fips];
           d3.select(this).attr("opacity", 0.85).attr("filter", "brightness(1.15)");
           let content = code;
-          if (view === "senate") {
+          if (view === "governor") {
+            const race = govByState[code];
+            if (race) {
+              content = `${race.stateName} — Governor`;
+              if (race.calledWinner) {
+                const calledParty = race.calledWinner === race.demCandidate ? "D" : "R";
+                content += `\n✓ ${race.calledWinner} (${calledParty}) — Won`;
+              } else {
+                if (race.rating) content += `\n${race.rating}`;
+                if (race.incumbentName) content += `\n${race.incumbentName}`;
+              }
+            }
+          } else if (view === "senate") {
             const race = senateByState[code];
             const sens = senatorsByState[code];
             if (race) {
-              content = `${race.stateName} — ${race.rating || "No rating"}`;
-              if (race.incumbent) content += `\n${race.incumbent} (${race.incumbentParty})`;
+              if (race.calledWinner) {
+                content = `${race.stateName} — Senate`;
+                content += `\n✓ ${race.calledWinner} (${race.calledParty}) — Won`;
+              } else {
+                content = `${race.stateName} — ${race.rating || "No rating"}`;
+                if (race.incumbent) content += `\n${race.incumbent} (${race.incumbentParty})`;
+              }
               // For split states, append both senators
               if (sens && sens.length >= 2) {
                 const parties = sens.map(s => s.party);

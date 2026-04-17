@@ -291,7 +291,13 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
         )}
       </div>
 
-      {race.incumbent && race.incumbent !== 'Vacant' && (
+      {race.isVacancy ? (
+        <div className="flex items-center gap-2 mb-3 text-sm">
+          <Users className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
+          <span className="text-muted-foreground">Incumbent:</span>
+          <span className="text-orange-300 font-medium">Open Seat</span>
+        </div>
+      ) : race.incumbent && race.incumbent !== 'Vacant' && (
         <div className="flex items-center gap-2 mb-3 text-sm">
           <Users className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
           <span className="text-muted-foreground">Incumbent:</span>
