@@ -1007,3 +1007,9 @@
 - [x] Updated NJ-11 vote totals and pct_reporting to 41% with final AP figures
 - [x] Added Other / Third-Party Candidate section to GovernorEditor in Admin.tsx (name, party, votes, vote %)
 - [x] 37 tests passing, 0 TypeScript errors
+
+## Feature: GovernorPopup Other-Candidate Row (Apr 16, 2026)
+- [x] Added other-candidate card to GovernorRacePopup.tsx: shows name, party badge, votes and vote % when otherCandidateName is set
+- [x] Updated VoteBar to include gray segment for other votes
+- [x] Updated GovernorRace interface to include otherCandidateName, otherCandidateParty, otherVotes, otherVotePct
+- [x] 37 tests passing, 0 TypeScript errors

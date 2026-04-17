@@ -29,6 +29,10 @@ interface GovernorRace {
   pctReporting: number | null;
   notes: string | null;
   calledAt?: number | null;
+  otherCandidateName?: string | null;
+  otherCandidateParty?: string | null;
+  otherVotes?: number | null;
+  otherVotePct?: number | null;
 }
 
 interface GovernorRacePopupProps {
@@ -86,16 +90,18 @@ function RatingBadge({ rating }: { rating: string | null }) {
   );
 }
 
-function VoteBar({ demVotes, repVotes, pctReporting }: {
+function VoteBar({ demVotes, repVotes, otherVotes, pctReporting }: {
   demVotes: number | null;
   repVotes: number | null;
+  otherVotes?: number | null;
   pctReporting: number | null;
 }) {
   if (!demVotes && !repVotes) return null;
-  const total = (demVotes ?? 0) + (repVotes ?? 0);
+  const total = (demVotes ?? 0) + (repVotes ?? 0) + (otherVotes ?? 0);
   if (total === 0) return null;
   const demPct = ((demVotes ?? 0) / total) * 100;
   const repPct = ((repVotes ?? 0) / total) * 100;
+  const othPct = ((otherVotes ?? 0) / total) * 100;
   return (
     <div className="mt-2">
       <div className="flex justify-between text-[10px] text-muted-foreground mb-1">
@@ -106,6 +112,7 @@ function VoteBar({ demVotes, repVotes, pctReporting }: {
       <div className="h-2 rounded-full overflow-hidden flex bg-muted">
         <div className="h-full transition-all duration-500" style={{ width: `${demPct}%`, background: "#3b82f6" }} />
         <div className="h-full transition-all duration-500" style={{ width: `${repPct}%`, background: "#ef4444" }} />
+        {othPct > 0 && <div className="h-full transition-all duration-500" style={{ width: `${othPct}%`, background: "#9ca3af" }} />}
       </div>
     </div>
   );
@@ -277,10 +284,36 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
             bio={race.repBio}
             isIncumbent={incumbentIsRunning && incumbentParty === "R"}
           />
+
+          {/* Other / Third-Party */}
+          {race.otherCandidateName && (
+            <div className="rounded-lg border border-gray-700/40 bg-gray-800/30 p-2.5">
+              <div className="flex items-center gap-2">
+                <CandidateAvatar name={race.otherCandidateName} party="I" size={28} />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className="text-xs font-semibold text-foreground">{race.otherCandidateName}</span>
+                    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold text-white bg-gray-600">
+                      {race.otherCandidateParty ?? "I"}
+                    </span>
+                    <span className="text-[10px] text-gray-400">
+                      {PARTY_LABELS[race.otherCandidateParty ?? "I"] ?? "Independent"}
+                    </span>
+                  </div>
+                  {race.otherVotes != null && (
+                    <p className="text-[10px] text-muted-foreground mt-0.5">
+                      {race.otherVotes.toLocaleString()} votes
+                      {race.otherVotePct != null && ` · ${race.otherVotePct.toFixed(1)}%`}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Vote results (election night) */}
-        <VoteBar demVotes={race.demVotes} repVotes={race.repVotes} pctReporting={race.pctReporting} />
+        <VoteBar demVotes={race.demVotes} repVotes={race.repVotes} otherVotes={race.otherVotes} pctReporting={race.pctReporting} />
         {race.calledAt && (
           <p className="text-xs text-green-400 font-semibold text-right">
             Called at {new Date(race.calledAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" })}
