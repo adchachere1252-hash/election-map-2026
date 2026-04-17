@@ -348,8 +348,12 @@ const ElectionMap = forwardRef(function ElectionMap({
           let content = `${stateCode}-${districtLabel === "AL" ? "AL" : districtLabel}`;
           if (race) {
             content = `${race.stateName} — ${districtLabel === "AL" ? "At-Large" : `District ${district}`}`;
-            if (race.rating) content += `\n${race.rating}`;
-            if (race.incumbent) content += `\n${race.incumbent} (${race.incumbentParty})`;
+            if (race.calledWinner) {
+              content += `\n✓ ${race.calledWinner} (${race.calledParty}) — Won`;
+            } else {
+              if (race.rating) content += `\n${race.rating}`;
+              if (race.incumbent) content += `\n${race.incumbent} (${race.incumbentParty})`;
+            }
           }
           const rect = svgRef.current!.getBoundingClientRect();
           setTooltip({ x: event.clientX - rect.left, y: event.clientY - rect.top - 10, content });
