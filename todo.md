@@ -1018,3 +1018,9 @@
 - [x] Applied "✓ Won" tooltip to Senate and Governor races when calledWinner is set
 - [x] Updated NJ-11 vote totals to 55% reporting: Mejia 51,348 (68.4%), Hathaway 23,306 (31.1%), Bond 370 (0.5%)
 - [x] Fixed NJ-11 popup: cleared incumbentRetiring flag; HousePopup now shows "Open Seat" when isVacancy=true instead of incumbent name with (Retiring) label
+
+## Zoom/Pan & Popup Readability Fixes
+- [x] Fix map zoom/pan: add grab/grabbing cursor so users know they can pan after zooming
+- [x] Fix map zoom/pan: expand translateExtent so map can pan freely when zoomed in
+- [x] Fix popup readability: clamp tooltip position to stay within SVG viewport at all zoom levels
+

@@ -31,6 +31,51 @@ interface ElectionMapProps {
   showLabels?: boolean;
 }
 
+// Smart tooltip that clamps itself within the SVG container so it's always readable
+function TooltipBox({
+  x, y, content, containerRef,
+}: {
+  x: number;
+  y: number;
+  content: string;
+  containerRef: React.RefObject<SVGSVGElement | null>;
+}) {
+  const tipRef = useRef<HTMLDivElement>(null);
+  const [pos, setPos] = useState({ left: x + 14, top: y - 36 });
+
+  useEffect(() => {
+    if (!tipRef.current || !containerRef.current) return;
+    const tip = tipRef.current.getBoundingClientRect();
+    const container = containerRef.current.getBoundingClientRect();
+    const MARGIN = 8;
+    // Raw desired position (relative to container)
+    let left = x + 14;
+    let top = y - 36;
+    // Clamp right edge
+    if (left + tip.width + MARGIN > container.width) {
+      left = x - tip.width - 14;
+    }
+    // Clamp bottom edge
+    if (top + tip.height + MARGIN > container.height) {
+      top = y - tip.height - 8;
+    }
+    // Clamp left / top edges
+    left = Math.max(MARGIN, left);
+    top = Math.max(MARGIN, top);
+    setPos({ left, top });
+  }, [x, y, content, containerRef]);
+
+  return (
+    <div
+      ref={tipRef}
+      className="absolute pointer-events-none bg-popover border border-border rounded px-2 py-1 text-xs text-popover-foreground shadow-lg z-10 whitespace-pre-line"
+      style={{ left: pos.left, top: pos.top, maxWidth: 240 }}
+    >
+      {content}
+    </div>
+  );
+}
+
 // FIPS to state code mapping
 const FIPS_TO_STATE: Record<string, string> = {
   "01": "AL", "02": "AK", "04": "AZ", "05": "AR", "06": "CA",
@@ -82,6 +127,7 @@ const ElectionMap = forwardRef(function ElectionMap({
   const [districtsData, setDistrictsData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [tooltip, setTooltip] = useState<{ x: number; y: number; content: string } | null>(null);
+  const [isPanning, setIsPanning] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
   // Use refs for callbacks to avoid stale closures in D3 event handlers
   const onStateClickRef = useRef(onStateClick);
@@ -675,12 +721,18 @@ const ElectionMap = forwardRef(function ElectionMap({
       // Explicit extent prevents D3 from reading SVG width/height SVGLength attributes
       // (which fail when the SVG uses CSS sizing only — NotSupportedError)
       .extent([[0, 0], [width, height]])
-      // Prevent panning the map completely off-screen
-      .translateExtent([[-width * 0.5, -height * 0.5], [width * 1.5, height * 1.5]])
+      // Generous translate extent so the map can be panned freely in any direction when zoomed in
+      .translateExtent([[-width * 2, -height * 2], [width * 3, height * 3]])
+      .on("start", () => {
+        setIsPanning(true);
+      })
       .on("zoom", (event) => {
         g.attr("transform", event.transform.toString());
         savedTransformRef.current = event.transform;
         setIsZoomed(event.transform.k > 1.05);
+      })
+      .on("end", () => {
+        setIsPanning(false);
       });
 
     zoomRef.current = zoom;
@@ -725,6 +777,7 @@ const ElectionMap = forwardRef(function ElectionMap({
         style={{
           background: "transparent",
           filter: "drop-shadow(0 0 18px rgba(100,160,255,0.28)) drop-shadow(0 0 48px rgba(80,120,220,0.14)) drop-shadow(0 0 90px rgba(60,90,200,0.08))",
+          cursor: isPanning ? "grabbing" : isZoomed ? "grab" : "default",
         }}
       />
       {/* Zoom controls — always visible in bottom-left */}
@@ -752,12 +805,7 @@ const ElectionMap = forwardRef(function ElectionMap({
         )}
       </div>
       {tooltip && (
-        <div
-          className="absolute pointer-events-none bg-popover border border-border rounded px-2 py-1 text-xs text-popover-foreground shadow-lg z-10 whitespace-pre-line"
-          style={{ left: tooltip.x + 12, top: tooltip.y - 30, maxWidth: 220 }}
-        >
-          {tooltip.content}
-        </div>
+        <TooltipBox x={tooltip.x} y={tooltip.y} content={tooltip.content} containerRef={svgRef} />
       )}
       {view === "house" && (
         <div className="absolute bottom-12 right-3 bg-card/80 backdrop-blur border border-border rounded px-2 py-1 text-xs text-muted-foreground pointer-events-none">
