@@ -1024,3 +1024,10 @@
 - [x] Fix map zoom/pan: expand translateExtent so map can pan freely when zoomed in
 - [x] Fix popup readability: clamp tooltip position to stay within SVG viewport at all zoom levels
 
+
+## Virginia Referendum Ballot Question Preload (Election Eve)
+- [x] Research official Virginia April 21, 2026 redistricting referendum ballot question text (source: Virginia Dept of Elections / Ballotpedia)
+- [x] Update VA referendum description with official ballot title: "Should the Constitution of Virginia be amended to allow the General Assembly to temporarily adopt new congressional districts to restore fairness in the upcoming elections..."
+- [x] Update VA referendum notes with full YES/NO explanations and source attribution
+- [x] Fix referendum popup notes section to render multi-line text with whitespace-pre-line
+

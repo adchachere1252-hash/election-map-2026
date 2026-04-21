@@ -523,9 +523,12 @@ function ReferendumPopup({ referendum, onClose }: { referendum: Referendum; onCl
       </div>
 
       {referendum.notes && (
-        <div className="flex items-start gap-2 text-xs text-yellow-400 border-t border-border pt-2 mt-2">
-          <AlertCircle className="w-3 h-3 mt-0.5 flex-shrink-0" />
-          <span>{referendum.notes}</span>
+        <div className="text-xs border-t border-border pt-2 mt-2 space-y-1">
+          <div className="flex items-center gap-1 text-yellow-400 font-semibold mb-1">
+            <AlertCircle className="w-3 h-3 flex-shrink-0" />
+            <span>About this measure</span>
+          </div>
+          <p className="text-muted-foreground whitespace-pre-line leading-relaxed">{referendum.notes}</p>
         </div>
       )}
     </div>
