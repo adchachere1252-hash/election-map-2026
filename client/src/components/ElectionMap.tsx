@@ -138,6 +138,67 @@ const ElectionMap = forwardRef(function ElectionMap({
   const viewRef = useRef(view);
   useEffect(() => { viewRef.current = view; }, [view]);
   const houseByStateDistrictRef = useRef<Record<string, HouseRace>>({});
+  // Native capture-phase click handler — fires before D3 zoom's stopImmediatePropagation
+  const pointerDownRef = useRef<{ x: number; y: number; target: Element } | null>(null);
+  useEffect(() => {
+    const svgEl = svgRef.current;
+    if (!svgEl) return;
+    const onPointerDown = (e: PointerEvent) => {
+      const target = e.target as Element;
+      const pathEl = target.closest('path.map-state, path.map-district');
+      if (pathEl) pointerDownRef.current = { x: e.clientX, y: e.clientY, target: pathEl };
+      else pointerDownRef.current = null;
+    };
+    const onPointerUp = (e: PointerEvent) => {
+      const pd = pointerDownRef.current;
+      pointerDownRef.current = null;
+      if (!pd) return;
+      // Only treat as click if pointer didn't move much (not a drag)
+      const dx = e.clientX - pd.x;
+      const dy = e.clientY - pd.y;
+      if (dx * dx + dy * dy > 25) return; // 5px threshold
+      const pathEl = pd.target;
+      const datum = d3.select(pathEl as Element).datum() as any;
+      if (!datum) return;
+      if (pathEl.classList.contains('map-district')) {
+        const { stateCode, district } = datum.properties;
+        const key = `${stateCode}-${district}`;
+        const race = houseByStateDistrictRef.current[key];
+        if (race && onDistrictClickRef.current) onDistrictClickRef.current(race);
+      } else {
+        const fips = String(datum.id).padStart(2, '0');
+        const code = FIPS_TO_STATE[fips];
+        if (!code) return;
+        // Zoom to state
+        if (pathRef.current && zoomRef.current && svgEl) {
+          const w = svgEl.clientWidth || 960;
+          const h = svgEl.clientHeight || 500;
+          const [[x0, y0], [x1, y1]] = pathRef.current.bounds(datum);
+          const bw = x1 - x0;
+          const bh = y1 - y0;
+          if (bw > 0 && bh > 0) {
+            const scale = Math.min(8, 0.9 / Math.max(bw / w, bh / h));
+            const tx = w / 2 - scale * (x0 + bw / 2);
+            const ty = h / 2 - scale * (y0 + bh / 2);
+            const targetTransform = d3.zoomIdentity.translate(tx, ty).scale(scale);
+            savedTransformRef.current = targetTransform;
+            pendingZoomRef.current = targetTransform;
+            d3.select(svgEl).transition().duration(650)
+              .call(zoomRef.current.transform as any, targetTransform);
+          }
+        }
+        if (onStateClickRef.current) onStateClickRef.current(code);
+      }
+    };
+    // Use capture:true so these fire before D3 zoom's stopImmediatePropagation
+    svgEl.addEventListener('pointerdown', onPointerDown, true);
+    svgEl.addEventListener('pointerup', onPointerUp, true);
+    return () => {
+      svgEl.removeEventListener('pointerdown', onPointerDown, true);
+      svgEl.removeEventListener('pointerup', onPointerUp, true);
+    };
+  // Re-run when loading state changes: SVG is only rendered after loading=false
+  }, [loading]);
 
    const resetZoom = useCallback(() => {
     if (svgRef.current && zoomRef.current) {
@@ -758,50 +819,6 @@ const ElectionMap = forwardRef(function ElectionMap({
           background: "transparent",
           filter: "drop-shadow(0 0 18px rgba(100,160,255,0.28)) drop-shadow(0 0 48px rgba(80,120,220,0.14)) drop-shadow(0 0 90px rgba(60,90,200,0.08))",
           cursor: isPanning ? "grabbing" : isZoomed ? "grab" : "default",
-        }}
-        onClick={(e) => {
-          // D3 zoom intercepts events on child paths, so we use a React SVG-level
-          // click handler with elementFromPoint to identify the clicked state/district.
-          const el = document.elementFromPoint(e.clientX, e.clientY);
-          if (!el) return;
-          const pathEl = el.closest('path.map-state, path.map-district');
-          if (!pathEl) return;
-          const datum = d3.select(pathEl as Element).datum() as any;
-          if (!datum) return;
-          const currentView = viewRef.current;
-          if (pathEl.classList.contains('map-district')) {
-            // House district click
-            const { stateCode, district } = datum.properties;
-            const key = `${stateCode}-${district}`;
-            const race = houseByStateDistrictRef.current[key];
-            if (race && onDistrictClickRef.current) onDistrictClickRef.current(race);
-          } else {
-            // State click (senate / redistricting / governor)
-            const fips = String(datum.id).padStart(2, '0');
-            const code = FIPS_TO_STATE[fips];
-            if (!code) return;
-              // Zoom to state
-            if (pathRef.current && zoomRef.current && svgRef.current) {
-              const svgEl = svgRef.current;
-              const w = svgEl.clientWidth || 960;
-              const h = svgEl.clientHeight || 500;
-              const [[x0, y0], [x1, y1]] = pathRef.current.bounds(datum);
-              const bw = x1 - x0;
-              const bh = y1 - y0;
-              if (bw > 0 && bh > 0) {
-                const scale = Math.min(8, 0.9 / Math.max(bw / w, bh / h));
-                const tx = w / 2 - scale * (x0 + bw / 2);
-                const ty = h / 2 - scale * (y0 + bh / 2);
-                const targetTransform = d3.zoomIdentity.translate(tx, ty).scale(scale);
-                savedTransformRef.current = targetTransform;
-                pendingZoomRef.current = targetTransform;
-                d3.select(svgEl)
-                  .transition().duration(650)
-                  .call(zoomRef.current.transform as any, targetTransform);
-              }
-            }
-            if (onStateClickRef.current) onStateClickRef.current(code);
-          }
         }}
       />
       {/* Zoom controls — always visible in bottom-left */}
