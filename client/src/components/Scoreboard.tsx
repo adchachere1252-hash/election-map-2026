@@ -349,7 +349,7 @@ export default function Scoreboard() {
   const totalFlips = flips.senate.total + flips.house.total;
   const composition = (data as any).composition ?? {
     senate: { D: 45, R: 53, I: 2, total: 100, vacancies: 0, lastUpdated: new Date('2026-04-08').toISOString(), source: '' },
-    house: { D: 214, R: 217, I: 1, total: 435, vacancies: 3, lastUpdated: new Date('2026-04-08').toISOString(), source: '' },
+    house: { D: 214, R: 218, I: 1, total: 435, vacancies: 2, lastUpdated: new Date('2026-04-21').toISOString(), source: '' },
   };
 
   return (

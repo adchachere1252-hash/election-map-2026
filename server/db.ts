@@ -148,8 +148,9 @@ const BASE_COMPOSITION = {
   senate: { D: 45, R: 53, I: 2, total: 100, vacancies: 0 },
   // House: 217R / 214D / 1I / 2 vacancies as of Apr 8, 2026 (CNN, Apr 8 2026)
   // GA-14 filled Apr 7 by Clay Fuller (R) - special election won
-  // NJ-11 still vacant (special election Apr 16, 2026)
-  house: { D: 214, R: 217, I: 1, total: 435, vacancies: 2 },
+  // NJ-11 called D on Apr 16, 2026 → D 214→215, R 217→218, vacancies 2→1 (only CA-01)
+  // FL-20 vacant Apr 21, 2026 (Cherfilus-McCormick resigned) → D 215→214, vacancies 1→2 (CA-01 + FL-20)
+  house: { D: 214, R: 218, I: 1, total: 435, vacancies: 2 },
 } as const;
 
 export async function getScoreboard() {
@@ -229,7 +230,8 @@ export async function getScoreboard() {
       //   - Remove from previousParty count
       //   - Add to calledParty count
       //
-      // The 3 vacancies in our base are: CA-01 (R), GA-14 (R), NJ-11 (D)
+      // The 2 current vacancies in our base are: CA-01 (R), FL-20 (D)
+      // (GA-14 and NJ-11 were filled by special elections and are already in D/R counts)
       // These seats are NOT counted in D/R/I in the base — they are in vacancies.
       // So when called, we decrement vacancies and add to calledParty.
       // We identify vacancy fills by checking if the race was previously VACANT

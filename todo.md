@@ -1031,3 +1031,6 @@
 - [x] Update VA referendum notes with full YES/NO explanations and source attribution
 - [x] Fix referendum popup notes section to render multi-line text with whitespace-pre-line
 
+
+## FL-20 Vacancy & House Scoreboard Update (Apr 21, 2026)
+- [x] Add vacancy count indicator to House scoreboard showing 214 D / 1 Ind. / 218 R / 2 Vacancies (CA-01 + FL-20)
