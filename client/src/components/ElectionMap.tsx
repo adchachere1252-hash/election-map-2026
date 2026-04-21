@@ -139,66 +139,10 @@ const ElectionMap = forwardRef(function ElectionMap({
   useEffect(() => { viewRef.current = view; }, [view]);
   const houseByStateDistrictRef = useRef<Record<string, HouseRace>>({});
   // Native capture-phase click handler — fires before D3 zoom's stopImmediatePropagation
+  // Stored as refs so they can be registered/unregistered from the D3 effect
   const pointerDownRef = useRef<{ x: number; y: number; target: Element } | null>(null);
-  useEffect(() => {
-    const svgEl = svgRef.current;
-    if (!svgEl) return;
-    const onPointerDown = (e: PointerEvent) => {
-      const target = e.target as Element;
-      const pathEl = target.closest('path.map-state, path.map-district');
-      if (pathEl) pointerDownRef.current = { x: e.clientX, y: e.clientY, target: pathEl };
-      else pointerDownRef.current = null;
-    };
-    const onPointerUp = (e: PointerEvent) => {
-      const pd = pointerDownRef.current;
-      pointerDownRef.current = null;
-      if (!pd) return;
-      // Only treat as click if pointer didn't move much (not a drag)
-      const dx = e.clientX - pd.x;
-      const dy = e.clientY - pd.y;
-      if (dx * dx + dy * dy > 25) return; // 5px threshold
-      const pathEl = pd.target;
-      const datum = d3.select(pathEl as Element).datum() as any;
-      if (!datum) return;
-      if (pathEl.classList.contains('map-district')) {
-        const { stateCode, district } = datum.properties;
-        const key = `${stateCode}-${district}`;
-        const race = houseByStateDistrictRef.current[key];
-        if (race && onDistrictClickRef.current) onDistrictClickRef.current(race);
-      } else {
-        const fips = String(datum.id).padStart(2, '0');
-        const code = FIPS_TO_STATE[fips];
-        if (!code) return;
-        // Zoom to state
-        if (pathRef.current && zoomRef.current && svgEl) {
-          const w = svgEl.clientWidth || 960;
-          const h = svgEl.clientHeight || 500;
-          const [[x0, y0], [x1, y1]] = pathRef.current.bounds(datum);
-          const bw = x1 - x0;
-          const bh = y1 - y0;
-          if (bw > 0 && bh > 0) {
-            const scale = Math.min(8, 0.9 / Math.max(bw / w, bh / h));
-            const tx = w / 2 - scale * (x0 + bw / 2);
-            const ty = h / 2 - scale * (y0 + bh / 2);
-            const targetTransform = d3.zoomIdentity.translate(tx, ty).scale(scale);
-            savedTransformRef.current = targetTransform;
-            pendingZoomRef.current = targetTransform;
-            d3.select(svgEl).transition().duration(650)
-              .call(zoomRef.current.transform as any, targetTransform);
-          }
-        }
-        if (onStateClickRef.current) onStateClickRef.current(code);
-      }
-    };
-    // Use capture:true so these fire before D3 zoom's stopImmediatePropagation
-    svgEl.addEventListener('pointerdown', onPointerDown, true);
-    svgEl.addEventListener('pointerup', onPointerUp, true);
-    return () => {
-      svgEl.removeEventListener('pointerdown', onPointerDown, true);
-      svgEl.removeEventListener('pointerup', onPointerUp, true);
-    };
-  // Re-run when loading state changes: SVG is only rendered after loading=false
-  }, [loading]);
+  const onPointerDownRef = useRef<((e: PointerEvent) => void) | null>(null);
+  const onPointerUpRef = useRef<((e: PointerEvent) => void) | null>(null);
 
    const resetZoom = useCallback(() => {
     if (svgRef.current && zoomRef.current) {
@@ -780,6 +724,64 @@ const ElectionMap = forwardRef(function ElectionMap({
 
     zoomRef.current = zoom;
     svg.call(zoom);
+
+    // Register capture-phase pointer listeners AFTER zoom is set up
+    // (capture:true fires before D3 zoom's stopImmediatePropagation on mousedown)
+    const svgNode = svgRef.current!;
+    // Remove old listeners if any
+    if (onPointerDownRef.current) svgNode.removeEventListener('pointerdown', onPointerDownRef.current, true);
+    if (onPointerUpRef.current) svgNode.removeEventListener('pointerup', onPointerUpRef.current, true);
+
+    const onPointerDown = (e: PointerEvent) => {
+      const target = e.target as Element;
+      const pathEl = target.closest('path.map-state, path.map-district');
+      if (pathEl) pointerDownRef.current = { x: e.clientX, y: e.clientY, target: pathEl };
+      else pointerDownRef.current = null;
+    };
+    const onPointerUp = (e: PointerEvent) => {
+      const pd = pointerDownRef.current;
+      pointerDownRef.current = null;
+      if (!pd) return;
+      const dx = e.clientX - pd.x;
+      const dy = e.clientY - pd.y;
+      if (dx * dx + dy * dy > 25) return; // 5px threshold — ignore drags
+      const pathEl = pd.target;
+      const datum = d3.select(pathEl as Element).datum() as any;
+      if (!datum) return;
+      if (pathEl.classList.contains('map-district')) {
+        const { stateCode, district } = datum.properties;
+        const key = `${stateCode}-${district}`;
+        const race = houseByStateDistrictRef.current[key];
+        if (race && onDistrictClickRef.current) onDistrictClickRef.current(race);
+      } else {
+        const fips = String(datum.id).padStart(2, '0');
+        const code = FIPS_TO_STATE[fips];
+        if (!code) return;
+        // Zoom to state centroid
+        if (pathRef.current && zoomRef.current && svgNode) {
+          const w = svgNode.clientWidth || 960;
+          const h = svgNode.clientHeight || 500;
+          const [[x0, y0], [x1, y1]] = pathRef.current.bounds(datum);
+          const bw = x1 - x0;
+          const bh = y1 - y0;
+          if (bw > 0 && bh > 0) {
+            const scale = Math.min(8, 0.9 / Math.max(bw / w, bh / h));
+            const tx = w / 2 - scale * (x0 + bw / 2);
+            const ty = h / 2 - scale * (y0 + bh / 2);
+            const targetTransform = d3.zoomIdentity.translate(tx, ty).scale(scale);
+            savedTransformRef.current = targetTransform;
+            pendingZoomRef.current = targetTransform;
+            d3.select(svgNode).transition().duration(650)
+              .call(zoomRef.current.transform as any, targetTransform);
+          }
+        }
+        if (onStateClickRef.current) onStateClickRef.current(code);
+      }
+    };
+    onPointerDownRef.current = onPointerDown;
+    onPointerUpRef.current = onPointerUp;
+    svgNode.addEventListener('pointerdown', onPointerDown, true);
+    svgNode.addEventListener('pointerup', onPointerUp, true);
 
     // Apply pending zoom (click-to-zoom) or restore saved transform after rebuild
     if (pendingZoomRef.current) {
