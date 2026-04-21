@@ -227,13 +227,15 @@ export default function Home() {
       const stateRaces = houseRaces.filter(r => r.stateCode === stateCode);
       if (stateRaces.length === 1) { setPopup({ type: "house", data: stateRaces[0] }); setSelectedId(stateRaces[0].id); }
     } else if (view === "redistricting") {
-      const state = redistrictingStates.find(r => r.stateCode === stateCode);
-      if (state) {
-        setPopup({ type: "redistricting", data: state });
-        setSelectedId(state.id);
+      // If a referendum exists for this state, always show the referendum popup
+      // (e.g. Virginia has both a redistricting record AND the April 21 referendum)
+      const ref = referendums.find(r => r.stateCode === stateCode);
+      if (ref) {
+        setPopup({ type: "referendum", data: ref });
+        setSelectedId(ref.id);
       } else {
-        const ref = referendums.find(r => r.stateCode === stateCode);
-        if (ref) { setPopup({ type: "referendum", data: ref }); setSelectedId(ref.id); }
+        const state = redistrictingStates.find(r => r.stateCode === stateCode);
+        if (state) { setPopup({ type: "redistricting", data: state }); setSelectedId(state.id); }
       }
     }
   }, [view, governorRaces, senateRaces, houseRaces, redistrictingStates, referendums]);
