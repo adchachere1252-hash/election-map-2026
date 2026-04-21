@@ -134,6 +134,10 @@ const ElectionMap = forwardRef(function ElectionMap({
   const onDistrictClickRef = useRef(onDistrictClick);
   useEffect(() => { onStateClickRef.current = onStateClick; }, [onStateClick]);
   useEffect(() => { onDistrictClickRef.current = onDistrictClick; }, [onDistrictClick]);
+  // Refs for SVG-level click handler (bypasses D3 zoom event interception)
+  const viewRef = useRef(view);
+  useEffect(() => { viewRef.current = view; }, [view]);
+  const houseByStateDistrictRef = useRef<Record<string, HouseRace>>({});
 
    const resetZoom = useCallback(() => {
     if (svgRef.current && zoomRef.current) {
@@ -227,6 +231,8 @@ const ElectionMap = forwardRef(function ElectionMap({
     }
     return map;
   }, [houseRaces]);
+  // Keep ref in sync with memoized map (used in SVG-level click handler)
+  useEffect(() => { houseByStateDistrictRef.current = houseByStateDistrict; }, [houseByStateDistrict]);
 
   const redistrictingByState = useMemo(() =>
     Object.fromEntries(redistrictingStates.map(r => [r.stateCode, r])),
@@ -412,12 +418,7 @@ const ElectionMap = forwardRef(function ElectionMap({
           d3.select(this).attr("opacity", 1).attr("filter", null);
           setTooltip(null);
         })
-        .on("click", function (_event: MouseEvent, d: any) {
-          const { stateCode, district } = d.properties;
-          const key = `${stateCode}-${district}`;
-          const race = houseByStateDistrict[key];
-          if (race && onDistrictClickRef.current) onDistrictClickRef.current(race);
-        });
+;
 
       // State borders on top of districts
       g.append("path")
@@ -571,29 +572,7 @@ const ElectionMap = forwardRef(function ElectionMap({
           d3.select(this).attr("opacity", 1).attr("filter", null);
           setTooltip(null);
         })
-        .on("click", function (_event: MouseEvent, d: any) {
-          const fips = String(d.id).padStart(2, "0");
-          const code = FIPS_TO_STATE[fips];
-          // Apply zoom directly to the SVG element NOW, before React re-renders.
-          // This avoids the React 18 concurrent mode race where the D3 effect
-          // re-runs synchronously during onStateClick, wiping pendingZoomRef.
-          const [[x0, y0], [x1, y1]] = path.bounds(d);
-          const bw = x1 - x0;
-          const bh = y1 - y0;
-          if (bw > 0 && bh > 0 && zoomRef.current && svgRef.current) {
-            const scale = Math.min(8, 0.9 / Math.max(bw / width, bh / height));
-            const tx = width / 2 - scale * (x0 + bw / 2);
-            const ty = height / 2 - scale * (y0 + bh / 2);
-            const targetTransform = d3.zoomIdentity.translate(tx, ty).scale(scale);
-            // Save so the D3 re-render restores this transform instead of resetting
-            savedTransformRef.current = targetTransform;
-            pendingZoomRef.current = targetTransform;
-            d3.select(svgRef.current)
-              .transition().duration(650)
-              .call(zoomRef.current.transform as any, targetTransform);
-          }
-          if (code && onStateClickRef.current) onStateClickRef.current(code);
-        });
+;
 
       // State borders
       g.append("path")
@@ -742,11 +721,9 @@ const ElectionMap = forwardRef(function ElectionMap({
     svg.call(zoom);
 
     // Apply pending zoom (click-to-zoom) or restore saved transform after rebuild
-    console.log('[ElectionMap] zoom restore: pending=', !!pendingZoomRef.current, 'prevK=', prevTransform?.k);
     if (pendingZoomRef.current) {
       // A click-to-zoom was requested — apply it with a smooth transition
       const t = pendingZoomRef.current;
-      console.log('[ElectionMap] applying pending zoom t=', t.toString());
       pendingZoomRef.current = null;
       svg.call(zoom.transform, d3.zoomIdentity); // reset first so transition starts from identity
       svg.transition().duration(650)
@@ -781,6 +758,50 @@ const ElectionMap = forwardRef(function ElectionMap({
           background: "transparent",
           filter: "drop-shadow(0 0 18px rgba(100,160,255,0.28)) drop-shadow(0 0 48px rgba(80,120,220,0.14)) drop-shadow(0 0 90px rgba(60,90,200,0.08))",
           cursor: isPanning ? "grabbing" : isZoomed ? "grab" : "default",
+        }}
+        onClick={(e) => {
+          // D3 zoom intercepts events on child paths, so we use a React SVG-level
+          // click handler with elementFromPoint to identify the clicked state/district.
+          const el = document.elementFromPoint(e.clientX, e.clientY);
+          if (!el) return;
+          const pathEl = el.closest('path.map-state, path.map-district');
+          if (!pathEl) return;
+          const datum = d3.select(pathEl as Element).datum() as any;
+          if (!datum) return;
+          const currentView = viewRef.current;
+          if (pathEl.classList.contains('map-district')) {
+            // House district click
+            const { stateCode, district } = datum.properties;
+            const key = `${stateCode}-${district}`;
+            const race = houseByStateDistrictRef.current[key];
+            if (race && onDistrictClickRef.current) onDistrictClickRef.current(race);
+          } else {
+            // State click (senate / redistricting / governor)
+            const fips = String(datum.id).padStart(2, '0');
+            const code = FIPS_TO_STATE[fips];
+            if (!code) return;
+              // Zoom to state
+            if (pathRef.current && zoomRef.current && svgRef.current) {
+              const svgEl = svgRef.current;
+              const w = svgEl.clientWidth || 960;
+              const h = svgEl.clientHeight || 500;
+              const [[x0, y0], [x1, y1]] = pathRef.current.bounds(datum);
+              const bw = x1 - x0;
+              const bh = y1 - y0;
+              if (bw > 0 && bh > 0) {
+                const scale = Math.min(8, 0.9 / Math.max(bw / w, bh / h));
+                const tx = w / 2 - scale * (x0 + bw / 2);
+                const ty = h / 2 - scale * (y0 + bh / 2);
+                const targetTransform = d3.zoomIdentity.translate(tx, ty).scale(scale);
+                savedTransformRef.current = targetTransform;
+                pendingZoomRef.current = targetTransform;
+                d3.select(svgEl)
+                  .transition().duration(650)
+                  .call(zoomRef.current.transform as any, targetTransform);
+              }
+            }
+            if (onStateClickRef.current) onStateClickRef.current(code);
+          }
         }}
       />
       {/* Zoom controls — always visible in bottom-left */}

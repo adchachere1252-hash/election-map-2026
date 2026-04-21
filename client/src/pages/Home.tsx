@@ -211,7 +211,6 @@ export default function Home() {
   }, [refetchSenate, refetchHouse, refetchRedistricting, refetchReferendums, refetchGovernor]);
 
   const handleStateClick = useCallback((stateCode: string) => {
-    console.log('[DEBUG] handleStateClick:', stateCode, 'view:', view, 'referendums:', referendums.length, 'redistrictingStates:', redistrictingStates.length);
     setSelectedStateCode(stateCode);
     if (view === "governor") {
       const race = governorRaces.find((r: any) => r.stateCode === stateCode);
@@ -231,14 +230,11 @@ export default function Home() {
       // If a referendum exists for this state, always show the referendum popup
       // (e.g. Virginia has both a redistricting record AND the April 21 referendum)
       const ref = referendums.find(r => r.stateCode === stateCode);
-      console.log('[DEBUG] redistricting click - ref found:', ref?.id, ref?.stateCode, 'all referendums:', referendums.map(r => r.stateCode));
       if (ref) {
-        console.log('[DEBUG] setting popup type=referendum for', stateCode);
         setPopup({ type: "referendum", data: ref });
         setSelectedId(ref.id);
       } else {
         const state = redistrictingStates.find(r => r.stateCode === stateCode);
-        console.log('[DEBUG] no ref found, redistricting state:', state?.stateCode);
         if (state) { setPopup({ type: "redistricting", data: state }); setSelectedId(state.id); }
       }
     }
