@@ -425,6 +425,7 @@ const ElectionMap = forwardRef(function ElectionMap({
         .attr("fill", "none")
         .attr("stroke", "#1a1f2e")
         .attr("stroke-width", 1.2)
+        .attr("pointer-events", "none")
         .attr("d", path as any);
 
       // Outer nation border
@@ -436,6 +437,7 @@ const ElectionMap = forwardRef(function ElectionMap({
         .attr("fill", "none")
         .attr("stroke", "#2a3040")
         .attr("stroke-width", 1.5)
+        .attr("pointer-events", "none")
         .attr("d", path as any);
 
       // ── State abbreviation labels on House view (rendered over districts) ──
@@ -599,6 +601,7 @@ const ElectionMap = forwardRef(function ElectionMap({
         .attr("fill", "none")
         .attr("stroke", "#0d1117")
         .attr("stroke-width", 0.8)
+        .attr("pointer-events", "none")
         .attr("d", path as any);
 
     }
