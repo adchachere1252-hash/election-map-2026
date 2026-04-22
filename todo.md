@@ -1042,3 +1042,7 @@
 - [x] Generate election-themed favicon (ballot box / U.S. flag icon)
 - [x] Process to correct favicon sizes (32x32, 16x16 ICO)
 - [x] Upload and wire into app HTML and manifest
+
+## Feature: Open Graph Social Share Card (Apr 22, 2026)
+- [x] Generate 1200x630px Open Graph social preview card image
+- [x] Upload to CDN and add og:image, og:title, og:description, twitter:card meta tags to index.html
