@@ -347,6 +347,27 @@ export default function Home() {
     return count;
   }, [senateRaces, referendums]);
 
+  // Always derive live popup data from the refreshed arrays — never use stale popup.data snapshot
+  const livePopupData = useMemo(() => {
+    if (!popup) return null;
+    if (popup.type === 'senate') {
+      return senateRaces.find(r => r.id === (popup.data as any)?.id) ?? popup.data;
+    }
+    if (popup.type === 'house') {
+      return houseRaces.find(r => r.id === (popup.data as any)?.id) ?? popup.data;
+    }
+    if (popup.type === 'redistricting') {
+      return redistrictingStates.find(r => r.id === (popup.data as any)?.id) ?? popup.data;
+    }
+    if (popup.type === 'referendum') {
+      return referendums.find(r => r.id === (popup.data as any)?.id) ?? popup.data;
+    }
+    if (popup.type === 'governor') {
+      return governorRaces.find((r: any) => r.id === (popup.data as any)?.id) ?? popup.data;
+    }
+    return popup.data;
+  }, [popup, senateRaces, houseRaces, redistrictingStates, referendums, governorRaces]);
+
   return (
     <div className="h-screen flex flex-col bg-background overflow-hidden">
       {/* ─── Header ─────────────────────────────────────────────────────────── */}
@@ -783,7 +804,7 @@ export default function Home() {
           {popup && popup.type === "governor" && (
             <div className="hidden md:block absolute top-4 right-4 z-20 max-w-xs w-full overflow-y-auto max-h-[80vh]">
               <GovernorRacePopup
-                race={popup.data as any}
+                race={livePopupData as any}
                 onClose={closePopup}
                 onFocusMap={focusOnMap}
               />
@@ -793,7 +814,7 @@ export default function Home() {
             <div className="hidden md:block absolute top-4 right-4 z-20 max-w-xs w-full">
               <RacePopup
                 type={popup.type as any}
-                data={popup.data}
+                data={livePopupData as any}
                 onClose={closePopup}
                 onFocusMap={focusOnMap}
               />
@@ -897,7 +918,7 @@ export default function Home() {
               <div className="px-4 pb-8">
                 {popup.type === "governor" ? (
                   <GovernorRacePopup
-                    race={popup.data as any}
+                    race={livePopupData as any}
                     onClose={closePopup}
                   />
                 ) : popup.type === "no-race" && popup.stateCode && popup.stateName ? (
@@ -909,7 +930,7 @@ export default function Home() {
                 ) : (
                   <RacePopup
                     type={popup.type as any}
-                    data={popup.data}
+                    data={livePopupData as any}
                     onClose={closePopup}
                   />
                 )}
