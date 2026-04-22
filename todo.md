@@ -1034,3 +1034,6 @@
 
 ## FL-20 Vacancy & House Scoreboard Update (Apr 21, 2026)
 - [x] Add vacancy count indicator to House scoreboard showing 214 D / 1 Ind. / 218 R / 2 Vacancies (CA-01 + FL-20)
+
+## Auto-Refresh (Apr 21, 2026 Election Night)
+- [ ] Add refetchInterval to referendum and race tRPC queries on Home.tsx so results auto-update every 10 seconds without manual Refresh click
