@@ -188,12 +188,24 @@ export default function Home() {
     playChime();
   }, [lastEvent, playChime]);
 
-  const { data: senateRaces = [], refetch: refetchSenate } = trpc.senate.list.useQuery(undefined, { refetchInterval: 10_000 });
-  const { data: houseRaces = [], refetch: refetchHouse } = trpc.house.list.useQuery(undefined, { refetchInterval: 10_000 });
-  const { data: redistrictingStates = [], refetch: refetchRedistricting } = trpc.redistricting.list.useQuery(undefined, { refetchInterval: 10_000 });
-  const { data: referendums = [], refetch: refetchReferendums } = trpc.referendum.list.useQuery(undefined, { refetchInterval: 10_000 });
+  const { data: senateRaces = [], refetch: refetchSenate } = trpc.senate.list.useQuery(undefined, { refetchInterval: 10_000, refetchIntervalInBackground: true, refetchOnWindowFocus: true });
+  const { data: houseRaces = [], refetch: refetchHouse } = trpc.house.list.useQuery(undefined, { refetchInterval: 10_000, refetchIntervalInBackground: true, refetchOnWindowFocus: true });
+  const { data: redistrictingStates = [], refetch: refetchRedistricting } = trpc.redistricting.list.useQuery(undefined, { refetchInterval: 10_000, refetchIntervalInBackground: true, refetchOnWindowFocus: true });
+  const { data: referendums = [], refetch: refetchReferendums } = trpc.referendum.list.useQuery(undefined, { refetchInterval: 10_000, refetchIntervalInBackground: true, refetchOnWindowFocus: true });
   const { data: senators = [] } = trpc.senators.list.useQuery();
-  const { data: governorRaces = [], refetch: refetchGovernor } = trpc.governor.list.useQuery(undefined, { refetchInterval: 10_000 });
+  const { data: governorRaces = [], refetch: refetchGovernor } = trpc.governor.list.useQuery(undefined, { refetchInterval: 10_000, refetchIntervalInBackground: true, refetchOnWindowFocus: true });
+
+  // Hard interval as a safety net — fires every 10s regardless of tab focus/visibility
+  useEffect(() => {
+    const id = setInterval(() => {
+      refetchSenate();
+      refetchHouse();
+      refetchRedistricting();
+      refetchReferendums();
+      refetchGovernor();
+    }, 10_000);
+    return () => clearInterval(id);
+  }, [refetchSenate, refetchHouse, refetchRedistricting, refetchReferendums, refetchGovernor]);
 
   // Build a Set of matching keys for map highlighting based on live search query
   const searchHighlight = useMemo((): Set<string> | null => {
