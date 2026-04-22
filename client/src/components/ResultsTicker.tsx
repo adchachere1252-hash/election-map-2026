@@ -29,7 +29,7 @@ function TickerItem({ result }: { result: TickerResult }) {
   const chamberTag =
     result.chamber === "senate" ? "SEN" :
     result.chamber === "governor" ? "GOV" :
-    result.chamber === "referendum" ? "REF" : "HOR";
+    result.chamber === "referendum" ? "RED" : "HOR";
 
   const isFlip =
     result.previousParty &&
