@@ -6,6 +6,28 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import viteConfig from "../../vite.config";
 
+const OG_META = `
+    <!-- Open Graph / Facebook / LinkedIn -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://electionmap-duqshn4d.manus.space" />
+    <meta property="og:title" content="2026 U.S. Election Center \u2014 Live Congressional Tracker" />
+    <meta property="og:description" content="Real-time 2026 U.S. congressional election tracker \u2014 Senate, House, Governor, and ballot referendums with live results and interactive maps." />
+    <meta property="og:image" content="https://d2xsxph8kpxj0f.cloudfront.net/310519663521029713/Duqshn4D3kdv9jkbtBdj4X/og-image-1200x630_b394dbdf.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="2026 U.S. Election Center \u2014 Real-Time Congressional Tracker with interactive map" />
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="2026 U.S. Election Center \u2014 Live Congressional Tracker" />
+    <meta name="twitter:description" content="Real-time 2026 U.S. congressional election tracker \u2014 Senate, House, Governor, and ballot referendums with live results and interactive maps." />
+    <meta name="twitter:image" content="https://d2xsxph8kpxj0f.cloudfront.net/310519663521029713/Duqshn4D3kdv9jkbtBdj4X/og-image-1200x630_b394dbdf.png" />`;
+
+function injectOgMeta(html: string): string {
+  // Remove any existing og/twitter meta tags from client/index.html to avoid duplicates
+  const cleaned = html.replace(/\s*<!-- Open Graph[\s\S]*?-->\s*/g, '').replace(/\s*<!-- Twitter Card[\s\S]*?-->\s*/g, '');
+  return cleaned.replace('</head>', `${OG_META}\n  </head>`);
+}
+
 export async function setupVite(app: Express, server: Server) {
   const serverOptions = {
     middlewareMode: true,
@@ -95,7 +117,7 @@ export async function setupVite(app: Express, server: Server) {
         `src="/src/main.tsx?v=${nanoid()}"`
       );
       const page = await vite.transformIndexHtml(url, template);
-      res.status(200).set({ "Content-Type": "text/html" }).end(page);
+      res.status(200).set({ "Content-Type": "text/html" }).end(injectOgMeta(page));
     } catch (e) {
       vite.ssrFixStacktrace(e as Error);
       next(e);
@@ -116,8 +138,12 @@ export function serveStatic(app: Express) {
 
   app.use(express.static(distPath));
 
-  // fall through to index.html if the file doesn't exist
+  // fall through to index.html if the file doesn't exist — inject OG meta tags for crawlers
   app.use("*", (_req, res) => {
-    res.sendFile(path.resolve(distPath, "index.html"));
+    const indexPath = path.resolve(distPath, "index.html");
+    fs.readFile(indexPath, "utf-8", (err, html) => {
+      if (err) return res.status(500).send("Server error");
+      res.set("Content-Type", "text/html").send(injectOgMeta(html));
+    });
   });
 }
