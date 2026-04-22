@@ -1037,3 +1037,8 @@
 
 ## Auto-Refresh (Apr 21, 2026 Election Night)
 - [x] Add refetchInterval to referendum and race tRPC queries on Home.tsx so results auto-update every 10 seconds without manual Refresh click
+
+## Feature: Election-Themed Favicon (Apr 22, 2026)
+- [x] Generate election-themed favicon (ballot box / U.S. flag icon)
+- [x] Process to correct favicon sizes (32x32, 16x16 ICO)
+- [x] Upload and wire into app HTML and manifest
