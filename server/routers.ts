@@ -714,9 +714,16 @@ export const appRouter = router({
           })),
       ]
         .sort((a, b) => {
-          const ta = a.updatedAt ? new Date(a.updatedAt).getTime() : 0;
-          const tb = b.updatedAt ? new Date(b.updatedAt).getTime() : 0;
-          return tb - ta; // newest first
+          // Sort by generalDate (election date) descending — most recent election first
+          // Referendums use updatedAt as proxy since they have no generalDate
+          const parseDate = (r: typeof a) => {
+            if (r.generalDate) {
+              const d = new Date(r.generalDate);
+              return isNaN(d.getTime()) ? 0 : d.getTime();
+            }
+            return r.updatedAt ? new Date(r.updatedAt).getTime() : 0;
+          };
+          return parseDate(b) - parseDate(a); // newest first
         })
         .slice(0, 20);
       return called;
