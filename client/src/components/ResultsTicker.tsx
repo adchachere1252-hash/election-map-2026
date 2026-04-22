@@ -39,60 +39,51 @@ function TickerItem({ result }: { result: TickerResult }) {
     result.previousParty !== "VACANT";
 
   const flipLabel = isFlip ? `${result.previousParty}→${result.calledParty}` : null;
-  const electionDateLabel = result.generalDate ?? null;
 
-  const dotColor = isRef ? "bg-green-400" : isD ? "bg-blue-400" : isR ? "bg-red-400" : "bg-gray-400";
-  const tagColor = result.chamber === "governor" ? "text-purple-400" : isRef ? "text-green-400" : "text-muted-foreground";
-  const winnerColor = isRef ? "text-green-300" : isD ? "text-blue-400" : isR ? "text-red-400" : "text-gray-300";
-  const partyBg = isRef
+  // For referendums show today's date; for races show generalDate
+  const dateLabel = isRef
+    ? "Apr 21, 2026"
+    : (result.generalDate ?? null);
+
+  const dotColor = isD ? "bg-blue-400" : isR ? "bg-red-400" : isRef ? "bg-green-400" : "bg-gray-400";
+  const tagColor = result.chamber === "governor" ? "text-purple-400" : "text-muted-foreground";
+  const winnerColor = isD ? "text-blue-400" : isR ? "text-red-400" : isRef ? "text-green-400" : "text-gray-300";
+  const partyBg = isD
+    ? "bg-blue-900/60 text-blue-300"
+    : isR
+    ? "bg-red-900/60 text-red-300"
+    : isRef
     ? "bg-green-900/60 text-green-300"
-    : isD ? "bg-blue-900/60 text-blue-300"
-    : isR ? "bg-red-900/60 text-red-300"
     : "bg-gray-700 text-gray-300";
 
   return (
     <span className="inline-flex items-center gap-1.5 mx-6 whitespace-nowrap">
-      {/* CALLED badge for referendums */}
-      {isRef && (
-        <span className="text-[10px] font-black px-1.5 py-0.5 rounded bg-green-900/60 text-green-300 border border-green-500/40 animate-pulse">
-          ⚡ CALLED
-        </span>
-      )}
-      {/* Party/result color dot */}
       <span className={`inline-block w-2 h-2 rounded-full flex-shrink-0 ${dotColor}`} />
-      {/* Chamber tag */}
       <span className={`text-[10px] font-bold tracking-wider ${tagColor}`}>
         {chamberTag}
       </span>
-      {/* Special badge */}
       {result.isSpecial && (
         <span className="text-[10px] font-bold px-1 py-0.5 rounded bg-yellow-900/60 text-yellow-300">
           SPECIAL
         </span>
       )}
-      {/* Location */}
       <span className="text-xs font-semibold text-foreground">{label}</span>
-      {/* Winner / result */}
       <span className={`text-xs font-bold ${winnerColor}`}>
         {result.calledWinner}
       </span>
-      {/* Party/result badge */}
       <span className={`text-[10px] font-bold px-1 py-0.5 rounded ${partyBg}`}>
         {result.calledParty}
       </span>
-      {/* FLIP badge */}
       {isFlip && flipLabel && (
         <span className="inline-flex items-center gap-0.5 text-[10px] font-black px-1.5 py-0.5 rounded bg-yellow-500/20 text-yellow-300 border border-yellow-500/40 animate-pulse">
           ⇄ FLIP {flipLabel}
         </span>
       )}
-      {/* Election date */}
-      {electionDateLabel && (
+      {dateLabel && (
         <span className="text-[10px] text-muted-foreground/60 ml-0.5">
-          {electionDateLabel}
+          {dateLabel}
         </span>
       )}
-      {/* Separator */}
       <span className="text-muted-foreground/40 mx-2">|</span>
     </span>
   );
