@@ -41,13 +41,19 @@ const VIEW_DESCRIPTIONS: Record<MapView, string> = {
 };
 
 // Auto-refresh countdown hook — counts down from 10 to 0, resets on each tick
-function useRefreshCountdown(intervalMs: number) {
+function useRefreshCountdown(intervalMs: number, onRefresh?: () => void) {
   const [countdown, setCountdown] = useState(Math.floor(intervalMs / 1000));
+  const onRefreshRef = useRef(onRefresh);
+  onRefreshRef.current = onRefresh;
   useEffect(() => {
     setCountdown(Math.floor(intervalMs / 1000));
     const tick = setInterval(() => {
       setCountdown(prev => {
-        if (prev <= 1) return Math.floor(intervalMs / 1000);
+        if (prev <= 1) {
+          // Trigger actual data refetch when countdown resets
+          setTimeout(() => onRefreshRef.current?.(), 0);
+          return Math.floor(intervalMs / 1000);
+        }
         return prev - 1;
       });
     }, 1000);
@@ -90,7 +96,9 @@ function usePSTClock() {
 export default function Home() {
   const pstClock = usePSTClock();
   const daysUntilElection = useDaysUntilElection();
-  const refreshCountdown = useRefreshCountdown(10_000);
+  // handleRefresh is defined below — we use a ref so countdown can call it before it's defined
+  const handleRefreshRef = useRef<() => void>(() => {});
+  const refreshCountdown = useRefreshCountdown(10_000, () => handleRefreshRef.current());
   const [view, setView] = useState<MapView>("senate");
   const [popup, setPopup] = useState<{
     type: "senate" | "house" | "redistricting" | "referendum" | "no-race" | "governor";
@@ -226,6 +234,8 @@ export default function Home() {
     refetchReferendums();
     refetchGovernor();
   }, [refetchSenate, refetchHouse, refetchRedistricting, refetchReferendums, refetchGovernor]);
+  // Keep ref in sync so countdown timer always calls the latest version
+  handleRefreshRef.current = handleRefresh;
 
   const handleStateClick = useCallback((stateCode: string) => {
     setSelectedStateCode(stateCode);
