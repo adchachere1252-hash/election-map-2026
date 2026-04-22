@@ -15,7 +15,6 @@ import type { SenateRace, HouseRace, RedistrictingState, Referendum, Senator } f
 import SenatorDetailPopup from "@/components/SenatorDetailPopup";
 import { useElectionSocket } from "@/contexts/ElectionSocketContext";
 import ResultsTicker from "@/components/ResultsTicker";
-import BreakingNewsBanner from "@/components/BreakingNewsBanner";
 import KeyRaces from "@/components/KeyRaces";
 import { useElectionChime } from "@/hooks/useElectionChime";
 import NoRaceStatePopup from "@/components/NoRaceStatePopup";
@@ -396,7 +395,6 @@ export default function Home() {
       {/* ─── Header ─────────────────────────────────────────────────────────── */}
       {/* Results Ticker — only visible when races have been called */}
       <ResultsTicker />
-      <BreakingNewsBanner />
 
       <header className="flex-shrink-0 border-b border-border bg-card px-3 py-2">
         {/* ── Row 1: Logo + Tabs + Actions ── */}

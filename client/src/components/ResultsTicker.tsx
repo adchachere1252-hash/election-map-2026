@@ -20,16 +20,17 @@ function TickerItem({ result }: { result: TickerResult }) {
   const isD = result.calledParty === "D";
   const isR = result.calledParty === "R";
   const isRef = result.chamber === "referendum";
+
   const label =
     result.chamber === "house" && result.district != null
       ? `${result.stateCode}-${result.district}`
       : result.stateName;
+
   const chamberTag =
     result.chamber === "senate" ? "SEN" :
     result.chamber === "governor" ? "GOV" :
     result.chamber === "referendum" ? "REF" : "HOR";
 
-  // Detect a flip: previousParty exists, is not the same as calledParty, and is not "I" or "Open"
   const isFlip =
     result.previousParty &&
     result.previousParty !== result.calledParty &&
@@ -37,26 +38,30 @@ function TickerItem({ result }: { result: TickerResult }) {
     result.previousParty !== "Open" &&
     result.previousParty !== "VACANT";
 
-  // Direction of flip: D→R or R→D
-  const flipLabel = isFlip
-    ? `${result.previousParty}→${result.calledParty}`
-    : null;
-
-  // Show election date (generalDate) instead of the called timestamp
+  const flipLabel = isFlip ? `${result.previousParty}→${result.calledParty}` : null;
   const electionDateLabel = result.generalDate ?? null;
+
+  const dotColor = isRef ? "bg-green-400" : isD ? "bg-blue-400" : isR ? "bg-red-400" : "bg-gray-400";
+  const tagColor = result.chamber === "governor" ? "text-purple-400" : isRef ? "text-green-400" : "text-muted-foreground";
+  const winnerColor = isRef ? "text-green-300" : isD ? "text-blue-400" : isR ? "text-red-400" : "text-gray-300";
+  const partyBg = isRef
+    ? "bg-green-900/60 text-green-300"
+    : isD ? "bg-blue-900/60 text-blue-300"
+    : isR ? "bg-red-900/60 text-red-300"
+    : "bg-gray-700 text-gray-300";
 
   return (
     <span className="inline-flex items-center gap-1.5 mx-6 whitespace-nowrap">
-      {/* Party color dot */}
-      <span
-        className={`inline-block w-2 h-2 rounded-full flex-shrink-0 ${
-          isRef ? "bg-green-400" : isD ? "bg-blue-400" : isR ? "bg-red-400" : "bg-gray-400"
-        }`}
-      />
+      {/* CALLED badge for referendums */}
+      {isRef && (
+        <span className="text-[10px] font-black px-1.5 py-0.5 rounded bg-green-900/60 text-green-300 border border-green-500/40 animate-pulse">
+          ⚡ CALLED
+        </span>
+      )}
+      {/* Party/result color dot */}
+      <span className={`inline-block w-2 h-2 rounded-full flex-shrink-0 ${dotColor}`} />
       {/* Chamber tag */}
-      <span className={`text-[10px] font-bold tracking-wider ${
-        result.chamber === "governor" ? "text-purple-400" : isRef ? "text-green-400" : "text-muted-foreground"
-      }`}>
+      <span className={`text-[10px] font-bold tracking-wider ${tagColor}`}>
         {chamberTag}
       </span>
       {/* Special badge */}
@@ -67,27 +72,15 @@ function TickerItem({ result }: { result: TickerResult }) {
       )}
       {/* Location */}
       <span className="text-xs font-semibold text-foreground">{label}</span>
-      {/* Winner */}
-      <span
-        className={`text-xs font-bold ${
-          isD ? "text-blue-400" : isR ? "text-red-400" : "text-gray-300"
-        }`}
-      >
+      {/* Winner / result */}
+      <span className={`text-xs font-bold ${winnerColor}`}>
         {result.calledWinner}
       </span>
-      {/* Party badge */}
-      <span
-        className={`text-[10px] font-bold px-1 py-0.5 rounded ${
-          isD
-            ? "bg-blue-900/60 text-blue-300"
-            : isR
-            ? "bg-red-900/60 text-red-300"
-            : "bg-gray-700 text-gray-300"
-        }`}
-      >
+      {/* Party/result badge */}
+      <span className={`text-[10px] font-bold px-1 py-0.5 rounded ${partyBg}`}>
         {result.calledParty}
       </span>
-      {/* FLIP badge — only shown when a seat changed party */}
+      {/* FLIP badge */}
       {isFlip && flipLabel && (
         <span className="inline-flex items-center gap-0.5 text-[10px] font-black px-1.5 py-0.5 rounded bg-yellow-500/20 text-yellow-300 border border-yellow-500/40 animate-pulse">
           ⇄ FLIP {flipLabel}
@@ -110,9 +103,9 @@ export default function ResultsTicker() {
 
   const { data: results = [], refetch } = trpc.live.recentResults.useQuery(undefined, {
     refetchInterval: 10_000,
+    refetchIntervalInBackground: true,
   });
 
-  // Instantly refetch when a race is called via WebSocket
   useEffect(() => {
     if (lastEvent?.type === "race_called") {
       refetch();
@@ -121,27 +114,19 @@ export default function ResultsTicker() {
 
   const trackRef = useRef<HTMLDivElement>(null);
 
-  // Don't render if no races have been called yet
   if (results.length === 0) return null;
 
-  // Duplicate items so the scroll loops seamlessly
   const items = [...results, ...results];
 
   return (
     <div className="flex-shrink-0 bg-card border-b border-border overflow-hidden relative">
-      {/* Left fade */}
       <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-card to-transparent z-10 pointer-events-none" />
-      {/* Right fade */}
       <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-card to-transparent z-10 pointer-events-none" />
-
-      {/* "RESULTS" label pinned left */}
       <div className="absolute left-0 top-0 bottom-0 flex items-center z-20 bg-card pr-2">
         <span className="text-[10px] font-black tracking-widest text-yellow-400 uppercase px-2 border-r border-border">
           RESULTS
         </span>
       </div>
-
-      {/* Scrolling track */}
       <div className="pl-24 py-1.5 overflow-hidden">
         <div
           ref={trackRef}
