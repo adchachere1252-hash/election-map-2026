@@ -519,6 +519,14 @@ function ReferendumPopup({ referendum, onClose }: { referendum: Referendum; onCl
               {pctReporting > 0 ? `${pctReporting.toFixed(1)}%` : "Polls not yet open"}
             </span>
           </div>
+          {total > 0 && (
+            <div className="flex justify-between text-xs text-muted-foreground mt-0.5">
+              <span>Margin</span>
+              <span className={`font-semibold ${yesVotes > noVotes ? "text-green-400" : yesVotes < noVotes ? "text-red-400" : "text-foreground"}`}>
+                {yesVotes === noVotes ? "Tied" : `${yesVotes > noVotes ? "Yes" : "No"} +${Math.abs(yesVotes - noVotes).toLocaleString()}`}
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
