@@ -40,6 +40,22 @@ const VIEW_DESCRIPTIONS: Record<MapView, string> = {
   senate: "35 races · Nov 3, 2026",
 };
 
+// Auto-refresh countdown hook — counts down from 10 to 0, resets on each tick
+function useRefreshCountdown(intervalMs: number) {
+  const [countdown, setCountdown] = useState(Math.floor(intervalMs / 1000));
+  useEffect(() => {
+    setCountdown(Math.floor(intervalMs / 1000));
+    const tick = setInterval(() => {
+      setCountdown(prev => {
+        if (prev <= 1) return Math.floor(intervalMs / 1000);
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(tick);
+  }, [intervalMs]);
+  return countdown;
+}
+
 // Election countdown hook — days until Nov 3, 2026
 function useDaysUntilElection() {
   const electionDay = new Date("2026-11-03T00:00:00");
@@ -74,6 +90,7 @@ function usePSTClock() {
 export default function Home() {
   const pstClock = usePSTClock();
   const daysUntilElection = useDaysUntilElection();
+  const refreshCountdown = useRefreshCountdown(10_000);
   const [view, setView] = useState<MapView>("senate");
   const [popup, setPopup] = useState<{
     type: "senate" | "house" | "redistricting" | "referendum" | "no-race" | "governor";
@@ -447,8 +464,9 @@ export default function Home() {
               className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground px-2 py-1.5 rounded hover:bg-muted transition-colors"
               title="Refresh data"
             >
-              <RefreshCw className="w-3.5 h-3.5" />
+              <RefreshCw className={`w-3.5 h-3.5 ${refreshCountdown === 10 ? 'animate-spin' : ''}`} style={{ animationDuration: '0.5s', animationIterationCount: 1 }} />
               <span className="hidden lg:inline">Refresh</span>
+              <span className="tabular-nums text-xs font-mono text-yellow-400">{refreshCountdown}s</span>
             </button>
 
             {/* Sound toggle — chime on race called */}
