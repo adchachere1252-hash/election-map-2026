@@ -645,10 +645,11 @@ export const appRouter = router({
     }),
     // Returns the most recent called races for the results ticker (up to 20)
     recentResults: publicProcedure.query(async () => {
-      const [senateRaces, houseRaces, govRaces] = await Promise.all([
+      const [senateRaces, houseRaces, govRaces, allReferendums] = await Promise.all([
         getAllSenateRaces(),
         getAllHouseRaces(),
         getAllGovernorRaces(),
+        getAllReferendums(),
       ]);
       const called = [
         ...senateRaces
@@ -695,6 +696,21 @@ export const appRouter = router({
             updatedAt: r.updatedAt,
             generalDate: r.generalDate ?? null,
             isSpecial: r.isSpecial ?? false,
+          })),
+        ...allReferendums
+          .filter(r => r.status === 'Called' && r.calledResult)
+          .map(r => ({
+            id: `referendum-${r.id}`,
+            chamber: 'referendum' as const,
+            stateCode: r.stateCode,
+            stateName: r.stateName,
+            district: null as number | null,
+            calledWinner: r.calledResult === 'Yes' ? (r.yesLabel ?? 'YES PASSES') : (r.noLabel ?? 'NO WINS'),
+            calledParty: r.calledResult === 'Yes' ? 'YES' : 'NO',
+            previousParty: null,
+            updatedAt: r.updatedAt,
+            generalDate: null,
+            isSpecial: false,
           })),
       ]
         .sort((a, b) => {

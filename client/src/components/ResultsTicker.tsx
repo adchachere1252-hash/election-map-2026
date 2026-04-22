@@ -4,7 +4,7 @@ import { useElectionSocket } from "@/contexts/ElectionSocketContext";
 
 type TickerResult = {
   id: string;
-  chamber: "senate" | "house" | "governor";
+  chamber: "senate" | "house" | "governor" | "referendum";
   stateCode: string;
   stateName: string;
   district: number | null;
@@ -19,13 +19,15 @@ type TickerResult = {
 function TickerItem({ result }: { result: TickerResult }) {
   const isD = result.calledParty === "D";
   const isR = result.calledParty === "R";
+  const isRef = result.chamber === "referendum";
   const label =
     result.chamber === "house" && result.district != null
       ? `${result.stateCode}-${result.district}`
       : result.stateName;
   const chamberTag =
     result.chamber === "senate" ? "SEN" :
-    result.chamber === "governor" ? "GOV" : "HOR";
+    result.chamber === "governor" ? "GOV" :
+    result.chamber === "referendum" ? "REF" : "HOR";
 
   // Detect a flip: previousParty exists, is not the same as calledParty, and is not "I" or "Open"
   const isFlip =
@@ -48,12 +50,12 @@ function TickerItem({ result }: { result: TickerResult }) {
       {/* Party color dot */}
       <span
         className={`inline-block w-2 h-2 rounded-full flex-shrink-0 ${
-          isD ? "bg-blue-400" : isR ? "bg-red-400" : "bg-gray-400"
+          isRef ? "bg-green-400" : isD ? "bg-blue-400" : isR ? "bg-red-400" : "bg-gray-400"
         }`}
       />
       {/* Chamber tag */}
       <span className={`text-[10px] font-bold tracking-wider ${
-        result.chamber === "governor" ? "text-purple-400" : "text-muted-foreground"
+        result.chamber === "governor" ? "text-purple-400" : isRef ? "text-green-400" : "text-muted-foreground"
       }`}>
         {chamberTag}
       </span>
