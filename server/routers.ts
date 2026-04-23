@@ -20,8 +20,8 @@ import { ENV } from "./_core/env";
 import { broadcastElectionEvent, getConnectedClientCount } from "./ws";
 import { getCandidatePhoto, PARTY_LOGOS } from "./candidatePhotos";
 
-// ─── Admin password (stored as env var, fallback to a default for dev) ────────
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "election2026admin";
+// ─── Admin password (must be set via ADMIN_PASSWORD environment variable) ────────
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "";
 
 // ─── Admin token validator (called inline with input.adminToken) ──────────────
 async function requireAdminToken(token: string | undefined) {
@@ -53,6 +53,9 @@ export const appRouter = router({
     login: publicProcedure
       .input(z.object({ password: z.string() }))
       .mutation(async ({ input }) => {
+        if (!ADMIN_PASSWORD) {
+          throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Admin password not configured" });
+        }
         if (input.password !== ADMIN_PASSWORD) {
           throw new TRPCError({ code: "UNAUTHORIZED", message: "Incorrect password" });
         }
