@@ -8,7 +8,7 @@ Live site: [electionmap-duqshn4d.manus.space](https://electionmap-duqshn4d.manus
 
 ## Overview
 
-The 2026 U.S. Election Center is a full-stack web application that tracks U.S. congressional races, gubernatorial elections, Senate contests, and ballot referendums in real time. Built and deployed during live election night coverage of the **2026 Virginia Congressional Redistricting Amendment**, the app tracked over 60 live vote updates from 5% reporting through 99% — including a dramatic tightening of the margin from 132,000 votes down to under 11,000 before Yes ultimately prevailed.
+The 2026 U.S. Election Center is a full-stack web application that tracks U.S. congressional races, gubernatorial elections, Senate contests, and ballot referendums in real time. Built and deployed during live election night coverage of the **2026 Virginia Congressional Redistricting Amendment**, the app tracked over 60 live vote updates from 5% reporting through 97% — including a dramatic tightening of the margin from 132,000 votes down to under 11,000 before Yes ultimately prevailed.
 
 ---
 
@@ -76,7 +76,7 @@ This application was used for live election night coverage of the **Virginia Con
 - 5% reporting: Yes +5,848 (52.0%) — first update of the night
 - 43% reporting: Yes +132,431 (54.9%) — peak Yes lead
 - 79% reporting: Yes +10,979 (50.2%) — narrowest margin of the night
-- 99% reporting: Yes +89,092 (51.5%) — final certified result
+- 97% reporting: Yes +89,092 (51.5%) — final certified result
 
 Over **60 live data updates** were entered and tracked in real time throughout the night.
 
