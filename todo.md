@@ -1046,3 +1046,6 @@
 ## Feature: Open Graph Social Share Card (Apr 22, 2026)
 - [x] Generate 1200x630px Open Graph social preview card image
 - [x] Upload to CDN and add og:image, og:title, og:description, twitter:card meta tags to index.html
+
+## Bug Fix: tRPC API Returns HTML Instead of JSON
+- [x] Fix catch-all handler in vite.ts to skip /api/* routes — prevents HTML being served to tRPC clients when a procedure throws an unhandled error
