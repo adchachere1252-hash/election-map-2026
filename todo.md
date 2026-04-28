@@ -1057,3 +1057,10 @@
 
 ## Security Fix: Remove Hardcoded Admin Password Fallback
 - [x] Remove hardcoded "election2026admin" fallback from routers.ts so admin login requires ADMIN_PASSWORD env var
+
+## Election Map Updates - April 28, 2026
+- [x] Research Louisiana v. Callais SCOTUS ruling status and expected timeline
+- [x] Research Mississippi redistricting special session details
+- [x] Research Rep. Daniel Webster (R-FL) retirement and FL-11 race impact
+- [x] Research other recent 2026 election developments
+- [x] Apply all updates to the database
