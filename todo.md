@@ -1064,3 +1064,8 @@
 - [x] Research Rep. Daniel Webster (R-FL) retirement and FL-11 race impact
 - [x] Research other recent 2026 election developments
 - [x] Apply all updates to the database
+
+## Election Map Updates - Open Seats & Retirement Wave
+- [x] Research full list of all 58 retiring House members (21 D, 37 R)
+- [x] Cross-reference retirements against database and flag all open seats with incumbent_retiring = 1
+- [x] Add Open Seat visual indicator to House map display
