@@ -1069,3 +1069,11 @@
 - [x] Research full list of all 58 retiring House members (21 D, 37 R)
 - [x] Cross-reference retirements against database and flag all open seats with incumbent_retiring = 1
 - [x] Add Open Seat visual indicator to House map display
+
+## Election Map Updates - Apr 30, 2026
+- [x] Research Louisiana v. Callais SCOTUS ruling (decided Apr 29, 2026) — ruling, impact on LA-6, VRA Section 2
+- [x] Research Florida new congressional map — details, districts affected, timeline
+- [x] Update Louisiana redistricting status and affected House races in database
+- [x] Trigger Mississippi special session status update (21 days after Callais ruling)
+- [x] Update Florida redistricting status and affected House races in database
+- [x] Check for any other downstream states affected by Callais ruling (Georgia noted)
