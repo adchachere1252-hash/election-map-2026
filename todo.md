@@ -1077,3 +1077,7 @@
 - [x] Trigger Mississippi special session status update (21 days after Callais ruling)
 - [x] Update Florida redistricting status and affected House races in database
 - [x] Check for any other downstream states affected by Callais ruling (Georgia noted)
+
+## Election Map Update - Apr 30, 2026 (Maine Senate)
+- [x] Research Janet Mills dropping out of ME Senate race — remaining candidates, primary date, impact on race rating
+- [x] Update Maine Senate race in database (candidates, notes, rating if changed)
