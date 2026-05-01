@@ -1081,3 +1081,8 @@
 ## Election Map Update - Apr 30, 2026 (Maine Senate)
 - [x] Research Janet Mills dropping out of ME Senate race — remaining candidates, primary date, impact on race rating
 - [x] Update Maine Senate race in database (candidates, notes, rating if changed)
+
+## Election Map Update - May 1, 2026 (Louisiana Redistricting Post-Callais)
+- [x] Research latest Louisiana congressional map changes following SCOTUS Callais ruling
+- [x] Update Louisiana redistricting status and affected House races (LA-2, LA-6) in database
+- [x] Add Tennessee to redistricting tracker (TN-9/Steve Cohen at risk post-Callais)
