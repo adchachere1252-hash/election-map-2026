@@ -1086,3 +1086,9 @@
 - [x] Research latest Louisiana congressional map changes following SCOTUS Callais ruling
 - [x] Update Louisiana redistricting status and affected House races (LA-2, LA-6) in database
 - [x] Add Tennessee to redistricting tracker (TN-9/Steve Cohen at risk post-Callais)
+
+## Election Map Update - May 2, 2026 (Alabama Special Session)
+- [x] Research Alabama special session details — timing, districts affected, post-Callais context
+- [x] Update Alabama in redistricting tracker and affected House races in database (AL-7 → Lean D)
+- [x] Add South Carolina to redistricting tracker (SC-6/Clyburn at risk, special session urged)
+- [x] Update Tennessee special session status — convenes May 5, TN-9 → Solid R
