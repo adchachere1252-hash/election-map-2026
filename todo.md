@@ -1108,3 +1108,8 @@
 - [x] Register /map-comparison route in App.tsx
 - [x] Write vitest tests for MapComparison utilities (ordinal, Congress list generation) — 5 tests passing
 - [x] Main election page background kept as original space/starfield (sky only on new page)
+
+## Map Comparison Fixes (Round N+1)
+- [ ] Change default view to full U.S. nationwide (all 50 states load on startup, zoomed out to national level)
+- [ ] Fix sky video visibility behind Google Maps panels (use dark custom map style so sky shows through)
+- [ ] Fix Google Maps singleton script loading (prevent double-load with two MapView instances)

@@ -92,21 +92,28 @@ const FORGE_BASE_URL =
   "https://forge.butterfly-effect.dev";
 const MAPS_PROXY_URL = `${FORGE_BASE_URL}/v1/maps/proxy`;
 
-function loadMapScript() {
-  return new Promise(resolve => {
+let _mapScriptPromise: Promise<void> | null = null;
+function loadMapScript(): Promise<void> {
+  // Already loaded — resolve immediately
+  if (typeof window !== "undefined" && window.google?.maps) {
+    return Promise.resolve();
+  }
+  // Already loading — reuse the same promise
+  if (_mapScriptPromise) return _mapScriptPromise;
+  _mapScriptPromise = new Promise<void>((resolve, reject) => {
     const script = document.createElement("script");
     script.src = `${MAPS_PROXY_URL}/maps/api/js?key=${API_KEY}&v=weekly&libraries=marker,places,geocoding,geometry`;
     script.async = true;
     script.crossOrigin = "anonymous";
-    script.onload = () => {
-      resolve(null);
-      script.remove(); // Clean up immediately
-    };
+    script.onload = () => resolve();
     script.onerror = () => {
       console.error("Failed to load Google Maps script");
+      _mapScriptPromise = null; // allow retry
+      reject(new Error("Failed to load Google Maps script"));
     };
     document.head.appendChild(script);
   });
+  return _mapScriptPromise;
 }
 
 interface MapViewProps {
@@ -114,6 +121,8 @@ interface MapViewProps {
   initialCenter?: google.maps.LatLngLiteral;
   initialZoom?: number;
   onMapReady?: (map: google.maps.Map) => void;
+  /** Additional/override options passed to the Map constructor. Set mapId to undefined to use custom StyledMapType. */
+  mapOptions?: Partial<google.maps.MapOptions>;
 }
 
 export function MapView({
@@ -121,6 +130,7 @@ export function MapView({
   initialCenter = { lat: 37.7749, lng: -122.4194 },
   initialZoom = 12,
   onMapReady,
+  mapOptions,
 }: MapViewProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<google.maps.Map | null>(null);
@@ -131,15 +141,25 @@ export function MapView({
       console.error("Map container not found");
       return;
     }
-    map.current = new window.google.maps.Map(mapContainer.current, {
+    // Build options. mapId defaults to DEMO_MAP_ID for AdvancedMarker support,
+    // but callers can omit it by passing mapOptions={{ mapId: null }} to allow custom styles.
+    const baseOptions: google.maps.MapOptions = {
       zoom: initialZoom,
       center: initialCenter,
-      mapTypeControl: true,
+      mapTypeControl: false,
       fullscreenControl: true,
       zoomControl: true,
-      streetViewControl: true,
-      mapId: "DEMO_MAP_ID",
-    });
+      streetViewControl: false,
+    };
+    // Only add mapId if caller hasn't explicitly disabled it
+    const wantsNoMapId = mapOptions && "mapId" in mapOptions && !mapOptions.mapId;
+    if (!wantsNoMapId) {
+      baseOptions.mapId = "DEMO_MAP_ID";
+    }
+    // Merge caller options (excluding mapId if they disabled it)
+    const mergedOptions: google.maps.MapOptions = { ...baseOptions, ...mapOptions };
+    if (wantsNoMapId) delete mergedOptions.mapId;
+    map.current = new window.google.maps.Map(mapContainer.current, mergedOptions);
     if (onMapReady) {
       onMapReady(map.current);
     }
