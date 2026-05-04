@@ -618,6 +618,12 @@ export default function Home() {
                 <span className="w-2.5 h-2.5 rounded-sm inline-block bg-muted-foreground/30" />
                 <span className="text-muted-foreground">No activity</span>
               </span>
+              <Link href="/map-comparison">
+                <button className="flex items-center gap-1.5 text-xs bg-violet-900/40 hover:bg-violet-800/60 border border-violet-600/40 text-violet-300 hover:text-violet-100 px-2.5 py-1 rounded-full transition-all font-semibold">
+                  <Map className="w-3 h-3" />
+                  Historical Map Atlas →
+                </button>
+              </Link>
             </div>
           )}
           {(view === "senate" || view === "house") && !resultsMode && (

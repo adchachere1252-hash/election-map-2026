@@ -1092,3 +1092,19 @@
 - [x] Update Alabama in redistricting tracker and affected House races in database (AL-7 → Lean D)
 - [x] Add South Carolina to redistricting tracker (SC-6/Clyburn at risk, special session urged)
 - [x] Update Tennessee special session status — convenes May 5, TN-9 → Solid R
+
+## Map Comparison Feature + Background Redesign (Round N)
+- [x] Generate 7 world-class pure-sky videos (no ground) for each time of day (dawn/morning/midday/afternoon/evening/dusk/night)
+- [x] Upload all 7 sky videos to CDN
+- [x] Build /map-comparison page with time-of-day animated sky video background (auto-selects by user's local time)
+- [x] Two synced Google Maps panels side by side (pan/zoom one, the other follows)
+- [x] Congress selector (89th–119th, 1965–2026) above each panel with prev/next arrows and full dropdown
+- [x] State selector dropdown (all 50 states) that zooms both maps to selected state
+- [x] Fetch and render GeoJSON district boundaries from UCLA/Lewis dataset per selected Congress + state
+- [x] Color-code districts by party (D=blue, R=red) for each Congress
+- [x] Add district click popup (district number, state, Congress range)
+- [x] Add preset comparison shortcuts (Post-VRA 1965→Today, Pre/Post Shelby County, Pre/Post 2020 Census, Pre/Post 2010 Census)
+- [x] Add "Historical Map Atlas →" entry point button on Redistricting tab of main page
+- [x] Register /map-comparison route in App.tsx
+- [x] Write vitest tests for MapComparison utilities (ordinal, Congress list generation) — 5 tests passing
+- [x] Main election page background kept as original space/starfield (sky only on new page)
