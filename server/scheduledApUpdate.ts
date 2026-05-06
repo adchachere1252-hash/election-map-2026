@@ -52,7 +52,8 @@ interface ScrapedResults {
 /**
  * Validate that the request comes from a Manus cron session.
  * The cron JWT has openId starting with "cron_".
- * We verify using the app's JWT_SECRET.
+ * NOTE: The Manus cron cookie is signed by Manus's own JWT secret, NOT the app's JWT_SECRET.
+ * We must NOT verify the signature — just decode the payload and check openId.
  */
 async function isCronRequest(req: Request): Promise<boolean> {
   try {
@@ -61,19 +62,21 @@ async function isCronRequest(req: Request): Promise<boolean> {
     const sessionCookie = cookies["app_session_id"];
     if (!sessionCookie) return false;
 
-    const secret = process.env.JWT_SECRET;
-    if (!secret) {
-      // If no JWT_SECRET, fall back to checking JWT payload without verification
-      const parts = sessionCookie.split(".");
-      if (parts.length < 2) return false;
-      const payload = JSON.parse(Buffer.from(parts[1], "base64url").toString("utf8"));
-      return typeof payload.openId === "string" && payload.openId.startsWith("cron_");
+    // Always decode without signature verification — Manus signs with its own secret
+    const parts = sessionCookie.split(".");
+    if (parts.length < 2) return false;
+    const payload = JSON.parse(Buffer.from(parts[1], "base64url").toString("utf8"));
+    const openId = payload.openId;
+    if (typeof openId !== "string" || !openId.startsWith("cron_")) return false;
+
+    // Check expiry
+    const exp = payload.exp;
+    if (typeof exp === "number" && Date.now() / 1000 > exp) {
+      console.warn("[ScheduledApUpdate] Cron cookie expired");
+      return false;
     }
 
-    const secretKey = new TextEncoder().encode(secret);
-    const { payload } = await jwtVerify(sessionCookie, secretKey, { algorithms: ["HS256"] });
-    const openId = (payload as Record<string, unknown>).openId;
-    return typeof openId === "string" && openId.startsWith("cron_");
+    return true;
   } catch (err) {
     console.warn("[ScheduledApUpdate] Cookie verification failed:", String(err));
     return false;

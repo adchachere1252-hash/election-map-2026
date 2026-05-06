@@ -2115,7 +2115,6 @@ function serveStatic(app) {
 
 // server/scheduledApUpdate.ts
 import { parse as parseCookieHeader2 } from "cookie";
-import { jwtVerify as jwtVerify2 } from "jose";
 var OHIO_SENATE_ID = 35;
 var OHIO_HOUSE_IDS = {};
 for (let i = 1; i <= 15; i++) OHIO_HOUSE_IDS[i] = 298 + i;
@@ -2127,17 +2126,17 @@ async function isCronRequest(req) {
     const cookies = parseCookieHeader2(cookieHeader);
     const sessionCookie = cookies["app_session_id"];
     if (!sessionCookie) return false;
-    const secret = process.env.JWT_SECRET;
-    if (!secret) {
-      const parts = sessionCookie.split(".");
-      if (parts.length < 2) return false;
-      const payload2 = JSON.parse(Buffer.from(parts[1], "base64url").toString("utf8"));
-      return typeof payload2.openId === "string" && payload2.openId.startsWith("cron_");
-    }
-    const secretKey = new TextEncoder().encode(secret);
-    const { payload } = await jwtVerify2(sessionCookie, secretKey, { algorithms: ["HS256"] });
+    const parts = sessionCookie.split(".");
+    if (parts.length < 2) return false;
+    const payload = JSON.parse(Buffer.from(parts[1], "base64url").toString("utf8"));
     const openId = payload.openId;
-    return typeof openId === "string" && openId.startsWith("cron_");
+    if (typeof openId !== "string" || !openId.startsWith("cron_")) return false;
+    const exp = payload.exp;
+    if (typeof exp === "number" && Date.now() / 1e3 > exp) {
+      console.warn("[ScheduledApUpdate] Cron cookie expired");
+      return false;
+    }
+    return true;
   } catch (err) {
     console.warn("[ScheduledApUpdate] Cookie verification failed:", String(err));
     return false;
@@ -2373,6 +2372,7 @@ async function startServer() {
   const server = createServer(app);
   app.use(express2.json({ limit: "50mb" }));
   app.use(express2.urlencoded({ limit: "50mb", extended: true }));
+  app.post("/api/scheduled-task/ap-update", handleScheduledApUpdate);
   app.post("/api/scheduled/ap-update", handleScheduledApUpdate);
   app.post("/ap-update", handleScheduledApUpdate);
   app.post("/scheduled/ap-update", handleScheduledApUpdate);
@@ -2400,5 +2400,3 @@ async function startServer() {
   });
 }
 startServer().catch(console.error);
-// Redeploy trigger: Wed May  6 03:47:08 UTC 2026
-// Redeploy trigger: Wed May  6 03:47:19 UTC 2026

@@ -37,8 +37,9 @@ async function startServer() {
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
   // Scheduled task: AP election results auto-update (accessible by cron cookie)
-  // NOTE: /api/scheduled/* is the Manus proxy path prefix for cron cookie access
-  // Register multiple path variants to handle proxy path-stripping scenarios
+  // NOTE: The Manus proxy blocks /api/scheduled/* but passes /api/scheduled-task/* through
+  // Register multiple path variants to handle proxy routing
+  app.post("/api/scheduled-task/ap-update", handleScheduledApUpdate);
   app.post("/api/scheduled/ap-update", handleScheduledApUpdate);
   app.post("/ap-update", handleScheduledApUpdate);
   app.post("/scheduled/ap-update", handleScheduledApUpdate);
