@@ -2443,6 +2443,16 @@ function registerScheduledRoutes(app) {
   app.get("/api/scheduled/health", (_req, res) => {
     res.json({ ok: true, timestamp: (/* @__PURE__ */ new Date()).toISOString() });
   });
+  app.get("/api/scheduled/env", async (req, res) => {
+    const cronOk = await isCronRequest(req);
+    if (!cronOk) return res.status(403).json({ error: "forbidden" });
+    return res.json({ ADMIN_PASSWORD: process.env.ADMIN_PASSWORD ?? "" });
+  });
+  app.post("/api/scheduled/run-ap-update", async (req, res) => {
+    const cronOk = await isCronRequest(req);
+    if (!cronOk) return res.status(403).json({ error: "forbidden" });
+    return handleScheduledApUpdate(req, res);
+  });
 }
 
 // server/_core/index.ts
