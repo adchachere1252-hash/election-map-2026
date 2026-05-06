@@ -38,7 +38,10 @@ async function startServer() {
 
   // Scheduled task: AP election results auto-update (accessible by cron cookie)
   // NOTE: /api/scheduled/* is the Manus proxy path prefix for cron cookie access
+  // Register multiple path variants to handle proxy path-stripping scenarios
   app.post("/api/scheduled/ap-update", handleScheduledApUpdate);
+  app.post("/ap-update", handleScheduledApUpdate);
+  app.post("/scheduled/ap-update", handleScheduledApUpdate);
 
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);

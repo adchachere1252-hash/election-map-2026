@@ -2344,6 +2344,8 @@ async function startServer() {
   app.use(express2.json({ limit: "50mb" }));
   app.use(express2.urlencoded({ limit: "50mb", extended: true }));
   app.post("/api/scheduled/ap-update", handleScheduledApUpdate);
+  app.post("/ap-update", handleScheduledApUpdate);
+  app.post("/scheduled/ap-update", handleScheduledApUpdate);
   registerOAuthRoutes(app);
   app.use(
     "/api/trpc",
