@@ -2498,3 +2498,5 @@ async function startServer() {
 startServer().catch(console.error);
 // Redeploy trigger: Wed May  6 04:30:55 UTC 2026
 // Rebuild trigger: Wed May  6 04:38:28 UTC 2026 - bump version to force redeploy
+
+// Force redeploy: 2026-05-06 04:51:32 UTC - ensure /api/scheduled routes active
