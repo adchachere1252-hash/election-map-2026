@@ -2120,23 +2120,33 @@ var OHIO_HOUSE_IDS = {};
 for (let i = 1; i <= 15; i++) OHIO_HOUSE_IDS[i] = 298 + i;
 var INDIANA_HOUSE_IDS = {};
 for (let i = 1; i <= 9; i++) INDIANA_HOUSE_IDS[i] = 150 + i;
-async function isCronRequest(req) {
+function decodeCronToken(token) {
   try {
-    const cookieHeader = req.headers.cookie || "";
-    const cookies = parseCookieHeader2(cookieHeader);
-    const sessionCookie = cookies["app_session_id"];
-    if (!sessionCookie) return false;
-    const parts = sessionCookie.split(".");
+    const parts = token.split(".");
     if (parts.length < 2) return false;
     const payload = JSON.parse(Buffer.from(parts[1], "base64url").toString("utf8"));
     const openId = payload.openId;
     if (typeof openId !== "string" || !openId.startsWith("cron_")) return false;
     const exp = payload.exp;
     if (typeof exp === "number" && Date.now() / 1e3 > exp) {
-      console.warn("[ScheduledApUpdate] Cron cookie expired");
+      console.warn("[ScheduledApUpdate] Cron token expired");
       return false;
     }
     return true;
+  } catch {
+    return false;
+  }
+}
+async function isCronRequest(req) {
+  try {
+    const cookieHeader = req.headers.cookie || "";
+    const cookies = parseCookieHeader2(cookieHeader);
+    const sessionCookie = cookies["app_session_id"];
+    if (sessionCookie && decodeCronToken(sessionCookie)) return true;
+    const body = req.body;
+    const bodyToken = typeof body?.cronToken === "string" ? body.cronToken : null;
+    if (bodyToken && decodeCronToken(bodyToken)) return true;
+    return false;
   } catch (err) {
     console.warn("[ScheduledApUpdate] Cookie verification failed:", String(err));
     return false;
@@ -2349,6 +2359,92 @@ async function handleScheduledApUpdate(req, res) {
   }
 }
 
+// server/scheduledRoutes.ts
+var ADMIN_PASSWORD2 = process.env.ADMIN_PASSWORD ?? "";
+function registerScheduledRoutes(app) {
+  app.post("/api/scheduled/ap-update", async (req, res) => {
+    try {
+      const body = req.body;
+      if (!ADMIN_PASSWORD2) {
+        return res.status(500).json({ error: "Admin password not configured" });
+      }
+      if (body.password !== ADMIN_PASSWORD2) {
+        return res.status(401).json({ error: "Incorrect password" });
+      }
+      const races = body.races ?? [];
+      if (!Array.isArray(races)) {
+        return res.status(400).json({ error: "races must be an array" });
+      }
+      const results = [];
+      for (const race of races) {
+        try {
+          const { id, chamber, candidates, reportingPct, primaryWinner, primaryParty } = race;
+          const sorted = [...candidates ?? []].sort((a, b) => b.votes - a.votes);
+          const c1 = sorted[0];
+          const c2 = sorted[1];
+          const others = sorted.slice(2);
+          const otherVotes = others.reduce((sum, c) => sum + (c.votes ?? 0), 0);
+          const otherPct = others.reduce((sum, c) => sum + (c.pct ?? 0), 0);
+          const updateData = {
+            pctReporting: reportingPct ?? 0
+          };
+          if (c1) {
+            updateData.candidate1Name = c1.name;
+            updateData.candidate1Party = c1.party || null;
+            updateData.candidate1Votes = c1.votes ?? 0;
+            updateData.candidate1VotePct = c1.pct ?? 0;
+          }
+          if (c2) {
+            updateData.candidate2Name = c2.name;
+            updateData.candidate2Party = c2.party || null;
+            updateData.candidate2Votes = c2.votes ?? 0;
+            updateData.candidate2VotePct = c2.pct ?? 0;
+          }
+          if (others.length > 0) {
+            updateData.otherCandidateName = others.map((c) => c.name).join(", ");
+            updateData.otherVotes = otherVotes;
+            updateData.otherVotePct = otherPct;
+          }
+          if (primaryWinner !== void 0) {
+            updateData.primaryWinner = primaryWinner;
+          }
+          if (primaryParty !== void 0) {
+            updateData.primaryParty = primaryParty;
+          }
+          if (chamber === "senate") {
+            await updateSenateRace(id, updateData);
+          } else {
+            await updateHouseRace(id, updateData);
+          }
+          results.push({ id, chamber, ok: true });
+        } catch (err) {
+          results.push({
+            id: race.id,
+            chamber: race.chamber,
+            ok: false,
+            error: String(err)
+          });
+        }
+      }
+      const succeeded = results.filter((r) => r.ok).length;
+      const failed = results.filter((r) => !r.ok).length;
+      return res.json({
+        success: true,
+        succeeded,
+        failed,
+        results,
+        timestamp: (/* @__PURE__ */ new Date()).toISOString()
+      });
+    } catch (err) {
+      console.error("[scheduled/ap-update] Error:", err);
+      return res.status(500).json({ error: String(err) });
+    }
+  });
+  app.get("/api/scheduled/health", (_req, res) => {
+    res.json({ ok: true, timestamp: (/* @__PURE__ */ new Date()).toISOString() });
+  });
+}
+
 // server/_core/index.ts
 function isPortAvailable(port) {
   return new Promise((resolve) => {
@@ -2372,26 +2468,10 @@ async function startServer() {
   const server = createServer(app);
   app.use(express2.json({ limit: "50mb" }));
   app.use(express2.urlencoded({ limit: "50mb", extended: true }));
-  app.get("/api/test-2026-05-06", (req, res) => { res.json({ status: "ok", version: "test_2026_05_06", time: Date.now() }); });
-  app.get("/api/debug-cookies", (req, res) => {
-    const cookieHeader = req.headers.cookie || "";
-    const cookies = parseCookieHeader2(cookieHeader);
-    const sessionCookie = cookies["app_session_id"];
-    let payload = null;
-    if (sessionCookie) {
-      try {
-        const parts = sessionCookie.split(".");
-        if (parts.length >= 2) {
-          payload = JSON.parse(Buffer.from(parts[1], "base64url").toString("utf8"));
-        }
-      } catch (e) { payload = { error: String(e) }; }
-    }
-    res.json({ cookieHeader: cookieHeader.substring(0, 500), sessionCookie: sessionCookie ? sessionCookie.substring(0, 50) + '...' : null, payload, allHeaders: req.headers });
-  });
   app.post("/api/scheduled-task/ap-update", handleScheduledApUpdate);
-  app.post("/api/scheduled/ap-update", handleScheduledApUpdate);
   app.post("/ap-update", handleScheduledApUpdate);
   app.post("/scheduled/ap-update", handleScheduledApUpdate);
+  registerScheduledRoutes(app);
   registerOAuthRoutes(app);
   app.use(
     "/api/trpc",
