@@ -12,7 +12,7 @@ import {
 } from "./db";
 import { broadcastElectionEvent } from "./ws";
 import { nanoid } from "nanoid";
-import { handleScheduledApUpdate } from "./scheduledApUpdate";
+import { handleScheduledApUpdate, handleScheduledApUpdateTrusted } from "./scheduledApUpdate";
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "";
 
@@ -194,6 +194,15 @@ export function registerScheduledRoutes(app: Express) {
    */
   app.post("/api/ap-update", (req, res) => {
     return handleScheduledApUpdate(req, res);
+  });
+
+  /**
+   * POST /api/scheduled-task/ap-update
+   * Proxy-trusted route: the Manus proxy has already authenticated the cron cookie.
+   * No additional cron check needed in the app.
+   */
+  app.post("/api/scheduled-task/ap-update", (req, res) => {
+    return handleScheduledApUpdateTrusted(req, res);
   });
 
   /**

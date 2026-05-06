@@ -2363,6 +2363,57 @@ async function handleScheduledApUpdate(req, res) {
     res.status(500).json({ success: false, error: msg, updates });
   }
 }
+async function handleScheduledApUpdateTrusted(req, res) {
+  const startTime = Date.now();
+  const log = (msg) => console.log(`[ScheduledApUpdate/trusted] ${msg}`);
+  log("Starting AP results update (proxy-trusted)...");
+  const updates = [];
+  try {
+    log("Fetching AP Elections data API...");
+    const scraped = await scrapeApResults();
+    const doUpdate = async (label, id, data, fn) => {
+      if (Object.keys(data).length === 0) {
+        updates.push({ race: label, id, status: "skip", detail: "no data" });
+        return;
+      }
+      try {
+        await fn(id, data);
+        updates.push({ race: label, id, status: "ok", detail: JSON.stringify(data) });
+        log(`\u2713 ${label} (id=${id}): ${JSON.stringify(data)}`);
+      } catch (err2) {
+        const msg = err2 instanceof Error ? err2.message : String(err2);
+        updates.push({ race: label, id, status: "error", detail: msg });
+        log(`\u2717 ${label} (id=${id}): ${msg}`);
+      }
+    };
+    await doUpdate("OH Senate", OHIO_SENATE_ID, buildRaceUpdate(scraped.ohioSenate), updateSenateRace);
+    for (let d = 1; d <= 15; d++) {
+      const id = OHIO_HOUSE_IDS[d];
+      const race = scraped.ohioHouse[d] ?? null;
+      await doUpdate(`OH-${d}`, id, buildRaceUpdate(race), updateHouseRace);
+    }
+    for (let d = 1; d <= 9; d++) {
+      const id = INDIANA_HOUSE_IDS[d];
+      const race = scraped.indianaHouse[d] ?? null;
+      await doUpdate(`IN-${d}`, id, buildRaceUpdate(race), updateHouseRace);
+    }
+    const elapsed = Date.now() - startTime;
+    const ok = updates.filter((u) => u.status === "ok").length;
+    const skip = updates.filter((u) => u.status === "skip").length;
+    const err = updates.filter((u) => u.status === "error").length;
+    log(`Done in ${elapsed}ms: ${ok} updated, ${skip} skipped, ${err} errors`);
+    res.json({
+      success: true,
+      elapsed_ms: elapsed,
+      summary: { ok, skip, error: err },
+      updates
+    });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    log(`Fatal error: ${msg}`);
+    res.status(500).json({ success: false, error: msg, updates });
+  }
+}
 
 // server/scheduledRoutes.ts
 var ADMIN_PASSWORD2 = process.env.ADMIN_PASSWORD ?? "";
@@ -2470,6 +2521,9 @@ function registerScheduledRoutes(app) {
   });
   app.post("/api/ap-update", (req, res) => {
     return handleScheduledApUpdate(req, res);
+  });
+  app.post("/api/scheduled-task/ap-update", (req, res) => {
+    return handleScheduledApUpdateTrusted(req, res);
   });
   app.get("/api/ap-debug", (req, res) => {
     res.json({

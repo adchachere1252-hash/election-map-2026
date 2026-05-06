@@ -435,4 +435,69 @@ export async function handleScheduledApUpdate(req: Request, res: Response): Prom
 // Redeploy trigger: Wed May  6 05:40:43 UTC 2026
 // Rebuild trigger: Wed May  6 05:52:00 UTC 2026 - add X-Cron-Token header and query param support
 // Rebuild trigger: 2026-05-06 05:58:53 UTC - x-cron-token and query param support v2
+/**
+ * Handle AP update without cron check - for use with proxy-authenticated routes.
+ * The Manus proxy has already verified the cron cookie before forwarding here.
+ */
+export async function handleScheduledApUpdateTrusted(req: Request, res: Response): Promise<void> {
+  const startTime = Date.now();
+  const log = (msg: string) => console.log(`[ScheduledApUpdate/trusted] ${msg}`);
+  log("Starting AP results update (proxy-trusted)...");
+
+  const updates: Array<{ race: string; id: number; status: "ok" | "error" | "skip"; detail?: string }> = [];
+
+  try {
+    log("Fetching AP Elections data API...");
+    const scraped = await scrapeApResults();
+    const doUpdate = async (
+      label: string,
+      id: number,
+      data: Record<string, unknown>,
+      fn: (id: number, data: Record<string, unknown>) => Promise<void>
+    ) => {
+      if (Object.keys(data).length === 0) {
+        updates.push({ race: label, id, status: "skip", detail: "no data" });
+        return;
+      }
+      try {
+        await fn(id, data as Parameters<typeof updateSenateRace>[1]);
+        updates.push({ race: label, id, status: "ok", detail: JSON.stringify(data) });
+        log(`✓ ${label} (id=${id}): ${JSON.stringify(data)}`);
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        updates.push({ race: label, id, status: "error", detail: msg });
+        log(`✗ ${label} (id=${id}): ${msg}`);
+      }
+    };
+    // OH Senate
+    await doUpdate("OH Senate", OHIO_SENATE_ID, buildRaceUpdate(scraped.ohioSenate), updateSenateRace);
+    // OH House 1-15
+    for (let d = 1; d <= 15; d++) {
+      const id = OHIO_HOUSE_IDS[d];
+      const race = scraped.ohioHouse[d] ?? null;
+      await doUpdate(`OH-${d}`, id, buildRaceUpdate(race), updateHouseRace);
+    }
+    // IN House 1-9
+    for (let d = 1; d <= 9; d++) {
+      const id = INDIANA_HOUSE_IDS[d];
+      const race = scraped.indianaHouse[d] ?? null;
+      await doUpdate(`IN-${d}`, id, buildRaceUpdate(race), updateHouseRace);
+    }
+    const elapsed = Date.now() - startTime;
+    const ok = updates.filter(u => u.status === "ok").length;
+    const skip = updates.filter(u => u.status === "skip").length;
+    const err = updates.filter(u => u.status === "error").length;
+    log(`Done in ${elapsed}ms: ${ok} updated, ${skip} skipped, ${err} errors`);
+    res.json({
+      success: true,
+      elapsed_ms: elapsed,
+      summary: { ok, skip, error: err },
+      updates,
+    });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    log(`Fatal error: ${msg}`);
+    res.status(500).json({ success: false, error: msg, updates });
+  }
+}
 // Force redeploy: 2026-05-06 06:29:29 UTC - proxy-trust-fix
