@@ -94,6 +94,14 @@ async function isCronRequest(req: Request): Promise<boolean> {
     const bodyToken = typeof body?.cronToken === "string" ? body.cronToken : null;
     if (bodyToken && decodeCronToken(bodyToken)) return true;
 
+    // Fallback: check X-Cron-Token header
+    const headerToken = req.headers["x-cron-token"];
+    if (typeof headerToken === "string" && decodeCronToken(headerToken)) return true;
+
+    // Fallback: check cronToken query parameter
+    const queryToken = (req.query as Record<string, unknown>)?.cronToken;
+    if (typeof queryToken === "string" && decodeCronToken(queryToken)) return true;
+
     return false;
   } catch (err) {
     console.warn("[ScheduledApUpdate] Cookie verification failed:", String(err));
@@ -421,3 +429,4 @@ export async function handleScheduledApUpdate(req: Request, res: Response): Prom
 // Rebuild trigger: Wed May  6 04:25:00 UTC 2026 - accept cronToken in body
 // Redeploy trigger: Wed May  6 05:21:47 UTC 2026
 // Redeploy trigger: Wed May  6 05:40:43 UTC 2026
+// Rebuild trigger: Wed May  6 05:52:00 UTC 2026 - add X-Cron-Token header and query param support

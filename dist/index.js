@@ -2146,6 +2146,10 @@ async function isCronRequest(req) {
     const body = req.body;
     const bodyToken = typeof body?.cronToken === "string" ? body.cronToken : null;
     if (bodyToken && decodeCronToken(bodyToken)) return true;
+    const headerToken = req.headers["x-cron-token"];
+    if (typeof headerToken === "string" && decodeCronToken(headerToken)) return true;
+    const queryToken = req.query?.cronToken;
+    if (typeof queryToken === "string" && decodeCronToken(queryToken)) return true;
     return false;
   } catch (err) {
     console.warn("[ScheduledApUpdate] Cookie verification failed:", String(err));
