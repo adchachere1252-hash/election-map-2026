@@ -12,6 +12,7 @@ import {
 } from "./db";
 import { broadcastElectionEvent } from "./ws";
 import { nanoid } from "nanoid";
+import { handleScheduledApUpdate } from "./scheduledApUpdate";
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "";
 
@@ -133,6 +134,15 @@ export function registerScheduledRoutes(app: Express) {
       console.error("[scheduled/ap-update] Error:", err);
       return res.status(500).json({ error: String(err) });
     }
+  });
+
+  /**
+   * POST /api/scheduled/run-ap-update
+   * Calls handleScheduledApUpdate which scrapes AP Elections data API
+   * and updates the database directly. Secured by cron cookie only.
+   */
+  app.post("/api/scheduled/run-ap-update", (req, res) => {
+    return handleScheduledApUpdate(req, res);
   });
 
   /**
