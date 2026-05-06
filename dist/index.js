@@ -2510,3 +2510,4 @@ startServer().catch(console.error);
 // Rebuild trigger: Wed May  6 04:38:28 UTC 2026 - bump version to force redeploy
 
 // Force redeploy: 2026-05-06 04:51:32 UTC - ensure /api/scheduled routes active
+// Redeploy trigger: 2026-05-06 04:54:59 UTC - activate /api/scheduled/env and /api/scheduled/run-ap-update
