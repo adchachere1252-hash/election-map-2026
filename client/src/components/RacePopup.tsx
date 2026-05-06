@@ -1,4 +1,4 @@
-// Election Night Build — May 5, 2026
+// Election Night Build — May 5, 2026 | General Election Mode — May 6, 2026
 import { useState } from "react";
 import { X, MapPin, Calendar, Users, TrendingUp, AlertCircle, ChevronRight, Crosshair } from "lucide-react";
 import { getRatingClass, getRatingColor, getPartyColor, getStatusColor, formatVotePct, getPartyLabel } from "@/lib/electionUtils";
