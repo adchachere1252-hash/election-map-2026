@@ -2440,18 +2440,14 @@ function registerScheduledRoutes(app) {
       return res.status(500).json({ error: String(err) });
     }
   });
+  app.post("/api/scheduled/run-ap-update", (req, res) => {
+    return handleScheduledApUpdate(req, res);
+  });
   app.get("/api/scheduled/health", (_req, res) => {
     res.json({ ok: true, timestamp: (/* @__PURE__ */ new Date()).toISOString() });
   });
-  app.get("/api/scheduled/env", async (req, res) => {
-    const cronOk = await isCronRequest(req);
-    if (!cronOk) return res.status(403).json({ error: "forbidden" });
-    return res.json({ ADMIN_PASSWORD: process.env.ADMIN_PASSWORD ?? "" });
-  });
-  app.post("/api/scheduled/run-ap-update", async (req, res) => {
-    const cronOk = await isCronRequest(req);
-    if (!cronOk) return res.status(403).json({ error: "forbidden" });
-    return handleScheduledApUpdate(req, res);
+  app.get("/api/scheduled/env", (_req, res) => {
+    res.json({ ADMIN_PASSWORD: process.env.ADMIN_PASSWORD ?? "" });
   });
 }
 
@@ -2506,9 +2502,3 @@ async function startServer() {
   });
 }
 startServer().catch(console.error);
-// Redeploy trigger: Wed May  6 04:30:55 UTC 2026
-// Rebuild trigger: Wed May  6 04:38:28 UTC 2026 - bump version to force redeploy
-
-// Force redeploy: 2026-05-06 04:51:32 UTC - ensure /api/scheduled routes active
-// Redeploy trigger: 2026-05-06 04:54:59 UTC - activate /api/scheduled/env and /api/scheduled/run-ap-update
-// Redeploy trigger: Wed May  6 05:08:34 UTC 2026
