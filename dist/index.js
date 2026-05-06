@@ -2501,8 +2501,4 @@ async function startServer() {
     console.log(`Server running on http://localhost:${port}/`);
   });
 }
-// UNIQUE_ROUTE_HEALTH_CHECK_1778046667
 startServer().catch(console.error);
-// Redeploy trigger: 2026-05-06 05:32:02 UTC
-// DEPLOY_MARKER_1778045903
-// DEPLOY_MARKER_1778046252
