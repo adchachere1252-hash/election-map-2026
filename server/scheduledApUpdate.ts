@@ -80,8 +80,55 @@ async function isCronRequest(req: Request): Promise<boolean> {
   }
 }
 
+// AP Elections data API base URL
+const AP_DATA_BASE = "https://interactives.apelections.org/election-results/data-live/2026-05-05/results/national";
+
+// AP party code -> our party code
+function mapParty(apParty: string | undefined | null): "D" | "R" | "I" | null {
+  if (!apParty) return null;
+  const p = apParty.toUpperCase();
+  if (p === "DEM" || p === "D") return "D";
+  if (p === "GOP" || p === "REP" || p === "R") return "R";
+  if (p === "IND" || p === "I") return "I";
+  return null;
+}
+
+interface ApCandidateMeta {
+  first: string;
+  last: string;
+  party: string;
+  candidateID: string;
+  incumbent?: boolean;
+}
+
+interface ApRaceMeta {
+  officeName: string;
+  seatName: string | null;
+  seatNum: string | null;
+  party: string;
+  raceCallStatus: string;
+  partyRaceCall: string | null;
+  candidates: Record<string, ApCandidateMeta>;
+}
+
+interface ApCandidateProgress {
+  candidateID: string;
+  voteCount: number;
+  votePct: number;
+  winner?: string;
+}
+
+interface ApRaceProgress {
+  statePostal: string;
+  eevp: number;
+  precinctsReportingPct: number;
+  raceCallStatus?: string;
+  partyRaceCall?: string;
+  candidates: ApCandidateProgress[];
+}
+
 /**
- * Scrape AP News election results using fetch (no Playwright needed server-side).
+ * Fetch AP election data from the AP Elections data API.
  * Returns structured race data for OH and IN.
  */
 async function scrapeApResults(): Promise<ScrapedResults> {
@@ -91,133 +138,128 @@ async function scrapeApResults(): Promise<ScrapedResults> {
     indianaHouse: {},
   };
 
-  const AP_BASE = "https://apnews.com/projects/elections-2026";
-  const urls = [
-    { url: `${AP_BASE}/ohio-primary-results/`, state: "OH" },
-    { url: `${AP_BASE}/indiana-primary-results-us-house/`, state: "IN" },
-  ];
+  const fetchJson = async (url: string): Promise<unknown> => {
+    const resp = await fetch(url, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Accept": "application/json, */*",
+        "Referer": "https://apnews.com/",
+        "Origin": "https://apnews.com",
+      },
+      signal: AbortSignal.timeout(30000),
+    });
+    if (!resp.ok) {
+      throw new Error(`HTTP ${resp.status} for ${url}`);
+    }
+    const text = await resp.text();
+    return JSON.parse(text);
+  };
 
-  for (const { url, state } of urls) {
+  for (const state of ["IN", "OH"] as const) {
     try {
-      console.log(`[AP Scraper] Fetching ${url}`);
-      const resp = await fetch(url, {
-        headers: {
-          "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
-          "Accept": "text/html,application/xhtml+xml",
-        },
-        signal: AbortSignal.timeout(30000),
-      });
+      console.log(`[AP Scraper] Fetching ${state} metadata and progress...`);
 
-      if (!resp.ok) {
-        console.error(`[AP Scraper] HTTP ${resp.status} for ${url}`);
-        continue;
+      const [metaData, progressData] = await Promise.all([
+        fetchJson(`${AP_DATA_BASE}/${state}/metadata.json`) as Promise<Record<string, ApRaceMeta>>,
+        fetchJson(`${AP_DATA_BASE}/${state}/progress.json`) as Promise<Record<string, ApRaceProgress>>,
+      ]);
+
+      console.log(`[AP Scraper] ${state}: ${Object.keys(metaData).length} races in metadata, ${Object.keys(progressData).length} in progress`);
+
+      // Process each race
+      for (const [raceId, meta] of Object.entries(metaData)) {
+        const progress = progressData[raceId];
+        if (!progress) continue;
+
+        const office = meta.officeName || "";
+        const seatNum = meta.seatNum ? parseInt(meta.seatNum) : null;
+
+        // Build candidates list
+        const candidates: CandidateResult[] = [];
+        for (const cp of (progress.candidates || [])) {
+          const cm = meta.candidates?.[cp.candidateID];
+          if (!cm) continue;
+          const name = `${cm.first} ${cm.last}`.trim();
+          candidates.push({
+            name,
+            party: mapParty(cm.party),
+            pct: cp.votePct ?? null,
+            votes: cp.voteCount ?? null,
+            isWinner: !!cp.winner,
+          });
+        }
+
+        // Determine if called and winner
+        const called = !!(progress.raceCallStatus === "Called" || meta.raceCallStatus === "Called" ||
+          progress.partyRaceCall || meta.partyRaceCall ||
+          candidates.some(c => c.isWinner));
+        const winnerCand = candidates.find(c => c.isWinner);
+        const winner = winnerCand?.name ?? null;
+        const winnerParty = winnerCand?.party ?? null;
+        const pctReporting = progress.eevp ?? progress.precinctsReportingPct ?? 0;
+
+        const raceResult: RaceResult = {
+          called,
+          winner,
+          winnerParty,
+          pctReporting,
+          candidates,
+        };
+
+        if (state === "OH") {
+          // Ohio Senate
+          if (office.toLowerCase().includes("senate") && !office.toLowerCase().includes("state")) {
+            if (!results.ohioSenate) {
+              results.ohioSenate = { ...raceResult, isSenate: true };
+            } else {
+              results.ohioSenate.candidates.push(...raceResult.candidates);
+              if (raceResult.called && raceResult.winner) {
+                results.ohioSenate.called = true;
+                results.ohioSenate.winner = raceResult.winner;
+                results.ohioSenate.winnerParty = raceResult.winnerParty;
+              }
+              results.ohioSenate.pctReporting = Math.max(results.ohioSenate.pctReporting, raceResult.pctReporting);
+            }
+          }
+          // Ohio House
+          else if (office.toLowerCase().includes("house") && seatNum !== null && seatNum >= 1 && seatNum <= 15) {
+            if (!results.ohioHouse[seatNum]) {
+              results.ohioHouse[seatNum] = { ...raceResult, district: seatNum };
+            } else {
+              results.ohioHouse[seatNum].candidates.push(...raceResult.candidates);
+              if (raceResult.called && raceResult.winner) {
+                results.ohioHouse[seatNum].called = true;
+                results.ohioHouse[seatNum].winner = raceResult.winner;
+                results.ohioHouse[seatNum].winnerParty = raceResult.winnerParty;
+              }
+              results.ohioHouse[seatNum].pctReporting = Math.max(results.ohioHouse[seatNum].pctReporting, raceResult.pctReporting);
+            }
+          }
+        } else if (state === "IN") {
+          // Indiana House
+          if (office.toLowerCase().includes("house") && seatNum !== null && seatNum >= 1 && seatNum <= 9) {
+            if (!results.indianaHouse[seatNum]) {
+              results.indianaHouse[seatNum] = { ...raceResult, district: seatNum };
+            } else {
+              results.indianaHouse[seatNum].candidates.push(...raceResult.candidates);
+              if (raceResult.called && raceResult.winner) {
+                results.indianaHouse[seatNum].called = true;
+                results.indianaHouse[seatNum].winner = raceResult.winner;
+                results.indianaHouse[seatNum].winnerParty = raceResult.winnerParty;
+              }
+              results.indianaHouse[seatNum].pctReporting = Math.max(results.indianaHouse[seatNum].pctReporting, raceResult.pctReporting);
+            }
+          }
+        }
       }
 
-      const html = await resp.text();
-      const parsed = parseApHtml(html, state);
-
-      if (state === "OH") {
-        results.ohioSenate = parsed.senate;
-        results.ohioHouse = parsed.house;
-      } else {
-        results.indianaHouse = parsed.house;
-      }
-
-      console.log(`[AP Scraper] ${state}: senate=${!!parsed.senate}, house districts=[${Object.keys(parsed.house).join(",")}]`);
+      console.log(`[AP Scraper] ${state}: processed senate=${state === "OH" ? !!results.ohioSenate : "N/A"}, house=[${state === "OH" ? Object.keys(results.ohioHouse).join(",") : Object.keys(results.indianaHouse).join(",")}]`);
     } catch (err) {
-      console.error(`[AP Scraper] Error fetching ${url}:`, err);
+      console.error(`[AP Scraper] Error fetching ${state} data:`, err);
     }
   }
 
   return results;
-}
-
-interface ParsedPage {
-  senate: RaceResult | null;
-  house: Record<number, RaceResult>;
-}
-
-function parseApHtml(html: string, stateCode: string): ParsedPage {
-  const result: ParsedPage = { senate: null, house: {} };
-
-  // Strip HTML tags for text parsing
-  const text = html
-    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, " ")
-    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, " ")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/\s+/g, " ");
-
-  const lines = text.split(/[.\n]/).map(l => l.trim()).filter(l => l.length > 2);
-
-  let currentRace: RaceResult | null = null;
-
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-
-    // Detect Ohio Senate
-    if (stateCode === "OH" && /U\.S\. Senate|Ohio Senate/i.test(line)) {
-      currentRace = { called: false, winner: null, winnerParty: null, pctReporting: 0, candidates: [], isSenate: true };
-      result.senate = currentRace;
-    }
-
-    // Detect House districts
-    const houseMatch = line.match(/(?:U\.S\. House|Congressional District|District)[^0-9]*(\d+)/i);
-    if (houseMatch) {
-      const dist = parseInt(houseMatch[1]);
-      const validDist = stateCode === "OH" ? (dist >= 1 && dist <= 15) : (dist >= 1 && dist <= 9);
-      if (validDist) {
-        currentRace = { called: false, winner: null, winnerParty: null, pctReporting: 0, candidates: [], district: dist };
-        result.house[dist] = currentRace;
-      }
-    }
-
-    if (!currentRace) continue;
-
-    // Detect called/winner
-    if (/AP Race Called|Race Called/i.test(line)) {
-      currentRace.called = true;
-    }
-
-    // Detect % reporting
-    const pctMatch = line.match(/(\d+\.?\d*)\s*%\s*(?:of\s+)?(?:votes?\s+)?reporting/i);
-    if (pctMatch) {
-      currentRace.pctReporting = parseFloat(pctMatch[1]);
-    }
-
-    // Detect candidate lines: "Name (Party) XX.X%"
-    const candMatch = line.match(/^([A-Z][a-zA-Z\s\.\-']+?)\s+\(([DRI])\)\s+(\d+\.?\d*)\s*%(?:\s+([\d,]+))?/);
-    if (candMatch) {
-      const cand: CandidateResult = {
-        name: candMatch[1].trim(),
-        party: candMatch[2] as "D" | "R" | "I",
-        pct: parseFloat(candMatch[3]),
-        votes: candMatch[4] ? parseInt(candMatch[4].replace(/,/g, "")) : null,
-        isWinner: false,
-      };
-      currentRace.candidates.push(cand);
-    }
-  }
-
-  // Determine winners from candidates if called
-  const allRaces = [result.senate, ...Object.values(result.house)];
-  for (const race of allRaces) {
-    if (!race) continue;
-    if (race.called && !race.winner && race.candidates.length > 0) {
-      const sorted = [...race.candidates].sort((a, b) => (b.pct ?? 0) - (a.pct ?? 0));
-      if (sorted[0]) {
-        race.winner = sorted[0].name;
-        race.winnerParty = sorted[0].party;
-        sorted[0].isWinner = true;
-      }
-    }
-  }
-
-  return result;
 }
 
 function buildRaceUpdate(race: RaceResult | null): Record<string, unknown> {
@@ -240,6 +282,13 @@ function buildRaceUpdate(race: RaceResult | null): Record<string, unknown> {
     update.candidate2Party = sorted[1].party;
     if (sorted[1].pct !== null) update.candidate2VotePct = Math.round(sorted[1].pct * 10) / 10;
     if (sorted[1].votes !== null) update.candidate2Votes = sorted[1].votes;
+  }
+
+  if (sorted.length > 2) {
+    const others = sorted.slice(2);
+    update.otherCandidateName = others.map(c => c.name).join(", ");
+    update.otherVotes = others.reduce((sum, c) => sum + (c.votes ?? 0), 0);
+    update.otherVotePct = Math.round(others.reduce((sum, c) => sum + (c.pct ?? 0), 0) * 10) / 10;
   }
 
   if (race.pctReporting > 0) {
@@ -269,7 +318,7 @@ export async function handleScheduledApUpdate(req: Request, res: Response): Prom
   const cronOk = await isCronRequest(req);
   if (!cronOk) {
     log("Rejected: not a cron request");
-    res.status(403).json({ error: "Forbidden: cron cookie required" });
+    res.status(403).json({ error: "cron cookie cannot access non-scheduled-path" });
     return;
   }
 
@@ -277,7 +326,7 @@ export async function handleScheduledApUpdate(req: Request, res: Response): Prom
 
   try {
     // Scrape AP results
-    log("Scraping AP News...");
+    log("Fetching AP Elections data API...");
     const scraped = await scrapeApResults();
 
     // Helper to record update result
@@ -344,3 +393,4 @@ export async function handleScheduledApUpdate(req: Request, res: Response): Prom
 // Rebuild trigger: Tue May  5 22:49:01 EDT 2026
 // Redeploy trigger: Wed May  6 03:00:47 UTC 2026
 // Redeploy trigger: Wed May  6 03:27:42 UTC 2026 - scheduled route must be active
+// Redeploy trigger: Wed May  6 03:30:00 UTC 2026
