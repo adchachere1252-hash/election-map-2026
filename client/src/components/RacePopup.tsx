@@ -62,9 +62,11 @@ function VoteBar({ pct, party }: { pct: number; party: string | null | undefined
 }
 
 function CandidateRow({
-  name, party, votePct, voteCount, isWinner
-}: { name: string | null | undefined; party: string | null | undefined; votePct: string | number | null | undefined; voteCount?: number | null; isWinner?: boolean }) {
+  name, party, votePct, voteCount, isWinner, isEliminated
+}: { name: string | null | undefined; party: string | null | undefined; votePct: string | number | null | undefined; voteCount?: number | null; isWinner?: boolean; isEliminated?: boolean }) {
   if (!name) return null;
+  // If a race has been called and this is NOT the winner, hide this candidate
+  if (isEliminated) return null;
   const pctNum = votePct !== null && votePct !== undefined ? parseFloat(String(votePct)) : null;
   const hasVotes = pctNum !== null && !isNaN(pctNum) && pctNum > 0;
   const hasTally = voteCount !== null && voteCount !== undefined && voteCount > 0;
@@ -76,7 +78,11 @@ function CandidateRow({
           <div className="flex items-center min-w-0">
             <span className="text-sm font-medium truncate">{name}</span>
             {party && <span className="ml-1.5 text-xs text-muted-foreground">({party})</span>}
-            {isWinner && <span className="ml-2 text-xs text-green-400 font-bold">✓ Called</span>}
+            {isWinner && (
+              <span className="ml-2 inline-flex items-center gap-1 bg-green-800/60 border border-green-600/50 text-green-300 text-xs px-1.5 py-0.5 rounded font-bold">
+                ✓ Race Called
+              </span>
+            )}
           </div>
         </div>
         <div className="flex flex-col items-end ml-2 flex-shrink-0">
@@ -188,13 +194,16 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
 
       {(race.candidate1Name || race.candidate2Name) && (
         <div className="space-y-1.5 mb-3">
-          <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-1">Candidates</p>
+          <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-1">
+            {race.calledWinner ? "Primary Winner" : "Candidates"}
+          </p>
           <CandidateRow
             name={race.candidate1Name}
             party={race.candidate1Party}
             votePct={race.candidate1VotePct}
             voteCount={race.candidate1Votes}
             isWinner={race.calledWinner === race.candidate1Name}
+            isEliminated={!!race.calledWinner && race.calledWinner !== race.candidate1Name}
           />
           <CandidateRow
             name={race.candidate2Name}
@@ -202,6 +211,7 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
             votePct={race.candidate2VotePct}
             voteCount={race.candidate2Votes}
             isWinner={race.calledWinner === race.candidate2Name}
+            isEliminated={!!race.calledWinner && race.calledWinner !== race.candidate2Name}
           />
           {(race as any).otherCandidateName && (
             <CandidateRow
@@ -210,9 +220,10 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
               votePct={(race as any).otherVotePct}
               voteCount={(race as any).otherVotes}
               isWinner={race.calledWinner === (race as any).otherCandidateName}
+              isEliminated={!!race.calledWinner && race.calledWinner !== (race as any).otherCandidateName}
             />
           )}
-          {race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && (
+          {race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && !race.calledWinner && (
             <p className="text-xs text-muted-foreground text-right">{formatVotePct(race.pctReporting)} reporting</p>
           )}
           {(race as any).calledAt && (
@@ -309,13 +320,16 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
 
       {(race.candidate1Name || race.candidate2Name) && (
         <div className="space-y-1.5 mb-3">
-          <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-1">Candidates</p>
+          <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-1">
+            {race.calledWinner ? "Primary Winner" : "Candidates"}
+          </p>
           <CandidateRow
             name={race.candidate1Name}
             party={race.candidate1Party}
             votePct={race.candidate1VotePct}
             voteCount={race.candidate1Votes}
             isWinner={race.calledWinner === race.candidate1Name}
+            isEliminated={!!race.calledWinner && race.calledWinner !== race.candidate1Name}
           />
           <CandidateRow
             name={race.candidate2Name}
@@ -323,6 +337,7 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
             votePct={race.candidate2VotePct}
             voteCount={race.candidate2Votes}
             isWinner={race.calledWinner === race.candidate2Name}
+            isEliminated={!!race.calledWinner && race.calledWinner !== race.candidate2Name}
           />
           {(race as any).otherCandidateName && (
             <CandidateRow
@@ -331,9 +346,10 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
               votePct={(race as any).otherVotePct}
               voteCount={(race as any).otherVotes}
               isWinner={race.calledWinner === (race as any).otherCandidateName}
+              isEliminated={!!race.calledWinner && race.calledWinner !== (race as any).otherCandidateName}
             />
           )}
-          {race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && (
+          {race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && !race.calledWinner && (
             <p className="text-xs text-muted-foreground text-right">{formatVotePct(race.pctReporting)} reporting</p>
           )}
           {(race as any).calledAt && (
