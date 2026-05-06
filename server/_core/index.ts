@@ -9,6 +9,7 @@ import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { attachWebSocketServer } from "../ws";
 import { handleScheduledApUpdate } from "../scheduledApUpdate";
+import { registerScheduledRoutes } from "../scheduledRoutes";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -40,9 +41,10 @@ async function startServer() {
   // NOTE: The Manus proxy blocks /api/scheduled/* but passes /api/scheduled-task/* through
   // Register multiple path variants to handle proxy routing
   app.post("/api/scheduled-task/ap-update", handleScheduledApUpdate);
-  app.post("/api/scheduled/ap-update", handleScheduledApUpdate);
   app.post("/ap-update", handleScheduledApUpdate);
   app.post("/scheduled/ap-update", handleScheduledApUpdate);
+  // Password-based scheduled routes (includes /api/scheduled/ap-update with body password)
+  registerScheduledRoutes(app);
 
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
