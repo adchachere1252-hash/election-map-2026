@@ -142,4 +142,13 @@ export function registerScheduledRoutes(app: Express) {
   app.get("/api/scheduled/health", (_req, res) => {
     res.json({ ok: true, timestamp: new Date().toISOString() });
   });
+
+  /**
+   * GET /api/scheduled/env
+   * Returns ADMIN_PASSWORD for use by the scheduled task script.
+   * Secured by Manus proxy (only cron cookie can access /api/scheduled/* paths).
+   */
+  app.get("/api/scheduled/env", (_req, res) => {
+    res.json({ ADMIN_PASSWORD: process.env.ADMIN_PASSWORD ?? "" });
+  });
 }
