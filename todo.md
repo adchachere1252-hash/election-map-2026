@@ -1132,12 +1132,10 @@
 - [x] Phase 7: Expand to all 50 states (Senate, House, Governor)
 - [x] Phase 8: Update scheduled task with new pipeline
 
-## OH/IN Verification & Indiana Governor Race (May 6, 2026)
-- [ ] Verify all OH Senate and House race nominees and general election matchups in DB
-- [ ] Verify all IN Senate and House race nominees and general election matchups in DB
-- [ ] Research Indiana Governor race: Mike Braun (R) vs Jennifer McCormick (D) — rating, notes
-- [ ] Add Indiana Governor race to governor_races table in DB
-- [ ] Verify Indiana Governor race displays correctly on the map popup
+## OH/IN Verification (May 6, 2026)
+- [x] Verify all OH Senate and House race nominees and general election matchups in DB
+- [x] Verify all IN Senate and House race nominees and general election matchups in DB
+- [x] NOTE: Indiana Governor race does NOT exist in 2026 — Mike Braun won in Nov 2024, serves until 2028. Removed from scope.
 
 ## General Election Mode Cleanup (May 6, 2026)
 - [x] Verify all OH and IN candidate name spellings against Ballotpedia
