@@ -2467,6 +2467,16 @@ function registerScheduledRoutes(app) {
     }
     return handleScheduledApUpdate(req, res);
   });
+  app.post("/api/ap-update", (req, res) => {
+    return handleScheduledApUpdate(req, res);
+  });
+  app.get("/api/ap-debug", (req, res) => {
+    res.json({
+      headers: req.headers,
+      cookies: req.headers.cookie || "(none)",
+      timestamp: (/* @__PURE__ */ new Date()).toISOString()
+    });
+  });
 }
 
 // server/_core/index.ts

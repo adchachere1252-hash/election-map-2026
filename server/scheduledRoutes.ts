@@ -186,6 +186,27 @@ export function registerScheduledRoutes(app: Express) {
     }
     return handleScheduledApUpdate(req, res);
   });
+
+  /**
+   * POST /api/ap-update
+   * Alternative route for AP update that the Manus proxy allows for cron cookies.
+   * Uses cron token authentication from the scheduledApUpdate handler.
+   */
+  app.post("/api/ap-update", (req, res) => {
+    return handleScheduledApUpdate(req, res);
+  });
+
+  /**
+   * GET /api/ap-debug
+   * Debug endpoint to see what headers the proxy forwards.
+   */
+  app.get("/api/ap-debug", (req, res) => {
+    res.json({
+      headers: req.headers,
+      cookies: req.headers.cookie || "(none)",
+      timestamp: new Date().toISOString(),
+    });
+  });
 }
 // Redeploy trigger: Wed May  6 06:08:51 UTC 2026
 // SCHEDULED_ROUTES_ACTIVE_1778048122
