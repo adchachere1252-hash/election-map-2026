@@ -338,3 +338,4 @@ export async function handleScheduledApUpdate(req: Request, res: Response): Prom
     res.status(500).json({ success: false, error: msg, updates });
   }
 }
+// Redeploy trigger: Tue May  5 22:33:29 EDT 2026
