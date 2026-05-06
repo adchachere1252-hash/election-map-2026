@@ -343,3 +343,4 @@ export async function handleScheduledApUpdate(req: Request, res: Response): Prom
 // Redeploy trigger: Tue May  5 22:44:56 EDT 2026
 // Rebuild trigger: Tue May  5 22:49:01 EDT 2026
 // Redeploy trigger: Wed May  6 03:00:47 UTC 2026
+// Redeploy trigger: Wed May  6 03:27:42 UTC 2026 - scheduled route must be active
