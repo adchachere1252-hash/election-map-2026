@@ -50,33 +50,51 @@ interface ScrapedResults {
 }
 
 /**
- * Validate that the request comes from a Manus cron session.
- * The cron JWT has openId starting with "cron_".
- * NOTE: The Manus cron cookie is signed by Manus's own JWT secret, NOT the app's JWT_SECRET.
- * We must NOT verify the signature — just decode the payload and check openId.
+ * Decode and validate a cron JWT token (without signature verification).
+ * Returns true if the token has openId starting with "cron_" and is not expired.
  */
-async function isCronRequest(req: Request): Promise<boolean> {
+function decodeCronToken(token: string): boolean {
   try {
-    const cookieHeader = req.headers.cookie || "";
-    const cookies = parseCookieHeader(cookieHeader);
-    const sessionCookie = cookies["app_session_id"];
-    if (!sessionCookie) return false;
-
-    // Always decode without signature verification — Manus signs with its own secret
-    const parts = sessionCookie.split(".");
+    const parts = token.split(".");
     if (parts.length < 2) return false;
     const payload = JSON.parse(Buffer.from(parts[1], "base64url").toString("utf8"));
     const openId = payload.openId;
     if (typeof openId !== "string" || !openId.startsWith("cron_")) return false;
-
-    // Check expiry
     const exp = payload.exp;
     if (typeof exp === "number" && Date.now() / 1000 > exp) {
-      console.warn("[ScheduledApUpdate] Cron cookie expired");
+      console.warn("[ScheduledApUpdate] Cron token expired");
       return false;
     }
-
     return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Validate that the request comes from a Manus cron session.
+ * The cron JWT has openId starting with "cron_".
+ * NOTE: The Manus cron cookie is signed by Manus's own JWT secret, NOT the app's JWT_SECRET.
+ * We must NOT verify the signature — just decode the payload and check openId.
+ *
+ * Accepts the token from:
+ * 1. Cookie header (app_session_id) — may be stripped by proxy
+ * 2. Request body field "cronToken" — fallback when proxy strips cookies
+ */
+async function isCronRequest(req: Request): Promise<boolean> {
+  try {
+    // Check cookie header first
+    const cookieHeader = req.headers.cookie || "";
+    const cookies = parseCookieHeader(cookieHeader);
+    const sessionCookie = cookies["app_session_id"];
+    if (sessionCookie && decodeCronToken(sessionCookie)) return true;
+
+    // Fallback: check cronToken in request body (for when proxy strips cookies)
+    const body = req.body as Record<string, unknown> | undefined;
+    const bodyToken = typeof body?.cronToken === "string" ? body.cronToken : null;
+    if (bodyToken && decodeCronToken(bodyToken)) return true;
+
+    return false;
   } catch (err) {
     console.warn("[ScheduledApUpdate] Cookie verification failed:", String(err));
     return false;
@@ -400,3 +418,4 @@ export async function handleScheduledApUpdate(req: Request, res: Response): Prom
 // Rebuild trigger: Wed May  6 03:53:41 UTC 2026
 // Redeploy trigger: Wed May  6 03:59:00 UTC 2026 - fix cron cookie auth
 // Redeploy trigger: Wed May  6 04:03:57 UTC 2026
+// Rebuild trigger: Wed May  6 04:25:00 UTC 2026 - accept cronToken in body
