@@ -430,3 +430,4 @@ export async function handleScheduledApUpdate(req: Request, res: Response): Prom
 // Redeploy trigger: Wed May  6 05:21:47 UTC 2026
 // Redeploy trigger: Wed May  6 05:40:43 UTC 2026
 // Rebuild trigger: Wed May  6 05:52:00 UTC 2026 - add X-Cron-Token header and query param support
+// Rebuild trigger: 2026-05-06 05:58:53 UTC - x-cron-token and query param support v2
