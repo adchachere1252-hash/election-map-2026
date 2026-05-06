@@ -8,7 +8,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { attachWebSocketServer } from "../ws";
-import { registerScheduledRoutes } from "../scheduledRoutes";
+import { handleScheduledApUpdate } from "../scheduledApUpdate";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -36,8 +36,9 @@ async function startServer() {
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
-  // Scheduled task routes (accessible via Manus cron cookie at /api/scheduled/*)
-  registerScheduledRoutes(app);
+  // Scheduled task: AP election results auto-update (accessible by cron cookie)
+  // NOTE: /api/scheduled/* is the Manus proxy path prefix for cron cookie access
+  app.post("/api/scheduled/ap-update", handleScheduledApUpdate);
 
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
