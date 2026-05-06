@@ -194,43 +194,53 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
 
       {(race.candidate1Name || race.candidate2Name) && (
         <div className="space-y-1.5 mb-3">
-          <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-1">
-            {race.calledWinner ? "Primary Winner" : "Candidates"}
-          </p>
-          <CandidateRow
-            name={race.candidate1Name}
-            party={race.candidate1Party}
-            votePct={race.candidate1VotePct}
-            voteCount={race.candidate1Votes}
-            isWinner={race.calledWinner === race.candidate1Name}
-            isEliminated={!!race.calledWinner && race.calledWinner !== race.candidate1Name}
-          />
-          <CandidateRow
-            name={race.candidate2Name}
-            party={race.candidate2Party}
-            votePct={race.candidate2VotePct}
-            voteCount={race.candidate2Votes}
-            isWinner={race.calledWinner === race.candidate2Name}
-            isEliminated={!!race.calledWinner && race.calledWinner !== race.candidate2Name}
-          />
-          {(race as any).otherCandidateName && (
-            <CandidateRow
-              name={(race as any).otherCandidateName}
-              party={(race as any).otherCandidateParty}
-              votePct={(race as any).otherVotePct}
-              voteCount={(race as any).otherVotes}
-              isWinner={race.calledWinner === (race as any).otherCandidateName}
-              isEliminated={!!race.calledWinner && race.calledWinner !== (race as any).otherCandidateName}
-            />
-          )}
-          {race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && !race.calledWinner && (
-            <p className="text-xs text-muted-foreground text-right">{formatVotePct(race.pctReporting)} reporting</p>
-          )}
-          {(race as any).calledAt && (
-            <p className="text-xs text-green-400 font-semibold text-right mt-0.5">
-              Called at {new Date((race as any).calledAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" })}
-            </p>
-          )}
+          {(() => {
+            const primaryWinner = (race as any).primaryWinner as string | null | undefined;
+            const calledWinner = race.calledWinner;
+            const effectiveWinner = calledWinner || primaryWinner || null;
+            const isPrimary = !!primaryWinner && !calledWinner;
+            return (
+              <>
+                <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-1">
+                  {isPrimary ? "Primary Winner" : calledWinner ? "Winner" : "Candidates"}
+                </p>
+                <CandidateRow
+                  name={race.candidate1Name}
+                  party={race.candidate1Party}
+                  votePct={race.candidate1VotePct}
+                  voteCount={race.candidate1Votes}
+                  isWinner={effectiveWinner === race.candidate1Name}
+                  isEliminated={!!effectiveWinner && effectiveWinner !== race.candidate1Name}
+                />
+                <CandidateRow
+                  name={race.candidate2Name}
+                  party={race.candidate2Party}
+                  votePct={race.candidate2VotePct}
+                  voteCount={race.candidate2Votes}
+                  isWinner={effectiveWinner === race.candidate2Name}
+                  isEliminated={!!effectiveWinner && effectiveWinner !== race.candidate2Name}
+                />
+                {(race as any).otherCandidateName && (
+                  <CandidateRow
+                    name={(race as any).otherCandidateName}
+                    party={(race as any).otherCandidateParty}
+                    votePct={(race as any).otherVotePct}
+                    voteCount={(race as any).otherVotes}
+                    isWinner={effectiveWinner === (race as any).otherCandidateName}
+                    isEliminated={!!effectiveWinner && effectiveWinner !== (race as any).otherCandidateName}
+                  />
+                )}
+                {race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && !effectiveWinner && (
+                  <p className="text-xs text-muted-foreground text-right">{formatVotePct(race.pctReporting)} reporting</p>
+                )}
+                {(race as any).calledAt && (
+                  <p className="text-xs text-green-400 font-semibold text-right mt-0.5">
+                    Called at {new Date((race as any).calledAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" })}
+                  </p>
+                )}
+              </>
+            );
+          })()}
         </div>
       )}
 
@@ -320,43 +330,53 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
 
       {(race.candidate1Name || race.candidate2Name) && (
         <div className="space-y-1.5 mb-3">
-          <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-1">
-            {race.calledWinner ? "Primary Winner" : "Candidates"}
-          </p>
-          <CandidateRow
-            name={race.candidate1Name}
-            party={race.candidate1Party}
-            votePct={race.candidate1VotePct}
-            voteCount={race.candidate1Votes}
-            isWinner={race.calledWinner === race.candidate1Name}
-            isEliminated={!!race.calledWinner && race.calledWinner !== race.candidate1Name}
-          />
-          <CandidateRow
-            name={race.candidate2Name}
-            party={race.candidate2Party}
-            votePct={race.candidate2VotePct}
-            voteCount={race.candidate2Votes}
-            isWinner={race.calledWinner === race.candidate2Name}
-            isEliminated={!!race.calledWinner && race.calledWinner !== race.candidate2Name}
-          />
-          {(race as any).otherCandidateName && (
-            <CandidateRow
-              name={(race as any).otherCandidateName}
-              party={(race as any).otherCandidateParty}
-              votePct={(race as any).otherVotePct}
-              voteCount={(race as any).otherVotes}
-              isWinner={race.calledWinner === (race as any).otherCandidateName}
-              isEliminated={!!race.calledWinner && race.calledWinner !== (race as any).otherCandidateName}
-            />
-          )}
-          {race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && !race.calledWinner && (
-            <p className="text-xs text-muted-foreground text-right">{formatVotePct(race.pctReporting)} reporting</p>
-          )}
-          {(race as any).calledAt && (
-            <p className="text-xs text-green-400 font-semibold text-right mt-0.5">
-              Called at {new Date((race as any).calledAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" })}
-            </p>
-          )}
+          {(() => {
+            const primaryWinner = (race as any).primaryWinner as string | null | undefined;
+            const calledWinner = race.calledWinner;
+            const effectiveWinner = calledWinner || primaryWinner || null;
+            const isPrimary = !!primaryWinner && !calledWinner;
+            return (
+              <>
+                <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-1">
+                  {isPrimary ? "Primary Winner" : calledWinner ? "Winner" : "Candidates"}
+                </p>
+                <CandidateRow
+                  name={race.candidate1Name}
+                  party={race.candidate1Party}
+                  votePct={race.candidate1VotePct}
+                  voteCount={race.candidate1Votes}
+                  isWinner={effectiveWinner === race.candidate1Name}
+                  isEliminated={!!effectiveWinner && effectiveWinner !== race.candidate1Name}
+                />
+                <CandidateRow
+                  name={race.candidate2Name}
+                  party={race.candidate2Party}
+                  votePct={race.candidate2VotePct}
+                  voteCount={race.candidate2Votes}
+                  isWinner={effectiveWinner === race.candidate2Name}
+                  isEliminated={!!effectiveWinner && effectiveWinner !== race.candidate2Name}
+                />
+                {(race as any).otherCandidateName && (
+                  <CandidateRow
+                    name={(race as any).otherCandidateName}
+                    party={(race as any).otherCandidateParty}
+                    votePct={(race as any).otherVotePct}
+                    voteCount={(race as any).otherVotes}
+                    isWinner={effectiveWinner === (race as any).otherCandidateName}
+                    isEliminated={!!effectiveWinner && effectiveWinner !== (race as any).otherCandidateName}
+                  />
+                )}
+                {race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && !effectiveWinner && (
+                  <p className="text-xs text-muted-foreground text-right">{formatVotePct(race.pctReporting)} reporting</p>
+                )}
+                {(race as any).calledAt && (
+                  <p className="text-xs text-green-400 font-semibold text-right mt-0.5">
+                    Called at {new Date((race as any).calledAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" })}
+                  </p>
+                )}
+              </>
+            );
+          })()}
         </div>
       )}
 
