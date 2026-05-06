@@ -2372,6 +2372,21 @@ async function startServer() {
   const server = createServer(app);
   app.use(express2.json({ limit: "50mb" }));
   app.use(express2.urlencoded({ limit: "50mb", extended: true }));
+  app.get("/api/debug-cookies", (req, res) => {
+    const cookieHeader = req.headers.cookie || "";
+    const cookies = parseCookieHeader2(cookieHeader);
+    const sessionCookie = cookies["app_session_id"];
+    let payload = null;
+    if (sessionCookie) {
+      try {
+        const parts = sessionCookie.split(".");
+        if (parts.length >= 2) {
+          payload = JSON.parse(Buffer.from(parts[1], "base64url").toString("utf8"));
+        }
+      } catch (e) { payload = { error: String(e) }; }
+    }
+    res.json({ cookieHeader: cookieHeader.substring(0, 500), sessionCookie: sessionCookie ? sessionCookie.substring(0, 50) + '...' : null, payload, allHeaders: req.headers });
+  });
   app.post("/api/scheduled-task/ap-update", handleScheduledApUpdate);
   app.post("/api/scheduled/ap-update", handleScheduledApUpdate);
   app.post("/ap-update", handleScheduledApUpdate);
