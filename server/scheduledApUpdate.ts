@@ -450,3 +450,4 @@ export async function handleScheduledApUpdateTrusted(req: Request, res: Response
   }
 }
 // Rebuild trigger: 2026-05-06 — all-50-states dynamic engine
+// All-50-states engine rebuild: 2026-05-06T13:25:21Z
