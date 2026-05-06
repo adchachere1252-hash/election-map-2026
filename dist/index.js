@@ -2093,7 +2093,6 @@ async function setupVite(app, server) {
     }
   });
 }
-  app.post("/api/scheduled/ap-update", handleScheduledApUpdate);
 function serveStatic(app) {
   const distPath = process.env.NODE_ENV === "development" ? path2.resolve(import.meta.dirname, "../..", "dist", "public") : path2.resolve(import.meta.dirname, "public");
   if (!fs2.existsSync(distPath)) {
@@ -2345,6 +2344,7 @@ async function startServer() {
   app.use(express2.json({ limit: "50mb" }));
   app.use(express2.urlencoded({ limit: "50mb", extended: true }));
   
+  app.post("/api/scheduled/ap-update", handleScheduledApUpdate);
   app.post("/ap-update", handleScheduledApUpdate);
   app.post("/scheduled/ap-update", handleScheduledApUpdate);
   registerOAuthRoutes(app);
