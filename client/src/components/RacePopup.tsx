@@ -62,14 +62,13 @@ function VoteBar({ pct, party }: { pct: number; party: string | null | undefined
 }
 
 function CandidateRow({
-  name, party, votePct, voteCount, isWinner, isEliminated
-}: { name: string | null | undefined; party: string | null | undefined; votePct: string | number | null | undefined; voteCount?: number | null; isWinner?: boolean; isEliminated?: boolean }) {
+  name, party, votePct, isWinner, isEliminated
+}: { name: string | null | undefined; party: string | null | undefined; votePct: string | number | null | undefined; isWinner?: boolean; isEliminated?: boolean }) {
   if (!name) return null;
   // If a race has been called and this is NOT the winner, hide this candidate
   if (isEliminated) return null;
   const pctNum = votePct !== null && votePct !== undefined ? parseFloat(String(votePct)) : null;
   const hasVotes = pctNum !== null && !isNaN(pctNum) && pctNum > 0;
-  const hasTally = voteCount !== null && voteCount !== undefined && voteCount > 0;
   return (
     <div className={`py-1.5 px-2 rounded ${isWinner ? "bg-green-900/30 border border-green-700/40" : "bg-muted/30"}`}>
       <div className="flex items-center justify-between">
@@ -91,11 +90,7 @@ function CandidateRow({
               {formatVotePct(pctNum!)}
             </span>
           )}
-          {hasTally && (
-            <span className="text-xs text-muted-foreground">
-              {voteCount!.toLocaleString()}
-            </span>
-          )}
+
         </div>
       </div>
       {hasVotes && <VoteBar pct={pctNum!} party={party} />}
@@ -208,7 +203,6 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
                   name={race.candidate1Name}
                   party={race.candidate1Party}
                   votePct={race.candidate1VotePct}
-                  voteCount={race.candidate1Votes}
                   isWinner={effectiveWinner === race.candidate1Name}
                   isEliminated={!!effectiveWinner && effectiveWinner !== race.candidate1Name}
                 />
@@ -216,7 +210,6 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
                   name={race.candidate2Name}
                   party={race.candidate2Party}
                   votePct={race.candidate2VotePct}
-                  voteCount={race.candidate2Votes}
                   isWinner={effectiveWinner === race.candidate2Name}
                   isEliminated={!!effectiveWinner && effectiveWinner !== race.candidate2Name}
                 />
@@ -225,7 +218,6 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
                     name={(race as any).otherCandidateName}
                     party={(race as any).otherCandidateParty}
                     votePct={(race as any).otherVotePct}
-                    voteCount={(race as any).otherVotes}
                     isWinner={effectiveWinner === (race as any).otherCandidateName}
                     isEliminated={!!effectiveWinner && effectiveWinner !== (race as any).otherCandidateName}
                   />
@@ -344,7 +336,6 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
                   name={race.candidate1Name}
                   party={race.candidate1Party}
                   votePct={race.candidate1VotePct}
-                  voteCount={race.candidate1Votes}
                   isWinner={effectiveWinner === race.candidate1Name}
                   isEliminated={!!effectiveWinner && effectiveWinner !== race.candidate1Name}
                 />
@@ -352,7 +343,6 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
                   name={race.candidate2Name}
                   party={race.candidate2Party}
                   votePct={race.candidate2VotePct}
-                  voteCount={race.candidate2Votes}
                   isWinner={effectiveWinner === race.candidate2Name}
                   isEliminated={!!effectiveWinner && effectiveWinner !== race.candidate2Name}
                 />
@@ -361,7 +351,6 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
                     name={(race as any).otherCandidateName}
                     party={(race as any).otherCandidateParty}
                     votePct={(race as any).otherVotePct}
-                    voteCount={(race as any).otherVotes}
                     isWinner={effectiveWinner === (race as any).otherCandidateName}
                     isEliminated={!!effectiveWinner && effectiveWinner !== (race as any).otherCandidateName}
                   />
