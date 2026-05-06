@@ -1115,19 +1115,33 @@
 - [x] Fix Google Maps singleton script loading (prevent double-load with two MapView instances)
 
 ## Election Night Ticker Fix (May 5, 2026)
-- [ ] Add primaryWinner / primaryParty fields to senate_races and house_races schema
-- [ ] Migrate DB with new columns
-- [ ] Update senate.update and house.update to accept primaryWinner/primaryParty
-- [ ] Update ResultsTicker to show primary wins separately (labeled "PRIMARY WIN") and NOT show them as general election calls
-- [ ] Update election_update.py to use primaryWinner instead of calledWinner for primary results
-- [ ] Push all OH/IN race results to DB using primaryWinner fields
+- [x] Add primaryWinner / primaryParty fields to senate_races and house_races schema
+- [x] Migrate DB with new columns
+- [x] Update senate.update and house.update to accept primaryWinner/primaryParty
+- [x] Update ResultsTicker to show primary wins separately (labeled "PRIMARY WIN") and NOT show them as general election calls
+- [x] Update election_update.py to use primaryWinner instead of calledWinner for primary results
+- [x] Push all OH/IN race results to DB using primaryWinner fields
 
 ## Auto-Updater Full Overhaul (Round 10)
-- [ ] Phase 1: Find and integrate AP JSON data feed for fast structured data (target: <5s per update)
-- [ ] Phase 2: Smart race-called auto-detection from AP feed
-- [ ] Phase 3: Incremental updates — only push races where data changed
-- [ ] Phase 4: Multi-source fallback (NBC/Politico) when AP unavailable
-- [ ] Phase 5: WebSocket real-time push to browsers
-- [ ] Phase 6: Admin dashboard — live monitor, update log, Force Update button
-- [ ] Phase 7: Expand to all 50 states (Senate, House, Governor)
-- [ ] Phase 8: Update scheduled task with new pipeline
+- [x] Phase 1: Find and integrate AP JSON data feed for fast structured data (target: <5s per update)
+- [x] Phase 2: Smart race-called auto-detection from AP feed
+- [x] Phase 3: Incremental updates — only push races where data changed
+- [x] Phase 4: Multi-source fallback (NBC/Politico) when AP unavailable
+- [x] Phase 5: WebSocket real-time push to browsers
+- [x] Phase 6: Admin dashboard — live monitor, update log, Force Update button
+- [x] Phase 7: Expand to all 50 states (Senate, House, Governor)
+- [x] Phase 8: Update scheduled task with new pipeline
+
+## OH/IN Verification & Indiana Governor Race (May 6, 2026)
+- [ ] Verify all OH Senate and House race nominees and general election matchups in DB
+- [ ] Verify all IN Senate and House race nominees and general election matchups in DB
+- [ ] Research Indiana Governor race: Mike Braun (R) vs Jennifer McCormick (D) — rating, notes
+- [ ] Add Indiana Governor race to governor_races table in DB
+- [ ] Verify Indiana Governor race displays correctly on the map popup
+
+## General Election Mode Cleanup (May 6, 2026)
+- [x] Verify all OH and IN candidate name spellings against Ballotpedia
+- [x] Fix any name spelling errors in DB (IN-8: Mary Allen, IN-9: Brad Meyer, OH-5: Brian Shaver — all AP-confirmed)
+- [x] Update RacePopup to hide vote counts and percentages when status is General
+- [x] Clear pctReporting, candidate1VotePct, candidate2VotePct from all OH and IN races in DB
+- [x] Save checkpoint and publish

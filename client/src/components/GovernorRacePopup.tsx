@@ -312,8 +312,10 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
           )}
         </div>
 
-        {/* Vote results (election night) */}
-        <VoteBar demVotes={race.demVotes} repVotes={race.repVotes} otherVotes={race.otherVotes} pctReporting={race.pctReporting} />
+        {/* Vote results (election night only — hidden in General/Scheduled mode) */}
+        {(race.status === "Primary" || race.status === "Called" || race.status === "Certified") && (
+          <VoteBar demVotes={race.demVotes} repVotes={race.repVotes} otherVotes={race.otherVotes} pctReporting={race.pctReporting} />
+        )}
         {race.calledAt && (
           <p className="text-xs text-green-400 font-semibold text-right">
             Called at {new Date(race.calledAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" })}

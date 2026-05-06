@@ -63,13 +63,14 @@ function VoteBar({ pct, party }: { pct: number; party: string | null | undefined
 }
 
 function CandidateRow({
-  name, party, votePct, isWinner, isEliminated
-}: { name: string | null | undefined; party: string | null | undefined; votePct: string | number | null | undefined; isWinner?: boolean; isEliminated?: boolean }) {
+  name, party, votePct, isWinner, isEliminated, showVotes
+}: { name: string | null | undefined; party: string | null | undefined; votePct: string | number | null | undefined; isWinner?: boolean; isEliminated?: boolean; showVotes?: boolean }) {
   if (!name) return null;
   // If a race has been called and this is NOT the winner, hide this candidate
   if (isEliminated) return null;
   const pctNum = votePct !== null && votePct !== undefined ? parseFloat(String(votePct)) : null;
-  const hasVotes = pctNum !== null && !isNaN(pctNum) && pctNum > 0;
+  // Only show vote data when explicitly allowed (i.e., during Primary or Called/Certified status)
+  const hasVotes = showVotes && pctNum !== null && !isNaN(pctNum) && pctNum > 0;
   return (
     <div className={`py-1.5 px-2 rounded ${isWinner ? "bg-green-900/30 border border-green-700/40" : "bg-muted/30"}`}>
       <div className="flex items-center justify-between">
@@ -195,6 +196,8 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
             const calledWinner = race.calledWinner;
             const effectiveWinner = calledWinner || primaryWinner || null;
             const isPrimary = !!primaryWinner && !calledWinner;
+            // Only show vote percentages during Primary night or when race is Called/Certified
+            const showVotes = race.status === "Primary" || race.status === "Called" || race.status === "Certified";
             return (
               <>
                 <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-1">
@@ -206,6 +209,7 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
                   votePct={race.candidate1VotePct}
                   isWinner={effectiveWinner === race.candidate1Name}
                   isEliminated={!!effectiveWinner && effectiveWinner !== race.candidate1Name}
+                  showVotes={showVotes}
                 />
                 <CandidateRow
                   name={race.candidate2Name}
@@ -213,6 +217,7 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
                   votePct={race.candidate2VotePct}
                   isWinner={effectiveWinner === race.candidate2Name}
                   isEliminated={!!effectiveWinner && effectiveWinner !== race.candidate2Name}
+                  showVotes={showVotes}
                 />
                 {(race as any).otherCandidateName && (
                   <CandidateRow
@@ -221,9 +226,10 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
                     votePct={(race as any).otherVotePct}
                     isWinner={effectiveWinner === (race as any).otherCandidateName}
                     isEliminated={!!effectiveWinner && effectiveWinner !== (race as any).otherCandidateName}
+                    showVotes={showVotes}
                   />
                 )}
-                {race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && !effectiveWinner && (
+                {showVotes && race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && !effectiveWinner && (
                   <p className="text-xs text-muted-foreground text-right">{formatVotePct(race.pctReporting)} reporting</p>
                 )}
                 {(race as any).calledAt && (
@@ -328,6 +334,8 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
             const calledWinner = race.calledWinner;
             const effectiveWinner = calledWinner || primaryWinner || null;
             const isPrimary = !!primaryWinner && !calledWinner;
+            // Only show vote percentages during Primary night or when race is Called/Certified
+            const showVotes = race.status === "Primary" || race.status === "Called" || race.status === "Certified";
             return (
               <>
                 <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-1">
@@ -339,6 +347,7 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
                   votePct={race.candidate1VotePct}
                   isWinner={effectiveWinner === race.candidate1Name}
                   isEliminated={!!effectiveWinner && effectiveWinner !== race.candidate1Name}
+                  showVotes={showVotes}
                 />
                 <CandidateRow
                   name={race.candidate2Name}
@@ -346,6 +355,7 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
                   votePct={race.candidate2VotePct}
                   isWinner={effectiveWinner === race.candidate2Name}
                   isEliminated={!!effectiveWinner && effectiveWinner !== race.candidate2Name}
+                  showVotes={showVotes}
                 />
                 {(race as any).otherCandidateName && (
                   <CandidateRow
@@ -354,9 +364,10 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
                     votePct={(race as any).otherVotePct}
                     isWinner={effectiveWinner === (race as any).otherCandidateName}
                     isEliminated={!!effectiveWinner && effectiveWinner !== (race as any).otherCandidateName}
+                    showVotes={showVotes}
                   />
                 )}
-                {race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && !effectiveWinner && (
+                {showVotes && race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && !effectiveWinner && (
                   <p className="text-xs text-muted-foreground text-right">{formatVotePct(race.pctReporting)} reporting</p>
                 )}
                 {(race as any).calledAt && (
