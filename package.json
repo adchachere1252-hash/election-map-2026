@@ -117,5 +117,6 @@
     "overrides": {
       "tailwindcss>nanoid": "3.3.7"
     }
-  }
+  },
+  "_rebuild_trigger": "Wed May  6 04:04:36 UTC 2026"
 }
