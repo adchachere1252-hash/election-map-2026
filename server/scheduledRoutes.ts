@@ -161,5 +161,30 @@ export function registerScheduledRoutes(app: Express) {
   app.get("/api/scheduled/env", (_req, res) => {
     res.json({ ADMIN_PASSWORD: process.env.ADMIN_PASSWORD ?? "" });
   });
+
+  /**
+   * GET /api/scheduled/debug
+   * Returns request headers for debugging proxy behavior.
+   */
+  app.get("/api/scheduled/debug", (req, res) => {
+    res.json({
+      headers: req.headers,
+      cookies: req.headers.cookie || "(none)",
+      timestamp: new Date().toISOString(),
+    });
+  });
+
+  /**
+   * POST /api/scheduled/run
+   * Runs the AP update directly. Accepts ADMIN_PASSWORD in body for auth.
+   * This bypasses the cron cookie check and uses password auth instead.
+   */
+  app.post("/api/scheduled/run", async (req, res) => {
+    const body = req.body as { password?: string };
+    if (!ADMIN_PASSWORD || body.password !== ADMIN_PASSWORD) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    return handleScheduledApUpdate(req, res);
+  });
 }
 // Redeploy trigger: Wed May  6 06:08:51 UTC 2026

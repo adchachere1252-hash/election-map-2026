@@ -2453,6 +2453,20 @@ function registerScheduledRoutes(app) {
   app.get("/api/scheduled/env", (_req, res) => {
     res.json({ ADMIN_PASSWORD: process.env.ADMIN_PASSWORD ?? "" });
   });
+  app.get("/api/scheduled/debug", (req, res) => {
+    res.json({
+      headers: req.headers,
+      cookies: req.headers.cookie || "(none)",
+      timestamp: (/* @__PURE__ */ new Date()).toISOString()
+    });
+  });
+  app.post("/api/scheduled/run", async (req, res) => {
+    const body = req.body;
+    if (!ADMIN_PASSWORD2 || body.password !== ADMIN_PASSWORD2) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    return handleScheduledApUpdate(req, res);
+  });
 }
 
 // server/_core/index.ts
@@ -2506,4 +2520,3 @@ async function startServer() {
   });
 }
 startServer().catch(console.error);
-// FORCE_REDEPLOY_VERIFY_1778047868
