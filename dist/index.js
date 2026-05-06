@@ -666,6 +666,7 @@ var HttpError = class extends Error {
     this.statusCode = statusCode;
     this.name = "HttpError";
   }
+  statusCode;
 };
 var ForbiddenError = (msg) => new HttpError(403, msg);
 
@@ -687,6 +688,7 @@ var OAuthService = class {
       );
     }
   }
+  client;
   decodeState(state) {
     const redirectUri = atob(state);
     return redirectUri;
