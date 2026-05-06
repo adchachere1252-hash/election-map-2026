@@ -2372,6 +2372,7 @@ async function startServer() {
   const server = createServer(app);
   app.use(express2.json({ limit: "50mb" }));
   app.use(express2.urlencoded({ limit: "50mb", extended: true }));
+  app.get("/api/test-2026-05-06", (req, res) => { res.json({ status: "ok", version: "test_2026_05_06", time: Date.now() }); });
   app.get("/api/debug-cookies", (req, res) => {
     const cookieHeader = req.headers.cookie || "";
     const cookies = parseCookieHeader2(cookieHeader);
