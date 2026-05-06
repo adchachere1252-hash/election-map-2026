@@ -78,6 +78,28 @@ export const appRouter = router({
         const valid = await validateAdminSession(input.token);
         return { valid };
       }),
+
+    // Force-trigger an AP results update immediately
+    forceUpdate: publicProcedure
+      .input(z.object({ adminToken: z.string() }))
+      .mutation(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        // Trigger the AP update inline
+        const { scrapeAndPushResults } = await import("./scheduledApUpdate");
+        const result = await scrapeAndPushResults();
+        return result;
+      }),
+
+    // Get live system status for admin dashboard
+    status: publicProcedure
+      .input(z.object({ adminToken: z.string() }))
+      .query(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        return {
+          connectedClients: getConnectedClientCount(),
+          timestamp: new Date().toISOString(),
+        };
+      }),
   }),
 
   // ─── Senate ─────────────────────────────────────────────────────────────────

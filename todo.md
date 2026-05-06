@@ -1121,3 +1121,13 @@
 - [ ] Update ResultsTicker to show primary wins separately (labeled "PRIMARY WIN") and NOT show them as general election calls
 - [ ] Update election_update.py to use primaryWinner instead of calledWinner for primary results
 - [ ] Push all OH/IN race results to DB using primaryWinner fields
+
+## Auto-Updater Full Overhaul (Round 10)
+- [ ] Phase 1: Find and integrate AP JSON data feed for fast structured data (target: <5s per update)
+- [ ] Phase 2: Smart race-called auto-detection from AP feed
+- [ ] Phase 3: Incremental updates — only push races where data changed
+- [ ] Phase 4: Multi-source fallback (NBC/Politico) when AP unavailable
+- [ ] Phase 5: WebSocket real-time push to browsers
+- [ ] Phase 6: Admin dashboard — live monitor, update log, Force Update button
+- [ ] Phase 7: Expand to all 50 states (Senate, House, Governor)
+- [ ] Phase 8: Update scheduled task with new pipeline

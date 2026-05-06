@@ -1159,8 +1159,104 @@ function GovernorEditor({ race, token, onUpdated }: { race: GovernorRace; token:
   );
 }
 
+// ─── Live Monitor Panel ─────────────────────────────────────────────────────
+function LiveMonitorPanel({ token }: { token: string }) {
+  const [updateLog, setUpdateLog] = useState<Array<{ time: string; ok: number; skip: number; error: number; elapsed_ms: number }>>([]);
+  const [isRunning, setIsRunning] = useState(false);
+
+  const statusQuery = trpc.admin.status.useQuery(
+    { adminToken: token },
+    { refetchInterval: 5000 }
+  );
+
+  const forceUpdateMutation = trpc.admin.forceUpdate.useMutation({
+    onMutate: () => setIsRunning(true),
+    onSuccess: (result) => {
+      setIsRunning(false);
+      setUpdateLog(prev => [{
+        time: new Date().toLocaleTimeString(),
+        ok: result.ok,
+        skip: result.skip,
+        error: result.error,
+        elapsed_ms: result.elapsed_ms,
+      }, ...prev].slice(0, 20));
+      toast.success(`Update complete: ${result.ok} updated, ${result.skip} unchanged in ${result.elapsed_ms}ms`);
+    },
+    onError: (err) => {
+      setIsRunning(false);
+      toast.error(`Update failed: ${err.message}`);
+    },
+  });
+
+  return (
+    <div className="h-full overflow-y-auto p-5 space-y-5">
+      <div className="flex items-center gap-2">
+        <Zap className="w-5 h-5 text-green-400" />
+        <h2 className="text-lg font-bold text-foreground">Live Monitor</h2>
+        <span className="text-xs bg-green-900/50 text-green-300 border border-green-700/40 px-2 py-0.5 rounded">AP Auto-Updater</span>
+      </div>
+
+      {/* Status Cards */}
+      <div className="grid grid-cols-2 gap-3">
+        <div className="bg-card border border-border rounded-xl p-4">
+          <p className="text-xs text-muted-foreground mb-1">Connected Viewers</p>
+          <p className="text-2xl font-bold text-foreground">{statusQuery.data?.connectedClients ?? "—"}</p>
+          <p className="text-xs text-muted-foreground mt-1">Live WebSocket connections</p>
+        </div>
+        <div className="bg-card border border-border rounded-xl p-4">
+          <p className="text-xs text-muted-foreground mb-1">Auto-Update</p>
+          <p className="text-sm font-bold text-green-400">Every 5 min</p>
+          <p className="text-xs text-muted-foreground mt-1">AP JSON feed · 26 races</p>
+        </div>
+      </div>
+
+      {/* Force Update Button */}
+      <div className="bg-card border border-border rounded-xl p-4">
+        <p className="text-sm font-semibold text-foreground mb-2">Manual Force Update</p>
+        <p className="text-xs text-muted-foreground mb-3">Immediately pull latest AP results and push all races to the database. Broadcasts live to all connected viewers.</p>
+        <button
+          onClick={() => forceUpdateMutation.mutate({ adminToken: token })}
+          disabled={isRunning}
+          className="flex items-center gap-2 bg-green-700 hover:bg-green-600 disabled:opacity-50 text-white font-semibold px-4 py-2 rounded-lg transition-colors text-sm"
+        >
+          <RefreshCw className={`w-4 h-4 ${isRunning ? "animate-spin" : ""}`} />
+          {isRunning ? "Updating AP Results..." : "Force Update Now"}
+        </button>
+      </div>
+
+      {/* Update Log */}
+      {updateLog.length > 0 && (
+        <div className="bg-card border border-border rounded-xl p-4">
+          <p className="text-sm font-semibold text-foreground mb-3">Update History (this session)</p>
+          <div className="space-y-2">
+            {updateLog.map((entry, i) => (
+              <div key={i} className="flex items-center justify-between text-xs border-b border-border pb-2 last:border-0 last:pb-0">
+                <span className="text-muted-foreground">{entry.time}</span>
+                <div className="flex items-center gap-3">
+                  <span className="text-green-400">{entry.ok} updated</span>
+                  <span className="text-muted-foreground">{entry.skip} unchanged</span>
+                  {entry.error > 0 && <span className="text-red-400">{entry.error} errors</span>}
+                  <span className="text-muted-foreground">{entry.elapsed_ms}ms</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {updateLog.length === 0 && (
+        <div className="text-center py-8 text-muted-foreground">
+          <RefreshCw className="w-8 h-8 mx-auto mb-2 opacity-30" />
+          <p className="text-sm">No manual updates yet this session</p>
+          <p className="text-xs mt-1">Auto-updates run every 5 minutes in the background</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Main Admin Panel ─────────────────────────────────────────────────
-type AdminTab = "senate" | "house" | "redistricting" | "referendums" | "primary" | "election-night" | "key-races" | "governors";
+type AdminTab = "senate" | "house" | "redistricting" | "referendums" | "primary" | "election-night" | "key-races" | "governors" | "live-monitor";
 
 function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }) {
   const [tab, setTab] = useState<AdminTab>("senate");
@@ -1272,7 +1368,7 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
         <div className={`border-r border-border flex flex-col overflow-hidden transition-all ${tab === "election-night" ? "w-0 overflow-hidden border-0" : "w-72"}`}>
           {/* Tabs */}
           <div className="flex flex-wrap border-b border-border">
-            {(["senate", "house", "redistricting", "referendums", "governors", "primary", "key-races", "election-night"] as AdminTab[]).map(t => (
+            {(["senate", "house", "redistricting", "referendums", "governors", "primary", "key-races", "election-night", "live-monitor"] as AdminTab[]).map(t => (
               <button
                 key={t}
                 onClick={() => { setTab(t); setSearch(""); }}
@@ -1289,6 +1385,7 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
                   : t === "primary" ? "Primaries"
                   : t === "election-night" ? <span className="flex items-center justify-center gap-0.5"><Zap className="w-3 h-3" />Night</span>
                   : t === "key-races" ? <span className="flex items-center justify-center gap-0.5"><Star className="w-3 h-3" />Key Races</span>
+                  : t === "live-monitor" ? <span className="flex items-center justify-center gap-0.5"><Zap className="w-3 h-3 text-green-400" />Monitor</span>
                   : t.charAt(0).toUpperCase() + t.slice(1)}
               </button>
             ))}
@@ -1645,8 +1742,13 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
             </div>
           )}
 
+          {/* Live Monitor Panel */}
+          {tab === "live-monitor" && (
+            <LiveMonitorPanel token={token} />
+          )}
+
           {/* Empty state */}
-          {tab !== "election-night" && tab !== "primary" && tab !== "key-races" &&
+          {tab !== "election-night" && tab !== "primary" && tab !== "key-races" && tab !== "live-monitor" &&
             ((tab === "senate" && !selectedSenate) ||
             (tab === "house" && !selectedHouse) ||
             (tab === "redistricting" && !selectedRedistricting) ||
