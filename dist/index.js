@@ -2309,7 +2309,8 @@ async function handleScheduledApUpdate(req, res) {
   const startTime = Date.now();
   const log = (msg) => console.log(`[ScheduledApUpdate] ${msg}`);
   log("Starting AP results update...");
-  const cronOk = await isCronRequest(req);
+  const isProxyAuthenticated = req.path.startsWith("/api/scheduled-task/") || req.originalUrl.includes("/api/scheduled-task/");
+  const cronOk = isProxyAuthenticated || await isCronRequest(req);
   if (!cronOk) {
     log("Rejected: not a cron request");
     res.status(403).json({ error: "cron cookie cannot access non-scheduled-path" });
