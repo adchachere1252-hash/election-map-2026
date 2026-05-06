@@ -1110,6 +1110,14 @@
 - [x] Main election page background kept as original space/starfield (sky only on new page)
 
 ## Map Comparison Fixes (Round N+1)
-- [ ] Change default view to full U.S. nationwide (all 50 states load on startup, zoomed out to national level)
-- [ ] Fix sky video visibility behind Google Maps panels (use dark custom map style so sky shows through)
-- [ ] Fix Google Maps singleton script loading (prevent double-load with two MapView instances)
+- [x] Change default view to full U.S. nationwide (all 50 states load on startup, zoomed out to national level)
+- [x] Fix sky video visibility behind Google Maps panels (transparent backgroundColor + dark map style)
+- [x] Fix Google Maps singleton script loading (prevent double-load with two MapView instances)
+
+## Election Night Ticker Fix (May 5, 2026)
+- [ ] Add primaryWinner / primaryParty fields to senate_races and house_races schema
+- [ ] Migrate DB with new columns
+- [ ] Update senate.update and house.update to accept primaryWinner/primaryParty
+- [ ] Update ResultsTicker to show primary wins separately (labeled "PRIMARY WIN") and NOT show them as general election calls
+- [ ] Update election_update.py to use primaryWinner instead of calledWinner for primary results
+- [ ] Push all OH/IN race results to DB using primaryWinner fields
