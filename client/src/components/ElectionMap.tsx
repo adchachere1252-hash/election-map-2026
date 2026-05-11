@@ -307,6 +307,7 @@ const ElectionMap = forwardRef(function ElectionMap({
     if (view === "redistricting") {
       const state = redistrictingByState[stateCode];
       if (!state) return "url(#no-race-stripe)";
+      if (state.status === 'Struck Down') return "#7f1d1d"; // dark red for court-struck
       return state.enacted ? "#4a7c59" : "#8b6914";
     }
     return "url(#no-race-stripe)";
@@ -564,7 +565,7 @@ const ElectionMap = forwardRef(function ElectionMap({
             }
           } else if (view === "redistricting" && redistrictingByState[code]) {
             const r = redistrictingByState[code];
-            content = `${r.stateName} — ${r.enacted ? "Enacted" : "Pending"}`;
+            content = `${r.stateName} — ${r.status === 'Struck Down' ? 'Struck Down by Court' : r.enacted ? 'Enacted' : 'Pending'}`;
           }
           const rect = svgRef.current!.getBoundingClientRect();
           setTooltip({ x: event.clientX - rect.left, y: event.clientY - rect.top - 10, content });

@@ -1,0 +1,30 @@
+{
+  "query": "SELECT * FROM redistricting_states WHERE state_code = 'VA';\nSELECT * FROM referendums WHERE state_code = 'VA';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT * FROM redistricting_states WHERE state_code = 'VA';\nSELECT * FROM referendums WHERE state_code = 'VA';",
+  "rows": [
+    {
+      "id": "12",
+      "state_code": "VA",
+      "state_name": "Virginia",
+      "enacted": "0",
+      "reason": "Procedural constitutional violation — improper amendment process",
+      "status": "Struck Down",
+      "method": "Hybrid (voter referendum — nullified)",
+      "delegation_before": "6 D - 5 R",
+      "projected_impact": "None — 2022/2024 maps remain in effect through 2026",
+      "litigation_notes": "VIRGINIA SUPREME COURT RULING — May 8, 2026: The Virginia Supreme Court struck down the April 21, 2026 redistricting amendment in a 7-0 ruling, finding the ballot question was unconstitutionally misleading. The court held that the question failed to adequately disclose that approval would transfer congressional redistricting authority from the independent Virginia Redistricting Commission (created by voters in 2020) to the General Assembly. The amendment would have allowed the General Assembly to redraw Virginia's 11 congressional districts under House Bill 29, shifting four Republican-held seats toward Democratic-leaning configurations. With the ruling, the current maps drawn by the Virginia Redistricting Commission remain in effect through 2030. Sources: Virginia Mercury · NPR Politics (May 8, 2026)",
+      "updated_at": "2026-05-11 15:09:19"
+    }
+  ],
+  "messages": [
+    "id\tstate_code\tstate_name\tname\tdescription\tyes_label\tno_label\tyes_votes\tno_votes\tpct_reporting\telection_date\tstatus\tcalled_result\tnotes\tupdated_at",
+    "1\tVA\tVirginia\tVirginia Congressional Redistricting Amendment\tShould the Constitution of Virginia be amended to allow the General Assembly to temporarily adopt new congressional districts to restore fairness in the upcoming elections, while ensuring Virginia's standard redistricting process resumes for all future redistricting after the 2030 census?\tYes — Allow General Assembly to redraw congressional districts\tNo — Keep current Redistricting Commission authority\t1575331\t1486239\t97.00\tApril 21, 2026\tCertified\tNo\tRESULT OVERTURNED BY VIRGINIA SUPREME COURT (May 8, 2026):",
+    "The Virginia Supreme Court struck down the redistricting amendment on May 8, 2026, ruling that the ballot question was unconstitutionally misleading. The court found that the question failed to adequately inform voters that approval would allow the General Assembly — rather than the independent Virginia Redistricting Commission — to draw new congressional maps, effectively bypassing the commission voters created in 2020.",
+    "The court ruled 7-0 that the amendment could not take effect, and the current congressional maps drawn by the Virginia Redistricting Commission remain in place through the 2030 census.",
+    "Case: Youngkin v. Virginia State Board of Elections (May 8, 2026)",
+    "Sources: Virginia Mercury · NPR Politics (May 8, 2026)\t2026-05-11 15:08:18"
+  ],
+  "stdout": "id\tstate_code\tstate_name\tenacted\treason\tstatus\tmethod\tdelegation_before\tprojected_impact\tlitigation_notes\tupdated_at\n12\tVA\tVirginia\t0\tProcedural constitutional violation — improper amendment process\tStruck Down\tHybrid (voter referendum — nullified)\t6 D - 5 R\tNone — 2022/2024 maps remain in effect through 2026\tVIRGINIA SUPREME COURT RULING — May 8, 2026: The Virginia Supreme Court struck down the April 21, 2026 redistricting amendment in a 7-0 ruling, finding the ballot question was unconstitutionally misleading. The court held that the question failed to adequately disclose that approval would transfer congressional redistricting authority from the independent Virginia Redistricting Commission (created by voters in 2020) to the General Assembly. The amendment would have allowed the General Assembly to redraw Virginia's 11 congressional districts under House Bill 29, shifting four Republican-held seats toward Democratic-leaning configurations. With the ruling, the current maps drawn by the Virginia Redistricting Commission remain in effect through 2030. Sources: Virginia Mercury · NPR Politics (May 8, 2026)\t2026-05-11 15:09:19\nid\tstate_code\tstate_name\tname\tdescription\tyes_label\tno_label\tyes_votes\tno_votes\tpct_reporting\telection_date\tstatus\tcalled_result\tnotes\tupdated_at\n1\tVA\tVirginia\tVirginia Congressional Redistricting Amendment\tShould the Constitution of Virginia be amended to allow the General Assembly to temporarily adopt new congressional districts to restore fairness in the upcoming elections, while ensuring Virginia's standard redistricting process resumes for all future redistricting after the 2030 census?\tYes — Allow General Assembly to redraw congressional districts\tNo — Keep current Redistricting Commission authority\t1575331\t1486239\t97.00\tApril 21, 2026\tCertified\tNo\tRESULT OVERTURNED BY VIRGINIA SUPREME COURT (May 8, 2026):\n\nThe Virginia Supreme Court struck down the redistricting amendment on May 8, 2026, ruling that the ballot question was unconstitutionally misleading. The court found that the question failed to adequately inform voters that approval would allow the General Assembly — rather than the independent Virginia Redistricting Commission — to draw new congressional maps, effectively bypassing the commission voters created in 2020.\n\nThe court ruled 7-0 that the amendment could not take effect, and the current congressional maps drawn by the Virginia Redistricting Commission remain in place through the 2030 census.\n\nCase: Youngkin v. Virginia State Board of Elections (May 8, 2026)\nSources: Virginia Mercury · NPR Politics (May 8, 2026)\t2026-05-11 15:08:18\n",
+  "stderr": "",
+  "execution_time_ms": 258
+}

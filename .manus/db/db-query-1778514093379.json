@@ -1,0 +1,98 @@
+{
+  "query": "SELECT id, state_code, district, district_label, incumbent, status FROM house_races WHERE state_code = 'VA' ORDER BY district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, state_code, district, district_label, incumbent, status FROM house_races WHERE state_code = 'VA' ORDER BY district;",
+  "rows": [
+    {
+      "id": "404",
+      "state_code": "VA",
+      "district": "1",
+      "district_label": "1",
+      "incumbent": "Rob Wittman",
+      "status": "Scheduled"
+    },
+    {
+      "id": "405",
+      "state_code": "VA",
+      "district": "2",
+      "district_label": "2",
+      "incumbent": "Jen Kiggans",
+      "status": "Scheduled"
+    },
+    {
+      "id": "406",
+      "state_code": "VA",
+      "district": "3",
+      "district_label": "3",
+      "incumbent": "Bobby Scott",
+      "status": "Scheduled"
+    },
+    {
+      "id": "407",
+      "state_code": "VA",
+      "district": "4",
+      "district_label": "4",
+      "incumbent": "Jennifer McClellan",
+      "status": "Scheduled"
+    },
+    {
+      "id": "408",
+      "state_code": "VA",
+      "district": "5",
+      "district_label": "5",
+      "incumbent": "John J. McGuire",
+      "status": "Scheduled"
+    },
+    {
+      "id": "409",
+      "state_code": "VA",
+      "district": "6",
+      "district_label": "6",
+      "incumbent": "Ben Cline",
+      "status": "Scheduled"
+    },
+    {
+      "id": "410",
+      "state_code": "VA",
+      "district": "7",
+      "district_label": "7",
+      "incumbent": "Eugene Vindman",
+      "status": "Scheduled"
+    },
+    {
+      "id": "411",
+      "state_code": "VA",
+      "district": "8",
+      "district_label": "8",
+      "incumbent": "Don Beyer",
+      "status": "Scheduled"
+    },
+    {
+      "id": "412",
+      "state_code": "VA",
+      "district": "9",
+      "district_label": "9",
+      "incumbent": "Morgan Griffith",
+      "status": "Scheduled"
+    },
+    {
+      "id": "413",
+      "state_code": "VA",
+      "district": "10",
+      "district_label": "10",
+      "incumbent": "Suhas Subramanyam",
+      "status": "Scheduled"
+    },
+    {
+      "id": "414",
+      "state_code": "VA",
+      "district": "11",
+      "district_label": "11",
+      "incumbent": "James R. Walkinshaw",
+      "status": "Called"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tdistrict\tdistrict_label\tincumbent\tstatus\n404\tVA\t1\t1\tRob Wittman\tScheduled\n405\tVA\t2\t2\tJen Kiggans\tScheduled\n406\tVA\t3\t3\tBobby Scott\tScheduled\n407\tVA\t4\t4\tJennifer McClellan\tScheduled\n408\tVA\t5\t5\tJohn J. McGuire\tScheduled\n409\tVA\t6\t6\tBen Cline\tScheduled\n410\tVA\t7\t7\tEugene Vindman\tScheduled\n411\tVA\t8\t8\tDon Beyer\tScheduled\n412\tVA\t9\t9\tMorgan Griffith\tScheduled\n413\tVA\t10\t10\tSuhas Subramanyam\tScheduled\n414\tVA\t11\t11\tJames R. Walkinshaw\tCalled\n",
+  "stderr": "",
+  "execution_time_ms": 259
+}

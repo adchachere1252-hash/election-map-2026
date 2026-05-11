@@ -1,0 +1,23 @@
+{
+  "query": "\nSELECT * FROM redistricting_states WHERE state_code = 'VA';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT * FROM redistricting_states WHERE state_code = 'VA';\n",
+  "rows": [
+    {
+      "id": "12",
+      "state_code": "VA",
+      "state_name": "Virginia",
+      "enacted": "0",
+      "reason": "Voluntary redistricting",
+      "status": "Constitutional amendment pending voter approval (April 21, 2026 referendum)",
+      "method": "Hybrid",
+      "delegation_before": "6 D - 5 R",
+      "projected_impact": "TBD",
+      "litigation_notes": "Voters deciding April 21 whether to allow General Assembly to temporarily adopt new congressional districts",
+      "updated_at": "2026-04-08 13:45:58"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tstate_name\tenacted\treason\tstatus\tmethod\tdelegation_before\tprojected_impact\tlitigation_notes\tupdated_at\n12\tVA\tVirginia\t0\tVoluntary redistricting\tConstitutional amendment pending voter approval (April 21, 2026 referendum)\tHybrid\t6 D - 5 R\tTBD\tVoters deciding April 21 whether to allow General Assembly to temporarily adopt new congressional districts\t2026-04-08 13:45:58\n",
+  "stderr": "",
+  "execution_time_ms": 256
+}

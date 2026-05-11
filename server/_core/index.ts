@@ -48,6 +48,30 @@ async function startServer() {
 
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
+
+  // GeoJSON proxy: fetch Lewis congressional district boundaries from GitHub
+  // This bypasses CORS restrictions in the browser sandbox
+  app.get("/api/geojson/:filename", async (req, res) => {
+    const { filename } = req.params;
+    // Validate filename: only allow .geojson files with safe characters
+    if (!/^[A-Za-z0-9_\-]+\.geojson$/.test(filename)) {
+      return res.status(400).json({ error: "Invalid filename" });
+    }
+    const url = `https://raw.githubusercontent.com/JeffreyBLewis/congressional-district-boundaries/master/GeoJson/${filename}`;
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        return res.status(response.status).json({ error: "Not found" });
+      }
+      const data = await response.text();
+      res.setHeader("Content-Type", "application/json");
+      res.setHeader("Cache-Control", "public, max-age=86400"); // cache 24h
+      return res.send(data);
+    } catch (err) {
+      console.error("GeoJSON proxy error:", err);
+      return res.status(500).json({ error: "Proxy fetch failed" });
+    }
+  });
   // tRPC API
   app.use(
     "/api/trpc",

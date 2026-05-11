@@ -266,15 +266,21 @@ export default function Home() {
       const stateRaces = houseRaces.filter(r => r.stateCode === stateCode);
       if (stateRaces.length === 1) { setPopup({ type: "house", data: stateRaces[0] }); setSelectedId(stateRaces[0].id); }
     } else if (view === "redistricting") {
-      // If a referendum exists for this state, always show the referendum popup
-      // (e.g. Virginia has both a redistricting record AND the April 21 referendum)
+      // If an active (non-voided) referendum exists for this state, show the referendum popup.
+      // If the referendum was struck down / voided by a court, show the redistricting state popup instead.
       const ref = referendums.find(r => r.stateCode === stateCode);
-      if (ref) {
+      const redistState = redistrictingStates.find(r => r.stateCode === stateCode);
+      const isVoided = redistState?.status === 'Struck Down';
+      if (ref && !isVoided) {
         setPopup({ type: "referendum", data: ref });
         setSelectedId(ref.id);
-      } else {
-        const state = redistrictingStates.find(r => r.stateCode === stateCode);
-        if (state) { setPopup({ type: "redistricting", data: state }); setSelectedId(state.id); }
+      } else if (redistState) {
+        setPopup({ type: "redistricting", data: redistState });
+        setSelectedId(redistState.id);
+      } else if (ref) {
+        // Fallback: show referendum if no redistricting record
+        setPopup({ type: "referendum", data: ref });
+        setSelectedId(ref.id);
       }
     }
   }, [view, governorRaces, senateRaces, houseRaces, redistrictingStates, referendums]);
@@ -445,6 +451,15 @@ export default function Home() {
                 {VIEW_LABELS[v]}
               </button>
             ))}
+            {/* Historical Atlas link */}
+            <Link
+              to="/map-comparison"
+              className="px-2 sm:px-3 py-1.5 rounded-md text-xs font-semibold transition-all whitespace-nowrap text-muted-foreground hover:text-foreground"
+              title="Congressional Historical Map Atlas (89th\u2013119th Congress)"
+            >
+              <span className="hidden sm:inline">Historical Atlas</span>
+              <span className="sm:hidden">Atlas</span>
+            </Link>
           </div>
 
           {/* Right actions */}
@@ -613,6 +628,10 @@ export default function Home() {
               <span className="flex items-center gap-1 text-xs">
                 <span className="w-2 h-2 rounded-full inline-block" style={{ background: "#8b6914" }} />
                 <span className="text-muted-foreground">Pending</span>
+              </span>
+              <span className="flex items-center gap-1 text-xs">
+                <span className="w-2 h-2 rounded-full inline-block" style={{ background: "#7f1d1d" }} />
+                <span className="text-muted-foreground">Struck Down</span>
               </span>
               <span className="flex items-center gap-1 text-xs">
                 <span className="w-2.5 h-2.5 rounded-sm inline-block bg-muted-foreground/30" />

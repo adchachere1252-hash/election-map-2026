@@ -421,12 +421,18 @@ function RedistrictingPopup({ state, onClose }: { state: RedistrictingState; onC
         </button>
       </div>
 
-      <div className="mb-3">
+      <div className="mb-3 flex items-center gap-2">
         <span
           className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-bold text-white`}
-          style={{ background: state.enacted ? "#4a7c59" : "#8b6914" }}
+          style={{
+            background: state.status === 'Struck Down'
+              ? '#991b1b'
+              : state.enacted
+              ? '#4a7c59'
+              : '#8b6914'
+          }}
         >
-          {state.enacted ? "Map Enacted" : "Pending"}
+          {state.status === 'Struck Down' ? '⚖️ Struck Down by Court' : state.enacted ? 'Map Enacted' : 'Pending'}
         </span>
       </div>
 
@@ -464,9 +470,11 @@ function RedistrictingPopup({ state, onClose }: { state: RedistrictingState; onC
           </div>
         )}
         {state.litigationNotes && (
-          <div className="flex items-start gap-2 text-xs text-yellow-400 border-t border-border pt-2">
+          <div className={`flex items-start gap-2 text-xs border-t border-border pt-2 ${
+            state.status === 'Struck Down' ? 'text-red-400' : 'text-yellow-400'
+          }`}>
             <AlertCircle className="w-3 h-3 mt-0.5 flex-shrink-0" />
-            <span>{state.litigationNotes}</span>
+            <span className="leading-relaxed">{state.litigationNotes}</span>
           </div>
         )}
       </div>

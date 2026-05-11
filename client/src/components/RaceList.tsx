@@ -270,14 +270,18 @@ function RedistrictingList({ states, referendums, onSelectState, onSelectReferen
   onSelectReferendum?: (r: Referendum) => void;
 }) {
   const enacted = states.filter(s => s.enacted);
-  const pending = states.filter(s => !s.enacted);
+  const struckDown = states.filter(s => !s.enacted && s.status === 'Struck Down');
+  const pending = states.filter(s => !s.enacted && s.status !== 'Struck Down');
+  // Only show active referendums (not voided/struck-down ones)
+  const struckDownStateCodes = new Set(struckDown.map(s => s.stateCode));
+  const activeReferendums = referendums.filter(r => !struckDownStateCodes.has(r.stateCode));
 
   return (
     <div className="flex flex-col">
-      {referendums.length > 0 && (
+      {activeReferendums.length > 0 && (
         <div className="p-3 border-b border-border">
           <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-2">Active Referendums</p>
-          {referendums.map(ref => (
+          {activeReferendums.map(ref => (
             <button
               key={ref.id}
               onClick={() => onSelectReferendum?.(ref)}
@@ -342,7 +346,7 @@ function RedistrictingList({ states, referendums, onSelectState, onSelectReferen
         ))}
       </div>
 
-      <div className="p-3">
+      <div className="p-3 border-b border-border">
         <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-2 flex items-center gap-1.5">
           <span className="w-2 h-2 rounded-full bg-yellow-600 inline-block" />
           Pending Maps ({pending.length})
@@ -363,6 +367,28 @@ function RedistrictingList({ states, referendums, onSelectState, onSelectReferen
           </button>
         ))}
       </div>
+
+      {struckDown.length > 0 && (
+        <div className="p-3">
+          <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-2 flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full inline-block" style={{ background: "#7f1d1d" }} />
+            Court-Struck ({struckDown.length})
+          </p>
+          {struckDown.map(state => (
+            <button
+              key={state.id}
+              onClick={() => onSelectState?.(state)}
+              className="w-full text-left px-2.5 py-2 rounded hover:bg-accent transition-colors mb-1 border border-red-900/30"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium">{state.stateName}</span>
+                <span className="text-xs font-bold text-red-400">⚖️ Struck Down</span>
+              </div>
+              <p className="text-xs text-red-400/70 mt-0.5 truncate">VA Supreme Court, May 8, 2026</p>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

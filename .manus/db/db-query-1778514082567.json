@@ -1,0 +1,16 @@
+{
+  "query": "SELECT id, state_code, state_name, status FROM redistricting_states WHERE state_code = 'VA' LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, state_code, state_name, status FROM redistricting_states WHERE state_code = 'VA' LIMIT 5;",
+  "rows": [
+    {
+      "id": "12",
+      "state_code": "VA",
+      "state_name": "Virginia",
+      "status": "Struck Down"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tstate_name\tstatus\n12\tVA\tVirginia\tStruck Down\n",
+  "stderr": "",
+  "execution_time_ms": 257
+}

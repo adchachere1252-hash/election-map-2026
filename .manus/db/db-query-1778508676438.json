@@ -1,0 +1,20 @@
+{
+  "query": "\nUPDATE house_races \nSET status = 'Scheduled', \n    called_winner = NULL, \n    called_party = NULL,\n    pct_reporting = NULL,\n    candidate1_vote_pct = NULL,\n    candidate2_vote_pct = NULL,\n    notes = 'Special election struck down by Virginia Supreme Court. Race status TBD.'\nWHERE id = 414 AND state_code = 'VA' AND district = '11';\n\nSELECT id, state_code, district, candidate1_name, called_winner, called_party, status, notes FROM house_races WHERE id = 414;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nUPDATE house_races \nSET status = 'Scheduled', \n    called_winner = NULL, \n    called_party = NULL,\n    pct_reporting = NULL,\n    candidate1_vote_pct = NULL,\n    candidate2_vote_pct = NULL,\n    notes = 'Special election struck down by Virginia Supreme Court. Race status TBD.'\nWHERE id = 414 AND state_code = 'VA' AND district = '11';\n\nSELECT id, state_code, district, candidate1_name, called_winner, called_party, status, notes FROM house_races WHERE id = 414;\n",
+  "rows": [
+    {
+      "id": "414",
+      "state_code": "VA",
+      "district": "11",
+      "candidate1_name": "James R. Walkinshaw",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "status": "Scheduled",
+      "notes": "Special election struck down by Virginia Supreme Court. Race status TBD."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tdistrict\tcandidate1_name\tcalled_winner\tcalled_party\tstatus\tnotes\n414\tVA\t11\tJames R. Walkinshaw\tNULL\tNULL\tScheduled\tSpecial election struck down by Virginia Supreme Court. Race status TBD.\n",
+  "stderr": "",
+  "execution_time_ms": 267
+}

@@ -1,0 +1,130 @@
+{
+  "query": "DESCRIBE referendums;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute DESCRIBE referendums;",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "int",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "state_code",
+      "Type": "varchar(2)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "state_name",
+      "Type": "varchar(64)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "name",
+      "Type": "varchar(256)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "description",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "yes_label",
+      "Type": "varchar(128)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "Yes",
+      "Extra": ""
+    },
+    {
+      "Field": "no_label",
+      "Type": "varchar(128)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "No",
+      "Extra": ""
+    },
+    {
+      "Field": "yes_votes",
+      "Type": "bigint",
+      "Null": "YES",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "no_votes",
+      "Type": "bigint",
+      "Null": "YES",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "pct_reporting",
+      "Type": "decimal(5,2)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "election_date",
+      "Type": "varchar(64)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "status",
+      "Type": "enum('Scheduled','Voting','Called','Certified')",
+      "Null": "NO",
+      "Key": "",
+      "Default": "Scheduled",
+      "Extra": ""
+    },
+    {
+      "Field": "called_result",
+      "Type": "enum('Yes','No')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "notes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "updated_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tint\tNO\tPRI\tNULL\tauto_increment\nstate_code\tvarchar(2)\tNO\t\tNULL\t\nstate_name\tvarchar(64)\tNO\t\tNULL\t\nname\tvarchar(256)\tNO\t\tNULL\t\ndescription\ttext\tYES\t\tNULL\t\nyes_label\tvarchar(128)\tYES\t\tYes\t\nno_label\tvarchar(128)\tYES\t\tNo\t\nyes_votes\tbigint\tYES\t\t0\t\nno_votes\tbigint\tYES\t\t0\t\npct_reporting\tdecimal(5,2)\tYES\t\t0\t\nelection_date\tvarchar(64)\tNO\t\tNULL\t\nstatus\tenum('Scheduled','Voting','Called','Certified')\tNO\t\tScheduled\t\ncalled_result\tenum('Yes','No')\tYES\t\tNULL\t\nnotes\ttext\tYES\t\tNULL\t\nupdated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP\n",
+  "stderr": "",
+  "execution_time_ms": 255
+}

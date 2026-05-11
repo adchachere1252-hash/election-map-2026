@@ -1,0 +1,17 @@
+{
+  "query": "SELECT id, state_code, state_name, name, status FROM referendums WHERE state_code = 'VA' LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, state_code, state_name, name, status FROM referendums WHERE state_code = 'VA' LIMIT 5;",
+  "rows": [
+    {
+      "id": "1",
+      "state_code": "VA",
+      "state_name": "Virginia",
+      "name": "Virginia Congressional Redistricting Amendment",
+      "status": "Certified"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tstate_name\tname\tstatus\n1\tVA\tVirginia\tVirginia Congressional Redistricting Amendment\tCertified\n",
+  "stderr": "",
+  "execution_time_ms": 256
+}

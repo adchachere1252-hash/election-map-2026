@@ -1,0 +1,22 @@
+{
+  "query": "\nSELECT id, state_code, district, candidate1_name, candidate2_name, called_winner, called_party, status \nFROM house_races WHERE state_code = 'VA' ORDER BY district;\n\nSELECT id, state_code, candidate1_name, candidate2_name, called_winner, called_party, status \nFROM senate_races WHERE state_code = 'VA';\n\nSELECT id, title, race_type, state_code, district, called_winner, called_party, created_at\nFROM election_updates WHERE state_code = 'VA' ORDER BY id DESC LIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT id, state_code, district, candidate1_name, candidate2_name, called_winner, called_party, status \nFROM house_races WHERE state_code = 'VA' ORDER BY district;\n\nSELECT id, state_code, candidate1_name, candidate2_name, called_winner, called_party, status \nFROM senate_races WHERE state_code = 'VA';\n\nSELECT id, title, race_type, state_code, district, called_winner, called_party, created_at\nFROM election_updates WHERE state_code = 'VA' ORDER BY id DESC LIMIT 10;\n",
+  "returncode": 1,
+  "logs": [
+    "id\tstate_code\tdistrict\tcandidate1_name\tcandidate2_name\tcalled_winner\tcalled_party\tstatus",
+    "404\tVA\t1\tD Primary TBD\tRob Wittman\tNULL\tNULL\tScheduled",
+    "405\tVA\t2\tTBD — D Primary: Aug 4, 2026\tTBD — R Primary: Aug 4, 2026\tNULL\tNULL\tScheduled",
+    "406\tVA\t3\tBobby Scott\tNULL\tNULL\tNULL\tScheduled",
+    "407\tVA\t4\tJennifer McClellan\tNULL\tNULL\tNULL\tScheduled",
+    "408\tVA\t5\tNULL\tJohn J. McGuire\tNULL\tNULL\tScheduled",
+    "409\tVA\t6\tNULL\tBen Cline\tNULL\tNULL\tScheduled",
+    "410\tVA\t7\tTBD — D Primary: Aug 4, 2026\tR Primary TBD\tNULL\tNULL\tScheduled",
+    "411\tVA\t8\tDon Beyer\tNULL\tNULL\tNULL\tScheduled",
+    "412\tVA\t9\tNULL\tMorgan Griffith\tNULL\tNULL\tScheduled",
+    "413\tVA\t10\tSuhas Subramanyam\tNULL\tNULL\tNULL\tScheduled",
+    "414\tVA\t11\tJames R. Walkinshaw\tNULL\tJames R. Walkinshaw\tD\tCalled",
+    "id\tstate_code\tcandidate1_name\tcandidate2_name\tcalled_winner\tcalled_party\tstatus",
+    "31\tVA\tMark Warner\tTBD — R Primary: Aug 4, 2026\tNULL\tNULL\tScheduled",
+    "ERROR 1146 (42S02) at line 8: Table 'duqshn4d3kdv9jkbtbdj4x.election_updates' doesn't exist"
+  ]
+}

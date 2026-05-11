@@ -1,0 +1,134 @@
+{
+  "query": "\nSELECT id, state_code, district, candidate1_name, candidate2_name, called_winner, called_party, status \nFROM house_races WHERE state_code = 'VA' ORDER BY district;\n\nSELECT id, state_code, candidate1_name, candidate2_name, called_winner, called_party, status \nFROM senate_races WHERE state_code = 'VA';\n\nSHOW TABLES;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT id, state_code, district, candidate1_name, candidate2_name, called_winner, called_party, status \nFROM house_races WHERE state_code = 'VA' ORDER BY district;\n\nSELECT id, state_code, candidate1_name, candidate2_name, called_winner, called_party, status \nFROM senate_races WHERE state_code = 'VA';\n\nSHOW TABLES;\n",
+  "rows": [
+    {
+      "id": "404",
+      "state_code": "VA",
+      "district": "1",
+      "candidate1_name": "D Primary TBD",
+      "candidate2_name": "Rob Wittman",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "id": "405",
+      "state_code": "VA",
+      "district": "2",
+      "candidate1_name": "TBD — D Primary: Aug 4, 2026",
+      "candidate2_name": "TBD — R Primary: Aug 4, 2026",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "id": "406",
+      "state_code": "VA",
+      "district": "3",
+      "candidate1_name": "Bobby Scott",
+      "candidate2_name": "NULL",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "id": "407",
+      "state_code": "VA",
+      "district": "4",
+      "candidate1_name": "Jennifer McClellan",
+      "candidate2_name": "NULL",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "id": "408",
+      "state_code": "VA",
+      "district": "5",
+      "candidate1_name": "NULL",
+      "candidate2_name": "John J. McGuire",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "id": "409",
+      "state_code": "VA",
+      "district": "6",
+      "candidate1_name": "NULL",
+      "candidate2_name": "Ben Cline",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "id": "410",
+      "state_code": "VA",
+      "district": "7",
+      "candidate1_name": "TBD — D Primary: Aug 4, 2026",
+      "candidate2_name": "R Primary TBD",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "id": "411",
+      "state_code": "VA",
+      "district": "8",
+      "candidate1_name": "Don Beyer",
+      "candidate2_name": "NULL",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "id": "412",
+      "state_code": "VA",
+      "district": "9",
+      "candidate1_name": "NULL",
+      "candidate2_name": "Morgan Griffith",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "id": "413",
+      "state_code": "VA",
+      "district": "10",
+      "candidate1_name": "Suhas Subramanyam",
+      "candidate2_name": "NULL",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "id": "414",
+      "state_code": "VA",
+      "district": "11",
+      "candidate1_name": "James R. Walkinshaw",
+      "candidate2_name": "NULL",
+      "called_winner": "James R. Walkinshaw",
+      "called_party": "D",
+      "status": "Called"
+    }
+  ],
+  "messages": [
+    "id\tstate_code\tcandidate1_name\tcandidate2_name\tcalled_winner\tcalled_party\tstatus",
+    "31\tVA\tMark Warner\tTBD — R Primary: Aug 4, 2026\tNULL\tNULL\tScheduled",
+    "Tables_in_Duqshn4D3kdv9jkbtBdj4X",
+    "__drizzle_migrations",
+    "admin_sessions",
+    "governor_races",
+    "house_races",
+    "pinned_key_races",
+    "redistricting_states",
+    "referendums",
+    "senate_races",
+    "senators",
+    "users"
+  ],
+  "stdout": "id\tstate_code\tdistrict\tcandidate1_name\tcandidate2_name\tcalled_winner\tcalled_party\tstatus\n404\tVA\t1\tD Primary TBD\tRob Wittman\tNULL\tNULL\tScheduled\n405\tVA\t2\tTBD — D Primary: Aug 4, 2026\tTBD — R Primary: Aug 4, 2026\tNULL\tNULL\tScheduled\n406\tVA\t3\tBobby Scott\tNULL\tNULL\tNULL\tScheduled\n407\tVA\t4\tJennifer McClellan\tNULL\tNULL\tNULL\tScheduled\n408\tVA\t5\tNULL\tJohn J. McGuire\tNULL\tNULL\tScheduled\n409\tVA\t6\tNULL\tBen Cline\tNULL\tNULL\tScheduled\n410\tVA\t7\tTBD — D Primary: Aug 4, 2026\tR Primary TBD\tNULL\tNULL\tScheduled\n411\tVA\t8\tDon Beyer\tNULL\tNULL\tNULL\tScheduled\n412\tVA\t9\tNULL\tMorgan Griffith\tNULL\tNULL\tScheduled\n413\tVA\t10\tSuhas Subramanyam\tNULL\tNULL\tNULL\tScheduled\n414\tVA\t11\tJames R. Walkinshaw\tNULL\tJames R. Walkinshaw\tD\tCalled\nid\tstate_code\tcandidate1_name\tcandidate2_name\tcalled_winner\tcalled_party\tstatus\n31\tVA\tMark Warner\tTBD — R Primary: Aug 4, 2026\tNULL\tNULL\tScheduled\nTables_in_Duqshn4D3kdv9jkbtBdj4X\n__drizzle_migrations\nadmin_sessions\ngovernor_races\nhouse_races\npinned_key_races\nredistricting_states\nreferendums\nsenate_races\nsenators\nusers\n",
+  "stderr": "",
+  "execution_time_ms": 272
+}
