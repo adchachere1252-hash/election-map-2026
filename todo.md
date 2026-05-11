@@ -1251,3 +1251,9 @@
 - [x] Evict old congresses from layerDataCache + raw geoCache/partyCache/membersCache when window moves
 - [x] Add gzip compression middleware to Express server (reduces 14MB GeoJSON files to ~1-2MB)
 - [x] startAtlasWarmup now re-runs on every congressA change, cancels stale passes via activeWarmupCenter
+
+## Historical Atlas — Play Button Fix (May 11 Session 10)
+- [x] Only advance congress during playback when next congress is already in layerDataCache (async loop awaits warmupCongress before advancing)
+- [x] If next congress not cached yet, show spinning buffering indicator on play button, resume automatically when ready
+- [x] Sliding window warmup pre-loads current ±2 before play starts
+- [x] Slow/Med/Fast speeds: 2500ms / 1400ms / 700ms (slower so transitions are clearly visible)

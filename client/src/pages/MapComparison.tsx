@@ -108,9 +108,9 @@ const MILESTONES: { congress: number; label: string }[] = [
 
 // ─── Play speed options ───────────────────────────────────────────────────────
 const PLAY_SPEEDS = [
-  { label: "Slow", ms: 1600 },
-  { label: "Med", ms: 800 },
-  { label: "Fast", ms: 300 },
+  { label: "Slow", ms: 2500 },
+  { label: "Med", ms: 1400 },
+  { label: "Fast", ms: 700 },
 ];
 
 // ─── Sky video backgrounds ────────────────────────────────────────────────────
@@ -571,9 +571,10 @@ interface TimelineSliderProps {
   color: "amber" | "red";
   label?: string;
   atlasReady?: boolean;
+  isBuffering?: boolean;
 }
 
-function TimelineSlider({ congress, onChange, isPlaying, onPlayToggle, speedIdx, onSpeedChange, color, label, atlasReady = true }: TimelineSliderProps) {
+function TimelineSlider({ congress, onChange, isPlaying, onPlayToggle, speedIdx, onSpeedChange, color, label, atlasReady = true, isBuffering = false }: TimelineSliderProps) {
   const totalCongresses = CONGRESS_END - CONGRESS_START;
   function sliderPct(c: number) {
     return ((c - CONGRESS_START) / totalCongresses) * 100;
@@ -593,9 +594,11 @@ function TimelineSlider({ congress, onChange, isPlaying, onPlayToggle, speedIdx,
         onClick={atlasReady ? onPlayToggle : undefined}
         disabled={!atlasReady}
         className={`w-7 h-7 flex items-center justify-center rounded-full border transition-colors shrink-0 ${atlasReady ? playBtnClass : "bg-white/5 border-white/10 text-white/20 cursor-not-allowed"}`}
-        title={!atlasReady ? "Loading atlas…" : isPlaying ? "Pause" : "Play animation"}
+        title={!atlasReady ? "Loading atlas…" : isBuffering ? "Buffering…" : isPlaying ? "Pause" : "Play animation"}
       >
-        {!atlasReady ? "⧗" : isPlaying ? "⏸" : "▶"}
+        {!atlasReady ? "⧗" : isBuffering ? (
+          <span className="inline-block w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+        ) : isPlaying ? "⏸" : "▶"}
       </button>
       {/* Speed selector */}
       <div className="flex gap-0.5 shrink-0">
@@ -699,30 +702,67 @@ export default function MapComparison() {
     return () => clearInterval(t);
   }, []);
 
-  // Animation playback A
+  // Buffering state: true when play is waiting for the next congress to load
+  const [isBufferingA, setIsBufferingA] = useState(false);
+  const [isBufferingB, setIsBufferingB] = useState(false);
+
+  // Animation playback A — async loop that waits for cache before advancing
   useEffect(() => {
-    if (!isPlayingA) return;
+    if (!isPlayingA) { setIsBufferingA(false); return; }
+    let cancelled = false;
     const ms = PLAY_SPEEDS[speedIdxA].ms;
-    const t = setInterval(() => {
-      setCongressA(c => {
-        if (c >= CONGRESS_END) { setIsPlayingA(false); return c; }
-        return c + 1;
-      });
-    }, ms);
-    return () => clearInterval(t);
+
+    async function playLoop() {
+      while (!cancelled) {
+        // Get current congress value via a ref-like approach
+        const current = await new Promise<number>(resolve => {
+          setCongressA(c => { resolve(c); return c; });
+        });
+        if (current >= CONGRESS_END) { if (!cancelled) setIsPlayingA(false); break; }
+        const next = current + 1;
+        // Wait for next congress to be cached
+        if (!layerDataCache.has(next)) {
+          if (!cancelled) setIsBufferingA(true);
+          await warmupCongress(next);
+          if (cancelled) break;
+          setIsBufferingA(false);
+        }
+        // Hold for the speed duration
+        await new Promise(r => setTimeout(r, ms));
+        if (cancelled) break;
+        setCongressA(next);
+      }
+    }
+    playLoop();
+    return () => { cancelled = true; setIsBufferingA(false); };
   }, [isPlayingA, speedIdxA]);
 
-  // Animation playback B
+  // Animation playback B — same pattern
   useEffect(() => {
-    if (!isPlayingB) return;
+    if (!isPlayingB) { setIsBufferingB(false); return; }
+    let cancelled = false;
     const ms = PLAY_SPEEDS[speedIdxB].ms;
-    const t = setInterval(() => {
-      setCongressB(c => {
-        if (c >= CONGRESS_END) { setIsPlayingB(false); return c; }
-        return c + 1;
-      });
-    }, ms);
-    return () => clearInterval(t);
+
+    async function playLoop() {
+      while (!cancelled) {
+        const current = await new Promise<number>(resolve => {
+          setCongressB(c => { resolve(c); return c; });
+        });
+        if (current >= CONGRESS_END) { if (!cancelled) setIsPlayingB(false); break; }
+        const next = current + 1;
+        if (!layerDataCache.has(next)) {
+          if (!cancelled) setIsBufferingB(true);
+          await warmupCongress(next);
+          if (cancelled) break;
+          setIsBufferingB(false);
+        }
+        await new Promise(r => setTimeout(r, ms));
+        if (cancelled) break;
+        setCongressB(next);
+      }
+    }
+    playLoop();
+    return () => { cancelled = true; setIsBufferingB(false); };
   }, [isPlayingB, speedIdxB]);
 
   const handleViewChangeA = useCallback((center: L.LatLng, zoom: number) => {
@@ -974,6 +1014,7 @@ export default function MapComparison() {
           color="amber"
           label={compareMode ? "Panel A" : undefined}
           atlasReady={warmup.ready}
+          isBuffering={isBufferingA}
         />
         {compareMode && (
           <div className="mt-3">
@@ -987,6 +1028,7 @@ export default function MapComparison() {
               color="red"
               label="Panel B"
               atlasReady={warmup.ready}
+              isBuffering={isBufferingB}
             />
           </div>
         )}
