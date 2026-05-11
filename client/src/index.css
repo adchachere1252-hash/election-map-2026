@@ -245,3 +245,30 @@
 .ticker-scroll:hover {
   animation-play-state: paused;
 }
+/* ── Leaflet Historical Atlas — transparent background ──────────────────────── */
+/* Remove all default Leaflet backgrounds so the sky video shows through */
+.leaflet-container {
+  background: transparent !important;
+}
+.leaflet-tile-pane,
+.leaflet-shadow-pane {
+  background: transparent !important;
+}
+/* Style the zoom control to match the dark theme */
+.leaflet-control-zoom a {
+  background: rgba(0, 0, 0, 0.6) !important;
+  color: white !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+.leaflet-control-zoom a:hover {
+  background: rgba(0, 0, 0, 0.8) !important;
+}
+/* Attribution */
+.leaflet-control-attribution {
+  background: rgba(0, 0, 0, 0.45) !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+  font-size: 9px !important;
+}
+.leaflet-control-attribution a {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
