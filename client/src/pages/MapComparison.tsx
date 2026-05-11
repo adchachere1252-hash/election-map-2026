@@ -171,6 +171,9 @@ async function fetchStateGeoJson(stateName: string, congress: number): Promise<G
 // Each entry holds the fully-built GeoJSON FeatureCollection merged from all
 // 50 states so LeafletMapPanel can do an instant addLayer/removeLayer swap.
 const layerDataCache = new Map<number, { features: GeoJSON.Feature[] }>();
+// In-flight promise deduplication: if warmupCongress(n) is already running,
+// subsequent callers await the same promise instead of launching a second fetch.
+const warmupInFlight = new Map<number, Promise<void>>();
 
 // Warm-up state (module-level so it persists across re-renders)
 type WarmupState = { done: number; total: number; ready: boolean };
@@ -179,6 +182,16 @@ const warmupListeners = new Set<() => void>();
 function notifyWarmup() { warmupListeners.forEach(fn => fn()); }
 
 async function warmupCongress(congress: number): Promise<void> {
+  if (layerDataCache.has(congress)) return;
+  // Return the existing in-flight promise if one is already running
+  if (warmupInFlight.has(congress)) return warmupInFlight.get(congress)!;
+  const promise = _doWarmupCongress(congress);
+  warmupInFlight.set(congress, promise);
+  await promise;
+  warmupInFlight.delete(congress);
+}
+
+async function _doWarmupCongress(congress: number): Promise<void> {
   if (layerDataCache.has(congress)) return;
   // Fetch party data + all 50 state GeoJSON in parallel
   const results = await Promise.all([
@@ -206,22 +219,34 @@ async function warmupCongress(congress: number): Promise<void> {
   layerDataCache.set(congress, { features });
 }
 
-// Start warming the entire atlas in the background
-// Warms congresses in order starting from CONGRESS_START
+// Start warming the entire atlas in the background.
+// Priority order: warm the initial congress (CONGRESS_END = 119) first so the
+// user sees colors immediately, then fill in the rest oldest-to-newest.
 let warmupStarted = false;
-async function startAtlasWarmup() {
+async function startAtlasWarmup(initialCongress: number = CONGRESS_END) {
   if (warmupStarted) return;
   warmupStarted = true;
-  const congresses = Array.from({ length: CONGRESS_END - CONGRESS_START + 1 }, (_, i) => CONGRESS_START + i);
-  // Warm in parallel batches of 4 to avoid overwhelming the server
+
+  const all = Array.from({ length: CONGRESS_END - CONGRESS_START + 1 }, (_, i) => CONGRESS_START + i);
+  const total = all.length;
+
+  // Step 1: warm the initial congress immediately (highest priority)
+  await warmupCongress(initialCongress);
+  warmupState = { done: 1, total, ready: false };
+  notifyWarmup();
+
+  // Step 2: warm the rest in batches of 4, skipping the one already done
+  const rest = all.filter(c => c !== initialCongress);
   const BATCH = 4;
-  for (let i = 0; i < congresses.length; i += BATCH) {
-    const batch = congresses.slice(i, i + BATCH);
+  let done = 1;
+  for (let i = 0; i < rest.length; i += BATCH) {
+    const batch = rest.slice(i, i + BATCH);
     await Promise.all(batch.map(c => warmupCongress(c)));
-    warmupState = { done: Math.min(i + BATCH, congresses.length), total: congresses.length, ready: false };
+    done = Math.min(done + BATCH, total);
+    warmupState = { done, total, ready: false };
     notifyWarmup();
   }
-  warmupState = { done: congresses.length, total: congresses.length, ready: true };
+  warmupState = { done: total, total, ready: true };
   notifyWarmup();
 }
 
@@ -647,7 +672,8 @@ export default function MapComparison() {
     const listener = () => setWarmup({ ...warmupState });
     warmupListeners.add(listener);
     // Start warmup (idempotent — only runs once per page load)
-    startAtlasWarmup();
+    // Pass the currently-displayed congress so it gets warmed first
+    startAtlasWarmup(congressA);
     return () => { warmupListeners.delete(listener); };
   }, []);
 

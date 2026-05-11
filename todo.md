@@ -1242,3 +1242,6 @@
 - [x] Show cache warm-up progress bar (amber→red gradient) with congress count and % complete
 - [x] Pre-build merged FeatureCollection per congress in layerDataCache so play only does addLayer/removeLayer (zero network, zero JSON parsing)
 - [x] Disable play button until atlas is ready (shows hourglass icon), enabled instantly when warmup completes
+
+## Historical Atlas — No Color on First Load Bug (May 11 Session 8)
+- [x] Fix: first congress renders with no party colors — warmup now prioritizes initial congress (119) first, added in-flight promise deduplication to prevent double-fetching
