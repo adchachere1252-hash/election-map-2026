@@ -1257,3 +1257,13 @@
 - [x] If next congress not cached yet, show spinning buffering indicator on play button, resume automatically when ready
 - [x] Sliding window warmup pre-loads current ±2 before play starts
 - [x] Slow/Med/Fast speeds: 2500ms / 1400ms / 700ms (slower so transitions are clearly visible)
+
+## Historical Atlas — Colors Disappear During Play (May 11 Session 11)
+- [x] Fix: districts show no party colors when play button is pressed — root cause was Voteview URL missing zero-padding (H89 → H089), fixed in Session 12
+
+## Historical Atlas — Speed & Voteview Fix (May 11 Session 12)
+- [x] Remove "Fast" speed option — replaced with Slow (3s) and Normal (1.8s), default to Slow
+- [x] Fix Voteview endpoint to always return 200 (never 503)
+- [x] Fix pre-warm to batch 5 at a time with 500ms delay to avoid rate limiting
+- [x] Fix root cause: Voteview URL was missing zero-padding (H89 → H089) — all 31 congresses now return correct party data
+- [x] Don't cache empty Voteview results so failed fetches retry on next request

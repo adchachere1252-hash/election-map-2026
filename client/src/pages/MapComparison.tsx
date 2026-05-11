@@ -36,15 +36,24 @@ const membersCache = new Map<number, Record<string, { name: string; party: strin
 
 async function fetchPartyData(congress: number): Promise<Record<string, string>> {
   if (partyCache.has(congress)) return partyCache.get(congress)!;
-  try {
-    const res = await fetch(`/api/voteview/${congress}`);
-    if (!res.ok) return {};
-    const data = await res.json() as Record<string, string>;
-    partyCache.set(congress, data);
-    return data;
-  } catch {
-    return {};
+  // Retry up to 3 times with increasing delay
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      if (attempt > 0) await new Promise(r => setTimeout(r, 800 * attempt));
+      const res = await fetch(`/api/voteview/${congress}`);
+      if (!res.ok) continue;
+      const data = await res.json() as Record<string, string>;
+      if (Object.keys(data).length > 0) {
+        partyCache.set(congress, data);
+        return data;
+      }
+    } catch {
+      // retry
+    }
   }
+  // Cache empty result to prevent infinite retries, but with a short TTL
+  // by NOT caching it — so next warmup can try again after eviction
+  return {};
 }
 
 async function fetchMembersData(congress: number): Promise<Record<string, { name: string; party: string; bioguide: string }>> {
@@ -108,9 +117,8 @@ const MILESTONES: { congress: number; label: string }[] = [
 
 // ─── Play speed options ───────────────────────────────────────────────────────
 const PLAY_SPEEDS = [
-  { label: "Slow", ms: 2500 },
-  { label: "Med", ms: 1400 },
-  { label: "Fast", ms: 700 },
+  { label: "Slow", ms: 3000 },
+  { label: "Normal", ms: 1800 },
 ];
 
 // ─── Sky video backgrounds ────────────────────────────────────────────────────
@@ -677,8 +685,8 @@ export default function MapComparison() {
   const [districtPopup, setDistrictPopup] = useState<Record<string, unknown> | null>(null);
   const [isPlayingA, setIsPlayingA] = useState(false);
   const [isPlayingB, setIsPlayingB] = useState(false);
-  const [speedIdxA, setSpeedIdxA] = useState(1); // default: Medium
-  const [speedIdxB, setSpeedIdxB] = useState(1);
+  const [speedIdxA, setSpeedIdxA] = useState(0); // default: Slow
+  const [speedIdxB, setSpeedIdxB] = useState(0);
   const [syncViewA, setSyncViewA] = useState<{ center: L.LatLng; zoom: number } | null>(null);
   const [syncViewB, setSyncViewB] = useState<{ center: L.LatLng; zoom: number } | null>(null);
   const sky = getSkyVideo();
