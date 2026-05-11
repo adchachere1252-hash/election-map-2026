@@ -192,6 +192,7 @@ interface LeafletMapPanelProps {
   panelId: "A" | "B";
   compareMode: boolean;
   selectedState: string;
+  mapHeight: number;
   onDistrictClick?: (props: Record<string, unknown>) => void;
   syncView?: { center: L.LatLng; zoom: number } | null;
   onViewChange?: (center: L.LatLng, zoom: number) => void;
@@ -203,6 +204,7 @@ function LeafletMapPanel({
   panelId,
   compareMode,
   selectedState,
+  mapHeight,
   onDistrictClick,
   syncView,
   onViewChange,
@@ -263,6 +265,14 @@ function LeafletMapPanel({
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Re-fit whenever the container gets its first real pixel height
+  const usBoundsRef = useRef(L.latLngBounds([[20, -130], [52, -60]]));
+  useEffect(() => {
+    if (!mapRef.current || mapHeight <= 0) return;
+    mapRef.current.invalidateSize();
+    mapRef.current.fitBounds(usBoundsRef.current, { padding: [10, 10] });
+  }, [mapHeight]);
 
   // Sync view from external source
   useEffect(() => {
@@ -380,10 +390,15 @@ function LeafletMapPanel({
   }, [congress, selectedState]);
 
   const seats = HOUSE_SEATS[congress] ?? { D: 0, R: 0, O: 0 };
+  const prevSeats = HOUSE_SEATS[congress - 1];
+  const shiftD = prevSeats ? seats.D - prevSeats.D : null;
+  const shiftR = prevSeats ? seats.R - prevSeats.R : null;
   const total = seats.D + seats.R + seats.O;
 
+  const panelStyle = mapHeight > 0 ? { height: mapHeight, width: "100%" } : {};
+
   return (
-    <div className="relative flex-1 w-full h-full min-h-0 overflow-hidden" style={{ background: "transparent" }}>
+    <div className="relative flex-1 overflow-hidden" style={{ background: "transparent", ...panelStyle }}>
       <div
         ref={containerRef}
         className="absolute inset-0"
@@ -401,11 +416,33 @@ function LeafletMapPanel({
             <div className="w-3 h-3 rounded-sm" style={{ background: '#1a4fa0' }} />
             <span className="text-white/80">Democrat</span>
             <span className="ml-auto font-bold" style={{ color: '#5b8fd4' }}>{seats.D}</span>
+            {shiftD !== null && shiftD !== 0 && (
+              <span
+                className="ml-1 text-[10px] font-bold px-1 rounded"
+                style={{
+                  color: shiftD > 0 ? '#5b8fd4' : '#e06060',
+                  background: shiftD > 0 ? 'rgba(91,143,212,0.15)' : 'rgba(224,96,96,0.15)',
+                }}
+              >
+                {shiftD > 0 ? `+${shiftD}` : shiftD}
+              </span>
+            )}
           </div>
           <div className="flex items-center gap-2 mb-1">
             <div className="w-3 h-3 rounded-sm" style={{ background: '#b22222' }} />
             <span className="text-white/80">Republican</span>
             <span className="ml-auto font-bold" style={{ color: '#e06060' }}>{seats.R}</span>
+            {shiftR !== null && shiftR !== 0 && (
+              <span
+                className="ml-1 text-[10px] font-bold px-1 rounded"
+                style={{
+                  color: shiftR > 0 ? '#e06060' : '#5b8fd4',
+                  background: shiftR > 0 ? 'rgba(224,96,96,0.15)' : 'rgba(91,143,212,0.15)',
+                }}
+              >
+                {shiftR > 0 ? `+${shiftR}` : shiftR}
+              </span>
+            )}
           </div>
           {seats.O > 0 && (
             <div className="flex items-center gap-2 mb-1">
@@ -635,6 +672,28 @@ export default function MapComparison() {
     if (congressB >= CONGRESS_END) setCongressB(CONGRESS_START);
   };
 
+  // Measure chrome height so Leaflet gets an explicit pixel height
+  const headerRef = useRef<HTMLElement>(null);
+  const selectorBarRef = useRef<HTMLDivElement>(null);
+  const timelineBarRef = useRef<HTMLDivElement>(null);
+  const [mapHeight, setMapHeight] = useState(0);
+
+  useEffect(() => {
+    function measure() {
+      const h = headerRef.current?.offsetHeight ?? 0;
+      const s = selectorBarRef.current?.offsetHeight ?? 0;
+      const t = timelineBarRef.current?.offsetHeight ?? 0;
+      setMapHeight(window.innerHeight - h - s - t);
+    }
+    measure();
+    const ro = new ResizeObserver(measure);
+    [headerRef, selectorBarRef, timelineBarRef].forEach(r => {
+      if (r.current) ro.observe(r.current);
+    });
+    window.addEventListener("resize", measure);
+    return () => { ro.disconnect(); window.removeEventListener("resize", measure); };
+  }, [compareMode]);
+
   return (
     <div className="relative w-screen h-screen overflow-hidden flex flex-col">
       {/* Sky video background */}
@@ -651,6 +710,7 @@ export default function MapComparison() {
 
       {/* ── Header ── */}
       <header
+        ref={headerRef}
         className="relative flex items-center gap-3 px-4 h-11 shrink-0 border-b border-white/10"
         style={{ zIndex: 10, background: "rgba(0,0,0,0.55)", backdropFilter: "blur(8px)" }}
       >
@@ -718,6 +778,7 @@ export default function MapComparison() {
 
       {/* ── Congress selector bar ── */}
       <div
+        ref={selectorBarRef}
         className="relative shrink-0 flex items-center border-b border-white/10 px-4 h-10 gap-4"
         style={{ zIndex: 10, background: "rgba(0,0,0,0.45)", backdropFilter: "blur(6px)" }}
       >
@@ -761,12 +822,16 @@ export default function MapComparison() {
       </div>
 
       {/* ── Map panels ── */}
-      <div className="relative flex flex-1 min-h-0" style={{ zIndex: 5 }}>
+      <div
+        className="relative flex"
+        style={{ zIndex: 5, height: mapHeight > 0 ? mapHeight : "calc(100vh - 44px - 40px - 80px)", flexShrink: 0 }}
+      >
         <LeafletMapPanel
           congress={congressA}
           panelId="A"
           compareMode={compareMode}
           selectedState={selectedState}
+          mapHeight={mapHeight}
           onDistrictClick={setDistrictPopup}
           syncView={synced && compareMode ? syncViewA : null}
           onViewChange={handleViewChangeA}
@@ -780,6 +845,7 @@ export default function MapComparison() {
               panelId="B"
               compareMode={compareMode}
               selectedState={selectedState}
+              mapHeight={mapHeight}
               onDistrictClick={setDistrictPopup}
               syncView={synced && compareMode ? syncViewB : null}
               onViewChange={handleViewChangeB}
@@ -791,6 +857,7 @@ export default function MapComparison() {
 
       {/* ── Timeline / Slider ── */}
       <div
+        ref={timelineBarRef}
         className="relative shrink-0 px-5 pt-5 pb-2 border-t border-white/10"
         style={{ zIndex: 10, background: "rgba(0,0,0,0.55)", backdropFilter: "blur(8px)" }}
       >

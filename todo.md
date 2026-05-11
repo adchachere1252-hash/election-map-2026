@@ -1227,3 +1227,7 @@
 - [x] Fix map too small — add height:100% to html/body/#root, compact congress selector bar, slim timeline bar
 - [x] Fix Leaflet map renders small — call invalidateSize() at 50ms + 300ms post-mount and add ResizeObserver so map fills container after flex layout resolves
 - [x] Prefetch adjacent Congresses — when congress changes, silently preload ±1 immediately and ±2 after 1.5s delay
+
+## Historical Atlas Map Size & Seat Shift (May 11 Session 5)
+- [x] Fix map still renders small — measure chrome heights with ResizeObserver, pass explicit pixel height to Leaflet container, re-fit on mapHeight change
+- [x] Add seat-shift badge — show +N D / -N R change vs previous Congress in party legend (blue for D gain, red for D loss)
