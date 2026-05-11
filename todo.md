@@ -1267,3 +1267,12 @@
 - [x] Fix pre-warm to batch 5 at a time with 500ms delay to avoid rate limiting
 - [x] Fix root cause: Voteview URL was missing zero-padding (H89 → H089) — all 31 congresses now return correct party data
 - [x] Don't cache empty Voteview results so failed fetches retry on next request
+
+## Historical Atlas — Pre-Publish Verification (May 11 Session 13)
+- [x] Fix map zoom instability — replaced Leaflet with D3 AlbersUSA projection; map is completely stable
+- [x] Fix Alaska/Hawaii positioning — D3 geoAlbersUsa() auto-positions them as insets at bottom-left, matching House/Senate SVG map
+- [x] Removed Leaflet entirely — D3 SVG rendering is memory-efficient and publication-ready
+- [x] All 42 tests passing, zero TypeScript errors after full D3 rewrite
+- [x] Seat-shift badge preserved in new D3 panel
+- [x] Compare mode preserved with two D3 SVG panels side-by-side
+- [x] District popups preserved with representative names, bioguide photos, party colors
