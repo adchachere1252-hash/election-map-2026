@@ -167,6 +167,25 @@ async function fetchStateGeoJson(stateName: string, congress: number): Promise<G
   }
 }
 
+// ─── Background prefetch ──────────────────────────────────────────────────────
+// Silently warm the cache for a given congress without touching the UI
+const prefetchInProgress = new Set<string>();
+async function prefetchCongress(congress: number): Promise<void> {
+  if (congress < CONGRESS_START || congress > CONGRESS_END) return;
+  const key = `prefetch-${congress}`;
+  if (prefetchInProgress.has(key)) return;
+  prefetchInProgress.add(key);
+  // Prefetch party + member data (fast, single CSV per congress)
+  await Promise.all([fetchPartyData(congress), fetchMembersData(congress)]);
+  // Prefetch GeoJSON for all states in batches of 8 (low priority — fire and forget)
+  const BATCH = 8;
+  for (let i = 0; i < US_STATES.length; i += BATCH) {
+    const batch = US_STATES.slice(i, i + BATCH);
+    await Promise.all(batch.map(s => fetchStateGeoJson(s, congress)));
+  }
+  prefetchInProgress.delete(key);
+}
+
 // ─── Leaflet Map Panel ────────────────────────────────────────────────────────
 interface LeafletMapPanelProps {
   congress: number;
@@ -570,6 +589,29 @@ export default function MapComparison() {
     if (synced) setSyncViewA({ center, zoom });
   }, [synced]);
 
+  // Prefetch adjacent Congresses whenever congressA or congressB changes
+  useEffect(() => {
+    // Prefetch ±1 immediately, ±2 after a short delay to avoid competing with the current load
+    prefetchCongress(congressA - 1);
+    prefetchCongress(congressA + 1);
+    const t = setTimeout(() => {
+      prefetchCongress(congressA - 2);
+      prefetchCongress(congressA + 2);
+    }, 1500);
+    return () => clearTimeout(t);
+  }, [congressA]);
+
+  useEffect(() => {
+    if (!compareMode) return;
+    prefetchCongress(congressB - 1);
+    prefetchCongress(congressB + 1);
+    const t = setTimeout(() => {
+      prefetchCongress(congressB - 2);
+      prefetchCongress(congressB + 2);
+    }, 1500);
+    return () => clearTimeout(t);
+  }, [congressB, compareMode]);
+
   const handlePlayToggleA = () => {
     setIsPlayingA(p => !p);
     if (congressA >= CONGRESS_END) setCongressA(CONGRESS_START);
@@ -662,58 +704,45 @@ export default function MapComparison() {
 
       {/* ── Congress selector bar ── */}
       <div
-        className="relative shrink-0 flex items-stretch border-b border-white/10"
+        className="relative shrink-0 flex items-center border-b border-white/10 px-4 h-10 gap-4"
         style={{ zIndex: 10, background: "rgba(0,0,0,0.45)", backdropFilter: "blur(6px)" }}
       >
         {/* Panel A selector */}
-        <div className={`flex items-center gap-4 px-5 py-2 ${compareMode ? "flex-1 border-r border-white/10" : "flex-1"}`}>
-          <div className="flex flex-col">
-            <span className="text-amber-400 text-3xl font-black leading-none">{ordinal(congressA)}</span>
-            <span className="text-white/40 text-[10px] uppercase tracking-widest font-semibold">Congress</span>
-          </div>
-          <div className="flex flex-col flex-1 gap-1">
-            <div className="flex items-center gap-2">
-              <span className="text-white/50 text-[10px] uppercase tracking-widest">Select Congress</span>
-              <span className="text-white/30 text-xs ml-auto">{congressYears(congressA)[0]}–{congressYears(congressA)[1]}</span>
-            </div>
-            <select
-              value={congressA}
-              onChange={e => { setCongressA(Number(e.target.value)); setIsPlayingA(false); }}
-              className="bg-white/10 border border-white/20 rounded text-white text-sm px-2 py-1 focus:outline-none"
-            >
-              {Array.from({ length: CONGRESS_END - CONGRESS_START + 1 }, (_, i) => CONGRESS_START + i).map(n => {
-                const [y] = congressYears(n);
-                return <option key={n} value={n}>{ordinal(n)} Congress ({y}–{y + 1})</option>;
-              })}
-            </select>
-          </div>
-          <span className="text-white/30 text-xs font-mono self-end pb-1">PANEL {compareMode ? "A" : ""}</span>
+        <div className="flex items-center gap-2 flex-1">
+          <span className={`text-base font-black ${compareMode ? "text-amber-400" : "text-amber-400"}`}>{ordinal(congressA)}</span>
+          <span className="text-white/30 text-xs">{congressYears(congressA)[0]}–{congressYears(congressA)[1]}</span>
+          <select
+            value={congressA}
+            onChange={e => { setCongressA(Number(e.target.value)); setIsPlayingA(false); }}
+            className="bg-white/10 border border-white/20 rounded text-white text-xs px-2 py-0.5 focus:outline-none ml-1"
+          >
+            {Array.from({ length: CONGRESS_END - CONGRESS_START + 1 }, (_, i) => CONGRESS_START + i).map(n => {
+              const [y] = congressYears(n);
+              return <option key={n} value={n}>{ordinal(n)} Congress ({y}–{y + 1})</option>;
+            })}
+          </select>
+          {compareMode && <span className="text-white/30 text-[10px] font-mono uppercase ml-1">Panel A</span>}
         </div>
         {/* Panel B selector (compare mode only) */}
         {compareMode && (
-          <div className="flex items-center gap-4 px-5 py-2 flex-1">
-            <div className="flex flex-col">
-              <span className="text-red-400 text-3xl font-black leading-none">{ordinal(congressB)}</span>
-              <span className="text-white/40 text-[10px] uppercase tracking-widest font-semibold">Congress</span>
-            </div>
-            <div className="flex flex-col flex-1 gap-1">
-              <div className="flex items-center gap-2">
-                <span className="text-white/50 text-[10px] uppercase tracking-widest">Select Congress</span>
-                <span className="text-white/30 text-xs ml-auto">{congressYears(congressB)[0]}–{congressYears(congressB)[1]}</span>
-              </div>
+          <>
+            <div className="w-px h-5 bg-white/20 shrink-0" />
+            <div className="flex items-center gap-2 flex-1">
+              <span className="text-base font-black text-red-400">{ordinal(congressB)}</span>
+              <span className="text-white/30 text-xs">{congressYears(congressB)[0]}–{congressYears(congressB)[1]}</span>
               <select
                 value={congressB}
                 onChange={e => { setCongressB(Number(e.target.value)); setIsPlayingB(false); }}
-                className="bg-white/10 border border-white/20 rounded text-white text-sm px-2 py-1 focus:outline-none"
+                className="bg-white/10 border border-white/20 rounded text-white text-xs px-2 py-0.5 focus:outline-none ml-1"
               >
                 {Array.from({ length: CONGRESS_END - CONGRESS_START + 1 }, (_, i) => CONGRESS_START + i).map(n => {
                   const [y] = congressYears(n);
                   return <option key={n} value={n}>{ordinal(n)} Congress ({y}–{y + 1})</option>;
                 })}
               </select>
+              <span className="text-white/30 text-[10px] font-mono uppercase ml-1">Panel B</span>
             </div>
-            <span className="text-white/30 text-xs font-mono self-end pb-1">PANEL B</span>
-          </div>
+          </>
         )}
       </div>
 
@@ -748,7 +777,7 @@ export default function MapComparison() {
 
       {/* ── Timeline / Slider ── */}
       <div
-        className="relative shrink-0 px-5 pt-6 pb-3 border-t border-white/10"
+        className="relative shrink-0 px-5 pt-5 pb-2 border-t border-white/10"
         style={{ zIndex: 10, background: "rgba(0,0,0,0.55)", backdropFilter: "blur(8px)" }}
       >
         <TimelineSlider

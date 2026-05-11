@@ -1222,3 +1222,7 @@
 - [x] Move all milestone labels to a single row (removed Tea Party milestone, all labels now on same line)
 - [x] Fix bottom timeline bar alignment — all elements (play, speed, slider, label) on same baseline
 - [x] Improve map loading speed — parallel batch fetching (8 states at a time) instead of sequential
+
+## Historical Atlas Prefetch & Map Size Fix (May 11 Session 4)
+- [x] Fix map too small — add height:100% to html/body/#root, compact congress selector bar, slim timeline bar
+- [x] Prefetch adjacent Congresses — when congress changes, silently preload ±1 immediately and ±2 after 1.5s delay
