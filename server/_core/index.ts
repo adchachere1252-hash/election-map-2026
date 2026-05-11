@@ -72,6 +72,50 @@ async function startServer() {
       return res.status(500).json({ error: "Proxy fetch failed" });
     }
   });
+  // Voteview party data proxy: fetch per-district party data for a given Congress
+  // Returns { "AL-3": "R", "AL-7": "D", ... } keyed by stateAbbrev-districtCode
+  const voteviewCache = new Map<string, Record<string, string>>();
+  app.get("/api/voteview/:congress", async (req, res) => {
+    const congress = parseInt(req.params.congress);
+    if (isNaN(congress) || congress < 89 || congress > 119) {
+      return res.status(400).json({ error: "Invalid congress number" });
+    }
+    const cacheKey = String(congress);
+    if (voteviewCache.has(cacheKey)) {
+      res.setHeader("Cache-Control", "public, max-age=86400");
+      return res.json(voteviewCache.get(cacheKey));
+    }
+    try {
+      const url = `https://voteview.com/static/data/out/members/H${congress}_members.csv`;
+      const response = await fetch(url);
+      if (!response.ok) return res.status(response.status).json({ error: "Voteview not found" });
+      const csv = await response.text();
+      const lines = csv.trim().split("\n");
+      const headers = lines[0].split(",");
+      const chamberIdx = headers.indexOf("chamber");
+      const stateIdx = headers.indexOf("state_abbrev");
+      const distIdx = headers.indexOf("district_code");
+      const partyIdx = headers.indexOf("party_code");
+      const result: Record<string, string> = {};
+      for (let i = 1; i < lines.length; i++) {
+        const cols = lines[i].split(",");
+        if (cols[chamberIdx] !== "House") continue;
+        const state = cols[stateIdx];
+        const dist = parseInt(cols[distIdx]);
+        const party = parseInt(cols[partyIdx]);
+        if (!state || isNaN(dist)) continue;
+        const key = `${state}-${dist}`;
+        result[key] = party === 100 ? "D" : party === 200 ? "R" : "I";
+      }
+      voteviewCache.set(cacheKey, result);
+      res.setHeader("Cache-Control", "public, max-age=86400");
+      return res.json(result);
+    } catch (err) {
+      console.error("Voteview proxy error:", err);
+      return res.status(500).json({ error: "Proxy fetch failed" });
+    }
+  });
+
   // tRPC API
   app.use(
     "/api/trpc",

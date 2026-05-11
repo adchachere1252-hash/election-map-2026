@@ -1204,3 +1204,9 @@
 ## Virginia Redistricting Supreme Court Update (May 11, 2026)
 - [x] Remove Virginia redistricting referendum from results ticker
 - [x] Update Virginia redistricting state record with Supreme Court ruling details (4-3 ruling, Justice Kelsey majority)
+
+## Historical Atlas Fixes (May 11, 2026)
+- [ ] Fix Historical Atlas data not loading (Congress seat count data missing)
+- [ ] Fix Historical Atlas map not rendering (D3 SVG districts not drawing)
+- [ ] Fix Historical Atlas map too large — needs to fit within page viewport
+- [ ] Match Historical Atlas colors to main map: Democrat blue (#1a4fa0), Republican red (#b22222), Independent purple

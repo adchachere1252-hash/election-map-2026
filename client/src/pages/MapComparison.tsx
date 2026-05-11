@@ -11,6 +11,38 @@ import { Link } from "wouter";
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
 import { LEWIS_MANIFEST } from "@/lib/lewisManifest";
+import { STATE_CODES } from "@/lib/electionUtils";
+
+// ─── Party colors matching the main election map ──────────────────────────────
+const ATLAS_PARTY_COLORS = {
+  D: "rgba(26,79,160,0.55)",   // Democrat blue  (#1a4fa0)
+  R: "rgba(178,34,34,0.55)",   // Republican red (#b22222)
+  I: "rgba(124,58,237,0.55)",  // Independent purple
+  unknown: "rgba(80,80,100,0.20)",
+};
+const ATLAS_STROKE = {
+  D: "rgba(130,170,255,0.70)",
+  R: "rgba(255,120,120,0.70)",
+  I: "rgba(200,150,255,0.70)",
+  unknown: "rgba(200,200,220,0.40)",
+};
+
+// ─── Voteview party data cache ────────────────────────────────────────────────
+// Maps congress → { "VA-11": "D", "AL-3": "R", ... }
+const partyCache = new Map<number, Record<string, string>>();
+
+async function fetchPartyData(congress: number): Promise<Record<string, string>> {
+  if (partyCache.has(congress)) return partyCache.get(congress)!;
+  try {
+    const res = await fetch(`/api/voteview/${congress}`);
+    if (!res.ok) return {};
+    const data = await res.json() as Record<string, string>;
+    partyCache.set(congress, data);
+    return data;
+  } catch {
+    return {};
+  }
+}
 
 // ─── Congress metadata ────────────────────────────────────────────────────────
 const CONGRESS_START = 89;
@@ -142,9 +174,15 @@ function D3MapPanel({
   const pathRef = useRef<d3.GeoPath | null>(null);
   const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
   const suppressSync = useRef(false);
+  const partyDataRef = useRef<Record<string, string>>({});
   const [districtCount, setDistrictCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [d3Ready, setD3Ready] = useState(false);
+
+  // Pre-fetch Voteview party data whenever congress changes
+  useEffect(() => {
+    fetchPartyData(congress).then(data => { partyDataRef.current = data; });
+  }, [congress]);
 
   // Initialize D3 when wrapper has real dimensions
   useEffect(() => {
@@ -157,8 +195,11 @@ function D3MapPanel({
       const svg = svgRef.current!;
       svg.setAttribute("width", String(width));
       svg.setAttribute("height", String(height));
+      // geoAlbersUsa default scale=1070 fits a 960×600 viewport.
+      // Scale to fill the full viewport with padding. Use min to ensure the full map is visible.
+      const mapScale = Math.min(width / 960, height / 580) * 1000;
       const projection = d3.geoAlbersUsa()
-        .scale(width * 1.1)
+        .scale(mapScale)
         .translate([width / 2, height / 2]);
       projectionRef.current = projection;
       pathRef.current = d3.geoPath().projection(projection);
@@ -235,10 +276,23 @@ function D3MapPanel({
     const localPath = pathRef.current;
     const statesToLoad = selectedState ? [selectedState] : US_STATES;
     (async () => {
+      // Ensure party data is loaded before drawing
+      const partyData = await fetchPartyData(congress);
+      partyDataRef.current = partyData;
+      if (cancelled) return;
       for (const state of statesToLoad) {
         if (cancelled) break;
         const data = await fetchStateGeoJson(state, congress);
         if (!data || cancelled) continue;
+        const stateAbbrev = STATE_CODES[state] ?? "";
+        // Helper: look up party for a district, handling at-large (district=0 → try key-1)
+        const getParty = (dist: number): string => {
+          const key = `${stateAbbrev}-${dist}`;
+          if (partyData[key]) return partyData[key];
+          // At-large districts in GeoJSON use district=0, Voteview uses district=1
+          if (dist === 0) return partyData[`${stateAbbrev}-1`] ?? "unknown";
+          return "unknown";
+        };
         districtGroup.selectAll(`.d-${state.replace(/\s/g, "_")}`)
           .data(data.features)
           .join("path")
@@ -247,15 +301,22 @@ function D3MapPanel({
           .attr("fill", (f: GeoJSON.Feature) => {
             const p = f.properties as Record<string, unknown>;
             const dist = Number(p?.district ?? p?.DISTRICT ?? 0);
-            // Alternate subtle colors for visual distinction between adjacent districts
-            // Keep very transparent so sky video background shows through
-            return dist % 2 === 0 ? "rgba(40,100,200,0.08)" : "rgba(20,60,160,0.05)";
+            const party = getParty(dist) as keyof typeof ATLAS_PARTY_COLORS;
+            return ATLAS_PARTY_COLORS[party] ?? ATLAS_PARTY_COLORS.unknown;
           })
-          .attr("stroke", "rgba(100,160,255,0.7)")
-          .attr("stroke-width", "0.5")
+          .attr("stroke", (f: GeoJSON.Feature) => {
+            const p = f.properties as Record<string, unknown>;
+            const dist = Number(p?.district ?? p?.DISTRICT ?? 0);
+            const party = getParty(dist) as keyof typeof ATLAS_STROKE;
+            return ATLAS_STROKE[party] ?? ATLAS_STROKE.unknown;
+          })
+          .attr("stroke-width", "0.6")
           .style("cursor", "pointer")
           .on("click", (_event: MouseEvent, f: GeoJSON.Feature) => {
-            if (onDistrictClick) onDistrictClick(f.properties as Record<string, unknown>);
+            const p = f.properties as Record<string, unknown>;
+            const dist = Number(p?.district ?? p?.DISTRICT ?? 0);
+            const party = getParty(dist);
+            if (onDistrictClick) onDistrictClick({ ...p, _party: party === "unknown" ? null : party, _stateAbbrev: stateAbbrev });
           });
         total += data.features.length;
         setDistrictCount(total);
@@ -307,25 +368,31 @@ function D3MapPanel({
       )}
       {/* Party seats legend */}
       {!compareMode && (
-        <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-sm rounded-lg p-3 text-xs text-white border border-white/10">
-          <div className="text-white/60 uppercase tracking-widest text-[10px] mb-2 font-semibold">Party Seats</div>
+        <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm rounded-lg p-3 text-xs text-white border border-white/10">
+          <div className="text-white/60 uppercase tracking-widest text-[10px] mb-2 font-semibold">House Seats</div>
           <div className="flex items-center gap-2 mb-1">
-            <div className="w-3 h-3 rounded-sm bg-[#4285F4]" />
+            <div className="w-3 h-3 rounded-sm" style={{ background: '#1a4fa0' }} />
             <span className="text-white/80">Democrat</span>
-            <span className="ml-auto font-bold text-[#4285F4]">{seats.D}</span>
+            <span className="ml-auto font-bold" style={{ color: '#5b8fd4' }}>{seats.D}</span>
           </div>
           <div className="flex items-center gap-2 mb-1">
-            <div className="w-3 h-3 rounded-sm bg-[#EA4335]" />
+            <div className="w-3 h-3 rounded-sm" style={{ background: '#b22222' }} />
             <span className="text-white/80">Republican</span>
-            <span className="ml-auto font-bold text-[#EA4335]">{seats.R}</span>
+            <span className="ml-auto font-bold" style={{ color: '#e06060' }}>{seats.R}</span>
           </div>
           {seats.O > 0 && (
             <div className="flex items-center gap-2 mb-1">
-              <div className="w-3 h-3 rounded-sm bg-[#9B59B6]" />
-              <span className="text-white/80">Split / Ind.</span>
-              <span className="ml-auto font-bold text-[#9B59B6]">{seats.O}</span>
+              <div className="w-3 h-3 rounded-sm" style={{ background: '#7c3aed' }} />
+              <span className="text-white/80">Independent</span>
+              <span className="ml-auto font-bold" style={{ color: '#a78bfa' }}>{seats.O}</span>
             </div>
           )}
+          {/* Seat bar */}
+          <div className="mt-2 h-2 rounded-full overflow-hidden flex">
+            <div style={{ width: `${(seats.D / total) * 100}%`, background: '#1a4fa0' }} />
+            {seats.O > 0 && <div style={{ width: `${(seats.O / total) * 100}%`, background: '#7c3aed' }} />}
+            <div style={{ width: `${(seats.R / total) * 100}%`, background: '#b22222' }} />
+          </div>
           <div className="border-t border-white/10 mt-2 pt-2 flex justify-between">
             <span className="text-white/50 uppercase text-[10px]">Total</span>
             <span className="font-bold">{total}</span>
@@ -341,10 +408,10 @@ function D3MapPanel({
       {/* Compare mode seats */}
       {compareMode && (
         <div className="absolute top-3 right-3 bg-black/40 backdrop-blur-sm rounded px-2 py-1 text-xs text-white/70 border border-white/10">
-          <span className="text-[#4285F4] font-bold">{seats.D}</span>
+          <span className="font-bold" style={{ color: '#5b8fd4' }}>{seats.D}</span>
           <span className="text-white/30 mx-1">D</span>
           <span className="text-white/30 mx-1">·</span>
-          <span className="text-[#EA4335] font-bold">{seats.R}</span>
+          <span className="font-bold" style={{ color: '#e06060' }}>{seats.R}</span>
           <span className="text-white/30 mx-1">R</span>
           {seats.O > 0 && <><span className="text-white/30 mx-1">·</span><span className="text-[#9B59B6] font-bold">{seats.O}</span><span className="text-white/30 mx-1">O</span></>}
         </div>
@@ -691,32 +758,43 @@ export default function MapComparison() {
       </div>
 
       {/* ── District click popup ── */}
-      {districtPopup && (
-        <div
-          className="absolute bottom-28 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-md border border-white/20 rounded-xl px-5 py-4 text-white text-sm shadow-2xl"
-          style={{ zIndex: 20, minWidth: 240 }}
-        >
-          <button
-            onClick={() => setDistrictPopup(null)}
-            className="absolute top-2 right-3 text-white/40 hover:text-white text-lg leading-none"
-          >×</button>
-          <div className="font-bold text-base mb-1">
-            {String(districtPopup.statename ?? districtPopup.STATENAME ?? "Unknown State")}
-            {" — District "}
-            {String(districtPopup.district ?? districtPopup.DISTRICT ?? "?")}
-          </div>
-          <div className="text-white/60 text-xs">
-            {ordinal(Number(districtPopup.startcong ?? districtPopup.STARTCONG ?? 0))}–
-            {ordinal(Number(districtPopup.endcong ?? districtPopup.ENDCONG ?? 0))} Congress
-          </div>
-          {Boolean(districtPopup.startcong || districtPopup.STARTCONG) && (
-            <div className="text-white/40 text-xs mt-0.5">
-              {String(congressYears(Number(districtPopup.startcong ?? districtPopup.STARTCONG))[0])}–
-              {String(congressYears(Number(districtPopup.endcong ?? districtPopup.ENDCONG ?? districtPopup.startcong ?? districtPopup.STARTCONG))[1])}
+      {districtPopup && (() => {
+        const party = districtPopup._party as string | null;
+        const partyColor = party === "D" ? "#5b8fd4" : party === "R" ? "#e06060" : party === "I" ? "#a78bfa" : "#888";
+        const partyLabel = party === "D" ? "Democrat" : party === "R" ? "Republican" : party === "I" ? "Independent" : "Unknown";
+        return (
+          <div
+            className="absolute bottom-28 left-1/2 -translate-x-1/2 bg-black/85 backdrop-blur-md border border-white/20 rounded-xl px-5 py-4 text-white text-sm shadow-2xl"
+            style={{ zIndex: 20, minWidth: 260 }}
+          >
+            <button
+              onClick={() => setDistrictPopup(null)}
+              className="absolute top-2 right-3 text-white/40 hover:text-white text-lg leading-none"
+            >×</button>
+            <div className="font-bold text-base mb-1">
+              {String(districtPopup.statename ?? districtPopup.STATENAME ?? "Unknown State")}
+              {" — District "}
+              {String(districtPopup.district ?? districtPopup.DISTRICT ?? "?")}
             </div>
-          )}
-        </div>
-      )}
+            {party && (
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-2.5 h-2.5 rounded-full" style={{ background: partyColor }} />
+                <span className="text-xs font-semibold" style={{ color: partyColor }}>{partyLabel}</span>
+              </div>
+            )}
+            <div className="text-white/60 text-xs">
+              {ordinal(Number(districtPopup.startcong ?? districtPopup.STARTCONG ?? 0))}–
+              {ordinal(Number(districtPopup.endcong ?? districtPopup.ENDCONG ?? 0))} Congress
+            </div>
+            {Boolean(districtPopup.startcong || districtPopup.STARTCONG) && (
+              <div className="text-white/40 text-xs mt-0.5">
+                {String(congressYears(Number(districtPopup.startcong ?? districtPopup.STARTCONG))[0])}–
+                {String(congressYears(Number(districtPopup.endcong ?? districtPopup.ENDCONG ?? districtPopup.startcong ?? districtPopup.STARTCONG))[1])}
+              </div>
+            )}
+          </div>
+        );
+      })()}
     </div>
   );
 }
