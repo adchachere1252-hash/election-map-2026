@@ -32,6 +32,7 @@ const PARTY_STROKE_OPACITY = { D: 0.75, R: 0.75, I: 0.75, unknown: 0.35 };
 
 // ─── Voteview party data cache ────────────────────────────────────────────────
 const partyCache = new Map<number, Record<string, string>>();
+const membersCache = new Map<number, Record<string, { name: string; party: string; bioguide: string }>>();
 
 async function fetchPartyData(congress: number): Promise<Record<string, string>> {
   if (partyCache.has(congress)) return partyCache.get(congress)!;
@@ -40,6 +41,19 @@ async function fetchPartyData(congress: number): Promise<Record<string, string>>
     if (!res.ok) return {};
     const data = await res.json() as Record<string, string>;
     partyCache.set(congress, data);
+    return data;
+  } catch {
+    return {};
+  }
+}
+
+async function fetchMembersData(congress: number): Promise<Record<string, { name: string; party: string; bioguide: string }>> {
+  if (membersCache.has(congress)) return membersCache.get(congress)!;
+  try {
+    const res = await fetch(`/api/voteview/members/${congress}`);
+    if (!res.ok) return {};
+    const data = await res.json() as Record<string, { name: string; party: string; bioguide: string }>;
+    membersCache.set(congress, data);
     return data;
   } catch {
     return {};
@@ -82,14 +96,22 @@ const HOUSE_SEATS: Record<number, { D: number; R: number; O: number }> = {
 };
 
 // ─── Timeline milestones ──────────────────────────────────────────────────────
-const MILESTONES: { congress: number; label: string }[] = [
-  { congress: 89, label: "VRA" },
-  { congress: 93, label: "Nixon" },
-  { congress: 97, label: "Reagan" },
-  { congress: 104, label: "Gingrich" },
-  { congress: 111, label: "Obama" },
-  { congress: 112, label: "Tea Party" },
-  { congress: 119, label: "119th" },
+// Each milestone gets a stagger row (0 = above, 1 = further above) to prevent overlap
+const MILESTONES: { congress: number; label: string; row: number }[] = [
+  { congress: 89, label: "VRA", row: 0 },
+  { congress: 93, label: "Nixon", row: 1 },
+  { congress: 97, label: "Reagan", row: 0 },
+  { congress: 104, label: "Gingrich", row: 1 },
+  { congress: 111, label: "Obama", row: 0 },
+  { congress: 112, label: "Tea Party", row: 1 },
+  { congress: 119, label: "119th", row: 0 },
+];
+
+// ─── Play speed options ───────────────────────────────────────────────────────
+const PLAY_SPEEDS = [
+  { label: "Slow", ms: 1600 },
+  { label: "Med", ms: 800 },
+  { label: "Fast", ms: 300 },
 ];
 
 // ─── Sky video backgrounds ────────────────────────────────────────────────────
@@ -176,11 +198,8 @@ function LeafletMapPanel({
   const [isLoading, setIsLoading] = useState(true);
 
   // Initialize Leaflet map
-   useEffect(() => {
+  useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
-    // Create Leaflet map with no tile layer — transparent background
-    // US bounding box: slightly expanded to fill more of the viewport
-    // SW corner [20, -130], NE corner [52, -60] gives more breathing room
     const usBounds = L.latLngBounds([[20, -130], [52, -60]]);
     const map = L.map(containerRef.current, {
       zoomControl: false,
@@ -189,17 +208,11 @@ function LeafletMapPanel({
       doubleClickZoom: true,
       dragging: true,
     });
-    // Fit the US to the viewport with no padding so it fills the space
     map.fitBounds(usBounds, { padding: [0, 0] });
 
-    // Add zoom control in bottom-right
     L.control.zoom({ position: "bottomright" }).addTo(map);
-
-    // Attribution in bottom-right
     L.control.attribution({ position: "bottomright", prefix: false }).addTo(map);
 
-    // Make the map background fully transparent (no tiles)
-    // The Leaflet container CSS needs to be transparent
     const container = map.getContainer();
     container.style.background = "transparent";
     const panes = container.querySelectorAll(".leaflet-tile-pane, .leaflet-shadow-pane");
@@ -207,7 +220,6 @@ function LeafletMapPanel({
 
     mapRef.current = map;
 
-    // Emit view changes for sync
     map.on("moveend zoomend", () => {
       if (suppressSyncRef.current) return;
       onViewChange?.(map.getCenter(), map.getZoom());
@@ -245,7 +257,6 @@ function LeafletMapPanel({
     const map = mapRef.current;
     if (!map) return;
 
-    // Remove existing district layer
     if (districtLayerRef.current) {
       map.removeLayer(districtLayerRef.current);
       districtLayerRef.current = null;
@@ -257,7 +268,6 @@ function LeafletMapPanel({
     const statesToLoad = selectedState ? [selectedState] : US_STATES;
     let total = 0;
 
-    // Create a single GeoJSON layer that we'll add features to
     const layer = L.geoJSON(undefined, {
       style: (feature) => {
         const p = feature?.properties as Record<string, unknown> ?? {};
@@ -285,7 +295,18 @@ function LeafletMapPanel({
           const partyData = partyCache.get(congress) ?? {};
           let party = partyData[key];
           if (!party && dist === 0) party = partyData[`${stateAbbrev}-1`];
-          onDistrictClick?.({ ...p, _party: party ?? null, _stateAbbrev: stateAbbrev });
+          // Look up member name
+          const membersData = membersCache.get(congress) ?? {};
+          let member = membersData[key];
+          if (!member && dist === 0) member = membersData[`${stateAbbrev}-1`];
+          onDistrictClick?.({
+            ...p,
+            _party: party ?? null,
+            _stateAbbrev: stateAbbrev,
+            _memberName: member?.name ?? null,
+            _memberBioguide: member?.bioguide ?? null,
+            _congress: congress,
+          });
         });
       },
     });
@@ -293,8 +314,8 @@ function LeafletMapPanel({
     districtLayerRef.current = layer;
 
     (async () => {
-      // Pre-fetch party data
-      await fetchPartyData(congress);
+      // Pre-fetch party and member data in parallel
+      await Promise.all([fetchPartyData(congress), fetchMembersData(congress)]);
       if (cancelled) return;
 
       for (const state of statesToLoad) {
@@ -307,7 +328,6 @@ function LeafletMapPanel({
       }
       if (!cancelled) setIsLoading(false);
 
-      // After loading, if a state is selected, zoom to it
       if (!cancelled && selectedState) {
         const stateData = geoCache.get(`${selectedState}-${congress}`);
         if (stateData) {
@@ -326,7 +346,6 @@ function LeafletMapPanel({
 
   return (
     <div className="relative flex-1 w-full h-full min-h-0 overflow-hidden" style={{ background: "transparent" }}>
-      {/* Leaflet map container — transparent background shows sky video */}
       <div
         ref={containerRef}
         className="absolute inset-0"
@@ -334,7 +353,7 @@ function LeafletMapPanel({
       />
       {/* Loading indicator */}
       <div className="absolute bottom-3 left-3 text-xs font-mono text-white/60 bg-black/30 px-2 py-1 rounded pointer-events-none" style={{ zIndex: 1000 }}>
-        {isLoading ? `${districtCount} districts loaded…` : `${districtCount} districts loaded`}
+        {isLoading ? `${districtCount} districts loaded…` : `${districtCount} districts`}
       </div>
       {/* Party seats legend */}
       {!compareMode && (
@@ -357,7 +376,6 @@ function LeafletMapPanel({
               <span className="ml-auto font-bold" style={{ color: '#a78bfa' }}>{seats.O}</span>
             </div>
           )}
-          {/* Seat bar */}
           <div className="mt-2 h-2 rounded-full overflow-hidden flex">
             <div style={{ width: `${(seats.D / total) * 100}%`, background: '#1a4fa0' }} />
             {seats.O > 0 && <div style={{ width: `${(seats.O / total) * 100}%`, background: '#7c3aed' }} />}
@@ -375,7 +393,6 @@ function LeafletMapPanel({
           {panelId === "A" ? "LEFT" : "RIGHT"}
         </div>
       )}
-      {/* Compare mode seats */}
       {compareMode && (
         <div className="absolute top-3 right-3 bg-black/40 backdrop-blur-sm rounded px-2 py-1 text-xs text-white/70 border border-white/10" style={{ zIndex: 1000 }}>
           <span className="font-bold" style={{ color: '#5b8fd4' }}>{seats.D}</span>
@@ -390,6 +407,108 @@ function LeafletMapPanel({
   );
 }
 
+// ─── Timeline Slider ──────────────────────────────────────────────────────────
+interface TimelineSliderProps {
+  congress: number;
+  onChange: (c: number) => void;
+  isPlaying: boolean;
+  onPlayToggle: () => void;
+  speedIdx: number;
+  onSpeedChange: (i: number) => void;
+  color: "amber" | "red";
+  label?: string;
+}
+
+function TimelineSlider({ congress, onChange, isPlaying, onPlayToggle, speedIdx, onSpeedChange, color, label }: TimelineSliderProps) {
+  const totalCongresses = CONGRESS_END - CONGRESS_START;
+  function sliderPct(c: number) {
+    return ((c - CONGRESS_START) / totalCongresses) * 100;
+  }
+  const accentColor = color === "amber" ? "#F59E0B" : "#EF4444";
+  const accentClass = color === "amber" ? "text-amber-400" : "text-red-400";
+  const playBtnClass = color === "amber"
+    ? "bg-amber-500/20 border-amber-400/40 text-amber-300 hover:bg-amber-500/30"
+    : "bg-red-500/20 border-red-400/40 text-red-300 hover:bg-red-500/30";
+  const milestoneTextClass = color === "amber" ? "text-amber-300/60" : "text-red-300/60";
+  const milestoneDotClass = color === "amber" ? "bg-amber-400/50" : "bg-red-400/50";
+
+  return (
+    <div className="flex items-center gap-3">
+      {/* Play/pause button */}
+      <button
+        onClick={onPlayToggle}
+        className={`w-7 h-7 flex items-center justify-center rounded-full border transition-colors shrink-0 ${playBtnClass}`}
+        title={isPlaying ? "Pause" : "Play animation"}
+      >
+        {isPlaying ? "⏸" : "▶"}
+      </button>
+      {/* Speed selector */}
+      <div className="flex gap-0.5 shrink-0">
+        {PLAY_SPEEDS.map((s, i) => (
+          <button
+            key={s.label}
+            onClick={() => onSpeedChange(i)}
+            className={`px-1.5 py-0.5 text-[9px] font-bold rounded border transition-colors ${
+              speedIdx === i
+                ? color === "amber"
+                  ? "bg-amber-500/30 border-amber-400/50 text-amber-300"
+                  : "bg-red-500/30 border-red-400/50 text-red-300"
+                : "bg-white/5 border-white/10 text-white/30 hover:text-white/60"
+            }`}
+          >
+            {s.label}
+          </button>
+        ))}
+      </div>
+      {/* Slider track with milestone labels */}
+      <div className="flex-1 relative" style={{ paddingTop: "24px" }}>
+        {/* Milestone labels — staggered to prevent overlap */}
+        {MILESTONES.map(m => (
+          <div
+            key={m.congress}
+            className={`absolute text-[9px] font-semibold uppercase tracking-widest pointer-events-none ${milestoneTextClass}`}
+            style={{
+              left: `${sliderPct(m.congress)}%`,
+              transform: "translateX(-50%)",
+              top: m.row === 0 ? "0px" : "10px",
+            }}
+          >
+            {m.label}
+          </div>
+        ))}
+        {/* Milestone dots on the track */}
+        <div className="absolute left-0 right-0 flex pointer-events-none" style={{ top: "calc(24px + 50%)", height: "2px" }}>
+          {MILESTONES.map(m => (
+            <div
+              key={m.congress}
+              className={`absolute w-1.5 h-1.5 rounded-full -translate-x-1/2 -translate-y-1/2 ${milestoneDotClass}`}
+              style={{ left: `${sliderPct(m.congress)}%`, top: "50%" }}
+            />
+          ))}
+        </div>
+        <input
+          type="range"
+          min={CONGRESS_START}
+          max={CONGRESS_END}
+          value={congress}
+          onChange={e => onChange(Number(e.target.value))}
+          className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+          style={{
+            background: `linear-gradient(to right, ${accentColor} ${sliderPct(congress)}%, rgba(255,255,255,0.15) ${sliderPct(congress)}%)`,
+            accentColor,
+          }}
+        />
+      </div>
+      {/* Congress label */}
+      <div className="shrink-0 text-right w-28">
+        {label && <div className="text-white/30 text-[9px] uppercase tracking-widest">{label}</div>}
+        <span className={`text-sm font-bold ${accentClass}`}>{ordinal(congress)}</span>
+        <span className="text-white/40 text-xs ml-1">({congressYears(congress)[0]})</span>
+      </div>
+    </div>
+  );
+}
+
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function MapComparison() {
   const [congressA, setCongressA] = useState(CONGRESS_END);
@@ -400,6 +519,8 @@ export default function MapComparison() {
   const [districtPopup, setDistrictPopup] = useState<Record<string, unknown> | null>(null);
   const [isPlayingA, setIsPlayingA] = useState(false);
   const [isPlayingB, setIsPlayingB] = useState(false);
+  const [speedIdxA, setSpeedIdxA] = useState(1); // default: Medium
+  const [speedIdxB, setSpeedIdxB] = useState(1);
   const [syncViewA, setSyncViewA] = useState<{ center: L.LatLng; zoom: number } | null>(null);
   const [syncViewB, setSyncViewB] = useState<{ center: L.LatLng; zoom: number } | null>(null);
   const sky = getSkyVideo();
@@ -411,27 +532,31 @@ export default function MapComparison() {
     return () => clearInterval(t);
   }, []);
 
-  // Animation playback
+  // Animation playback A
   useEffect(() => {
     if (!isPlayingA) return;
+    const ms = PLAY_SPEEDS[speedIdxA].ms;
     const t = setInterval(() => {
       setCongressA(c => {
         if (c >= CONGRESS_END) { setIsPlayingA(false); return c; }
         return c + 1;
       });
-    }, 800);
+    }, ms);
     return () => clearInterval(t);
-  }, [isPlayingA]);
+  }, [isPlayingA, speedIdxA]);
+
+  // Animation playback B
   useEffect(() => {
     if (!isPlayingB) return;
+    const ms = PLAY_SPEEDS[speedIdxB].ms;
     const t = setInterval(() => {
       setCongressB(c => {
         if (c >= CONGRESS_END) { setIsPlayingB(false); return c; }
         return c + 1;
       });
-    }, 800);
+    }, ms);
     return () => clearInterval(t);
-  }, [isPlayingB]);
+  }, [isPlayingB, speedIdxB]);
 
   const handleViewChangeA = useCallback((center: L.LatLng, zoom: number) => {
     if (synced) setSyncViewB({ center, zoom });
@@ -440,13 +565,14 @@ export default function MapComparison() {
     if (synced) setSyncViewA({ center, zoom });
   }, [synced]);
 
-  const congressList = Array.from({ length: CONGRESS_END - CONGRESS_START + 1 }, (_, i) => CONGRESS_START + i);
-  const totalCongresses = CONGRESS_END - CONGRESS_START;
-  function sliderPct(congress: number) {
-    return ((congress - CONGRESS_START) / totalCongresses) * 100;
-  }
-  const [yearsA] = congressYears(congressA);
-  const [yearsB] = congressYears(congressB);
+  const handlePlayToggleA = () => {
+    setIsPlayingA(p => !p);
+    if (congressA >= CONGRESS_END) setCongressA(CONGRESS_START);
+  };
+  const handlePlayToggleB = () => {
+    setIsPlayingB(p => !p);
+    if (congressB >= CONGRESS_END) setCongressB(CONGRESS_START);
+  };
 
   return (
     <div className="relative w-screen h-screen overflow-hidden flex flex-col">
@@ -477,7 +603,7 @@ export default function MapComparison() {
         <div className="flex-1" />
         {/* Jump to state */}
         <div className="flex items-center gap-2">
-          <span className="text-white/40 text-xs uppercase tracking-widest">Jump to State</span>
+          <span className="text-white/40 text-xs uppercase tracking-widest hidden sm:inline">Jump to State</span>
           <select
             value={selectedState}
             onChange={e => setSelectedState(e.target.value)}
@@ -487,7 +613,11 @@ export default function MapComparison() {
             {US_STATES.map(s => <option key={s} value={s}>{s}</option>)}
           </select>
           {selectedState && (
-            <button onClick={() => setSelectedState("")} className="text-white/50 hover:text-white text-xs">✕</button>
+            <button
+              onClick={() => setSelectedState("")}
+              className="text-white/40 hover:text-white text-xs"
+              title="Clear state filter"
+            >✕</button>
           )}
         </div>
         {/* Compare toggle */}
@@ -539,14 +669,14 @@ export default function MapComparison() {
           <div className="flex flex-col flex-1 gap-1">
             <div className="flex items-center gap-2">
               <span className="text-white/50 text-[10px] uppercase tracking-widest">Select Congress</span>
-              <span className="text-white/30 text-xs ml-auto">{yearsA}–{yearsA + 1}</span>
+              <span className="text-white/30 text-xs ml-auto">{congressYears(congressA)[0]}–{congressYears(congressA)[1]}</span>
             </div>
             <select
               value={congressA}
-              onChange={e => setCongressA(Number(e.target.value))}
+              onChange={e => { setCongressA(Number(e.target.value)); setIsPlayingA(false); }}
               className="bg-white/10 border border-white/20 rounded text-white text-sm px-2 py-1 focus:outline-none"
             >
-              {congressList.map(n => {
+              {Array.from({ length: CONGRESS_END - CONGRESS_START + 1 }, (_, i) => CONGRESS_START + i).map(n => {
                 const [y] = congressYears(n);
                 return <option key={n} value={n}>{ordinal(n)} Congress ({y}–{y + 1})</option>;
               })}
@@ -564,14 +694,14 @@ export default function MapComparison() {
             <div className="flex flex-col flex-1 gap-1">
               <div className="flex items-center gap-2">
                 <span className="text-white/50 text-[10px] uppercase tracking-widest">Select Congress</span>
-                <span className="text-white/30 text-xs ml-auto">{yearsB}–{yearsB + 1}</span>
+                <span className="text-white/30 text-xs ml-auto">{congressYears(congressB)[0]}–{congressYears(congressB)[1]}</span>
               </div>
               <select
                 value={congressB}
-                onChange={e => setCongressB(Number(e.target.value))}
+                onChange={e => { setCongressB(Number(e.target.value)); setIsPlayingB(false); }}
                 className="bg-white/10 border border-white/20 rounded text-white text-sm px-2 py-1 focus:outline-none"
               >
-                {congressList.map(n => {
+                {Array.from({ length: CONGRESS_END - CONGRESS_START + 1 }, (_, i) => CONGRESS_START + i).map(n => {
                   const [y] = congressYears(n);
                   return <option key={n} value={n}>{ordinal(n)} Congress ({y}–{y + 1})</option>;
                 })}
@@ -613,99 +743,31 @@ export default function MapComparison() {
 
       {/* ── Timeline / Slider ── */}
       <div
-        className="relative shrink-0 px-5 py-3 border-t border-white/10"
+        className="relative shrink-0 px-5 pt-6 pb-3 border-t border-white/10"
         style={{ zIndex: 10, background: "rgba(0,0,0,0.55)", backdropFilter: "blur(8px)" }}
       >
-        {/* Panel A slider */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => { setIsPlayingA(p => !p); if (congressA >= CONGRESS_END) setCongressA(CONGRESS_START); }}
-            className="w-7 h-7 flex items-center justify-center rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 hover:bg-amber-500/30 transition-colors shrink-0"
-            title={isPlayingA ? "Pause" : "Play animation"}
-          >
-            {isPlayingA ? "⏸" : "▶"}
-          </button>
-          <div className="flex-1 relative">
-            <div className="absolute -top-4 left-0 right-0 flex pointer-events-none">
-              {MILESTONES.map(m => (
-                <div
-                  key={m.congress}
-                  className="absolute text-[9px] text-amber-300/50 font-semibold uppercase tracking-widest"
-                  style={{ left: `${sliderPct(m.congress)}%`, transform: "translateX(-50%)" }}
-                >
-                  {m.label}
-                </div>
-              ))}
-            </div>
-            <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 flex pointer-events-none" style={{ height: "2px" }}>
-              {MILESTONES.map(m => (
-                <div
-                  key={m.congress}
-                  className="absolute w-1.5 h-1.5 rounded-full bg-amber-400/50 -translate-x-1/2 -translate-y-1/2"
-                  style={{ left: `${sliderPct(m.congress)}%`, top: "50%" }}
-                />
-              ))}
-            </div>
-            <input
-              type="range"
-              min={CONGRESS_START}
-              max={CONGRESS_END}
-              value={congressA}
-              onChange={e => { setCongressA(Number(e.target.value)); setIsPlayingA(false); }}
-              className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-              style={{
-                background: `linear-gradient(to right, #F59E0B ${sliderPct(congressA)}%, rgba(255,255,255,0.15) ${sliderPct(congressA)}%)`,
-                accentColor: "#F59E0B",
-              }}
-            />
-          </div>
-          <span className="text-amber-400 text-sm font-bold w-12 text-right shrink-0">{ordinal(congressA)}</span>
-        </div>
-        {/* Panel B slider (compare mode only) */}
+        <TimelineSlider
+          congress={congressA}
+          onChange={c => { setCongressA(c); setIsPlayingA(false); }}
+          isPlaying={isPlayingA}
+          onPlayToggle={handlePlayToggleA}
+          speedIdx={speedIdxA}
+          onSpeedChange={setSpeedIdxA}
+          color="amber"
+          label={compareMode ? "Panel A" : undefined}
+        />
         {compareMode && (
-          <div className="flex items-center gap-3 mt-2">
-            <button
-              onClick={() => { setIsPlayingB(p => !p); if (congressB >= CONGRESS_END) setCongressB(CONGRESS_START); }}
-              className="w-7 h-7 flex items-center justify-center rounded-full bg-red-500/20 border border-red-400/40 text-red-300 hover:bg-red-500/30 transition-colors shrink-0"
-              title={isPlayingB ? "Pause" : "Play animation"}
-            >
-              {isPlayingB ? "⏸" : "▶"}
-            </button>
-            <div className="flex-1 relative">
-              <div className="absolute -top-4 left-0 right-0 flex pointer-events-none">
-                {MILESTONES.map(m => (
-                  <div
-                    key={m.congress}
-                    className="absolute text-[9px] text-red-300/50 font-semibold uppercase tracking-widest"
-                    style={{ left: `${sliderPct(m.congress)}%`, transform: "translateX(-50%)" }}
-                  >
-                    {m.label}
-                  </div>
-                ))}
-              </div>
-              <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 flex pointer-events-none" style={{ height: "2px" }}>
-                {MILESTONES.map(m => (
-                  <div
-                    key={m.congress}
-                    className="absolute w-1.5 h-1.5 rounded-full bg-red-400/50 -translate-x-1/2 -translate-y-1/2"
-                    style={{ left: `${sliderPct(m.congress)}%`, top: "50%" }}
-                  />
-                ))}
-              </div>
-              <input
-                type="range"
-                min={CONGRESS_START}
-                max={CONGRESS_END}
-                value={congressB}
-                onChange={e => { setCongressB(Number(e.target.value)); setIsPlayingB(false); }}
-                className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                style={{
-                  background: `linear-gradient(to right, #EF4444 ${sliderPct(congressB)}%, rgba(255,255,255,0.15) ${sliderPct(congressB)}%)`,
-                  accentColor: "#EF4444",
-                }}
-              />
-            </div>
-            <span className="text-red-400 text-sm font-bold w-12 text-right shrink-0">{ordinal(congressB)}</span>
+          <div className="mt-3">
+            <TimelineSlider
+              congress={congressB}
+              onChange={c => { setCongressB(c); setIsPlayingB(false); }}
+              isPlaying={isPlayingB}
+              onPlayToggle={handlePlayToggleB}
+              speedIdx={speedIdxB}
+              onSpeedChange={setSpeedIdxB}
+              color="red"
+              label="Panel B"
+            />
           </div>
         )}
         {/* Attribution */}
@@ -719,34 +781,71 @@ export default function MapComparison() {
         const party = districtPopup._party as string | null;
         const partyColor = party === "D" ? "#5b8fd4" : party === "R" ? "#e06060" : party === "I" ? "#a78bfa" : "#888";
         const partyLabel = party === "D" ? "Democrat" : party === "R" ? "Republican" : party === "I" ? "Independent" : "Unknown";
+        const memberName = districtPopup._memberName as string | null;
+        const bioguide = districtPopup._memberBioguide as string | null;
+        const congress = districtPopup._congress as number | null;
+        const stateName = String(districtPopup.statename ?? districtPopup.STATENAME ?? "Unknown State");
+        const distNum = Number(districtPopup.district ?? districtPopup.DISTRICT ?? 0);
+        const distLabel = distNum === 0 || distNum === 1
+          ? (distNum === 0 ? "At-Large" : "1")
+          : String(distNum);
+        const [yearsStart] = congress ? congressYears(congress) : [null];
         return (
           <div
             className="absolute bottom-28 left-1/2 -translate-x-1/2 bg-black/85 backdrop-blur-md border border-white/20 rounded-xl px-5 py-4 text-white text-sm shadow-2xl"
-            style={{ zIndex: 20, minWidth: 260 }}
+            style={{ zIndex: 20, minWidth: 280 }}
           >
             <button
               onClick={() => setDistrictPopup(null)}
               className="absolute top-2 right-3 text-white/40 hover:text-white text-lg leading-none"
             >×</button>
+            {/* State + District heading */}
             <div className="font-bold text-base mb-1">
-              {String(districtPopup.statename ?? districtPopup.STATENAME ?? "Unknown State")}
-              {" — District "}
-              {String(districtPopup.district ?? districtPopup.DISTRICT ?? "?")}
+              {stateName}
+              {" — "}
+              {distLabel === "At-Large" ? "At-Large District" : `District ${distLabel}`}
             </div>
-            {party && (
+            {/* Member name */}
+            {memberName ? (
               <div className="flex items-center gap-2 mb-2">
-                <div className="w-2.5 h-2.5 rounded-full" style={{ background: partyColor }} />
-                <span className="text-xs font-semibold" style={{ color: partyColor }}>{partyLabel}</span>
+                {bioguide && (
+                  <img
+                    src={`https://bioguide.congress.gov/bioguide/photo/${bioguide[0]}/${bioguide}.jpg`}
+                    alt={memberName}
+                    className="w-8 h-8 rounded-full object-cover border border-white/20"
+                    onError={e => { (e.target as HTMLImageElement).style.display = "none"; }}
+                  />
+                )}
+                <div>
+                  <div className="text-white font-semibold text-sm">{memberName}</div>
+                  {party && (
+                    <div className="flex items-center gap-1.5 mt-0.5">
+                      <div className="w-2 h-2 rounded-full" style={{ background: partyColor }} />
+                      <span className="text-xs font-semibold" style={{ color: partyColor }}>{partyLabel}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              party && (
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ background: partyColor }} />
+                  <span className="text-xs font-semibold" style={{ color: partyColor }}>{partyLabel}</span>
+                </div>
+              )
+            )}
+            {/* Congress info */}
+            {congress && (
+              <div className="text-white/50 text-xs border-t border-white/10 pt-2 mt-1">
+                {ordinal(congress)} Congress
+                {yearsStart && <span className="text-white/30 ml-1">({yearsStart}–{yearsStart + 1})</span>}
               </div>
             )}
-            <div className="text-white/60 text-xs">
-              {ordinal(Number(districtPopup.startcong ?? districtPopup.STARTCONG ?? 0))}–
-              {ordinal(Number(districtPopup.endcong ?? districtPopup.ENDCONG ?? 0))} Congress
-            </div>
+            {/* District boundary range from GeoJSON */}
             {Boolean(districtPopup.startcong || districtPopup.STARTCONG) && (
-              <div className="text-white/40 text-xs mt-0.5">
-                {String(congressYears(Number(districtPopup.startcong ?? districtPopup.STARTCONG))[0])}–
-                {String(congressYears(Number(districtPopup.endcong ?? districtPopup.ENDCONG ?? districtPopup.startcong ?? districtPopup.STARTCONG))[1])}
+              <div className="text-white/30 text-xs mt-0.5">
+                Boundary valid: {ordinal(Number(districtPopup.startcong ?? districtPopup.STARTCONG))}–
+                {ordinal(Number(districtPopup.endcong ?? districtPopup.ENDCONG ?? districtPopup.startcong ?? districtPopup.STARTCONG))} Congress
               </div>
             )}
           </div>

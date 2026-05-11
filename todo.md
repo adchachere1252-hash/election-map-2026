@@ -1210,3 +1210,10 @@
 - [x] Fix Historical Atlas map not rendering (D3 SVG districts not drawing)
 - [x] Fix Historical Atlas map too large — needs to fit within page viewport
 - [x] Match Historical Atlas colors to main map: Democrat blue (#1a4fa0), Republican red (#b22222), Independent purple
+
+## Historical Atlas Improvements (May 11 Session 2)
+- [x] Fix missing states in Historical Atlas — added all 10 multi-word states to LEWIS_MANIFEST (NH, NJ, NM, NY, NC, ND, RI, SC, SD, WV)
+- [x] Fix timeline label overlap — staggered milestone labels (alternating row 0 / row 1) so Obama/Tea Party no longer overlap
+- [x] Implement play animation — smooth auto-advance through 89th–119th Congress with Slow/Med/Fast speed control
+- [x] Implement Compare mode — side-by-side two-panel comparison of any two Congresses with synchronized zoom/pan and lock/unlock toggle
+- [x] Implement district-level popups — click district to see representative name (from Voteview CSV), party, Congress, with bioguide photo

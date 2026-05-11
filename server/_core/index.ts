@@ -53,8 +53,8 @@ async function startServer() {
   // This bypasses CORS restrictions in the browser sandbox
   app.get("/api/geojson/:filename", async (req, res) => {
     const { filename } = req.params;
-    // Validate filename: only allow .geojson files with safe characters
-    if (!/^[A-Za-z0-9_\-]+\.geojson$/.test(filename)) {
+    // Validate filename: allow letters, digits, spaces, underscores, hyphens + .geojson
+    if (!/^[A-Za-z0-9_ \-]+\.geojson$/.test(filename)) {
       return res.status(400).json({ error: "Invalid filename" });
     }
     const url = `https://raw.githubusercontent.com/JeffreyBLewis/congressional-district-boundaries/master/GeoJson/${filename}`;
@@ -112,6 +112,82 @@ async function startServer() {
       return res.json(result);
     } catch (err) {
       console.error("Voteview proxy error:", err);
+      return res.status(500).json({ error: "Proxy fetch failed" });
+    }
+  });
+
+  // Voteview full member data: returns { "AL-3": { name, party, bioguide } }
+  const voteviewMembersCache = new Map<string, Record<string, { name: string; party: string; bioguide: string }>>();
+  // RFC 4180 CSV parser that handles quoted fields with embedded commas
+  function parseCSVLine(line: string): string[] {
+    const cols: string[] = [];
+    let cur = "";
+    let inQuote = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') {
+        if (inQuote && line[i + 1] === '"') { cur += '"'; i++; }
+        else { inQuote = !inQuote; }
+      } else if (ch === ',' && !inQuote) {
+        cols.push(cur); cur = "";
+      } else {
+        cur += ch;
+      }
+    }
+    cols.push(cur);
+    return cols;
+  }
+  app.get("/api/voteview/members/:congress", async (req, res) => {
+    const congress = parseInt(req.params.congress);
+    if (isNaN(congress) || congress < 89 || congress > 119) {
+      return res.status(400).json({ error: "Invalid congress number" });
+    }
+    const cacheKey = String(congress);
+    if (voteviewMembersCache.has(cacheKey)) {
+      res.setHeader("Cache-Control", "public, max-age=86400");
+      return res.json(voteviewMembersCache.get(cacheKey));
+    }
+    try {
+      const url = `https://voteview.com/static/data/out/members/H${congress}_members.csv`;
+      const response = await fetch(url);
+      if (!response.ok) return res.status(response.status).json({ error: "Voteview not found" });
+      const csv = await response.text();
+      const lines = csv.trim().split("\n");
+      const headers = parseCSVLine(lines[0]);
+      const chamberIdx = headers.indexOf("chamber");
+      const stateIdx = headers.indexOf("state_abbrev");
+      const distIdx = headers.indexOf("district_code");
+      const partyIdx = headers.indexOf("party_code");
+      const bioIdx = headers.indexOf("bioname");
+      const bioguideIdx = headers.indexOf("bioguide_id");
+      const result: Record<string, { name: string; party: string; bioguide: string }> = {};
+      for (let i = 1; i < lines.length; i++) {
+        const cols = parseCSVLine(lines[i]);
+        if (cols[chamberIdx] !== "House") continue;
+        const state = cols[stateIdx];
+        const dist = parseInt(cols[distIdx]);
+        const party = parseInt(cols[partyIdx]);
+        const bioname = (cols[bioIdx] ?? "").trim();
+        const bioguide = (cols[bioguideIdx] ?? "").trim();
+        if (!state || isNaN(dist)) continue;
+        // Format name: "LAST, First Middle" -> "First Middle Last"
+        let name = bioname;
+        if (name.includes(",")) {
+          const commaIdx = name.indexOf(",");
+          const last = name.slice(0, commaIdx).trim();
+          const first = name.slice(commaIdx + 1).trim();
+          // Title-case the last name (it's all-caps in Voteview)
+          const titleCase = (s: string) => s.split(" ").map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(" ");
+          name = `${first} ${titleCase(last)}`.trim();
+        }
+        const key = `${state}-${dist}`;
+        result[key] = { name, party: party === 100 ? "D" : party === 200 ? "R" : "I", bioguide };
+      }
+      voteviewMembersCache.set(cacheKey, result);
+      res.setHeader("Cache-Control", "public, max-age=86400");
+      return res.json(result);
+    } catch (err) {
+      console.error("Voteview members proxy error:", err);
       return res.status(500).json({ error: "Proxy fetch failed" });
     }
   });
