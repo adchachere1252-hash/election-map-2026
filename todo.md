@@ -1143,3 +1143,21 @@
 - [x] Update RacePopup to hide vote counts and percentages when status is General
 - [x] Clear pctReporting, candidate1VotePct, candidate2VotePct from all OH and IN races in DB
 - [x] Save checkpoint and publish
+
+## Congressional Historical Map Atlas (Map Comparison Redesign)
+- [x] Replace /map-comparison page with full "Congressional Historical Map Atlas" redesign
+- [x] Dual timeline sliders (one per panel) spanning 89th–119th Congress (1965–2025)
+- [x] Slider shows Congress number + year label as user drags
+- [x] Animated sky background (7 time-of-day videos, auto-selected by local time) — reuse existing CDN URLs
+- [x] Two synced side-by-side Google Maps panels (pan/zoom one, other follows)
+- [x] UCLA/Lewis GeoJSON district boundaries rendered per selected Congress
+- [x] District click popup: state, district number, Congress range, years served
+- [x] State selector dropdown zooms both maps to selected state
+- [x] Preset comparison shortcuts (Post-VRA, Pre/Post Shelby County, Pre/Post 2020 Census, Pre/Post 2010 Census, Nixon→Reagan, Pre/Post Contract w/ America)
+- [x] "Full U.S." reset button
+- [x] Improved header: "Congressional Historical Map Atlas" branding, sky label, back-to-election-map link
+- [x] Legend: D/R color key + source attribution
+- [x] Sync/Unsync toggle button (lock icon) for independent vs. synced map panning
+- [x] syncedRef fix — listeners always read current synced state, no stale closure
+- [x] Verify tests still pass after page replacement (42/42 passing)
+- [ ] Save checkpoint and publish
