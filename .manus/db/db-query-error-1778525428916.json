@@ -1,0 +1,8 @@
+{
+  "query": "SELECT state_code, district, incumbent_name, party, status FROM house_races WHERE state_code = 'VA' AND district = 11;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, district, incumbent_name, party, status FROM house_races WHERE state_code = 'VA' AND district = 11;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'incumbent_name' in 'field list'"
+  ]
+}

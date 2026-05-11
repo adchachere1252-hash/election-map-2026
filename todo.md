@@ -1163,50 +1163,50 @@
 - [x] Save checkpoint and publish
 
 ## Ticker & Map Fixes (May 11, 2026)
-- [ ] Remove Virginia election from the moving results ticker (struck down by VA Supreme Court)
-- [ ] Fix missing Google Maps panels on Congressional Historical Map Atlas page (/map-comparison)
-- [ ] Save checkpoint and publish
+- [x] Remove Virginia election from the moving results ticker (struck down by VA Supreme Court)
+- [x] Fix missing Google Maps panels on Congressional Historical Map Atlas page (/map-comparison)
+- [x] Save checkpoint and publish
 
 ## Virginia Redistricting Ruling & Map Fix (May 11, 2026)
-- [ ] Research Virginia Supreme Court redistricting ruling — find case name, date, ruling details, reason maps were struck down
-- [ ] Update Virginia entry in redistricting_states table with ruling details and notes
-- [ ] Fix missing Google Maps panels on Congressional Historical Map Atlas (/map-comparison) — maps show "Loading 0%" and never render
-- [ ] Save checkpoint and publish
+- [x] Research Virginia Supreme Court redistricting ruling — find case name, date, ruling details, reason maps were struck down
+- [x] Update Virginia entry in redistricting_states table with ruling details and notes
+- [x] Fix missing Google Maps panels on Congressional Historical Map Atlas (/map-comparison) — maps show "Loading 0%" and never render
+- [x] Save checkpoint and publish
 
 ## D3/SVG Rebuild of Historical Map Atlas (May 11, 2026)
-- [ ] Remove Google Maps dependency from MapComparison.tsx
-- [ ] Implement D3 + SVG map panels with zoom/pan (same approach as ElectionMap)
-- [ ] Render UCLA/Lewis GeoJSON district boundaries via D3 geo projection
-- [ ] Sync zoom/pan between panels when locked
-- [ ] Preserve all existing features: timeline sliders, presets, state zoom, district popup
-- [ ] Verify both panels render instantly with no external API calls
-- [ ] Save checkpoint and publish
+- [x] Remove Google Maps dependency from MapComparison.tsx
+- [x] Implement D3 + SVG map panels with zoom/pan (same approach as ElectionMap)
+- [x] Render UCLA/Lewis GeoJSON district boundaries via D3 geo projection
+- [x] Sync zoom/pan between panels when locked
+- [x] Preserve all existing features: timeline sliders, presets, state zoom, district popup
+- [x] Verify both panels render instantly with no external API calls
+- [x] Save checkpoint and publish
 
 ## Historical Atlas Tab in Main Nav (May 11, 2026)
-- [ ] Add "Historical Atlas" tab to the main election map view selector (alongside Governor, House, Senate, Redistricting)
-- [ ] Clicking the tab navigates to /map-comparison
-- [ ] Fix D3 SVG map rendering — GeoJSON loads (HTTP 200) but districts not drawing on SVG canvas
+- [x] Add "Historical Atlas" tab to the main election map view selector (alongside Governor, House, Senate, Redistricting)
+- [x] Clicking the tab navigates to /map-comparison
+- [x] Fix D3 SVG map rendering — GeoJSON loads (HTTP 200) but districts not drawing on SVG canvas
 
 ## Historical Atlas Tab in Main Nav (May 11, 2026)
-- [ ] Add "Historical Atlas" tab to the main election map view selector (alongside Governor, House, Senate, Redistricting)
-- [ ] Clicking the tab navigates to /map-comparison
-- [ ] Fix D3 SVG map rendering — GeoJSON loads (HTTP 200) but districts not drawing on SVG canvas
+- [x] Add "Historical Atlas" tab to the main election map view selector (alongside Governor, House, Senate, Redistricting)
+- [x] Clicking the tab navigates to /map-comparison
+- [x] Fix D3 SVG map rendering — GeoJSON loads (HTTP 200) but districts not drawing on SVG canvas
 
 ## Ticker & Atlas Redesign (May 11, 2026 — v2)
-- [ ] Restore VA-11 to Called status (James R. Walkinshaw won) — was incorrectly reset to Scheduled
+- [x] Restore VA-11 to Called status (James R. Walkinshaw won) — was incorrectly reset to Scheduled
 - [x] Remove Virginia redistricting REFERENDUM from ticker (not VA-11 congressional race)
 - [x] Research Virginia redistricting ruling and add to redistricting popup
-- [ ] Redesign Congressional Historical Map Atlas to match screenshot: transparent SVG over sky video, party seat counts, single timeline with milestone labels and play button, Compare mode toggle
-- [ ] Fetch Voteview party data for D/R seat counts per Congress (89th–119th)
-- [ ] Add Historical Atlas tab to main election map nav bar
-- [ ] Save checkpoint and publish
+- [x] Redesign Congressional Historical Map Atlas to match screenshot: transparent SVG over sky video, party seat counts, single timeline with milestone labels and play button, Compare mode toggle
+- [x] Fetch Voteview party data for D/R seat counts per Congress (89th–119th)
+- [x] Add Historical Atlas tab to main election map nav bar
+- [x] Save checkpoint and publish
 
 ## Virginia Redistricting Supreme Court Update (May 11, 2026)
 - [x] Remove Virginia redistricting referendum from results ticker
 - [x] Update Virginia redistricting state record with Supreme Court ruling details (4-3 ruling, Justice Kelsey majority)
 
 ## Historical Atlas Fixes (May 11, 2026)
-- [ ] Fix Historical Atlas data not loading (Congress seat count data missing)
-- [ ] Fix Historical Atlas map not rendering (D3 SVG districts not drawing)
-- [ ] Fix Historical Atlas map too large — needs to fit within page viewport
-- [ ] Match Historical Atlas colors to main map: Democrat blue (#1a4fa0), Republican red (#b22222), Independent purple
+- [x] Fix Historical Atlas data not loading (Congress seat count data missing)
+- [x] Fix Historical Atlas map not rendering (D3 SVG districts not drawing)
+- [x] Fix Historical Atlas map too large — needs to fit within page viewport
+- [x] Match Historical Atlas colors to main map: Democrat blue (#1a4fa0), Republican red (#b22222), Independent purple
