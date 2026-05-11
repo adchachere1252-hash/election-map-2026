@@ -96,15 +96,14 @@ const HOUSE_SEATS: Record<number, { D: number; R: number; O: number }> = {
 };
 
 // ─── Timeline milestones ──────────────────────────────────────────────────────
-// Each milestone gets a stagger row (0 = above, 1 = further above) to prevent overlap
-const MILESTONES: { congress: number; label: string; row: number }[] = [
-  { congress: 89, label: "VRA", row: 0 },
-  { congress: 93, label: "Nixon", row: 1 },
-  { congress: 97, label: "Reagan", row: 0 },
-  { congress: 104, label: "Gingrich", row: 1 },
-  { congress: 111, label: "Obama", row: 0 },
-  { congress: 112, label: "Tea Party", row: 1 },
-  { congress: 119, label: "119th", row: 0 },
+// All labels on a single row above the slider track
+const MILESTONES: { congress: number; label: string }[] = [
+  { congress: 89, label: "VRA" },
+  { congress: 93, label: "Nixon" },
+  { congress: 97, label: "Reagan" },
+  { congress: 104, label: "Gingrich" },
+  { congress: 111, label: "Obama" },
+  { congress: 119, label: "119th" },
 ];
 
 // ─── Play speed options ───────────────────────────────────────────────────────
@@ -318,12 +317,18 @@ function LeafletMapPanel({
       await Promise.all([fetchPartyData(congress), fetchMembersData(congress)]);
       if (cancelled) return;
 
-      for (const state of statesToLoad) {
+      // Fetch all states in parallel batches of 8 for faster loading
+      const BATCH = 8;
+      for (let i = 0; i < statesToLoad.length; i += BATCH) {
         if (cancelled) break;
-        const data = await fetchStateGeoJson(state, congress);
-        if (!data || cancelled) continue;
-        layer.addData(data);
-        total += data.features.length;
+        const batch = statesToLoad.slice(i, i + BATCH);
+        const results = await Promise.all(batch.map(s => fetchStateGeoJson(s, congress)));
+        if (cancelled) break;
+        for (const data of results) {
+          if (!data) continue;
+          layer.addData(data);
+          total += data.features.length;
+        }
         setDistrictCount(total);
       }
       if (!cancelled) setIsLoading(false);
@@ -461,8 +466,8 @@ function TimelineSlider({ congress, onChange, isPlaying, onPlayToggle, speedIdx,
         ))}
       </div>
       {/* Slider track with milestone labels */}
-      <div className="flex-1 relative" style={{ paddingTop: "24px" }}>
-        {/* Milestone labels — staggered to prevent overlap */}
+      <div className="flex-1 relative" style={{ paddingTop: "18px" }}>
+        {/* Milestone labels — all on one row, 18px above the slider */}
         {MILESTONES.map(m => (
           <div
             key={m.congress}
@@ -470,22 +475,14 @@ function TimelineSlider({ congress, onChange, isPlaying, onPlayToggle, speedIdx,
             style={{
               left: `${sliderPct(m.congress)}%`,
               transform: "translateX(-50%)",
-              top: m.row === 0 ? "0px" : "10px",
+              top: "0px",
+              whiteSpace: "nowrap",
             }}
           >
             {m.label}
           </div>
         ))}
-        {/* Milestone dots on the track */}
-        <div className="absolute left-0 right-0 flex pointer-events-none" style={{ top: "calc(24px + 50%)", height: "2px" }}>
-          {MILESTONES.map(m => (
-            <div
-              key={m.congress}
-              className={`absolute w-1.5 h-1.5 rounded-full -translate-x-1/2 -translate-y-1/2 ${milestoneDotClass}`}
-              style={{ left: `${sliderPct(m.congress)}%`, top: "50%" }}
-            />
-          ))}
-        </div>
+        {/* Slider input — sits at the bottom of the padded area */}
         <input
           type="range"
           min={CONGRESS_START}
@@ -498,6 +495,14 @@ function TimelineSlider({ congress, onChange, isPlaying, onPlayToggle, speedIdx,
             accentColor,
           }}
         />
+        {/* Milestone tick marks on the track */}
+        {MILESTONES.map(m => (
+          <div
+            key={m.congress}
+            className={`absolute w-px h-2 -translate-x-1/2 ${milestoneDotClass}`}
+            style={{ left: `${sliderPct(m.congress)}%`, bottom: "calc(100% - 18px - 6px)" }}
+          />
+        ))}
       </div>
       {/* Congress label */}
       <div className="shrink-0 text-right w-28">

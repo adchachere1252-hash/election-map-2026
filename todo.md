@@ -1217,3 +1217,8 @@
 - [x] Implement play animation — smooth auto-advance through 89th–119th Congress with Slow/Med/Fast speed control
 - [x] Implement Compare mode — side-by-side two-panel comparison of any two Congresses with synchronized zoom/pan and lock/unlock toggle
 - [x] Implement district-level popups — click district to see representative name (from Voteview CSV), party, Congress, with bioguide photo
+
+## Historical Atlas Timeline & Performance Fixes (May 11 Session 3)
+- [x] Move all milestone labels to a single row (removed Tea Party milestone, all labels now on same line)
+- [x] Fix bottom timeline bar alignment — all elements (play, speed, slider, label) on same baseline
+- [x] Improve map loading speed — parallel batch fetching (8 states at a time) instead of sequential
