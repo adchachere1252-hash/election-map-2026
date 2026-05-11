@@ -167,33 +167,54 @@ async function fetchStateGeoJson(stateName: string, congress: number): Promise<G
   }
 }
 
-// ─── Layer cache: pre-built Leaflet GeoJSON layers keyed by congress ─────────
-// Each entry holds the fully-built GeoJSON FeatureCollection merged from all
-// 50 states so LeafletMapPanel can do an instant addLayer/removeLayer swap.
+// ─── Sliding-window layer cache ─────────────────────────────────────────────────────
+// Keeps at most MAX_CACHED congresses in memory at a time.
+// When the window moves, the farthest congress is evicted.
+const MAX_CACHED = 5; // current + ±2 each direction
 const layerDataCache = new Map<number, { features: GeoJSON.Feature[] }>();
-// In-flight promise deduplication: if warmupCongress(n) is already running,
-// subsequent callers await the same promise instead of launching a second fetch.
+
+function evictOldCacheEntries(currentCongress: number) {
+  // Keep only the MAX_CACHED entries closest to currentCongress
+  const keys = Array.from(layerDataCache.keys());
+  if (keys.length <= MAX_CACHED) return;
+  // Sort by distance from current congress, evict the farthest
+  keys.sort((a, b) => Math.abs(a - currentCongress) - Math.abs(b - currentCongress));
+  const toEvict = keys.slice(MAX_CACHED);
+  for (const k of toEvict) {
+    layerDataCache.delete(k);
+    // Also evict raw GeoJSON cache entries for this congress to free memory
+    for (const state of US_STATES) {
+      geoCache.delete(`${state}-${k}`);
+    }
+    partyCache.delete(k);
+    membersCache.delete(k);
+  }
+}
+
+// In-flight promise deduplication
 const warmupInFlight = new Map<number, Promise<void>>();
 
 // Warm-up state (module-level so it persists across re-renders)
 type WarmupState = { done: number; total: number; ready: boolean };
-let warmupState: WarmupState = { done: 0, total: CONGRESS_END - CONGRESS_START + 1, ready: false };
+// "ready" means the current congress + ±2 are all cached
+let warmupState: WarmupState = { done: 0, total: 5, ready: false };
 const warmupListeners = new Set<() => void>();
 function notifyWarmup() { warmupListeners.forEach(fn => fn()); }
 
 async function warmupCongress(congress: number): Promise<void> {
   if (layerDataCache.has(congress)) return;
-  // Return the existing in-flight promise if one is already running
   if (warmupInFlight.has(congress)) return warmupInFlight.get(congress)!;
   const promise = _doWarmupCongress(congress);
   warmupInFlight.set(congress, promise);
-  await promise;
-  warmupInFlight.delete(congress);
+  try {
+    await promise;
+  } finally {
+    warmupInFlight.delete(congress);
+  }
 }
 
 async function _doWarmupCongress(congress: number): Promise<void> {
   if (layerDataCache.has(congress)) return;
-  // Fetch party data + all 50 state GeoJSON in parallel
   const results = await Promise.all([
     fetchPartyData(congress),
     fetchMembersData(congress),
@@ -202,7 +223,6 @@ async function _doWarmupCongress(congress: number): Promise<void> {
   const partyData = results[0] as Record<string, string>;
   const geoResults = results.slice(2) as (GeoJSON.FeatureCollection | null)[];
 
-  // Merge all features and annotate with party
   const features: GeoJSON.Feature[] = [];
   for (const fc of geoResults) {
     if (!fc) continue;
@@ -219,38 +239,33 @@ async function _doWarmupCongress(congress: number): Promise<void> {
   layerDataCache.set(congress, { features });
 }
 
-// Start warming the entire atlas in the background.
-// Priority order: warm the initial congress (CONGRESS_END = 119) first so the
-// user sees colors immediately, then fill in the rest oldest-to-newest.
-let warmupStarted = false;
-async function startAtlasWarmup(initialCongress: number = CONGRESS_END) {
-  if (warmupStarted) return;
-  warmupStarted = true;
-
-  const all = Array.from({ length: CONGRESS_END - CONGRESS_START + 1 }, (_, i) => CONGRESS_START + i);
-  const total = all.length;
-
-  // Step 1: warm the initial congress immediately (highest priority)
-  await warmupCongress(initialCongress);
-  warmupState = { done: 1, total, ready: false };
+// Warm the sliding window around a given congress:
+// loads current first (priority), then ±1, then ±2, evicting old entries.
+let activeWarmupCenter: number | null = null;
+async function startAtlasWarmup(center: number = CONGRESS_END) {
+  activeWarmupCenter = center;
+  const window = [center, center - 1, center + 1, center - 2, center + 2]
+    .filter(c => c >= CONGRESS_START && c <= CONGRESS_END);
+  const total = window.length;
+  warmupState = { done: 0, total, ready: false };
   notifyWarmup();
 
-  // Step 2: warm the rest in batches of 4, skipping the one already done
-  const rest = all.filter(c => c !== initialCongress);
-  const BATCH = 4;
-  let done = 1;
-  for (let i = 0; i < rest.length; i += BATCH) {
-    const batch = rest.slice(i, i + BATCH);
-    await Promise.all(batch.map(c => warmupCongress(c)));
-    done = Math.min(done + BATCH, total);
-    warmupState = { done, total, ready: false };
+  let done = 0;
+  for (const c of window) {
+    // If the center changed (user moved), abort this warmup pass
+    if (activeWarmupCenter !== center) return;
+    await warmupCongress(c);
+    done++;
+    warmupState = { done, total, ready: done >= total };
     notifyWarmup();
+    // Evict entries outside the new window
+    evictOldCacheEntries(center);
   }
   warmupState = { done: total, total, ready: true };
   notifyWarmup();
 }
 
-// Legacy prefetch (kept for compare mode ±2 prefetch)
+// Prefetch adjacent congresses when user moves the slider
 const prefetchInProgress = new Set<string>();
 async function prefetchCongress(congress: number): Promise<void> {
   if (congress < CONGRESS_START || congress > CONGRESS_END) return;
@@ -718,26 +733,15 @@ export default function MapComparison() {
   }, [synced]);
 
   // Prefetch adjacent Congresses whenever congressA or congressB changes
+  // Shift the sliding window cache whenever the active congress changes.
+  // startAtlasWarmup is idempotent per center value and cancels stale passes.
   useEffect(() => {
-    // Prefetch ±1 immediately, ±2 after a short delay to avoid competing with the current load
-    prefetchCongress(congressA - 1);
-    prefetchCongress(congressA + 1);
-    const t = setTimeout(() => {
-      prefetchCongress(congressA - 2);
-      prefetchCongress(congressA + 2);
-    }, 1500);
-    return () => clearTimeout(t);
+    startAtlasWarmup(congressA);
   }, [congressA]);
 
   useEffect(() => {
     if (!compareMode) return;
-    prefetchCongress(congressB - 1);
-    prefetchCongress(congressB + 1);
-    const t = setTimeout(() => {
-      prefetchCongress(congressB - 2);
-      prefetchCongress(congressB + 2);
-    }, 1500);
-    return () => clearTimeout(t);
+    startAtlasWarmup(congressB);
   }, [congressB, compareMode]);
 
   const handlePlayToggleA = () => {

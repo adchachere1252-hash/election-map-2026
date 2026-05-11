@@ -1245,3 +1245,9 @@
 
 ## Historical Atlas — No Color on First Load Bug (May 11 Session 8)
 - [x] Fix: first congress renders with no party colors — warmup now prioritizes initial congress (119) first, added in-flight promise deduplication to prevent double-fetching
+
+## Historical Atlas — Memory Crash Fix (May 11 Session 9)
+- [x] Replace full-atlas pre-cache with sliding window cache (MAX_CACHED=5, current ±2 congresses)
+- [x] Evict old congresses from layerDataCache + raw geoCache/partyCache/membersCache when window moves
+- [x] Add gzip compression middleware to Express server (reduces 14MB GeoJSON files to ~1-2MB)
+- [x] startAtlasWarmup now re-runs on every congressA change, cancels stale passes via activeWarmupCenter
