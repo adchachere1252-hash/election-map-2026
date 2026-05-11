@@ -167,22 +167,72 @@ async function fetchStateGeoJson(stateName: string, congress: number): Promise<G
   }
 }
 
-// ─── Background prefetch ──────────────────────────────────────────────────────
-// Silently warm the cache for a given congress without touching the UI
+// ─── Layer cache: pre-built Leaflet GeoJSON layers keyed by congress ─────────
+// Each entry holds the fully-built GeoJSON FeatureCollection merged from all
+// 50 states so LeafletMapPanel can do an instant addLayer/removeLayer swap.
+const layerDataCache = new Map<number, { features: GeoJSON.Feature[] }>();
+
+// Warm-up state (module-level so it persists across re-renders)
+type WarmupState = { done: number; total: number; ready: boolean };
+let warmupState: WarmupState = { done: 0, total: CONGRESS_END - CONGRESS_START + 1, ready: false };
+const warmupListeners = new Set<() => void>();
+function notifyWarmup() { warmupListeners.forEach(fn => fn()); }
+
+async function warmupCongress(congress: number): Promise<void> {
+  if (layerDataCache.has(congress)) return;
+  // Fetch party data + all 50 state GeoJSON in parallel
+  const results = await Promise.all([
+    fetchPartyData(congress),
+    fetchMembersData(congress),
+    ...US_STATES.map(s => fetchStateGeoJson(s, congress)),
+  ]);
+  const partyData = results[0] as Record<string, string>;
+  const geoResults = results.slice(2) as (GeoJSON.FeatureCollection | null)[];
+
+  // Merge all features and annotate with party
+  const features: GeoJSON.Feature[] = [];
+  for (const fc of geoResults) {
+    if (!fc) continue;
+    for (const f of fc.features) {
+      const p = (f.properties ?? {}) as Record<string, unknown>;
+      const dist = Number(p?.district ?? p?.DISTRICT ?? 0);
+      const stateAbbrev = STATE_CODES[String(p?.statename ?? p?.STATENAME ?? "")] ?? "";
+      const key = `${stateAbbrev}-${dist}`;
+      let party = partyData[key];
+      if (!party && dist === 0) party = partyData[`${stateAbbrev}-1`];
+      features.push({ ...f, properties: { ...p, _party: party ?? null, _stateAbbrev: stateAbbrev } });
+    }
+  }
+  layerDataCache.set(congress, { features });
+}
+
+// Start warming the entire atlas in the background
+// Warms congresses in order starting from CONGRESS_START
+let warmupStarted = false;
+async function startAtlasWarmup() {
+  if (warmupStarted) return;
+  warmupStarted = true;
+  const congresses = Array.from({ length: CONGRESS_END - CONGRESS_START + 1 }, (_, i) => CONGRESS_START + i);
+  // Warm in parallel batches of 4 to avoid overwhelming the server
+  const BATCH = 4;
+  for (let i = 0; i < congresses.length; i += BATCH) {
+    const batch = congresses.slice(i, i + BATCH);
+    await Promise.all(batch.map(c => warmupCongress(c)));
+    warmupState = { done: Math.min(i + BATCH, congresses.length), total: congresses.length, ready: false };
+    notifyWarmup();
+  }
+  warmupState = { done: congresses.length, total: congresses.length, ready: true };
+  notifyWarmup();
+}
+
+// Legacy prefetch (kept for compare mode ±2 prefetch)
 const prefetchInProgress = new Set<string>();
 async function prefetchCongress(congress: number): Promise<void> {
   if (congress < CONGRESS_START || congress > CONGRESS_END) return;
   const key = `prefetch-${congress}`;
   if (prefetchInProgress.has(key)) return;
   prefetchInProgress.add(key);
-  // Prefetch party + member data (fast, single CSV per congress)
-  await Promise.all([fetchPartyData(congress), fetchMembersData(congress)]);
-  // Prefetch GeoJSON for all states in batches of 8 (low priority — fire and forget)
-  const BATCH = 8;
-  for (let i = 0; i < US_STATES.length; i += BATCH) {
-    const batch = US_STATES.slice(i, i + BATCH);
-    await Promise.all(batch.map(s => fetchStateGeoJson(s, congress)));
-  }
+  await warmupCongress(congress);
   prefetchInProgress.delete(key);
 }
 
@@ -294,94 +344,82 @@ function LeafletMapPanel({
     }
   }, [selectedState, congress]);
 
-  // Load district GeoJSON
+  // Load district GeoJSON — use pre-built layer cache for instant swaps
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
 
-    if (districtLayerRef.current) {
-      map.removeLayer(districtLayerRef.current);
-      districtLayerRef.current = null;
-    }
-    setDistrictCount(0);
     setIsLoading(true);
-
     let cancelled = false;
-    const statesToLoad = selectedState ? [selectedState] : US_STATES;
-    let total = 0;
-
-    const layer = L.geoJSON(undefined, {
-      style: (feature) => {
-        const p = feature?.properties as Record<string, unknown> ?? {};
-        const dist = Number(p?.district ?? p?.DISTRICT ?? 0);
-        const stateAbbrev = STATE_CODES[String(p?.statename ?? p?.STATENAME ?? "")] ?? "";
-        const key = `${stateAbbrev}-${dist}`;
-        const partyData = partyCache.get(congress) ?? {};
-        let party = partyData[key];
-        if (!party && dist === 0) party = partyData[`${stateAbbrev}-1`];
-        const pk = (party ?? "unknown") as keyof typeof PARTY_FILL;
-        return {
-          fillColor: PARTY_FILL[pk] ?? PARTY_FILL.unknown,
-          fillOpacity: PARTY_FILL_OPACITY[pk] ?? 0.18,
-          color: PARTY_STROKE[pk] ?? PARTY_STROKE.unknown,
-          strokeOpacity: PARTY_STROKE_OPACITY[pk] ?? 0.35,
-          weight: 0.8,
-        };
-      },
-      onEachFeature: (feature, lyr) => {
-        lyr.on("click", () => {
-          const p = feature.properties as Record<string, unknown>;
-          const dist = Number(p?.district ?? p?.DISTRICT ?? 0);
-          const stateAbbrev = STATE_CODES[String(p?.statename ?? p?.STATENAME ?? "")] ?? "";
-          const key = `${stateAbbrev}-${dist}`;
-          const partyData = partyCache.get(congress) ?? {};
-          let party = partyData[key];
-          if (!party && dist === 0) party = partyData[`${stateAbbrev}-1`];
-          // Look up member name
-          const membersData = membersCache.get(congress) ?? {};
-          let member = membersData[key];
-          if (!member && dist === 0) member = membersData[`${stateAbbrev}-1`];
-          onDistrictClick?.({
-            ...p,
-            _party: party ?? null,
-            _stateAbbrev: stateAbbrev,
-            _memberName: member?.name ?? null,
-            _memberBioguide: member?.bioguide ?? null,
-            _congress: congress,
-          });
-        });
-      },
-    });
-    layer.addTo(map);
-    districtLayerRef.current = layer;
 
     (async () => {
-      // Pre-fetch party and member data in parallel
-      await Promise.all([fetchPartyData(congress), fetchMembersData(congress)]);
+      // If not yet in layerDataCache, warm it now (blocks until ready)
+      if (!layerDataCache.has(congress)) {
+        await warmupCongress(congress);
+      }
       if (cancelled) return;
 
-      // Fetch all states in parallel batches of 8 for faster loading
-      const BATCH = 8;
-      for (let i = 0; i < statesToLoad.length; i += BATCH) {
-        if (cancelled) break;
-        const batch = statesToLoad.slice(i, i + BATCH);
-        const results = await Promise.all(batch.map(s => fetchStateGeoJson(s, congress)));
-        if (cancelled) break;
-        for (const data of results) {
-          if (!data) continue;
-          layer.addData(data);
-          total += data.features.length;
-        }
-        setDistrictCount(total);
-      }
-      if (!cancelled) setIsLoading(false);
+      const cached = layerDataCache.get(congress);
+      if (!cached) return;
 
-      if (!cancelled && selectedState) {
-        const stateData = geoCache.get(`${selectedState}-${congress}`);
-        if (stateData) {
-          const bounds = L.geoJSON(stateData).getBounds();
-          if (bounds.isValid()) map.fitBounds(bounds, { padding: [40, 40] });
-        }
+      // Filter to selected state if needed
+      const features = selectedState
+        ? cached.features.filter(f => {
+            const p = (f.properties ?? {}) as Record<string, unknown>;
+            return String(p?.statename ?? p?.STATENAME ?? "") === selectedState;
+          })
+        : cached.features;
+
+      // Build Leaflet layer from cached features
+      const newLayer = L.geoJSON(undefined, {
+        style: (feature) => {
+          const p = (feature?.properties ?? {}) as Record<string, unknown>;
+          const party = String(p?._party ?? "unknown");
+          const pk = party as keyof typeof PARTY_FILL;
+          return {
+            fillColor: PARTY_FILL[pk] ?? PARTY_FILL.unknown,
+            fillOpacity: PARTY_FILL_OPACITY[pk] ?? 0.18,
+            color: PARTY_STROKE[pk] ?? PARTY_STROKE.unknown,
+            strokeOpacity: PARTY_STROKE_OPACITY[pk] ?? 0.35,
+            weight: 0.8,
+          };
+        },
+        onEachFeature: (feature, lyr) => {
+          lyr.on("click", () => {
+            const p = feature.properties as Record<string, unknown>;
+            const dist = Number(p?.district ?? p?.DISTRICT ?? 0);
+            const stateAbbrev = String(p?._stateAbbrev ?? "");
+            const key = `${stateAbbrev}-${dist}`;
+            const membersData = membersCache.get(congress) ?? {};
+            let member = membersData[key];
+            if (!member && dist === 0) member = membersData[`${stateAbbrev}-1`];
+            onDistrictClick?.({
+              ...p,
+              _party: p._party ?? null,
+              _stateAbbrev: stateAbbrev,
+              _memberName: member?.name ?? null,
+              _memberBioguide: member?.bioguide ?? null,
+              _congress: congress,
+            });
+          });
+        },
+      });
+
+      // Add all features at once (already parsed — no network, no JSON parsing)
+      newLayer.addData({ type: "FeatureCollection", features } as GeoJSON.FeatureCollection);
+
+      if (cancelled) { return; }
+
+      // Atomic swap: add new first, remove old — no blank frame
+      newLayer.addTo(map);
+      if (districtLayerRef.current) map.removeLayer(districtLayerRef.current);
+      districtLayerRef.current = newLayer;
+      setDistrictCount(features.length);
+      setIsLoading(false);
+
+      if (selectedState) {
+        const bounds = newLayer.getBounds();
+        if (bounds.isValid()) map.fitBounds(bounds, { padding: [40, 40] });
       }
     })();
 
@@ -492,9 +530,10 @@ interface TimelineSliderProps {
   onSpeedChange: (i: number) => void;
   color: "amber" | "red";
   label?: string;
+  atlasReady?: boolean;
 }
 
-function TimelineSlider({ congress, onChange, isPlaying, onPlayToggle, speedIdx, onSpeedChange, color, label }: TimelineSliderProps) {
+function TimelineSlider({ congress, onChange, isPlaying, onPlayToggle, speedIdx, onSpeedChange, color, label, atlasReady = true }: TimelineSliderProps) {
   const totalCongresses = CONGRESS_END - CONGRESS_START;
   function sliderPct(c: number) {
     return ((c - CONGRESS_START) / totalCongresses) * 100;
@@ -511,11 +550,12 @@ function TimelineSlider({ congress, onChange, isPlaying, onPlayToggle, speedIdx,
     <div className="flex items-center gap-3">
       {/* Play/pause button */}
       <button
-        onClick={onPlayToggle}
-        className={`w-7 h-7 flex items-center justify-center rounded-full border transition-colors shrink-0 ${playBtnClass}`}
-        title={isPlaying ? "Pause" : "Play animation"}
+        onClick={atlasReady ? onPlayToggle : undefined}
+        disabled={!atlasReady}
+        className={`w-7 h-7 flex items-center justify-center rounded-full border transition-colors shrink-0 ${atlasReady ? playBtnClass : "bg-white/5 border-white/10 text-white/20 cursor-not-allowed"}`}
+        title={!atlasReady ? "Loading atlas…" : isPlaying ? "Pause" : "Play animation"}
       >
-        {isPlaying ? "⏸" : "▶"}
+        {!atlasReady ? "⧗" : isPlaying ? "⏸" : "▶"}
       </button>
       {/* Speed selector */}
       <div className="flex gap-0.5 shrink-0">
@@ -599,6 +639,17 @@ export default function MapComparison() {
   const [syncViewA, setSyncViewA] = useState<{ center: L.LatLng; zoom: number } | null>(null);
   const [syncViewB, setSyncViewB] = useState<{ center: L.LatLng; zoom: number } | null>(null);
   const sky = getSkyVideo();
+
+  // Atlas warmup progress
+  const [warmup, setWarmup] = useState<WarmupState>(() => ({ ...warmupState }));
+  useEffect(() => {
+    // Subscribe to warmup progress updates
+    const listener = () => setWarmup({ ...warmupState });
+    warmupListeners.add(listener);
+    // Start warmup (idempotent — only runs once per page load)
+    startAtlasWarmup();
+    return () => { warmupListeners.delete(listener); };
+  }, []);
 
   // Clock
   const [clock, setClock] = useState(() => new Date().toLocaleTimeString());
@@ -861,6 +912,28 @@ export default function MapComparison() {
         className="relative shrink-0 px-5 pt-5 pb-2 border-t border-white/10"
         style={{ zIndex: 10, background: "rgba(0,0,0,0.55)", backdropFilter: "blur(8px)" }}
       >
+        {/* Atlas warmup progress bar — shown until all congresses are cached */}
+        {!warmup.ready && (
+          <div className="mb-2">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[10px] text-amber-300/70 font-mono uppercase tracking-widest">
+                Loading atlas… {warmup.done}/{warmup.total} congresses
+              </span>
+              <span className="text-[10px] text-white/30 font-mono">
+                {Math.round((warmup.done / warmup.total) * 100)}%
+              </span>
+            </div>
+            <div className="h-1 rounded-full bg-white/10 overflow-hidden">
+              <div
+                className="h-full rounded-full transition-all duration-300"
+                style={{
+                  width: `${(warmup.done / warmup.total) * 100}%`,
+                  background: "linear-gradient(to right, #F59E0B, #EF4444)",
+                }}
+              />
+            </div>
+          </div>
+        )}
         <TimelineSlider
           congress={congressA}
           onChange={c => { setCongressA(c); setIsPlayingA(false); }}
@@ -870,6 +943,7 @@ export default function MapComparison() {
           onSpeedChange={setSpeedIdxA}
           color="amber"
           label={compareMode ? "Panel A" : undefined}
+          atlasReady={warmup.ready}
         />
         {compareMode && (
           <div className="mt-3">
@@ -882,6 +956,7 @@ export default function MapComparison() {
               onSpeedChange={setSpeedIdxB}
               color="red"
               label="Panel B"
+              atlasReady={warmup.ready}
             />
           </div>
         )}

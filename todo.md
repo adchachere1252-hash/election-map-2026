@@ -1231,3 +1231,14 @@
 ## Historical Atlas Map Size & Seat Shift (May 11 Session 5)
 - [x] Fix map still renders small — measure chrome heights with ResizeObserver, pass explicit pixel height to Leaflet container, re-fit on mapHeight change
 - [x] Add seat-shift badge — show +N D / -N R change vs previous Congress in party legend (blue for D gain, red for D loss)
+
+## Historical Atlas — No-blank transition & loading speed (May 11 Session 6)
+- [x] Keep old district layer visible until new one is fully loaded — atomic swap (add new, then remove old)
+- [x] Parallel-fetch all 50 states at once per congress (removed 8-state batching)
+- [x] Pre-warm cache for adjacent congresses fully in parallel (all 50 states + party data at once)
+
+## Historical Atlas — Full Pre-Cache for Instant Playback (May 11 Session 7)
+- [x] Pre-cache entire atlas on mount: all 31 congresses × 50 states + party data loaded in background (batches of 4)
+- [x] Show cache warm-up progress bar (amber→red gradient) with congress count and % complete
+- [x] Pre-build merged FeatureCollection per congress in layerDataCache so play only does addLayer/removeLayer (zero network, zero JSON parsing)
+- [x] Disable play button until atlas is ready (shows hourglass icon), enabled instantly when warmup completes
