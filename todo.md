@@ -1225,4 +1225,5 @@
 
 ## Historical Atlas Prefetch & Map Size Fix (May 11 Session 4)
 - [x] Fix map too small — add height:100% to html/body/#root, compact congress selector bar, slim timeline bar
+- [x] Fix Leaflet map renders small — call invalidateSize() at 50ms + 300ms post-mount and add ResizeObserver so map fills container after flex layout resolves
 - [x] Prefetch adjacent Congresses — when congress changes, silently preload ±1 immediately and ±2 after 1.5s delay

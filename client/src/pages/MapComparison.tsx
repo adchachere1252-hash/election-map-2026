@@ -243,7 +243,21 @@ function LeafletMapPanel({
       onViewChange?.(map.getCenter(), map.getZoom());
     });
 
+    // Leaflet measures container size at init — call invalidateSize after the
+    // browser has painted so flex-1 has resolved to real pixels.
+    const t1 = setTimeout(() => { map.invalidateSize(); map.fitBounds(usBounds, { padding: [0, 0] }); }, 50);
+    const t2 = setTimeout(() => { map.invalidateSize(); map.fitBounds(usBounds, { padding: [0, 0] }); }, 300);
+
+    // Also watch for container resize (e.g. compare mode toggling panel width)
+    const ro = new ResizeObserver(() => {
+      map.invalidateSize();
+    });
+    if (containerRef.current) ro.observe(containerRef.current);
+
     return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      ro.disconnect();
       map.remove();
       mapRef.current = null;
     };
