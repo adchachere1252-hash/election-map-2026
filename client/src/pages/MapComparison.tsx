@@ -214,6 +214,17 @@ async function _doWarmupCongress(congress: number): Promise<void> {
       features.push({ ...f, properties: { ...p, _party: party ?? null, _stateAbbrev: stateAbbrev } });
     }
   }
+  const partyCount = { D: 0, R: 0, I: 0, null: 0, other: 0 };
+  for (const f of features) {
+    const p = f.properties as Record<string, unknown>;
+    const party = p._party as string | null;
+    if (party === 'D') partyCount.D++;
+    else if (party === 'R') partyCount.R++;
+    else if (party === 'I') partyCount.I++;
+    else if (party === null) partyCount.null++;
+    else partyCount.other++;
+  }
+  console.log(`[Atlas] Congress ${congress} cached: D=${partyCount.D} R=${partyCount.R} I=${partyCount.I} null=${partyCount.null} other=${partyCount.other} (partyData keys=${Object.keys(partyData).length})`);
   layerDataCache.set(congress, { features });
 }
 
@@ -276,13 +287,35 @@ function D3MapPanel({ congress, panelId, compareMode, onDistrictClick }: D3MapPa
       const rect = svg.getBoundingClientRect();
       const W = rect.width || 960;
       const H = rect.height || 600;
-
-      // Build AlbersUSA projection fitted to the SVG
-      const projection = d3.geoAlbersUsa().fitSize([W, H], {
-        type: "FeatureCollection",
-        features: cached.features,
-      } as GeoJSON.FeatureCollection);
+      
+      // Build AlbersUSA projection.
+      // D3's default AlbersUSA scale (1070) is for a 960×500 viewport.
+      // The map area width is W but the actual geographic extent of the lower-48
+      // needs to fit within the viewport. AlbersUSA uses a fixed internal scale
+      // where the lower-48 spans roughly 0.9 * 960 = 864px at scale 1070.
+      // We want the lower-48 to span ~90% of the smaller dimension.
+      const mapScale = Math.min(W, H * 1.6) * 0.95;
+      const projection = d3.geoAlbersUsa()
+        .scale(mapScale)
+        .translate([W / 2, H / 2 - H * 0.04]);
       const pathGen = d3.geoPath().projection(projection);
+
+      // D3 AlbersUSA composite projection prepends axis-aligned clip rectangles
+      // (one per sub-projection: lower-48, Alaska, Hawaii) to every path.
+      // These rectangles cause the entire map to appear as a solid color.
+      // Fix: strip any leading axis-aligned rectangular sub-paths from each path.
+      function removeClipRects(pathD: string | null): string {
+        if (!pathD) return "";
+        const subPaths = pathD.match(/M[^M]*/g) ?? [];
+        return subPaths.filter(sp => {
+          const lCount = (sp.match(/L/g) ?? []).length;
+          if (lCount !== 3 || !sp.endsWith("Z")) return true;
+          const nums = sp.match(/-?\d+\.?\d*/g) ?? [];
+          if (nums.length < 8) return true;
+          const ys = [nums[1], nums[3], nums[5], nums[7]].map(Number);
+          return new Set(ys.map(y => y.toFixed(3))).size !== 2; // keep non-rectangles
+        }).join("");
+      }
 
       // Clear old paths
       d3.select(g).selectAll("path").remove();
@@ -292,7 +325,7 @@ function D3MapPanel({ congress, panelId, compareMode, onDistrictClick }: D3MapPa
         .selectAll<SVGPathElement, GeoJSON.Feature>("path")
         .data(cached.features)
         .join("path")
-        .attr("d", d => pathGen(d) ?? "")
+        .attr("d", d => removeClipRects(pathGen(d)))
         .attr("fill", d => {
           const p = (d.properties ?? {}) as Record<string, unknown>;
           const party = String(p._party ?? "unknown");
@@ -343,9 +376,9 @@ function D3MapPanel({ congress, panelId, compareMode, onDistrictClick }: D3MapPa
     const svg = svgRef.current;
     if (!svg) return;
     const ro = new ResizeObserver(() => {
-      // Trigger re-draw by clearing the cache key so the effect re-runs
-      // We do this by dispatching a synthetic resize — just invalidate by
-      // re-projecting the existing cached features
+      // Re-project the existing cached features with the new SVG dimensions.
+      // IMPORTANT: must also strip D3 AlbersUSA clip rectangles here, same as
+      // the initial draw — otherwise the map appears as a solid color.
       const g = gRef.current;
       if (!g) return;
       const cached = layerDataCache.get(congress);
@@ -353,13 +386,25 @@ function D3MapPanel({ congress, panelId, compareMode, onDistrictClick }: D3MapPa
       const rect = svg.getBoundingClientRect();
       const W = rect.width || 960;
       const H = rect.height || 600;
-      const projection = d3.geoAlbersUsa().fitSize([W, H], {
-        type: "FeatureCollection",
-        features: cached.features,
-      } as GeoJSON.FeatureCollection);
-      const pathGen = d3.geoPath().projection(projection);
+      const mapScale2 = Math.min(W, H * 1.6) * 0.95;
+      const projection2 = d3.geoAlbersUsa()
+        .scale(mapScale2)
+        .translate([W / 2, H / 2 - H * 0.04]);
+      const pathGen2 = d3.geoPath().projection(projection2);
+      function removeClipRects2(pathD: string | null): string {
+        if (!pathD) return "";
+        const subPaths = pathD.match(/M[^M]*/g) ?? [];
+        return subPaths.filter(sp => {
+          const lCount = (sp.match(/L/g) ?? []).length;
+          if (lCount !== 3 || !sp.endsWith("Z")) return true;
+          const nums = sp.match(/-?\d+\.?\d*/g) ?? [];
+          if (nums.length < 8) return true;
+          const ys = [nums[1], nums[3], nums[5], nums[7]].map(Number);
+          return new Set(ys.map(y => y.toFixed(3))).size !== 2;
+        }).join("");
+      }
       d3.select(g).selectAll<SVGPathElement, GeoJSON.Feature>("path")
-        .attr("d", d => pathGen(d) ?? "");
+        .attr("d", d => removeClipRects2(pathGen2(d)));
     });
     ro.observe(svg);
     return () => ro.disconnect();

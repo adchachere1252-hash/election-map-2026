@@ -1276,3 +1276,6 @@
 - [x] Seat-shift badge preserved in new D3 panel
 - [x] Compare mode preserved with two D3 SVG panels side-by-side
 - [x] District popups preserved with representative names, bioguide photos, party colors
+
+## Historical Atlas — All Red Bug (May 11 Session 14)
+- [ ] Fix: all districts render red — party lookup returning null/unknown for all features, defaulting to Republican red
