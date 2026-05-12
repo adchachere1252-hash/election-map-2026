@@ -160,27 +160,13 @@ async function fetchStateGeoJson(stateName: string, congress: number): Promise<G
   } catch { return null; }
 }
 
-// ─── Sliding-window feature cache ────────────────────────────────────────────
-const MAX_CACHED = 5;
+// ─── Full eager cache — all 31 Congresses kept in memory (~15 MB) ─────────────
 const layerDataCache = new Map<number, { features: GeoJSON.Feature[] }>();
-
-function evictOldCacheEntries(currentCongress: number) {
-  const keys = Array.from(layerDataCache.keys());
-  if (keys.length <= MAX_CACHED) return;
-  keys.sort((a, b) => Math.abs(a - currentCongress) - Math.abs(b - currentCongress));
-  const toEvict = keys.slice(MAX_CACHED);
-  for (const k of toEvict) {
-    layerDataCache.delete(k);
-    for (const state of US_STATES) geoCache.delete(`${state}-${k}`);
-    partyCache.delete(k);
-    membersCache.delete(k);
-  }
-}
-
 const warmupInFlight = new Map<number, Promise<void>>();
 
 type WarmupState = { done: number; total: number; ready: boolean };
-let warmupState: WarmupState = { done: 0, total: 5, ready: false };
+const TOTAL_CONGRESSES = CONGRESS_END - CONGRESS_START + 1; // 31
+let warmupState: WarmupState = { done: 0, total: TOTAL_CONGRESSES, ready: false };
 const warmupListeners = new Set<() => void>();
 function notifyWarmup() { warmupListeners.forEach(fn => fn()); }
 
@@ -210,46 +196,55 @@ async function _doWarmupCongress(congress: number): Promise<void> {
       const stateAbbrev = STATE_CODES[String(p?.statename ?? p?.STATENAME ?? "")] ?? "";
       const key = `${stateAbbrev}-${dist}`;
       let party = partyData[key];
-      // At-large districts: GeoJSON uses district=0, Voteview uses district_code=98
-      // Try fallback chain: state-0 → state-1 → state-98 (Voteview at-large code)
       if (!party && dist === 0) party = partyData[`${stateAbbrev}-1`];
       if (!party && dist === 0) party = partyData[`${stateAbbrev}-98`];
       features.push({ ...f, properties: { ...p, _party: party ?? null, _stateAbbrev: stateAbbrev } });
     }
   }
-  const partyCount = { D: 0, R: 0, I: 0, null: 0, other: 0 };
-  for (const f of features) {
-    const p = f.properties as Record<string, unknown>;
-    const party = p._party as string | null;
-    if (party === 'D') partyCount.D++;
-    else if (party === 'R') partyCount.R++;
-    else if (party === 'I') partyCount.I++;
-    else if (party === null) partyCount.null++;
-    else partyCount.other++;
-  }
-  console.log(`[Atlas] Congress ${congress} cached: D=${partyCount.D} R=${partyCount.R} I=${partyCount.I} null=${partyCount.null} other=${partyCount.other} (partyData keys=${Object.keys(partyData).length})`);
   layerDataCache.set(congress, { features });
+  // Update global warmup progress
+  warmupState = {
+    done: layerDataCache.size,
+    total: TOTAL_CONGRESSES,
+    ready: layerDataCache.size >= TOTAL_CONGRESSES,
+  };
+  notifyWarmup();
 }
 
-let activeWarmupCenter: number | null = null;
-async function startAtlasWarmup(center: number = CONGRESS_END) {
-  activeWarmupCenter = center;
-  const window = [center, center - 1, center + 1, center - 2, center + 2]
-    .filter(c => c >= CONGRESS_START && c <= CONGRESS_END);
-  const total = window.length;
-  warmupState = { done: 0, total, ready: false };
-  notifyWarmup();
-  let done = 0;
-  for (const c of window) {
-    if (activeWarmupCenter !== center) return;
-    await warmupCongress(c);
-    done++;
-    warmupState = { done, total, ready: done >= total };
-    notifyWarmup();
-    evictOldCacheEntries(center);
+// Concurrency-limited queue: load all 31 Congresses in the background.
+// Priority order: start from the current congress, expand outward so nearby
+// Congresses are ready first, enabling play to start quickly.
+let fullWarmupStarted = false;
+async function startFullWarmup(startFrom: number = CONGRESS_END) {
+  if (fullWarmupStarted) return;
+  fullWarmupStarted = true;
+
+  // Build priority-ordered list: startFrom, startFrom-1, startFrom+1, ...
+  const all: number[] = [];
+  const center = Math.max(CONGRESS_START, Math.min(CONGRESS_END, startFrom));
+  all.push(center);
+  for (let d = 1; d <= TOTAL_CONGRESSES; d++) {
+    if (center - d >= CONGRESS_START) all.push(center - d);
+    if (center + d <= CONGRESS_END) all.push(center + d);
   }
-  warmupState = { done: total, total, ready: true };
+
+  // Run up to 4 concurrent warmups
+  const CONCURRENCY = 4;
+  let idx = 0;
+  async function worker() {
+    while (idx < all.length) {
+      const c = all[idx++];
+      await warmupCongress(c);
+    }
+  }
+  await Promise.all(Array.from({ length: CONCURRENCY }, worker));
+  warmupState = { done: TOTAL_CONGRESSES, total: TOTAL_CONGRESSES, ready: true };
   notifyWarmup();
+}
+
+// Kept for backward compat — just delegates to startFullWarmup
+function startAtlasWarmup(center: number = CONGRESS_END) {
+  startFullWarmup(center);
 }
 
 // ─── D3 Map Panel ─────────────────────────────────────────────────────────────
@@ -521,10 +516,9 @@ interface TimelineSliderProps {
   color: "amber" | "red";
   label?: string;
   atlasReady?: boolean;
-  isBuffering?: boolean;
 }
 
-function TimelineSlider({ congress, onChange, isPlaying, onPlayToggle, speedIdx, onSpeedChange, color, label, atlasReady = true, isBuffering = false }: TimelineSliderProps) {
+function TimelineSlider({ congress, onChange, isPlaying, onPlayToggle, speedIdx, onSpeedChange, color, label, atlasReady = true }: TimelineSliderProps) {
   const totalCongresses = CONGRESS_END - CONGRESS_START;
   function sliderPct(c: number) { return ((c - CONGRESS_START) / totalCongresses) * 100; }
   const accentColor = color === "amber" ? "#F59E0B" : "#EF4444";
@@ -541,11 +535,9 @@ function TimelineSlider({ congress, onChange, isPlaying, onPlayToggle, speedIdx,
         onClick={atlasReady ? onPlayToggle : undefined}
         disabled={!atlasReady}
         className={`w-7 h-7 flex items-center justify-center rounded-full border transition-colors shrink-0 ${atlasReady ? playBtnClass : "bg-white/5 border-white/10 text-white/20 cursor-not-allowed"}`}
-        title={!atlasReady ? "Loading atlas…" : isBuffering ? "Buffering…" : isPlaying ? "Pause" : "Play animation"}
+        title={!atlasReady ? "Loading atlas…" : isPlaying ? "Pause" : "Play animation"}
       >
-        {!atlasReady ? "⧗" : isBuffering ? (
-          <span className="inline-block w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
-        ) : isPlaying ? "⏸" : "▶"}
+        {!atlasReady ? "⧗" : isPlaying ? "⏸" : "▶"}
       </button>
       <div className="flex gap-0.5 shrink-0">
         {PLAY_SPEEDS.map((s, i) => (
@@ -611,6 +603,13 @@ export default function MapComparison() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Play is ready as soon as the current congress + next 4 are cached.
+  // warmup.done is included so this re-evaluates on every cache update.
+  const canPlayA = warmup.done > 0 && layerDataCache.has(congressA) &&
+    [1,2,3,4].every(d => congressA + d > CONGRESS_END || layerDataCache.has(congressA + d));
+  const canPlayB = warmup.done > 0 && layerDataCache.has(congressB) &&
+    [1,2,3,4].every(d => congressB + d > CONGRESS_END || layerDataCache.has(congressB + d));
+
   // Clock
   const [clock, setClock] = useState(() => new Date().toLocaleTimeString());
   useEffect(() => {
@@ -618,67 +617,31 @@ export default function MapComparison() {
     return () => clearInterval(t);
   }, []);
 
-  // Buffering state
-  const [isBufferingA, setIsBufferingA] = useState(false);
-  const [isBufferingB, setIsBufferingB] = useState(false);
-
-  // Animation playback A
+  // Animation playback A — simple interval ticker, no async blocking
   useEffect(() => {
-    if (!isPlayingA) { setIsBufferingA(false); return; }
-    let cancelled = false;
+    if (!isPlayingA) return;
     const ms = PLAY_SPEEDS[speedIdxA].ms;
-    async function playLoop() {
-      while (!cancelled) {
-        const current = await new Promise<number>(resolve => {
-          setCongressA(c => { resolve(c); return c; });
-        });
-        if (current >= CONGRESS_END) { if (!cancelled) setIsPlayingA(false); break; }
-        const next = current + 1;
-        if (!layerDataCache.has(next)) {
-          if (!cancelled) setIsBufferingA(true);
-          await warmupCongress(next);
-          if (cancelled) break;
-          setIsBufferingA(false);
-        }
-        await new Promise(r => setTimeout(r, ms));
-        if (cancelled) break;
-        setCongressA(next);
-      }
-    }
-    playLoop();
-    return () => { cancelled = true; setIsBufferingA(false); };
+    const t = setInterval(() => {
+      setCongressA(c => {
+        if (c >= CONGRESS_END) { setIsPlayingA(false); clearInterval(t); return c; }
+        return c + 1;
+      });
+    }, ms);
+    return () => clearInterval(t);
   }, [isPlayingA, speedIdxA]);
 
-  // Animation playback B
+  // Animation playback B — simple interval ticker
   useEffect(() => {
-    if (!isPlayingB) { setIsBufferingB(false); return; }
-    let cancelled = false;
+    if (!isPlayingB) return;
     const ms = PLAY_SPEEDS[speedIdxB].ms;
-    async function playLoop() {
-      while (!cancelled) {
-        const current = await new Promise<number>(resolve => {
-          setCongressB(c => { resolve(c); return c; });
-        });
-        if (current >= CONGRESS_END) { if (!cancelled) setIsPlayingB(false); break; }
-        const next = current + 1;
-        if (!layerDataCache.has(next)) {
-          if (!cancelled) setIsBufferingB(true);
-          await warmupCongress(next);
-          if (cancelled) break;
-          setIsBufferingB(false);
-        }
-        await new Promise(r => setTimeout(r, ms));
-        if (cancelled) break;
-        setCongressB(next);
-      }
-    }
-    playLoop();
-    return () => { cancelled = true; setIsBufferingB(false); };
+    const t = setInterval(() => {
+      setCongressB(c => {
+        if (c >= CONGRESS_END) { setIsPlayingB(false); clearInterval(t); return c; }
+        return c + 1;
+      });
+    }, ms);
+    return () => clearInterval(t);
   }, [isPlayingB, speedIdxB]);
-
-  // Shift sliding window cache when congress changes
-  useEffect(() => { startAtlasWarmup(congressA); }, [congressA]);
-  useEffect(() => { if (!compareMode) return; startAtlasWarmup(congressB); }, [congressB, compareMode]);
 
   const handlePlayToggleA = useCallback(() => {
     setIsPlayingA(p => !p);
@@ -822,8 +785,7 @@ export default function MapComparison() {
           onSpeedChange={setSpeedIdxA}
           color="amber"
           label={compareMode ? "Panel A" : undefined}
-          atlasReady={warmup.ready}
-          isBuffering={isBufferingA}
+          atlasReady={canPlayA}
         />
         {compareMode && (
           <div className="mt-3">
@@ -836,8 +798,7 @@ export default function MapComparison() {
               onSpeedChange={setSpeedIdxB}
               color="red"
               label="Panel B"
-              atlasReady={warmup.ready}
-              isBuffering={isBufferingB}
+              atlasReady={canPlayB}
             />
           </div>
         )}
