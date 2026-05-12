@@ -7,7 +7,7 @@
  * Party data: Voteview / Clerk of the House
  * District boundaries: Jeffrey B. Lewis et al. (cdmaps.polisci.ucla.edu)
  */
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useImperativeHandle, forwardRef } from "react";
 import { Link } from "wouter";
 import * as d3 from "d3";
 import { LEWIS_MANIFEST } from "@shared/lewisManifest";
@@ -257,7 +257,12 @@ interface D3MapPanelProps {
   onDistrictClick?: (props: Record<string, unknown>) => void;
 }
 
-function D3MapPanel({ congress, panelId, compareMode, onDistrictClick }: D3MapPanelProps) {
+export interface D3MapPanelHandle {
+  /** Imperatively jump to a congress — updates D3 immediately, bypassing React scheduling */
+  jumpTo: (congress: number) => void;
+}
+
+const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMode, onDistrictClick }: D3MapPanelProps, ref: React.Ref<D3MapPanelHandle>) {
   const svgRef = useRef<SVGSVGElement>(null);
   const gRef = useRef<SVGGElement>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -365,7 +370,33 @@ function D3MapPanel({ congress, panelId, compareMode, onDistrictClick }: D3MapPa
   // Track the congress that the current paths were drawn for
   const drawnCongressRef = useRef<number | null>(null);
 
-  // ── Main effect: runs on congress change ───────────────────────────────────
+  // Refs so jumpTo can call the latest versions without stale closures
+  const recolorRef = useRef(recolor);
+  const fullRedrawRef = useRef(fullRedraw);
+  useEffect(() => { recolorRef.current = recolor; }, [recolor]);
+  useEffect(() => { fullRedrawRef.current = fullRedraw; }, [fullRedraw]);
+
+  // Expose jumpTo for imperative use by the play loop (bypasses React scheduling)
+  useImperativeHandle(ref, () => ({
+    jumpTo(targetCongress: number) {
+      const svg = svgRef.current;
+      if (!svg) return;
+      const cached = layerDataCache.get(targetCongress);
+      if (!cached) return; // data not ready yet
+      const prevCongress = drawnCongressRef.current;
+      const prevCached = prevCongress !== null ? layerDataCache.get(prevCongress) : null;
+      if (prevCached && prevCached.features.length === cached.features.length) {
+        const ok = recolorRef.current(cached.features);
+        if (ok) { drawnCongressRef.current = targetCongress; return; }
+      }
+      // District count changed — full redraw
+      const rect = svg.getBoundingClientRect();
+      fullRedrawRef.current(cached.features, rect.width || 960, rect.height || 600);
+      drawnCongressRef.current = targetCongress;
+    },
+  }), []);
+
+  // ── Main effect: runs on congress change ───────────────────────────────────────────
   useEffect(() => {
     const svg = svgRef.current;
     if (!svg) return;
@@ -523,7 +554,7 @@ function D3MapPanel({ congress, panelId, compareMode, onDistrictClick }: D3MapPa
       )}
     </div>
   );
-}
+});
 
 // ─── Timeline Slider ──────────────────────────────────────────────────────────
 interface TimelineSliderProps {
@@ -611,6 +642,8 @@ export default function MapComparison() {
   const [isPlayingB, setIsPlayingB] = useState(false);
   const [speedIdxA, setSpeedIdxA] = useState(0);
   const [speedIdxB, setSpeedIdxB] = useState(0);
+  const panelARef = useRef<D3MapPanelHandle>(null);
+  const panelBRef = useRef<D3MapPanelHandle>(null);
   const sky = getSkyVideo();
 
   // Atlas warmup progress
@@ -637,28 +670,38 @@ export default function MapComparison() {
     return () => clearInterval(t);
   }, []);
 
-  // Animation playback A — simple interval ticker, no async blocking
+  // Stable refs so setInterval callbacks always see latest congress without re-creating
+  const congressARef = useRef(congressA);
+  const congressBRef = useRef(congressB);
+  useEffect(() => { congressARef.current = congressA; }, [congressA]);
+  useEffect(() => { congressBRef.current = congressB; }, [congressB]);
+
+  // Animation playback A — imperative jumpTo bypasses React scheduling overhead
   useEffect(() => {
     if (!isPlayingA) return;
     const ms = PLAY_SPEEDS[speedIdxA].ms;
     const t = setInterval(() => {
-      setCongressA(c => {
-        if (c >= CONGRESS_END) { setIsPlayingA(false); clearInterval(t); return c; }
-        return c + 1;
-      });
+      const c = congressARef.current;
+      if (c >= CONGRESS_END) { setIsPlayingA(false); clearInterval(t); return; }
+      const next = c + 1;
+      // Update D3 map immediately (no React scheduling delay)
+      panelARef.current?.jumpTo(next);
+      // Update React state for UI (slider, seat counts, etc.)
+      setCongressA(next);
     }, ms);
     return () => clearInterval(t);
   }, [isPlayingA, speedIdxA]);
 
-  // Animation playback B — simple interval ticker
+  // Animation playback B — imperative jumpTo
   useEffect(() => {
     if (!isPlayingB) return;
     const ms = PLAY_SPEEDS[speedIdxB].ms;
     const t = setInterval(() => {
-      setCongressB(c => {
-        if (c >= CONGRESS_END) { setIsPlayingB(false); clearInterval(t); return c; }
-        return c + 1;
-      });
+      const c = congressBRef.current;
+      if (c >= CONGRESS_END) { setIsPlayingB(false); clearInterval(t); return; }
+      const next = c + 1;
+      panelBRef.current?.jumpTo(next);
+      setCongressB(next);
     }, ms);
     return () => clearInterval(t);
   }, [isPlayingB, speedIdxB]);
@@ -759,6 +802,7 @@ export default function MapComparison() {
       {/* ── Map panels — flex-1 fills all remaining space ── */}
       <div className="relative flex flex-1 min-h-0" style={{ zIndex: 5 }}>
         <D3MapPanel
+          ref={panelARef}
           congress={congressA}
           panelId="A"
           compareMode={compareMode}
@@ -768,6 +812,7 @@ export default function MapComparison() {
           <>
             <div className="w-px bg-white/20 shrink-0" />
             <D3MapPanel
+              ref={panelBRef}
               congress={congressB}
               panelId="B"
               compareMode={compareMode}
