@@ -161,7 +161,14 @@ async function fetchStateGeoJson(stateName: string, congress: number): Promise<G
 }
 
 // ─── Full eager cache — all 31 Congresses kept in memory (~15 MB) ─────────────
-const layerDataCache = new Map<number, { features: GeoJSON.Feature[] }>();
+// Pre-computed color arrays avoid per-frame property lookups during playback.
+type LayerData = {
+  features: GeoJSON.Feature[];
+  fills: string[];        // pre-computed fill color per feature
+  fillOpacities: string[]; // pre-computed fill-opacity per feature
+  strokes: string[];      // pre-computed stroke color per feature
+};
+const layerDataCache = new Map<number, LayerData>();
 const warmupInFlight = new Map<number, Promise<void>>();
 
 type WarmupState = { done: number; total: number; ready: boolean };
@@ -201,7 +208,18 @@ async function _doWarmupCongress(congress: number): Promise<void> {
       features.push({ ...f, properties: { ...p, _party: party ?? null, _stateAbbrev: stateAbbrev } });
     }
   }
-  layerDataCache.set(congress, { features });
+  // Pre-compute color arrays so jumpTo() never needs to touch feature.properties
+  const fills: string[] = new Array(features.length);
+  const fillOpacities: string[] = new Array(features.length);
+  const strokes: string[] = new Array(features.length);
+  for (let i = 0; i < features.length; i++) {
+    const p = (features[i].properties ?? {}) as Record<string, unknown>;
+    const party = String(p._party ?? "unknown");
+    fills[i] = PARTY_FILL[party] ?? PARTY_FILL.unknown;
+    fillOpacities[i] = String(PARTY_FILL_OPACITY[party] ?? 0.18);
+    strokes[i] = PARTY_STROKE[party] ?? PARTY_STROKE.unknown;
+  }
+  layerDataCache.set(congress, { features, fills, fillOpacities, strokes });
   // Update global warmup progress
   warmupState = {
     done: layerDataCache.size,
@@ -296,29 +314,27 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
 
   // ── Full redraw: create/replace all SVG paths ──────────────────────────────
   // Called on first render and on SVG resize. Expensive but infrequent.
-  const fullRedraw = useCallback((features: GeoJSON.Feature[], W: number, H: number) => {
+  // After drawing, captures pathElementsRef for O(1) per-frame color swaps.
+  const fullRedraw = useCallback((features: GeoJSON.Feature[], W: number, H: number, cachedColors?: LayerData) => {
     const g = gRef.current;
     if (!g) return;
     const projection = buildProjection(W, H);
     const pathGen = d3.geoPath().projection(projection);
+
+    // Use pre-computed colors if available, otherwise fall back to property lookup
+    const fills = cachedColors?.fills;
+    const fillOpacities = cachedColors?.fillOpacities;
+    const strokes = cachedColors?.strokes;
+
     d3.select(g).selectAll("path").remove();
-    d3.select(g)
+    const selection = d3.select(g)
       .selectAll<SVGPathElement, GeoJSON.Feature>("path")
       .data(features, (_d, i) => String(i))
       .join("path")
       .attr("d", d => removeClipRects(pathGen(d)))
-      .attr("fill", d => {
-        const p = (d.properties ?? {}) as Record<string, unknown>;
-        return PARTY_FILL[String(p._party ?? "unknown")] ?? PARTY_FILL.unknown;
-      })
-      .attr("fill-opacity", d => {
-        const p = (d.properties ?? {}) as Record<string, unknown>;
-        return PARTY_FILL_OPACITY[String(p._party ?? "unknown")] ?? 0.18;
-      })
-      .attr("stroke", d => {
-        const p = (d.properties ?? {}) as Record<string, unknown>;
-        return PARTY_STROKE[String(p._party ?? "unknown")] ?? PARTY_STROKE.unknown;
-      })
+      .attr("fill", (d, i) => fills?.[i] ?? (PARTY_FILL[String((d.properties ?? {} as Record<string,unknown>)._party ?? "unknown")] ?? PARTY_FILL.unknown))
+      .attr("fill-opacity", (d, i) => fillOpacities?.[i] ?? String(PARTY_FILL_OPACITY[String((d.properties ?? {} as Record<string,unknown>)._party ?? "unknown")] ?? 0.18))
+      .attr("stroke", (d, i) => strokes?.[i] ?? (PARTY_STROKE[String((d.properties ?? {} as Record<string,unknown>)._party ?? "unknown")] ?? PARTY_STROKE.unknown))
       .attr("stroke-width", 0.5)
       .attr("stroke-opacity", 0.7)
       .style("cursor", "pointer")
@@ -340,40 +356,35 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
           _congress: c,
         });
       });
+    // Capture direct DOM references for ultra-fast per-frame color swaps
+    pathElementsRef.current = selection.nodes();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ── Color-only update: just repaint fills/strokes on existing paths ─────────
-  // Called on every congress change during playback. Very fast (~1ms for 435 paths).
-  const recolor = useCallback((features: GeoJSON.Feature[]) => {
-    const g = gRef.current;
-    if (!g) return;
-    const paths = d3.select(g).selectAll<SVGPathElement, GeoJSON.Feature>("path");
-    if (paths.size() !== features.length) return null; // signal: need full redraw
-    paths.data(features, (_d, i) => String(i))
-      .attr("fill", d => {
-        const p = (d.properties ?? {}) as Record<string, unknown>;
-        return PARTY_FILL[String(p._party ?? "unknown")] ?? PARTY_FILL.unknown;
-      })
-      .attr("fill-opacity", d => {
-        const p = (d.properties ?? {}) as Record<string, unknown>;
-        return PARTY_FILL_OPACITY[String(p._party ?? "unknown")] ?? 0.18;
-      })
-      .attr("stroke", d => {
-        const p = (d.properties ?? {}) as Record<string, unknown>;
-        return PARTY_STROKE[String(p._party ?? "unknown")] ?? PARTY_STROKE.unknown;
-      });
-    return true; // success
+  // ── Color-only update: direct DOM array writes with pre-computed colors ─────────
+  // Zero allocations, zero property lookups — just a tight loop over DOM elements.
+  const recolor = useCallback((cached: LayerData): boolean => {
+    const els = pathElementsRef.current;
+    if (els.length !== cached.features.length) return false; // need full redraw
+    const { fills, fillOpacities, strokes } = cached;
+    for (let i = 0; i < els.length; i++) {
+      const s = els[i].style;
+      s.fill = fills[i];
+      s.fillOpacity = fillOpacities[i];
+      s.stroke = strokes[i];
+    }
+    return true;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Direct DOM element array — avoids D3 .selectAll() on every frame
+  const pathElementsRef = useRef<SVGPathElement[]>([]);
 
   // Track the congress that the current paths were drawn for
   const drawnCongressRef = useRef<number | null>(null);
 
   // Refs so jumpTo can call the latest versions without stale closures
-  const recolorRef = useRef(recolor);
   const fullRedrawRef = useRef(fullRedraw);
-  useEffect(() => { recolorRef.current = recolor; }, [recolor]);
   useEffect(() => { fullRedrawRef.current = fullRedraw; }, [fullRedraw]);
 
   // Expose jumpTo for imperative use by the play loop (bypasses React scheduling)
@@ -383,12 +394,22 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
       if (!svg) return;
       const cached = layerDataCache.get(targetCongress);
       if (!cached) return; // data not ready yet
-      const prevCongress = drawnCongressRef.current;
-      const prevCached = prevCongress !== null ? layerDataCache.get(prevCongress) : null;
-      if (prevCached && prevCached.features.length === cached.features.length) {
-        const ok = recolorRef.current(cached.features);
-        if (ok) { drawnCongressRef.current = targetCongress; return; }
+
+      const els = pathElementsRef.current;
+      const { fills, fillOpacities, strokes, features } = cached;
+
+      if (els.length === features.length) {
+        // ⚡ Ultra-fast path: direct typed array writes, zero allocations
+        for (let i = 0; i < els.length; i++) {
+          const s = els[i].style;
+          s.fill = fills[i];
+          s.fillOpacity = fillOpacities[i];
+          s.stroke = strokes[i];
+        }
+        drawnCongressRef.current = targetCongress;
+        return;
       }
+
       // District count changed — full redraw
       const rect = svg.getBoundingClientRect();
       fullRedrawRef.current(cached.features, rect.width || 960, rect.height || 600);
@@ -420,8 +441,8 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
       const prevCached = prevCongress !== null ? layerDataCache.get(prevCongress) : null;
 
       if (prevCached && prevCached.features.length === cached.features.length) {
-        // Same district count → fast color-only update
-        const ok = recolor(cached.features);
+        // Same district count → fast color-only update (direct DOM writes)
+        const ok = recolor(cached);
         if (ok) {
           drawnCongressRef.current = congress;
           if (!cancelled) { setDistrictCount(cached.features.length); setIsLoading(false); }
@@ -431,7 +452,7 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
 
       // Different district count or first render → full redraw
       setIsLoading(true);
-      fullRedraw(cached.features, W, H);
+      fullRedraw(cached.features, W, H, cached);
       drawnCongressRef.current = congress;
       if (!cancelled) { setDistrictCount(cached.features.length); setIsLoading(false); }
     })();
@@ -452,7 +473,7 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
       const rect = svg.getBoundingClientRect();
       const W = rect.width || 960;
       const H = rect.height || 600;
-      fullRedraw(cached.features, W, H);
+      fullRedraw(cached.features, W, H, cached);
       drawnCongressRef.current = c;
     });
     ro.observe(svg);
@@ -676,34 +697,46 @@ export default function MapComparison() {
   useEffect(() => { congressARef.current = congressA; }, [congressA]);
   useEffect(() => { congressBRef.current = congressB; }, [congressB]);
 
-  // Animation playback A — imperative jumpTo bypasses React scheduling overhead
+  // Animation playback A — rAF ticker for frame-perfect timing
   useEffect(() => {
     if (!isPlayingA) return;
     const ms = PLAY_SPEEDS[speedIdxA].ms;
-    const t = setInterval(() => {
-      const c = congressARef.current;
-      if (c >= CONGRESS_END) { setIsPlayingA(false); clearInterval(t); return; }
-      const next = c + 1;
-      // Update D3 map immediately (no React scheduling delay)
-      panelARef.current?.jumpTo(next);
-      // Update React state for UI (slider, seat counts, etc.)
-      setCongressA(next);
-    }, ms);
-    return () => clearInterval(t);
+    let rafId: number;
+    let lastTime = performance.now();
+    function tick(now: number) {
+      if (now - lastTime >= ms) {
+        lastTime = now;
+        const c = congressARef.current;
+        if (c >= CONGRESS_END) { setIsPlayingA(false); return; }
+        const next = c + 1;
+        panelARef.current?.jumpTo(next); // D3 update: synchronous, zero React overhead
+        setCongressA(next);              // UI update: slider, seat counts
+      }
+      rafId = requestAnimationFrame(tick);
+    }
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
   }, [isPlayingA, speedIdxA]);
 
-  // Animation playback B — imperative jumpTo
+  // Animation playback B — rAF ticker
   useEffect(() => {
     if (!isPlayingB) return;
     const ms = PLAY_SPEEDS[speedIdxB].ms;
-    const t = setInterval(() => {
-      const c = congressBRef.current;
-      if (c >= CONGRESS_END) { setIsPlayingB(false); clearInterval(t); return; }
-      const next = c + 1;
-      panelBRef.current?.jumpTo(next);
-      setCongressB(next);
-    }, ms);
-    return () => clearInterval(t);
+    let rafId: number;
+    let lastTime = performance.now();
+    function tick(now: number) {
+      if (now - lastTime >= ms) {
+        lastTime = now;
+        const c = congressBRef.current;
+        if (c >= CONGRESS_END) { setIsPlayingB(false); return; }
+        const next = c + 1;
+        panelBRef.current?.jumpTo(next);
+        setCongressB(next);
+      }
+      rafId = requestAnimationFrame(tick);
+    }
+    rafId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId);
   }, [isPlayingB, speedIdxB]);
 
   const handlePlayToggleA = useCallback(() => {
