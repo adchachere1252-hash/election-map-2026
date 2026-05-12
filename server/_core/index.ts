@@ -54,26 +54,58 @@ async function startServer() {
 
   // GeoJSON proxy: fetch Lewis congressional district boundaries from GitHub
   // This bypasses CORS restrictions in the browser sandbox
+  // Server-side in-memory cache: avoids re-fetching large files (e.g. NC 4.5MB) on every request
+  const geoJsonServerCache = new Map<string, string>();
+  const geoJsonFetchInFlight = new Map<string, Promise<string | null>>();
+
+  async function fetchGeoJsonFromGitHub(filename: string): Promise<string | null> {
+    // Deduplicate concurrent requests for the same file
+    if (geoJsonFetchInFlight.has(filename)) return geoJsonFetchInFlight.get(filename)!;
+    const promise = (async () => {
+      const url = `https://raw.githubusercontent.com/JeffreyBLewis/congressional-district-boundaries/master/GeoJson/${filename}`;
+      for (let attempt = 0; attempt < 3; attempt++) {
+        try {
+          if (attempt > 0) await new Promise(r => setTimeout(r, 1000 * attempt));
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s timeout
+          const response = await fetch(url, { signal: controller.signal });
+          clearTimeout(timeoutId);
+          if (response.status === 404) return null; // File genuinely missing
+          if (!response.ok) continue; // Retry on 5xx
+          const data = await response.text();
+          geoJsonServerCache.set(filename, data);
+          return data;
+        } catch (err) {
+          console.error(`[GeoJSON proxy] Attempt ${attempt + 1} failed for ${filename}:`, err);
+        }
+      }
+      return null;
+    })();
+    geoJsonFetchInFlight.set(filename, promise);
+    promise.finally(() => geoJsonFetchInFlight.delete(filename));
+    return promise;
+  }
+
   app.get("/api/geojson/:filename", async (req, res) => {
     const { filename } = req.params;
     // Validate filename: allow letters, digits, spaces, underscores, hyphens + .geojson
     if (!/^[A-Za-z0-9_ \-]+\.geojson$/.test(filename)) {
       return res.status(400).json({ error: "Invalid filename" });
     }
-    const url = `https://raw.githubusercontent.com/JeffreyBLewis/congressional-district-boundaries/master/GeoJson/${filename}`;
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        return res.status(response.status).json({ error: "Not found" });
-      }
-      const data = await response.text();
+    // Serve from server-side cache if available
+    if (geoJsonServerCache.has(filename)) {
       res.setHeader("Content-Type", "application/json");
-      res.setHeader("Cache-Control", "public, max-age=86400"); // cache 24h
-      return res.send(data);
-    } catch (err) {
-      console.error("GeoJSON proxy error:", err);
-      return res.status(500).json({ error: "Proxy fetch failed" });
+      res.setHeader("Cache-Control", "public, max-age=86400");
+      res.setHeader("X-Cache", "HIT");
+      return res.send(geoJsonServerCache.get(filename));
     }
+    const data = await fetchGeoJsonFromGitHub(filename);
+    if (data === null) {
+      return res.status(404).json({ error: "Not found" });
+    }
+    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Cache-Control", "public, max-age=86400"); // cache 24h
+    return res.send(data);
   });
   // Voteview party data proxy: fetch per-district party data for a given Congress
   // Returns { "AL-3": "R", "AL-7": "D", ... } keyed by stateAbbrev-districtCode
