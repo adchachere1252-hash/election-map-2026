@@ -1,0 +1,720 @@
+{
+  "query": "SELECT state_name, district, primary_date FROM house_races WHERE state_name IN ('Alabama', 'Tennessee', 'South Carolina', 'Georgia', 'Mississippi', 'Arkansas', 'Texas', 'Florida', 'North Carolina', 'Virginia', 'Louisiana') ORDER BY state_name, district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_name, district, primary_date FROM house_races WHERE state_name IN ('Alabama', 'Tennessee', 'South Carolina', 'Georgia', 'Mississippi', 'Arkansas', 'Texas', 'Florida', 'North Carolina', 'Virginia', 'Louisiana') ORDER BY state_name, district;",
+  "rows": [
+    {
+      "state_name": "Alabama",
+      "district": "1",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Alabama",
+      "district": "2",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Alabama",
+      "district": "3",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Alabama",
+      "district": "4",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Alabama",
+      "district": "5",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Alabama",
+      "district": "6",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Alabama",
+      "district": "7",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Arkansas",
+      "district": "1",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Arkansas",
+      "district": "2",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Arkansas",
+      "district": "3",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Arkansas",
+      "district": "4",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "1",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "2",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "3",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "4",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "5",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "6",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "7",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "8",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "9",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "10",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "11",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "12",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "13",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "14",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "15",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "16",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "17",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "18",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "19",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "20",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "21",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "22",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "23",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "24",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "25",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "26",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "27",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Florida",
+      "district": "28",
+      "primary_date": "Aug 18, 2026"
+    },
+    {
+      "state_name": "Georgia",
+      "district": "1",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Georgia",
+      "district": "2",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Georgia",
+      "district": "3",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Georgia",
+      "district": "4",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Georgia",
+      "district": "5",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Georgia",
+      "district": "6",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Georgia",
+      "district": "7",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Georgia",
+      "district": "8",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Georgia",
+      "district": "9",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Georgia",
+      "district": "10",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Georgia",
+      "district": "11",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Georgia",
+      "district": "12",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Georgia",
+      "district": "13",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Georgia",
+      "district": "14",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Louisiana",
+      "district": "1",
+      "primary_date": "July 15, 2026"
+    },
+    {
+      "state_name": "Louisiana",
+      "district": "2",
+      "primary_date": "July 15, 2026"
+    },
+    {
+      "state_name": "Louisiana",
+      "district": "3",
+      "primary_date": "July 15, 2026"
+    },
+    {
+      "state_name": "Louisiana",
+      "district": "4",
+      "primary_date": "July 15, 2026"
+    },
+    {
+      "state_name": "Louisiana",
+      "district": "5",
+      "primary_date": "July 15, 2026"
+    },
+    {
+      "state_name": "Louisiana",
+      "district": "6",
+      "primary_date": "July 15, 2026"
+    },
+    {
+      "state_name": "Mississippi",
+      "district": "1",
+      "primary_date": "Mar 10, 2026"
+    },
+    {
+      "state_name": "Mississippi",
+      "district": "2",
+      "primary_date": "Mar 10, 2026"
+    },
+    {
+      "state_name": "Mississippi",
+      "district": "3",
+      "primary_date": "Mar 10, 2026"
+    },
+    {
+      "state_name": "Mississippi",
+      "district": "4",
+      "primary_date": "Mar 10, 2026"
+    },
+    {
+      "state_name": "North Carolina",
+      "district": "1",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "North Carolina",
+      "district": "2",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "North Carolina",
+      "district": "3",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "North Carolina",
+      "district": "4",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "North Carolina",
+      "district": "5",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "North Carolina",
+      "district": "6",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "North Carolina",
+      "district": "7",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "North Carolina",
+      "district": "8",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "North Carolina",
+      "district": "9",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "North Carolina",
+      "district": "10",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "North Carolina",
+      "district": "11",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "North Carolina",
+      "district": "12",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "North Carolina",
+      "district": "13",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "North Carolina",
+      "district": "14",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "South Carolina",
+      "district": "1",
+      "primary_date": "Jun 9, 2026"
+    },
+    {
+      "state_name": "South Carolina",
+      "district": "2",
+      "primary_date": "Jun 9, 2026"
+    },
+    {
+      "state_name": "South Carolina",
+      "district": "3",
+      "primary_date": "Jun 9, 2026"
+    },
+    {
+      "state_name": "South Carolina",
+      "district": "4",
+      "primary_date": "Jun 9, 2026"
+    },
+    {
+      "state_name": "South Carolina",
+      "district": "5",
+      "primary_date": "Jun 9, 2026"
+    },
+    {
+      "state_name": "South Carolina",
+      "district": "6",
+      "primary_date": "Jun 9, 2026"
+    },
+    {
+      "state_name": "South Carolina",
+      "district": "7",
+      "primary_date": "Jun 9, 2026"
+    },
+    {
+      "state_name": "Tennessee",
+      "district": "1",
+      "primary_date": "Aug 6, 2026"
+    },
+    {
+      "state_name": "Tennessee",
+      "district": "2",
+      "primary_date": "Aug 6, 2026"
+    },
+    {
+      "state_name": "Tennessee",
+      "district": "3",
+      "primary_date": "Aug 6, 2026"
+    },
+    {
+      "state_name": "Tennessee",
+      "district": "4",
+      "primary_date": "Aug 6, 2026"
+    },
+    {
+      "state_name": "Tennessee",
+      "district": "5",
+      "primary_date": "Aug 6, 2026"
+    },
+    {
+      "state_name": "Tennessee",
+      "district": "6",
+      "primary_date": "Aug 6, 2026"
+    },
+    {
+      "state_name": "Tennessee",
+      "district": "7",
+      "primary_date": "Aug 6, 2026"
+    },
+    {
+      "state_name": "Tennessee",
+      "district": "8",
+      "primary_date": "Aug 6, 2026"
+    },
+    {
+      "state_name": "Tennessee",
+      "district": "9",
+      "primary_date": "Aug 6, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "1",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "2",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "3",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "4",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "5",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "6",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "7",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "8",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "9",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "10",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "11",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "12",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "13",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "14",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "15",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "16",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "17",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "18",
+      "primary_date": "March 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "19",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "20",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "21",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "22",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "23",
+      "primary_date": "NULL"
+    },
+    {
+      "state_name": "Texas",
+      "district": "24",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "25",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "26",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "27",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "28",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "29",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "30",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "31",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "32",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "33",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "34",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "35",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "36",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "37",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Texas",
+      "district": "38",
+      "primary_date": "Mar 3, 2026"
+    },
+    {
+      "state_name": "Virginia",
+      "district": "1",
+      "primary_date": "Aug 4, 2026"
+    },
+    {
+      "state_name": "Virginia",
+      "district": "2",
+      "primary_date": "Aug 4, 2026"
+    },
+    {
+      "state_name": "Virginia",
+      "district": "3",
+      "primary_date": "Aug 4, 2026"
+    },
+    {
+      "state_name": "Virginia",
+      "district": "4",
+      "primary_date": "Aug 4, 2026"
+    },
+    {
+      "state_name": "Virginia",
+      "district": "5",
+      "primary_date": "Aug 4, 2026"
+    },
+    {
+      "state_name": "Virginia",
+      "district": "6",
+      "primary_date": "Aug 4, 2026"
+    },
+    {
+      "state_name": "Virginia",
+      "district": "7",
+      "primary_date": "Aug 4, 2026"
+    },
+    {
+      "state_name": "Virginia",
+      "district": "8",
+      "primary_date": "Aug 4, 2026"
+    },
+    {
+      "state_name": "Virginia",
+      "district": "9",
+      "primary_date": "Aug 4, 2026"
+    },
+    {
+      "state_name": "Virginia",
+      "district": "10",
+      "primary_date": "Aug 4, 2026"
+    },
+    {
+      "state_name": "Virginia",
+      "district": "11",
+      "primary_date": "Aug 4, 2026"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_name\tdistrict\tprimary_date\nAlabama\t1\tMay 19, 2026\nAlabama\t2\tMay 19, 2026\nAlabama\t3\tMay 19, 2026\nAlabama\t4\tMay 19, 2026\nAlabama\t5\tMay 19, 2026\nAlabama\t6\tMay 19, 2026\nAlabama\t7\tMay 19, 2026\nArkansas\t1\tMar 3, 2026\nArkansas\t2\tMar 3, 2026\nArkansas\t3\tMar 3, 2026\nArkansas\t4\tMar 3, 2026\nFlorida\t1\tAug 18, 2026\nFlorida\t2\tAug 18, 2026\nFlorida\t3\tAug 18, 2026\nFlorida\t4\tAug 18, 2026\nFlorida\t5\tAug 18, 2026\nFlorida\t6\tAug 18, 2026\nFlorida\t7\tAug 18, 2026\nFlorida\t8\tAug 18, 2026\nFlorida\t9\tAug 18, 2026\nFlorida\t10\tAug 18, 2026\nFlorida\t11\tAug 18, 2026\nFlorida\t12\tAug 18, 2026\nFlorida\t13\tAug 18, 2026\nFlorida\t14\tAug 18, 2026\nFlorida\t15\tAug 18, 2026\nFlorida\t16\tAug 18, 2026\nFlorida\t17\tAug 18, 2026\nFlorida\t18\tAug 18, 2026\nFlorida\t19\tAug 18, 2026\nFlorida\t20\tAug 18, 2026\nFlorida\t21\tAug 18, 2026\nFlorida\t22\tAug 18, 2026\nFlorida\t23\tAug 18, 2026\nFlorida\t24\tAug 18, 2026\nFlorida\t25\tAug 18, 2026\nFlorida\t26\tAug 18, 2026\nFlorida\t27\tAug 18, 2026\nFlorida\t28\tAug 18, 2026\nGeorgia\t1\tMay 19, 2026\nGeorgia\t2\tMay 19, 2026\nGeorgia\t3\tMay 19, 2026\nGeorgia\t4\tMay 19, 2026\nGeorgia\t5\tMay 19, 2026\nGeorgia\t6\tMay 19, 2026\nGeorgia\t7\tMay 19, 2026\nGeorgia\t8\tMay 19, 2026\nGeorgia\t9\tMay 19, 2026\nGeorgia\t10\tMay 19, 2026\nGeorgia\t11\tMay 19, 2026\nGeorgia\t12\tMay 19, 2026\nGeorgia\t13\tMay 19, 2026\nGeorgia\t14\tMay 19, 2026\nLouisiana\t1\tJuly 15, 2026\nLouisiana\t2\tJuly 15, 2026\nLouisiana\t3\tJuly 15, 2026\nLouisiana\t4\tJuly 15, 2026\nLouisiana\t5\tJuly 15, 2026\nLouisiana\t6\tJuly 15, 2026\nMississippi\t1\tMar 10, 2026\nMississippi\t2\tMar 10, 2026\nMississippi\t3\tMar 10, 2026\nMississippi\t4\tMar 10, 2026\nNorth Carolina\t1\tMar 3, 2026\nNorth Carolina\t2\tMar 3, 2026\nNorth Carolina\t3\tMar 3, 2026\nNorth Carolina\t4\tMar 3, 2026\nNorth Carolina\t5\tMar 3, 2026\nNorth Carolina\t6\tMar 3, 2026\nNorth Carolina\t7\tMar 3, 2026\nNorth Carolina\t8\tMar 3, 2026\nNorth Carolina\t9\tMar 3, 2026\nNorth Carolina\t10\tMar 3, 2026\nNorth Carolina\t11\tMar 3, 2026\nNorth Carolina\t12\tMar 3, 2026\nNorth Carolina\t13\tMar 3, 2026\nNorth Carolina\t14\tMar 3, 2026\nSouth Carolina\t1\tJun 9, 2026\nSouth Carolina\t2\tJun 9, 2026\nSouth Carolina\t3\tJun 9, 2026\nSouth Carolina\t4\tJun 9, 2026\nSouth Carolina\t5\tJun 9, 2026\nSouth Carolina\t6\tJun 9, 2026\nSouth Carolina\t7\tJun 9, 2026\nTennessee\t1\tAug 6, 2026\nTennessee\t2\tAug 6, 2026\nTennessee\t3\tAug 6, 2026\nTennessee\t4\tAug 6, 2026\nTennessee\t5\tAug 6, 2026\nTennessee\t6\tAug 6, 2026\nTennessee\t7\tAug 6, 2026\nTennessee\t8\tAug 6, 2026\nTennessee\t9\tAug 6, 2026\nTexas\t1\tMar 3, 2026\nTexas\t2\tMar 3, 2026\nTexas\t3\tMar 3, 2026\nTexas\t4\tMar 3, 2026\nTexas\t5\tMar 3, 2026\nTexas\t6\tMar 3, 2026\nTexas\t7\tMar 3, 2026\nTexas\t8\tMar 3, 2026\nTexas\t9\tMar 3, 2026\nTexas\t10\tMar 3, 2026\nTexas\t11\tMar 3, 2026\nTexas\t12\tMar 3, 2026\nTexas\t13\tMar 3, 2026\nTexas\t14\tMar 3, 2026\nTexas\t15\tMar 3, 2026\nTexas\t16\tMar 3, 2026\nTexas\t17\tMar 3, 2026\nTexas\t18\tMarch 3, 2026\nTexas\t19\tMar 3, 2026\nTexas\t20\tMar 3, 2026\nTexas\t21\tMar 3, 2026\nTexas\t22\tMar 3, 2026\nTexas\t23\tNULL\nTexas\t24\tMar 3, 2026\nTexas\t25\tMar 3, 2026\nTexas\t26\tMar 3, 2026\nTexas\t27\tMar 3, 2026\nTexas\t28\tMar 3, 2026\nTexas\t29\tMar 3, 2026\nTexas\t30\tMar 3, 2026\nTexas\t31\tMar 3, 2026\nTexas\t32\tMar 3, 2026\nTexas\t33\tMar 3, 2026\nTexas\t34\tMar 3, 2026\nTexas\t35\tMar 3, 2026\nTexas\t36\tMar 3, 2026\nTexas\t37\tMar 3, 2026\nTexas\t38\tMar 3, 2026\nVirginia\t1\tAug 4, 2026\nVirginia\t2\tAug 4, 2026\nVirginia\t3\tAug 4, 2026\nVirginia\t4\tAug 4, 2026\nVirginia\t5\tAug 4, 2026\nVirginia\t6\tAug 4, 2026\nVirginia\t7\tAug 4, 2026\nVirginia\t8\tAug 4, 2026\nVirginia\t9\tAug 4, 2026\nVirginia\t10\tAug 4, 2026\nVirginia\t11\tAug 4, 2026\n",
+  "stderr": "",
+  "execution_time_ms": 253
+}

@@ -143,21 +143,62 @@ const US_STATES = [
 
 // ─── GeoJSON cache ────────────────────────────────────────────────────────────
 const geoCache = new Map<string, GeoJSON.FeatureCollection>();
+// Pending fetches by file name — deduplicate concurrent requests for the same file
+const geoFetchInFlight = new Map<string, Promise<GeoJSON.FeatureCollection | null>>();
+
+// Global semaphore: cap total concurrent GeoJSON HTTP requests to avoid
+// overwhelming the proxy (which forwards to GitHub CDN with rate limits).
+const GEO_CONCURRENCY = 6;
+let geoActiveCount = 0;
+const geoQueue: Array<() => void> = [];
+function geoAcquire(): Promise<void> {
+  if (geoActiveCount < GEO_CONCURRENCY) { geoActiveCount++; return Promise.resolve(); }
+  return new Promise(resolve => geoQueue.push(resolve));
+}
+function geoRelease() {
+  const next = geoQueue.shift();
+  if (next) { next(); } else { geoActiveCount--; }
+}
+
+async function fetchGeoJsonFile(fileName: string): Promise<GeoJSON.FeatureCollection | null> {
+  // Deduplicate: if the same file is already being fetched, wait for that promise
+  if (geoFetchInFlight.has(fileName)) return geoFetchInFlight.get(fileName)!;
+  const promise = (async () => {
+    await geoAcquire();
+    try {
+      // Retry up to 3 times with exponential backoff for transient failures
+      for (let attempt = 0; attempt < 3; attempt++) {
+        try {
+          const res = await fetch(`/api/geojson/${encodeURIComponent(fileName)}`);
+          if (res.ok) {
+            const data = await res.json() as GeoJSON.FeatureCollection;
+            return data;
+          }
+          if (res.status === 404) return null; // File genuinely missing — don't retry
+        } catch { /* network error — retry */ }
+        if (attempt < 2) await new Promise(r => setTimeout(r, 300 * (attempt + 1)));
+      }
+      return null;
+    } finally {
+      geoRelease();
+      geoFetchInFlight.delete(fileName);
+    }
+  })();
+  geoFetchInFlight.set(fileName, promise);
+  return promise;
+}
 
 async function fetchStateGeoJson(stateName: string, congress: number): Promise<GeoJSON.FeatureCollection | null> {
-  const key = `${stateName}-${congress}`;
-  if (geoCache.has(key)) return geoCache.get(key)!;
   const manifest = LEWIS_MANIFEST[stateName];
   if (!manifest) return null;
   const entry = manifest.find(e => congress >= e.start && congress <= e.end);
   if (!entry) return null;
-  try {
-    const res = await fetch(`/api/geojson/${encodeURIComponent(entry.name)}`);
-    if (!res.ok) return null;
-    const data = await res.json() as GeoJSON.FeatureCollection;
-    geoCache.set(key, data);
-    return data;
-  } catch { return null; }
+  // Cache by file name (not state+congress) since many congresses share the same file
+  const cacheKey = entry.name;
+  if (geoCache.has(cacheKey)) return geoCache.get(cacheKey)!;
+  const data = await fetchGeoJsonFile(entry.name);
+  if (data) geoCache.set(cacheKey, data);
+  return data;
 }
 
 // ─── Full eager cache — all 31 Congresses kept in memory (~15 MB) ─────────────
@@ -246,8 +287,9 @@ async function startFullWarmup(startFrom: number = CONGRESS_START) {
     if (center + d <= CONGRESS_END) all.push(center + d);
   }
 
-  // Run up to 4 concurrent warmups
-  const CONCURRENCY = 4;
+  // Run up to 2 concurrent warmups — each warmup fires up to 50 state fetches,
+  // but the global semaphore (GEO_CONCURRENCY=6) caps total HTTP requests.
+  const CONCURRENCY = 2;
   let idx = 0;
   async function worker() {
     while (idx < all.length) {

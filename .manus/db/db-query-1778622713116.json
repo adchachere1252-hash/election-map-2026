@@ -1,0 +1,155 @@
+{
+  "query": "SELECT state_name, district, primary_date FROM house_races WHERE state_name IN ('Alabama', 'Louisiana', 'South Carolina', 'Tennessee') ORDER BY state_name, district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_name, district, primary_date FROM house_races WHERE state_name IN ('Alabama', 'Louisiana', 'South Carolina', 'Tennessee') ORDER BY state_name, district;",
+  "rows": [
+    {
+      "state_name": "Alabama",
+      "district": "1",
+      "primary_date": "Aug 11, 2026"
+    },
+    {
+      "state_name": "Alabama",
+      "district": "2",
+      "primary_date": "Aug 11, 2026"
+    },
+    {
+      "state_name": "Alabama",
+      "district": "3",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Alabama",
+      "district": "4",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Alabama",
+      "district": "5",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_name": "Alabama",
+      "district": "6",
+      "primary_date": "Aug 11, 2026"
+    },
+    {
+      "state_name": "Alabama",
+      "district": "7",
+      "primary_date": "Aug 11, 2026"
+    },
+    {
+      "state_name": "Louisiana",
+      "district": "1",
+      "primary_date": "July 15, 2026"
+    },
+    {
+      "state_name": "Louisiana",
+      "district": "2",
+      "primary_date": "July 15, 2026"
+    },
+    {
+      "state_name": "Louisiana",
+      "district": "3",
+      "primary_date": "July 15, 2026"
+    },
+    {
+      "state_name": "Louisiana",
+      "district": "4",
+      "primary_date": "July 15, 2026"
+    },
+    {
+      "state_name": "Louisiana",
+      "district": "5",
+      "primary_date": "July 15, 2026"
+    },
+    {
+      "state_name": "Louisiana",
+      "district": "6",
+      "primary_date": "July 15, 2026"
+    },
+    {
+      "state_name": "South Carolina",
+      "district": "1",
+      "primary_date": "Jun 9, 2026"
+    },
+    {
+      "state_name": "South Carolina",
+      "district": "2",
+      "primary_date": "Jun 9, 2026"
+    },
+    {
+      "state_name": "South Carolina",
+      "district": "3",
+      "primary_date": "Jun 9, 2026"
+    },
+    {
+      "state_name": "South Carolina",
+      "district": "4",
+      "primary_date": "Jun 9, 2026"
+    },
+    {
+      "state_name": "South Carolina",
+      "district": "5",
+      "primary_date": "Jun 9, 2026"
+    },
+    {
+      "state_name": "South Carolina",
+      "district": "6",
+      "primary_date": "Jun 9, 2026"
+    },
+    {
+      "state_name": "South Carolina",
+      "district": "7",
+      "primary_date": "Jun 9, 2026"
+    },
+    {
+      "state_name": "Tennessee",
+      "district": "1",
+      "primary_date": "Aug 6, 2026"
+    },
+    {
+      "state_name": "Tennessee",
+      "district": "2",
+      "primary_date": "Aug 6, 2026"
+    },
+    {
+      "state_name": "Tennessee",
+      "district": "3",
+      "primary_date": "Aug 6, 2026"
+    },
+    {
+      "state_name": "Tennessee",
+      "district": "4",
+      "primary_date": "Aug 6, 2026"
+    },
+    {
+      "state_name": "Tennessee",
+      "district": "5",
+      "primary_date": "Aug 6, 2026"
+    },
+    {
+      "state_name": "Tennessee",
+      "district": "6",
+      "primary_date": "Aug 6, 2026"
+    },
+    {
+      "state_name": "Tennessee",
+      "district": "7",
+      "primary_date": "Aug 6, 2026"
+    },
+    {
+      "state_name": "Tennessee",
+      "district": "8",
+      "primary_date": "Aug 6, 2026"
+    },
+    {
+      "state_name": "Tennessee",
+      "district": "9",
+      "primary_date": "Aug 6, 2026"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_name\tdistrict\tprimary_date\nAlabama\t1\tAug 11, 2026\nAlabama\t2\tAug 11, 2026\nAlabama\t3\tMay 19, 2026\nAlabama\t4\tMay 19, 2026\nAlabama\t5\tMay 19, 2026\nAlabama\t6\tAug 11, 2026\nAlabama\t7\tAug 11, 2026\nLouisiana\t1\tJuly 15, 2026\nLouisiana\t2\tJuly 15, 2026\nLouisiana\t3\tJuly 15, 2026\nLouisiana\t4\tJuly 15, 2026\nLouisiana\t5\tJuly 15, 2026\nLouisiana\t6\tJuly 15, 2026\nSouth Carolina\t1\tJun 9, 2026\nSouth Carolina\t2\tJun 9, 2026\nSouth Carolina\t3\tJun 9, 2026\nSouth Carolina\t4\tJun 9, 2026\nSouth Carolina\t5\tJun 9, 2026\nSouth Carolina\t6\tJun 9, 2026\nSouth Carolina\t7\tJun 9, 2026\nTennessee\t1\tAug 6, 2026\nTennessee\t2\tAug 6, 2026\nTennessee\t3\tAug 6, 2026\nTennessee\t4\tAug 6, 2026\nTennessee\t5\tAug 6, 2026\nTennessee\t6\tAug 6, 2026\nTennessee\t7\tAug 6, 2026\nTennessee\t8\tAug 6, 2026\nTennessee\t9\tAug 6, 2026\n",
+  "stderr": "",
+  "execution_time_ms": 257
+}
