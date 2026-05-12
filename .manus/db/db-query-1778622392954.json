@@ -1,0 +1,40 @@
+{
+  "query": "SELECT state_name, district, incumbent, primary_date FROM house_races WHERE state_name IN ('Nebraska', 'West Virginia') ORDER BY state_name, district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_name, district, incumbent, primary_date FROM house_races WHERE state_name IN ('Nebraska', 'West Virginia') ORDER BY state_name, district;",
+  "rows": [
+    {
+      "state_name": "Nebraska",
+      "district": "1",
+      "incumbent": "Mike Flood",
+      "primary_date": "May 12, 2026"
+    },
+    {
+      "state_name": "Nebraska",
+      "district": "2",
+      "incumbent": "Open Seat",
+      "primary_date": "May 12, 2026"
+    },
+    {
+      "state_name": "Nebraska",
+      "district": "3",
+      "incumbent": "Adrian Smith",
+      "primary_date": "May 12, 2026"
+    },
+    {
+      "state_name": "West Virginia",
+      "district": "1",
+      "incumbent": "Carol D. Miller",
+      "primary_date": "May 12, 2026"
+    },
+    {
+      "state_name": "West Virginia",
+      "district": "2",
+      "incumbent": "Riley Moore",
+      "primary_date": "May 12, 2026"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_name\tdistrict\tincumbent\tprimary_date\nNebraska\t1\tMike Flood\tMay 12, 2026\nNebraska\t2\tOpen Seat\tMay 12, 2026\nNebraska\t3\tAdrian Smith\tMay 12, 2026\nWest Virginia\t1\tCarol D. Miller\tMay 12, 2026\nWest Virginia\t2\tRiley Moore\tMay 12, 2026\n",
+  "stderr": "",
+  "execution_time_ms": 252
+}

@@ -25,7 +25,9 @@ const AP_DATA_BASE = "https://interactives.apelections.org/election-results/data
 // On election night, AP activates the date-specific feed automatically
 const ELECTION_DATES = [
   "2026-11-03", // November 3, 2026 — General Election
-  "2026-05-20", // May 20 primaries (KY, OR, PA, etc.)
+  "2026-07-15", // July 15 — Louisiana U.S. House primaries (postponed from May 16)
+  "2026-05-19", // May 19 primaries (OR, etc.)
+  "2026-05-12", // May 12 primaries (NE, WV)
   "2026-05-05", // May 5 primaries (OH, IN)
 ];
 

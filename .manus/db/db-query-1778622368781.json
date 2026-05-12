@@ -1,0 +1,52 @@
+{
+  "query": "SELECT id, state_name, district, incumbent, primary_date FROM house_races WHERE state_name = 'Louisiana';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, state_name, district, incumbent, primary_date FROM house_races WHERE state_name = 'Louisiana';",
+  "rows": [
+    {
+      "id": "174",
+      "state_name": "Louisiana",
+      "district": "1",
+      "incumbent": "Steve Scalise",
+      "primary_date": "July 15, 2026"
+    },
+    {
+      "id": "175",
+      "state_name": "Louisiana",
+      "district": "2",
+      "incumbent": "Troy Carter",
+      "primary_date": "July 15, 2026"
+    },
+    {
+      "id": "176",
+      "state_name": "Louisiana",
+      "district": "3",
+      "incumbent": "Clay Higgins",
+      "primary_date": "July 15, 2026"
+    },
+    {
+      "id": "177",
+      "state_name": "Louisiana",
+      "district": "4",
+      "incumbent": "Mike Johnson",
+      "primary_date": "July 15, 2026"
+    },
+    {
+      "id": "178",
+      "state_name": "Louisiana",
+      "district": "5",
+      "incumbent": "Julia Letlow",
+      "primary_date": "July 15, 2026"
+    },
+    {
+      "id": "179",
+      "state_name": "Louisiana",
+      "district": "6",
+      "incumbent": "Garret Graves",
+      "primary_date": "July 15, 2026"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_name\tdistrict\tincumbent\tprimary_date\n174\tLouisiana\t1\tSteve Scalise\tJuly 15, 2026\n175\tLouisiana\t2\tTroy Carter\tJuly 15, 2026\n176\tLouisiana\t3\tClay Higgins\tJuly 15, 2026\n177\tLouisiana\t4\tMike Johnson\tJuly 15, 2026\n178\tLouisiana\t5\tJulia Letlow\tJuly 15, 2026\n179\tLouisiana\t6\tGarret Graves\tJuly 15, 2026\n",
+  "stderr": "",
+  "execution_time_ms": 254
+}

@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE house_races SET primary_date = 'July 15, 2026' WHERE state_name = 'Louisiana' AND primary_date = 'May 16, 2026';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE house_races SET primary_date = 'July 15, 2026' WHERE state_name = 'Louisiana' AND primary_date = 'May 16, 2026';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 272
+}

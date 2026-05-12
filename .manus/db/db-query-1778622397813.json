@@ -1,0 +1,20 @@
+{
+  "query": "SELECT state_name, incumbent, primary_date FROM senate_races WHERE state_name IN ('Nebraska', 'West Virginia') ORDER BY state_name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_name, incumbent, primary_date FROM senate_races WHERE state_name IN ('Nebraska', 'West Virginia') ORDER BY state_name;",
+  "rows": [
+    {
+      "state_name": "Nebraska",
+      "incumbent": "Pete Ricketts",
+      "primary_date": "May 12, 2026"
+    },
+    {
+      "state_name": "West Virginia",
+      "incumbent": "Shelley Moore Capito",
+      "primary_date": "May 12, 2026"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_name\tincumbent\tprimary_date\nNebraska\tPete Ricketts\tMay 12, 2026\nWest Virginia\tShelley Moore Capito\tMay 12, 2026\n",
+  "stderr": "",
+  "execution_time_ms": 258
+}
