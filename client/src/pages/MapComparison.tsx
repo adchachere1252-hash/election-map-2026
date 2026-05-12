@@ -215,7 +215,7 @@ async function _doWarmupCongress(congress: number): Promise<void> {
 // Priority order: start from the current congress, expand outward so nearby
 // Congresses are ready first, enabling play to start quickly.
 let fullWarmupStarted = false;
-async function startFullWarmup(startFrom: number = CONGRESS_END) {
+async function startFullWarmup(startFrom: number = CONGRESS_START) {
   if (fullWarmupStarted) return;
   fullWarmupStarted = true;
 
@@ -243,7 +243,7 @@ async function startFullWarmup(startFrom: number = CONGRESS_END) {
 }
 
 // Kept for backward compat — just delegates to startFullWarmup
-function startAtlasWarmup(center: number = CONGRESS_END) {
+function startAtlasWarmup(center: number = CONGRESS_START) {
   startFullWarmup(center);
 }
 
@@ -263,17 +263,117 @@ function D3MapPanel({ congress, panelId, compareMode, onDistrictClick }: D3MapPa
   const [isLoading, setIsLoading] = useState(true);
   const [districtCount, setDistrictCount] = useState(0);
 
-  // Draw / re-color districts whenever congress changes
+  // Refs to avoid stale closures in ResizeObserver / click handlers
+  const congressRef = useRef(congress);
+  const onDistrictClickRef = useRef(onDistrictClick);
+  useEffect(() => { congressRef.current = congress; }, [congress]);
+  useEffect(() => { onDistrictClickRef.current = onDistrictClick; }, [onDistrictClick]);
+
+  // ── Shared projection builder ──────────────────────────────────────────────
+  function buildProjection(W: number, H: number) {
+    const mapScale = Math.min(W, H * 1.6) * 0.95;
+    return d3.geoAlbersUsa().scale(mapScale).translate([W / 2, H / 2 - H * 0.04]);
+  }
+
+  // Strip D3 AlbersUSA axis-aligned clip rectangles from path strings
+  function removeClipRects(pathD: string | null): string {
+    if (!pathD) return "";
+    const subPaths = pathD.match(/M[^M]*/g) ?? [];
+    return subPaths.filter(sp => {
+      const lCount = (sp.match(/L/g) ?? []).length;
+      if (lCount !== 3 || !sp.endsWith("Z")) return true;
+      const nums = sp.match(/-?\d+\.?\d*/g) ?? [];
+      if (nums.length < 8) return true;
+      const ys = [nums[1], nums[3], nums[5], nums[7]].map(Number);
+      return new Set(ys.map(y => y.toFixed(3))).size !== 2;
+    }).join("");
+  }
+
+  // ── Full redraw: create/replace all SVG paths ──────────────────────────────
+  // Called on first render and on SVG resize. Expensive but infrequent.
+  const fullRedraw = useCallback((features: GeoJSON.Feature[], W: number, H: number) => {
+    const g = gRef.current;
+    if (!g) return;
+    const projection = buildProjection(W, H);
+    const pathGen = d3.geoPath().projection(projection);
+    d3.select(g).selectAll("path").remove();
+    d3.select(g)
+      .selectAll<SVGPathElement, GeoJSON.Feature>("path")
+      .data(features, (_d, i) => String(i))
+      .join("path")
+      .attr("d", d => removeClipRects(pathGen(d)))
+      .attr("fill", d => {
+        const p = (d.properties ?? {}) as Record<string, unknown>;
+        return PARTY_FILL[String(p._party ?? "unknown")] ?? PARTY_FILL.unknown;
+      })
+      .attr("fill-opacity", d => {
+        const p = (d.properties ?? {}) as Record<string, unknown>;
+        return PARTY_FILL_OPACITY[String(p._party ?? "unknown")] ?? 0.18;
+      })
+      .attr("stroke", d => {
+        const p = (d.properties ?? {}) as Record<string, unknown>;
+        return PARTY_STROKE[String(p._party ?? "unknown")] ?? PARTY_STROKE.unknown;
+      })
+      .attr("stroke-width", 0.5)
+      .attr("stroke-opacity", 0.7)
+      .style("cursor", "pointer")
+      .on("click", (_event, d) => {
+        const c = congressRef.current;
+        const p = d.properties as Record<string, unknown>;
+        const dist = Number(p?.district ?? p?.DISTRICT ?? 0);
+        const stateAbbrev = String(p?._stateAbbrev ?? "");
+        const key = `${stateAbbrev}-${dist}`;
+        const membersData = membersCache.get(c) ?? {};
+        let member = membersData[key];
+        if (!member && dist === 0) member = membersData[`${stateAbbrev}-1`];
+        onDistrictClickRef.current?.({
+          ...p,
+          _party: p._party ?? null,
+          _stateAbbrev: stateAbbrev,
+          _memberName: member?.name ?? null,
+          _memberBioguide: member?.bioguide ?? null,
+          _congress: c,
+        });
+      });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ── Color-only update: just repaint fills/strokes on existing paths ─────────
+  // Called on every congress change during playback. Very fast (~1ms for 435 paths).
+  const recolor = useCallback((features: GeoJSON.Feature[]) => {
+    const g = gRef.current;
+    if (!g) return;
+    const paths = d3.select(g).selectAll<SVGPathElement, GeoJSON.Feature>("path");
+    if (paths.size() !== features.length) return null; // signal: need full redraw
+    paths.data(features, (_d, i) => String(i))
+      .attr("fill", d => {
+        const p = (d.properties ?? {}) as Record<string, unknown>;
+        return PARTY_FILL[String(p._party ?? "unknown")] ?? PARTY_FILL.unknown;
+      })
+      .attr("fill-opacity", d => {
+        const p = (d.properties ?? {}) as Record<string, unknown>;
+        return PARTY_FILL_OPACITY[String(p._party ?? "unknown")] ?? 0.18;
+      })
+      .attr("stroke", d => {
+        const p = (d.properties ?? {}) as Record<string, unknown>;
+        return PARTY_STROKE[String(p._party ?? "unknown")] ?? PARTY_STROKE.unknown;
+      });
+    return true; // success
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Track the congress that the current paths were drawn for
+  const drawnCongressRef = useRef<number | null>(null);
+
+  // ── Main effect: runs on congress change ───────────────────────────────────
   useEffect(() => {
     const svg = svgRef.current;
-    const g = gRef.current;
-    if (!svg || !g) return;
-
+    if (!svg) return;
     let cancelled = false;
-    setIsLoading(true);
 
     (async () => {
       if (!layerDataCache.has(congress)) {
+        setIsLoading(true);
         await warmupCongress(congress);
       }
       if (cancelled) return;
@@ -281,132 +381,52 @@ function D3MapPanel({ congress, panelId, compareMode, onDistrictClick }: D3MapPa
       const cached = layerDataCache.get(congress);
       if (!cached) { setIsLoading(false); return; }
 
-      // Get SVG dimensions for projection
       const rect = svg.getBoundingClientRect();
       const W = rect.width || 960;
       const H = rect.height || 600;
-      
-      // Build AlbersUSA projection.
-      // D3's default AlbersUSA scale (1070) is for a 960×500 viewport.
-      // The map area width is W but the actual geographic extent of the lower-48
-      // needs to fit within the viewport. AlbersUSA uses a fixed internal scale
-      // where the lower-48 spans roughly 0.9 * 960 = 864px at scale 1070.
-      // We want the lower-48 to span ~90% of the smaller dimension.
-      const mapScale = Math.min(W, H * 1.6) * 0.95;
-      const projection = d3.geoAlbersUsa()
-        .scale(mapScale)
-        .translate([W / 2, H / 2 - H * 0.04]);
-      const pathGen = d3.geoPath().projection(projection);
 
-      // D3 AlbersUSA composite projection prepends axis-aligned clip rectangles
-      // (one per sub-projection: lower-48, Alaska, Hawaii) to every path.
-      // These rectangles cause the entire map to appear as a solid color.
-      // Fix: strip any leading axis-aligned rectangular sub-paths from each path.
-      function removeClipRects(pathD: string | null): string {
-        if (!pathD) return "";
-        const subPaths = pathD.match(/M[^M]*/g) ?? [];
-        return subPaths.filter(sp => {
-          const lCount = (sp.match(/L/g) ?? []).length;
-          if (lCount !== 3 || !sp.endsWith("Z")) return true;
-          const nums = sp.match(/-?\d+\.?\d*/g) ?? [];
-          if (nums.length < 8) return true;
-          const ys = [nums[1], nums[3], nums[5], nums[7]].map(Number);
-          return new Set(ys.map(y => y.toFixed(3))).size !== 2; // keep non-rectangles
-        }).join("");
+      const prevCongress = drawnCongressRef.current;
+      const prevCached = prevCongress !== null ? layerDataCache.get(prevCongress) : null;
+
+      if (prevCached && prevCached.features.length === cached.features.length) {
+        // Same district count → fast color-only update
+        const ok = recolor(cached.features);
+        if (ok) {
+          drawnCongressRef.current = congress;
+          if (!cancelled) { setDistrictCount(cached.features.length); setIsLoading(false); }
+          return;
+        }
       }
 
-      // Clear old paths
-      d3.select(g).selectAll("path").remove();
-
-      // Draw all district paths
-      d3.select(g)
-        .selectAll<SVGPathElement, GeoJSON.Feature>("path")
-        .data(cached.features)
-        .join("path")
-        .attr("d", d => removeClipRects(pathGen(d)))
-        .attr("fill", d => {
-          const p = (d.properties ?? {}) as Record<string, unknown>;
-          const party = String(p._party ?? "unknown");
-          return PARTY_FILL[party] ?? PARTY_FILL.unknown;
-        })
-        .attr("fill-opacity", d => {
-          const p = (d.properties ?? {}) as Record<string, unknown>;
-          const party = String(p._party ?? "unknown");
-          return PARTY_FILL_OPACITY[party] ?? 0.18;
-        })
-        .attr("stroke", d => {
-          const p = (d.properties ?? {}) as Record<string, unknown>;
-          const party = String(p._party ?? "unknown");
-          return PARTY_STROKE[party] ?? PARTY_STROKE.unknown;
-        })
-        .attr("stroke-width", 0.5)
-        .attr("stroke-opacity", 0.7)
-        .style("cursor", "pointer")
-        .on("click", (_event, d) => {
-          const p = d.properties as Record<string, unknown>;
-          const dist = Number(p?.district ?? p?.DISTRICT ?? 0);
-          const stateAbbrev = String(p?._stateAbbrev ?? "");
-          const key = `${stateAbbrev}-${dist}`;
-          const membersData = membersCache.get(congress) ?? {};
-          let member = membersData[key];
-          if (!member && dist === 0) member = membersData[`${stateAbbrev}-1`];
-          onDistrictClick?.({
-            ...p,
-            _party: p._party ?? null,
-            _stateAbbrev: stateAbbrev,
-            _memberName: member?.name ?? null,
-            _memberBioguide: member?.bioguide ?? null,
-            _congress: congress,
-          });
-        });
-
-      if (!cancelled) {
-        setDistrictCount(cached.features.length);
-        setIsLoading(false);
-      }
+      // Different district count or first render → full redraw
+      setIsLoading(true);
+      fullRedraw(cached.features, W, H);
+      drawnCongressRef.current = congress;
+      if (!cancelled) { setDistrictCount(cached.features.length); setIsLoading(false); }
     })();
 
     return () => { cancelled = true; };
-  }, [congress, onDistrictClick]);
+  }, [congress, fullRedraw, recolor]);
 
-  // Re-draw when SVG resizes (e.g. compare mode toggle)
+  // ── ResizeObserver: re-project paths when SVG dimensions change ────────────
   useEffect(() => {
     const svg = svgRef.current;
     if (!svg) return;
     const ro = new ResizeObserver(() => {
-      // Re-project the existing cached features with the new SVG dimensions.
-      // IMPORTANT: must also strip D3 AlbersUSA clip rectangles here, same as
-      // the initial draw — otherwise the map appears as a solid color.
       const g = gRef.current;
       if (!g) return;
-      const cached = layerDataCache.get(congress);
+      const c = congressRef.current;
+      const cached = layerDataCache.get(c);
       if (!cached) return;
       const rect = svg.getBoundingClientRect();
       const W = rect.width || 960;
       const H = rect.height || 600;
-      const mapScale2 = Math.min(W, H * 1.6) * 0.95;
-      const projection2 = d3.geoAlbersUsa()
-        .scale(mapScale2)
-        .translate([W / 2, H / 2 - H * 0.04]);
-      const pathGen2 = d3.geoPath().projection(projection2);
-      function removeClipRects2(pathD: string | null): string {
-        if (!pathD) return "";
-        const subPaths = pathD.match(/M[^M]*/g) ?? [];
-        return subPaths.filter(sp => {
-          const lCount = (sp.match(/L/g) ?? []).length;
-          if (lCount !== 3 || !sp.endsWith("Z")) return true;
-          const nums = sp.match(/-?\d+\.?\d*/g) ?? [];
-          if (nums.length < 8) return true;
-          const ys = [nums[1], nums[3], nums[5], nums[7]].map(Number);
-          return new Set(ys.map(y => y.toFixed(3))).size !== 2;
-        }).join("");
-      }
-      d3.select(g).selectAll<SVGPathElement, GeoJSON.Feature>("path")
-        .attr("d", d => removeClipRects2(pathGen2(d)));
+      fullRedraw(cached.features, W, H);
+      drawnCongressRef.current = c;
     });
     ro.observe(svg);
     return () => ro.disconnect();
-  }, [congress]);
+  }, [fullRedraw]);
 
   const seats = HOUSE_SEATS[congress] ?? { D: 0, R: 0, O: 0 };
   const prevSeats = HOUSE_SEATS[congress - 1];
@@ -582,7 +602,7 @@ function TimelineSlider({ congress, onChange, isPlaying, onPlayToggle, speedIdx,
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function MapComparison() {
-  const [congressA, setCongressA] = useState(CONGRESS_END);
+  const [congressA, setCongressA] = useState(CONGRESS_START);
   const [congressB, setCongressB] = useState(CONGRESS_START);
   const [compareMode, setCompareMode] = useState(false);
   const [selectedState, setSelectedState] = useState("");
