@@ -1278,4 +1278,4 @@
 - [x] District popups preserved with representative names, bioguide photos, party colors
 
 ## Historical Atlas — All Red Bug (May 11 Session 14)
-- [ ] Fix: all districts render red — party lookup returning null/unknown for all features, defaulting to Republican red
+- [x] Fix: all districts render red — D3 AlbersUSA clip rectangles in ResizeObserver re-draw were overwriting correct paths; fixed by applying removeClipRects() in both initial draw and ResizeObserver

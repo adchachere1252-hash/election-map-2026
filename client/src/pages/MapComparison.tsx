@@ -210,7 +210,10 @@ async function _doWarmupCongress(congress: number): Promise<void> {
       const stateAbbrev = STATE_CODES[String(p?.statename ?? p?.STATENAME ?? "")] ?? "";
       const key = `${stateAbbrev}-${dist}`;
       let party = partyData[key];
+      // At-large districts: GeoJSON uses district=0, Voteview uses district_code=98
+      // Try fallback chain: state-0 → state-1 → state-98 (Voteview at-large code)
       if (!party && dist === 0) party = partyData[`${stateAbbrev}-1`];
+      if (!party && dist === 0) party = partyData[`${stateAbbrev}-98`];
       features.push({ ...f, properties: { ...p, _party: party ?? null, _stateAbbrev: stateAbbrev } });
     }
   }
