@@ -1,0 +1,146 @@
+{
+  "query": "SELECT state_code, district, primary_date, status, called_winner, called_party FROM house_races WHERE state_code IN ('NE', 'WV', 'NJ') ORDER BY state_code, district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, district, primary_date, status, called_winner, called_party FROM house_races WHERE state_code IN ('NE', 'WV', 'NJ') ORDER BY state_code, district;",
+  "rows": [
+    {
+      "state_code": "NE",
+      "district": "1",
+      "primary_date": "May 12, 2026",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL"
+    },
+    {
+      "state_code": "NE",
+      "district": "2",
+      "primary_date": "May 12, 2026",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL"
+    },
+    {
+      "state_code": "NE",
+      "district": "3",
+      "primary_date": "May 12, 2026",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL"
+    },
+    {
+      "state_code": "NJ",
+      "district": "1",
+      "primary_date": "Jun 2, 2026",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL"
+    },
+    {
+      "state_code": "NJ",
+      "district": "2",
+      "primary_date": "Jun 2, 2026",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL"
+    },
+    {
+      "state_code": "NJ",
+      "district": "3",
+      "primary_date": "Jun 2, 2026",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL"
+    },
+    {
+      "state_code": "NJ",
+      "district": "4",
+      "primary_date": "Jun 2, 2026",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL"
+    },
+    {
+      "state_code": "NJ",
+      "district": "5",
+      "primary_date": "Jun 2, 2026",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL"
+    },
+    {
+      "state_code": "NJ",
+      "district": "6",
+      "primary_date": "Jun 2, 2026",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL"
+    },
+    {
+      "state_code": "NJ",
+      "district": "7",
+      "primary_date": "Jun 2, 2026",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL"
+    },
+    {
+      "state_code": "NJ",
+      "district": "8",
+      "primary_date": "Jun 2, 2026",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL"
+    },
+    {
+      "state_code": "NJ",
+      "district": "9",
+      "primary_date": "Jun 2, 2026",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL"
+    },
+    {
+      "state_code": "NJ",
+      "district": "10",
+      "primary_date": "Jun 2, 2026",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL"
+    },
+    {
+      "state_code": "NJ",
+      "district": "11",
+      "primary_date": "NULL",
+      "status": "Called",
+      "called_winner": "Analilia Mejia",
+      "called_party": "D"
+    },
+    {
+      "state_code": "NJ",
+      "district": "12",
+      "primary_date": "Jun 2, 2026",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL"
+    },
+    {
+      "state_code": "WV",
+      "district": "1",
+      "primary_date": "May 12, 2026",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL"
+    },
+    {
+      "state_code": "WV",
+      "district": "2",
+      "primary_date": "May 12, 2026",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tprimary_date\tstatus\tcalled_winner\tcalled_party\nNE\t1\tMay 12, 2026\tScheduled\tNULL\tNULL\nNE\t2\tMay 12, 2026\tScheduled\tNULL\tNULL\nNE\t3\tMay 12, 2026\tScheduled\tNULL\tNULL\nNJ\t1\tJun 2, 2026\tScheduled\tNULL\tNULL\nNJ\t2\tJun 2, 2026\tScheduled\tNULL\tNULL\nNJ\t3\tJun 2, 2026\tScheduled\tNULL\tNULL\nNJ\t4\tJun 2, 2026\tScheduled\tNULL\tNULL\nNJ\t5\tJun 2, 2026\tScheduled\tNULL\tNULL\nNJ\t6\tJun 2, 2026\tScheduled\tNULL\tNULL\nNJ\t7\tJun 2, 2026\tScheduled\tNULL\tNULL\nNJ\t8\tJun 2, 2026\tScheduled\tNULL\tNULL\nNJ\t9\tJun 2, 2026\tScheduled\tNULL\tNULL\nNJ\t10\tJun 2, 2026\tScheduled\tNULL\tNULL\nNJ\t11\tNULL\tCalled\tAnalilia Mejia\tD\nNJ\t12\tJun 2, 2026\tScheduled\tNULL\tNULL\nWV\t1\tMay 12, 2026\tScheduled\tNULL\tNULL\nWV\t2\tMay 12, 2026\tScheduled\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 261
+}
