@@ -156,26 +156,32 @@ function geoAcquire(): Promise<void> {
   return new Promise(resolve => geoQueue.push(resolve));
 }
 function geoRelease() {
+  geoActiveCount = Math.max(0, geoActiveCount - 1);
   const next = geoQueue.shift();
-  if (next) { next(); } else { geoActiveCount--; }
+  if (next) { geoActiveCount++; next(); }
 }
 
 async function fetchGeoJsonFile(fileName: string): Promise<GeoJSON.FeatureCollection | null> {
   // Deduplicate: if the same file is already being fetched, wait for that promise
   if (geoFetchInFlight.has(fileName)) return geoFetchInFlight.get(fileName)!;
   const promise = (async () => {
+    // Hard timeout: if acquire + fetch takes > 30s, release permit and return null
+    const timeoutSignal = AbortSignal.timeout ? AbortSignal.timeout(30000) : undefined;
     await geoAcquire();
     try {
       // Retry up to 3 times with exponential backoff for transient failures
       for (let attempt = 0; attempt < 3; attempt++) {
         try {
-          const res = await fetch(`/api/geojson/${encodeURIComponent(fileName)}`);
+          const res = await fetch(`/api/geojson/${encodeURIComponent(fileName)}`, { signal: timeoutSignal });
           if (res.ok) {
             const data = await res.json() as GeoJSON.FeatureCollection;
             return data;
           }
           if (res.status === 404) return null; // File genuinely missing — don't retry
-        } catch { /* network error — retry */ }
+        } catch (e) {
+          if (e instanceof DOMException && e.name === 'AbortError') return null; // timeout
+          /* network error — retry */
+        }
         if (attempt < 2) await new Promise(r => setTimeout(r, 300 * (attempt + 1)));
       }
       return null;

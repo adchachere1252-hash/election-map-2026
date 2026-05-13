@@ -1,0 +1,84 @@
+{
+  "query": "SELECT state_code, district, status, candidate1_name, candidate1_party, \n       candidate1_vote_pct, candidate2_name, candidate2_party, candidate2_vote_pct,\n       called_winner, called_party, updated_at\nFROM house_races \nWHERE state_code IN ('WV', 'NE')\nORDER BY state_code, district;\n\nSELECT state_code, status, candidate1_name, candidate1_party,\n       candidate1_vote_pct, candidate2_name, candidate2_party, candidate2_vote_pct,\n       called_winner, called_party, updated_at\nFROM senate_races\nWHERE state_code IN ('WV', 'NE');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, district, status, candidate1_name, candidate1_party, \n       candidate1_vote_pct, candidate2_name, candidate2_party, candidate2_vote_pct,\n       called_winner, called_party, updated_at\nFROM house_races \nWHERE state_code IN ('WV', 'NE')\nORDER BY state_code, district;\n\nSELECT state_code, status, candidate1_name, candidate1_party,\n       candidate1_vote_pct, candidate2_name, candidate2_party, candidate2_vote_pct,\n       called_winner, called_party, updated_at\nFROM senate_races\nWHERE state_code IN ('WV', 'NE');",
+  "rows": [
+    {
+      "state_code": "NE",
+      "district": "1",
+      "status": "Scheduled",
+      "candidate1_name": "Eric Moyer",
+      "candidate1_party": "D",
+      "candidate1_vote_pct": "0.00",
+      "candidate2_name": "Chris Backemeyer",
+      "candidate2_party": "D",
+      "candidate2_vote_pct": "0.00",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "updated_at": "2026-05-12 22:13:13"
+    },
+    {
+      "state_code": "NE",
+      "district": "2",
+      "status": "Scheduled",
+      "candidate1_name": "Crystal Rhoades",
+      "candidate1_party": "D",
+      "candidate1_vote_pct": "0.00",
+      "candidate2_name": "Van Argyrakis",
+      "candidate2_party": "D",
+      "candidate2_vote_pct": "0.00",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "updated_at": "2026-05-12 22:13:13"
+    },
+    {
+      "state_code": "NE",
+      "district": "3",
+      "status": "Scheduled",
+      "candidate1_name": "Becky Stille",
+      "candidate1_party": "D",
+      "candidate1_vote_pct": "0.00",
+      "candidate2_name": "Adrian Smith",
+      "candidate2_party": "R",
+      "candidate2_vote_pct": "0.00",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "updated_at": "2026-05-12 22:13:13"
+    },
+    {
+      "state_code": "WV",
+      "district": "1",
+      "status": "Scheduled",
+      "candidate1_name": "Carol Miller",
+      "candidate1_party": "R",
+      "candidate1_vote_pct": "72.40",
+      "candidate2_name": "Vince George",
+      "candidate2_party": "D",
+      "candidate2_vote_pct": "52.60",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "updated_at": "2026-05-13 00:48:10"
+    },
+    {
+      "state_code": "WV",
+      "district": "2",
+      "status": "Scheduled",
+      "candidate1_name": "Ace Parsi",
+      "candidate1_party": "D",
+      "candidate1_vote_pct": "41.30",
+      "candidate2_name": "Stephanie Tomana",
+      "candidate2_party": "D",
+      "candidate2_vote_pct": "40.30",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "updated_at": "2026-05-13 00:48:10"
+    }
+  ],
+  "messages": [
+    "state_code\tstatus\tcandidate1_name\tcandidate1_party\tcandidate1_vote_pct\tcandidate2_name\tcandidate2_party\tcandidate2_vote_pct\tcalled_winner\tcalled_party\tupdated_at",
+    "NE\tScheduled\tMac Stevens\tR\t0.00\tPete Ricketts\tR\t0.00\tNULL\tNULL\t2026-05-12 22:13:13",
+    "WV\tCalled\tTBD — Democratic Primary\tD\tNULL\tShelley Moore Capito\tR\tNULL\tShelley Moore Capito\tR\t2026-05-13 00:05:13"
+  ],
+  "stdout": "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate1_vote_pct\tcandidate2_name\tcandidate2_party\tcandidate2_vote_pct\tcalled_winner\tcalled_party\tupdated_at\nNE\t1\tScheduled\tEric Moyer\tD\t0.00\tChris Backemeyer\tD\t0.00\tNULL\tNULL\t2026-05-12 22:13:13\nNE\t2\tScheduled\tCrystal Rhoades\tD\t0.00\tVan Argyrakis\tD\t0.00\tNULL\tNULL\t2026-05-12 22:13:13\nNE\t3\tScheduled\tBecky Stille\tD\t0.00\tAdrian Smith\tR\t0.00\tNULL\tNULL\t2026-05-12 22:13:13\nWV\t1\tScheduled\tCarol Miller\tR\t72.40\tVince George\tD\t52.60\tNULL\tNULL\t2026-05-13 00:48:10\nWV\t2\tScheduled\tAce Parsi\tD\t41.30\tStephanie Tomana\tD\t40.30\tNULL\tNULL\t2026-05-13 00:48:10\nstate_code\tstatus\tcandidate1_name\tcandidate1_party\tcandidate1_vote_pct\tcandidate2_name\tcandidate2_party\tcandidate2_vote_pct\tcalled_winner\tcalled_party\tupdated_at\nNE\tScheduled\tMac Stevens\tR\t0.00\tPete Ricketts\tR\t0.00\tNULL\tNULL\t2026-05-12 22:13:13\nWV\tCalled\tTBD — Democratic Primary\tD\tNULL\tShelley Moore Capito\tR\tNULL\tShelley Moore Capito\tR\t2026-05-13 00:05:13\n",
+  "stderr": "",
+  "execution_time_ms": 262
+}
