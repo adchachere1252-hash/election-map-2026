@@ -1,0 +1,55 @@
+{
+  "query": "\n-- NE Senate: Both primaries called — promote to General\nUPDATE senate_races \nSET status = 'General'\nWHERE state_name = 'Nebraska';\n\n-- Also check NE House races\nSELECT state_name, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status\nFROM house_races WHERE state_name IN ('Nebraska', 'West Virginia') ORDER BY state_name, district;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- NE Senate: Both primaries called — promote to General\nUPDATE senate_races \nSET status = 'General'\nWHERE state_name = 'Nebraska';\n\n-- Also check NE House races\nSELECT state_name, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status\nFROM house_races WHERE state_name IN ('Nebraska', 'West Virginia') ORDER BY state_name, district;\n",
+  "rows": [
+    {
+      "state_name": "Nebraska",
+      "district": "1",
+      "candidate1_name": "Chris Backemeyer",
+      "candidate1_party": "D",
+      "candidate2_name": "Eric Moyer",
+      "candidate2_party": "D",
+      "status": "General"
+    },
+    {
+      "state_name": "Nebraska",
+      "district": "2",
+      "candidate1_name": "Denise Powell",
+      "candidate1_party": "D",
+      "candidate2_name": "John Cavanaugh",
+      "candidate2_party": "D",
+      "status": "Primary"
+    },
+    {
+      "state_name": "Nebraska",
+      "district": "3",
+      "candidate1_name": "Adrian Smith",
+      "candidate1_party": "R",
+      "candidate2_name": "Adrian Smith",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "state_name": "West Virginia",
+      "district": "1",
+      "candidate1_name": "Carol Miller",
+      "candidate1_party": "R",
+      "candidate2_name": "Carol Miller",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "state_name": "West Virginia",
+      "district": "2",
+      "candidate1_name": "Ace Parsi",
+      "candidate1_party": "D",
+      "candidate2_name": "Riley Moore",
+      "candidate2_party": "R",
+      "status": "General"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_name\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\nNebraska\t1\tChris Backemeyer\tD\tEric Moyer\tD\tGeneral\nNebraska\t2\tDenise Powell\tD\tJohn Cavanaugh\tD\tPrimary\nNebraska\t3\tAdrian Smith\tR\tAdrian Smith\tR\tGeneral\nWest Virginia\t1\tCarol Miller\tR\tCarol Miller\tR\tGeneral\nWest Virginia\t2\tAce Parsi\tD\tRiley Moore\tR\tGeneral\n",
+  "stderr": "",
+  "execution_time_ms": 283
+}

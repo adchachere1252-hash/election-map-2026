@@ -1,0 +1,9 @@
+{
+  "query": "\n-- NE-1: Fix — Mike Flood (R) is the Republican candidate (uncontested), Chris Backemeyer (D) is the Dem winner\nUPDATE house_races\nSET candidate2_name = 'Mike Flood',\n    candidate2_party = 'R'\nWHERE state_name = 'Nebraska' AND district = 1;\n\n-- NE-3: Fix — Adrian Smith (R) vs Bill Stille (D) — set Dem candidate\nUPDATE house_races\nSET candidate1_name = 'Bill Stille',\n    candidate1_party = 'D'\nWHERE state_name = 'Nebraska' AND district = 3;\n\n-- WV-1: Fix — Carol Miller (R) vs Democratic challenger (TBD from primary)\n-- WV-1 Democratic primary winner needs to be set; for now set a placeholder\nUPDATE house_races\nSET candidate1_name = 'TBD — Democratic Primary',\n    candidate1_party = 'D'\nWHERE state_name = 'West Virginia' AND district = 1;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- NE-1: Fix — Mike Flood (R) is the Republican candidate (uncontested), Chris Backemeyer (D) is the Dem winner\nUPDATE house_races\nSET candidate2_name = 'Mike Flood',\n    candidate2_party = 'R'\nWHERE state_name = 'Nebraska' AND district = 1;\n\n-- NE-3: Fix — Adrian Smith (R) vs Bill Stille (D) — set Dem candidate\nUPDATE house_races\nSET candidate1_name = 'Bill Stille',\n    candidate1_party = 'D'\nWHERE state_name = 'Nebraska' AND district = 3;\n\n-- WV-1: Fix — Carol Miller (R) vs Democratic challenger (TBD from primary)\n-- WV-1 Democratic primary winner needs to be set; for now set a placeholder\nUPDATE house_races\nSET candidate1_name = 'TBD — Democratic Primary',\n    candidate1_party = 'D'\nWHERE state_name = 'West Virginia' AND district = 1;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 285
+}

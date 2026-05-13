@@ -1,0 +1,28 @@
+{
+  "query": "\n-- NE Governor: Lynne Walz (D) wins primary, Jim Pillen (R) wins primary\nUPDATE governor_races\nSET dem_candidate = 'Lynne Walz',\n    primary_winner = 'Lynne Walz',\n    primary_party = 'D'\nWHERE state_name = 'Nebraska';\n\n-- Verify WV Senate update worked\nSELECT state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, primary_winner\nFROM senate_races WHERE state_name IN ('West Virginia', 'Nebraska');\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- NE Governor: Lynne Walz (D) wins primary, Jim Pillen (R) wins primary\nUPDATE governor_races\nSET dem_candidate = 'Lynne Walz',\n    primary_winner = 'Lynne Walz',\n    primary_party = 'D'\nWHERE state_name = 'Nebraska';\n\n-- Verify WV Senate update worked\nSELECT state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, primary_winner\nFROM senate_races WHERE state_name IN ('West Virginia', 'Nebraska');\n",
+  "rows": [
+    {
+      "state_name": "Nebraska",
+      "candidate1_name": "Cindy Burbank",
+      "candidate1_party": "D",
+      "candidate2_name": "Pete Ricketts",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "primary_winner": "Cindy Burbank"
+    },
+    {
+      "state_name": "West Virginia",
+      "candidate1_name": "Rachel Fetty Anderson",
+      "candidate1_party": "D",
+      "candidate2_name": "Shelley Moore Capito",
+      "candidate2_party": "R",
+      "status": "General",
+      "primary_winner": "Rachel Fetty Anderson"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_name\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tprimary_winner\nNebraska\tCindy Burbank\tD\tPete Ricketts\tR\tPrimary\tCindy Burbank\nWest Virginia\tRachel Fetty Anderson\tD\tShelley Moore Capito\tR\tGeneral\tRachel Fetty Anderson\n",
+  "stderr": "",
+  "execution_time_ms": 273
+}
