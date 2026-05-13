@@ -332,6 +332,7 @@ async function startServer() {
     createExpressMiddleware({
       router: appRouter,
       createContext,
+      allowMethodOverride: true, // allow POST for query procedures (needed when batch GET URL exceeds 414 limit)
     })
   );
   // development mode uses Vite, production mode uses static files

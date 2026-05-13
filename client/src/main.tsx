@@ -43,9 +43,8 @@ const trpcClient = trpc.createClient({
     httpBatchLink({
       url: "/api/trpc",
       transformer: superjson,
-      // Use POST for all batch requests so large payloads go in the body
-      // instead of the URL — prevents HTTP 414 Request-URI Too Large errors
-      // when many queries are batched together (e.g., 435 house races + governors)
+      // POST avoids HTTP 414 Request-URI Too Large when 435+ house races batch into a single GET URL
+      // Server has allowMethodOverride:true to accept POST for query procedures
       methodOverride: "POST",
       fetch(input, init) {
         return globalThis.fetch(input, {
