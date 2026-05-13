@@ -315,6 +315,15 @@ async function _doWarmupCongress(congress: number): Promise<void> {
 // Congresses are ready first, enabling play to start quickly.
 let fullWarmupStarted = false;
 async function startFullWarmup(startFrom: number = CONGRESS_START) {
+  // Restart if cache was cleared (e.g., after hot-reload or component remount)
+  if (fullWarmupStarted && layerDataCache.size > 0) return;
+  // Reset progress state so the UI shows accurate progress on restart
+  if (layerDataCache.size === 0) {
+    fullWarmupStarted = false;
+    warmupInFlight.clear();
+    warmupState = { done: 0, total: TOTAL_CONGRESSES, ready: false };
+    notifyWarmup();
+  }
   if (fullWarmupStarted) return;
   fullWarmupStarted = true;
 
@@ -736,8 +745,8 @@ function TimelineSlider({ congress, onChange, isPlaying, onPlayToggle, speedIdx,
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function MapComparison() {
-  const [congressA, setCongressA] = useState(CONGRESS_START);
-  const [congressB, setCongressB] = useState(CONGRESS_START);
+  const [congressA, setCongressA] = useState(CONGRESS_END);
+  const [congressB, setCongressB] = useState(CONGRESS_END);
   const [compareMode, setCompareMode] = useState(false);
   const [selectedState, setSelectedState] = useState("");
   const [districtPopup, setDistrictPopup] = useState<Record<string, unknown> | null>(null);

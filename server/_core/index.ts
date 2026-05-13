@@ -33,7 +33,7 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 
 async function startServer() {
   const app = express();
-  const server = createServer(app);
+  const server = createServer({ maxHeaderSize: 65536 }, app); // 64KB header limit for large tRPC batch GET requests
   // Enable gzip compression for all responses (especially large GeoJSON files)
   app.use(compression());
   // Configure body parser with larger size limit for file uploads

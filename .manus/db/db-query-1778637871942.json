@@ -1,0 +1,34 @@
+{
+  "query": "SHOW COLUMNS FROM governor_races LIKE 'primary%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SHOW COLUMNS FROM governor_races LIKE 'primary%';",
+  "rows": [
+    {
+      "Field": "primary_date",
+      "Type": "varchar(64)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "primary_winner",
+      "Type": "varchar(128)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "primary_party",
+      "Type": "enum('D','R','I')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nprimary_date\tvarchar(64)\tYES\t\tNULL\t\nprimary_winner\tvarchar(128)\tYES\t\tNULL\t\nprimary_party\tenum('D','R','I')\tYES\t\tNULL\t\n",
+  "stderr": "",
+  "execution_time_ms": 273
+}

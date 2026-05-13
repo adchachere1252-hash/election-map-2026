@@ -1283,3 +1283,10 @@
 - [x] Enhance GeneralMatchupSection: replace raw notes with structured race context (incumbent info, seat type, general date, third-party candidates, rating source)
 - [x] Apply GeneralMatchupSection to GovernorRacePopup for races in General status
 - [x] Fix ticker: AP engine now explicitly sets status=Primary for primary-phase races and never sets calledWinner; cleared WV Senate called_winner that was incorrectly set from primary result
+
+## Historical Atlas & Governor Query Fixes (May 13, 2026)
+- [x] Fix Historical Atlas missing-states on remount: fullWarmupStarted module var now resets when layerDataCache is empty
+- [x] Fix Historical Atlas default congress changed from 89th to 119th (most recent, loads fastest)
+- [x] Fix HTTP 414 Request-URI Too Large: tRPC httpBatchLink now uses methodOverride=POST so batch queries go in body not URL
+- [x] Fix governor races query failing with 414 error (caused by large batched GET URL)
+- [x] Manifest verified: all 50 states present, no gaps in coverage from 89th to 119th Congress
