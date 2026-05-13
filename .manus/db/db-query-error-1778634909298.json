@@ -1,0 +1,8 @@
+{
+  "query": "\nUPDATE senate_races\nSET called_winner = 'Pete Ricketts',\n    called_party = 'R',\n    status = 'Called'\nWHERE state_code = 'NE';\n\nSELECT id, state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, called_winner, status\nFROM governor_races\nWHERE state_code = 'NE';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nUPDATE senate_races\nSET called_winner = 'Pete Ricketts',\n    called_party = 'R',\n    status = 'Called'\nWHERE state_code = 'NE';\n\nSELECT id, state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, called_winner, status\nFROM governor_races\nWHERE state_code = 'NE';\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 8: Unknown column 'candidate1_name' in 'field list'"
+  ]
+}

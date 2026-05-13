@@ -1,0 +1,55 @@
+{
+  "query": "\nSELECT id, state_code, district, candidate1_name, candidate1_party, candidate1_vote_pct,\n       candidate2_name, candidate2_party, candidate2_vote_pct,\n       called_winner, called_party, status, primary_date\nFROM house_races\nWHERE state_code = 'NE'\nORDER BY district;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT id, state_code, district, candidate1_name, candidate1_party, candidate1_vote_pct,\n       candidate2_name, candidate2_party, candidate2_vote_pct,\n       called_winner, called_party, status, primary_date\nFROM house_races\nWHERE state_code = 'NE'\nORDER BY district;\n",
+  "rows": [
+    {
+      "id": "234",
+      "state_code": "NE",
+      "district": "1",
+      "candidate1_name": "Chris Backemeyer",
+      "candidate1_party": "D",
+      "candidate1_vote_pct": "62.80",
+      "candidate2_name": "Eric Moyer",
+      "candidate2_party": "D",
+      "candidate2_vote_pct": "37.20",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "status": "Scheduled",
+      "primary_date": "May 12, 2026"
+    },
+    {
+      "id": "235",
+      "state_code": "NE",
+      "district": "2",
+      "candidate1_name": "John Cavanaugh",
+      "candidate1_party": "D",
+      "candidate1_vote_pct": "39.70",
+      "candidate2_name": "Denise Powell",
+      "candidate2_party": "D",
+      "candidate2_vote_pct": "36.00",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "status": "Scheduled",
+      "primary_date": "May 12, 2026"
+    },
+    {
+      "id": "236",
+      "state_code": "NE",
+      "district": "3",
+      "candidate1_name": "Adrian Smith",
+      "candidate1_party": "R",
+      "candidate1_vote_pct": "58.20",
+      "candidate2_name": "David Huebner",
+      "candidate2_party": "R",
+      "candidate2_vote_pct": "41.80",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "status": "Scheduled",
+      "primary_date": "May 12, 2026"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate1_vote_pct\tcandidate2_name\tcandidate2_party\tcandidate2_vote_pct\tcalled_winner\tcalled_party\tstatus\tprimary_date\n234\tNE\t1\tChris Backemeyer\tD\t62.80\tEric Moyer\tD\t37.20\tNULL\tNULL\tScheduled\tMay 12, 2026\n235\tNE\t2\tJohn Cavanaugh\tD\t39.70\tDenise Powell\tD\t36.00\tNULL\tNULL\tScheduled\tMay 12, 2026\n236\tNE\t3\tAdrian Smith\tR\t58.20\tDavid Huebner\tR\t41.80\tNULL\tNULL\tScheduled\tMay 12, 2026\n",
+  "stderr": "",
+  "execution_time_ms": 260
+}

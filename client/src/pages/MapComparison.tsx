@@ -148,7 +148,7 @@ const geoFetchInFlight = new Map<string, Promise<GeoJSON.FeatureCollection | nul
 
 // Global semaphore: cap total concurrent GeoJSON HTTP requests to avoid
 // overwhelming the proxy (which forwards to GitHub CDN with rate limits).
-const GEO_CONCURRENCY = 6;
+const GEO_CONCURRENCY = 12;
 let geoActiveCount = 0;
 const geoQueue: Array<() => void> = [];
 function geoAcquire(): Promise<void> {

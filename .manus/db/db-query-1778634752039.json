@@ -1,0 +1,24 @@
+{
+  "query": "\nSELECT id, state_code, candidate1_name, candidate1_party, candidate1_vote_pct,\n       candidate2_name, candidate2_party, candidate2_vote_pct,\n       called_winner, called_party, status, primary_date\nFROM senate_races\nWHERE state_code = 'NE';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT id, state_code, candidate1_name, candidate1_party, candidate1_vote_pct,\n       candidate2_name, candidate2_party, candidate2_vote_pct,\n       called_winner, called_party, status, primary_date\nFROM senate_races\nWHERE state_code = 'NE';\n",
+  "rows": [
+    {
+      "id": "19",
+      "state_code": "NE",
+      "candidate1_name": "Cindy Burbank",
+      "candidate1_party": "D",
+      "candidate1_vote_pct": "90.30",
+      "candidate2_name": "Pete Ricketts",
+      "candidate2_party": "R",
+      "candidate2_vote_pct": "78.30",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "status": "Scheduled",
+      "primary_date": "May 12, 2026"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tcandidate1_name\tcandidate1_party\tcandidate1_vote_pct\tcandidate2_name\tcandidate2_party\tcandidate2_vote_pct\tcalled_winner\tcalled_party\tstatus\tprimary_date\n19\tNE\tCindy Burbank\tD\t90.30\tPete Ricketts\tR\t78.30\tNULL\tNULL\tScheduled\tMay 12, 2026\n",
+  "stderr": "",
+  "execution_time_ms": 253
+}

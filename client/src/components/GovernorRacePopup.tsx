@@ -303,7 +303,7 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
                   {race.otherVotes != null && (
                     <p className="text-[10px] text-muted-foreground mt-0.5">
                       {race.otherVotes.toLocaleString()} votes
-                      {race.otherVotePct != null && ` · ${race.otherVotePct.toFixed(1)}%`}
+                      {race.otherVotePct != null && ` · ${Number(race.otherVotePct).toFixed(1)}%`}
                     </p>
                   )}
                 </div>

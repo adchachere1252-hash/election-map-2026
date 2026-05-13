@@ -1,0 +1,28 @@
+{
+  "query": "\nUPDATE governor_races\nSET called_winner = 'Jim Pillen',\n    called_party = 'R',\n    status = 'Called'\nWHERE state_code = 'NE';\n\nSELECT state_code, called_winner, called_party, status FROM senate_races WHERE state_code = 'NE';\nSELECT state_code, called_winner, called_party, status FROM governor_races WHERE state_code = 'NE';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nUPDATE governor_races\nSET called_winner = 'Jim Pillen',\n    called_party = 'R',\n    status = 'Called'\nWHERE state_code = 'NE';\n\nSELECT state_code, called_winner, called_party, status FROM senate_races WHERE state_code = 'NE';\nSELECT state_code, called_winner, called_party, status FROM governor_races WHERE state_code = 'NE';\n",
+  "rows": [
+    {
+      "state_code": "NE",
+      "called_winner": "Pete Ricketts",
+      "called_party": "R",
+      "status": "Called"
+    },
+    {
+      "state_code": "state_code",
+      "called_winner": "called_winner",
+      "called_party": "called_party",
+      "status": "status"
+    },
+    {
+      "state_code": "NE",
+      "called_winner": "Jim Pillen",
+      "called_party": "R",
+      "status": "Called"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tcalled_winner\tcalled_party\tstatus\nNE\tPete Ricketts\tR\tCalled\nstate_code\tcalled_winner\tcalled_party\tstatus\nNE\tJim Pillen\tR\tCalled\n",
+  "stderr": "",
+  "execution_time_ms": 266
+}
