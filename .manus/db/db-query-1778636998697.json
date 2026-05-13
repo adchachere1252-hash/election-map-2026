@@ -1,0 +1,94 @@
+{
+  "query": "\nSELECT 'house' as chamber, state_code, state_name, district, status, called_winner, called_party, primary_winner, primary_party, updated_at\nFROM house_races WHERE status IN ('Called','Certified') OR called_winner IS NOT NULL\nORDER BY updated_at DESC LIMIT 30;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT 'house' as chamber, state_code, state_name, district, status, called_winner, called_party, primary_winner, primary_party, updated_at\nFROM house_races WHERE status IN ('Called','Certified') OR called_winner IS NOT NULL\nORDER BY updated_at DESC LIMIT 30;\n",
+  "rows": [
+    {
+      "chamber": "house",
+      "state_code": "GA",
+      "state_name": "Georgia",
+      "district": "14",
+      "status": "Called",
+      "called_winner": "Clay Fuller",
+      "called_party": "R",
+      "primary_winner": "NULL",
+      "primary_party": "NULL",
+      "updated_at": "2026-05-12 22:13:13"
+    },
+    {
+      "chamber": "house",
+      "state_code": "VA",
+      "state_name": "Virginia",
+      "district": "11",
+      "status": "Called",
+      "called_winner": "James R. Walkinshaw",
+      "called_party": "D",
+      "primary_winner": "NULL",
+      "primary_party": "NULL",
+      "updated_at": "2026-05-11 15:07:35"
+    },
+    {
+      "chamber": "house",
+      "state_code": "NJ",
+      "state_name": "New Jersey",
+      "district": "11",
+      "status": "Called",
+      "called_winner": "Analilia Mejia",
+      "called_party": "D",
+      "primary_winner": "NULL",
+      "primary_party": "NULL",
+      "updated_at": "2026-04-22 23:06:38"
+    },
+    {
+      "chamber": "house",
+      "state_code": "FL",
+      "state_name": "Florida",
+      "district": "1",
+      "status": "Called",
+      "called_winner": "Jimmy Patronis",
+      "called_party": "R",
+      "primary_winner": "NULL",
+      "primary_party": "NULL",
+      "updated_at": "2026-04-11 21:33:34"
+    },
+    {
+      "chamber": "house",
+      "state_code": "TN",
+      "state_name": "Tennessee",
+      "district": "7",
+      "status": "Called",
+      "called_winner": "Matt Van Epps",
+      "called_party": "R",
+      "primary_winner": "NULL",
+      "primary_party": "NULL",
+      "updated_at": "2026-04-08 19:44:48"
+    },
+    {
+      "chamber": "house",
+      "state_code": "FL",
+      "state_name": "Florida",
+      "district": "6",
+      "status": "Called",
+      "called_winner": "Randy Fine",
+      "called_party": "R",
+      "primary_winner": "NULL",
+      "primary_party": "NULL",
+      "updated_at": "2026-04-08 19:44:48"
+    },
+    {
+      "chamber": "house",
+      "state_code": "AZ",
+      "state_name": "Arizona",
+      "district": "7",
+      "status": "Called",
+      "called_winner": "Adelita S. Grijalva",
+      "called_party": "D",
+      "primary_winner": "NULL",
+      "primary_party": "NULL",
+      "updated_at": "2026-04-08 19:44:48"
+    }
+  ],
+  "messages": [],
+  "stdout": "chamber\tstate_code\tstate_name\tdistrict\tstatus\tcalled_winner\tcalled_party\tprimary_winner\tprimary_party\tupdated_at\nhouse\tGA\tGeorgia\t14\tCalled\tClay Fuller\tR\tNULL\tNULL\t2026-05-12 22:13:13\nhouse\tVA\tVirginia\t11\tCalled\tJames R. Walkinshaw\tD\tNULL\tNULL\t2026-05-11 15:07:35\nhouse\tNJ\tNew Jersey\t11\tCalled\tAnalilia Mejia\tD\tNULL\tNULL\t2026-04-22 23:06:38\nhouse\tFL\tFlorida\t1\tCalled\tJimmy Patronis\tR\tNULL\tNULL\t2026-04-11 21:33:34\nhouse\tTN\tTennessee\t7\tCalled\tMatt Van Epps\tR\tNULL\tNULL\t2026-04-08 19:44:48\nhouse\tFL\tFlorida\t6\tCalled\tRandy Fine\tR\tNULL\tNULL\t2026-04-08 19:44:48\nhouse\tAZ\tArizona\t7\tCalled\tAdelita S. Grijalva\tD\tNULL\tNULL\t2026-04-08 19:44:48\n",
+  "stderr": "",
+  "execution_time_ms": 263
+}

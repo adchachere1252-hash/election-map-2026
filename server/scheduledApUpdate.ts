@@ -252,10 +252,18 @@ function buildUpdate(race: RaceResult | null, isGeneral: boolean): Record<string
       if (race.winnerParty) update.calledParty = race.winnerParty;
       update.status = "Called";
     } else {
-      // Primary: set primaryWinner + primaryParty (hides losers in popup)
+      // Primary: set primaryWinner + primaryParty ONLY — never touch calledWinner or set status=Called
+      // This ensures primary results NEVER appear in the ticker (which only shows Called/Certified races)
       update.primaryWinner = race.winner;
       if (race.winnerParty) update.primaryParty = race.winnerParty;
+      // Explicitly set status to Primary so any race accidentally left in Called gets corrected
+      update.status = "Primary";
+      // Safety: never set calledWinner for a primary race
+      // (calledWinner is reserved for general/special election winners only)
     }
+  } else if (!race.called && !isGeneral) {
+    // Voting in progress for a primary — ensure status reflects Primary, not Called
+    update.status = "Primary";
   }
 
   return update;

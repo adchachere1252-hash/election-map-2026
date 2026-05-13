@@ -1282,3 +1282,4 @@
 - [x] Fix ticker: only show primary winners (status=Called/Certified for primary-phase races), never show general election candidates or matchup info
 - [x] Enhance GeneralMatchupSection: replace raw notes with structured race context (incumbent info, seat type, general date, third-party candidates, rating source)
 - [x] Apply GeneralMatchupSection to GovernorRacePopup for races in General status
+- [x] Fix ticker: AP engine now explicitly sets status=Primary for primary-phase races and never sets calledWinner; cleared WV Senate called_winner that was incorrectly set from primary result

@@ -1,0 +1,21 @@
+{
+  "query": "\nSELECT 'senate' as chamber, state_code, state_name, status, called_winner, called_party, primary_winner, primary_party, updated_at\nFROM senate_races WHERE status IN ('Called','Certified') OR called_winner IS NOT NULL\nORDER BY updated_at DESC LIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT 'senate' as chamber, state_code, state_name, status, called_winner, called_party, primary_winner, primary_party, updated_at\nFROM senate_races WHERE status IN ('Called','Certified') OR called_winner IS NOT NULL\nORDER BY updated_at DESC LIMIT 20;\n",
+  "rows": [
+    {
+      "chamber": "senate",
+      "state_code": "WV",
+      "state_name": "West Virginia",
+      "status": "Called",
+      "called_winner": "Shelley Moore Capito",
+      "called_party": "R",
+      "primary_winner": "Shelley Moore Capito",
+      "primary_party": "R",
+      "updated_at": "2026-05-13 00:05:13"
+    }
+  ],
+  "messages": [],
+  "stdout": "chamber\tstate_code\tstate_name\tstatus\tcalled_winner\tcalled_party\tprimary_winner\tprimary_party\tupdated_at\nsenate\tWV\tWest Virginia\tCalled\tShelley Moore Capito\tR\tShelley Moore Capito\tR\t2026-05-13 00:05:13\n",
+  "stderr": "",
+  "execution_time_ms": 316
+}

@@ -1,0 +1,16 @@
+{
+  "query": "\n-- Check WV senate\nSELECT state_code, status, called_winner, primary_winner FROM senate_races WHERE state_code = 'WV';\n-- Also check for any senate races where called_winner is set but status is not Called/Certified (data inconsistency)\nSELECT state_code, status, called_winner, primary_winner FROM senate_races WHERE called_winner IS NOT NULL AND status NOT IN ('Called','Certified');\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- Check WV senate\nSELECT state_code, status, called_winner, primary_winner FROM senate_races WHERE state_code = 'WV';\n-- Also check for any senate races where called_winner is set but status is not Called/Certified (data inconsistency)\nSELECT state_code, status, called_winner, primary_winner FROM senate_races WHERE called_winner IS NOT NULL AND status NOT IN ('Called','Certified');\n",
+  "rows": [
+    {
+      "state_code": "WV",
+      "status": "Primary",
+      "called_winner": "NULL",
+      "primary_winner": "Shelley Moore Capito"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstatus\tcalled_winner\tprimary_winner\nWV\tPrimary\tNULL\tShelley Moore Capito\n",
+  "stderr": "",
+  "execution_time_ms": 260
+}
