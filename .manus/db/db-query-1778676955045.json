@@ -1,0 +1,35 @@
+{
+  "query": "\nSELECT state_name, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, called_winner\nFROM senate_races WHERE state_name IN ('West Virginia', 'Nebraska');\n\nSELECT state_name, district, status, candidate1_name, candidate2_name, called_winner\nFROM house_races WHERE state_name IN ('West Virginia', 'Nebraska') ORDER BY state_name, district;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state_name, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, called_winner\nFROM senate_races WHERE state_name IN ('West Virginia', 'Nebraska');\n\nSELECT state_name, district, status, candidate1_name, candidate2_name, called_winner\nFROM house_races WHERE state_name IN ('West Virginia', 'Nebraska') ORDER BY state_name, district;\n",
+  "rows": [
+    {
+      "state_name": "Nebraska",
+      "status": "General",
+      "candidate1_name": "Cindy Burbank",
+      "candidate1_party": "D",
+      "candidate2_name": "Pete Ricketts",
+      "candidate2_party": "R",
+      "called_winner": "NULL"
+    },
+    {
+      "state_name": "West Virginia",
+      "status": "General",
+      "candidate1_name": "Rachel Fetty Anderson",
+      "candidate1_party": "D",
+      "candidate2_name": "Shelley Moore Capito",
+      "candidate2_party": "R",
+      "called_winner": "NULL"
+    }
+  ],
+  "messages": [
+    "state_name\tdistrict\tstatus\tcandidate1_name\tcandidate2_name\tcalled_winner",
+    "Nebraska\t1\tPrimary\tChris Backemeyer\tEric Moyer\tNULL",
+    "Nebraska\t2\tPrimary\tDenise Powell\tJohn Cavanaugh\tNULL",
+    "Nebraska\t3\tPrimary\tAdrian Smith\tDavid Huebner\tNULL",
+    "West Virginia\t1\tPrimary\tCarol Miller\tVince George\tNULL",
+    "West Virginia\t2\tPrimary\tAce Parsi\tStephanie Tomana\tNULL"
+  ],
+  "stdout": "state_name\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tcalled_winner\nNebraska\tGeneral\tCindy Burbank\tD\tPete Ricketts\tR\tNULL\nWest Virginia\tGeneral\tRachel Fetty Anderson\tD\tShelley Moore Capito\tR\tNULL\nstate_name\tdistrict\tstatus\tcandidate1_name\tcandidate2_name\tcalled_winner\nNebraska\t1\tPrimary\tChris Backemeyer\tEric Moyer\tNULL\nNebraska\t2\tPrimary\tDenise Powell\tJohn Cavanaugh\tNULL\nNebraska\t3\tPrimary\tAdrian Smith\tDavid Huebner\tNULL\nWest Virginia\t1\tPrimary\tCarol Miller\tVince George\tNULL\nWest Virginia\t2\tPrimary\tAce Parsi\tStephanie Tomana\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 261
+}

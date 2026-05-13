@@ -222,30 +222,37 @@ function parseStateRaces(
 function buildUpdate(
   race: RaceResult | null,
   isGeneral: boolean,
-  raceType: 'senate' | 'house' | 'governor' = 'senate'
+  raceType: 'senate' | 'house' | 'governor' = 'senate',
+  currentStatus?: string | null
 ): Record<string, unknown> {
   if (!race) return {};
 
   const update: Record<string, unknown> = {};
   const sorted = [...race.candidates].sort((a, b) => (b.pct ?? 0) - (a.pct ?? 0));
 
-  if (sorted[0]) {
-    update.candidate1Name = sorted[0].name;
-    update.candidate1Party = sorted[0].party;
-    if (sorted[0].pct !== null) update.candidate1VotePct = Math.round(sorted[0].pct * 10) / 10;
-    if (sorted[0].votes !== null) update.candidate1Votes = sorted[0].votes;
-  }
-  if (sorted[1]) {
-    update.candidate2Name = sorted[1].name;
-    update.candidate2Party = sorted[1].party;
-    if (sorted[1].pct !== null) update.candidate2VotePct = Math.round(sorted[1].pct * 10) / 10;
-    if (sorted[1].votes !== null) update.candidate2Votes = sorted[1].votes;
-  }
-  if (sorted.length > 2) {
-    const others = sorted.slice(2);
-    update.otherCandidateName = others.map(c => c.name).join(", ");
-    update.otherVotes = others.reduce((sum, c) => sum + (c.votes ?? 0), 0);
-    update.otherVotePct = Math.round(others.reduce((sum, c) => sum + (c.pct ?? 0), 0) * 10) / 10;
+  // If the race is already in General status and this is a primary-phase update,
+  // do NOT overwrite candidate names/parties — those are the general election matchup candidates
+  const isAlreadyGeneral = currentStatus === 'General';
+
+  if (!isAlreadyGeneral || isGeneral) {
+    if (sorted[0]) {
+      update.candidate1Name = sorted[0].name;
+      update.candidate1Party = sorted[0].party;
+      if (sorted[0].pct !== null) update.candidate1VotePct = Math.round(sorted[0].pct * 10) / 10;
+      if (sorted[0].votes !== null) update.candidate1Votes = sorted[0].votes;
+    }
+    if (sorted[1]) {
+      update.candidate2Name = sorted[1].name;
+      update.candidate2Party = sorted[1].party;
+      if (sorted[1].pct !== null) update.candidate2VotePct = Math.round(sorted[1].pct * 10) / 10;
+      if (sorted[1].votes !== null) update.candidate2Votes = sorted[1].votes;
+    }
+    if (sorted.length > 2) {
+      const others = sorted.slice(2);
+      update.otherCandidateName = others.map(c => c.name).join(", ");
+      update.otherVotes = others.reduce((sum, c) => sum + (c.votes ?? 0), 0);
+      update.otherVotePct = Math.round(others.reduce((sum, c) => sum + (c.pct ?? 0), 0) * 10) / 10;
+    }
   }
   if (race.pctReporting > 0) {
     update.pctReporting = Math.round(race.pctReporting * 10) / 10;
@@ -262,11 +269,16 @@ function buildUpdate(
       update.primaryWinner = race.winner;
       if (race.winnerParty) update.primaryParty = race.winnerParty;
       // Governor uses Voting (no Primary in its enum); senate/house use Primary
-      update.status = raceType === 'governor' ? "Voting" : "Primary";
+      // NEVER downgrade from General — once a race is in General it stays there
+      if (currentStatus !== 'General') {
+        update.status = raceType === 'governor' ? "Voting" : "Primary";
+      }
     }
   } else if (!race.called && !isGeneral) {
-    // Voting in progress for a primary
-    update.status = raceType === 'governor' ? "Voting" : "Primary";
+    // Voting in progress for a primary — but never downgrade from General
+    if (currentStatus !== 'General') {
+      update.status = raceType === 'governor' ? "Voting" : "Primary";
+    }
   }
 
   // HARD SAFETY: strip calledWinner from any primary-phase update — no exceptions
@@ -362,9 +374,10 @@ export async function scrapeAndPushResults(): Promise<{
         id: number,
         raceResult: RaceResult | null,
         fn: (id: number, d: Record<string, unknown>) => Promise<void>,
-        raceType: 'senate' | 'house' | 'governor' = 'senate'
+        raceType: 'senate' | 'house' | 'governor' = 'senate',
+        currentStatus?: string | null
       ) => {
-        const payload = buildUpdate(raceResult, isGeneral, raceType);
+        const payload = buildUpdate(raceResult, isGeneral, raceType, currentStatus);
         if (Object.keys(payload).length === 0) {
           updates.push({ race: label, id, status: "skip", detail: "no AP data" });
           return;
@@ -402,7 +415,7 @@ export async function scrapeAndPushResults(): Promise<{
         const isSpecial = dbRace.isSpecial ?? false;
         const key = isSpecial ? "senate-special" : "senate";
         const apRace = senate[key] ?? senate["senate"] ?? null;
-        await doUpdate(`${stateCode} Senate${isSpecial ? " (Special)" : ""}`, dbRace.id, apRace, updateSenateRace, 'senate');
+        await doUpdate(`${stateCode} Senate${isSpecial ? " (Special)" : ""}`, dbRace.id, apRace, updateSenateRace, 'senate', dbRace.status);
       }
 
       // House races for this state
@@ -410,13 +423,13 @@ export async function scrapeAndPushResults(): Promise<{
       for (const dbRace of stateHouseRaces) {
         const district = dbRace.district ?? 1;
         const apRace = house[district] ?? null;
-        await doUpdate(`${stateCode}-${district}`, dbRace.id, apRace, updateHouseRace, 'house');
+        await doUpdate(`${stateCode}-${district}`, dbRace.id, apRace, updateHouseRace, 'house', dbRace.status);
       }
 
       // Governor race for this state
       const stateGovRace = allGovernor.find(r => r.stateCode === stateCode);
       if (stateGovRace && governor) {
-        await doUpdate(`${stateCode} Governor`, stateGovRace.id, governor, updateGovernorRace, 'governor');
+        await doUpdate(`${stateCode} Governor`, stateGovRace.id, governor, updateGovernorRace, 'governor', stateGovRace.status);
       }
 
     } catch (err) {

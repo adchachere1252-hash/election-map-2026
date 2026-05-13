@@ -1,0 +1,45 @@
+{
+  "query": "\n-- NE-1: Mike Flood (R) vs Chris Backemeyer (D)\nUPDATE house_races SET status='General', candidate1_name='Chris Backemeyer', candidate1_party='D', candidate2_name='Mike Flood', candidate2_party='R' WHERE state_code='NE' AND district=1;\n\n-- NE-3: Adrian Smith (R) vs Becky Stille (D)\nUPDATE house_races SET status='General', candidate1_name='Becky Stille', candidate1_party='D', candidate2_name='Adrian Smith', candidate2_party='R' WHERE state_code='NE' AND district=3;\n\n-- WV-1: Carol Miller (R) vs Vince George (D)\nUPDATE house_races SET status='General', candidate1_name='Vince George', candidate1_party='D', candidate2_name='Carol Miller', candidate2_party='R' WHERE state_code='WV' AND district=1;\n\n-- NE-2 and WV-2 remain Primary (still undecided)\nSELECT state_code, district, status, candidate1_name, candidate2_name FROM house_races WHERE state_code IN ('NE','WV') ORDER BY state_code, district;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- NE-1: Mike Flood (R) vs Chris Backemeyer (D)\nUPDATE house_races SET status='General', candidate1_name='Chris Backemeyer', candidate1_party='D', candidate2_name='Mike Flood', candidate2_party='R' WHERE state_code='NE' AND district=1;\n\n-- NE-3: Adrian Smith (R) vs Becky Stille (D)\nUPDATE house_races SET status='General', candidate1_name='Becky Stille', candidate1_party='D', candidate2_name='Adrian Smith', candidate2_party='R' WHERE state_code='NE' AND district=3;\n\n-- WV-1: Carol Miller (R) vs Vince George (D)\nUPDATE house_races SET status='General', candidate1_name='Vince George', candidate1_party='D', candidate2_name='Carol Miller', candidate2_party='R' WHERE state_code='WV' AND district=1;\n\n-- NE-2 and WV-2 remain Primary (still undecided)\nSELECT state_code, district, status, candidate1_name, candidate2_name FROM house_races WHERE state_code IN ('NE','WV') ORDER BY state_code, district;\n",
+  "rows": [
+    {
+      "state_code": "NE",
+      "district": "1",
+      "status": "General",
+      "candidate1_name": "Chris Backemeyer",
+      "candidate2_name": "Mike Flood"
+    },
+    {
+      "state_code": "NE",
+      "district": "2",
+      "status": "General",
+      "candidate1_name": "Denise Powell",
+      "candidate2_name": "Brinker Harding"
+    },
+    {
+      "state_code": "NE",
+      "district": "3",
+      "status": "General",
+      "candidate1_name": "Becky Stille",
+      "candidate2_name": "Adrian Smith"
+    },
+    {
+      "state_code": "WV",
+      "district": "1",
+      "status": "General",
+      "candidate1_name": "Vince George",
+      "candidate2_name": "Carol Miller"
+    },
+    {
+      "state_code": "WV",
+      "district": "2",
+      "status": "General",
+      "candidate1_name": "Ace Parsi",
+      "candidate2_name": "Riley Moore"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate2_name\nNE\t1\tGeneral\tChris Backemeyer\tMike Flood\nNE\t2\tGeneral\tDenise Powell\tBrinker Harding\nNE\t3\tGeneral\tBecky Stille\tAdrian Smith\nWV\t1\tGeneral\tVince George\tCarol Miller\nWV\t2\tGeneral\tAce Parsi\tRiley Moore\n",
+  "stderr": "",
+  "execution_time_ms": 291
+}
