@@ -1,0 +1,28 @@
+{
+  "query": "\nUPDATE house_races\nSET candidate2_name = 'Carol Miller',\n    candidate2_party = 'R'\nWHERE state_name = 'West Virginia' AND district = 1;\n\n-- Verify final state\nSELECT state_name, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status\nFROM house_races WHERE state_name = 'West Virginia';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nUPDATE house_races\nSET candidate2_name = 'Carol Miller',\n    candidate2_party = 'R'\nWHERE state_name = 'West Virginia' AND district = 1;\n\n-- Verify final state\nSELECT state_name, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status\nFROM house_races WHERE state_name = 'West Virginia';\n",
+  "rows": [
+    {
+      "state_name": "West Virginia",
+      "district": "1",
+      "candidate1_name": "Vince George",
+      "candidate1_party": "D",
+      "candidate2_name": "Carol Miller",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "state_name": "West Virginia",
+      "district": "2",
+      "candidate1_name": "Ace Parsi",
+      "candidate1_party": "D",
+      "candidate2_name": "Stephanie Tomana",
+      "candidate2_party": "D",
+      "status": "Primary"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_name\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\nWest Virginia\t1\tVince George\tD\tCarol Miller\tR\tGeneral\nWest Virginia\t2\tAce Parsi\tD\tStephanie Tomana\tD\tPrimary\n",
+  "stderr": "",
+  "execution_time_ms": 277
+}
