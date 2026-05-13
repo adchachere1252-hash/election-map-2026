@@ -1290,3 +1290,4 @@
 - [x] Fix HTTP 414 Request-URI Too Large: tRPC httpBatchLink now uses methodOverride=POST so batch queries go in body not URL
 - [x] Fix governor races query failing with 414 error (caused by large batched GET URL)
 - [x] Manifest verified: all 50 states present, no gaps in coverage from 89th to 119th Congress
+- [x] Build primary-to-general promotion scheduled job (runs every 30 min, promoted 61 races on first run)

@@ -373,6 +373,38 @@ async function startServer() {
     }
   }, AUTO_UPDATE_INTERVAL_MS);
   console.log(`[AutoUpdate] AP results auto-update scheduled every ${AUTO_UPDATE_INTERVAL_MS / 1000}s`);
+
+  // ── Primary-to-General Promotion: check every 30 minutes ────────────────────
+  // After a primary date passes and primaryWinner is set, automatically promotes
+  // races from Primary → General status and populates the matchup card candidates.
+  const { runPrimaryToGeneralPromotion } = await import("../primaryToGeneralPromotion");
+  const PROMOTION_INTERVAL_MS = 30 * 60 * 1000; // 30 minutes
+  // Run once immediately on startup to catch any races that should already be promoted
+  (async () => {
+    try {
+      const r = await runPrimaryToGeneralPromotion();
+      if (r.promoted > 0 || r.errors > 0) {
+        console.log(`[Promotion] Startup run — Promoted: ${r.promoted} | Skipped: ${r.skipped} | Errors: ${r.errors}`);
+        r.log.forEach(line => console.log(`[Promotion] ${line}`));
+      } else {
+        console.log(`[Promotion] Startup run — No races to promote (${r.skipped} checked)`);
+      }
+    } catch (err) {
+      console.error("[Promotion] Startup error:", err instanceof Error ? err.message : String(err));
+    }
+  })();
+  setInterval(async () => {
+    try {
+      const r = await runPrimaryToGeneralPromotion();
+      if (r.promoted > 0 || r.errors > 0) {
+        console.log(`[Promotion] Done — Promoted: ${r.promoted} | Skipped: ${r.skipped} | Errors: ${r.errors}`);
+        r.log.forEach(line => console.log(`[Promotion] ${line}`));
+      }
+    } catch (err) {
+      console.error("[Promotion] Error:", err instanceof Error ? err.message : String(err));
+    }
+  }, PROMOTION_INTERVAL_MS);
+  console.log(`[Promotion] Primary-to-General promotion scheduled every ${PROMOTION_INTERVAL_MS / 60000} minutes`);
 }
 
 startServer().catch(console.error);
