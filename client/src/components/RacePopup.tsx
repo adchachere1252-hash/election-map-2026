@@ -100,6 +100,71 @@ function CandidateRow({
   );
 }
 
+function GeneralMatchupSection({
+  candidate1Name, candidate1Party,
+  candidate2Name, candidate2Party,
+  rating, notes
+}: {
+  candidate1Name: string | null | undefined;
+  candidate1Party: string | null | undefined;
+  candidate2Name: string | null | undefined;
+  candidate2Party: string | null | undefined;
+  rating?: string | null;
+  notes?: string | null;
+}) {
+  if (!candidate1Name || !candidate2Name) return null;
+  return (
+    <>
+      <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-2">November General Election Matchup</p>
+      <div className="rounded-lg border border-blue-700/40 bg-blue-950/30 p-3 mb-3">
+        <div className="flex items-center justify-between gap-3">
+          {/* Candidate 1 */}
+          <div className="flex flex-col items-center gap-1.5 flex-1 min-w-0">
+            <CandidateAvatar name={candidate1Name} party={candidate1Party} size={44} />
+            <span className="text-sm font-semibold text-center leading-tight">{candidate1Name}</span>
+            <span
+              className="text-xs font-bold px-2 py-0.5 rounded"
+              style={{
+                background: getPartyColor(candidate1Party as any) + "33",
+                color: getPartyColor(candidate1Party as any)
+              }}
+            >
+              {getPartyLabel(candidate1Party as any)}
+            </span>
+          </div>
+          {/* VS divider */}
+          <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
+            <span className="text-base font-black text-muted-foreground">VS</span>
+            {rating && (
+              <span className={`text-xs font-bold px-1.5 py-0.5 rounded ${getRatingClass(rating as any)}`}>{rating}</span>
+            )}
+          </div>
+          {/* Candidate 2 */}
+          <div className="flex flex-col items-center gap-1.5 flex-1 min-w-0">
+            <CandidateAvatar name={candidate2Name} party={candidate2Party} size={44} />
+            <span className="text-sm font-semibold text-center leading-tight">{candidate2Name}</span>
+            <span
+              className="text-xs font-bold px-2 py-0.5 rounded"
+              style={{
+                background: getPartyColor(candidate2Party as any) + "33",
+                color: getPartyColor(candidate2Party as any)
+              }}
+            >
+              {getPartyLabel(candidate2Party as any)}
+            </span>
+          </div>
+        </div>
+        {notes && (
+          <div className="mt-2.5 flex items-start gap-1.5 bg-yellow-900/30 border border-yellow-700/40 rounded px-2 py-1.5">
+            <AlertCircle className="w-3 h-3 text-yellow-400 mt-0.5 flex-shrink-0" />
+            <span className="text-xs text-yellow-300">{notes}</span>
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
 function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose: () => void; onFocusMap?: () => void }) {
   const { data: senators } = trpc.senators.byState.useQuery({ stateCode: race.stateCode });
   const [selectedSenatorId, setSelectedSenatorId] = useState<number | null>(null);
@@ -189,14 +254,22 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
         </div>
       )}
 
-      {(race.candidate1Name || race.candidate2Name) && (
+      {race.status === "General" ? (
+        <GeneralMatchupSection
+          candidate1Name={race.candidate1Name}
+          candidate1Party={race.candidate1Party}
+          candidate2Name={race.candidate2Name}
+          candidate2Party={race.candidate2Party}
+          rating={race.rating}
+          notes={race.notes}
+        />
+      ) : (race.candidate1Name || race.candidate2Name) ? (
         <div className="space-y-1.5 mb-3">
           {(() => {
             const primaryWinner = (race as any).primaryWinner as string | null | undefined;
             const calledWinner = race.calledWinner;
             const effectiveWinner = calledWinner || primaryWinner || null;
             const isPrimary = !!primaryWinner && !calledWinner;
-            // Only show vote percentages during Primary night or when race is Called/Certified
             const showVotes = race.status === "Primary" || race.status === "Called" || race.status === "Certified";
             return (
               <>
@@ -241,7 +314,7 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
             );
           })()}
         </div>
-      )}
+      ) : null}
 
       <div className="border-t border-border pt-2 space-y-1">
         {race.primaryDate && (
@@ -262,7 +335,7 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
             <span>General: {race.generalDate}</span>
           </div>
         )}
-        {race.notes && (
+        {race.notes && race.status !== "General" && (
           <div className="flex items-start gap-2 text-xs text-yellow-400 mt-1">
             <AlertCircle className="w-3 h-3 mt-0.5 flex-shrink-0" />
             <span>{race.notes}</span>
@@ -327,14 +400,22 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
         </div>
       )}
 
-      {(race.candidate1Name || race.candidate2Name) && (
+      {race.status === "General" ? (
+        <GeneralMatchupSection
+          candidate1Name={race.candidate1Name}
+          candidate1Party={race.candidate1Party}
+          candidate2Name={race.candidate2Name}
+          candidate2Party={race.candidate2Party}
+          rating={race.rating}
+          notes={race.notes}
+        />
+      ) : (race.candidate1Name || race.candidate2Name) ? (
         <div className="space-y-1.5 mb-3">
           {(() => {
             const primaryWinner = (race as any).primaryWinner as string | null | undefined;
             const calledWinner = race.calledWinner;
             const effectiveWinner = calledWinner || primaryWinner || null;
             const isPrimary = !!primaryWinner && !calledWinner;
-            // Only show vote percentages during Primary night or when race is Called/Certified
             const showVotes = race.status === "Primary" || race.status === "Called" || race.status === "Certified";
             return (
               <>
@@ -379,7 +460,7 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
             );
           })()}
         </div>
-      )}
+      ) : null}
 
       <div className="border-t border-border pt-2 space-y-1">
         {race.primaryDate && (
@@ -394,7 +475,7 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
             <span>General: {race.generalDate}</span>
           </div>
         )}
-        {race.notes && (
+        {race.notes && race.status !== "General" && (
           <div className="flex items-start gap-2 text-xs text-yellow-400 mt-1">
             <AlertCircle className="w-3 h-3 mt-0.5 flex-shrink-0" />
             <span>{race.notes}</span>
