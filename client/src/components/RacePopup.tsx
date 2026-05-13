@@ -195,41 +195,67 @@ function GeneralMatchupSection({
     contextLines.push(`Election day: ${generalDate}.`);
   }
 
+  const photoSize = chamber === "senate" || chamber === "governor" ? 72 : 60;
+  const c1Color = getPartyColor(candidate1Party as any);
+  const c2Color = getPartyColor(candidate2Party as any);
+
   return (
     <>
       <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-2">November General Election Matchup</p>
-      <div className="rounded-lg border border-blue-700/40 bg-blue-950/30 p-3 mb-3">
-        <div className="flex items-center justify-between gap-3">
+      <div className="rounded-lg overflow-hidden border border-white/10 mb-3" style={{ background: "linear-gradient(135deg, " + c1Color + "18 0%, transparent 50%, " + c2Color + "18 100%)" }}>
+        {/* Photo row with split gradient */}
+        <div className="relative flex items-stretch">
+          {/* Left half tint */}
+          <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to right, " + c1Color + "22 0%, transparent 50%)" }} />
+          {/* Right half tint */}
+          <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to left, " + c2Color + "22 0%, transparent 50%)" }} />
+
           {/* Candidate 1 */}
-          <div className="flex flex-col items-center gap-1.5 flex-1 min-w-0">
-            <CandidateAvatar name={candidate1Name} party={candidate1Party} size={44} />
-            <span className="text-sm font-semibold text-center leading-tight">{candidate1Name}</span>
+          <div className="flex flex-col items-center gap-2 flex-1 min-w-0 px-3 pt-4 pb-3 z-10">
+            <div
+              className="rounded-full p-[3px] flex-shrink-0"
+              style={{ background: "linear-gradient(135deg, " + c1Color + ", " + c1Color + "88)" }}
+            >
+              <CandidateAvatar name={candidate1Name} party={candidate1Party} size={photoSize} />
+            </div>
+            <span className="text-sm font-bold text-center leading-tight">{candidate1Name}</span>
             <span
-              className="text-xs font-bold px-2 py-0.5 rounded"
+              className="text-xs font-bold px-2.5 py-0.5 rounded-full"
               style={{
-                background: getPartyColor(candidate1Party as any) + "33",
-                color: getPartyColor(candidate1Party as any)
+                background: c1Color + "33",
+                color: c1Color,
+                border: "1px solid " + c1Color + "55"
               }}
             >
               {getPartyLabel(candidate1Party as any)}
             </span>
           </div>
+
           {/* VS divider */}
-          <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
-            <span className="text-base font-black text-muted-foreground">VS</span>
+          <div className="flex flex-col items-center justify-center gap-2 flex-shrink-0 px-1 z-10">
+            <div className="w-px h-8 bg-white/10" />
+            <span className="text-sm font-black text-white/40 tracking-widest">VS</span>
             {rating && (
-              <span className={`text-xs font-bold px-1.5 py-0.5 rounded ${getRatingClass(rating as any)}`}>{rating}</span>
+              <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${getRatingClass(rating as any)}`}>{rating}</span>
             )}
+            <div className="w-px h-8 bg-white/10" />
           </div>
+
           {/* Candidate 2 */}
-          <div className="flex flex-col items-center gap-1.5 flex-1 min-w-0">
-            <CandidateAvatar name={candidate2Name} party={candidate2Party} size={44} />
-            <span className="text-sm font-semibold text-center leading-tight">{candidate2Name}</span>
+          <div className="flex flex-col items-center gap-2 flex-1 min-w-0 px-3 pt-4 pb-3 z-10">
+            <div
+              className="rounded-full p-[3px] flex-shrink-0"
+              style={{ background: "linear-gradient(135deg, " + c2Color + ", " + c2Color + "88)" }}
+            >
+              <CandidateAvatar name={candidate2Name} party={candidate2Party} size={photoSize} />
+            </div>
+            <span className="text-sm font-bold text-center leading-tight">{candidate2Name}</span>
             <span
-              className="text-xs font-bold px-2 py-0.5 rounded"
+              className="text-xs font-bold px-2.5 py-0.5 rounded-full"
               style={{
-                background: getPartyColor(candidate2Party as any) + "33",
-                color: getPartyColor(candidate2Party as any)
+                background: c2Color + "33",
+                color: c2Color,
+                border: "1px solid " + c2Color + "55"
               }}
             >
               {getPartyLabel(candidate2Party as any)}
@@ -239,7 +265,7 @@ function GeneralMatchupSection({
 
         {/* Structured context block — replaces raw notes */}
         {contextLines.length > 0 && (
-          <div className="mt-2.5 bg-yellow-900/25 border border-yellow-700/35 rounded px-2.5 py-2 space-y-1">
+          <div className="mx-3 mb-3 bg-yellow-900/25 border border-yellow-700/35 rounded px-2.5 py-2 space-y-1">
             {contextLines.map((line, i) => (
               <div key={i} className="flex items-start gap-1.5">
                 <span className="text-yellow-500/70 mt-0.5 flex-shrink-0 text-[10px]">▸</span>

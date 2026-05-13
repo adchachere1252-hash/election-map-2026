@@ -1,0 +1,90 @@
+{
+  "query": "SELECT state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating FROM senate_races WHERE candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating FROM senate_races WHERE candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL LIMIT 10;",
+  "rows": [
+    {
+      "state_name": "Alabama",
+      "candidate1_name": "Dakarai Larriett",
+      "candidate1_party": "D",
+      "candidate2_name": "Kyle Sweetser",
+      "candidate2_party": "D",
+      "rating": "Solid R"
+    },
+    {
+      "state_name": "Alaska",
+      "candidate1_name": "Mary Peltola",
+      "candidate1_party": "D",
+      "candidate2_name": "Dan Sullivan",
+      "candidate2_party": "R",
+      "rating": "Lean R"
+    },
+    {
+      "state_name": "Arkansas",
+      "candidate1_name": "Hallie Shoffner",
+      "candidate1_party": "D",
+      "candidate2_name": "Tom Cotton",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_name": "Colorado",
+      "candidate1_name": "John Hickenlooper",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: June 30, 2026",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_name": "Delaware",
+      "candidate1_name": "Chris Coons",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Republican Primary",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_name": "Georgia",
+      "candidate1_name": "Earl Carter",
+      "candidate1_party": "R",
+      "candidate2_name": "Mike Collins",
+      "candidate2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "state_name": "Idaho",
+      "candidate1_name": "David Roth",
+      "candidate1_party": "D",
+      "candidate2_name": "Nickolas Bonds",
+      "candidate2_party": "D",
+      "rating": "Solid R"
+    },
+    {
+      "state_name": "Illinois",
+      "candidate1_name": "Juliana Stratton",
+      "candidate1_party": "D",
+      "candidate2_name": "Don Tracy",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_name": "Iowa",
+      "candidate1_name": "TBD — D Primary: June 2, 2026 (Turek, Wahls)",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: June 2, 2026 (Carlin, Hinson)",
+      "candidate2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "state_name": "Kansas",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate1_party": "D",
+      "candidate2_name": "Roger Marshall",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_name\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\trating\nAlabama\tDakarai Larriett\tD\tKyle Sweetser\tD\tSolid R\nAlaska\tMary Peltola\tD\tDan Sullivan\tR\tLean R\nArkansas\tHallie Shoffner\tD\tTom Cotton\tR\tSolid R\nColorado\tJohn Hickenlooper\tD\tTBD — R Primary: June 30, 2026\tR\tSolid D\nDelaware\tChris Coons\tD\tTBD — Republican Primary\tR\tSolid D\nGeorgia\tEarl Carter\tR\tMike Collins\tR\tLean D\nIdaho\tDavid Roth\tD\tNickolas Bonds\tD\tSolid R\nIllinois\tJuliana Stratton\tD\tDon Tracy\tR\tSolid D\nIowa\tTBD — D Primary: June 2, 2026 (Turek, Wahls)\tD\tTBD — R Primary: June 2, 2026 (Carlin, Hinson)\tR\tLikely R\nKansas\tTBD — Democratic Primary\tD\tRoger Marshall\tR\tSolid R\n",
+  "stderr": "",
+  "execution_time_ms": 342
+}

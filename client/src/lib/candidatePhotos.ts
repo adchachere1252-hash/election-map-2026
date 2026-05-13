@@ -494,6 +494,20 @@ export const BIOGUIDE_MAP: Record<string, string> = {
   "C. A. Dutch Ruppersberger": "R000576",
 };
 /**
+ * CDN photos for candidates who don't have bioguide IDs (non-Congress candidates).
+ * Keyed by lowercase name. Sourced from the project's CloudFront CDN.
+ */
+const CDN_BASE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663521029713/Duqshn4D3kdv9jkbtBdj4X";
+const CDN_PHOTOS: Record<string, string> = {
+  "juliana stratton":     `${CDN_BASE}/juliana-stratton_a6b800ae.jpg`,
+  "laurie buckhout":      `${CDN_BASE}/laurie-buckhout_18f4c9b7.jpg`,
+  "gary peters":          `${CDN_BASE}/gary-peters_50e7899d.jpg`,
+  "tina smith":           `${CDN_BASE}/tina-smith_853cdf1a.jpg`,
+  "jeanne shaheen":       `${CDN_BASE}/jeanne-shaheen_9a7397d7.jpg`,
+  "dick durbin":          `${CDN_BASE}/dick-durbin_05b3c956.jpg`,
+};
+
+/**
  * Normalizes a candidate display name for bioguide lookup..
  * Handles common DB suffixes like "(incumbent)", "(appointed)", "(retiring)",
  * honorific prefixes, generational suffixes, and middle initials.
@@ -536,6 +550,10 @@ export function getCandidatePhotoUrl(name: string | null | undefined): string | 
     const bioguide = BIOGUIDE_MAP[variant];
     if (bioguide) return `${PHOTO_BASE}/${bioguide}.jpg`;
   }
+
+  // 3. Fallback to CDN photos for non-Congress candidates
+  const cdnKey = name.toLowerCase().trim();
+  if (CDN_PHOTOS[cdnKey]) return CDN_PHOTOS[cdnKey];
 
   return null;
 }

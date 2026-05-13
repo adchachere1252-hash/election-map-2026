@@ -1297,3 +1297,8 @@
 - [x] Comprehensive morning status report with full site health, race data completeness, and pending items
 - [ ] Fix Historical Atlas: NC, TX, LA missing on start and after 103rd Congress (Gingrich era)
 - [ ] Add candidate headshots to General Election matchup popup card (Bioguide for incumbents, fallback for challengers)
+
+## Bug Fixes & Enhancements (Round N+1)
+- [x] Fix Historical Atlas: NC, TX, LA missing on initial load and after Gingrich era — removeClipRects() now uses area-based detection (threshold 1000 sq px) instead of Y-coordinate heuristic
+- [x] Matchup card: upgrade GeneralMatchupSection with larger photos (72px Senate/Gov, 60px House), party-colored rings, split gradient background, pill-shaped party badges
+- [x] Matchup card: add CDN fallback photos for non-Congress candidates (Juliana Stratton, etc.) in getCandidatePhotoUrl
