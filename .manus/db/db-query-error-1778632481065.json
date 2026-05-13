@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, state, district, office, primary_date, general_date, status,\n       candidate1_name, candidate1_party, candidate1_votes, candidate1_vote_pct,\n       candidate2_name, candidate2_party, candidate2_votes, candidate2_vote_pct,\n       other_candidate_name, other_candidate_party,\n       called_winner_party, called_winner_name, is_uncontested\nFROM house_races\nWHERE state = 'WV' AND district = 2;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, state, district, office, primary_date, general_date, status,\n       candidate1_name, candidate1_party, candidate1_votes, candidate1_vote_pct,\n       candidate2_name, candidate2_party, candidate2_votes, candidate2_vote_pct,\n       other_candidate_name, other_candidate_party,\n       called_winner_party, called_winner_name, is_uncontested\nFROM house_races\nWHERE state = 'WV' AND district = 2;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'state' in 'where clause'"
+  ]
+}

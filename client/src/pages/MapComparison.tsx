@@ -235,9 +235,16 @@ async function _doWarmupCongress(congress: number): Promise<void> {
   ]);
   const partyData = results[0] as Record<string, string>;
   const geoResults = results.slice(2) as (GeoJSON.FeatureCollection | null)[];
+
+  // Count how many states loaded successfully vs. failed
+  const failedStates: string[] = [];
   const features: GeoJSON.Feature[] = [];
-  for (const fc of geoResults) {
-    if (!fc) continue;
+  for (let si = 0; si < geoResults.length; si++) {
+    const fc = geoResults[si];
+    if (!fc) {
+      failedStates.push(US_STATES[si]);
+      continue;
+    }
     for (const f of fc.features) {
       const p = (f.properties ?? {}) as Record<string, unknown>;
       const dist = Number(p?.district ?? p?.DISTRICT ?? 0);
@@ -249,6 +256,29 @@ async function _doWarmupCongress(congress: number): Promise<void> {
       features.push({ ...f, properties: { ...p, _party: party ?? null, _stateAbbrev: stateAbbrev } });
     }
   }
+
+  // If any states failed to load, retry them once before caching
+  // This prevents permanently poisoning the cache with partial data
+  if (failedStates.length > 0) {
+    const retryResults = await Promise.all(
+      failedStates.map(s => fetchStateGeoJson(s, congress))
+    );
+    for (let ri = 0; ri < retryResults.length; ri++) {
+      const fc = retryResults[ri];
+      if (!fc) continue; // still failed — skip but don't poison cache
+      for (const f of fc.features) {
+        const p = (f.properties ?? {}) as Record<string, unknown>;
+        const dist = Number(p?.district ?? p?.DISTRICT ?? 0);
+        const stateAbbrev = STATE_CODES[String(p?.statename ?? p?.STATENAME ?? "")] ?? "";
+        const key = `${stateAbbrev}-${dist}`;
+        let party = partyData[key];
+        if (!party && dist === 0) party = partyData[`${stateAbbrev}-1`];
+        if (!party && dist === 0) party = partyData[`${stateAbbrev}-98`];
+        features.push({ ...f, properties: { ...p, _party: party ?? null, _stateAbbrev: stateAbbrev } });
+      }
+    }
+  }
+
   // Pre-compute color arrays so jumpTo() never needs to touch feature.properties
   const fills: string[] = new Array(features.length);
   const fillOpacities: string[] = new Array(features.length);
@@ -452,9 +482,9 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
         return;
       }
 
-      // District count changed — full redraw
+      // District count changed — full redraw (pass cachedColors for pre-computed fills)
       const rect = svg.getBoundingClientRect();
-      fullRedrawRef.current(cached.features, rect.width || 960, rect.height || 600);
+      fullRedrawRef.current(cached.features, rect.width || 960, rect.height || 600, cached);
       drawnCongressRef.current = targetCongress;
     },
   }), []);

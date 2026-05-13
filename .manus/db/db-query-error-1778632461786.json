@@ -1,0 +1,8 @@
+{
+  "query": "SELECT r.id, r.state, r.district, r.office, r.primary_date, r.general_date, r.status, r.called_winner_party,\n       c.id as cand_id, c.name, c.party, c.incumbent, c.votes, c.pct, c.winner\nFROM house_races r\nLEFT JOIN candidates c ON c.race_id = r.id\nWHERE r.state = 'WV' AND r.district = 2\nORDER BY c.party, c.name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT r.id, r.state, r.district, r.office, r.primary_date, r.general_date, r.status, r.called_winner_party,\n       c.id as cand_id, c.name, c.party, c.incumbent, c.votes, c.pct, c.winner\nFROM house_races r\nLEFT JOIN candidates c ON c.race_id = r.id\nWHERE r.state = 'WV' AND r.district = 2\nORDER BY c.party, c.name;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1146 (42S02) at line 1: Table 'duqshn4d3kdv9jkbtbdj4x.candidates' doesn't exist"
+  ]
+}

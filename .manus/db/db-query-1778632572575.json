@@ -1,0 +1,25 @@
+{
+  "query": "SELECT id, state_code, district, status, primary_winner, primary_party,\n       candidate1_name, candidate1_party, candidate2_name, candidate2_party,\n       called_winner, called_party, notes\nFROM house_races\nWHERE state_code = 'WV' AND district = 2;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, state_code, district, status, primary_winner, primary_party,\n       candidate1_name, candidate1_party, candidate2_name, candidate2_party,\n       called_winner, called_party, notes\nFROM house_races\nWHERE state_code = 'WV' AND district = 2;",
+  "rows": [
+    {
+      "id": "426",
+      "state_code": "WV",
+      "district": "2",
+      "status": "Scheduled",
+      "primary_winner": "Riley Moore",
+      "primary_party": "R",
+      "candidate1_name": "Stephanie Tomana",
+      "candidate1_party": "D",
+      "candidate2_name": "Ace Parsi",
+      "candidate2_party": "D",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "notes": "Riley Moore (R) ran uncontested in the Republican primary"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tdistrict\tstatus\tprimary_winner\tprimary_party\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tcalled_winner\tcalled_party\tnotes\n426\tWV\t2\tScheduled\tRiley Moore\tR\tStephanie Tomana\tD\tAce Parsi\tD\tNULL\tNULL\tRiley Moore (R) ran uncontested in the Republican primary\n",
+  "stderr": "",
+  "execution_time_ms": 259
+}
