@@ -389,7 +389,14 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
     return d3.geoAlbersUsa().scale(mapScale).translate([W / 2, H / 2 - H * 0.04]);
   }
 
-  // Strip D3 AlbersUSA axis-aligned clip rectangles from path strings
+  // Strip D3 AlbersUSA axis-aligned clip rectangles from SVG path strings.
+  // D3 AlbersUSA prepends a clip-rect subpath to every feature path for each of its
+  // three sub-projections (lower-48, AK inset, HI inset). These are perfect
+  // axis-aligned rectangles with areas of ~394k, ~22k, and ~6k sq pixels.
+  // We detect them precisely: a subpath is a clip rect if and only if it has
+  // exactly 3 L commands, ends in Z, forms a perfect axis-aligned rectangle
+  // (x1==x4, y1==y2, x2==x3, y3==y4 within 0.1px), AND has area > 1000 sq px.
+  // Real district polygons are never perfect rectangles, so this is safe.
   function removeClipRects(pathD: string | null): string {
     if (!pathD) return "";
     const subPaths = pathD.match(/M[^M]*/g) ?? [];
@@ -398,8 +405,14 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
       if (lCount !== 3 || !sp.endsWith("Z")) return true;
       const nums = sp.match(/-?\d+\.?\d*/g) ?? [];
       if (nums.length < 8) return true;
-      const ys = [nums[1], nums[3], nums[5], nums[7]].map(Number);
-      return new Set(ys.map(y => y.toFixed(3))).size !== 2;
+      const [x1, y1, x2, y2, x3, y3, x4, y4] = nums.map(Number);
+      // Check axis-aligned rectangle: corners must be (x1,y1),(x2,y1),(x2,y2),(x1,y2)
+      const EPS = 0.1;
+      const isRect = Math.abs(x1 - x4) < EPS && Math.abs(y1 - y2) < EPS &&
+                     Math.abs(x2 - x3) < EPS && Math.abs(y3 - y4) < EPS;
+      if (!isRect) return true; // not a rectangle — keep it
+      const area = Math.abs(x2 - x1) * Math.abs(y3 - y2);
+      return area < 1000; // keep small rectangles (real district polygons), strip large clip rects
     }).join("");
   }
 
@@ -745,8 +758,13 @@ function TimelineSlider({ congress, onChange, isPlaying, onPlayToggle, speedIdx,
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function MapComparison() {
-  const [congressA, setCongressA] = useState(CONGRESS_END);
-  const [congressB, setCongressB] = useState(CONGRESS_END);
+  const initCongress = (() => {
+    const p = new URLSearchParams(window.location.search);
+    const n = Number(p.get('congress'));
+    return n >= CONGRESS_START && n <= CONGRESS_END ? n : CONGRESS_END;
+  })();
+  const [congressA, setCongressA] = useState(initCongress);
+  const [congressB, setCongressB] = useState(initCongress);
   const [compareMode, setCompareMode] = useState(false);
   const [selectedState, setSelectedState] = useState("");
   const [districtPopup, setDistrictPopup] = useState<Record<string, unknown> | null>(null);

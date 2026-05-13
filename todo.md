@@ -1295,3 +1295,5 @@
 ## Cross-Linking & Status Report (May 13, 2026 Morning)
 - [x] Cross-linking logic: when a race reaches General status, auto-populate the opposing candidate from incumbent/existing candidate fields
 - [x] Comprehensive morning status report with full site health, race data completeness, and pending items
+- [ ] Fix Historical Atlas: NC, TX, LA missing on start and after 103rd Congress (Gingrich era)
+- [ ] Add candidate headshots to General Election matchup popup card (Bioguide for incumbents, fallback for challengers)
