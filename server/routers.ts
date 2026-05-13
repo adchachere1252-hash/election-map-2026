@@ -682,7 +682,9 @@ export const appRouter = router({
       ]);
       const called = [
         ...senateRaces
-          .filter(r => r.calledWinner && r.calledParty)
+          // Only include races that have actually been decided (Called or Certified).
+          // Races in "General" status may have calledWinner set from the primary phase — exclude those.
+          .filter(r => r.calledWinner && r.calledParty && (r.status === 'Called' || r.status === 'Certified'))
           .map(r => ({
             id: `senate-${r.id}`,
             chamber: "senate" as const,
@@ -697,7 +699,7 @@ export const appRouter = router({
             isSpecial: r.isSpecial ?? false,
           })),
         ...houseRaces
-          .filter(r => r.calledWinner && r.calledParty)
+          .filter(r => r.calledWinner && r.calledParty && (r.status === 'Called' || r.status === 'Certified'))
           .map(r => ({
             id: `house-${r.id}`,
             chamber: "house" as const,
@@ -712,7 +714,7 @@ export const appRouter = router({
             isSpecial: false,
           })),
         ...govRaces
-          .filter(r => r.calledWinner && r.calledParty)
+          .filter(r => r.calledWinner && r.calledParty && (r.status === 'Called' || r.status === 'Certified'))
           .map(r => ({
             id: `governor-${r.id}`,
             chamber: "governor" as const,

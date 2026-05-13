@@ -103,16 +103,83 @@ function CandidateRow({
 function GeneralMatchupSection({
   candidate1Name, candidate1Party,
   candidate2Name, candidate2Party,
-  rating, notes
+  rating,
+  // Context props for the yellow info box
+  incumbent, incumbentParty, incumbentRetiring,
+  isSpecial, specialNote,
+  otherCandidateName, otherCandidateParty,
+  generalDate,
+  chamber, district, districtLabel,
+  previousParty,
 }: {
   candidate1Name: string | null | undefined;
   candidate1Party: string | null | undefined;
   candidate2Name: string | null | undefined;
   candidate2Party: string | null | undefined;
   rating?: string | null;
-  notes?: string | null;
+  incumbent?: string | null;
+  incumbentParty?: string | null;
+  incumbentRetiring?: boolean | null;
+  isSpecial?: boolean | null;
+  specialNote?: string | null;
+  otherCandidateName?: string | null;
+  otherCandidateParty?: string | null;
+  generalDate?: string | null;
+  chamber?: "senate" | "house" | "governor";
+  district?: number | null;
+  districtLabel?: string | null;
+  previousParty?: string | null;
 }) {
   if (!candidate1Name || !candidate2Name) return null;
+
+  // Build structured context lines for the yellow info box
+  const contextLines: string[] = [];
+
+  // 1. Seat / race type
+  if (isSpecial) {
+    contextLines.push(specialNote ? `Special Election: ${specialNote}` : "Special Election");
+  } else if (chamber === "senate") {
+    contextLines.push("Regular U.S. Senate seat (Class 2 — 6-year term)");
+  } else if (chamber === "house") {
+    const distStr = districtLabel === "AL" || district === 0 ? "At-Large" : `District ${districtLabel ?? district}`;
+    contextLines.push(`U.S. House — ${distStr} (2-year term)`);
+  } else if (chamber === "governor") {
+    contextLines.push("Gubernatorial race (4-year term)");
+  }
+
+  // 2. Incumbent / open seat
+  if (incumbent && incumbentRetiring) {
+    contextLines.push(`Open seat — ${incumbent} (${incumbentParty ?? "?"}) is retiring`);
+  } else if (incumbent && !incumbentRetiring) {
+    const partyLabel = incumbentParty === "D" ? "Democrat" : incumbentParty === "R" ? "Republican" : incumbentParty ?? "";
+    contextLines.push(`Incumbent: ${incumbent} (${partyLabel}) seeking re-election`);
+  } else if (!incumbent) {
+    contextLines.push("Open seat — no incumbent running");
+  }
+
+  // 3. Party holding the seat / flip potential
+  if (previousParty && previousParty !== candidate1Party && previousParty !== candidate2Party) {
+    const prevLabel = previousParty === "D" ? "Democrat" : previousParty === "R" ? "Republican" : previousParty;
+    contextLines.push(`Seat currently held by ${prevLabel}s — potential flip`);
+  }
+
+  // 4. Third-party / independent candidate in the general
+  if (otherCandidateName) {
+    const otherLabel = otherCandidateParty === "I" ? "Independent" : otherCandidateParty === "L" ? "Libertarian" : otherCandidateParty === "G" ? "Green" : otherCandidateParty ?? "Other";
+    contextLines.push(`Also on ballot: ${otherCandidateName} (${otherLabel})`);
+  }
+
+  // 5. General election date
+  if (generalDate) {
+    contextLines.push(`General election: ${generalDate}`);
+  }
+
+  // 6. Rating context
+  if (rating) {
+    const ratingSource = "Cook / Inside Elections / Sabato";
+    contextLines.push(`Race rating: ${rating} (${ratingSource})`);
+  }
+
   return (
     <>
       <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-2">November General Election Matchup</p>
@@ -154,10 +221,16 @@ function GeneralMatchupSection({
             </span>
           </div>
         </div>
-        {notes && (
-          <div className="mt-2.5 flex items-start gap-1.5 bg-yellow-900/30 border border-yellow-700/40 rounded px-2 py-1.5">
-            <AlertCircle className="w-3 h-3 text-yellow-400 mt-0.5 flex-shrink-0" />
-            <span className="text-xs text-yellow-300">{notes}</span>
+
+        {/* Structured context block — replaces raw notes */}
+        {contextLines.length > 0 && (
+          <div className="mt-2.5 bg-yellow-900/25 border border-yellow-700/35 rounded px-2.5 py-2 space-y-1">
+            {contextLines.map((line, i) => (
+              <div key={i} className="flex items-start gap-1.5">
+                <span className="text-yellow-500/70 mt-0.5 flex-shrink-0 text-[10px]">▸</span>
+                <span className="text-xs text-yellow-200/90 leading-snug">{line}</span>
+              </div>
+            ))}
           </div>
         )}
       </div>
@@ -261,7 +334,16 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
           candidate2Name={race.candidate2Name}
           candidate2Party={race.candidate2Party}
           rating={race.rating}
-          notes={race.notes}
+          chamber="senate"
+          incumbent={race.incumbent}
+          incumbentParty={race.incumbentParty}
+          incumbentRetiring={race.incumbentRetiring}
+          isSpecial={race.isSpecial}
+          specialNote={race.specialNote}
+          otherCandidateName={(race as any).otherCandidateName}
+          otherCandidateParty={(race as any).otherCandidateParty}
+          generalDate={race.generalDate}
+          previousParty={race.previousParty}
         />
       ) : (race.candidate1Name || race.candidate2Name) ? (
         <div className="space-y-1.5 mb-3">
@@ -329,7 +411,7 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
             <span>Runoff: {race.primaryRunoffDate}</span>
           </div>
         )}
-        {race.generalDate && (
+        {race.generalDate && race.status !== "General" && (
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Calendar className="w-3 h-3" />
             <span>General: {race.generalDate}</span>
@@ -407,7 +489,16 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
           candidate2Name={race.candidate2Name}
           candidate2Party={race.candidate2Party}
           rating={race.rating}
-          notes={race.notes}
+          chamber="house"
+          incumbent={race.incumbent}
+          incumbentParty={race.incumbentParty}
+          incumbentRetiring={race.incumbentRetiring}
+          otherCandidateName={(race as any).otherCandidateName}
+          otherCandidateParty={(race as any).otherCandidateParty}
+          generalDate={race.generalDate}
+          district={race.district}
+          districtLabel={race.districtLabel}
+          previousParty={race.previousParty}
         />
       ) : (race.candidate1Name || race.candidate2Name) ? (
         <div className="space-y-1.5 mb-3">

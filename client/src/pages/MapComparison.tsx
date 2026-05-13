@@ -148,7 +148,7 @@ const geoFetchInFlight = new Map<string, Promise<GeoJSON.FeatureCollection | nul
 
 // Global semaphore: cap total concurrent GeoJSON HTTP requests to avoid
 // overwhelming the proxy (which forwards to GitHub CDN with rate limits).
-const GEO_CONCURRENCY = 12;
+const GEO_CONCURRENCY = 20;
 let geoActiveCount = 0;
 const geoQueue: Array<() => void> = [];
 function geoAcquire(): Promise<void> {
@@ -165,9 +165,13 @@ async function fetchGeoJsonFile(fileName: string): Promise<GeoJSON.FeatureCollec
   // Deduplicate: if the same file is already being fetched, wait for that promise
   if (geoFetchInFlight.has(fileName)) return geoFetchInFlight.get(fileName)!;
   const promise = (async () => {
-    // Hard timeout: if acquire + fetch takes > 30s, release permit and return null
-    const timeoutSignal = AbortSignal.timeout ? AbortSignal.timeout(30000) : undefined;
+    // Wait for a semaphore slot FIRST — then create the AbortSignal.
+    // CRITICAL: the signal must be created AFTER acquiring the semaphore, not before.
+    // If created before, states queued at positions 13-50 can wait >30s in the queue
+    // and the signal expires while still waiting — causing immediate AbortError on fetch.
     await geoAcquire();
+    // Create a fresh 30s timeout signal only after we have the semaphore permit
+    const timeoutSignal = AbortSignal.timeout ? AbortSignal.timeout(30000) : undefined;
     try {
       // Retry up to 3 times with exponential backoff for transient failures
       for (let attempt = 0; attempt < 3; attempt++) {

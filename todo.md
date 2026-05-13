@@ -1279,3 +1279,5 @@
 
 ## Historical Atlas — All Red Bug (May 11 Session 14)
 - [x] Fix: all districts render red — D3 AlbersUSA clip rectangles in ResizeObserver re-draw were overwriting correct paths; fixed by applying removeClipRects() in both initial draw and ResizeObserver
+- [x] Fix ticker: only show primary winners (status=Called/Certified for primary-phase races), never show general election candidates or matchup info
+- [x] Enhance GeneralMatchupSection: replace raw notes with structured race context (incumbent info, seat type, general date, third-party candidates, rating source)

@@ -1,0 +1,27 @@
+{
+  "query": "SELECT state_code, state_name, is_special, incumbent, incumbent_party, incumbent_retiring, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating, status, general_date, notes, previous_party FROM senate_races WHERE state_code = 'NE';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, is_special, incumbent, incumbent_party, incumbent_retiring, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating, status, general_date, notes, previous_party FROM senate_races WHERE state_code = 'NE';",
+  "rows": [
+    {
+      "state_code": "NE",
+      "state_name": "Nebraska",
+      "is_special": "0",
+      "incumbent": "Pete Ricketts",
+      "incumbent_party": "R",
+      "incumbent_retiring": "0",
+      "candidate1_name": "Cindy Burbank",
+      "candidate1_party": "D",
+      "candidate2_name": "Pete Ricketts",
+      "candidate2_party": "R",
+      "rating": "Likely R",
+      "status": "General",
+      "general_date": "November 3, 2026",
+      "notes": "Incumbent Pete Ricketts (R) running for re-election. D primary May 12: Cindy Burbank, William Forbes. Dan Osborn (I) also running in general. R primary May 12: Ricketts + challengers. Cook/IE/Sabato: Likely R.",
+      "previous_party": "R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstate_name\tis_special\tincumbent\tincumbent_party\tincumbent_retiring\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\trating\tstatus\tgeneral_date\tnotes\tprevious_party\nNE\tNebraska\t0\tPete Ricketts\tR\t0\tCindy Burbank\tD\tPete Ricketts\tR\tLikely R\tGeneral\tNovember 3, 2026\tIncumbent Pete Ricketts (R) running for re-election. D primary May 12: Cindy Burbank, William Forbes. Dan Osborn (I) also running in general. R primary May 12: Ricketts + challengers. Cook/IE/Sabato: Likely R.\tR\n",
+  "stderr": "",
+  "execution_time_ms": 263
+}
