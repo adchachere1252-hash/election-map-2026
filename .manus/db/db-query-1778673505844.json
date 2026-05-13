@@ -1,0 +1,71 @@
+{
+  "query": "\nSELECT 'Senate' as chamber, state_name, is_special, primary_winner, primary_party, status, primary_date\nFROM senate_races\nWHERE primary_winner IS NOT NULL\nORDER BY state_name;\n\nSELECT 'House' as chamber, CONCAT(state_code, '-', district_label) as race, primary_winner, primary_party, status, primary_date\nFROM house_races\nWHERE primary_winner IS NOT NULL\nORDER BY state_code, district;\n\nSELECT 'Governor' as chamber, state_name, primary_winner, primary_party, status, primary_date\nFROM governor_races\nWHERE primary_winner IS NOT NULL\nORDER BY state_name;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT 'Senate' as chamber, state_name, is_special, primary_winner, primary_party, status, primary_date\nFROM senate_races\nWHERE primary_winner IS NOT NULL\nORDER BY state_name;\n\nSELECT 'House' as chamber, CONCAT(state_code, '-', district_label) as race, primary_winner, primary_party, status, primary_date\nFROM house_races\nWHERE primary_winner IS NOT NULL\nORDER BY state_code, district;\n\nSELECT 'Governor' as chamber, state_name, primary_winner, primary_party, status, primary_date\nFROM governor_races\nWHERE primary_winner IS NOT NULL\nORDER BY state_name;\n",
+  "rows": [
+    {
+      "chamber": "Senate",
+      "state_name": "Nebraska",
+      "is_special": "0",
+      "primary_winner": "Cindy Burbank",
+      "primary_party": "D",
+      "status": "Primary",
+      "primary_date": "May 12, 2026"
+    },
+    {
+      "chamber": "Senate",
+      "state_name": "Ohio",
+      "is_special": "1",
+      "primary_winner": "Sherrod Brown",
+      "primary_party": "D",
+      "status": "Primary",
+      "primary_date": "NULL"
+    },
+    {
+      "chamber": "Senate",
+      "state_name": "West Virginia",
+      "is_special": "0",
+      "primary_winner": "Shelley Moore Capito",
+      "primary_party": "R",
+      "status": "General",
+      "primary_date": "May 12, 2026"
+    }
+  ],
+  "messages": [
+    "chamber\trace\tprimary_winner\tprimary_party\tstatus\tprimary_date",
+    "House\tIN-1\tBarb Regnitz\tR\tPrimary\tMay 5, 2026",
+    "House\tIN-2\tRudy Yakym\tR\tPrimary\tMay 5, 2026",
+    "House\tIN-3\tMarlin Stutzman\tR\tPrimary\tMay 5, 2026",
+    "House\tIN-4\tJim Baird\tR\tPrimary\tMay 5, 2026",
+    "House\tIN-5\tJ.D. Ford\tD\tPrimary\tMay 5, 2026",
+    "House\tIN-6\tJefferson Shreve\tR\tPrimary\tMay 5, 2026",
+    "House\tIN-7\tAndré Carson\tD\tPrimary\tMay 5, 2026",
+    "House\tIN-8\tMary Allen\tD\tPrimary\tMay 5, 2026",
+    "House\tIN-9\tErin Houchin\tR\tPrimary\tMay 5, 2026",
+    "House\tNE-1\tMike Flood\tR\tPrimary\tMay 12, 2026",
+    "House\tNE-2\tBrinker Harding\tR\tPrimary\tMay 12, 2026",
+    "House\tNE-3\tAdrian Smith\tR\tPrimary\tMay 12, 2026",
+    "House\tOH-1\tGreg Landsman\tD\tPrimary\tMay 5, 2026",
+    "House\tOH-2\tJen Mazzuckelli\tD\tPrimary\tMay 5, 2026",
+    "House\tOH-3\tJoyce Beatty\tD\tPrimary\tMay 5, 2026",
+    "House\tOH-4\tJoshua Kolasinski\tD\tPrimary\tMay 5, 2026",
+    "House\tOH-5\tBrian Shaver\tD\tPrimary\tMay 5, 2026",
+    "House\tOH-6\tElizabeth Kirtley\tD\tPrimary\tMay 5, 2026",
+    "House\tOH-7\tBrian Poindexter\tD\tPrimary\tMay 5, 2026",
+    "House\tOH-8\tVanessa Enoch\tD\tPrimary\tMay 5, 2026",
+    "House\tOH-9\tMarcy Kaptur\tD\tPrimary\tMay 5, 2026",
+    "House\tOH-10\tKristina Knickerbocker\tD\tPrimary\tMay 5, 2026",
+    "House\tOH-11\tMike Kirchner\tR\tPrimary\tMay 5, 2026",
+    "House\tOH-12\tTroy Balderson\tR\tPrimary\tMay 5, 2026",
+    "House\tOH-13\tEmilia Sykes\tD\tPrimary\tMay 5, 2026",
+    "House\tOH-14\tMaria Jukic\tD\tPrimary\tMay 5, 2026",
+    "House\tOH-15\tDon Leonard\tD\tPrimary\tMay 5, 2026",
+    "House\tWV-1\tCarol Miller\tR\tPrimary\tMay 12, 2026",
+    "House\tWV-2\tRiley Moore\tR\tPrimary\tMay 12, 2026",
+    "chamber\tstate_name\tprimary_winner\tprimary_party\tstatus\tprimary_date",
+    "Governor\tNebraska\tJim Pillen\tR\tVoting\tMay 12, 2026",
+    "Governor\tOhio\tAmy Acton\tD\tVoting\tMay 5, 2026"
+  ],
+  "stdout": "chamber\tstate_name\tis_special\tprimary_winner\tprimary_party\tstatus\tprimary_date\nSenate\tNebraska\t0\tCindy Burbank\tD\tPrimary\tMay 12, 2026\nSenate\tOhio\t1\tSherrod Brown\tD\tPrimary\tNULL\nSenate\tWest Virginia\t0\tShelley Moore Capito\tR\tGeneral\tMay 12, 2026\nchamber\trace\tprimary_winner\tprimary_party\tstatus\tprimary_date\nHouse\tIN-1\tBarb Regnitz\tR\tPrimary\tMay 5, 2026\nHouse\tIN-2\tRudy Yakym\tR\tPrimary\tMay 5, 2026\nHouse\tIN-3\tMarlin Stutzman\tR\tPrimary\tMay 5, 2026\nHouse\tIN-4\tJim Baird\tR\tPrimary\tMay 5, 2026\nHouse\tIN-5\tJ.D. Ford\tD\tPrimary\tMay 5, 2026\nHouse\tIN-6\tJefferson Shreve\tR\tPrimary\tMay 5, 2026\nHouse\tIN-7\tAndré Carson\tD\tPrimary\tMay 5, 2026\nHouse\tIN-8\tMary Allen\tD\tPrimary\tMay 5, 2026\nHouse\tIN-9\tErin Houchin\tR\tPrimary\tMay 5, 2026\nHouse\tNE-1\tMike Flood\tR\tPrimary\tMay 12, 2026\nHouse\tNE-2\tBrinker Harding\tR\tPrimary\tMay 12, 2026\nHouse\tNE-3\tAdrian Smith\tR\tPrimary\tMay 12, 2026\nHouse\tOH-1\tGreg Landsman\tD\tPrimary\tMay 5, 2026\nHouse\tOH-2\tJen Mazzuckelli\tD\tPrimary\tMay 5, 2026\nHouse\tOH-3\tJoyce Beatty\tD\tPrimary\tMay 5, 2026\nHouse\tOH-4\tJoshua Kolasinski\tD\tPrimary\tMay 5, 2026\nHouse\tOH-5\tBrian Shaver\tD\tPrimary\tMay 5, 2026\nHouse\tOH-6\tElizabeth Kirtley\tD\tPrimary\tMay 5, 2026\nHouse\tOH-7\tBrian Poindexter\tD\tPrimary\tMay 5, 2026\nHouse\tOH-8\tVanessa Enoch\tD\tPrimary\tMay 5, 2026\nHouse\tOH-9\tMarcy Kaptur\tD\tPrimary\tMay 5, 2026\nHouse\tOH-10\tKristina Knickerbocker\tD\tPrimary\tMay 5, 2026\nHouse\tOH-11\tMike Kirchner\tR\tPrimary\tMay 5, 2026\nHouse\tOH-12\tTroy Balderson\tR\tPrimary\tMay 5, 2026\nHouse\tOH-13\tEmilia Sykes\tD\tPrimary\tMay 5, 2026\nHouse\tOH-14\tMaria Jukic\tD\tPrimary\tMay 5, 2026\nHouse\tOH-15\tDon Leonard\tD\tPrimary\tMay 5, 2026\nHouse\tWV-1\tCarol Miller\tR\tPrimary\tMay 12, 2026\nHouse\tWV-2\tRiley Moore\tR\tPrimary\tMay 12, 2026\nchamber\tstate_name\tprimary_winner\tprimary_party\tstatus\tprimary_date\nGovernor\tNebraska\tJim Pillen\tR\tVoting\tMay 12, 2026\nGovernor\tOhio\tAmy Acton\tD\tVoting\tMay 5, 2026\n",
+  "stderr": "",
+  "execution_time_ms": 279
+}

@@ -1,0 +1,58 @@
+{
+  "query": "\n-- Senate status breakdown\nSELECT 'Senate' as chamber, status, COUNT(*) as count FROM senate_races GROUP BY status\nUNION ALL\n-- House status breakdown  \nSELECT 'House' as chamber, status, COUNT(*) as count FROM house_races GROUP BY status\nUNION ALL\n-- Governor status breakdown\nSELECT 'Governor' as chamber, status, COUNT(*) as count FROM governor_races GROUP BY status\nORDER BY chamber, status;\n\n-- General races with both candidates filled\nSELECT \n  (SELECT COUNT(*) FROM senate_races WHERE status='General' AND candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL) as senate_full_matchups,\n  (SELECT COUNT(*) FROM senate_races WHERE status='General') as senate_general_total,\n  (SELECT COUNT(*) FROM house_races WHERE status='General' AND candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL) as house_full_matchups,\n  (SELECT COUNT(*) FROM house_races WHERE status='General') as house_general_total;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- Senate status breakdown\nSELECT 'Senate' as chamber, status, COUNT(*) as count FROM senate_races GROUP BY status\nUNION ALL\n-- House status breakdown  \nSELECT 'House' as chamber, status, COUNT(*) as count FROM house_races GROUP BY status\nUNION ALL\n-- Governor status breakdown\nSELECT 'Governor' as chamber, status, COUNT(*) as count FROM governor_races GROUP BY status\nORDER BY chamber, status;\n\n-- General races with both candidates filled\nSELECT \n  (SELECT COUNT(*) FROM senate_races WHERE status='General' AND candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL) as senate_full_matchups,\n  (SELECT COUNT(*) FROM senate_races WHERE status='General') as senate_general_total,\n  (SELECT COUNT(*) FROM house_races WHERE status='General' AND candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL) as house_full_matchups,\n  (SELECT COUNT(*) FROM house_races WHERE status='General') as house_general_total;\n",
+  "rows": [
+    {
+      "chamber": "Governor",
+      "status": "Scheduled",
+      "count": "34"
+    },
+    {
+      "chamber": "Governor",
+      "status": "Voting",
+      "count": "2"
+    },
+    {
+      "chamber": "House",
+      "status": "Called",
+      "count": "7"
+    },
+    {
+      "chamber": "House",
+      "status": "General",
+      "count": "81"
+    },
+    {
+      "chamber": "House",
+      "status": "Primary",
+      "count": "5"
+    },
+    {
+      "chamber": "House",
+      "status": "Scheduled",
+      "count": "342"
+    },
+    {
+      "chamber": "Senate",
+      "status": "General",
+      "count": "6"
+    },
+    {
+      "chamber": "Senate",
+      "status": "Primary",
+      "count": "2"
+    },
+    {
+      "chamber": "Senate",
+      "status": "Scheduled",
+      "count": "27"
+    }
+  ],
+  "messages": [
+    "senate_full_matchups\tsenate_general_total\thouse_full_matchups\thouse_general_total",
+    "6\t6\t80\t81"
+  ],
+  "stdout": "chamber\tstatus\tcount\nGovernor\tScheduled\t34\nGovernor\tVoting\t2\nHouse\tCalled\t7\nHouse\tGeneral\t81\nHouse\tPrimary\t5\nHouse\tScheduled\t342\nSenate\tGeneral\t6\nSenate\tPrimary\t2\nSenate\tScheduled\t27\nsenate_full_matchups\tsenate_general_total\thouse_full_matchups\thouse_general_total\n6\t6\t80\t81\n",
+  "stderr": "",
+  "execution_time_ms": 277
+}

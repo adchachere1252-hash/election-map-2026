@@ -283,5 +283,93 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
     result.errors++;
   }
 
+  // ── Cross-Link Pass: fill opposing candidate slot for General races ─────────
+  // For Senate and House races already in "General" status where one candidate
+  // slot is empty, attempt to fill it from the incumbent field (if the incumbent
+  // is running and belongs to the opposing party) or from incumbentParty.
+  // This handles the case where only one party's primary winner was set.
+  //
+  // Rules:
+  //   - candidate1 = Democratic candidate (slot 1)
+  //   - candidate2 = Republican candidate (slot 2)
+  //   - If candidate1 is empty and incumbent is D and not retiring → fill candidate1
+  //   - If candidate2 is empty and incumbent is R and not retiring → fill candidate2
+  //   - Never overwrite an existing candidate name
+  //   - Only run on races in "General" status
+
+  // Senate cross-link
+  try {
+    const senateGeneral = await db
+      .select()
+      .from(senateRaces)
+      .where(eq(senateRaces.status, "General"));
+
+    for (const race of senateGeneral) {
+      const update: Partial<typeof senateRaces.$inferInsert> = {};
+
+      // Fill empty D slot from incumbent if incumbent is D and not retiring
+      if (!race.candidate1Name && race.incumbent && race.incumbentParty === "D" && !race.incumbentRetiring) {
+        update.candidate1Name = race.incumbent;
+        update.candidate1Party = "D";
+      }
+      // Fill empty R slot from incumbent if incumbent is R and not retiring
+      if (!race.candidate2Name && race.incumbent && race.incumbentParty === "R" && !race.incumbentRetiring) {
+        update.candidate2Name = race.incumbent;
+        update.candidate2Party = "R";
+      }
+
+      if (Object.keys(update).length === 0) continue;
+
+      try {
+        await db.update(senateRaces).set(update).where(eq(senateRaces.id, race.id));
+        const label = `Senate ${race.stateName}${race.isSpecial ? " (Special)" : ""}`;
+        result.log.push(`[CROSSLINK] ${label} | Filled: ${JSON.stringify(update)}`);
+        result.promoted++;
+      } catch (err) {
+        result.log.push(`[ERROR] CrossLink Senate ${race.stateName}: ${err instanceof Error ? err.message : String(err)}`);
+        result.errors++;
+      }
+    }
+  } catch (err) {
+    result.log.push(`[ERROR] Senate cross-link query failed: ${err instanceof Error ? err.message : String(err)}`);
+    result.errors++;
+  }
+
+  // House cross-link
+  try {
+    const houseGeneral = await db
+      .select()
+      .from(houseRaces)
+      .where(eq(houseRaces.status, "General"));
+
+    for (const race of houseGeneral) {
+      const update: Partial<typeof houseRaces.$inferInsert> = {};
+
+      if (!race.candidate1Name && race.incumbent && race.incumbentParty === "D" && !race.incumbentRetiring) {
+        update.candidate1Name = race.incumbent;
+        update.candidate1Party = "D";
+      }
+      if (!race.candidate2Name && race.incumbent && race.incumbentParty === "R" && !race.incumbentRetiring) {
+        update.candidate2Name = race.incumbent;
+        update.candidate2Party = "R";
+      }
+
+      if (Object.keys(update).length === 0) continue;
+
+      try {
+        await db.update(houseRaces).set(update).where(eq(houseRaces.id, race.id));
+        const label = `House ${race.stateCode}-${race.districtLabel}`;
+        result.log.push(`[CROSSLINK] ${label} | Filled: ${JSON.stringify(update)}`);
+        result.promoted++;
+      } catch (err) {
+        result.log.push(`[ERROR] CrossLink House ${race.stateCode}-${race.districtLabel}: ${err instanceof Error ? err.message : String(err)}`);
+        result.errors++;
+      }
+    }
+  } catch (err) {
+    result.log.push(`[ERROR] House cross-link query failed: ${err instanceof Error ? err.message : String(err)}`);
+    result.errors++;
+  }
+
   return result;
 }

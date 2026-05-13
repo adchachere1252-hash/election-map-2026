@@ -1,0 +1,88 @@
+{
+  "query": "\nSELECT state_name, status, incumbent, incumbent_party, incumbent_retiring,\n       candidate1_name, candidate1_party, candidate2_name, candidate2_party,\n       primary_winner, primary_party\nFROM senate_races\nWHERE status = 'General'\nORDER BY state_name;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state_name, status, incumbent, incumbent_party, incumbent_retiring,\n       candidate1_name, candidate1_party, candidate2_name, candidate2_party,\n       primary_winner, primary_party\nFROM senate_races\nWHERE status = 'General'\nORDER BY state_name;\n",
+  "rows": [
+    {
+      "state_name": "Arkansas",
+      "status": "General",
+      "incumbent": "Tom Cotton",
+      "incumbent_party": "R",
+      "incumbent_retiring": "0",
+      "candidate1_name": "Hallie Shoffner",
+      "candidate1_party": "D",
+      "candidate2_name": "Tom Cotton",
+      "candidate2_party": "R",
+      "primary_winner": "NULL",
+      "primary_party": "NULL"
+    },
+    {
+      "state_name": "Illinois",
+      "status": "General",
+      "incumbent": "Open Seat (Dick Durbin retiring)",
+      "incumbent_party": "D",
+      "incumbent_retiring": "1",
+      "candidate1_name": "Juliana Stratton",
+      "candidate1_party": "D",
+      "candidate2_name": "Don Tracy",
+      "candidate2_party": "R",
+      "primary_winner": "NULL",
+      "primary_party": "NULL"
+    },
+    {
+      "state_name": "Mississippi",
+      "status": "General",
+      "incumbent": "Cindy Hyde-Smith",
+      "incumbent_party": "R",
+      "incumbent_retiring": "0",
+      "candidate1_name": "Scott Colom",
+      "candidate1_party": "D",
+      "candidate2_name": "Cindy Hyde-Smith",
+      "candidate2_party": "R",
+      "primary_winner": "NULL",
+      "primary_party": "NULL"
+    },
+    {
+      "state_name": "Nebraska",
+      "status": "General",
+      "incumbent": "Pete Ricketts",
+      "incumbent_party": "R",
+      "incumbent_retiring": "0",
+      "candidate1_name": "Cindy Burbank",
+      "candidate1_party": "D",
+      "candidate2_name": "Pete Ricketts",
+      "candidate2_party": "R",
+      "primary_winner": "Cindy Burbank",
+      "primary_party": "D"
+    },
+    {
+      "state_name": "North Carolina",
+      "status": "General",
+      "incumbent": "Open Seat (Thom Tillis retiring)",
+      "incumbent_party": "R",
+      "incumbent_retiring": "1",
+      "candidate1_name": "Roy Cooper",
+      "candidate1_party": "D",
+      "candidate2_name": "Michael Whatley",
+      "candidate2_party": "R",
+      "primary_winner": "NULL",
+      "primary_party": "NULL"
+    },
+    {
+      "state_name": "West Virginia",
+      "status": "General",
+      "incumbent": "Shelley Moore Capito",
+      "incumbent_party": "R",
+      "incumbent_retiring": "0",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate1_party": "D",
+      "candidate2_name": "Shelley Moore Capito",
+      "candidate2_party": "R",
+      "primary_winner": "Shelley Moore Capito",
+      "primary_party": "R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_name\tstatus\tincumbent\tincumbent_party\tincumbent_retiring\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tprimary_winner\tprimary_party\nArkansas\tGeneral\tTom Cotton\tR\t0\tHallie Shoffner\tD\tTom Cotton\tR\tNULL\tNULL\nIllinois\tGeneral\tOpen Seat (Dick Durbin retiring)\tD\t1\tJuliana Stratton\tD\tDon Tracy\tR\tNULL\tNULL\nMississippi\tGeneral\tCindy Hyde-Smith\tR\t0\tScott Colom\tD\tCindy Hyde-Smith\tR\tNULL\tNULL\nNebraska\tGeneral\tPete Ricketts\tR\t0\tCindy Burbank\tD\tPete Ricketts\tR\tCindy Burbank\tD\nNorth Carolina\tGeneral\tOpen Seat (Thom Tillis retiring)\tR\t1\tRoy Cooper\tD\tMichael Whatley\tR\tNULL\tNULL\nWest Virginia\tGeneral\tShelley Moore Capito\tR\t0\tTBD — Democratic Primary\tD\tShelley Moore Capito\tR\tShelley Moore Capito\tR\n",
+  "stderr": "",
+  "execution_time_ms": 265
+}

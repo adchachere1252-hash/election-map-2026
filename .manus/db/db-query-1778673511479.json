@@ -1,0 +1,54 @@
+{
+  "query": "\nSELECT status, COUNT(*) as count FROM senate_races GROUP BY status ORDER BY status;\nSELECT status, COUNT(*) as count FROM house_races GROUP BY status ORDER BY status;\nSELECT status, COUNT(*) as count FROM governor_races GROUP BY status ORDER BY status;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT status, COUNT(*) as count FROM senate_races GROUP BY status ORDER BY status;\nSELECT status, COUNT(*) as count FROM house_races GROUP BY status ORDER BY status;\nSELECT status, COUNT(*) as count FROM governor_races GROUP BY status ORDER BY status;\n",
+  "rows": [
+    {
+      "status": "Scheduled",
+      "count": "27"
+    },
+    {
+      "status": "Primary",
+      "count": "3"
+    },
+    {
+      "status": "General",
+      "count": "5"
+    },
+    {
+      "status": "status",
+      "count": "count"
+    },
+    {
+      "status": "Scheduled",
+      "count": "342"
+    },
+    {
+      "status": "Primary",
+      "count": "34"
+    },
+    {
+      "status": "General",
+      "count": "52"
+    },
+    {
+      "status": "Called",
+      "count": "7"
+    },
+    {
+      "status": "status",
+      "count": "count"
+    },
+    {
+      "status": "Scheduled",
+      "count": "34"
+    },
+    {
+      "status": "Voting",
+      "count": "2"
+    }
+  ],
+  "messages": [],
+  "stdout": "status\tcount\nScheduled\t27\nPrimary\t3\nGeneral\t5\nstatus\tcount\nScheduled\t342\nPrimary\t34\nGeneral\t52\nCalled\t7\nstatus\tcount\nScheduled\t34\nVoting\t2\n",
+  "stderr": "",
+  "execution_time_ms": 274
+}
