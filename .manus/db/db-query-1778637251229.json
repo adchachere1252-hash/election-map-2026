@@ -1,0 +1,66 @@
+{
+  "query": "\nSELECT 'senate' as chamber, state_code, state_name, status, called_winner, DATE(updated_at) as updated_date FROM senate_races WHERE called_winner IS NOT NULL\nUNION ALL\nSELECT 'house', state_code, state_name, status, called_winner, DATE(updated_at) FROM house_races WHERE called_winner IS NOT NULL\nUNION ALL\nSELECT 'governor', state_code, state_name, status, called_winner, DATE(updated_at) FROM governor_races WHERE called_winner IS NOT NULL\nORDER BY chamber, state_code;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT 'senate' as chamber, state_code, state_name, status, called_winner, DATE(updated_at) as updated_date FROM senate_races WHERE called_winner IS NOT NULL\nUNION ALL\nSELECT 'house', state_code, state_name, status, called_winner, DATE(updated_at) FROM house_races WHERE called_winner IS NOT NULL\nUNION ALL\nSELECT 'governor', state_code, state_name, status, called_winner, DATE(updated_at) FROM governor_races WHERE called_winner IS NOT NULL\nORDER BY chamber, state_code;\n",
+  "rows": [
+    {
+      "chamber": "house",
+      "state_code": "AZ",
+      "state_name": "Arizona",
+      "status": "Called",
+      "called_winner": "Adelita S. Grijalva",
+      "updated_date": "2026-04-08"
+    },
+    {
+      "chamber": "house",
+      "state_code": "FL",
+      "state_name": "Florida",
+      "status": "Called",
+      "called_winner": "Jimmy Patronis",
+      "updated_date": "2026-04-11"
+    },
+    {
+      "chamber": "house",
+      "state_code": "FL",
+      "state_name": "Florida",
+      "status": "Called",
+      "called_winner": "Randy Fine",
+      "updated_date": "2026-04-08"
+    },
+    {
+      "chamber": "house",
+      "state_code": "GA",
+      "state_name": "Georgia",
+      "status": "Called",
+      "called_winner": "Clay Fuller",
+      "updated_date": "2026-05-12"
+    },
+    {
+      "chamber": "house",
+      "state_code": "NJ",
+      "state_name": "New Jersey",
+      "status": "Called",
+      "called_winner": "Analilia Mejia",
+      "updated_date": "2026-04-22"
+    },
+    {
+      "chamber": "house",
+      "state_code": "TN",
+      "state_name": "Tennessee",
+      "status": "Called",
+      "called_winner": "Matt Van Epps",
+      "updated_date": "2026-04-08"
+    },
+    {
+      "chamber": "house",
+      "state_code": "VA",
+      "state_name": "Virginia",
+      "status": "Called",
+      "called_winner": "James R. Walkinshaw",
+      "updated_date": "2026-05-11"
+    }
+  ],
+  "messages": [],
+  "stdout": "chamber\tstate_code\tstate_name\tstatus\tcalled_winner\tupdated_date\nhouse\tAZ\tArizona\tCalled\tAdelita S. Grijalva\t2026-04-08\nhouse\tFL\tFlorida\tCalled\tJimmy Patronis\t2026-04-11\nhouse\tFL\tFlorida\tCalled\tRandy Fine\t2026-04-08\nhouse\tGA\tGeorgia\tCalled\tClay Fuller\t2026-05-12\nhouse\tNJ\tNew Jersey\tCalled\tAnalilia Mejia\t2026-04-22\nhouse\tTN\tTennessee\tCalled\tMatt Van Epps\t2026-04-08\nhouse\tVA\tVirginia\tCalled\tJames R. Walkinshaw\t2026-05-11\n",
+  "stderr": "",
+  "execution_time_ms": 263
+}

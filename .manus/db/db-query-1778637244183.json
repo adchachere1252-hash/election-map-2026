@@ -1,0 +1,9 @@
+{
+  "query": "\n-- Clear any senate races updated today that have called_winner set\nUPDATE senate_races \nSET called_winner = NULL, called_party = NULL, called_at = NULL, status = 'Scheduled'\nWHERE called_winner IS NOT NULL AND DATE(updated_at) = '2026-05-13';\n\n-- Clear any house races updated today that have called_winner set\nUPDATE house_races \nSET called_winner = NULL, called_party = NULL, called_at = NULL, status = 'Scheduled'\nWHERE called_winner IS NOT NULL AND DATE(updated_at) = '2026-05-13';\n\n-- Clear any governor races updated today that have called_winner set\nUPDATE governor_races \nSET called_winner = NULL, called_party = NULL, called_at = NULL\nWHERE called_winner IS NOT NULL AND DATE(updated_at) = '2026-05-13';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- Clear any senate races updated today that have called_winner set\nUPDATE senate_races \nSET called_winner = NULL, called_party = NULL, called_at = NULL, status = 'Scheduled'\nWHERE called_winner IS NOT NULL AND DATE(updated_at) = '2026-05-13';\n\n-- Clear any house races updated today that have called_winner set\nUPDATE house_races \nSET called_winner = NULL, called_party = NULL, called_at = NULL, status = 'Scheduled'\nWHERE called_winner IS NOT NULL AND DATE(updated_at) = '2026-05-13';\n\n-- Clear any governor races updated today that have called_winner set\nUPDATE governor_races \nSET called_winner = NULL, called_party = NULL, called_at = NULL\nWHERE called_winner IS NOT NULL AND DATE(updated_at) = '2026-05-13';\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 276
+}

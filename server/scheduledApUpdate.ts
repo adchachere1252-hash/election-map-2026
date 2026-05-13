@@ -217,7 +217,13 @@ function parseStateRaces(
 }
 
 // ── Build DB update payload from a race result ─────────────────────────────────
-function buildUpdate(race: RaceResult | null, isGeneral: boolean): Record<string, unknown> {
+// raceType: 'senate' | 'house' use status enum [Scheduled,Primary,General,Called,Certified]
+//           'governor' uses status enum [Scheduled,Voting,Called,Certified] — no Primary/General values
+function buildUpdate(
+  race: RaceResult | null,
+  isGeneral: boolean,
+  raceType: 'senate' | 'house' | 'governor' = 'senate'
+): Record<string, unknown> {
   if (!race) return {};
 
   const update: Record<string, unknown> = {};
@@ -252,18 +258,22 @@ function buildUpdate(race: RaceResult | null, isGeneral: boolean): Record<string
       if (race.winnerParty) update.calledParty = race.winnerParty;
       update.status = "Called";
     } else {
-      // Primary: set primaryWinner + primaryParty ONLY — never touch calledWinner or set status=Called
-      // This ensures primary results NEVER appear in the ticker (which only shows Called/Certified races)
+      // PRIMARY RACE — NEVER set calledWinner (ticker-only field reserved for general/special winners)
       update.primaryWinner = race.winner;
       if (race.winnerParty) update.primaryParty = race.winnerParty;
-      // Explicitly set status to Primary so any race accidentally left in Called gets corrected
-      update.status = "Primary";
-      // Safety: never set calledWinner for a primary race
-      // (calledWinner is reserved for general/special election winners only)
+      // Governor uses Voting (no Primary in its enum); senate/house use Primary
+      update.status = raceType === 'governor' ? "Voting" : "Primary";
     }
   } else if (!race.called && !isGeneral) {
-    // Voting in progress for a primary — ensure status reflects Primary, not Called
-    update.status = "Primary";
+    // Voting in progress for a primary
+    update.status = raceType === 'governor' ? "Voting" : "Primary";
+  }
+
+  // HARD SAFETY: strip calledWinner from any primary-phase update — no exceptions
+  if (!isGeneral) {
+    delete update.calledWinner;
+    delete update.calledParty;
+    delete update.calledAt;
   }
 
   return update;
@@ -351,9 +361,10 @@ export async function scrapeAndPushResults(): Promise<{
         label: string,
         id: number,
         raceResult: RaceResult | null,
-        fn: (id: number, d: Record<string, unknown>) => Promise<void>
+        fn: (id: number, d: Record<string, unknown>) => Promise<void>,
+        raceType: 'senate' | 'house' | 'governor' = 'senate'
       ) => {
-        const payload = buildUpdate(raceResult, isGeneral);
+        const payload = buildUpdate(raceResult, isGeneral, raceType);
         if (Object.keys(payload).length === 0) {
           updates.push({ race: label, id, status: "skip", detail: "no AP data" });
           return;
@@ -391,7 +402,7 @@ export async function scrapeAndPushResults(): Promise<{
         const isSpecial = dbRace.isSpecial ?? false;
         const key = isSpecial ? "senate-special" : "senate";
         const apRace = senate[key] ?? senate["senate"] ?? null;
-        await doUpdate(`${stateCode} Senate${isSpecial ? " (Special)" : ""}`, dbRace.id, apRace, updateSenateRace);
+        await doUpdate(`${stateCode} Senate${isSpecial ? " (Special)" : ""}`, dbRace.id, apRace, updateSenateRace, 'senate');
       }
 
       // House races for this state
@@ -399,13 +410,13 @@ export async function scrapeAndPushResults(): Promise<{
       for (const dbRace of stateHouseRaces) {
         const district = dbRace.district ?? 1;
         const apRace = house[district] ?? null;
-        await doUpdate(`${stateCode}-${district}`, dbRace.id, apRace, updateHouseRace);
+        await doUpdate(`${stateCode}-${district}`, dbRace.id, apRace, updateHouseRace, 'house');
       }
 
       // Governor race for this state
       const stateGovRace = allGovernor.find(r => r.stateCode === stateCode);
       if (stateGovRace && governor) {
-        await doUpdate(`${stateCode} Governor`, stateGovRace.id, governor, updateGovernorRace);
+        await doUpdate(`${stateCode} Governor`, stateGovRace.id, governor, updateGovernorRace, 'governor');
       }
 
     } catch (err) {

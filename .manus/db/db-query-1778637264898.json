@@ -1,0 +1,21 @@
+{
+  "query": "SELECT state_code, district, status, called_winner, called_party, general_date, primary_date, primary_winner, updated_at FROM house_races WHERE state_code = 'GA' AND district = 14;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, district, status, called_winner, called_party, general_date, primary_date, primary_winner, updated_at FROM house_races WHERE state_code = 'GA' AND district = 14;",
+  "rows": [
+    {
+      "state_code": "GA",
+      "district": "14",
+      "status": "Called",
+      "called_winner": "Clay Fuller",
+      "called_party": "R",
+      "general_date": "April 7, 2026",
+      "primary_date": "May 19, 2026",
+      "primary_winner": "NULL",
+      "updated_at": "2026-05-12 22:13:13"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tstatus\tcalled_winner\tcalled_party\tgeneral_date\tprimary_date\tprimary_winner\tupdated_at\nGA\t14\tCalled\tClay Fuller\tR\tApril 7, 2026\tMay 19, 2026\tNULL\t2026-05-12 22:13:13\n",
+  "stderr": "",
+  "execution_time_ms": 259
+}

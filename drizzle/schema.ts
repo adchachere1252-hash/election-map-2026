@@ -227,6 +227,8 @@ export const governorRaces = mysqlTable("governor_races", {
   calledParty: mysqlEnum("called_party", ["D", "R", "I"]),         // set when called
   calledWinner: varchar("called_winner", { length: 128 }),          // winner name when called
   calledAt: bigint("called_at", { mode: "number" }),                // UTC ms timestamp when winner was called
+  primaryWinner: varchar("primary_winner", { length: 128 }),         // name of the called primary winner (NOT the general election winner)
+  primaryParty: mysqlEnum("primary_party", ["D", "R", "I"]),        // party of the primary winner
   demVotes: bigint("dem_votes", { mode: "number" }).default(0),
   repVotes: bigint("rep_votes", { mode: "number" }).default(0),
   otherCandidateName: varchar("other_candidate_name", { length: 128 }), // third-party / independent candidate

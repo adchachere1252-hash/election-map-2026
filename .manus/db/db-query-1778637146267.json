@@ -1,0 +1,90 @@
+{
+  "query": "\nSELECT 'senate' as chamber, state_code, state_name, status, called_winner, called_party, primary_winner, is_special FROM senate_races WHERE status IN ('Called','Certified') OR called_winner IS NOT NULL\nUNION ALL\nSELECT 'house', state_code, state_name, status, called_winner, called_party, primary_winner, false FROM house_races WHERE status IN ('Called','Certified') OR called_winner IS NOT NULL\nUNION ALL\nSELECT 'governor', state_code, state_name, status, called_winner, called_party, NULL, is_special FROM governor_races WHERE status IN ('Called','Certified') OR called_winner IS NOT NULL\nORDER BY chamber, state_code;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT 'senate' as chamber, state_code, state_name, status, called_winner, called_party, primary_winner, is_special FROM senate_races WHERE status IN ('Called','Certified') OR called_winner IS NOT NULL\nUNION ALL\nSELECT 'house', state_code, state_name, status, called_winner, called_party, primary_winner, false FROM house_races WHERE status IN ('Called','Certified') OR called_winner IS NOT NULL\nUNION ALL\nSELECT 'governor', state_code, state_name, status, called_winner, called_party, NULL, is_special FROM governor_races WHERE status IN ('Called','Certified') OR called_winner IS NOT NULL\nORDER BY chamber, state_code;\n",
+  "rows": [
+    {
+      "chamber": "governor",
+      "state_code": "NE",
+      "state_name": "Nebraska",
+      "status": "Called",
+      "called_winner": "Jim Pillen",
+      "called_party": "R",
+      "primary_winner": "NULL",
+      "is_special": "0"
+    },
+    {
+      "chamber": "house",
+      "state_code": "AZ",
+      "state_name": "Arizona",
+      "status": "Called",
+      "called_winner": "Adelita S. Grijalva",
+      "called_party": "D",
+      "primary_winner": "NULL",
+      "is_special": "0"
+    },
+    {
+      "chamber": "house",
+      "state_code": "FL",
+      "state_name": "Florida",
+      "status": "Called",
+      "called_winner": "Jimmy Patronis",
+      "called_party": "R",
+      "primary_winner": "NULL",
+      "is_special": "0"
+    },
+    {
+      "chamber": "house",
+      "state_code": "FL",
+      "state_name": "Florida",
+      "status": "Called",
+      "called_winner": "Randy Fine",
+      "called_party": "R",
+      "primary_winner": "NULL",
+      "is_special": "0"
+    },
+    {
+      "chamber": "house",
+      "state_code": "GA",
+      "state_name": "Georgia",
+      "status": "Called",
+      "called_winner": "Clay Fuller",
+      "called_party": "R",
+      "primary_winner": "NULL",
+      "is_special": "0"
+    },
+    {
+      "chamber": "house",
+      "state_code": "NJ",
+      "state_name": "New Jersey",
+      "status": "Called",
+      "called_winner": "Analilia Mejia",
+      "called_party": "D",
+      "primary_winner": "NULL",
+      "is_special": "0"
+    },
+    {
+      "chamber": "house",
+      "state_code": "TN",
+      "state_name": "Tennessee",
+      "status": "Called",
+      "called_winner": "Matt Van Epps",
+      "called_party": "R",
+      "primary_winner": "NULL",
+      "is_special": "0"
+    },
+    {
+      "chamber": "house",
+      "state_code": "VA",
+      "state_name": "Virginia",
+      "status": "Called",
+      "called_winner": "James R. Walkinshaw",
+      "called_party": "D",
+      "primary_winner": "NULL",
+      "is_special": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "chamber\tstate_code\tstate_name\tstatus\tcalled_winner\tcalled_party\tprimary_winner\tis_special\ngovernor\tNE\tNebraska\tCalled\tJim Pillen\tR\tNULL\t0\nhouse\tAZ\tArizona\tCalled\tAdelita S. Grijalva\tD\tNULL\t0\nhouse\tFL\tFlorida\tCalled\tJimmy Patronis\tR\tNULL\t0\nhouse\tFL\tFlorida\tCalled\tRandy Fine\tR\tNULL\t0\nhouse\tGA\tGeorgia\tCalled\tClay Fuller\tR\tNULL\t0\nhouse\tNJ\tNew Jersey\tCalled\tAnalilia Mejia\tD\tNULL\t0\nhouse\tTN\tTennessee\tCalled\tMatt Van Epps\tR\tNULL\t0\nhouse\tVA\tVirginia\tCalled\tJames R. Walkinshaw\tD\tNULL\t0\n",
+  "stderr": "",
+  "execution_time_ms": 258
+}
