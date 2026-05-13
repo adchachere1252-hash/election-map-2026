@@ -135,49 +135,64 @@ function GeneralMatchupSection({
   // Build structured context lines for the yellow info box
   const contextLines: string[] = [];
 
-  // 1. Seat / race type
+  // 1. Seat / race type with full description
   if (isSpecial) {
-    contextLines.push(specialNote ? `Special Election: ${specialNote}` : "Special Election");
+    contextLines.push(specialNote ? `Special Election: ${specialNote}` : "Special Election \u2014 filling a vacant seat mid-term");
   } else if (chamber === "senate") {
-    contextLines.push("Regular U.S. Senate seat (Class 2 — 6-year term)");
+    contextLines.push("U.S. Senate \u2014 Class 2 seat, 6-year term. Winner serves through January 2033.");
   } else if (chamber === "house") {
-    const distStr = districtLabel === "AL" || district === 0 ? "At-Large" : `District ${districtLabel ?? district}`;
-    contextLines.push(`U.S. House — ${distStr} (2-year term)`);
+    const distStr = districtLabel === "AL" || district === 0 ? "At-Large" : `${districtLabel ?? district}`;
+    const suffix = districtLabel === "AL" || district === 0 ? "" : ["1","21","31","41","51","61","71","81","91"].some(s => distStr.endsWith(s)) ? "st" : ["2","22","32","42","52","62","72","82","92"].some(s => distStr.endsWith(s)) ? "nd" : ["3","23","33","43","53","63","73","83","93"].some(s => distStr.endsWith(s)) ? "rd" : "th";
+    const distFull = districtLabel === "AL" || district === 0 ? "At-Large" : `${distStr}${suffix} Congressional District`;
+    contextLines.push(`U.S. House \u2014 ${distFull}. 2-year term; winner serves in the 120th Congress (2027\u20132029).`);
   } else if (chamber === "governor") {
-    contextLines.push("Gubernatorial race (4-year term)");
+    contextLines.push("Gubernatorial race \u2014 4-year term. Winner takes office January 2027.");
   }
 
-  // 2. Incumbent / open seat
+  // 2. Incumbent / open seat with party context
   if (incumbent && incumbentRetiring) {
-    contextLines.push(`Open seat — ${incumbent} (${incumbentParty ?? "?"}) is retiring`);
+    const partyLabel = incumbentParty === "D" ? "Democrat" : incumbentParty === "R" ? "Republican" : incumbentParty ?? "";
+    contextLines.push(`Open seat \u2014 ${incumbent} (${partyLabel}) is not seeking re-election. No incumbent advantage.`);
   } else if (incumbent && !incumbentRetiring) {
     const partyLabel = incumbentParty === "D" ? "Democrat" : incumbentParty === "R" ? "Republican" : incumbentParty ?? "";
-    contextLines.push(`Incumbent: ${incumbent} (${partyLabel}) seeking re-election`);
+    const incumbentSide = incumbentParty === candidate1Party ? candidate1Name : candidate2Name;
+    contextLines.push(`${incumbent} (${partyLabel}) is the incumbent seeking re-election${incumbentSide ? " as " + incumbentSide : ""}.`);
   } else if (!incumbent) {
-    contextLines.push("Open seat — no incumbent running");
+    contextLines.push("Open seat \u2014 no incumbent is running. Both candidates start on equal footing.");
   }
 
-  // 3. Party holding the seat / flip potential
+  // 3. Seat history / flip potential
+  const seatHeldByD = previousParty === "D";
+  const seatHeldByR = previousParty === "R";
+  const challengerParty = seatHeldByD ? "R" : seatHeldByR ? "D" : null;
+  const challengerName = challengerParty === candidate1Party ? candidate1Name : challengerParty === candidate2Party ? candidate2Name : null;
   if (previousParty && previousParty !== candidate1Party && previousParty !== candidate2Party) {
-    const prevLabel = previousParty === "D" ? "Democrat" : previousParty === "R" ? "Republican" : previousParty;
-    contextLines.push(`Seat currently held by ${prevLabel}s — potential flip`);
+    const prevLabel = previousParty === "D" ? "Democrats" : previousParty === "R" ? "Republicans" : previousParty;
+    contextLines.push(`This seat is currently held by ${prevLabel}. A win here would be a party flip.`);
+  } else if (previousParty && challengerName) {
+    const prevLabel = previousParty === "D" ? "Democratic" : previousParty === "R" ? "Republican" : previousParty;
+    const challengerLabel = challengerParty === "D" ? "Democratic" : challengerParty === "R" ? "Republican" : "";
+    contextLines.push(`${prevLabel}-held seat. ${challengerName} is the ${challengerLabel} challenger; a win would flip the seat.`);
   }
 
-  // 4. Third-party / independent candidate in the general
-  if (otherCandidateName) {
-    const otherLabel = otherCandidateParty === "I" ? "Independent" : otherCandidateParty === "L" ? "Libertarian" : otherCandidateParty === "G" ? "Green" : otherCandidateParty ?? "Other";
-    contextLines.push(`Also on ballot: ${otherCandidateName} (${otherLabel})`);
+  // 4. Rating explanation in plain English
+  if (rating) {
+    const ratingExplain: Record<string, string> = {
+      "Solid D": "Solidly Democratic \u2014 not expected to be competitive. Democrat is heavily favored.",
+      "Safe D": "Safe Democratic seat \u2014 Democrat is expected to win by a large margin.",
+      "Lean D": "Leans Democratic \u2014 Democrat is favored but the race could tighten.",
+      "Toss-up": "Toss-up \u2014 either candidate could win. One of the most competitive races of the cycle.",
+      "Lean R": "Leans Republican \u2014 Republican is favored but the race could tighten.",
+      "Safe R": "Safe Republican seat \u2014 Republican is expected to win by a large margin.",
+      "Solid R": "Solidly Republican \u2014 not expected to be competitive. Republican is heavily favored.",
+    };
+    const explain = ratingExplain[rating] ?? `Rated ${rating}`;
+    contextLines.push(`${explain} (Cook Political Report / Inside Elections / Sabato's Crystal Ball)`);
   }
 
   // 5. General election date
   if (generalDate) {
-    contextLines.push(`General election: ${generalDate}`);
-  }
-
-  // 6. Rating context
-  if (rating) {
-    const ratingSource = "Cook / Inside Elections / Sabato";
-    contextLines.push(`Race rating: ${rating} (${ratingSource})`);
+    contextLines.push(`Election day: ${generalDate}.`);
   }
 
   return (

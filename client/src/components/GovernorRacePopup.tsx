@@ -348,8 +348,69 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
           </div>
         </div>
 
-        {/* Analyst consensus / notes */}
-        {race.notes && (
+        {/* Race context box — structured info for General-status races */}
+        {race.status === "General" && (() => {
+          const lines: string[] = [];
+
+          // Seat type
+          lines.push("Gubernatorial race \u2014 4-year term. Winner takes office January 2027.");
+
+          // Incumbent / open seat
+          if (race.isTermLimited) {
+            const partyLabel = race.incumbentParty === "D" ? "Democrat" : race.incumbentParty === "R" ? "Republican" : race.incumbentParty ?? "";
+            lines.push(`Open seat \u2014 ${race.incumbentName ?? "incumbent"} (${partyLabel}) is term-limited and cannot seek re-election. No incumbent advantage.`);
+          } else if (race.isOpen) {
+            lines.push("Open seat \u2014 no incumbent is running. Both candidates start on equal footing.");
+          } else if (race.incumbentName) {
+            const partyLabel = race.incumbentParty === "D" ? "Democrat" : race.incumbentParty === "R" ? "Republican" : race.incumbentParty ?? "";
+            const incumbentCandidate = race.incumbentParty === "D" ? race.demCandidate : race.repCandidate;
+            lines.push(`${race.incumbentName} (${partyLabel}) is the incumbent governor seeking re-election${incumbentCandidate ? " as " + incumbentCandidate : ""}.`);
+          }
+
+          // Seat history / flip potential
+          if (race.previousParty) {
+            const prevLabel = race.previousParty === "D" ? "Democratic" : race.previousParty === "R" ? "Republican" : race.previousParty;
+            const challengerParty = race.previousParty === "D" ? "R" : race.previousParty === "R" ? "D" : null;
+            const challengerName = challengerParty === "D" ? race.demCandidate : challengerParty === "R" ? race.repCandidate : null;
+            if (challengerName) {
+              const challengerLabel = challengerParty === "D" ? "Democratic" : challengerParty === "R" ? "Republican" : "";
+              lines.push(`${prevLabel}-held governorship. ${challengerName} is the ${challengerLabel} challenger; a win would flip the seat.`);
+            }
+          }
+
+          // Rating explanation
+          if (race.rating) {
+            const ratingExplain: Record<string, string> = {
+              "Solid D": "Solidly Democratic \u2014 not expected to be competitive. Democrat is heavily favored.",
+              "Safe D": "Safe Democratic seat \u2014 Democrat is expected to win by a large margin.",
+              "Lean D": "Leans Democratic \u2014 Democrat is favored but the race could tighten.",
+              "Toss-up": "Toss-up \u2014 either candidate could win. One of the most competitive races of the cycle.",
+              "Lean R": "Leans Republican \u2014 Republican is favored but the race could tighten.",
+              "Safe R": "Safe Republican seat \u2014 Republican is expected to win by a large margin.",
+              "Solid R": "Solidly Republican \u2014 not expected to be competitive. Republican is heavily favored.",
+            };
+            const explain = ratingExplain[race.rating] ?? `Rated ${race.rating}`;
+            lines.push(`${explain} (Cook Political Report / Inside Elections / Sabato's Crystal Ball)`);
+          }
+
+          // Election date
+          lines.push(`Election day: ${race.generalDate}.`);
+
+          return (
+            <div className="bg-yellow-900/25 border border-yellow-700/35 rounded-lg px-3 py-2.5 space-y-1.5">
+              <p className="text-[10px] font-semibold text-yellow-400/80 uppercase tracking-wider mb-1">Race Context</p>
+              {lines.map((line, i) => (
+                <div key={i} className="flex items-start gap-1.5">
+                  <span className="text-yellow-500/70 mt-0.5 flex-shrink-0 text-[10px]">\u25b8</span>
+                  <span className="text-xs text-yellow-200/90 leading-snug">{line}</span>
+                </div>
+              ))}
+            </div>
+          );
+        })()}
+
+        {/* Analyst consensus / notes — shown for non-General statuses only */}
+        {race.notes && race.status !== "General" && (
           <div className="p-2.5 rounded-lg bg-muted/30 border border-border/50">
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-1">
               Analyst Consensus
