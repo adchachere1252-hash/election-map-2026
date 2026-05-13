@@ -37,6 +37,22 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "elijah crane":         `${BASE}/elijah-crane_0100ed41.jpg`,
   // NC-1 challenger
   "laurie buckhout":      `${BASE}/laurie-buckhout_18f4c9b7.jpg`,
+  // Senate challengers / non-Congress candidates (Round 2)
+  "don tracy":            `${BASE}/don-tracy_3770cfc3.jpg`,
+  "earl carter":          `${BASE}/earl-carter_cba92698.jpg`,
+  "michael whatley":      `${BASE}/michael-whatley_a066c66f.jpg`,
+  "ron kincaid":          `${BASE}/ron-kincaid_7bc5aec9.jpg`,
+  "graham platner":       `${BASE}/graham-platner_b9a8fdd2.jpg`,
+  "cindy burbank":        `${BASE}/cindy-burbank_7a45530c.jpg`,
+  "james talarico":       `${BASE}/james-talarico_80ead04e.jpg`,
+  "john cornyn":          `${BASE}/john-cornyn_6230288e.jpg`,
+  "charles booker":       `${BASE}/charles-booker_c7f21579.jpg`,
+  "scott colom":          `${BASE}/scott-colom_77c97e30.jpg`,
+  "rachel fetty anderson":`${BASE}/rachel-fetty-anderson_de7b83b6.jpg`,
+  "james w. byrd":        `${BASE}/james-byrd_491067c8.jpg`,
+  "james byrd":           `${BASE}/james-byrd_491067c8.jpg`,
+  "hallie shoffner":      `${BASE}/hallie-shoffner_7fbd32e9.jpg`,
+  "dakarai larriett":     `${BASE}/dakarai-larriett_eb9a26e2.jpg`,
 };
 
 export const PARTY_LOGOS = {

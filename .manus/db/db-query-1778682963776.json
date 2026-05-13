@@ -1,0 +1,145 @@
+{
+  "query": "\nSELECT 'senate' as chamber, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating\nFROM senate_races\nWHERE candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL\n  AND candidate1_name NOT LIKE 'TBD%' AND candidate2_name NOT LIKE 'TBD%'\nORDER BY rating;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT 'senate' as chamber, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating\nFROM senate_races\nWHERE candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL\n  AND candidate1_name NOT LIKE 'TBD%' AND candidate2_name NOT LIKE 'TBD%'\nORDER BY rating;\n",
+  "rows": [
+    {
+      "chamber": "senate",
+      "state_name": "Illinois",
+      "candidate1_name": "Juliana Stratton",
+      "candidate1_party": "D",
+      "candidate2_name": "Don Tracy",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "chamber": "senate",
+      "state_name": "Georgia",
+      "candidate1_name": "Earl Carter",
+      "candidate1_party": "R",
+      "candidate2_name": "Mike Collins",
+      "candidate2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "chamber": "senate",
+      "state_name": "North Carolina",
+      "candidate1_name": "Roy Cooper",
+      "candidate1_party": "D",
+      "candidate2_name": "Michael Whatley",
+      "candidate2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "chamber": "senate",
+      "state_name": "Ohio",
+      "candidate1_name": "Sherrod Brown",
+      "candidate1_party": "D",
+      "candidate2_name": "Ron Kincaid",
+      "candidate2_party": "D",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "senate",
+      "state_name": "Maine",
+      "candidate1_name": "Graham Platner",
+      "candidate1_party": "D",
+      "candidate2_name": "Susan Collins",
+      "candidate2_party": "R",
+      "rating": "Lean R"
+    },
+    {
+      "chamber": "senate",
+      "state_name": "Alaska",
+      "candidate1_name": "Mary Peltola",
+      "candidate1_party": "D",
+      "candidate2_name": "Dan Sullivan",
+      "candidate2_party": "R",
+      "rating": "Lean R"
+    },
+    {
+      "chamber": "senate",
+      "state_name": "Nebraska",
+      "candidate1_name": "Cindy Burbank",
+      "candidate1_party": "D",
+      "candidate2_name": "Pete Ricketts",
+      "candidate2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "chamber": "senate",
+      "state_name": "Texas",
+      "candidate1_name": "James Talarico",
+      "candidate1_party": "D",
+      "candidate2_name": "John Cornyn/Ken Paxton",
+      "candidate2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "chamber": "senate",
+      "state_name": "Kentucky",
+      "candidate1_name": "Charles Booker",
+      "candidate1_party": "D",
+      "candidate2_name": "Andy Barr",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "chamber": "senate",
+      "state_name": "Mississippi",
+      "candidate1_name": "Scott Colom",
+      "candidate1_party": "D",
+      "candidate2_name": "Cindy Hyde-Smith",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "chamber": "senate",
+      "state_name": "Alabama",
+      "candidate1_name": "Dakarai Larriett",
+      "candidate1_party": "D",
+      "candidate2_name": "Kyle Sweetser",
+      "candidate2_party": "D",
+      "rating": "Solid R"
+    },
+    {
+      "chamber": "senate",
+      "state_name": "Idaho",
+      "candidate1_name": "David Roth",
+      "candidate1_party": "D",
+      "candidate2_name": "Nickolas Bonds",
+      "candidate2_party": "D",
+      "rating": "Solid R"
+    },
+    {
+      "chamber": "senate",
+      "state_name": "West Virginia",
+      "candidate1_name": "Rachel Fetty Anderson",
+      "candidate1_party": "D",
+      "candidate2_name": "Shelley Moore Capito",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "chamber": "senate",
+      "state_name": "Wyoming",
+      "candidate1_name": "James W. Byrd",
+      "candidate1_party": "D",
+      "candidate2_name": "Harriet Hageman",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "chamber": "senate",
+      "state_name": "Arkansas",
+      "candidate1_name": "Hallie Shoffner",
+      "candidate1_party": "D",
+      "candidate2_name": "Tom Cotton",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    }
+  ],
+  "messages": [],
+  "stdout": "chamber\tstate_name\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\trating\nsenate\tIllinois\tJuliana Stratton\tD\tDon Tracy\tR\tSolid D\nsenate\tGeorgia\tEarl Carter\tR\tMike Collins\tR\tLean D\nsenate\tNorth Carolina\tRoy Cooper\tD\tMichael Whatley\tR\tLean D\nsenate\tOhio\tSherrod Brown\tD\tRon Kincaid\tD\tToss-up\nsenate\tMaine\tGraham Platner\tD\tSusan Collins\tR\tLean R\nsenate\tAlaska\tMary Peltola\tD\tDan Sullivan\tR\tLean R\nsenate\tNebraska\tCindy Burbank\tD\tPete Ricketts\tR\tLikely R\nsenate\tTexas\tJames Talarico\tD\tJohn Cornyn/Ken Paxton\tR\tLikely R\nsenate\tKentucky\tCharles Booker\tD\tAndy Barr\tR\tSolid R\nsenate\tMississippi\tScott Colom\tD\tCindy Hyde-Smith\tR\tSolid R\nsenate\tAlabama\tDakarai Larriett\tD\tKyle Sweetser\tD\tSolid R\nsenate\tIdaho\tDavid Roth\tD\tNickolas Bonds\tD\tSolid R\nsenate\tWest Virginia\tRachel Fetty Anderson\tD\tShelley Moore Capito\tR\tSolid R\nsenate\tWyoming\tJames W. Byrd\tD\tHarriet Hageman\tR\tSolid R\nsenate\tArkansas\tHallie Shoffner\tD\tTom Cotton\tR\tSolid R\n",
+  "stderr": "",
+  "execution_time_ms": 362
+}

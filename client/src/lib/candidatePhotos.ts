@@ -499,12 +499,29 @@ export const BIOGUIDE_MAP: Record<string, string> = {
  */
 const CDN_BASE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663521029713/Duqshn4D3kdv9jkbtBdj4X";
 const CDN_PHOTOS: Record<string, string> = {
+  // Previously uploaded
   "juliana stratton":     `${CDN_BASE}/juliana-stratton_a6b800ae.jpg`,
   "laurie buckhout":      `${CDN_BASE}/laurie-buckhout_18f4c9b7.jpg`,
   "gary peters":          `${CDN_BASE}/gary-peters_50e7899d.jpg`,
   "tina smith":           `${CDN_BASE}/tina-smith_853cdf1a.jpg`,
   "jeanne shaheen":       `${CDN_BASE}/jeanne-shaheen_9a7397d7.jpg`,
   "dick durbin":          `${CDN_BASE}/dick-durbin_05b3c956.jpg`,
+  // Senate challengers / non-Congress candidates (Round 2)
+  "don tracy":            `${CDN_BASE}/don-tracy_3770cfc3.jpg`,
+  "earl carter":          `${CDN_BASE}/earl-carter_cba92698.jpg`,
+  "michael whatley":      `${CDN_BASE}/michael-whatley_a066c66f.jpg`,
+  "ron kincaid":          `${CDN_BASE}/ron-kincaid_7bc5aec9.jpg`,
+  "graham platner":       `${CDN_BASE}/graham-platner_b9a8fdd2.jpg`,
+  "cindy burbank":        `${CDN_BASE}/cindy-burbank_7a45530c.jpg`,
+  "james talarico":       `${CDN_BASE}/james-talarico_80ead04e.jpg`,
+  "john cornyn":          `${CDN_BASE}/john-cornyn_6230288e.jpg`,
+  "charles booker":       `${CDN_BASE}/charles-booker_c7f21579.jpg`,
+  "scott colom":          `${CDN_BASE}/scott-colom_77c97e30.jpg`,
+  "rachel fetty anderson":`${CDN_BASE}/rachel-fetty-anderson_de7b83b6.jpg`,
+  "james w. byrd":        `${CDN_BASE}/james-byrd_491067c8.jpg`,
+  "james byrd":           `${CDN_BASE}/james-byrd_491067c8.jpg`,
+  "hallie shoffner":      `${CDN_BASE}/hallie-shoffner_7fbd32e9.jpg`,
+  "dakarai larriett":     `${CDN_BASE}/dakarai-larriett_eb9a26e2.jpg`,
 };
 
 /**

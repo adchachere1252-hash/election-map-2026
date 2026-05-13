@@ -1295,10 +1295,15 @@
 ## Cross-Linking & Status Report (May 13, 2026 Morning)
 - [x] Cross-linking logic: when a race reaches General status, auto-populate the opposing candidate from incumbent/existing candidate fields
 - [x] Comprehensive morning status report with full site health, race data completeness, and pending items
-- [ ] Fix Historical Atlas: NC, TX, LA missing on start and after 103rd Congress (Gingrich era)
-- [ ] Add candidate headshots to General Election matchup popup card (Bioguide for incumbents, fallback for challengers)
+- [x] Fix Historical Atlas: NC, TX, LA missing on start and after 103rd Congress (Gingrich era)
+- [x] Add candidate headshots to General Election matchup popup card (Bioguide for incumbents, fallback for challengers)
 
 ## Bug Fixes & Enhancements (Round N+1)
 - [x] Fix Historical Atlas: NC, TX, LA missing on initial load and after Gingrich era — removeClipRects() now uses area-based detection (threshold 1000 sq px) instead of Y-coordinate heuristic
 - [x] Matchup card: upgrade GeneralMatchupSection with larger photos (72px Senate/Gov, 60px House), party-colored rings, split gradient background, pill-shaped party badges
 - [x] Matchup card: add CDN fallback photos for non-Congress candidates (Juliana Stratton, etc.) in getCandidatePhotoUrl
+
+## CDN Headshots Expansion
+- [x] Research and download headshots for all key 2026 Senate/House candidates missing photos
+- [x] Upload photos to CloudFront CDN via manus-upload-file --webdev
+- [x] Update server/candidatePhotos.ts and client/src/lib/candidatePhotos.ts with new entries
