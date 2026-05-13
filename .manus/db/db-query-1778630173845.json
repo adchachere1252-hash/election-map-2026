@@ -1,0 +1,64 @@
+{
+  "query": "\nSELECT state_code, district, status, called_winner, called_party, pct_reporting, updated_at FROM house_races WHERE state_code IN ('NE','WV') ORDER BY state_code, district;\nSELECT state_code, status, called_winner, called_party, pct_reporting, updated_at FROM senate_races WHERE state_code IN ('NE','WV') ORDER BY state_code;\nSELECT status, COUNT(*) as count FROM house_races GROUP BY status ORDER BY status;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state_code, district, status, called_winner, called_party, pct_reporting, updated_at FROM house_races WHERE state_code IN ('NE','WV') ORDER BY state_code, district;\nSELECT state_code, status, called_winner, called_party, pct_reporting, updated_at FROM senate_races WHERE state_code IN ('NE','WV') ORDER BY state_code;\nSELECT status, COUNT(*) as count FROM house_races GROUP BY status ORDER BY status;\n",
+  "rows": [
+    {
+      "state_code": "NE",
+      "district": "1",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "pct_reporting": "0.00",
+      "updated_at": "2026-05-12 22:13:13"
+    },
+    {
+      "state_code": "NE",
+      "district": "2",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "pct_reporting": "0.00",
+      "updated_at": "2026-05-12 22:13:13"
+    },
+    {
+      "state_code": "NE",
+      "district": "3",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "pct_reporting": "0.00",
+      "updated_at": "2026-05-12 22:13:13"
+    },
+    {
+      "state_code": "WV",
+      "district": "1",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "pct_reporting": "0.00",
+      "updated_at": "2026-05-12 22:13:13"
+    },
+    {
+      "state_code": "WV",
+      "district": "2",
+      "status": "Scheduled",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "pct_reporting": "19.20",
+      "updated_at": "2026-05-12 23:55:26"
+    }
+  ],
+  "messages": [
+    "state_code\tstatus\tcalled_winner\tcalled_party\tpct_reporting\tupdated_at",
+    "NE\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13",
+    "WV\tScheduled\tNULL\tNULL\t0.00\t2026-04-11 17:08:44",
+    "status\tcount",
+    "Scheduled\t347",
+    "Primary\t5",
+    "General\t76",
+    "Called\t7"
+  ],
+  "stdout": "state_code\tdistrict\tstatus\tcalled_winner\tcalled_party\tpct_reporting\tupdated_at\nNE\t1\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13\nNE\t2\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13\nNE\t3\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13\nWV\t1\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13\nWV\t2\tScheduled\tNULL\tNULL\t19.20\t2026-05-12 23:55:26\nstate_code\tstatus\tcalled_winner\tcalled_party\tpct_reporting\tupdated_at\nNE\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13\nWV\tScheduled\tNULL\tNULL\t0.00\t2026-04-11 17:08:44\nstatus\tcount\nScheduled\t347\nPrimary\t5\nGeneral\t76\nCalled\t7\n",
+  "stderr": "",
+  "execution_time_ms": 262
+}

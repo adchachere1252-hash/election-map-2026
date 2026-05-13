@@ -1,0 +1,38 @@
+{
+  "query": "\nSELECT status, COUNT(*) as count FROM house_races GROUP BY status ORDER BY status;\nSELECT state_code, district, status, called_winner, called_party, pct_reporting, updated_at FROM house_races WHERE state_code IN ('NE','WV') ORDER BY state_code, district;\nSELECT state_code, status, called_winner, called_party, pct_reporting, updated_at FROM senate_races WHERE state_code IN ('NE','WV') ORDER BY state_code;\nSELECT MAX(updated_at) as last_update FROM house_races;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT status, COUNT(*) as count FROM house_races GROUP BY status ORDER BY status;\nSELECT state_code, district, status, called_winner, called_party, pct_reporting, updated_at FROM house_races WHERE state_code IN ('NE','WV') ORDER BY state_code, district;\nSELECT state_code, status, called_winner, called_party, pct_reporting, updated_at FROM senate_races WHERE state_code IN ('NE','WV') ORDER BY state_code;\nSELECT MAX(updated_at) as last_update FROM house_races;\n",
+  "rows": [
+    {
+      "status": "Scheduled",
+      "count": "347"
+    },
+    {
+      "status": "Primary",
+      "count": "5"
+    },
+    {
+      "status": "General",
+      "count": "76"
+    },
+    {
+      "status": "Called",
+      "count": "7"
+    }
+  ],
+  "messages": [
+    "state_code\tdistrict\tstatus\tcalled_winner\tcalled_party\tpct_reporting\tupdated_at",
+    "NE\t1\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13",
+    "NE\t2\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13",
+    "NE\t3\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13",
+    "WV\t1\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13",
+    "WV\t2\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13",
+    "state_code\tstatus\tcalled_winner\tcalled_party\tpct_reporting\tupdated_at",
+    "NE\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13",
+    "WV\tScheduled\tNULL\tNULL\t0.00\t2026-04-11 17:08:44",
+    "last_update",
+    "2026-05-12 22:13:14"
+  ],
+  "stdout": "status\tcount\nScheduled\t347\nPrimary\t5\nGeneral\t76\nCalled\t7\nstate_code\tdistrict\tstatus\tcalled_winner\tcalled_party\tpct_reporting\tupdated_at\nNE\t1\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13\nNE\t2\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13\nNE\t3\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13\nWV\t1\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13\nWV\t2\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13\nstate_code\tstatus\tcalled_winner\tcalled_party\tpct_reporting\tupdated_at\nNE\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13\nWV\tScheduled\tNULL\tNULL\t0.00\t2026-04-11 17:08:44\nlast_update\n2026-05-12 22:13:14\n",
+  "stderr": "",
+  "execution_time_ms": 272
+}

@@ -1,0 +1,18 @@
+{
+  "query": "SELECT id, state_code, state_name, status, called_winner, called_party FROM senate_races WHERE state_code = 'WV';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, state_code, state_name, status, called_winner, called_party FROM senate_races WHERE state_code = 'WV';",
+  "rows": [
+    {
+      "id": "32",
+      "state_code": "WV",
+      "state_name": "West Virginia",
+      "status": "Called",
+      "called_winner": "Shelley Moore Capito",
+      "called_party": "R"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tstate_name\tstatus\tcalled_winner\tcalled_party\n32\tWV\tWest Virginia\tCalled\tShelley Moore Capito\tR\n",
+  "stderr": "",
+  "execution_time_ms": 258
+}

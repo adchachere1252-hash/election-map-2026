@@ -1,0 +1,48 @@
+{
+  "query": "\nSELECT \n  state_code, district_label, status, \n  candidate1_name, candidate1_party, candidate1_votes, candidate1_vote_pct,\n  candidate2_name, candidate2_party, candidate2_votes, candidate2_vote_pct,\n  other_candidate_name, other_votes,\n  called_winner, called_party, pct_reporting, updated_at\nFROM house_races \nWHERE state_code = 'WV' \nORDER BY district;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT \n  state_code, district_label, status, \n  candidate1_name, candidate1_party, candidate1_votes, candidate1_vote_pct,\n  candidate2_name, candidate2_party, candidate2_votes, candidate2_vote_pct,\n  other_candidate_name, other_votes,\n  called_winner, called_party, pct_reporting, updated_at\nFROM house_races \nWHERE state_code = 'WV' \nORDER BY district;\n",
+  "rows": [
+    {
+      "state_code": "WV",
+      "district_label": "1",
+      "status": "Scheduled",
+      "candidate1_name": "Carol Miller",
+      "candidate1_party": "R",
+      "candidate1_votes": "2600",
+      "candidate1_vote_pct": "77.80",
+      "candidate2_name": "Britta Aguirre",
+      "candidate2_party": "D",
+      "candidate2_votes": "1408",
+      "candidate2_vote_pct": "51.30",
+      "other_candidate_name": "Vince George, Larry Jackson",
+      "other_votes": "2075",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "pct_reporting": "6.90",
+      "updated_at": "2026-05-13 00:08:08"
+    },
+    {
+      "state_code": "WV",
+      "district_label": "2",
+      "status": "Scheduled",
+      "candidate1_name": "Ace Parsi",
+      "candidate1_party": "D",
+      "candidate1_votes": "3323",
+      "candidate1_vote_pct": "41.70",
+      "candidate2_name": "Stephanie Tomana",
+      "candidate2_party": "D",
+      "candidate2_votes": "3259",
+      "candidate2_vote_pct": "40.90",
+      "other_candidate_name": "Steven Wendelin, Riley Moore",
+      "other_votes": "1379",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "pct_reporting": "20.50",
+      "updated_at": "2026-05-13 00:08:08"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict_label\tstatus\tcandidate1_name\tcandidate1_party\tcandidate1_votes\tcandidate1_vote_pct\tcandidate2_name\tcandidate2_party\tcandidate2_votes\tcandidate2_vote_pct\tother_candidate_name\tother_votes\tcalled_winner\tcalled_party\tpct_reporting\tupdated_at\nWV\t1\tScheduled\tCarol Miller\tR\t2600\t77.80\tBritta Aguirre\tD\t1408\t51.30\tVince George, Larry Jackson\t2075\tNULL\tNULL\t6.90\t2026-05-13 00:08:08\nWV\t2\tScheduled\tAce Parsi\tD\t3323\t41.70\tStephanie Tomana\tD\t3259\t40.90\tSteven Wendelin, Riley Moore\t1379\tNULL\tNULL\t20.50\t2026-05-13 00:08:08\n",
+  "stderr": "",
+  "execution_time_ms": 258
+}

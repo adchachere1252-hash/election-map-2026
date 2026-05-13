@@ -1,0 +1,20 @@
+{
+  "query": "\nUPDATE senate_races \nSET \n  status = 'Called',\n  called_winner = 'Shelley Moore Capito',\n  called_party = 'R',\n  called_at = UNIX_TIMESTAMP() * 1000,\n  primary_winner = 'Shelley Moore Capito',\n  primary_party = 'R',\n  updated_at = NOW()\nWHERE state_code = 'WV';\n\nSELECT state_code, status, called_winner, called_party, primary_winner, primary_party, called_at, updated_at FROM senate_races WHERE state_code = 'WV';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nUPDATE senate_races \nSET \n  status = 'Called',\n  called_winner = 'Shelley Moore Capito',\n  called_party = 'R',\n  called_at = UNIX_TIMESTAMP() * 1000,\n  primary_winner = 'Shelley Moore Capito',\n  primary_party = 'R',\n  updated_at = NOW()\nWHERE state_code = 'WV';\n\nSELECT state_code, status, called_winner, called_party, primary_winner, primary_party, called_at, updated_at FROM senate_races WHERE state_code = 'WV';\n",
+  "rows": [
+    {
+      "state_code": "WV",
+      "status": "Called",
+      "called_winner": "Shelley Moore Capito",
+      "called_party": "R",
+      "primary_winner": "Shelley Moore Capito",
+      "primary_party": "R",
+      "called_at": "1778630564000",
+      "updated_at": "2026-05-13 00:02:44"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstatus\tcalled_winner\tcalled_party\tprimary_winner\tprimary_party\tcalled_at\tupdated_at\nWV\tCalled\tShelley Moore Capito\tR\tShelley Moore Capito\tR\t1778630564000\t2026-05-13 00:02:44\n",
+  "stderr": "",
+  "execution_time_ms": 264
+}

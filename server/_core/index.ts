@@ -268,6 +268,39 @@ async function startServer() {
     return res.json(result);
   });
 
+  // Pre-warm 89th Congress GeoJSON files on startup (background, non-blocking)
+  // This ensures the large NC file (4.5MB) is cached before the first client request,
+  // preventing NC from appearing missing at the start of the Historical Atlas.
+  setImmediate(async () => {
+    const CONGRESS_89_FILES = [
+      "Alabama_089_to_089.geojson","Alaska_086_to_102.geojson","Arizona_088_to_089.geojson",
+      "Arkansas_088_to_089.geojson","California_088_to_090.geojson","Colorado_089_to_092.geojson",
+      "Connecticut_089_to_092.geojson","Delaware_001_to_097.geojson","Florida_088_to_089.geojson",
+      "Georgia_089_to_092.geojson","Hawaii_086_to_091.geojson","Idaho_066_to_089.geojson",
+      "Illinois_088_to_089.geojson","Indiana_078_to_089.geojson","Iowa_088_to_092.geojson",
+      "Kansas_088_to_089.geojson","Kentucky_088_to_089.geojson","Louisiana_063_to_090.geojson",
+      "Maine_088_to_097.geojson","Maryland_088_to_089.geojson","Massachusetts_088_to_090.geojson",
+      "Michigan_089_to_092.geojson","Minnesota_088_to_092.geojson","Mississippi_088_to_089.geojson",
+      "Missouri_088_to_089.geojson","Montana_051_to_117.geojson","Nebraska_088_to_090.geojson",
+      "Nevada_042_to_097.geojson","New Hampshire_048_to_091.geojson","New Jersey_088_to_089.geojson",
+      "New Mexico_062_to_090.geojson","New York_088_to_090.geojson","North Carolina_088_to_089.geojson",
+      "North Dakota_051_to_119.geojson","Ohio_063_to_089.geojson","Oklahoma_083_to_090.geojson",
+      "Oregon_078_to_089.geojson","Pennsylvania_088_to_089.geojson","Rhode Island_089_to_092.geojson",
+      "South Carolina_089_to_089.geojson","South Dakota_051_to_119.geojson","Tennessee_083_to_089.geojson",
+      "Texas_043_to_089.geojson","Utah_064_to_089.geojson","Vermont_013_to_119.geojson",
+      "Virginia_083_to_089.geojson","Washington_087_to_090.geojson","West Virginia_088_to_090.geojson",
+      "Wisconsin_089_to_092.geojson","Wyoming_051_to_119.geojson",
+    ];
+    console.log("[Atlas] Pre-warming 89th Congress GeoJSON files...");
+    // Fetch in batches of 5 to avoid overwhelming GitHub CDN
+    for (let i = 0; i < CONGRESS_89_FILES.length; i += 5) {
+      const batch = CONGRESS_89_FILES.slice(i, i + 5);
+      await Promise.allSettled(batch.map(f => fetchGeoJsonFromGitHub(f)));
+      if (i + 5 < CONGRESS_89_FILES.length) await new Promise(r => setTimeout(r, 200));
+    }
+    console.log("[Atlas] 89th Congress GeoJSON pre-warm complete.");
+  });
+
   // Pre-warm all 31 congresses on server startup (background, non-blocking)
   // Use batches of 5 with 500ms delay to avoid rate-limiting Voteview
   setImmediate(async () => {
@@ -321,6 +354,24 @@ async function startServer() {
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
   });
+
+  // ── Auto AP update: pull fresh results every 2 minutes ──────────────────────
+  // This runs server-side so results flow in automatically without needing
+  // an external heartbeat. Only runs when there are active election dates.
+  const { scrapeAndPushResults } = await import("../scheduledApUpdate");
+  const AUTO_UPDATE_INTERVAL_MS = 2 * 60 * 1000; // 2 minutes
+  setInterval(async () => {
+    try {
+      const result = await scrapeAndPushResults();
+      const okCount = result.updates.filter(u => u.status === "ok").length;
+      const skipCount = result.updates.filter(u => u.status === "skip").length;
+      const errCount = result.updates.filter(u => u.status === "error").length;
+      console.log(`[AutoUpdate] Done — Updated: ${okCount} | Skipped: ${skipCount} | Errors: ${errCount}`);
+    } catch (err) {
+      console.error("[AutoUpdate] Error:", err instanceof Error ? err.message : String(err));
+    }
+  }, AUTO_UPDATE_INTERVAL_MS);
+  console.log(`[AutoUpdate] AP results auto-update scheduled every ${AUTO_UPDATE_INTERVAL_MS / 1000}s`);
 }
 
 startServer().catch(console.error);

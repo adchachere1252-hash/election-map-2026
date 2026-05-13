@@ -1,0 +1,19 @@
+{
+  "query": "\nSELECT status, COUNT(*) as count FROM house_races GROUP BY status ORDER BY status;\nSELECT state_code, district, status, called_winner, called_party, pct_reporting, updated_at FROM house_races WHERE state_code IN ('NE','WV') ORDER BY state_code, district;\nSELECT state_code, status, called_winner, called_party, pct_reporting, updated_at FROM senate_races WHERE year = 2026 AND state_code IN ('NE','WV') ORDER BY state_code;\nSELECT MAX(updated_at) as last_update FROM house_races;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT status, COUNT(*) as count FROM house_races GROUP BY status ORDER BY status;\nSELECT state_code, district, status, called_winner, called_party, pct_reporting, updated_at FROM house_races WHERE state_code IN ('NE','WV') ORDER BY state_code, district;\nSELECT state_code, status, called_winner, called_party, pct_reporting, updated_at FROM senate_races WHERE year = 2026 AND state_code IN ('NE','WV') ORDER BY state_code;\nSELECT MAX(updated_at) as last_update FROM house_races;\n",
+  "returncode": 1,
+  "logs": [
+    "status\tcount",
+    "Scheduled\t347",
+    "Primary\t5",
+    "General\t76",
+    "Called\t7",
+    "state_code\tdistrict\tstatus\tcalled_winner\tcalled_party\tpct_reporting\tupdated_at",
+    "NE\t1\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13",
+    "NE\t2\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13",
+    "NE\t3\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13",
+    "WV\t1\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13",
+    "WV\t2\tScheduled\tNULL\tNULL\t0.00\t2026-05-12 22:13:13",
+    "ERROR 1054 (42S22) at line 4: Unknown column 'year' in 'where clause'"
+  ]
+}
