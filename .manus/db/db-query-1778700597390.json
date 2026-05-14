@@ -1,0 +1,330 @@
+{
+  "query": "\nSELECT CONCAT(state_code, '-', district_label) as district, \n  candidate1_name as c1, candidate1_party as p1, \n  candidate2_name as c2, candidate2_party as p2, rating\nFROM house_races\nWHERE candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL\n  AND candidate1_name NOT LIKE 'TBD%' AND candidate2_name NOT LIKE 'TBD%'\n  AND rating IN ('Toss-up', 'Lean D', 'Lean R', 'Likely D', 'Likely R')\nORDER BY rating, state_code\nLIMIT 50;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT CONCAT(state_code, '-', district_label) as district, \n  candidate1_name as c1, candidate1_party as p1, \n  candidate2_name as c2, candidate2_party as p2, rating\nFROM house_races\nWHERE candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL\n  AND candidate1_name NOT LIKE 'TBD%' AND candidate2_name NOT LIKE 'TBD%'\n  AND rating IN ('Toss-up', 'Lean D', 'Lean R', 'Likely D', 'Likely R')\nORDER BY rating, state_code\nLIMIT 50;\n",
+  "rows": [
+    {
+      "district": "CA-21",
+      "c1": "Jim Costa",
+      "p1": "D",
+      "c2": "R Primary TBD",
+      "p2": "R",
+      "rating": "Likely D"
+    },
+    {
+      "district": "IN-1",
+      "c1": "Frank Mrvan",
+      "p1": "D",
+      "c2": "Barb Regnitz",
+      "p2": "R",
+      "rating": "Likely D"
+    },
+    {
+      "district": "MN-2",
+      "c1": "D Primary TBD",
+      "p1": "D",
+      "c2": "R Primary TBD",
+      "p2": "R",
+      "rating": "Likely D"
+    },
+    {
+      "district": "NH-2",
+      "c1": "Maggie Goodlander",
+      "p1": "D",
+      "c2": "R Primary TBD",
+      "p2": "R",
+      "rating": "Likely D"
+    },
+    {
+      "district": "NJ-9",
+      "c1": "Nellie Pou",
+      "p1": "D",
+      "c2": "R Primary TBD",
+      "p2": "R",
+      "rating": "Likely D"
+    },
+    {
+      "district": "NV-1",
+      "c1": "Dina Titus",
+      "p1": "D",
+      "c2": "R Primary TBD",
+      "p2": "R",
+      "rating": "Likely D"
+    },
+    {
+      "district": "NV-4",
+      "c1": "Steven Horsford",
+      "p1": "D",
+      "c2": "R Primary TBD",
+      "p2": "R",
+      "rating": "Likely D"
+    },
+    {
+      "district": "OH-13",
+      "c1": "Emilia Sykes",
+      "p1": "D",
+      "c2": "Kevin Siembida",
+      "p2": "R",
+      "rating": "Likely D"
+    },
+    {
+      "district": "OR-5",
+      "c1": "Total Write-ins",
+      "p1": "R",
+      "c2": "Patti Adair",
+      "p2": "R",
+      "rating": "Likely D"
+    },
+    {
+      "district": "CA-48",
+      "c1": "Ammar Campa-Najjar",
+      "p1": "D",
+      "c2": "Jim Desmond",
+      "p2": "R",
+      "rating": "Lean D"
+    },
+    {
+      "district": "CA-45",
+      "c1": "Derek Tran",
+      "p1": "D",
+      "c2": "R Primary TBD",
+      "p2": "R",
+      "rating": "Lean D"
+    },
+    {
+      "district": "FL-23",
+      "c1": "Jared Moskowitz",
+      "p1": "D",
+      "c2": "R Primary TBD",
+      "p2": "R",
+      "rating": "Lean D"
+    },
+    {
+      "district": "MI-8",
+      "c1": "Kristen McDonald Rivet",
+      "p1": "D",
+      "c2": "R Primary TBD",
+      "p2": "R",
+      "rating": "Lean D"
+    },
+    {
+      "district": "NE-2",
+      "c1": "Denise Powell",
+      "p1": "D",
+      "c2": "Brinker Harding",
+      "p2": "R",
+      "rating": "Lean D"
+    },
+    {
+      "district": "NM-2",
+      "c1": "Gabe Vasquez",
+      "p1": "D",
+      "c2": "R Primary TBD",
+      "p2": "R",
+      "rating": "Lean D"
+    },
+    {
+      "district": "NV-3",
+      "c1": "Susie Lee",
+      "p1": "D",
+      "c2": "R Primary TBD",
+      "p2": "R",
+      "rating": "Lean D"
+    },
+    {
+      "district": "NY-19",
+      "c1": "Josh Riley",
+      "p1": "D",
+      "c2": "R Primary TBD",
+      "p2": "R",
+      "rating": "Lean D"
+    },
+    {
+      "district": "OH-1",
+      "c1": "Greg Landsman",
+      "p1": "D",
+      "c2": "Greg Landsman",
+      "p2": "D",
+      "rating": "Lean D"
+    },
+    {
+      "district": "TX-28",
+      "c1": "Henry Cuellar",
+      "p1": "D",
+      "c2": "Tano Tijerina",
+      "p2": "R",
+      "rating": "Lean D"
+    },
+    {
+      "district": "OH-9",
+      "c1": "Marcy Kaptur",
+      "p1": "D",
+      "c2": "Josh Williams",
+      "p2": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "district": "PA-8",
+      "c1": "Rob Bresnahan",
+      "p1": "R",
+      "c2": "Paige Cognetti",
+      "p2": "D",
+      "rating": "Toss-up"
+    },
+    {
+      "district": "PA-10",
+      "c1": "Scott Perry",
+      "p1": "R",
+      "c2": "Janelle Stelson",
+      "p2": "D",
+      "rating": "Toss-up"
+    },
+    {
+      "district": "PA-7",
+      "c1": "Ryan Mackenzie",
+      "p1": "R",
+      "c2": "Bob Brooks",
+      "p2": "D",
+      "rating": "Toss-up"
+    },
+    {
+      "district": "TX-34",
+      "c1": "Vicente Gonzalez Jr.",
+      "p1": "D",
+      "c2": "Eric Flores",
+      "p2": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "district": "NC-1",
+      "c1": "Donald Davis",
+      "p1": "D",
+      "c2": "Laurie Buckhout",
+      "p2": "R",
+      "rating": "Lean R"
+    },
+    {
+      "district": "VA-1",
+      "c1": "D Primary TBD",
+      "p1": "D",
+      "c2": "Rob Wittman",
+      "p2": "R",
+      "rating": "Lean R"
+    },
+    {
+      "district": "AZ-2",
+      "c1": "D Primary TBD",
+      "p1": "D",
+      "c2": "Elijah Crane",
+      "p2": "R",
+      "rating": "Likely R"
+    },
+    {
+      "district": "CO-5",
+      "c1": "D Primary TBD",
+      "p1": "D",
+      "c2": "Jeff Crank",
+      "p2": "R",
+      "rating": "Likely R"
+    },
+    {
+      "district": "FL-13",
+      "c1": "D Primary TBD",
+      "p1": "D",
+      "c2": "Anna Paulina Luna",
+      "p2": "R",
+      "rating": "Likely R"
+    },
+    {
+      "district": "FL-27",
+      "c1": "D Primary TBD",
+      "p1": "D",
+      "c2": "Maria Elvira Salazar",
+      "p2": "R",
+      "rating": "Likely R"
+    },
+    {
+      "district": "FL-7",
+      "c1": "D Primary TBD",
+      "p1": "D",
+      "c2": "Cory Mills",
+      "p2": "R",
+      "rating": "Likely R"
+    },
+    {
+      "district": "ME-2",
+      "c1": "D Primary TBD",
+      "p1": "D",
+      "c2": "Paul LePage",
+      "p2": "R",
+      "rating": "Likely R"
+    },
+    {
+      "district": "MI-4",
+      "c1": "D Primary TBD",
+      "p1": "D",
+      "c2": "Bill Huizenga",
+      "p2": "R",
+      "rating": "Likely R"
+    },
+    {
+      "district": "MT-1",
+      "c1": "D Primary TBD",
+      "p1": "D",
+      "c2": "Ryan K. Zinke",
+      "p2": "R",
+      "rating": "Likely R"
+    },
+    {
+      "district": "NC-11",
+      "c1": "Jamie Ager",
+      "p1": "D",
+      "c2": "Chuck Edwards",
+      "p2": "R",
+      "rating": "Likely R"
+    },
+    {
+      "district": "PA-1",
+      "c1": "Brian Fitzpatrick",
+      "p1": "R",
+      "c2": "Lucia Simonelli",
+      "p2": "D",
+      "rating": "Likely R"
+    },
+    {
+      "district": "TN-5",
+      "c1": "D Primary TBD",
+      "p1": "D",
+      "c2": "Andy Ogles",
+      "p2": "R",
+      "rating": "Likely R"
+    },
+    {
+      "district": "TX-15",
+      "c1": "Bobby Pulido",
+      "p1": "D",
+      "c2": "Monica De La Cruz",
+      "p2": "R",
+      "rating": "Likely R"
+    },
+    {
+      "district": "TX-35",
+      "c1": "Maureen Galindo/Johnny Garcia (primary runoff on May 26, 2026)",
+      "p1": "D",
+      "c2": "John Lujan/Carlos De La Cruz (primary runoff on May 26, 2026)",
+      "p2": "R",
+      "rating": "Likely R"
+    },
+    {
+      "district": "WI-1",
+      "c1": "D Primary TBD",
+      "p1": "D",
+      "c2": "Bryan Steil",
+      "p2": "R",
+      "rating": "Likely R"
+    }
+  ],
+  "messages": [],
+  "stdout": "district\tc1\tp1\tc2\tp2\trating\nCA-21\tJim Costa\tD\tR Primary TBD\tR\tLikely D\nIN-1\tFrank Mrvan\tD\tBarb Regnitz\tR\tLikely D\nMN-2\tD Primary TBD\tD\tR Primary TBD\tR\tLikely D\nNH-2\tMaggie Goodlander\tD\tR Primary TBD\tR\tLikely D\nNJ-9\tNellie Pou\tD\tR Primary TBD\tR\tLikely D\nNV-1\tDina Titus\tD\tR Primary TBD\tR\tLikely D\nNV-4\tSteven Horsford\tD\tR Primary TBD\tR\tLikely D\nOH-13\tEmilia Sykes\tD\tKevin Siembida\tR\tLikely D\nOR-5\tTotal Write-ins\tR\tPatti Adair\tR\tLikely D\nCA-48\tAmmar Campa-Najjar\tD\tJim Desmond\tR\tLean D\nCA-45\tDerek Tran\tD\tR Primary TBD\tR\tLean D\nFL-23\tJared Moskowitz\tD\tR Primary TBD\tR\tLean D\nMI-8\tKristen McDonald Rivet\tD\tR Primary TBD\tR\tLean D\nNE-2\tDenise Powell\tD\tBrinker Harding\tR\tLean D\nNM-2\tGabe Vasquez\tD\tR Primary TBD\tR\tLean D\nNV-3\tSusie Lee\tD\tR Primary TBD\tR\tLean D\nNY-19\tJosh Riley\tD\tR Primary TBD\tR\tLean D\nOH-1\tGreg Landsman\tD\tGreg Landsman\tD\tLean D\nTX-28\tHenry Cuellar\tD\tTano Tijerina\tR\tLean D\nOH-9\tMarcy Kaptur\tD\tJosh Williams\tR\tToss-up\nPA-8\tRob Bresnahan\tR\tPaige Cognetti\tD\tToss-up\nPA-10\tScott Perry\tR\tJanelle Stelson\tD\tToss-up\nPA-7\tRyan Mackenzie\tR\tBob Brooks\tD\tToss-up\nTX-34\tVicente Gonzalez Jr.\tD\tEric Flores\tR\tToss-up\nNC-1\tDonald Davis\tD\tLaurie Buckhout\tR\tLean R\nVA-1\tD Primary TBD\tD\tRob Wittman\tR\tLean R\nAZ-2\tD Primary TBD\tD\tElijah Crane\tR\tLikely R\nCO-5\tD Primary TBD\tD\tJeff Crank\tR\tLikely R\nFL-13\tD Primary TBD\tD\tAnna Paulina Luna\tR\tLikely R\nFL-27\tD Primary TBD\tD\tMaria Elvira Salazar\tR\tLikely R\nFL-7\tD Primary TBD\tD\tCory Mills\tR\tLikely R\nME-2\tD Primary TBD\tD\tPaul LePage\tR\tLikely R\nMI-4\tD Primary TBD\tD\tBill Huizenga\tR\tLikely R\nMT-1\tD Primary TBD\tD\tRyan K. Zinke\tR\tLikely R\nNC-11\tJamie Ager\tD\tChuck Edwards\tR\tLikely R\nPA-1\tBrian Fitzpatrick\tR\tLucia Simonelli\tD\tLikely R\nTN-5\tD Primary TBD\tD\tAndy Ogles\tR\tLikely R\nTX-15\tBobby Pulido\tD\tMonica De La Cruz\tR\tLikely R\nTX-35\tMaureen Galindo/Johnny Garcia (primary runoff on May 26, 2026)\tD\tJohn Lujan/Carlos De La Cruz (primary runoff on May 26, 2026)\tR\tLikely R\nWI-1\tD Primary TBD\tD\tBryan Steil\tR\tLikely R\n",
+  "stderr": "",
+  "execution_time_ms": 256
+}

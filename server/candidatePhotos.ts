@@ -40,7 +40,7 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   // Senate challengers / non-Congress candidates (Round 2)
   "don tracy":            `${BASE}/don-tracy_3770cfc3.jpg`,
   "earl carter":          `${BASE}/earl-carter_cba92698.jpg`,
-  "michael whatley":      `${BASE}/michael-whatley_a066c66f.jpg`,
+  // michael whatley updated below in Round 3 with better portrait
   "ron kincaid":          `${BASE}/ron-kincaid_7bc5aec9.jpg`,
   "graham platner":       `${BASE}/graham-platner_b9a8fdd2.jpg`,
   "cindy burbank":        `${BASE}/cindy-burbank_7a45530c.jpg`,
@@ -53,6 +53,24 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "james byrd":           `${BASE}/james-byrd_491067c8.jpg`,
   "hallie shoffner":      `${BASE}/hallie-shoffner_7fbd32e9.jpg`,
   "dakarai larriett":     `${BASE}/dakarai-larriett_eb9a26e2.jpg`,
+  // Governor candidates (Round 3)
+  "wes moore":            `${BASE}/wes-moore_181f290a.jpg`,
+  "kathy hochul":         `${BASE}/kathy-hochul_ad50280c.jpg`,
+  "darren bailey":        `${BASE}/darren-bailey_a50797b3.jpg`,
+  "rob sand":             `${BASE}/rob-sand_f46705e4.jpg`,
+  "j.b. pritzker":        `${BASE}/jb-pritzker_bd87f5a7.jpg`,
+  "jb pritzker":          `${BASE}/jb-pritzker_bd87f5a7.jpg`,
+  "kari lake":            `${BASE}/kari-lake_0ea479f6.jpg`,
+  "amy klobuchar":        `${BASE}/amy-klobuchar_4167e3f7.jpg`,
+  // House competitive candidates (Round 3)
+  "frank mrvan":          `${BASE}/frank-mrvan_edfce460.jpg`,
+  "maggie goodlander":    `${BASE}/maggie-goodlander_031a7473.jpg`,
+  "ammar campa-najjar":   `${BASE}/ammar-campa-najjar_97ded915.jpg`,
+  "jim desmond":          `${BASE}/jim-desmond_8cace2ee.jpg`,
+  "tano tijerina":        `${BASE}/tano-tijerina_a5173754.jpg`,
+  "josh williams":        `${BASE}/josh-williams-oh9_43d1d004.jpg`,
+  // Michael Whatley updated portrait (replaces old side-by-side crop)
+  "michael whatley":      `${BASE}/michael-whatley_b5138cff.jpg`,
 };
 
 export const PARTY_LOGOS = {

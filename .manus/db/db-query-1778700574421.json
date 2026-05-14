@@ -1,0 +1,874 @@
+{
+  "query": "\nSELECT 'governor' as chamber, state_name, dem_candidate as c1_name, 'D' as c1_party, rep_candidate as c2_name, 'R' as c2_party, rating\nFROM governor_races\nWHERE dem_candidate IS NOT NULL AND rep_candidate IS NOT NULL\nORDER BY rating;\n\nSELECT 'house' as chamber, CONCAT(state_code, '-', district_label) as state_name, \n  candidate1_name as c1_name, candidate1_party as c1_party, \n  candidate2_name as c2_name, candidate2_party as c2_party, rating\nFROM house_races\nWHERE candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL\n  AND rating IN ('Toss-up', 'Lean D', 'Lean R', 'Likely D', 'Likely R')\nORDER BY rating, state_code;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT 'governor' as chamber, state_name, dem_candidate as c1_name, 'D' as c1_party, rep_candidate as c2_name, 'R' as c2_party, rating\nFROM governor_races\nWHERE dem_candidate IS NOT NULL AND rep_candidate IS NOT NULL\nORDER BY rating;\n\nSELECT 'house' as chamber, CONCAT(state_code, '-', district_label) as state_name, \n  candidate1_name as c1_name, candidate1_party as c1_party, \n  candidate2_name as c2_name, candidate2_party as c2_party, rating\nFROM house_races\nWHERE candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL\n  AND rating IN ('Toss-up', 'Lean D', 'Lean R', 'Likely D', 'Likely R')\nORDER BY rating, state_code;\n",
+  "rows": [
+    {
+      "chamber": "governor",
+      "state_name": "Maryland",
+      "c1_name": "Wes Moore (incumbent)",
+      "c1_party": "D",
+      "c2_name": "TBD — Republican Primary",
+      "c2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "New York",
+      "c1_name": "Kathy Hochul (incumbent)",
+      "c1_party": "D",
+      "c2_name": "TBD — Republican Primary",
+      "c2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Connecticut",
+      "c1_name": "Ned Lamont (incumbent)",
+      "c1_party": "D",
+      "c2_name": "TBD — Republican Primary",
+      "c2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Hawaii",
+      "c1_name": "Josh Green (incumbent)",
+      "c1_party": "D",
+      "c2_name": "TBD — Republican Primary",
+      "c2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Illinois",
+      "c1_name": "J.B. Pritzker (incumbent)",
+      "c1_party": "D",
+      "c2_name": "Darren Bailey",
+      "c2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Massachusetts",
+      "c1_name": "Maura Healey (incumbent)",
+      "c1_party": "D",
+      "c2_name": "TBD — Republican Primary",
+      "c2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Rhode Island",
+      "c1_name": "Daniel McKee (incumbent)",
+      "c1_party": "D",
+      "c2_name": "TBD — Republican Primary",
+      "c2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "California",
+      "c1_name": "TBD — Democratic Primary",
+      "c1_party": "D",
+      "c2_name": "TBD — Republican Primary",
+      "c2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Colorado",
+      "c1_name": "TBD — Democratic Primary",
+      "c1_party": "D",
+      "c2_name": "TBD — Republican Primary",
+      "c2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Pennsylvania",
+      "c1_name": "Josh Shapiro (incumbent)",
+      "c1_party": "D",
+      "c2_name": "TBD — Republican Primary",
+      "c2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Minnesota",
+      "c1_name": "Amy Klobuchar",
+      "c1_party": "D",
+      "c2_name": "TBD — R Primary: Aug 11, 2026",
+      "c2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Oregon",
+      "c1_name": "Tina Kotek (incumbent)",
+      "c1_party": "D",
+      "c2_name": "TBD — Republican Primary",
+      "c2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "New Mexico",
+      "c1_name": "TBD — Democratic Primary",
+      "c1_party": "D",
+      "c2_name": "TBD — Republican Primary",
+      "c2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Maine",
+      "c1_name": "TBD — D Primary: Jun 9, 2026 (Bellows, Jackson, King III, Pingree, Shah)",
+      "c1_party": "D",
+      "c2_name": "TBD — R Primary: Jun 9, 2026 (Bennett, Crockett, Glowa, Levasseur)",
+      "c2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Iowa",
+      "c1_name": "Rob Sand",
+      "c1_party": "D",
+      "c2_name": "TBD — R Primary: Jun 2, 2026 (Feenstra, Lahn, Sherman, Steen)",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Michigan",
+      "c1_name": "TBD — D Primary: Aug 4, 2026 (Benson, Hogan, Sawicki, Swanson)",
+      "c1_party": "D",
+      "c2_name": "TBD — R Primary: Aug 4, 2026 (James, Cox, Leonard, Nesbitt)",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Wisconsin",
+      "c1_name": "TBD — D Primary: Aug 11, 2026",
+      "c1_party": "D",
+      "c2_name": "TBD — R Primary: Aug 11, 2026",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Arizona",
+      "c1_name": "Katie Hobbs (incumbent)",
+      "c1_party": "D",
+      "c2_name": "TBD — R Primary: Jul 21, 2026 (Biggs, Miceli, Neely, Schweikert)",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Nevada",
+      "c1_name": "TBD — D Primary: Jun 9, 2026 (Ford, Hill)",
+      "c1_party": "D",
+      "c2_name": "Joe Lombardo (incumbent)",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Georgia",
+      "c1_name": "TBD — D Primary: May 19, 2026 (Bottoms, Brown, Duffy, Duncan, Esteves, Jackson, Thurmond, Romman)",
+      "c1_party": "D",
+      "c2_name": "TBD — R Primary: May 19, 2026 (Carr, Dean, Jones, Kirkpatrick, Raffensperger, Williams, Yasger)",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Kansas",
+      "c1_name": "TBD — Democratic Primary",
+      "c1_party": "D",
+      "c2_name": "TBD — Republican Primary",
+      "c2_party": "R",
+      "rating": "Lean R"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Ohio",
+      "c1_name": "Amy Acton",
+      "c1_party": "D",
+      "c2_name": "Vivek Ramaswamy",
+      "c2_party": "R",
+      "rating": "Lean R"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "New Hampshire",
+      "c1_name": "TBD — D Primary: Sep 8, 2026 (Warmington, Kiper)",
+      "c1_party": "D",
+      "c2_name": "Kelly Ayotte (incumbent)",
+      "c2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Florida",
+      "c1_name": "TBD — Democratic Primary",
+      "c1_party": "D",
+      "c2_name": "TBD — Republican Primary",
+      "c2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Arkansas",
+      "c1_name": "TBD — Democratic Primary",
+      "c1_party": "D",
+      "c2_name": "Sarah Huckabee Sanders",
+      "c2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Alabama",
+      "c1_name": "TBD — Democratic Primary",
+      "c1_party": "D",
+      "c2_name": "TBD — Republican Primary",
+      "c2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Idaho",
+      "c1_name": "TBD — Democratic Primary",
+      "c1_party": "D",
+      "c2_name": "Brad Little (incumbent)",
+      "c2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Nebraska",
+      "c1_name": "Lynne Walz",
+      "c1_party": "D",
+      "c2_name": "TBD — R Primary: May 12, 2026",
+      "c2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Alaska",
+      "c1_name": "TBD — Democratic Primary",
+      "c1_party": "D",
+      "c2_name": "TBD — Republican Primary",
+      "c2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Oklahoma",
+      "c1_name": "TBD — Democratic Primary",
+      "c1_party": "D",
+      "c2_name": "TBD — Republican Primary",
+      "c2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "South Carolina",
+      "c1_name": "TBD — Democratic Primary",
+      "c1_party": "D",
+      "c2_name": "TBD — Republican Primary",
+      "c2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "South Dakota",
+      "c1_name": "TBD — Democratic Primary",
+      "c1_party": "D",
+      "c2_name": "Larry Rhoden (incumbent)",
+      "c2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Tennessee",
+      "c1_name": "TBD — Democratic Primary",
+      "c1_party": "D",
+      "c2_name": "TBD — Republican Primary",
+      "c2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Texas",
+      "c1_name": "Gina Hinojosa",
+      "c1_party": "D",
+      "c2_name": "Greg Abbott (incumbent)",
+      "c2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Vermont",
+      "c1_name": "TBD — D Primary: Aug 11, 2026 (Janoo, Richards)",
+      "c1_party": "D",
+      "c2_name": "Phil Scott (incumbent)",
+      "c2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "chamber": "governor",
+      "state_name": "Wyoming",
+      "c1_name": "TBD — Democratic Primary",
+      "c1_party": "D",
+      "c2_name": "TBD — Republican Primary",
+      "c2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "chamber": "chamber",
+      "state_name": "state_name",
+      "c1_name": "c1_name",
+      "c1_party": "c1_party",
+      "c2_name": "c2_name",
+      "c2_party": "c2_party",
+      "rating": "rating"
+    },
+    {
+      "chamber": "house",
+      "state_name": "CA-21",
+      "c1_name": "Jim Costa",
+      "c1_party": "D",
+      "c2_name": "R Primary TBD",
+      "c2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "IN-1",
+      "c1_name": "Frank Mrvan",
+      "c1_party": "D",
+      "c2_name": "Barb Regnitz",
+      "c2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "MN-2",
+      "c1_name": "D Primary TBD",
+      "c1_party": "D",
+      "c2_name": "R Primary TBD",
+      "c2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "NH-2",
+      "c1_name": "Maggie Goodlander",
+      "c1_party": "D",
+      "c2_name": "R Primary TBD",
+      "c2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "NH-1",
+      "c1_name": "TBD — D Primary: Sep 8, 2026",
+      "c1_party": "D",
+      "c2_name": "TBD — R Primary: Sep 8, 2026",
+      "c2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "NJ-9",
+      "c1_name": "Nellie Pou",
+      "c1_party": "D",
+      "c2_name": "R Primary TBD",
+      "c2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "NV-4",
+      "c1_name": "Steven Horsford",
+      "c1_party": "D",
+      "c2_name": "R Primary TBD",
+      "c2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "NV-1",
+      "c1_name": "Dina Titus",
+      "c1_party": "D",
+      "c2_name": "R Primary TBD",
+      "c2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "OH-13",
+      "c1_name": "Emilia Sykes",
+      "c1_party": "D",
+      "c2_name": "Kevin Siembida",
+      "c2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "OR-5",
+      "c1_name": "Total Write-ins",
+      "c1_party": "R",
+      "c2_name": "Patti Adair",
+      "c2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "CA-13",
+      "c1_name": "Adam Gray",
+      "c1_party": "D",
+      "c2_name": "TBD — Primary: Jun 2, 2026",
+      "c2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "CA-45",
+      "c1_name": "Derek Tran",
+      "c1_party": "D",
+      "c2_name": "R Primary TBD",
+      "c2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "CA-48",
+      "c1_name": "Ammar Campa-Najjar",
+      "c1_party": "D",
+      "c2_name": "Jim Desmond",
+      "c2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "FL-23",
+      "c1_name": "Jared Moskowitz",
+      "c1_party": "D",
+      "c2_name": "R Primary TBD",
+      "c2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "MI-8",
+      "c1_name": "Kristen McDonald Rivet",
+      "c1_party": "D",
+      "c2_name": "R Primary TBD",
+      "c2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "NE-2",
+      "c1_name": "Denise Powell",
+      "c1_party": "D",
+      "c2_name": "Brinker Harding",
+      "c2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "NM-2",
+      "c1_name": "Gabe Vasquez",
+      "c1_party": "D",
+      "c2_name": "R Primary TBD",
+      "c2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "NV-3",
+      "c1_name": "Susie Lee",
+      "c1_party": "D",
+      "c2_name": "R Primary TBD",
+      "c2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "NY-19",
+      "c1_name": "Josh Riley",
+      "c1_party": "D",
+      "c2_name": "R Primary TBD",
+      "c2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "NY-3",
+      "c1_name": "TBD — D Primary: Jun 23, 2026",
+      "c1_party": "D",
+      "c2_name": "R Primary TBD",
+      "c2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "NY-4",
+      "c1_name": "TBD — D Primary: Jun 23, 2026",
+      "c1_party": "D",
+      "c2_name": "R Primary TBD",
+      "c2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "OH-1",
+      "c1_name": "Greg Landsman",
+      "c1_party": "D",
+      "c2_name": "Greg Landsman",
+      "c2_party": "D",
+      "rating": "Lean D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "TX-28",
+      "c1_name": "Henry Cuellar",
+      "c1_party": "D",
+      "c2_name": "Tano Tijerina",
+      "c2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "VA-7",
+      "c1_name": "TBD — D Primary: Aug 4, 2026",
+      "c1_party": "D",
+      "c2_name": "R Primary TBD",
+      "c2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "chamber": "house",
+      "state_name": "AZ-6",
+      "c1_name": "TBD — D Primary: Jul 21, 2026",
+      "c1_party": "D",
+      "c2_name": "Juan Ciscomani",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "house",
+      "state_name": "AZ-1",
+      "c1_name": "TBD — D Primary: Jul 21, 2026",
+      "c1_party": "D",
+      "c2_name": "TBD — R Primary: Jul 21, 2026",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "house",
+      "state_name": "CA-22",
+      "c1_name": "TBD — Primary: Jun 2, 2026",
+      "c1_party": "D",
+      "c2_name": "David G. Valadao",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "house",
+      "state_name": "CO-8",
+      "c1_name": "TBD — D Primary: Jun 30, 2026",
+      "c1_party": "D",
+      "c2_name": "Gabe Evans",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "house",
+      "state_name": "IA-1",
+      "c1_name": "TBD — D Primary: Jun 2, 2026",
+      "c1_party": "D",
+      "c2_name": "Mariannette Miller-Meeks",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "house",
+      "state_name": "IA-3",
+      "c1_name": "TBD — D Primary: Jun 2, 2026",
+      "c1_party": "D",
+      "c2_name": "Zach Nunn",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "house",
+      "state_name": "MI-7",
+      "c1_name": "TBD — D Primary: Aug 4, 2026",
+      "c1_party": "D",
+      "c2_name": "Tom Barrett",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "house",
+      "state_name": "NJ-7",
+      "c1_name": "TBD — D Primary: Jun 2, 2026",
+      "c1_party": "D",
+      "c2_name": "Thomas Kean Jr.",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "house",
+      "state_name": "NY-17",
+      "c1_name": "TBD — D Primary: Jun 23, 2026",
+      "c1_party": "D",
+      "c2_name": "TBD — R Primary: Jun 23, 2026",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "house",
+      "state_name": "OH-9",
+      "c1_name": "Marcy Kaptur",
+      "c1_party": "D",
+      "c2_name": "Josh Williams",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "house",
+      "state_name": "PA-8",
+      "c1_name": "Rob Bresnahan",
+      "c1_party": "R",
+      "c2_name": "Paige Cognetti",
+      "c2_party": "D",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "house",
+      "state_name": "PA-7",
+      "c1_name": "Ryan Mackenzie",
+      "c1_party": "R",
+      "c2_name": "Bob Brooks",
+      "c2_party": "D",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "house",
+      "state_name": "PA-10",
+      "c1_name": "Scott Perry",
+      "c1_party": "R",
+      "c2_name": "Janelle Stelson",
+      "c2_party": "D",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "house",
+      "state_name": "TX-34",
+      "c1_name": "Vicente Gonzalez Jr.",
+      "c1_party": "D",
+      "c2_name": "Eric Flores",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "house",
+      "state_name": "VA-2",
+      "c1_name": "TBD — D Primary: Aug 4, 2026",
+      "c1_party": "D",
+      "c2_name": "TBD — R Primary: Aug 4, 2026",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "house",
+      "state_name": "WA-3",
+      "c1_name": "TBD — D Primary: Aug 4, 2026",
+      "c1_party": "D",
+      "c2_name": "TBD — R Primary: Aug 4, 2026",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "house",
+      "state_name": "WI-3",
+      "c1_name": "TBD — D Primary: Aug 11, 2026",
+      "c1_party": "D",
+      "c2_name": "TBD — R Primary: Aug 11, 2026",
+      "c2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "chamber": "house",
+      "state_name": "MI-10",
+      "c1_name": "TBD — D Primary: Aug 4, 2026",
+      "c1_party": "D",
+      "c2_name": "TBD — R Primary: Aug 4, 2026",
+      "c2_party": "R",
+      "rating": "Lean R"
+    },
+    {
+      "chamber": "house",
+      "state_name": "NC-1",
+      "c1_name": "Donald Davis",
+      "c1_party": "D",
+      "c2_name": "Laurie Buckhout",
+      "c2_party": "R",
+      "rating": "Lean R"
+    },
+    {
+      "chamber": "house",
+      "state_name": "VA-1",
+      "c1_name": "D Primary TBD",
+      "c1_party": "D",
+      "c2_name": "Rob Wittman",
+      "c2_party": "R",
+      "rating": "Lean R"
+    },
+    {
+      "chamber": "house",
+      "state_name": "AZ-2",
+      "c1_name": "D Primary TBD",
+      "c1_party": "D",
+      "c2_name": "Elijah Crane",
+      "c2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "chamber": "house",
+      "state_name": "CO-5",
+      "c1_name": "D Primary TBD",
+      "c1_party": "D",
+      "c2_name": "Jeff Crank",
+      "c2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "chamber": "house",
+      "state_name": "FL-27",
+      "c1_name": "D Primary TBD",
+      "c1_party": "D",
+      "c2_name": "Maria Elvira Salazar",
+      "c2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "chamber": "house",
+      "state_name": "FL-7",
+      "c1_name": "D Primary TBD",
+      "c1_party": "D",
+      "c2_name": "Cory Mills",
+      "c2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "chamber": "house",
+      "state_name": "FL-13",
+      "c1_name": "D Primary TBD",
+      "c1_party": "D",
+      "c2_name": "Anna Paulina Luna",
+      "c2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "chamber": "house",
+      "state_name": "IA-2",
+      "c1_name": "TBD — D Primary: Jun 2, 2026",
+      "c1_party": "D",
+      "c2_name": "TBD — R Primary: Jun 2, 2026",
+      "c2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "chamber": "house",
+      "state_name": "ME-2",
+      "c1_name": "D Primary TBD",
+      "c1_party": "D",
+      "c2_name": "Paul LePage",
+      "c2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "chamber": "house",
+      "state_name": "MI-4",
+      "c1_name": "D Primary TBD",
+      "c1_party": "D",
+      "c2_name": "Bill Huizenga",
+      "c2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "chamber": "house",
+      "state_name": "MT-1",
+      "c1_name": "D Primary TBD",
+      "c1_party": "D",
+      "c2_name": "Ryan K. Zinke",
+      "c2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "chamber": "house",
+      "state_name": "NC-11",
+      "c1_name": "Jamie Ager",
+      "c1_party": "D",
+      "c2_name": "Chuck Edwards",
+      "c2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "chamber": "house",
+      "state_name": "PA-1",
+      "c1_name": "Brian Fitzpatrick",
+      "c1_party": "R",
+      "c2_name": "Lucia Simonelli",
+      "c2_party": "D",
+      "rating": "Likely R"
+    },
+    {
+      "chamber": "house",
+      "state_name": "TN-5",
+      "c1_name": "D Primary TBD",
+      "c1_party": "D",
+      "c2_name": "Andy Ogles",
+      "c2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "chamber": "house",
+      "state_name": "TX-15",
+      "c1_name": "Bobby Pulido",
+      "c1_party": "D",
+      "c2_name": "Monica De La Cruz",
+      "c2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "chamber": "house",
+      "state_name": "TX-35",
+      "c1_name": "Maureen Galindo/Johnny Garcia (primary runoff on May 26, 2026)",
+      "c1_party": "D",
+      "c2_name": "John Lujan/Carlos De La Cruz (primary runoff on May 26, 2026)",
+      "c2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "chamber": "house",
+      "state_name": "WI-1",
+      "c1_name": "D Primary TBD",
+      "c1_party": "D",
+      "c2_name": "Bryan Steil",
+      "c2_party": "R",
+      "rating": "Likely R"
+    }
+  ],
+  "messages": [],
+  "stdout": "chamber\tstate_name\tc1_name\tc1_party\tc2_name\tc2_party\trating\ngovernor\tMaryland\tWes Moore (incumbent)\tD\tTBD — Republican Primary\tR\tSolid D\ngovernor\tNew York\tKathy Hochul (incumbent)\tD\tTBD — Republican Primary\tR\tSolid D\ngovernor\tConnecticut\tNed Lamont (incumbent)\tD\tTBD — Republican Primary\tR\tSolid D\ngovernor\tHawaii\tJosh Green (incumbent)\tD\tTBD — Republican Primary\tR\tSolid D\ngovernor\tIllinois\tJ.B. Pritzker (incumbent)\tD\tDarren Bailey\tR\tSolid D\ngovernor\tMassachusetts\tMaura Healey (incumbent)\tD\tTBD — Republican Primary\tR\tSolid D\ngovernor\tRhode Island\tDaniel McKee (incumbent)\tD\tTBD — Republican Primary\tR\tSolid D\ngovernor\tCalifornia\tTBD — Democratic Primary\tD\tTBD — Republican Primary\tR\tSolid D\ngovernor\tColorado\tTBD — Democratic Primary\tD\tTBD — Republican Primary\tR\tSolid D\ngovernor\tPennsylvania\tJosh Shapiro (incumbent)\tD\tTBD — Republican Primary\tR\tSolid D\ngovernor\tMinnesota\tAmy Klobuchar\tD\tTBD — R Primary: Aug 11, 2026\tR\tSolid D\ngovernor\tOregon\tTina Kotek (incumbent)\tD\tTBD — Republican Primary\tR\tSolid D\ngovernor\tNew Mexico\tTBD — Democratic Primary\tD\tTBD — Republican Primary\tR\tLikely D\ngovernor\tMaine\tTBD — D Primary: Jun 9, 2026 (Bellows, Jackson, King III, Pingree, Shah)\tD\tTBD — R Primary: Jun 9, 2026 (Bennett, Crockett, Glowa, Levasseur)\tR\tLikely D\ngovernor\tIowa\tRob Sand\tD\tTBD — R Primary: Jun 2, 2026 (Feenstra, Lahn, Sherman, Steen)\tR\tToss-up\ngovernor\tMichigan\tTBD — D Primary: Aug 4, 2026 (Benson, Hogan, Sawicki, Swanson)\tD\tTBD — R Primary: Aug 4, 2026 (James, Cox, Leonard, Nesbitt)\tR\tToss-up\ngovernor\tWisconsin\tTBD — D Primary: Aug 11, 2026\tD\tTBD — R Primary: Aug 11, 2026\tR\tToss-up\ngovernor\tArizona\tKatie Hobbs (incumbent)\tD\tTBD — R Primary: Jul 21, 2026 (Biggs, Miceli, Neely, Schweikert)\tR\tToss-up\ngovernor\tNevada\tTBD — D Primary: Jun 9, 2026 (Ford, Hill)\tD\tJoe Lombardo (incumbent)\tR\tToss-up\ngovernor\tGeorgia\tTBD — D Primary: May 19, 2026 (Bottoms, Brown, Duffy, Duncan, Esteves, Jackson, Thurmond, Romman)\tD\tTBD — R Primary: May 19, 2026 (Carr, Dean, Jones, Kirkpatrick, Raffensperger, Williams, Yasger)\tR\tToss-up\ngovernor\tKansas\tTBD — Democratic Primary\tD\tTBD — Republican Primary\tR\tLean R\ngovernor\tOhio\tAmy Acton\tD\tVivek Ramaswamy\tR\tLean R\ngovernor\tNew Hampshire\tTBD — D Primary: Sep 8, 2026 (Warmington, Kiper)\tD\tKelly Ayotte (incumbent)\tR\tLikely R\ngovernor\tFlorida\tTBD — Democratic Primary\tD\tTBD — Republican Primary\tR\tSolid R\ngovernor\tArkansas\tTBD — Democratic Primary\tD\tSarah Huckabee Sanders\tR\tSolid R\ngovernor\tAlabama\tTBD — Democratic Primary\tD\tTBD — Republican Primary\tR\tSolid R\ngovernor\tIdaho\tTBD — Democratic Primary\tD\tBrad Little (incumbent)\tR\tSolid R\ngovernor\tNebraska\tLynne Walz\tD\tTBD — R Primary: May 12, 2026\tR\tSolid R\ngovernor\tAlaska\tTBD — Democratic Primary\tD\tTBD — Republican Primary\tR\tSolid R\ngovernor\tOklahoma\tTBD — Democratic Primary\tD\tTBD — Republican Primary\tR\tSolid R\ngovernor\tSouth Carolina\tTBD — Democratic Primary\tD\tTBD — Republican Primary\tR\tSolid R\ngovernor\tSouth Dakota\tTBD — Democratic Primary\tD\tLarry Rhoden (incumbent)\tR\tSolid R\ngovernor\tTennessee\tTBD — Democratic Primary\tD\tTBD — Republican Primary\tR\tSolid R\ngovernor\tTexas\tGina Hinojosa\tD\tGreg Abbott (incumbent)\tR\tSolid R\ngovernor\tVermont\tTBD — D Primary: Aug 11, 2026 (Janoo, Richards)\tD\tPhil Scott (incumbent)\tR\tSolid R\ngovernor\tWyoming\tTBD — Democratic Primary\tD\tTBD — Republican Primary\tR\tSolid R\nchamber\tstate_name\tc1_name\tc1_party\tc2_name\tc2_party\trating\nhouse\tCA-21\tJim Costa\tD\tR Primary TBD\tR\tLikely D\nhouse\tIN-1\tFrank Mrvan\tD\tBarb Regnitz\tR\tLikely D\nhouse\tMN-2\tD Primary TBD\tD\tR Primary TBD\tR\tLikely D\nhouse\tNH-2\tMaggie Goodlander\tD\tR Primary TBD\tR\tLikely D\nhouse\tNH-1\tTBD — D Primary: Sep 8, 2026\tD\tTBD — R Primary: Sep 8, 2026\tR\tLikely D\nhouse\tNJ-9\tNellie Pou\tD\tR Primary TBD\tR\tLikely D\nhouse\tNV-4\tSteven Horsford\tD\tR Primary TBD\tR\tLikely D\nhouse\tNV-1\tDina Titus\tD\tR Primary TBD\tR\tLikely D\nhouse\tOH-13\tEmilia Sykes\tD\tKevin Siembida\tR\tLikely D\nhouse\tOR-5\tTotal Write-ins\tR\tPatti Adair\tR\tLikely D\nhouse\tCA-13\tAdam Gray\tD\tTBD — Primary: Jun 2, 2026\tR\tLean D\nhouse\tCA-45\tDerek Tran\tD\tR Primary TBD\tR\tLean D\nhouse\tCA-48\tAmmar Campa-Najjar\tD\tJim Desmond\tR\tLean D\nhouse\tFL-23\tJared Moskowitz\tD\tR Primary TBD\tR\tLean D\nhouse\tMI-8\tKristen McDonald Rivet\tD\tR Primary TBD\tR\tLean D\nhouse\tNE-2\tDenise Powell\tD\tBrinker Harding\tR\tLean D\nhouse\tNM-2\tGabe Vasquez\tD\tR Primary TBD\tR\tLean D\nhouse\tNV-3\tSusie Lee\tD\tR Primary TBD\tR\tLean D\nhouse\tNY-19\tJosh Riley\tD\tR Primary TBD\tR\tLean D\nhouse\tNY-3\tTBD — D Primary: Jun 23, 2026\tD\tR Primary TBD\tR\tLean D\nhouse\tNY-4\tTBD — D Primary: Jun 23, 2026\tD\tR Primary TBD\tR\tLean D\nhouse\tOH-1\tGreg Landsman\tD\tGreg Landsman\tD\tLean D\nhouse\tTX-28\tHenry Cuellar\tD\tTano Tijerina\tR\tLean D\nhouse\tVA-7\tTBD — D Primary: Aug 4, 2026\tD\tR Primary TBD\tR\tLean D\nhouse\tAZ-6\tTBD — D Primary: Jul 21, 2026\tD\tJuan Ciscomani\tR\tToss-up\nhouse\tAZ-1\tTBD — D Primary: Jul 21, 2026\tD\tTBD — R Primary: Jul 21, 2026\tR\tToss-up\nhouse\tCA-22\tTBD — Primary: Jun 2, 2026\tD\tDavid G. Valadao\tR\tToss-up\nhouse\tCO-8\tTBD — D Primary: Jun 30, 2026\tD\tGabe Evans\tR\tToss-up\nhouse\tIA-1\tTBD — D Primary: Jun 2, 2026\tD\tMariannette Miller-Meeks\tR\tToss-up\nhouse\tIA-3\tTBD — D Primary: Jun 2, 2026\tD\tZach Nunn\tR\tToss-up\nhouse\tMI-7\tTBD — D Primary: Aug 4, 2026\tD\tTom Barrett\tR\tToss-up\nhouse\tNJ-7\tTBD — D Primary: Jun 2, 2026\tD\tThomas Kean Jr.\tR\tToss-up\nhouse\tNY-17\tTBD — D Primary: Jun 23, 2026\tD\tTBD — R Primary: Jun 23, 2026\tR\tToss-up\nhouse\tOH-9\tMarcy Kaptur\tD\tJosh Williams\tR\tToss-up\nhouse\tPA-8\tRob Bresnahan\tR\tPaige Cognetti\tD\tToss-up\nhouse\tPA-7\tRyan Mackenzie\tR\tBob Brooks\tD\tToss-up\nhouse\tPA-10\tScott Perry\tR\tJanelle Stelson\tD\tToss-up\nhouse\tTX-34\tVicente Gonzalez Jr.\tD\tEric Flores\tR\tToss-up\nhouse\tVA-2\tTBD — D Primary: Aug 4, 2026\tD\tTBD — R Primary: Aug 4, 2026\tR\tToss-up\nhouse\tWA-3\tTBD — D Primary: Aug 4, 2026\tD\tTBD — R Primary: Aug 4, 2026\tR\tToss-up\nhouse\tWI-3\tTBD — D Primary: Aug 11, 2026\tD\tTBD — R Primary: Aug 11, 2026\tR\tToss-up\nhouse\tMI-10\tTBD — D Primary: Aug 4, 2026\tD\tTBD — R Primary: Aug 4, 2026\tR\tLean R\nhouse\tNC-1\tDonald Davis\tD\tLaurie Buckhout\tR\tLean R\nhouse\tVA-1\tD Primary TBD\tD\tRob Wittman\tR\tLean R\nhouse\tAZ-2\tD Primary TBD\tD\tElijah Crane\tR\tLikely R\nhouse\tCO-5\tD Primary TBD\tD\tJeff Crank\tR\tLikely R\nhouse\tFL-27\tD Primary TBD\tD\tMaria Elvira Salazar\tR\tLikely R\nhouse\tFL-7\tD Primary TBD\tD\tCory Mills\tR\tLikely R\nhouse\tFL-13\tD Primary TBD\tD\tAnna Paulina Luna\tR\tLikely R\nhouse\tIA-2\tTBD — D Primary: Jun 2, 2026\tD\tTBD — R Primary: Jun 2, 2026\tR\tLikely R\nhouse\tME-2\tD Primary TBD\tD\tPaul LePage\tR\tLikely R\nhouse\tMI-4\tD Primary TBD\tD\tBill Huizenga\tR\tLikely R\nhouse\tMT-1\tD Primary TBD\tD\tRyan K. Zinke\tR\tLikely R\nhouse\tNC-11\tJamie Ager\tD\tChuck Edwards\tR\tLikely R\nhouse\tPA-1\tBrian Fitzpatrick\tR\tLucia Simonelli\tD\tLikely R\nhouse\tTN-5\tD Primary TBD\tD\tAndy Ogles\tR\tLikely R\nhouse\tTX-15\tBobby Pulido\tD\tMonica De La Cruz\tR\tLikely R\nhouse\tTX-35\tMaureen Galindo/Johnny Garcia (primary runoff on May 26, 2026)\tD\tJohn Lujan/Carlos De La Cruz (primary runoff on May 26, 2026)\tR\tLikely R\nhouse\tWI-1\tD Primary TBD\tD\tBryan Steil\tR\tLikely R\n",
+  "stderr": "",
+  "execution_time_ms": 268
+}

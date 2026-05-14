@@ -509,7 +509,7 @@ const CDN_PHOTOS: Record<string, string> = {
   // Senate challengers / non-Congress candidates (Round 2)
   "don tracy":            `${CDN_BASE}/don-tracy_3770cfc3.jpg`,
   "earl carter":          `${CDN_BASE}/earl-carter_cba92698.jpg`,
-  "michael whatley":      `${CDN_BASE}/michael-whatley_a066c66f.jpg`,
+  // michael whatley updated below with better portrait
   "ron kincaid":          `${CDN_BASE}/ron-kincaid_7bc5aec9.jpg`,
   "graham platner":       `${CDN_BASE}/graham-platner_b9a8fdd2.jpg`,
   "cindy burbank":        `${CDN_BASE}/cindy-burbank_7a45530c.jpg`,
@@ -522,6 +522,24 @@ const CDN_PHOTOS: Record<string, string> = {
   "james byrd":           `${CDN_BASE}/james-byrd_491067c8.jpg`,
   "hallie shoffner":      `${CDN_BASE}/hallie-shoffner_7fbd32e9.jpg`,
   "dakarai larriett":     `${CDN_BASE}/dakarai-larriett_eb9a26e2.jpg`,
+  // Governor candidates (Round 3)
+  "wes moore":            `${CDN_BASE}/wes-moore_181f290a.jpg`,
+  "kathy hochul":         `${CDN_BASE}/kathy-hochul_ad50280c.jpg`,
+  "darren bailey":        `${CDN_BASE}/darren-bailey_a50797b3.jpg`,
+  "rob sand":             `${CDN_BASE}/rob-sand_f46705e4.jpg`,
+  "j.b. pritzker":        `${CDN_BASE}/jb-pritzker_bd87f5a7.jpg`,
+  "jb pritzker":          `${CDN_BASE}/jb-pritzker_bd87f5a7.jpg`,
+  "kari lake":            `${CDN_BASE}/kari-lake_0ea479f6.jpg`,
+  "amy klobuchar":        `${CDN_BASE}/amy-klobuchar_4167e3f7.jpg`,
+  // House competitive candidates (Round 3)
+  "frank mrvan":          `${CDN_BASE}/frank-mrvan_edfce460.jpg`,
+  "maggie goodlander":    `${CDN_BASE}/maggie-goodlander_031a7473.jpg`,
+  "ammar campa-najjar":   `${CDN_BASE}/ammar-campa-najjar_97ded915.jpg`,
+  "jim desmond":          `${CDN_BASE}/jim-desmond_8cace2ee.jpg`,
+  "tano tijerina":        `${CDN_BASE}/tano-tijerina_a5173754.jpg`,
+  "josh williams":        `${CDN_BASE}/josh-williams-oh9_43d1d004.jpg`,
+  // Michael Whatley updated portrait (replaces old side-by-side crop)
+  "michael whatley":      `${CDN_BASE}/michael-whatley_b5138cff.jpg`,
 };
 
 /**

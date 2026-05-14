@@ -1307,3 +1307,10 @@
 - [x] Research and download headshots for all key 2026 Senate/House candidates missing photos
 - [x] Upload photos to CloudFront CDN via manus-upload-file --webdev
 - [x] Update server/candidatePhotos.ts and client/src/lib/candidatePhotos.ts with new entries
+
+## CDN Headshots Expansion Round 2 (Governor + House + Whatley fix)
+- [x] Query DB for all Governor and competitive House candidates needing photos
+- [x] Find photo URLs for all missing candidates (parallel search)
+- [x] Download, crop, upload all new photos to CDN
+- [x] Update candidatePhotos.ts with new entries
+- [x] Replace Michael Whatley photo with a better dedicated portrait

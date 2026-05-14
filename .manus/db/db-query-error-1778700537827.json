@@ -1,0 +1,8 @@
+{
+  "query": "\n-- Governor races with both candidates set\nSELECT 'governor' as chamber, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating\nFROM governor_races\nWHERE candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL\n  AND candidate1_name NOT LIKE 'TBD%' AND candidate2_name NOT LIKE 'TBD%'\nORDER BY rating;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- Governor races with both candidates set\nSELECT 'governor' as chamber, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating\nFROM governor_races\nWHERE candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL\n  AND candidate1_name NOT LIKE 'TBD%' AND candidate2_name NOT LIKE 'TBD%'\nORDER BY rating;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 3: Unknown column 'candidate1_name' in 'where clause'"
+  ]
+}
