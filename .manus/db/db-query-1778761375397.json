@@ -1,0 +1,82 @@
+{
+  "query": "\nSELECT state_code, state_name, incumbent_name, is_open, is_term_limited,\n  dem_candidate, rep_candidate\nFROM governor_races\nWHERE (dem_candidate NOT LIKE 'TBD%' OR rep_candidate NOT LIKE 'TBD%')\nAND state_name >= 'New York'\nORDER BY state_name;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state_code, state_name, incumbent_name, is_open, is_term_limited,\n  dem_candidate, rep_candidate\nFROM governor_races\nWHERE (dem_candidate NOT LIKE 'TBD%' OR rep_candidate NOT LIKE 'TBD%')\nAND state_name >= 'New York'\nORDER BY state_name;\n",
+  "rows": [
+    {
+      "state_code": "NY",
+      "state_name": "New York",
+      "incumbent_name": "Kathy Hochul",
+      "is_open": "0",
+      "is_term_limited": "0",
+      "dem_candidate": "Kathy Hochul (incumbent)",
+      "rep_candidate": "TBD — Republican Primary"
+    },
+    {
+      "state_code": "OH",
+      "state_name": "Ohio",
+      "incumbent_name": "Open Seat",
+      "is_open": "1",
+      "is_term_limited": "1",
+      "dem_candidate": "Amy Acton",
+      "rep_candidate": "Vivek Ramaswamy"
+    },
+    {
+      "state_code": "OR",
+      "state_name": "Oregon",
+      "incumbent_name": "Tina Kotek",
+      "is_open": "0",
+      "is_term_limited": "0",
+      "dem_candidate": "Tina Kotek (incumbent)",
+      "rep_candidate": "TBD — Republican Primary"
+    },
+    {
+      "state_code": "PA",
+      "state_name": "Pennsylvania",
+      "incumbent_name": "Josh Shapiro",
+      "is_open": "0",
+      "is_term_limited": "0",
+      "dem_candidate": "Josh Shapiro (incumbent)",
+      "rep_candidate": "TBD — Republican Primary"
+    },
+    {
+      "state_code": "RI",
+      "state_name": "Rhode Island",
+      "incumbent_name": "Dan McKee",
+      "is_open": "0",
+      "is_term_limited": "0",
+      "dem_candidate": "Daniel McKee (incumbent)",
+      "rep_candidate": "TBD — Republican Primary"
+    },
+    {
+      "state_code": "SD",
+      "state_name": "South Dakota",
+      "incumbent_name": "Larry Rhoden",
+      "is_open": "0",
+      "is_term_limited": "0",
+      "dem_candidate": "TBD — Democratic Primary",
+      "rep_candidate": "Larry Rhoden (incumbent)"
+    },
+    {
+      "state_code": "TX",
+      "state_name": "Texas",
+      "incumbent_name": "Greg Abbott",
+      "is_open": "0",
+      "is_term_limited": "0",
+      "dem_candidate": "Gina Hinojosa",
+      "rep_candidate": "Greg Abbott (incumbent)"
+    },
+    {
+      "state_code": "VT",
+      "state_name": "Vermont",
+      "incumbent_name": "Phil Scott",
+      "is_open": "0",
+      "is_term_limited": "0",
+      "dem_candidate": "TBD — D Primary: Aug 11, 2026 (Janoo, Richards)",
+      "rep_candidate": "Phil Scott (incumbent)"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstate_name\tincumbent_name\tis_open\tis_term_limited\tdem_candidate\trep_candidate\nNY\tNew York\tKathy Hochul\t0\t0\tKathy Hochul (incumbent)\tTBD — Republican Primary\nOH\tOhio\tOpen Seat\t1\t1\tAmy Acton\tVivek Ramaswamy\nOR\tOregon\tTina Kotek\t0\t0\tTina Kotek (incumbent)\tTBD — Republican Primary\nPA\tPennsylvania\tJosh Shapiro\t0\t0\tJosh Shapiro (incumbent)\tTBD — Republican Primary\nRI\tRhode Island\tDan McKee\t0\t0\tDaniel McKee (incumbent)\tTBD — Republican Primary\nSD\tSouth Dakota\tLarry Rhoden\t0\t0\tTBD — Democratic Primary\tLarry Rhoden (incumbent)\nTX\tTexas\tGreg Abbott\t0\t0\tGina Hinojosa\tGreg Abbott (incumbent)\nVT\tVermont\tPhil Scott\t0\t0\tTBD — D Primary: Aug 11, 2026 (Janoo, Richards)\tPhil Scott (incumbent)\n",
+  "stderr": "",
+  "execution_time_ms": 259
+}

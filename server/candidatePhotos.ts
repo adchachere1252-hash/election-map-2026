@@ -9,9 +9,9 @@ const BASE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663521029713/Duqshn4D3
 export const CANDIDATE_PHOTOS: Record<string, string> = {
   // Senate incumbents
   "jon ossoff":           `${BASE}/jon-ossoff_2eafec1f.jpg`,
-  "gary peters":          `${BASE}/gary-peters_50e7899d.jpg`,
+  // gary peters — REMOVED: retiring, not running in 2026
   "john hickenlooper":    `${BASE}/john-hickenlooper_890f9235.jpg`,
-  "dick durbin":          `${BASE}/dick-durbin_05b3c956.jpg`,
+  // dick durbin — REMOVED: retiring, not running in 2026
   "tina smith":           `${BASE}/tina-smith_853cdf1a.jpg`,
   "jeanne shaheen":       `${BASE}/jeanne-shaheen_9a7397d7.jpg`,
   "cory booker":          `${BASE}/cory-booker_2545ffe9.jpg`,
@@ -53,14 +53,13 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "james byrd":           `${BASE}/james-byrd_491067c8.jpg`,
   "hallie shoffner":      `${BASE}/hallie-shoffner_7fbd32e9.jpg`,
   "dakarai larriett":     `${BASE}/dakarai-larriett_eb9a26e2.jpg`,
-  // Governor candidates (Round 3)
+  // Governor candidates (Round 3 — confirmed running in 2026)
   "wes moore":            `${BASE}/wes-moore_181f290a.jpg`,
   "kathy hochul":         `${BASE}/kathy-hochul_ad50280c.jpg`,
   "darren bailey":        `${BASE}/darren-bailey_a50797b3.jpg`,
   "rob sand":             `${BASE}/rob-sand_f46705e4.jpg`,
   "j.b. pritzker":        `${BASE}/jb-pritzker_bd87f5a7.jpg`,
   "jb pritzker":          `${BASE}/jb-pritzker_bd87f5a7.jpg`,
-  "kari lake":            `${BASE}/kari-lake_0ea479f6.jpg`,
   "amy klobuchar":        `${BASE}/amy-klobuchar_4167e3f7.jpg`,
   // House competitive candidates (Round 3)
   "frank mrvan":          `${BASE}/frank-mrvan_edfce460.jpg`,
@@ -68,9 +67,23 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "ammar campa-najjar":   `${BASE}/ammar-campa-najjar_97ded915.jpg`,
   "jim desmond":          `${BASE}/jim-desmond_8cace2ee.jpg`,
   "tano tijerina":        `${BASE}/tano-tijerina_a5173754.jpg`,
-  "josh williams":        `${BASE}/josh-williams-oh9_43d1d004.jpg`,
+  // OH-9: Derek Merrin won primary (Josh Williams lost), faces Marcy Kaptur
+  "derek merrin":         `${BASE}/derek-merrin_431549e8.jpg`,
   // Michael Whatley updated portrait (replaces old side-by-side crop)
   "michael whatley":      `${BASE}/michael-whatley_b5138cff.jpg`,
+  // Governor candidates (Round 4 — incumbents + new challengers)
+  "maura healey":         `${BASE}/maura-healey_38185e14.jpg`,
+  "josh shapiro":         `${BASE}/josh-shapiro_4af6b942.jpg`,
+  "katie hobbs":          `${BASE}/katie-hobbs_e47db872.jpg`,
+  "amy acton":            `${BASE}/amy-acton_45ab5be5.jpg`,
+  "vivek ramaswamy":      `${BASE}/vivek-ramaswamy_7c611a5f.jpg`,
+  "kelly ayotte":         `${BASE}/kelly-ayotte_97b4f521.jpg`,
+  "gina hinojosa":        `${BASE}/gina-hinojosa_cc08c1e9.jpg`,
+  "lynne walz":           `${BASE}/lynne-walz_85f391cd.jpg`,
+  "brad little":          `${BASE}/brad-little_bac763f9.jpg`,
+  "daniel mckee":         `${BASE}/daniel-mckee_6a589d0b.jpg`,
+  "tina kotek":           `${BASE}/tina-kotek_dc80abcd.jpg`,
+  "josh green":           `${BASE}/josh-green_c33a5362.jpg`,
 };
 
 export const PARTY_LOGOS = {

@@ -522,14 +522,13 @@ const CDN_PHOTOS: Record<string, string> = {
   "james byrd":           `${CDN_BASE}/james-byrd_491067c8.jpg`,
   "hallie shoffner":      `${CDN_BASE}/hallie-shoffner_7fbd32e9.jpg`,
   "dakarai larriett":     `${CDN_BASE}/dakarai-larriett_eb9a26e2.jpg`,
-  // Governor candidates (Round 3)
+  // Governor candidates (Round 3 — confirmed running in 2026)
   "wes moore":            `${CDN_BASE}/wes-moore_181f290a.jpg`,
   "kathy hochul":         `${CDN_BASE}/kathy-hochul_ad50280c.jpg`,
   "darren bailey":        `${CDN_BASE}/darren-bailey_a50797b3.jpg`,
   "rob sand":             `${CDN_BASE}/rob-sand_f46705e4.jpg`,
   "j.b. pritzker":        `${CDN_BASE}/jb-pritzker_bd87f5a7.jpg`,
   "jb pritzker":          `${CDN_BASE}/jb-pritzker_bd87f5a7.jpg`,
-  "kari lake":            `${CDN_BASE}/kari-lake_0ea479f6.jpg`,
   "amy klobuchar":        `${CDN_BASE}/amy-klobuchar_4167e3f7.jpg`,
   // House competitive candidates (Round 3)
   "frank mrvan":          `${CDN_BASE}/frank-mrvan_edfce460.jpg`,
@@ -537,9 +536,23 @@ const CDN_PHOTOS: Record<string, string> = {
   "ammar campa-najjar":   `${CDN_BASE}/ammar-campa-najjar_97ded915.jpg`,
   "jim desmond":          `${CDN_BASE}/jim-desmond_8cace2ee.jpg`,
   "tano tijerina":        `${CDN_BASE}/tano-tijerina_a5173754.jpg`,
-  "josh williams":        `${CDN_BASE}/josh-williams-oh9_43d1d004.jpg`,
+  // OH-9: Derek Merrin won primary (Josh Williams lost), faces Marcy Kaptur
+  "derek merrin":         `${CDN_BASE}/derek-merrin_431549e8.jpg`,
   // Michael Whatley updated portrait (replaces old side-by-side crop)
   "michael whatley":      `${CDN_BASE}/michael-whatley_b5138cff.jpg`,
+  // Governor candidates (Round 4 — incumbents + new challengers)
+  "maura healey":         `${CDN_BASE}/maura-healey_38185e14.jpg`,
+  "josh shapiro":         `${CDN_BASE}/josh-shapiro_4af6b942.jpg`,
+  "katie hobbs":          `${CDN_BASE}/katie-hobbs_e47db872.jpg`,
+  "amy acton":            `${CDN_BASE}/amy-acton_45ab5be5.jpg`,
+  "vivek ramaswamy":      `${CDN_BASE}/vivek-ramaswamy_7c611a5f.jpg`,
+  "kelly ayotte":         `${CDN_BASE}/kelly-ayotte_97b4f521.jpg`,
+  "gina hinojosa":        `${CDN_BASE}/gina-hinojosa_cc08c1e9.jpg`,
+  "lynne walz":           `${CDN_BASE}/lynne-walz_85f391cd.jpg`,
+  "brad little":          `${CDN_BASE}/brad-little_bac763f9.jpg`,
+  "daniel mckee":         `${CDN_BASE}/daniel-mckee_6a589d0b.jpg`,
+  "tina kotek":           `${CDN_BASE}/tina-kotek_dc80abcd.jpg`,
+  "josh green":           `${CDN_BASE}/josh-green_c33a5362.jpg`,
 };
 
 /**

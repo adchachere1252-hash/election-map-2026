@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT state_code, district, dem_candidate, rep_candidate, rating\nFROM house_races\nWHERE (dem_candidate IS NOT NULL AND dem_candidate NOT LIKE 'TBD%')\n   OR (rep_candidate IS NOT NULL AND rep_candidate NOT LIKE 'TBD%')\nORDER BY rating, state_code, district\nLIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state_code, district, dem_candidate, rep_candidate, rating\nFROM house_races\nWHERE (dem_candidate IS NOT NULL AND dem_candidate NOT LIKE 'TBD%')\n   OR (rep_candidate IS NOT NULL AND rep_candidate NOT LIKE 'TBD%')\nORDER BY rating, state_code, district\nLIMIT 20;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'dem_candidate' in 'where clause'"
+  ]
+}

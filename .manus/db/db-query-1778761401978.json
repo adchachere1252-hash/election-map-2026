@@ -1,0 +1,230 @@
+{
+  "query": "\nSELECT state_code, district, incumbent, incumbent_party,\n  candidate1_name, candidate1_party,\n  candidate2_name, candidate2_party,\n  rating\nFROM house_races\nWHERE rating IN ('Toss-up', 'Lean D', 'Lean R', 'Likely D', 'Likely R')\n  AND (candidate1_name IS NOT NULL OR candidate2_name IS NOT NULL)\nORDER BY rating, state_code, district\nLIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state_code, district, incumbent, incumbent_party,\n  candidate1_name, candidate1_party,\n  candidate2_name, candidate2_party,\n  rating\nFROM house_races\nWHERE rating IN ('Toss-up', 'Lean D', 'Lean R', 'Likely D', 'Likely R')\n  AND (candidate1_name IS NOT NULL OR candidate2_name IS NOT NULL)\nORDER BY rating, state_code, district\nLIMIT 20;\n",
+  "rows": [
+    {
+      "state_code": "CA",
+      "district": "21",
+      "incumbent": "Jim Costa",
+      "incumbent_party": "D",
+      "candidate1_name": "Jim Costa",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "state_code": "IN",
+      "district": "1",
+      "incumbent": "Frank J. Mrvan",
+      "incumbent_party": "D",
+      "candidate1_name": "Frank Mrvan",
+      "candidate1_party": "D",
+      "candidate2_name": "Barb Regnitz",
+      "candidate2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "state_code": "MN",
+      "district": "2",
+      "incumbent": "Angie Craig",
+      "incumbent_party": "D",
+      "candidate1_name": "D Primary TBD",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "state_code": "NH",
+      "district": "1",
+      "incumbent": "Open Seat",
+      "incumbent_party": "D",
+      "candidate1_name": "TBD — D Primary: Sep 8, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Sep 8, 2026",
+      "candidate2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "state_code": "NH",
+      "district": "2",
+      "incumbent": "Maggie Goodlander",
+      "incumbent_party": "D",
+      "candidate1_name": "Maggie Goodlander",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "state_code": "NJ",
+      "district": "9",
+      "incumbent": "Nellie Pou",
+      "incumbent_party": "D",
+      "candidate1_name": "Nellie Pou",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "state_code": "NV",
+      "district": "1",
+      "incumbent": "Dina Titus",
+      "incumbent_party": "D",
+      "candidate1_name": "Dina Titus",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "state_code": "NV",
+      "district": "4",
+      "incumbent": "Steven Horsford",
+      "incumbent_party": "D",
+      "candidate1_name": "Steven Horsford",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "state_code": "OH",
+      "district": "13",
+      "incumbent": "Emilia Strong Sykes",
+      "incumbent_party": "D",
+      "candidate1_name": "Emilia Sykes",
+      "candidate1_party": "D",
+      "candidate2_name": "Kevin Siembida",
+      "candidate2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "state_code": "OR",
+      "district": "5",
+      "incumbent": "Janelle S. Bynum",
+      "incumbent_party": "D",
+      "candidate1_name": "Total Write-ins",
+      "candidate1_party": "R",
+      "candidate2_name": "Patti Adair",
+      "candidate2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "state_code": "AL",
+      "district": "7",
+      "incumbent": "Terri A. Sewell",
+      "incumbent_party": "D",
+      "candidate1_name": "Terri Sewell",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "rating": "Lean D"
+    },
+    {
+      "state_code": "CA",
+      "district": "13",
+      "incumbent": "Adam Gray",
+      "incumbent_party": "D",
+      "candidate1_name": "Adam Gray",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Primary: Jun 2, 2026",
+      "candidate2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "state_code": "CA",
+      "district": "45",
+      "incumbent": "Derek Tran",
+      "incumbent_party": "D",
+      "candidate1_name": "Derek Tran",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "state_code": "CA",
+      "district": "48",
+      "incumbent": "Darrell Issa",
+      "incumbent_party": "R",
+      "candidate1_name": "Ammar Campa-Najjar",
+      "candidate1_party": "D",
+      "candidate2_name": "Jim Desmond",
+      "candidate2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "state_code": "FL",
+      "district": "23",
+      "incumbent": "Jared Moskowitz",
+      "incumbent_party": "D",
+      "candidate1_name": "Jared Moskowitz",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "state_code": "MI",
+      "district": "8",
+      "incumbent": "Kristen McDonald Rivet",
+      "incumbent_party": "D",
+      "candidate1_name": "Kristen McDonald Rivet",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "state_code": "NE",
+      "district": "2",
+      "incumbent": "Open Seat",
+      "incumbent_party": "R",
+      "candidate1_name": "Denise Powell",
+      "candidate1_party": "D",
+      "candidate2_name": "Brinker Harding",
+      "candidate2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "state_code": "NM",
+      "district": "2",
+      "incumbent": "Gabe Vasquez",
+      "incumbent_party": "D",
+      "candidate1_name": "Gabe Vasquez",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "state_code": "NV",
+      "district": "3",
+      "incumbent": "Susie Lee",
+      "incumbent_party": "D",
+      "candidate1_name": "Susie Lee",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "state_code": "NY",
+      "district": "3",
+      "incumbent": "Tom Suozzi",
+      "incumbent_party": "D",
+      "candidate1_name": "TBD — D Primary: Jun 23, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "rating": "Lean D"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tincumbent\tincumbent_party\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\trating\nCA\t21\tJim Costa\tD\tJim Costa\tD\tR Primary TBD\tR\tLikely D\nIN\t1\tFrank J. Mrvan\tD\tFrank Mrvan\tD\tBarb Regnitz\tR\tLikely D\nMN\t2\tAngie Craig\tD\tD Primary TBD\tD\tR Primary TBD\tR\tLikely D\nNH\t1\tOpen Seat\tD\tTBD — D Primary: Sep 8, 2026\tD\tTBD — R Primary: Sep 8, 2026\tR\tLikely D\nNH\t2\tMaggie Goodlander\tD\tMaggie Goodlander\tD\tR Primary TBD\tR\tLikely D\nNJ\t9\tNellie Pou\tD\tNellie Pou\tD\tR Primary TBD\tR\tLikely D\nNV\t1\tDina Titus\tD\tDina Titus\tD\tR Primary TBD\tR\tLikely D\nNV\t4\tSteven Horsford\tD\tSteven Horsford\tD\tR Primary TBD\tR\tLikely D\nOH\t13\tEmilia Strong Sykes\tD\tEmilia Sykes\tD\tKevin Siembida\tR\tLikely D\nOR\t5\tJanelle S. Bynum\tD\tTotal Write-ins\tR\tPatti Adair\tR\tLikely D\nAL\t7\tTerri A. Sewell\tD\tTerri Sewell\tD\tNULL\tNULL\tLean D\nCA\t13\tAdam Gray\tD\tAdam Gray\tD\tTBD — Primary: Jun 2, 2026\tR\tLean D\nCA\t45\tDerek Tran\tD\tDerek Tran\tD\tR Primary TBD\tR\tLean D\nCA\t48\tDarrell Issa\tR\tAmmar Campa-Najjar\tD\tJim Desmond\tR\tLean D\nFL\t23\tJared Moskowitz\tD\tJared Moskowitz\tD\tR Primary TBD\tR\tLean D\nMI\t8\tKristen McDonald Rivet\tD\tKristen McDonald Rivet\tD\tR Primary TBD\tR\tLean D\nNE\t2\tOpen Seat\tR\tDenise Powell\tD\tBrinker Harding\tR\tLean D\nNM\t2\tGabe Vasquez\tD\tGabe Vasquez\tD\tR Primary TBD\tR\tLean D\nNV\t3\tSusie Lee\tD\tSusie Lee\tD\tR Primary TBD\tR\tLean D\nNY\t3\tTom Suozzi\tD\tTBD — D Primary: Jun 23, 2026\tD\tR Primary TBD\tR\tLean D\n",
+  "stderr": "",
+  "execution_time_ms": 275
+}

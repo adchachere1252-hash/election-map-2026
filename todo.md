@@ -1314,3 +1314,9 @@
 - [x] Download, crop, upload all new photos to CDN
 - [x] Update candidatePhotos.ts with new entries
 - [x] Replace Michael Whatley photo with a better dedicated portrait
+
+## Photo Accuracy Audit & Fallback Scan
+- [x] Cross-check every CDN photo entry against actual DB race data (remove non-running candidates)
+- [x] Scan all races for initial-avatar placeholders, prioritize top missing photos
+- [x] Download/upload new photos for highest-priority missing candidates
+- [x] Update candidatePhotos.ts with corrections and new entries
