@@ -84,6 +84,10 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "daniel mckee":         `${BASE}/daniel-mckee_6a589d0b.jpg`,
   "tina kotek":           `${BASE}/tina-kotek_dc80abcd.jpg`,
   "josh green":           `${BASE}/josh-green_c33a5362.jpg`,
+  // AR Governor (Round 5)
+  "sarah huckabee sanders": `${BASE}/sarah-huckabee-sanders_916e3316.jpg`,
+  // TX Governor (Round 5)
+  "greg abbott":          `${BASE}/greg-abbott_a1c32b47.jpg`,
 };
 
 export const PARTY_LOGOS = {

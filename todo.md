@@ -1320,3 +1320,10 @@
 - [x] Scan all races for initial-avatar placeholders, prioritize top missing photos
 - [x] Download/upload new photos for highest-priority missing candidates
 - [x] Update candidatePhotos.ts with corrections and new entries
+
+## Bug Fix & Data Updates (May 14)
+- [x] Fix "Failed to fetch" tRPC API error on homepage (transient Vite HMR; root cause was AP Engine other_candidate_name VARCHAR overflow — fixed by expanding to TEXT)
+- [x] Update OH-9 race data: replace Josh Williams with Derek Merrin
+- [x] Add Sarah Huckabee Sanders photo (AR Governor)
+- [x] Add Greg Abbott photo (TX Governor)
+- [x] Update NE-2 race: Denise Powell won Democratic primary

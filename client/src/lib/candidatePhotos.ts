@@ -502,10 +502,9 @@ const CDN_PHOTOS: Record<string, string> = {
   // Previously uploaded
   "juliana stratton":     `${CDN_BASE}/juliana-stratton_a6b800ae.jpg`,
   "laurie buckhout":      `${CDN_BASE}/laurie-buckhout_18f4c9b7.jpg`,
-  "gary peters":          `${CDN_BASE}/gary-peters_50e7899d.jpg`,
   "tina smith":           `${CDN_BASE}/tina-smith_853cdf1a.jpg`,
   "jeanne shaheen":       `${CDN_BASE}/jeanne-shaheen_9a7397d7.jpg`,
-  "dick durbin":          `${CDN_BASE}/dick-durbin_05b3c956.jpg`,
+  // Note: gary-peters and dick-durbin removed — both retiring, not running in 2026
   // Senate challengers / non-Congress candidates (Round 2)
   "don tracy":            `${CDN_BASE}/don-tracy_3770cfc3.jpg`,
   "earl carter":          `${CDN_BASE}/earl-carter_cba92698.jpg`,
@@ -553,6 +552,10 @@ const CDN_PHOTOS: Record<string, string> = {
   "daniel mckee":         `${CDN_BASE}/daniel-mckee_6a589d0b.jpg`,
   "tina kotek":           `${CDN_BASE}/tina-kotek_dc80abcd.jpg`,
   "josh green":           `${CDN_BASE}/josh-green_c33a5362.jpg`,
+  // AR Governor (Round 5)
+  "sarah huckabee sanders": `${CDN_BASE}/sarah-huckabee-sanders_916e3316.jpg`,
+  // TX Governor (Round 5)
+  "greg abbott":          `${CDN_BASE}/greg-abbott_a1c32b47.jpg`,
 };
 
 /**

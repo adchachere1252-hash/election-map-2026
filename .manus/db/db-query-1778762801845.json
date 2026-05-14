@@ -1,0 +1,9 @@
+{
+  "query": "-- OH-9: Derek Merrin won R primary, faces Marcy Kaptur (D incumbent)\nUPDATE house_races \nSET candidate2_name = 'Derek Merrin', candidate2_party = 'R',\n    notes = CONCAT(COALESCE(notes, ''), ' Derek Merrin (R) won OH-9 Republican primary. Faces incumbent Marcy Kaptur (D). Source: AP, May 2026.')\nWHERE state_code = 'OH' AND district = 9;\n\n-- NE-2: Denise Powell won D primary\nUPDATE house_races \nSET candidate1_name = 'Denise Powell', candidate1_party = 'D',\n    notes = CONCAT(COALESCE(notes, ''), ' Denise Powell (D) won NE-2 Democratic primary. Source: AP, May 2026.')\nWHERE state_code = 'NE' AND district = 2;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- OH-9: Derek Merrin won R primary, faces Marcy Kaptur (D incumbent)\nUPDATE house_races \nSET candidate2_name = 'Derek Merrin', candidate2_party = 'R',\n    notes = CONCAT(COALESCE(notes, ''), ' Derek Merrin (R) won OH-9 Republican primary. Faces incumbent Marcy Kaptur (D). Source: AP, May 2026.')\nWHERE state_code = 'OH' AND district = 9;\n\n-- NE-2: Denise Powell won D primary\nUPDATE house_races \nSET candidate1_name = 'Denise Powell', candidate1_party = 'D',\n    notes = CONCAT(COALESCE(notes, ''), ' Denise Powell (D) won NE-2 Democratic primary. Source: AP, May 2026.')\nWHERE state_code = 'NE' AND district = 2;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 275
+}
