@@ -1,0 +1,52 @@
+{
+  "query": "\nSELECT CONCAT(state_code, ' Senate') as race, candidate1_name, candidate1_party, ROUND(candidate1_vote_pct,1) as c1pct,\n       candidate2_name, candidate2_party, ROUND(candidate2_vote_pct,1) as c2pct,\n       pct_reporting, primary_winner, primary_party, called_winner, status\nFROM senate_races WHERE state_code IN ('WV','OH')\nUNION ALL\nSELECT CONCAT(state_code, ' Senate') as race, candidate1_name, candidate1_party, ROUND(candidate1_vote_pct,1) as c1pct,\n       candidate2_name, candidate2_party, ROUND(candidate2_vote_pct,1) as c2pct,\n       pct_reporting, primary_winner, primary_party, called_winner, status\nFROM senate_races WHERE state_code = 'OH' AND is_special = 1\nORDER BY race;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT CONCAT(state_code, ' Senate') as race, candidate1_name, candidate1_party, ROUND(candidate1_vote_pct,1) as c1pct,\n       candidate2_name, candidate2_party, ROUND(candidate2_vote_pct,1) as c2pct,\n       pct_reporting, primary_winner, primary_party, called_winner, status\nFROM senate_races WHERE state_code IN ('WV','OH')\nUNION ALL\nSELECT CONCAT(state_code, ' Senate') as race, candidate1_name, candidate1_party, ROUND(candidate1_vote_pct,1) as c1pct,\n       candidate2_name, candidate2_party, ROUND(candidate2_vote_pct,1) as c2pct,\n       pct_reporting, primary_winner, primary_party, called_winner, status\nFROM senate_races WHERE state_code = 'OH' AND is_special = 1\nORDER BY race;\n",
+  "rows": [
+    {
+      "race": "OH Senate",
+      "candidate1_name": "Sherrod Brown",
+      "candidate1_party": "D",
+      "c1pct": "89.5",
+      "candidate2_name": "Ron Kincaid",
+      "candidate2_party": "D",
+      "c2pct": "10.5",
+      "pct_reporting": "98.80",
+      "primary_winner": "Sherrod Brown",
+      "primary_party": "D",
+      "called_winner": "NULL",
+      "status": "Primary"
+    },
+    {
+      "race": "OH Senate",
+      "candidate1_name": "Sherrod Brown",
+      "candidate1_party": "D",
+      "c1pct": "89.5",
+      "candidate2_name": "Ron Kincaid",
+      "candidate2_party": "D",
+      "c2pct": "10.5",
+      "pct_reporting": "98.80",
+      "primary_winner": "Sherrod Brown",
+      "primary_party": "D",
+      "called_winner": "NULL",
+      "status": "Primary"
+    },
+    {
+      "race": "WV Senate",
+      "candidate1_name": "Rachel Fetty Anderson",
+      "candidate1_party": "D",
+      "c1pct": "NULL",
+      "candidate2_name": "Shelley Moore Capito",
+      "candidate2_party": "R",
+      "c2pct": "NULL",
+      "pct_reporting": "99.00",
+      "primary_winner": "Rachel Anderson",
+      "primary_party": "D",
+      "called_winner": "NULL",
+      "status": "General"
+    }
+  ],
+  "messages": [],
+  "stdout": "race\tcandidate1_name\tcandidate1_party\tc1pct\tcandidate2_name\tcandidate2_party\tc2pct\tpct_reporting\tprimary_winner\tprimary_party\tcalled_winner\tstatus\nOH Senate\tSherrod Brown\tD\t89.5\tRon Kincaid\tD\t10.5\t98.80\tSherrod Brown\tD\tNULL\tPrimary\nOH Senate\tSherrod Brown\tD\t89.5\tRon Kincaid\tD\t10.5\t98.80\tSherrod Brown\tD\tNULL\tPrimary\nWV Senate\tRachel Fetty Anderson\tD\tNULL\tShelley Moore Capito\tR\tNULL\t99.00\tRachel Anderson\tD\tNULL\tGeneral\n",
+  "stderr": "",
+  "execution_time_ms": 270
+}

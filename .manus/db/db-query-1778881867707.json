@@ -1,0 +1,24 @@
+{
+  "query": "\nSELECT CONCAT(state_code, '-', district) as race, candidate1_name, candidate2_name, status, primary_winner\nFROM house_races \nWHERE candidate1_name = candidate2_name AND candidate1_name IS NOT NULL\nORDER BY state_code, district\nLIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT CONCAT(state_code, '-', district) as race, candidate1_name, candidate2_name, status, primary_winner\nFROM house_races \nWHERE candidate1_name = candidate2_name AND candidate1_name IS NOT NULL\nORDER BY state_code, district\nLIMIT 20;\n",
+  "rows": [
+    {
+      "race": "CA-3",
+      "candidate1_name": "TBD — Primary: Jun 2, 2026",
+      "candidate2_name": "TBD — Primary: Jun 2, 2026",
+      "status": "Scheduled",
+      "primary_winner": "NULL"
+    },
+    {
+      "race": "FL-20",
+      "candidate1_name": "TBD (Special Election)",
+      "candidate2_name": "TBD (Special Election)",
+      "status": "Scheduled",
+      "primary_winner": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "race\tcandidate1_name\tcandidate2_name\tstatus\tprimary_winner\nCA-3\tTBD — Primary: Jun 2, 2026\tTBD — Primary: Jun 2, 2026\tScheduled\tNULL\nFL-20\tTBD (Special Election)\tTBD (Special Election)\tScheduled\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 256
+}

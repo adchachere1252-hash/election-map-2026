@@ -1,0 +1,8 @@
+{
+  "query": "\n-- Nebraska Senate + House\nSELECT 'NE Senate' as race, state, candidate1_name, candidate1_party, candidate1_vote_pct,\n       candidate2_name, candidate2_party, candidate2_vote_pct,\n       pct_reporting, primary_winner, primary_party, status\nFROM senate_races WHERE state_code = 'NE'\nUNION ALL\nSELECT CONCAT('NE-', district) as race, state_code, candidate1_name, candidate1_party, candidate1_vote_pct,\n       candidate2_name, candidate2_party, candidate2_vote_pct,\n       pct_reporting, primary_winner, primary_party, status\nFROM house_races WHERE state_code = 'NE' ORDER BY race;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- Nebraska Senate + House\nSELECT 'NE Senate' as race, state, candidate1_name, candidate1_party, candidate1_vote_pct,\n       candidate2_name, candidate2_party, candidate2_vote_pct,\n       pct_reporting, primary_winner, primary_party, status\nFROM senate_races WHERE state_code = 'NE'\nUNION ALL\nSELECT CONCAT('NE-', district) as race, state_code, candidate1_name, candidate1_party, candidate1_vote_pct,\n       candidate2_name, candidate2_party, candidate2_vote_pct,\n       pct_reporting, primary_winner, primary_party, status\nFROM house_races WHERE state_code = 'NE' ORDER BY race;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 3: Unknown column 'state' in 'field list'"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "query": "\nUPDATE house_races \nSET candidate2_name = NULL, candidate2_party = NULL, candidate2_vote_pct = 0, candidate2_votes = 0\nWHERE state_code IN ('IN','OH') AND candidate1_name = candidate2_name AND candidate1_name IS NOT NULL;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nUPDATE house_races \nSET candidate2_name = NULL, candidate2_party = NULL, candidate2_vote_pct = 0, candidate2_votes = 0\nWHERE state_code IN ('IN','OH') AND candidate1_name = candidate2_name AND candidate1_name IS NOT NULL;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 267
+}

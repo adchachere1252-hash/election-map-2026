@@ -1,0 +1,40 @@
+{
+  "query": "\n-- Check all IN and OH races where candidate1 = candidate2 (unopposed primary)\nSELECT CONCAT(state_code, '-', district) as race, candidate1_name, candidate2_name, status\nFROM house_races \nWHERE state_code IN ('IN','OH') AND candidate1_name = candidate2_name AND candidate1_name IS NOT NULL\nORDER BY race;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- Check all IN and OH races where candidate1 = candidate2 (unopposed primary)\nSELECT CONCAT(state_code, '-', district) as race, candidate1_name, candidate2_name, status\nFROM house_races \nWHERE state_code IN ('IN','OH') AND candidate1_name = candidate2_name AND candidate1_name IS NOT NULL\nORDER BY race;\n",
+  "rows": [
+    {
+      "race": "IN-5",
+      "candidate1_name": "J.D. Ford",
+      "candidate2_name": "J.D. Ford",
+      "status": "General"
+    },
+    {
+      "race": "OH-1",
+      "candidate1_name": "Greg Landsman",
+      "candidate2_name": "Greg Landsman",
+      "status": "General"
+    },
+    {
+      "race": "OH-2",
+      "candidate1_name": "Jen Mazzuckelli",
+      "candidate2_name": "Jen Mazzuckelli",
+      "status": "General"
+    },
+    {
+      "race": "OH-4",
+      "candidate1_name": "Joshua Kolasinski",
+      "candidate2_name": "Joshua Kolasinski",
+      "status": "General"
+    },
+    {
+      "race": "OH-6",
+      "candidate1_name": "Elizabeth Kirtley",
+      "candidate2_name": "Elizabeth Kirtley",
+      "status": "General"
+    }
+  ],
+  "messages": [],
+  "stdout": "race\tcandidate1_name\tcandidate2_name\tstatus\nIN-5\tJ.D. Ford\tJ.D. Ford\tGeneral\nOH-1\tGreg Landsman\tGreg Landsman\tGeneral\nOH-2\tJen Mazzuckelli\tJen Mazzuckelli\tGeneral\nOH-4\tJoshua Kolasinski\tJoshua Kolasinski\tGeneral\nOH-6\tElizabeth Kirtley\tElizabeth Kirtley\tGeneral\n",
+  "stderr": "",
+  "execution_time_ms": 273
+}

@@ -241,7 +241,8 @@ function buildUpdate(
       if (sorted[0].pct !== null) update.candidate1VotePct = Math.round(sorted[0].pct * 10) / 10;
       if (sorted[0].votes !== null) update.candidate1Votes = sorted[0].votes;
     }
-    if (sorted[1]) {
+    // Only write candidate2 if it's a different person (avoid duplicating unopposed candidates)
+    if (sorted[1] && sorted[1].name !== sorted[0]?.name) {
       update.candidate2Name = sorted[1].name;
       update.candidate2Party = sorted[1].party;
       if (sorted[1].pct !== null) update.candidate2VotePct = Math.round(sorted[1].pct * 10) / 10;
