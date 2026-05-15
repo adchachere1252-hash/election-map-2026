@@ -569,6 +569,14 @@ const CDN_PHOTOS: Record<string, string> = {
   "ned lamont":           `${CDN_BASE}/ned-lamont_24e0ecdd.jpg`,
   "joe lombardo":         `${CDN_BASE}/joe-lombardo_fb7e8617.jpg`,
   "larry rhoden":         `${CDN_BASE}/larry-rhoden_1ce6b32f.jpg`,
+  // House General candidates (Round 8 — competitive races)
+  "eric flores":           `${CDN_BASE}/eric-flores_e5208d5e.jpg`,
+  "denise powell":         `${CDN_BASE}/denise-powell_d3928462.jpg`,
+  "brinker harding":       `${CDN_BASE}/brinker-harding_690af229.jpg`,
+  "barb regnitz":          `${CDN_BASE}/barb-regnitz_ce484ef4.jpg`,
+  "kevin siembida":        `${CDN_BASE}/kevin-siembida_0f4e659b.jpg`,
+  "jamie ager":            `${CDN_BASE}/jamie-ager_025de85b.jpg`,
+  "bobby pulido":          `${CDN_BASE}/bobby-pulido_116cdf80.jpg`,
 };
 
 /**

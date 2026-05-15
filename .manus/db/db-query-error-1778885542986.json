@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT \n  state_code, district, rating,\n  candidate1 as dem_candidate, candidate2 as rep_candidate,\n  is_open\nFROM house_races\nWHERE status = 'General'\n  AND candidate1 IS NOT NULL \n  AND candidate2 IS NOT NULL\n  AND candidate1 != '' \n  AND candidate2 != ''\nORDER BY \n  CASE rating \n    WHEN 'Toss-up' THEN 1 \n    WHEN 'Lean D' THEN 2 \n    WHEN 'Lean R' THEN 3 \n    WHEN 'Likely D' THEN 4 \n    WHEN 'Likely R' THEN 5 \n    WHEN 'Solid D' THEN 6 \n    WHEN 'Solid R' THEN 7 \n    ELSE 8 \n  END, state_code, district;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT \n  state_code, district, rating,\n  candidate1 as dem_candidate, candidate2 as rep_candidate,\n  is_open\nFROM house_races\nWHERE status = 'General'\n  AND candidate1 IS NOT NULL \n  AND candidate2 IS NOT NULL\n  AND candidate1 != '' \n  AND candidate2 != ''\nORDER BY \n  CASE rating \n    WHEN 'Toss-up' THEN 1 \n    WHEN 'Lean D' THEN 2 \n    WHEN 'Lean R' THEN 3 \n    WHEN 'Likely D' THEN 4 \n    WHEN 'Likely R' THEN 5 \n    WHEN 'Solid D' THEN 6 \n    WHEN 'Solid R' THEN 7 \n    ELSE 8 \n  END, state_code, district;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'candidate1' in 'where clause'"
+  ]
+}

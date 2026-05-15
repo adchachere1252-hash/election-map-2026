@@ -98,6 +98,14 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "ned lamont":           `${BASE}/ned-lamont_24e0ecdd.jpg`,
   "joe lombardo":         `${BASE}/joe-lombardo_fb7e8617.jpg`,
   "larry rhoden":         `${BASE}/larry-rhoden_1ce6b32f.jpg`,
+  // House General candidates (Round 8 — competitive races)
+  "eric flores":           `${BASE}/eric-flores_e5208d5e.jpg`,
+  "denise powell":         `${BASE}/denise-powell_d3928462.jpg`,
+  "brinker harding":       `${BASE}/brinker-harding_690af229.jpg`,
+  "barb regnitz":          `${BASE}/barb-regnitz_ce484ef4.jpg`,
+  "kevin siembida":        `${BASE}/kevin-siembida_0f4e659b.jpg`,
+  "jamie ager":            `${BASE}/jamie-ager_025de85b.jpg`,
+  "bobby pulido":          `${BASE}/bobby-pulido_116cdf80.jpg`,
 };
 
 export const PARTY_LOGOS = {

@@ -1353,3 +1353,10 @@
 - [x] Fix Roy Cooper photo — definitively debug why CDN photo isn't loading
 - [x] Audit all popup components (Senate, House, Governor) against Mississippi Senate gold standard
 - [x] Ensure all General-status matchup cards have consistent split-gradient, party rings, VS divider style
+
+## House General Photo Batch — Round 8 (May 15, 2026)
+- [x] Identify all House General candidates missing photos (7 found: Eric Flores, Denise Powell, Brinker Harding, Barb Regnitz, Kevin Siembida, Jamie Ager, Bobby Pulido)
+- [x] Download, crop to 400x400, and upload all 7 photos to CDN
+- [x] Update client/src/lib/candidatePhotos.ts CDN_PHOTOS with 7 new entries
+- [x] Update server/candidatePhotos.ts CANDIDATE_PHOTOS with 7 new entries
+- [x] All 58 tests passing, zero TypeScript errors
