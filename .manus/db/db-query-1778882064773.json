@@ -1,0 +1,64 @@
+{
+  "query": "\nSELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating, status\nFROM senate_races \nWHERE status = 'General' AND candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL\nORDER BY state_code\nLIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating, status\nFROM senate_races \nWHERE status = 'General' AND candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL\nORDER BY state_code\nLIMIT 20;\n",
+  "rows": [
+    {
+      "state_code": "AR",
+      "candidate1_name": "Hallie Shoffner",
+      "candidate1_party": "D",
+      "candidate2_name": "Tom Cotton",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "status": "General"
+    },
+    {
+      "state_code": "IL",
+      "candidate1_name": "Juliana Stratton",
+      "candidate1_party": "D",
+      "candidate2_name": "Don Tracy",
+      "candidate2_party": "R",
+      "rating": "Solid D",
+      "status": "General"
+    },
+    {
+      "state_code": "MS",
+      "candidate1_name": "Scott Colom",
+      "candidate1_party": "D",
+      "candidate2_name": "Cindy Hyde-Smith",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "status": "General"
+    },
+    {
+      "state_code": "NC",
+      "candidate1_name": "Roy Cooper",
+      "candidate1_party": "D",
+      "candidate2_name": "Michael Whatley",
+      "candidate2_party": "R",
+      "rating": "Lean D",
+      "status": "General"
+    },
+    {
+      "state_code": "NE",
+      "candidate1_name": "Cindy Burbank",
+      "candidate1_party": "D",
+      "candidate2_name": "Pete Ricketts",
+      "candidate2_party": "R",
+      "rating": "Likely R",
+      "status": "General"
+    },
+    {
+      "state_code": "WV",
+      "candidate1_name": "Rachel Fetty Anderson",
+      "candidate1_party": "D",
+      "candidate2_name": "Shelley Moore Capito",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "status": "General"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\trating\tstatus\nAR\tHallie Shoffner\tD\tTom Cotton\tR\tSolid R\tGeneral\nIL\tJuliana Stratton\tD\tDon Tracy\tR\tSolid D\tGeneral\nMS\tScott Colom\tD\tCindy Hyde-Smith\tR\tSolid R\tGeneral\nNC\tRoy Cooper\tD\tMichael Whatley\tR\tLean D\tGeneral\nNE\tCindy Burbank\tD\tPete Ricketts\tR\tLikely R\tGeneral\nWV\tRachel Fetty Anderson\tD\tShelley Moore Capito\tR\tSolid R\tGeneral\n",
+  "stderr": "",
+  "execution_time_ms": 258
+}

@@ -1327,3 +1327,6 @@
 - [x] Add Sarah Huckabee Sanders photo (AR Governor)
 - [x] Add Greg Abbott photo (TX Governor)
 - [x] Update NE-2 race: Denise Powell won Democratic primary
+
+## Race Updates (May 15, 2026)
+- [ ] TN-9: Steven Cohen retired — mark seat as open, update notes, review rating

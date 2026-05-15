@@ -556,6 +556,10 @@ const CDN_PHOTOS: Record<string, string> = {
   "sarah huckabee sanders": `${CDN_BASE}/sarah-huckabee-sanders_916e3316.jpg`,
   // TX Governor (Round 5)
   "greg abbott":          `${CDN_BASE}/greg-abbott_a1c32b47.jpg`,
+  // OH Senate (Round 6) — Jon Husted (appointed R incumbent)
+  "jon husted":           `${CDN_BASE}/jon-husted_b39430c8.jpg`,
+  // WV Senate (Round 6) — Jim Justice (R incumbent)
+  "jim justice":          `${CDN_BASE}/jim-justice_9559bc9b.jpg`,
 };
 
 /**

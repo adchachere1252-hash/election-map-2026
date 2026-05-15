@@ -1,0 +1,23 @@
+{
+  "query": "\nSELECT id, state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party,\n       incumbent, rating, status, notes\nFROM house_races WHERE state_code = 'TN' AND district = 9;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT id, state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party,\n       incumbent, rating, status, notes\nFROM house_races WHERE state_code = 'TN' AND district = 9;\n",
+  "rows": [
+    {
+      "id": "360",
+      "state_code": "TN",
+      "district": "9",
+      "candidate1_name": "Steve Cohen",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "incumbent": "Steve Cohen",
+      "rating": "Solid R",
+      "status": "Scheduled",
+      "notes": "Majority-Black Memphis district targeted for elimination. Tennessee special session convenes May 5 — new map expected to eliminate TN-9 and give Republicans all 9 seats. Rep. Steve Cohen (D) would likely be drawn out of a winnable district. Sources: CBS News, CNN (May 1, 2026)."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tincumbent\trating\tstatus\tnotes\n360\tTN\t9\tSteve Cohen\tD\tNULL\tNULL\tSteve Cohen\tSolid R\tScheduled\tMajority-Black Memphis district targeted for elimination. Tennessee special session convenes May 5 — new map expected to eliminate TN-9 and give Republicans all 9 seats. Rep. Steve Cohen (D) would likely be drawn out of a winnable district. Sources: CBS News, CNN (May 1, 2026).\n",
+  "stderr": "",
+  "execution_time_ms": 264
+}

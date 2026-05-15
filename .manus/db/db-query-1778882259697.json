@@ -1,0 +1,21 @@
+{
+  "query": "\nSELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, \n       incumbent, rating, status, notes\nFROM senate_races \nWHERE state_code = 'OH'\nORDER BY id;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, \n       incumbent, rating, status, notes\nFROM senate_races \nWHERE state_code = 'OH'\nORDER BY id;\n",
+  "rows": [
+    {
+      "state_code": "OH",
+      "candidate1_name": "Sherrod Brown",
+      "candidate1_party": "D",
+      "candidate2_name": "Ron Kincaid",
+      "candidate2_party": "D",
+      "incumbent": "Jon Husted (appointed)",
+      "rating": "Toss-up",
+      "status": "Primary",
+      "notes": "May 5 Primary: Brown won Dem primary 89.5% vs Kincaid 10.5% (98% reporting). Husted ran uncontested on GOP side. General election Nov 3, 2026."
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tincumbent\trating\tstatus\tnotes\nOH\tSherrod Brown\tD\tRon Kincaid\tD\tJon Husted (appointed)\tToss-up\tPrimary\tMay 5 Primary: Brown won Dem primary 89.5% vs Kincaid 10.5% (98% reporting). Husted ran uncontested on GOP side. General election Nov 3, 2026.\n",
+  "stderr": "",
+  "execution_time_ms": 260
+}

@@ -1,0 +1,20 @@
+{
+  "query": "\nSELECT id, state_code, is_special, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status\nFROM senate_races WHERE state_code = 'OH';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT id, state_code, is_special, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status\nFROM senate_races WHERE state_code = 'OH';\n",
+  "rows": [
+    {
+      "id": "35",
+      "state_code": "OH",
+      "is_special": "1",
+      "candidate1_name": "Sherrod Brown",
+      "candidate1_party": "D",
+      "candidate2_name": "Jon Husted",
+      "candidate2_party": "R",
+      "status": "General"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tis_special\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\n35\tOH\t1\tSherrod Brown\tD\tJon Husted\tR\tGeneral\n",
+  "stderr": "",
+  "execution_time_ms": 264
+}
