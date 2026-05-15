@@ -1329,4 +1329,15 @@
 - [x] Update NE-2 race: Denise Powell won Democratic primary
 
 ## Race Updates (May 15, 2026)
-- [ ] TN-9: Steven Cohen retired — mark seat as open, update notes, review rating
+- [x] TN-9: Steven Cohen retired — mark seat as open, update notes, review rating
+- [x] Add Jon Husted photo (OH Senate R) — CDN headshot from official portrait
+- [x] Add Jim Justice photo (WV Senate R) — CDN headshot from WV Governor official portrait
+- [x] Fix Ohio Senate matchup: was using is_special=0 condition, corrected to is_special=1
+- [x] AP Engine: fix unopposed primary candidate duplication (candidate1=candidate2 bug)
+- [x] AP Engine: expand other_candidate_name from VARCHAR(128) to TEXT (was causing 8 errors/cycle)
+- [x] Update OH-9: Derek Merrin confirmed R candidate vs Marcy Kaptur
+- [x] Update NE-2: Denise Powell confirmed D candidate
+
+## Governor Photo Audit (May 15, 2026)
+- [ ] Audit all Governor matchup cards for photo coverage and quality
+- [ ] Find and add missing or low-quality Governor candidate headshots

@@ -1,0 +1,16 @@
+{
+  "query": "SELECT 'senate' as tbl, state_code, candidate1_name, candidate2_name FROM senate_races WHERE candidate1_name LIKE '%Cooper%' OR candidate2_name LIKE '%Cooper%'\nUNION ALL\nSELECT 'house', state_code, candidate1_name, candidate2_name FROM house_races WHERE candidate1_name LIKE '%Cooper%' OR candidate2_name LIKE '%Cooper%'\nUNION ALL\nSELECT 'governor', state_code, dem_candidate, rep_candidate FROM governor_races WHERE dem_candidate LIKE '%Cooper%' OR rep_candidate LIKE '%Cooper%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT 'senate' as tbl, state_code, candidate1_name, candidate2_name FROM senate_races WHERE candidate1_name LIKE '%Cooper%' OR candidate2_name LIKE '%Cooper%'\nUNION ALL\nSELECT 'house', state_code, candidate1_name, candidate2_name FROM house_races WHERE candidate1_name LIKE '%Cooper%' OR candidate2_name LIKE '%Cooper%'\nUNION ALL\nSELECT 'governor', state_code, dem_candidate, rep_candidate FROM governor_races WHERE dem_candidate LIKE '%Cooper%' OR rep_candidate LIKE '%Cooper%';",
+  "rows": [
+    {
+      "tbl": "senate",
+      "state_code": "NC",
+      "candidate1_name": "Roy Cooper",
+      "candidate2_name": "Michael Whatley"
+    }
+  ],
+  "messages": [],
+  "stdout": "tbl\tstate_code\tcandidate1_name\tcandidate2_name\nsenate\tNC\tRoy Cooper\tMichael Whatley\n",
+  "stderr": "",
+  "execution_time_ms": 262
+}

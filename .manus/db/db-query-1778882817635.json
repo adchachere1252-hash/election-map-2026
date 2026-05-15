@@ -1,0 +1,157 @@
+{
+  "query": "SELECT state_code, dem_candidate, rep_candidate, rating, status FROM governor_races WHERE (dem_candidate NOT LIKE 'TBD%' OR rep_candidate NOT LIKE 'TBD%') AND dem_candidate IS NOT NULL AND rep_candidate IS NOT NULL ORDER BY state_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, dem_candidate, rep_candidate, rating, status FROM governor_races WHERE (dem_candidate NOT LIKE 'TBD%' OR rep_candidate NOT LIKE 'TBD%') AND dem_candidate IS NOT NULL AND rep_candidate IS NOT NULL ORDER BY state_code;",
+  "rows": [
+    {
+      "state_code": "AR",
+      "dem_candidate": "TBD — Democratic Primary",
+      "rep_candidate": "Sarah Huckabee Sanders",
+      "rating": "Solid R",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "AZ",
+      "dem_candidate": "Katie Hobbs (incumbent)",
+      "rep_candidate": "TBD — R Primary: Jul 21, 2026 (Biggs, Miceli, Neely, Schweikert)",
+      "rating": "Toss-up",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "CT",
+      "dem_candidate": "Ned Lamont (incumbent)",
+      "rep_candidate": "TBD — Republican Primary",
+      "rating": "Solid D",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "HI",
+      "dem_candidate": "Josh Green (incumbent)",
+      "rep_candidate": "TBD — Republican Primary",
+      "rating": "Solid D",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "IA",
+      "dem_candidate": "Rob Sand",
+      "rep_candidate": "TBD — R Primary: Jun 2, 2026 (Feenstra, Lahn, Sherman, Steen)",
+      "rating": "Toss-up",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "ID",
+      "dem_candidate": "TBD — Democratic Primary",
+      "rep_candidate": "Brad Little (incumbent)",
+      "rating": "Solid R",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "IL",
+      "dem_candidate": "J.B. Pritzker (incumbent)",
+      "rep_candidate": "Darren Bailey",
+      "rating": "Solid D",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "MA",
+      "dem_candidate": "Maura Healey (incumbent)",
+      "rep_candidate": "TBD — Republican Primary",
+      "rating": "Solid D",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "MD",
+      "dem_candidate": "Wes Moore (incumbent)",
+      "rep_candidate": "TBD — Republican Primary",
+      "rating": "Solid D",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "MN",
+      "dem_candidate": "Amy Klobuchar",
+      "rep_candidate": "TBD — R Primary: Aug 11, 2026",
+      "rating": "Solid D",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "NE",
+      "dem_candidate": "Lynne Walz",
+      "rep_candidate": "TBD — R Primary: May 12, 2026",
+      "rating": "Solid R",
+      "status": "Voting"
+    },
+    {
+      "state_code": "NH",
+      "dem_candidate": "TBD — D Primary: Sep 8, 2026 (Warmington, Kiper)",
+      "rep_candidate": "Kelly Ayotte (incumbent)",
+      "rating": "Likely R",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "NV",
+      "dem_candidate": "TBD — D Primary: Jun 9, 2026 (Ford, Hill)",
+      "rep_candidate": "Joe Lombardo (incumbent)",
+      "rating": "Toss-up",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "NY",
+      "dem_candidate": "Kathy Hochul (incumbent)",
+      "rep_candidate": "TBD — Republican Primary",
+      "rating": "Solid D",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "OH",
+      "dem_candidate": "Amy Acton",
+      "rep_candidate": "Vivek Ramaswamy",
+      "rating": "Lean R",
+      "status": "Voting"
+    },
+    {
+      "state_code": "OR",
+      "dem_candidate": "Tina Kotek (incumbent)",
+      "rep_candidate": "TBD — Republican Primary",
+      "rating": "Solid D",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "PA",
+      "dem_candidate": "Josh Shapiro (incumbent)",
+      "rep_candidate": "TBD — Republican Primary",
+      "rating": "Solid D",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "RI",
+      "dem_candidate": "Daniel McKee (incumbent)",
+      "rep_candidate": "TBD — Republican Primary",
+      "rating": "Solid D",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "SD",
+      "dem_candidate": "TBD — Democratic Primary",
+      "rep_candidate": "Larry Rhoden (incumbent)",
+      "rating": "Solid R",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "TX",
+      "dem_candidate": "Gina Hinojosa",
+      "rep_candidate": "Greg Abbott (incumbent)",
+      "rating": "Solid R",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "VT",
+      "dem_candidate": "TBD — D Primary: Aug 11, 2026 (Janoo, Richards)",
+      "rep_candidate": "Phil Scott (incumbent)",
+      "rating": "Solid R",
+      "status": "Scheduled"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdem_candidate\trep_candidate\trating\tstatus\nAR\tTBD — Democratic Primary\tSarah Huckabee Sanders\tSolid R\tScheduled\nAZ\tKatie Hobbs (incumbent)\tTBD — R Primary: Jul 21, 2026 (Biggs, Miceli, Neely, Schweikert)\tToss-up\tScheduled\nCT\tNed Lamont (incumbent)\tTBD — Republican Primary\tSolid D\tScheduled\nHI\tJosh Green (incumbent)\tTBD — Republican Primary\tSolid D\tScheduled\nIA\tRob Sand\tTBD — R Primary: Jun 2, 2026 (Feenstra, Lahn, Sherman, Steen)\tToss-up\tScheduled\nID\tTBD — Democratic Primary\tBrad Little (incumbent)\tSolid R\tScheduled\nIL\tJ.B. Pritzker (incumbent)\tDarren Bailey\tSolid D\tScheduled\nMA\tMaura Healey (incumbent)\tTBD — Republican Primary\tSolid D\tScheduled\nMD\tWes Moore (incumbent)\tTBD — Republican Primary\tSolid D\tScheduled\nMN\tAmy Klobuchar\tTBD — R Primary: Aug 11, 2026\tSolid D\tScheduled\nNE\tLynne Walz\tTBD — R Primary: May 12, 2026\tSolid R\tVoting\nNH\tTBD — D Primary: Sep 8, 2026 (Warmington, Kiper)\tKelly Ayotte (incumbent)\tLikely R\tScheduled\nNV\tTBD — D Primary: Jun 9, 2026 (Ford, Hill)\tJoe Lombardo (incumbent)\tToss-up\tScheduled\nNY\tKathy Hochul (incumbent)\tTBD — Republican Primary\tSolid D\tScheduled\nOH\tAmy Acton\tVivek Ramaswamy\tLean R\tVoting\nOR\tTina Kotek (incumbent)\tTBD — Republican Primary\tSolid D\tScheduled\nPA\tJosh Shapiro (incumbent)\tTBD — Republican Primary\tSolid D\tScheduled\nRI\tDaniel McKee (incumbent)\tTBD — Republican Primary\tSolid D\tScheduled\nSD\tTBD — Democratic Primary\tLarry Rhoden (incumbent)\tSolid R\tScheduled\nTX\tGina Hinojosa\tGreg Abbott (incumbent)\tSolid R\tScheduled\nVT\tTBD — D Primary: Aug 11, 2026 (Janoo, Richards)\tPhil Scott (incumbent)\tSolid R\tScheduled\n",
+  "stderr": "",
+  "execution_time_ms": 256
+}

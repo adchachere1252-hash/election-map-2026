@@ -92,6 +92,12 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "jon husted":           `${BASE}/jon-husted_b39430c8.jpg`,
   // WV Senate (Round 6) — Jim Justice (R incumbent)
   "jim justice":          `${BASE}/jim-justice_9559bc9b.jpg`,
+  // Governor photo audit (Round 7) — missing Governor candidates
+  // Roy Cooper: bioguide C000760 returns 404 (never served in Congress), using CDN
+  "roy cooper":           `${BASE}/roy-cooper_be49f249.jpg`,
+  "ned lamont":           `${BASE}/ned-lamont_24e0ecdd.jpg`,
+  "joe lombardo":         `${BASE}/joe-lombardo_fb7e8617.jpg`,
+  "larry rhoden":         `${BASE}/larry-rhoden_1ce6b32f.jpg`,
 };
 
 export const PARTY_LOGOS = {

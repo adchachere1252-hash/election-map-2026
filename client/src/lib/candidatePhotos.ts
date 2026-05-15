@@ -560,6 +560,12 @@ const CDN_PHOTOS: Record<string, string> = {
   "jon husted":           `${CDN_BASE}/jon-husted_b39430c8.jpg`,
   // WV Senate (Round 6) — Jim Justice (R incumbent)
   "jim justice":          `${CDN_BASE}/jim-justice_9559bc9b.jpg`,
+  // Governor photo audit (Round 7) — missing Governor candidates
+  // Roy Cooper: bioguide C000760 returns 404 (never served in Congress), using CDN
+  "roy cooper":           `${CDN_BASE}/roy-cooper_be49f249.jpg`,
+  "ned lamont":           `${CDN_BASE}/ned-lamont_24e0ecdd.jpg`,
+  "joe lombardo":         `${CDN_BASE}/joe-lombardo_fb7e8617.jpg`,
+  "larry rhoden":         `${CDN_BASE}/larry-rhoden_1ce6b32f.jpg`,
 };
 
 /**
