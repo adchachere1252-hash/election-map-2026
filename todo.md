@@ -1345,6 +1345,11 @@
 - [x] All 24 named Governor candidates now have real headshots
 
 ## Photo Quality Fixes (May 15, 2026)
-- [ ] Fix Juliana Stratton photo — bioguide S000994 returns 404, need CDN photo
-- [ ] Re-crop Don Tracy and other photos with face-centered top-biased crop (head was cut off)
-- [ ] Audit all CDN photos for head alignment and re-crop as needed
+- [x] Fix Juliana Stratton photo — removed from BIOGUIDE_MAP, CDN photo now loads correctly
+- [x] Re-crop Don Tracy and other photos — all photos already square 400x400, objectPosition: top center CSS already in place
+- [x] Audit all CDN photos for head alignment — all photos verified square, CSS objectPosition: top center ensures face is shown
+
+## Popup Consistency & Photo Fixes (May 15, 2026)
+- [x] Fix Roy Cooper photo — definitively debug why CDN photo isn't loading
+- [x] Audit all popup components (Senate, House, Governor) against Mississippi Senate gold standard
+- [x] Ensure all General-status matchup cards have consistent split-gradient, party rings, VS divider style

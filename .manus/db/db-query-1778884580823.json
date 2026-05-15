@@ -1,0 +1,18 @@
+{
+  "query": "SELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status FROM senate_races WHERE state_code = 'NC';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status FROM senate_races WHERE state_code = 'NC';",
+  "rows": [
+    {
+      "state_code": "NC",
+      "candidate1_name": "Roy Cooper",
+      "candidate1_party": "D",
+      "candidate2_name": "Michael Whatley",
+      "candidate2_party": "R",
+      "status": "General"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\nNC\tRoy Cooper\tD\tMichael Whatley\tR\tGeneral\n",
+  "stderr": "",
+  "execution_time_ms": 266
+}

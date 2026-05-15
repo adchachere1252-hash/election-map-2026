@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getCandidatePhotoUrl } from "@/lib/candidatePhotos";
 
 interface CandidateAvatarProps {
@@ -18,8 +18,13 @@ export function CandidateAvatar({
   size = 36,
   className = "",
 }: CandidateAvatarProps) {
-  const [imgError, setImgError] = useState(false);
   const photoUrl = getCandidatePhotoUrl(name);
+  const [imgError, setImgError] = useState(false);
+
+  // Reset error state whenever the photo URL changes (e.g., popup opens for a different candidate)
+  useEffect(() => {
+    setImgError(false);
+  }, [photoUrl]);
 
   // Determine party color for fallback avatar
   const partyKey = (party || "").toUpperCase();

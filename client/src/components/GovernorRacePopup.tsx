@@ -1,6 +1,6 @@
-import { X, User, Calendar, TrendingUp, Award, Briefcase, ChevronDown, ChevronUp, Crosshair } from "lucide-react";
+import { X, User, Calendar, TrendingUp, Award, Briefcase, ChevronDown, ChevronUp, Crosshair, MapPin } from "lucide-react";
 import { useState } from "react";
-import { getRatingColor } from "@/lib/electionUtils";
+import { getRatingColor, getRatingClass, getPartyColor, getPartyLabel } from "@/lib/electionUtils";
 import { CandidateAvatar } from "./CandidateAvatar";
 
 interface GovernorRace {
@@ -182,23 +182,194 @@ function CandidateCard({
   );
 }
 
+/**
+ * Mississippi Senate-style split-gradient matchup card for General-status Governor races.
+ * Matches the GeneralMatchupSection used in Senate/House popups.
+ */
+function GeneralMatchupCard({
+  demCandidate,
+  repCandidate,
+  rating,
+  incumbentName,
+  incumbentParty,
+  isOpen,
+  isTermLimited,
+  previousParty,
+  generalDate,
+  contextLines,
+}: {
+  demCandidate: string | null;
+  repCandidate: string | null;
+  rating: string | null;
+  incumbentName: string | null;
+  incumbentParty: string | null;
+  isOpen: boolean;
+  isTermLimited: boolean;
+  previousParty: string | null;
+  generalDate: string;
+  contextLines: string[];
+}) {
+  // Determine candidate1 (D) and candidate2 (R) for display
+  const c1Name = demCandidate;
+  const c1Party = "D";
+  const c2Name = repCandidate;
+  const c2Party = "R";
+
+  if (!c1Name || !c2Name) return null;
+
+  const c1Color = getPartyColor(c1Party as any);
+  const c2Color = getPartyColor(c2Party as any);
+  const photoSize = 72;
+
+  return (
+    <>
+      <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-2">November General Election Matchup</p>
+      <div className="rounded-lg overflow-hidden border border-white/10 mb-3" style={{ background: "linear-gradient(135deg, " + c1Color + "18 0%, transparent 50%, " + c2Color + "18 100%)" }}>
+        {/* Photo row with split gradient */}
+        <div className="relative flex items-stretch">
+          {/* Left half tint */}
+          <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to right, " + c1Color + "22 0%, transparent 50%)" }} />
+          {/* Right half tint */}
+          <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to left, " + c2Color + "22 0%, transparent 50%)" }} />
+
+          {/* Candidate 1 (Democrat) */}
+          <div className="flex flex-col items-center gap-2 flex-1 min-w-0 px-3 pt-4 pb-3 z-10">
+            <div
+              className="rounded-full p-[3px] flex-shrink-0"
+              style={{ background: "linear-gradient(135deg, " + c1Color + ", " + c1Color + "88)" }}
+            >
+              <CandidateAvatar name={c1Name} party={c1Party} size={photoSize} />
+            </div>
+            <span className="text-sm font-bold text-center leading-tight">{c1Name}</span>
+            <span
+              className="text-xs font-bold px-2.5 py-0.5 rounded-full"
+              style={{
+                background: c1Color + "33",
+                color: c1Color,
+                border: "1px solid " + c1Color + "55"
+              }}
+            >
+              {getPartyLabel(c1Party as any)}
+            </span>
+          </div>
+
+          {/* VS divider */}
+          <div className="flex flex-col items-center justify-center gap-2 flex-shrink-0 px-1 z-10">
+            <div className="w-px h-8 bg-white/10" />
+            <span className="text-sm font-black text-white/40 tracking-widest">VS</span>
+            {rating && (
+              <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${getRatingClass(rating as any)}`}>{rating}</span>
+            )}
+            <div className="w-px h-8 bg-white/10" />
+          </div>
+
+          {/* Candidate 2 (Republican) */}
+          <div className="flex flex-col items-center gap-2 flex-1 min-w-0 px-3 pt-4 pb-3 z-10">
+            <div
+              className="rounded-full p-[3px] flex-shrink-0"
+              style={{ background: "linear-gradient(135deg, " + c2Color + ", " + c2Color + "88)" }}
+            >
+              <CandidateAvatar name={c2Name} party={c2Party} size={photoSize} />
+            </div>
+            <span className="text-sm font-bold text-center leading-tight">{c2Name}</span>
+            <span
+              className="text-xs font-bold px-2.5 py-0.5 rounded-full"
+              style={{
+                background: c2Color + "33",
+                color: c2Color,
+                border: "1px solid " + c2Color + "55"
+              }}
+            >
+              {getPartyLabel(c2Party as any)}
+            </span>
+          </div>
+        </div>
+
+        {/* Structured context block */}
+        {contextLines.length > 0 && (
+          <div className="mx-3 mb-3 bg-yellow-900/25 border border-yellow-700/35 rounded px-2.5 py-2 space-y-1">
+            {contextLines.map((line, i) => (
+              <div key={i} className="flex items-start gap-1.5">
+                <span className="text-yellow-500/70 mt-0.5 flex-shrink-0 text-[10px]">▸</span>
+                <span className="text-xs text-yellow-200/90 leading-snug">{line}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
 export default function GovernorRacePopup({ race, onClose, onFocusMap }: GovernorRacePopupProps) {
   const isCalled = !!race.calledParty;
   const isOpenSeat = race.isOpen || race.isTermLimited;
+  const isGeneral = race.status === "General";
 
   // Determine if incumbent is running (not open seat)
   const incumbentIsRunning = !isOpenSeat && !!race.incumbentName;
   // Determine which party the incumbent is
   const incumbentParty = race.incumbentParty as "D" | "R" | "I" | null;
 
+  // Build context lines for the General matchup info box
+  const contextLines: string[] = [];
+  if (isGeneral) {
+    // Seat type
+    contextLines.push("Gubernatorial race \u2014 4-year term. Winner takes office January 2027.");
+
+    // Incumbent / open seat
+    if (race.isTermLimited) {
+      const partyLabel = race.incumbentParty === "D" ? "Democrat" : race.incumbentParty === "R" ? "Republican" : race.incumbentParty ?? "";
+      contextLines.push(`Open seat \u2014 ${race.incumbentName ?? "incumbent"} (${partyLabel}) is term-limited and cannot seek re-election. No incumbent advantage.`);
+    } else if (race.isOpen) {
+      contextLines.push("Open seat \u2014 no incumbent is running. Both candidates start on equal footing.");
+    } else if (race.incumbentName) {
+      const partyLabel = race.incumbentParty === "D" ? "Democrat" : race.incumbentParty === "R" ? "Republican" : race.incumbentParty ?? "";
+      const incumbentCandidate = race.incumbentParty === "D" ? race.demCandidate : race.repCandidate;
+      contextLines.push(`${race.incumbentName} (${partyLabel}) is the incumbent governor seeking re-election${incumbentCandidate ? " as " + incumbentCandidate : ""}.`);
+    }
+
+    // Seat history / flip potential
+    if (race.previousParty) {
+      const prevLabel = race.previousParty === "D" ? "Democratic" : race.previousParty === "R" ? "Republican" : race.previousParty;
+      const challengerParty = race.previousParty === "D" ? "R" : race.previousParty === "R" ? "D" : null;
+      const challengerName = challengerParty === "D" ? race.demCandidate : challengerParty === "R" ? race.repCandidate : null;
+      if (challengerName) {
+        const challengerLabel = challengerParty === "D" ? "Democratic" : challengerParty === "R" ? "Republican" : "";
+        contextLines.push(`${prevLabel}-held governorship. ${challengerName} is the ${challengerLabel} challenger; a win would flip the seat.`);
+      }
+    }
+
+    // Rating explanation
+    if (race.rating) {
+      const ratingExplain: Record<string, string> = {
+        "Solid D": "Solidly Democratic \u2014 not expected to be competitive. Democrat is heavily favored.",
+        "Safe D": "Safe Democratic seat \u2014 Democrat is expected to win by a large margin.",
+        "Lean D": "Leans Democratic \u2014 Democrat is favored but the race could tighten.",
+        "Toss-up": "Toss-up \u2014 either candidate could win. One of the most competitive races of the cycle.",
+        "Lean R": "Leans Republican \u2014 Republican is favored but the race could tighten.",
+        "Safe R": "Safe Republican seat \u2014 Republican is expected to win by a large margin.",
+        "Solid R": "Solidly Republican \u2014 not expected to be competitive. Republican is heavily favored.",
+      };
+      const explain = ratingExplain[race.rating] ?? `Rated ${race.rating}`;
+      contextLines.push(`${explain} (Cook Political Report / Inside Elections / Sabato's Crystal Ball)`);
+    }
+
+    // Election date
+    contextLines.push(`Election day: ${race.generalDate}.`);
+  }
+
   return (
     <div className="bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
       {/* Header */}
       <div className="flex items-start justify-between p-4 pb-2">
         <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1">
+            <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
+            <span className="text-xs text-muted-foreground uppercase tracking-wider">Governor</span>
+          </div>
           <div className="flex items-center gap-2 flex-wrap">
-            <h2 className="text-base font-bold text-foreground leading-tight">{race.stateName}</h2>
-            <span className="text-xs text-muted-foreground font-medium">Governor</span>
+            <h2 className="text-lg font-bold text-foreground leading-tight">{race.stateName}</h2>
             {isCalled && (
               <span
                 className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold text-white"
@@ -247,8 +418,9 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
 
       {/* Body */}
       <div className="px-4 pb-4 space-y-3 max-h-[70vh] overflow-y-auto">
-        {/* Incumbent banner (if not open seat) */}
-        {incumbentIsRunning && race.incumbentName && incumbentParty && (
+
+        {/* Incumbent banner (if not open seat and not General — General shows it in context box) */}
+        {incumbentIsRunning && race.incumbentName && incumbentParty && !isGeneral && (
           <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/40 border border-border/50">
             <User className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
             <div className="flex-1 min-w-0">
@@ -261,36 +433,50 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
           </div>
         )}
 
-        {/* Candidate Bio Cards */}
-        <div className="space-y-2">
-          <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
-            {isOpenSeat ? "Candidates" : "Race Matchup"}
-          </p>
-
-          {/* Democrat */}
-          <CandidateCard
-            name={race.demCandidate}
-            party="D"
-            previousOffice={race.demPreviousOffice}
-            bio={race.demBio}
-            isIncumbent={incumbentIsRunning && incumbentParty === "D"}
+        {/* === GENERAL STATUS: Mississippi-style split-gradient matchup card === */}
+        {isGeneral ? (
+          <GeneralMatchupCard
+            demCandidate={race.demCandidate}
+            repCandidate={race.repCandidate}
+            rating={race.rating}
+            incumbentName={race.incumbentName}
+            incumbentParty={race.incumbentParty}
+            isOpen={race.isOpen}
+            isTermLimited={race.isTermLimited}
+            previousParty={race.previousParty}
+            generalDate={race.generalDate}
+            contextLines={contextLines}
           />
+        ) : (
+          /* === NON-GENERAL: Stacked CandidateCard layout === */
+          <div className="space-y-2">
+            <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+              {isOpenSeat ? "Candidates" : "Race Matchup"}
+            </p>
 
-          {/* Republican */}
-          <CandidateCard
-            name={race.repCandidate}
-            party="R"
-            previousOffice={race.repPreviousOffice}
-            bio={race.repBio}
-            isIncumbent={incumbentIsRunning && incumbentParty === "R"}
-          />
+            {/* Democrat */}
+            <CandidateCard
+              name={race.demCandidate}
+              party="D"
+              previousOffice={race.demPreviousOffice}
+              bio={race.demBio}
+              isIncumbent={incumbentIsRunning && incumbentParty === "D"}
+            />
 
-          {/* Other / Third-Party */}
-          {race.otherCandidateName && (
-            <div className="rounded-lg border border-gray-700/40 bg-gray-800/30 p-2.5">
-              <div className="flex items-center gap-2">
-                <CandidateAvatar name={race.otherCandidateName} party="I" size={28} />
-                <div className="flex-1 min-w-0">
+            {/* Republican */}
+            <CandidateCard
+              name={race.repCandidate}
+              party="R"
+              previousOffice={race.repPreviousOffice}
+              bio={race.repBio}
+              isIncumbent={incumbentIsRunning && incumbentParty === "R"}
+            />
+
+            {/* Other / Third-Party */}
+            {race.otherCandidateName && (
+              <div className="rounded-lg border border-gray-700/40 bg-gray-800/30 p-2.5">
+                <div className="flex items-center gap-2">
+                  <CandidateAvatar name={race.otherCandidateName} party={race.otherCandidateParty ?? "I"} size={32} />
                   <div className="flex items-center gap-1.5 flex-wrap">
                     <span className="text-xs font-semibold text-foreground">{race.otherCandidateName}</span>
                     <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold text-white bg-gray-600">
@@ -308,9 +494,9 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
                   )}
                 </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
 
         {/* Vote results (election night only — hidden in General/Scheduled mode) */}
         {(race.status === "Primary" || race.status === "Called" || race.status === "Certified") && (
@@ -348,69 +534,8 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
           </div>
         </div>
 
-        {/* Race context box — structured info for General-status races */}
-        {race.status === "General" && (() => {
-          const lines: string[] = [];
-
-          // Seat type
-          lines.push("Gubernatorial race \u2014 4-year term. Winner takes office January 2027.");
-
-          // Incumbent / open seat
-          if (race.isTermLimited) {
-            const partyLabel = race.incumbentParty === "D" ? "Democrat" : race.incumbentParty === "R" ? "Republican" : race.incumbentParty ?? "";
-            lines.push(`Open seat \u2014 ${race.incumbentName ?? "incumbent"} (${partyLabel}) is term-limited and cannot seek re-election. No incumbent advantage.`);
-          } else if (race.isOpen) {
-            lines.push("Open seat \u2014 no incumbent is running. Both candidates start on equal footing.");
-          } else if (race.incumbentName) {
-            const partyLabel = race.incumbentParty === "D" ? "Democrat" : race.incumbentParty === "R" ? "Republican" : race.incumbentParty ?? "";
-            const incumbentCandidate = race.incumbentParty === "D" ? race.demCandidate : race.repCandidate;
-            lines.push(`${race.incumbentName} (${partyLabel}) is the incumbent governor seeking re-election${incumbentCandidate ? " as " + incumbentCandidate : ""}.`);
-          }
-
-          // Seat history / flip potential
-          if (race.previousParty) {
-            const prevLabel = race.previousParty === "D" ? "Democratic" : race.previousParty === "R" ? "Republican" : race.previousParty;
-            const challengerParty = race.previousParty === "D" ? "R" : race.previousParty === "R" ? "D" : null;
-            const challengerName = challengerParty === "D" ? race.demCandidate : challengerParty === "R" ? race.repCandidate : null;
-            if (challengerName) {
-              const challengerLabel = challengerParty === "D" ? "Democratic" : challengerParty === "R" ? "Republican" : "";
-              lines.push(`${prevLabel}-held governorship. ${challengerName} is the ${challengerLabel} challenger; a win would flip the seat.`);
-            }
-          }
-
-          // Rating explanation
-          if (race.rating) {
-            const ratingExplain: Record<string, string> = {
-              "Solid D": "Solidly Democratic \u2014 not expected to be competitive. Democrat is heavily favored.",
-              "Safe D": "Safe Democratic seat \u2014 Democrat is expected to win by a large margin.",
-              "Lean D": "Leans Democratic \u2014 Democrat is favored but the race could tighten.",
-              "Toss-up": "Toss-up \u2014 either candidate could win. One of the most competitive races of the cycle.",
-              "Lean R": "Leans Republican \u2014 Republican is favored but the race could tighten.",
-              "Safe R": "Safe Republican seat \u2014 Republican is expected to win by a large margin.",
-              "Solid R": "Solidly Republican \u2014 not expected to be competitive. Republican is heavily favored.",
-            };
-            const explain = ratingExplain[race.rating] ?? `Rated ${race.rating}`;
-            lines.push(`${explain} (Cook Political Report / Inside Elections / Sabato's Crystal Ball)`);
-          }
-
-          // Election date
-          lines.push(`Election day: ${race.generalDate}.`);
-
-          return (
-            <div className="bg-yellow-900/25 border border-yellow-700/35 rounded-lg px-3 py-2.5 space-y-1.5">
-              <p className="text-[10px] font-semibold text-yellow-400/80 uppercase tracking-wider mb-1">Race Context</p>
-              {lines.map((line, i) => (
-                <div key={i} className="flex items-start gap-1.5">
-                  <span className="text-yellow-500/70 mt-0.5 flex-shrink-0 text-[10px]">\u25b8</span>
-                  <span className="text-xs text-yellow-200/90 leading-snug">{line}</span>
-                </div>
-              ))}
-            </div>
-          );
-        })()}
-
         {/* Analyst consensus / notes — shown for non-General statuses only */}
-        {race.notes && race.status !== "General" && (
+        {race.notes && !isGeneral && (
           <div className="p-2.5 rounded-lg bg-muted/30 border border-border/50">
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-1">
               Analyst Consensus
