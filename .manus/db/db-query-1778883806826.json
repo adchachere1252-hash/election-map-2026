@@ -1,0 +1,1066 @@
+{
+  "query": "\nSELECT 'senate' as chamber, state_code as state, status, candidate1_name as c1, candidate2_name as c2, '' as district\nFROM senate_races WHERE status != 'Scheduled'\nUNION ALL\nSELECT 'governor', state_code, status, dem_candidate, rep_candidate, ''\nFROM governor_races\nUNION ALL\nSELECT 'house', state_code, status, candidate1_name, candidate2_name, district\nFROM house_races WHERE status IN ('General', 'Called')\nORDER BY chamber, state;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT 'senate' as chamber, state_code as state, status, candidate1_name as c1, candidate2_name as c2, '' as district\nFROM senate_races WHERE status != 'Scheduled'\nUNION ALL\nSELECT 'governor', state_code, status, dem_candidate, rep_candidate, ''\nFROM governor_races\nUNION ALL\nSELECT 'house', state_code, status, candidate1_name, candidate2_name, district\nFROM house_races WHERE status IN ('General', 'Called')\nORDER BY chamber, state;\n",
+  "rows": [
+    {
+      "chamber": "governor",
+      "state": "AK",
+      "status": "Scheduled",
+      "c1": "TBD — Democratic Primary",
+      "c2": "TBD — Republican Primary",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "AL",
+      "status": "Scheduled",
+      "c1": "TBD — Democratic Primary",
+      "c2": "TBD — Republican Primary",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "AR",
+      "status": "Scheduled",
+      "c1": "TBD — Democratic Primary",
+      "c2": "Sarah Huckabee Sanders",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "AZ",
+      "status": "Scheduled",
+      "c1": "Katie Hobbs (incumbent)",
+      "c2": "TBD — R Primary: Jul 21, 2026 (Biggs, Miceli, Neely, Schweikert)",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "CA",
+      "status": "Scheduled",
+      "c1": "TBD — Democratic Primary",
+      "c2": "TBD — Republican Primary",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "CO",
+      "status": "Scheduled",
+      "c1": "TBD — Democratic Primary",
+      "c2": "TBD — Republican Primary",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "CT",
+      "status": "Scheduled",
+      "c1": "Ned Lamont (incumbent)",
+      "c2": "TBD — Republican Primary",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "FL",
+      "status": "Scheduled",
+      "c1": "TBD — Democratic Primary",
+      "c2": "TBD — Republican Primary",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "GA",
+      "status": "Scheduled",
+      "c1": "TBD — D Primary: May 19, 2026 (Bottoms, Brown, Duffy, Duncan, Esteves, Jackson, Thurmond, Romman)",
+      "c2": "TBD — R Primary: May 19, 2026 (Carr, Dean, Jones, Kirkpatrick, Raffensperger, Williams, Yasger)",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "HI",
+      "status": "Scheduled",
+      "c1": "Josh Green (incumbent)",
+      "c2": "TBD — Republican Primary",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "IA",
+      "status": "Scheduled",
+      "c1": "Rob Sand",
+      "c2": "TBD — R Primary: Jun 2, 2026 (Feenstra, Lahn, Sherman, Steen)",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "ID",
+      "status": "Scheduled",
+      "c1": "TBD — Democratic Primary",
+      "c2": "Brad Little (incumbent)",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "IL",
+      "status": "Scheduled",
+      "c1": "J.B. Pritzker (incumbent)",
+      "c2": "Darren Bailey",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "KS",
+      "status": "Scheduled",
+      "c1": "TBD — Democratic Primary",
+      "c2": "TBD — Republican Primary",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "MA",
+      "status": "Scheduled",
+      "c1": "Maura Healey (incumbent)",
+      "c2": "TBD — Republican Primary",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "MD",
+      "status": "Scheduled",
+      "c1": "Wes Moore (incumbent)",
+      "c2": "TBD — Republican Primary",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "ME",
+      "status": "Scheduled",
+      "c1": "TBD — D Primary: Jun 9, 2026 (Bellows, Jackson, King III, Pingree, Shah)",
+      "c2": "TBD — R Primary: Jun 9, 2026 (Bennett, Crockett, Glowa, Levasseur)",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "MI",
+      "status": "Scheduled",
+      "c1": "TBD — D Primary: Aug 4, 2026 (Benson, Hogan, Sawicki, Swanson)",
+      "c2": "TBD — R Primary: Aug 4, 2026 (James, Cox, Leonard, Nesbitt)",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "MN",
+      "status": "Scheduled",
+      "c1": "Amy Klobuchar",
+      "c2": "TBD — R Primary: Aug 11, 2026",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "NE",
+      "status": "Voting",
+      "c1": "Lynne Walz",
+      "c2": "TBD — R Primary: May 12, 2026",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "NH",
+      "status": "Scheduled",
+      "c1": "TBD — D Primary: Sep 8, 2026 (Warmington, Kiper)",
+      "c2": "Kelly Ayotte (incumbent)",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "NM",
+      "status": "Scheduled",
+      "c1": "TBD — Democratic Primary",
+      "c2": "TBD — Republican Primary",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "NV",
+      "status": "Scheduled",
+      "c1": "TBD — D Primary: Jun 9, 2026 (Ford, Hill)",
+      "c2": "Joe Lombardo (incumbent)",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "NY",
+      "status": "Scheduled",
+      "c1": "Kathy Hochul (incumbent)",
+      "c2": "TBD — Republican Primary",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "OH",
+      "status": "Voting",
+      "c1": "Amy Acton",
+      "c2": "Vivek Ramaswamy",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "OK",
+      "status": "Scheduled",
+      "c1": "TBD — Democratic Primary",
+      "c2": "TBD — Republican Primary",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "OR",
+      "status": "Scheduled",
+      "c1": "Tina Kotek (incumbent)",
+      "c2": "TBD — Republican Primary",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "PA",
+      "status": "Scheduled",
+      "c1": "Josh Shapiro (incumbent)",
+      "c2": "TBD — Republican Primary",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "RI",
+      "status": "Scheduled",
+      "c1": "Daniel McKee (incumbent)",
+      "c2": "TBD — Republican Primary",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "SC",
+      "status": "Scheduled",
+      "c1": "TBD — Democratic Primary",
+      "c2": "TBD — Republican Primary",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "SD",
+      "status": "Scheduled",
+      "c1": "TBD — Democratic Primary",
+      "c2": "Larry Rhoden (incumbent)",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "TN",
+      "status": "Scheduled",
+      "c1": "TBD — Democratic Primary",
+      "c2": "TBD — Republican Primary",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "TX",
+      "status": "Scheduled",
+      "c1": "Gina Hinojosa",
+      "c2": "Greg Abbott (incumbent)",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "VT",
+      "status": "Scheduled",
+      "c1": "TBD — D Primary: Aug 11, 2026 (Janoo, Richards)",
+      "c2": "Phil Scott (incumbent)",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "WI",
+      "status": "Scheduled",
+      "c1": "TBD — D Primary: Aug 11, 2026",
+      "c2": "TBD — R Primary: Aug 11, 2026",
+      "district": ""
+    },
+    {
+      "chamber": "governor",
+      "state": "WY",
+      "status": "Scheduled",
+      "c1": "TBD — Democratic Primary",
+      "c2": "TBD — Republican Primary",
+      "district": ""
+    },
+    {
+      "chamber": "house",
+      "state": "AR",
+      "status": "General",
+      "c1": "Terri Yarbrough Green",
+      "c2": "Rick Crawford",
+      "district": "1"
+    },
+    {
+      "chamber": "house",
+      "state": "AR",
+      "status": "General",
+      "c1": "Chris Jones",
+      "c2": "J. French Hill",
+      "district": "2"
+    },
+    {
+      "chamber": "house",
+      "state": "AR",
+      "status": "General",
+      "c1": "Robb Ryerse",
+      "c2": "Steve Womack",
+      "district": "3"
+    },
+    {
+      "chamber": "house",
+      "state": "AR",
+      "status": "General",
+      "c1": "James Russell",
+      "c2": "Bruce Westerman",
+      "district": "4"
+    },
+    {
+      "chamber": "house",
+      "state": "AZ",
+      "status": "Called",
+      "c1": "Adelita S. Grijalva",
+      "c2": "Daniel Butierez",
+      "district": "7"
+    },
+    {
+      "chamber": "house",
+      "state": "CA",
+      "status": "General",
+      "c1": "NULL",
+      "c2": "Doug LaMalfa",
+      "district": "1"
+    },
+    {
+      "chamber": "house",
+      "state": "FL",
+      "status": "Called",
+      "c1": "Gay Valimont",
+      "c2": "Jimmy Patronis",
+      "district": "1"
+    },
+    {
+      "chamber": "house",
+      "state": "FL",
+      "status": "Called",
+      "c1": "Randy Fine",
+      "c2": "Joshua Weil",
+      "district": "6"
+    },
+    {
+      "chamber": "house",
+      "state": "GA",
+      "status": "Called",
+      "c1": "Colton Moore",
+      "c2": "Beau Brown",
+      "district": "14"
+    },
+    {
+      "chamber": "house",
+      "state": "IL",
+      "status": "General",
+      "c1": "Donna Miller",
+      "c2": "Michael Noack",
+      "district": "2"
+    },
+    {
+      "chamber": "house",
+      "state": "IL",
+      "status": "General",
+      "c1": "Delia Ramirez",
+      "c2": "Angel Oakley",
+      "district": "3"
+    },
+    {
+      "chamber": "house",
+      "state": "IL",
+      "status": "General",
+      "c1": "Patty Garcia",
+      "c2": "Lupe Castillo",
+      "district": "4"
+    },
+    {
+      "chamber": "house",
+      "state": "IL",
+      "status": "General",
+      "c1": "Mike Quigley",
+      "c2": "Tommy Hanson",
+      "district": "5"
+    },
+    {
+      "chamber": "house",
+      "state": "IL",
+      "status": "General",
+      "c1": "Sean Casten",
+      "c2": "Niki Conforti",
+      "district": "6"
+    },
+    {
+      "chamber": "house",
+      "state": "IL",
+      "status": "General",
+      "c1": "La Shawn Ford",
+      "c2": "Chad Koppie",
+      "district": "7"
+    },
+    {
+      "chamber": "house",
+      "state": "IL",
+      "status": "General",
+      "c1": "Melissa Bean",
+      "c2": "Jennifer Davis",
+      "district": "8"
+    },
+    {
+      "chamber": "house",
+      "state": "IL",
+      "status": "General",
+      "c1": "Daniel K. Biss",
+      "c2": "John Elleson",
+      "district": "9"
+    },
+    {
+      "chamber": "house",
+      "state": "IL",
+      "status": "General",
+      "c1": "Bradley Schneider",
+      "c2": "Carl Lambrecht",
+      "district": "10"
+    },
+    {
+      "chamber": "house",
+      "state": "IL",
+      "status": "General",
+      "c1": "Bill Foster",
+      "c2": "Jeff Walter",
+      "district": "11"
+    },
+    {
+      "chamber": "house",
+      "state": "IL",
+      "status": "General",
+      "c1": "Julie Fortier",
+      "c2": "Mike Bost",
+      "district": "12"
+    },
+    {
+      "chamber": "house",
+      "state": "IL",
+      "status": "General",
+      "c1": "Nikki Budzinski",
+      "c2": "Jeff Wilson",
+      "district": "13"
+    },
+    {
+      "chamber": "house",
+      "state": "IL",
+      "status": "General",
+      "c1": "Lauren Underwood",
+      "c2": "James Marter",
+      "district": "14"
+    },
+    {
+      "chamber": "house",
+      "state": "IL",
+      "status": "General",
+      "c1": "Jennifer Todd",
+      "c2": "Mary Miller",
+      "district": "15"
+    },
+    {
+      "chamber": "house",
+      "state": "IL",
+      "status": "General",
+      "c1": "Paul Nolley",
+      "c2": "Darin LaHood",
+      "district": "16"
+    },
+    {
+      "chamber": "house",
+      "state": "IL",
+      "status": "General",
+      "c1": "Eric Sorensen",
+      "c2": "Dillan Vancil",
+      "district": "17"
+    },
+    {
+      "chamber": "house",
+      "state": "IN",
+      "status": "General",
+      "c1": "Frank Mrvan",
+      "c2": "Barb Regnitz",
+      "district": "1"
+    },
+    {
+      "chamber": "house",
+      "state": "IN",
+      "status": "General",
+      "c1": "Jamee Decio",
+      "c2": "Rudy Yakym",
+      "district": "2"
+    },
+    {
+      "chamber": "house",
+      "state": "IN",
+      "status": "General",
+      "c1": "Marlin Stutzman",
+      "c2": "Marlin Stutzman",
+      "district": "3"
+    },
+    {
+      "chamber": "house",
+      "state": "IN",
+      "status": "General",
+      "c1": "Jim Baird",
+      "c2": "Jim Baird",
+      "district": "4"
+    },
+    {
+      "chamber": "house",
+      "state": "IN",
+      "status": "General",
+      "c1": "J.D. Ford",
+      "c2": "Victoria Spartz",
+      "district": "5"
+    },
+    {
+      "chamber": "house",
+      "state": "IN",
+      "status": "General",
+      "c1": "Cynthia Wirth",
+      "c2": "Jefferson Shreve",
+      "district": "6"
+    },
+    {
+      "chamber": "house",
+      "state": "IN",
+      "status": "General",
+      "c1": "André Carson",
+      "c2": "NULL",
+      "district": "7"
+    },
+    {
+      "chamber": "house",
+      "state": "IN",
+      "status": "General",
+      "c1": "Mary Allen",
+      "c2": "Tabitha Zeigler",
+      "district": "8"
+    },
+    {
+      "chamber": "house",
+      "state": "IN",
+      "status": "General",
+      "c1": "Brad Meyer",
+      "c2": "Erin Houchin",
+      "district": "9"
+    },
+    {
+      "chamber": "house",
+      "state": "MS",
+      "status": "General",
+      "c1": "Cliff Johnson",
+      "c2": "Trent Kelly",
+      "district": "1"
+    },
+    {
+      "chamber": "house",
+      "state": "MS",
+      "status": "General",
+      "c1": "Bennie Thompson",
+      "c2": "Ron Eller",
+      "district": "2"
+    },
+    {
+      "chamber": "house",
+      "state": "MS",
+      "status": "General",
+      "c1": "Michael Chiaradio",
+      "c2": "Michael Guest",
+      "district": "3"
+    },
+    {
+      "chamber": "house",
+      "state": "MS",
+      "status": "General",
+      "c1": "Jeffrey Hulum",
+      "c2": "Mike Ezell",
+      "district": "4"
+    },
+    {
+      "chamber": "house",
+      "state": "NC",
+      "status": "General",
+      "c1": "Alma S. Adams",
+      "c2": "Jack Codiga",
+      "district": "12"
+    },
+    {
+      "chamber": "house",
+      "state": "NC",
+      "status": "General",
+      "c1": "Chuck Hubbard",
+      "c2": "Virginia Foxx",
+      "district": "5"
+    },
+    {
+      "chamber": "house",
+      "state": "NC",
+      "status": "General",
+      "c1": "Colby Watson",
+      "c2": "Mark Harris",
+      "district": "8"
+    },
+    {
+      "chamber": "house",
+      "state": "NC",
+      "status": "General",
+      "c1": "Richard Ojeda",
+      "c2": "Richard Hudson",
+      "district": "9"
+    },
+    {
+      "chamber": "house",
+      "state": "NC",
+      "status": "General",
+      "c1": "Ashley Bell",
+      "c2": "Pat Harrigan",
+      "district": "10"
+    },
+    {
+      "chamber": "house",
+      "state": "NC",
+      "status": "General",
+      "c1": "Jamie Ager",
+      "c2": "Chuck Edwards",
+      "district": "11"
+    },
+    {
+      "chamber": "house",
+      "state": "NC",
+      "status": "General",
+      "c1": "Donald Davis",
+      "c2": "Laurie Buckhout",
+      "district": "1"
+    },
+    {
+      "chamber": "house",
+      "state": "NC",
+      "status": "General",
+      "c1": "Paul Barringer",
+      "c2": "Brad Knott",
+      "district": "13"
+    },
+    {
+      "chamber": "house",
+      "state": "NC",
+      "status": "General",
+      "c1": "Lakesha Womack",
+      "c2": "Tim Moore",
+      "district": "14"
+    },
+    {
+      "chamber": "house",
+      "state": "NE",
+      "status": "General",
+      "c1": "Chris Backemeyer",
+      "c2": "Mike Flood",
+      "district": "1"
+    },
+    {
+      "chamber": "house",
+      "state": "NE",
+      "status": "General",
+      "c1": "Denise Powell",
+      "c2": "Brinker Harding",
+      "district": "2"
+    },
+    {
+      "chamber": "house",
+      "state": "NE",
+      "status": "General",
+      "c1": "Becky Stille",
+      "c2": "Adrian Smith",
+      "district": "3"
+    },
+    {
+      "chamber": "house",
+      "state": "NJ",
+      "status": "Called",
+      "c1": "Analilia Mejia",
+      "c2": "Joe Hathaway",
+      "district": "11"
+    },
+    {
+      "chamber": "house",
+      "state": "OH",
+      "status": "General",
+      "c1": "Emilia Sykes",
+      "c2": "Kevin Siembida",
+      "district": "13"
+    },
+    {
+      "chamber": "house",
+      "state": "OH",
+      "status": "General",
+      "c1": "Jen Mazzuckelli",
+      "c2": "David J. Taylor",
+      "district": "2"
+    },
+    {
+      "chamber": "house",
+      "state": "OH",
+      "status": "General",
+      "c1": "Joyce Beatty",
+      "c2": "Joe Gerard",
+      "district": "3"
+    },
+    {
+      "chamber": "house",
+      "state": "OH",
+      "status": "General",
+      "c1": "Joshua Kolasinski",
+      "c2": "Jim Jordan",
+      "district": "4"
+    },
+    {
+      "chamber": "house",
+      "state": "OH",
+      "status": "General",
+      "c1": "Brian Shaver",
+      "c2": "Martin Heberling",
+      "district": "5"
+    },
+    {
+      "chamber": "house",
+      "state": "OH",
+      "status": "General",
+      "c1": "Elizabeth Kirtley",
+      "c2": "Michael A. Rulli",
+      "district": "6"
+    },
+    {
+      "chamber": "house",
+      "state": "OH",
+      "status": "General",
+      "c1": "Brian Poindexter",
+      "c2": "Ed FitzGerald",
+      "district": "7"
+    },
+    {
+      "chamber": "house",
+      "state": "OH",
+      "status": "General",
+      "c1": "Vanessa Enoch",
+      "c2": "Madaris Grant",
+      "district": "8"
+    },
+    {
+      "chamber": "house",
+      "state": "OH",
+      "status": "General",
+      "c1": "Marcy Kaptur",
+      "c2": "Derek Merrin",
+      "district": "9"
+    },
+    {
+      "chamber": "house",
+      "state": "OH",
+      "status": "General",
+      "c1": "Kristina Knickerbocker",
+      "c2": "Janice Beckett",
+      "district": "10"
+    },
+    {
+      "chamber": "house",
+      "state": "OH",
+      "status": "General",
+      "c1": "Shontel Brown",
+      "c2": "Mike Kirchner",
+      "district": "11"
+    },
+    {
+      "chamber": "house",
+      "state": "OH",
+      "status": "General",
+      "c1": "Jerrad Christian",
+      "c2": "Troy Balderson",
+      "district": "12"
+    },
+    {
+      "chamber": "house",
+      "state": "OH",
+      "status": "General",
+      "c1": "Greg Landsman",
+      "c2": "NULL",
+      "district": "1"
+    },
+    {
+      "chamber": "house",
+      "state": "OH",
+      "status": "General",
+      "c1": "Maria Jukic",
+      "c2": "David P. Joyce",
+      "district": "14"
+    },
+    {
+      "chamber": "house",
+      "state": "OH",
+      "status": "General",
+      "c1": "Don Leonard",
+      "c2": "Adam Miller",
+      "district": "15"
+    },
+    {
+      "chamber": "house",
+      "state": "TN",
+      "status": "Called",
+      "c1": "Matt Van Epps",
+      "c2": "Aftyn Behn",
+      "district": "7"
+    },
+    {
+      "chamber": "house",
+      "state": "TX",
+      "status": "General",
+      "c1": "Danny Minton",
+      "c2": "Jake Ellzey",
+      "district": "6"
+    },
+    {
+      "chamber": "house",
+      "state": "TX",
+      "status": "General",
+      "c1": "Marquette Greene-Scott",
+      "c2": "Trever Nehls",
+      "district": "22"
+    },
+    {
+      "chamber": "house",
+      "state": "TX",
+      "status": "General",
+      "c1": "Jason Pearce",
+      "c2": "Pat Fallon",
+      "district": "4"
+    },
+    {
+      "chamber": "house",
+      "state": "TX",
+      "status": "General",
+      "c1": "Shaun Finnie",
+      "c2": "Steve Toth",
+      "district": "2"
+    },
+    {
+      "chamber": "house",
+      "state": "TX",
+      "status": "General",
+      "c1": "Laura Jones",
+      "c2": "Jessica Steinmann",
+      "district": "8"
+    },
+    {
+      "chamber": "house",
+      "state": "TX",
+      "status": "General",
+      "c1": "Caitlin Rourk",
+      "c2": "Chris Gober",
+      "district": "10"
+    },
+    {
+      "chamber": "house",
+      "state": "TX",
+      "status": "General",
+      "c1": "Claire Reynolds",
+      "c2": "August Pfluger",
+      "district": "11"
+    },
+    {
+      "chamber": "house",
+      "state": "TX",
+      "status": "General",
+      "c1": "Angel Rodrigues-Prillman",
+      "c2": "Craig A. Goldman",
+      "district": "12"
+    },
+    {
+      "chamber": "house",
+      "state": "TX",
+      "status": "General",
+      "c1": "Mark Nair",
+      "c2": "Ronny Jackson",
+      "district": "13"
+    },
+    {
+      "chamber": "house",
+      "state": "TX",
+      "status": "General",
+      "c1": "Bobby Pulido",
+      "c2": "Monica De La Cruz",
+      "district": "15"
+    },
+    {
+      "chamber": "house",
+      "state": "TX",
+      "status": "General",
+      "c1": "Christian Menefee (D) / Al Green (I)",
+      "c2": "Ronald Whitfield",
+      "district": "18"
+    },
+    {
+      "chamber": "house",
+      "state": "TX",
+      "status": "General",
+      "c1": "Evan Hunt",
+      "c2": "Keith Self",
+      "district": "3"
+    },
+    {
+      "chamber": "house",
+      "state": "TX",
+      "status": "General",
+      "c1": "Tanya Lloyd",
+      "c2": "Michael Cloud",
+      "district": "27"
+    },
+    {
+      "chamber": "house",
+      "state": "TX",
+      "status": "General",
+      "c1": "Henry Cuellar",
+      "c2": "Tano Tijerina",
+      "district": "28"
+    },
+    {
+      "chamber": "house",
+      "state": "TX",
+      "status": "General",
+      "c1": "Sylvia Garcia",
+      "c2": "Martha Fierro",
+      "district": "29"
+    },
+    {
+      "chamber": "house",
+      "state": "TX",
+      "status": "General",
+      "c1": "Justin Early",
+      "c2": "John R. Carter",
+      "district": "31"
+    },
+    {
+      "chamber": "house",
+      "state": "TX",
+      "status": "General",
+      "c1": "Vicente Gonzalez Jr.",
+      "c2": "Eric Flores",
+      "district": "34"
+    },
+    {
+      "chamber": "house",
+      "state": "TX",
+      "status": "General",
+      "c1": "Rhonda Hart",
+      "c2": "Brian Babin",
+      "district": "36"
+    },
+    {
+      "chamber": "house",
+      "state": "VA",
+      "status": "Called",
+      "c1": "James R. Walkinshaw",
+      "c2": "NULL",
+      "district": "11"
+    },
+    {
+      "chamber": "house",
+      "state": "WV",
+      "status": "General",
+      "c1": "Vince George",
+      "c2": "Carol Miller",
+      "district": "1"
+    },
+    {
+      "chamber": "house",
+      "state": "WV",
+      "status": "General",
+      "c1": "Ace Parsi",
+      "c2": "Riley Moore",
+      "district": "2"
+    },
+    {
+      "chamber": "senate",
+      "state": "AR",
+      "status": "General",
+      "c1": "Hallie Shoffner",
+      "c2": "Tom Cotton",
+      "district": ""
+    },
+    {
+      "chamber": "senate",
+      "state": "IL",
+      "status": "General",
+      "c1": "Juliana Stratton",
+      "c2": "Don Tracy",
+      "district": ""
+    },
+    {
+      "chamber": "senate",
+      "state": "MS",
+      "status": "General",
+      "c1": "Scott Colom",
+      "c2": "Cindy Hyde-Smith",
+      "district": ""
+    },
+    {
+      "chamber": "senate",
+      "state": "NC",
+      "status": "General",
+      "c1": "Roy Cooper",
+      "c2": "Michael Whatley",
+      "district": ""
+    },
+    {
+      "chamber": "senate",
+      "state": "NE",
+      "status": "General",
+      "c1": "Cindy Burbank",
+      "c2": "Pete Ricketts",
+      "district": ""
+    },
+    {
+      "chamber": "senate",
+      "state": "OH",
+      "status": "General",
+      "c1": "Sherrod Brown",
+      "c2": "Jon Husted",
+      "district": ""
+    },
+    {
+      "chamber": "senate",
+      "state": "TX",
+      "status": "Primary",
+      "c1": "James Talarico",
+      "c2": "John Cornyn/Ken Paxton",
+      "district": ""
+    },
+    {
+      "chamber": "senate",
+      "state": "WV",
+      "status": "General",
+      "c1": "Rachel Fetty Anderson",
+      "c2": "Shelley Moore Capito",
+      "district": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "chamber\tstate\tstatus\tc1\tc2\tdistrict\ngovernor\tAK\tScheduled\tTBD — Democratic Primary\tTBD — Republican Primary\t\ngovernor\tAL\tScheduled\tTBD — Democratic Primary\tTBD — Republican Primary\t\ngovernor\tAR\tScheduled\tTBD — Democratic Primary\tSarah Huckabee Sanders\t\ngovernor\tAZ\tScheduled\tKatie Hobbs (incumbent)\tTBD — R Primary: Jul 21, 2026 (Biggs, Miceli, Neely, Schweikert)\t\ngovernor\tCA\tScheduled\tTBD — Democratic Primary\tTBD — Republican Primary\t\ngovernor\tCO\tScheduled\tTBD — Democratic Primary\tTBD — Republican Primary\t\ngovernor\tCT\tScheduled\tNed Lamont (incumbent)\tTBD — Republican Primary\t\ngovernor\tFL\tScheduled\tTBD — Democratic Primary\tTBD — Republican Primary\t\ngovernor\tGA\tScheduled\tTBD — D Primary: May 19, 2026 (Bottoms, Brown, Duffy, Duncan, Esteves, Jackson, Thurmond, Romman)\tTBD — R Primary: May 19, 2026 (Carr, Dean, Jones, Kirkpatrick, Raffensperger, Williams, Yasger)\t\ngovernor\tHI\tScheduled\tJosh Green (incumbent)\tTBD — Republican Primary\t\ngovernor\tIA\tScheduled\tRob Sand\tTBD — R Primary: Jun 2, 2026 (Feenstra, Lahn, Sherman, Steen)\t\ngovernor\tID\tScheduled\tTBD — Democratic Primary\tBrad Little (incumbent)\t\ngovernor\tIL\tScheduled\tJ.B. Pritzker (incumbent)\tDarren Bailey\t\ngovernor\tKS\tScheduled\tTBD — Democratic Primary\tTBD — Republican Primary\t\ngovernor\tMA\tScheduled\tMaura Healey (incumbent)\tTBD — Republican Primary\t\ngovernor\tMD\tScheduled\tWes Moore (incumbent)\tTBD — Republican Primary\t\ngovernor\tME\tScheduled\tTBD — D Primary: Jun 9, 2026 (Bellows, Jackson, King III, Pingree, Shah)\tTBD — R Primary: Jun 9, 2026 (Bennett, Crockett, Glowa, Levasseur)\t\ngovernor\tMI\tScheduled\tTBD — D Primary: Aug 4, 2026 (Benson, Hogan, Sawicki, Swanson)\tTBD — R Primary: Aug 4, 2026 (James, Cox, Leonard, Nesbitt)\t\ngovernor\tMN\tScheduled\tAmy Klobuchar\tTBD — R Primary: Aug 11, 2026\t\ngovernor\tNE\tVoting\tLynne Walz\tTBD — R Primary: May 12, 2026\t\ngovernor\tNH\tScheduled\tTBD — D Primary: Sep 8, 2026 (Warmington, Kiper)\tKelly Ayotte (incumbent)\t\ngovernor\tNM\tScheduled\tTBD — Democratic Primary\tTBD — Republican Primary\t\ngovernor\tNV\tScheduled\tTBD — D Primary: Jun 9, 2026 (Ford, Hill)\tJoe Lombardo (incumbent)\t\ngovernor\tNY\tScheduled\tKathy Hochul (incumbent)\tTBD — Republican Primary\t\ngovernor\tOH\tVoting\tAmy Acton\tVivek Ramaswamy\t\ngovernor\tOK\tScheduled\tTBD — Democratic Primary\tTBD — Republican Primary\t\ngovernor\tOR\tScheduled\tTina Kotek (incumbent)\tTBD — Republican Primary\t\ngovernor\tPA\tScheduled\tJosh Shapiro (incumbent)\tTBD — Republican Primary\t\ngovernor\tRI\tScheduled\tDaniel McKee (incumbent)\tTBD — Republican Primary\t\ngovernor\tSC\tScheduled\tTBD — Democratic Primary\tTBD — Republican Primary\t\ngovernor\tSD\tScheduled\tTBD — Democratic Primary\tLarry Rhoden (incumbent)\t\ngovernor\tTN\tScheduled\tTBD — Democratic Primary\tTBD — Republican Primary\t\ngovernor\tTX\tScheduled\tGina Hinojosa\tGreg Abbott (incumbent)\t\ngovernor\tVT\tScheduled\tTBD — D Primary: Aug 11, 2026 (Janoo, Richards)\tPhil Scott (incumbent)\t\ngovernor\tWI\tScheduled\tTBD — D Primary: Aug 11, 2026\tTBD — R Primary: Aug 11, 2026\t\ngovernor\tWY\tScheduled\tTBD — Democratic Primary\tTBD — Republican Primary\t\nhouse\tAR\tGeneral\tTerri Yarbrough Green\tRick Crawford\t1\nhouse\tAR\tGeneral\tChris Jones\tJ. French Hill\t2\nhouse\tAR\tGeneral\tRobb Ryerse\tSteve Womack\t3\nhouse\tAR\tGeneral\tJames Russell\tBruce Westerman\t4\nhouse\tAZ\tCalled\tAdelita S. Grijalva\tDaniel Butierez\t7\nhouse\tCA\tGeneral\tNULL\tDoug LaMalfa\t1\nhouse\tFL\tCalled\tGay Valimont\tJimmy Patronis\t1\nhouse\tFL\tCalled\tRandy Fine\tJoshua Weil\t6\nhouse\tGA\tCalled\tColton Moore\tBeau Brown\t14\nhouse\tIL\tGeneral\tDonna Miller\tMichael Noack\t2\nhouse\tIL\tGeneral\tDelia Ramirez\tAngel Oakley\t3\nhouse\tIL\tGeneral\tPatty Garcia\tLupe Castillo\t4\nhouse\tIL\tGeneral\tMike Quigley\tTommy Hanson\t5\nhouse\tIL\tGeneral\tSean Casten\tNiki Conforti\t6\nhouse\tIL\tGeneral\tLa Shawn Ford\tChad Koppie\t7\nhouse\tIL\tGeneral\tMelissa Bean\tJennifer Davis\t8\nhouse\tIL\tGeneral\tDaniel K. Biss\tJohn Elleson\t9\nhouse\tIL\tGeneral\tBradley Schneider\tCarl Lambrecht\t10\nhouse\tIL\tGeneral\tBill Foster\tJeff Walter\t11\nhouse\tIL\tGeneral\tJulie Fortier\tMike Bost\t12\nhouse\tIL\tGeneral\tNikki Budzinski\tJeff Wilson\t13\nhouse\tIL\tGeneral\tLauren Underwood\tJames Marter\t14\nhouse\tIL\tGeneral\tJennifer Todd\tMary Miller\t15\nhouse\tIL\tGeneral\tPaul Nolley\tDarin LaHood\t16\nhouse\tIL\tGeneral\tEric Sorensen\tDillan Vancil\t17\nhouse\tIN\tGeneral\tFrank Mrvan\tBarb Regnitz\t1\nhouse\tIN\tGeneral\tJamee Decio\tRudy Yakym\t2\nhouse\tIN\tGeneral\tMarlin Stutzman\tMarlin Stutzman\t3\nhouse\tIN\tGeneral\tJim Baird\tJim Baird\t4\nhouse\tIN\tGeneral\tJ.D. Ford\tVictoria Spartz\t5\nhouse\tIN\tGeneral\tCynthia Wirth\tJefferson Shreve\t6\nhouse\tIN\tGeneral\tAndré Carson\tNULL\t7\nhouse\tIN\tGeneral\tMary Allen\tTabitha Zeigler\t8\nhouse\tIN\tGeneral\tBrad Meyer\tErin Houchin\t9\nhouse\tMS\tGeneral\tCliff Johnson\tTrent Kelly\t1\nhouse\tMS\tGeneral\tBennie Thompson\tRon Eller\t2\nhouse\tMS\tGeneral\tMichael Chiaradio\tMichael Guest\t3\nhouse\tMS\tGeneral\tJeffrey Hulum\tMike Ezell\t4\nhouse\tNC\tGeneral\tAlma S. Adams\tJack Codiga\t12\nhouse\tNC\tGeneral\tChuck Hubbard\tVirginia Foxx\t5\nhouse\tNC\tGeneral\tColby Watson\tMark Harris\t8\nhouse\tNC\tGeneral\tRichard Ojeda\tRichard Hudson\t9\nhouse\tNC\tGeneral\tAshley Bell\tPat Harrigan\t10\nhouse\tNC\tGeneral\tJamie Ager\tChuck Edwards\t11\nhouse\tNC\tGeneral\tDonald Davis\tLaurie Buckhout\t1\nhouse\tNC\tGeneral\tPaul Barringer\tBrad Knott\t13\nhouse\tNC\tGeneral\tLakesha Womack\tTim Moore\t14\nhouse\tNE\tGeneral\tChris Backemeyer\tMike Flood\t1\nhouse\tNE\tGeneral\tDenise Powell\tBrinker Harding\t2\nhouse\tNE\tGeneral\tBecky Stille\tAdrian Smith\t3\nhouse\tNJ\tCalled\tAnalilia Mejia\tJoe Hathaway\t11\nhouse\tOH\tGeneral\tEmilia Sykes\tKevin Siembida\t13\nhouse\tOH\tGeneral\tJen Mazzuckelli\tDavid J. Taylor\t2\nhouse\tOH\tGeneral\tJoyce Beatty\tJoe Gerard\t3\nhouse\tOH\tGeneral\tJoshua Kolasinski\tJim Jordan\t4\nhouse\tOH\tGeneral\tBrian Shaver\tMartin Heberling\t5\nhouse\tOH\tGeneral\tElizabeth Kirtley\tMichael A. Rulli\t6\nhouse\tOH\tGeneral\tBrian Poindexter\tEd FitzGerald\t7\nhouse\tOH\tGeneral\tVanessa Enoch\tMadaris Grant\t8\nhouse\tOH\tGeneral\tMarcy Kaptur\tDerek Merrin\t9\nhouse\tOH\tGeneral\tKristina Knickerbocker\tJanice Beckett\t10\nhouse\tOH\tGeneral\tShontel Brown\tMike Kirchner\t11\nhouse\tOH\tGeneral\tJerrad Christian\tTroy Balderson\t12\nhouse\tOH\tGeneral\tGreg Landsman\tNULL\t1\nhouse\tOH\tGeneral\tMaria Jukic\tDavid P. Joyce\t14\nhouse\tOH\tGeneral\tDon Leonard\tAdam Miller\t15\nhouse\tTN\tCalled\tMatt Van Epps\tAftyn Behn\t7\nhouse\tTX\tGeneral\tDanny Minton\tJake Ellzey\t6\nhouse\tTX\tGeneral\tMarquette Greene-Scott\tTrever Nehls\t22\nhouse\tTX\tGeneral\tJason Pearce\tPat Fallon\t4\nhouse\tTX\tGeneral\tShaun Finnie\tSteve Toth\t2\nhouse\tTX\tGeneral\tLaura Jones\tJessica Steinmann\t8\nhouse\tTX\tGeneral\tCaitlin Rourk\tChris Gober\t10\nhouse\tTX\tGeneral\tClaire Reynolds\tAugust Pfluger\t11\nhouse\tTX\tGeneral\tAngel Rodrigues-Prillman\tCraig A. Goldman\t12\nhouse\tTX\tGeneral\tMark Nair\tRonny Jackson\t13\nhouse\tTX\tGeneral\tBobby Pulido\tMonica De La Cruz\t15\nhouse\tTX\tGeneral\tChristian Menefee (D) / Al Green (I)\tRonald Whitfield\t18\nhouse\tTX\tGeneral\tEvan Hunt\tKeith Self\t3\nhouse\tTX\tGeneral\tTanya Lloyd\tMichael Cloud\t27\nhouse\tTX\tGeneral\tHenry Cuellar\tTano Tijerina\t28\nhouse\tTX\tGeneral\tSylvia Garcia\tMartha Fierro\t29\nhouse\tTX\tGeneral\tJustin Early\tJohn R. Carter\t31\nhouse\tTX\tGeneral\tVicente Gonzalez Jr.\tEric Flores\t34\nhouse\tTX\tGeneral\tRhonda Hart\tBrian Babin\t36\nhouse\tVA\tCalled\tJames R. Walkinshaw\tNULL\t11\nhouse\tWV\tGeneral\tVince George\tCarol Miller\t1\nhouse\tWV\tGeneral\tAce Parsi\tRiley Moore\t2\nsenate\tAR\tGeneral\tHallie Shoffner\tTom Cotton\t\nsenate\tIL\tGeneral\tJuliana Stratton\tDon Tracy\t\nsenate\tMS\tGeneral\tScott Colom\tCindy Hyde-Smith\t\nsenate\tNC\tGeneral\tRoy Cooper\tMichael Whatley\t\nsenate\tNE\tGeneral\tCindy Burbank\tPete Ricketts\t\nsenate\tOH\tGeneral\tSherrod Brown\tJon Husted\t\nsenate\tTX\tPrimary\tJames Talarico\tJohn Cornyn/Ken Paxton\t\nsenate\tWV\tGeneral\tRachel Fetty Anderson\tShelley Moore Capito\t\n",
+  "stderr": "",
+  "execution_time_ms": 266
+}

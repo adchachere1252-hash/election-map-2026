@@ -1339,5 +1339,12 @@
 - [x] Update NE-2: Denise Powell confirmed D candidate
 
 ## Governor Photo Audit (May 15, 2026)
-- [ ] Audit all Governor matchup cards for photo coverage and quality
-- [ ] Find and add missing or low-quality Governor candidate headshots
+- [x] Audit all Governor matchup cards for photo coverage and quality
+- [x] Find and add missing or low-quality Governor candidate headshots
+- [x] Added Roy Cooper (CDN — bioguide 404), Ned Lamont, Joe Lombardo, Larry Rhoden
+- [x] All 24 named Governor candidates now have real headshots
+
+## Photo Quality Fixes (May 15, 2026)
+- [ ] Fix Juliana Stratton photo — bioguide S000994 returns 404, need CDN photo
+- [ ] Re-crop Don Tracy and other photos with face-centered top-biased crop (head was cut off)
+- [ ] Audit all CDN photos for head alignment and re-crop as needed
