@@ -1362,9 +1362,9 @@
 - [x] All 58 tests passing, zero TypeScript errors
 
 ## House Solid D/R Challenger Photos — Round 9 (May 16, 2026)
-- [ ] Query DB for all Solid D/R House challengers missing photos (IL, TX, CA, NY focus)
-- [ ] Research, download, crop, and upload headshots for all identified challengers
-- [ ] Update client/src/lib/candidatePhotos.ts and server/candidatePhotos.ts with new CDN entries
+- [x] Query DB for all Solid D/R House challengers missing photos (IL, TX, CA, NY focus) — 39 identified
+- [x] Research, download, crop, and upload headshots for all identified challengers — 39 uploaded to CDN
+- [x] Update client/src/lib/candidatePhotos.ts and server/candidatePhotos.ts with new CDN entries — 39 entries added
 
 ## Bio Expandability in Senate/House Popups (May 16, 2026)
 - [x] Add candidate1Bio and candidate2Bio columns to senate_races schema
@@ -1376,4 +1376,14 @@
 - [x] Populate bio data for top competitive House races (OH-9, TX-34, NE-2, TX-28, NC-1)
 - [x] Add expandable bio toggle to Senate popup matching Governor popup style
 - [x] Add expandable bio toggle to House popup matching Governor popup style
+- [x] Run all tests and verify zero TypeScript errors — 58/58 passing
+
+## Popup Standardization — TX-11 Gold Standard (May 16, 2026)
+- [x] Study TX-11 popup in browser to document all gold-standard features
+- [x] Audit RacePopup.tsx (Senate + House) against TX-11 gold standard — already matches
+- [x] Audit GovernorRacePopup.tsx against TX-11 gold standard — fixed: now triggers on candidates known, not status=General
+- [x] Ensure ALL General-status races show: split-gradient matchup card, party rings, VS divider, rating badge, context box, expandable bios
+- [x] Populate bio data for ALL General-status Senate races (AR, IL, MS, WV added; NC, NE, OH already done)
+- [x] Add bio input fields to Senate Admin editor (Candidate Bios section)
+- [x] Add bio input fields to House Admin editor (Candidate Bios section)
 - [x] Run all tests and verify zero TypeScript errors — 58/58 passing

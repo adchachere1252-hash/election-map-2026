@@ -1,0 +1,58 @@
+{
+  "query": "SELECT state_code, state_name, rating, candidate1_name, candidate1_party, candidate2_name, candidate2_party, incumbent, incumbent_party, incumbent_retiring FROM senate_races WHERE status = 'General' AND (candidate1_bio IS NULL OR candidate1_bio = 'NULL') ORDER BY state_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, rating, candidate1_name, candidate1_party, candidate2_name, candidate2_party, incumbent, incumbent_party, incumbent_retiring FROM senate_races WHERE status = 'General' AND (candidate1_bio IS NULL OR candidate1_bio = 'NULL') ORDER BY state_code;",
+  "rows": [
+    {
+      "state_code": "AR",
+      "state_name": "Arkansas",
+      "rating": "Solid R",
+      "candidate1_name": "Hallie Shoffner",
+      "candidate1_party": "D",
+      "candidate2_name": "Tom Cotton",
+      "candidate2_party": "R",
+      "incumbent": "Tom Cotton",
+      "incumbent_party": "R",
+      "incumbent_retiring": "0"
+    },
+    {
+      "state_code": "IL",
+      "state_name": "Illinois",
+      "rating": "Solid D",
+      "candidate1_name": "Juliana Stratton",
+      "candidate1_party": "D",
+      "candidate2_name": "Don Tracy",
+      "candidate2_party": "R",
+      "incumbent": "Open Seat (Dick Durbin retiring)",
+      "incumbent_party": "D",
+      "incumbent_retiring": "1"
+    },
+    {
+      "state_code": "MS",
+      "state_name": "Mississippi",
+      "rating": "Solid R",
+      "candidate1_name": "Scott Colom",
+      "candidate1_party": "D",
+      "candidate2_name": "Cindy Hyde-Smith",
+      "candidate2_party": "R",
+      "incumbent": "Cindy Hyde-Smith",
+      "incumbent_party": "R",
+      "incumbent_retiring": "0"
+    },
+    {
+      "state_code": "WV",
+      "state_name": "West Virginia",
+      "rating": "Solid R",
+      "candidate1_name": "Rachel Fetty Anderson",
+      "candidate1_party": "D",
+      "candidate2_name": "Shelley Moore Capito",
+      "candidate2_party": "R",
+      "incumbent": "Shelley Moore Capito",
+      "incumbent_party": "R",
+      "incumbent_retiring": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstate_name\trating\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tincumbent\tincumbent_party\tincumbent_retiring\nAR\tArkansas\tSolid R\tHallie Shoffner\tD\tTom Cotton\tR\tTom Cotton\tR\t0\nIL\tIllinois\tSolid D\tJuliana Stratton\tD\tDon Tracy\tR\tOpen Seat (Dick Durbin retiring)\tD\t1\nMS\tMississippi\tSolid R\tScott Colom\tD\tCindy Hyde-Smith\tR\tCindy Hyde-Smith\tR\t0\nWV\tWest Virginia\tSolid R\tRachel Fetty Anderson\tD\tShelley Moore Capito\tR\tShelley Moore Capito\tR\t0\n",
+  "stderr": "",
+  "execution_time_ms": 269
+}

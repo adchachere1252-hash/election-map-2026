@@ -304,7 +304,10 @@ function GeneralMatchupCard({
 export default function GovernorRacePopup({ race, onClose, onFocusMap }: GovernorRacePopupProps) {
   const isCalled = !!race.calledParty;
   const isOpenSeat = race.isOpen || race.isTermLimited;
-  const isGeneral = race.status === "General";
+  // Show the matchup card whenever both D and R candidates are confirmed (not TBD)
+  const hasBothCandidates = !!(race.demCandidate && race.repCandidate &&
+    !race.demCandidate.startsWith("TBD") && !race.repCandidate.startsWith("TBD"));
+  const isGeneral = race.status === "General" || hasBothCandidates;
 
   // Determine if incumbent is running (not open seat)
   const incumbentIsRunning = !isOpenSeat && !!race.incumbentName;
@@ -313,7 +316,7 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
 
   // Build context lines for the General matchup info box
   const contextLines: string[] = [];
-  if (isGeneral) {
+  if (hasBothCandidates) {
     // Seat type
     contextLines.push("Gubernatorial race \u2014 4-year term. Winner takes office January 2027.");
 

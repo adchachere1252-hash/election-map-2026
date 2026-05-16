@@ -1,0 +1,9 @@
+{
+  "query": "SELECT state_code, state_name, rating, dem_candidate, rep_candidate, incumbent_name, incumbent_party, is_open, is_term_limited, previous_party, general_date, dem_bio, rep_bio, dem_previous_office, rep_previous_office FROM governor_races WHERE status = 'General' ORDER BY rating;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, rating, dem_candidate, rep_candidate, incumbent_name, incumbent_party, is_open, is_term_limited, previous_party, general_date, dem_bio, rep_bio, dem_previous_office, rep_previous_office FROM governor_races WHERE status = 'General' ORDER BY rating;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 274
+}

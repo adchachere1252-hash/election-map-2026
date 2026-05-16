@@ -106,6 +106,8 @@ function SenateEditor({ race, token, onUpdated }: { race: SenateRace; token: str
     primaryRunoffDate: race.primaryRunoffDate ?? "",
     pctReporting: race.pctReporting ? String(race.pctReporting) : "",
     notes: race.notes ?? "",
+    candidate1Bio: (race as any).candidate1Bio ?? "",
+    candidate2Bio: (race as any).candidate2Bio ?? "",
   });
 
   const utils = trpc.useUtils();
@@ -145,6 +147,8 @@ function SenateEditor({ race, token, onUpdated }: { race: SenateRace; token: str
       primaryRunoffDate: form.primaryRunoffDate || null,
       pctReporting: form.pctReporting ? parseFloat(form.pctReporting) : null,
       notes: form.notes || null,
+      candidate1Bio: (form as any).candidate1Bio || null,
+      candidate2Bio: (form as any).candidate2Bio || null,
       adminToken: token,
     });
   };
@@ -324,6 +328,22 @@ function SenateEditor({ race, token, onUpdated }: { race: SenateRace; token: str
           rows={2} value={form.notes} onChange={e => set("notes", e.target.value)} />
       </div>
 
+      <div className="border-t border-border pt-3">
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Candidate Bios (shown in popup)</p>
+        <div className="space-y-2">
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">{form.candidate1Name || "Candidate 1"} Bio</label>
+            <textarea className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none resize-none"
+              rows={3} placeholder="2-3 sentence bio..." value={(form as any).candidate1Bio} onChange={e => set("candidate1Bio", e.target.value)} />
+          </div>
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">{form.candidate2Name || "Candidate 2"} Bio</label>
+            <textarea className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none resize-none"
+              rows={3} placeholder="2-3 sentence bio..." value={(form as any).candidate2Bio} onChange={e => set("candidate2Bio", e.target.value)} />
+          </div>
+        </div>
+      </div>
+
       <button
         onClick={handleSave}
         disabled={updateMutation.isPending}
@@ -360,6 +380,8 @@ function HouseEditor({ race, token, onUpdated }: { race: HouseRace; token: strin
     status: race.status ?? "Scheduled",
     pctReporting: race.pctReporting ? String(race.pctReporting) : "",
     notes: race.notes ?? "",
+    candidate1Bio: (race as any).candidate1Bio ?? "",
+    candidate2Bio: (race as any).candidate2Bio ?? "",
   });
 
   const utils = trpc.useUtils();
@@ -397,6 +419,8 @@ function HouseEditor({ race, token, onUpdated }: { race: HouseRace; token: strin
       status: form.status as any,
       pctReporting: form.pctReporting ? parseFloat(form.pctReporting) : null,
       notes: form.notes || null,
+      candidate1Bio: (form as any).candidate1Bio || null,
+      candidate2Bio: (form as any).candidate2Bio || null,
       adminToken: token,
     });
   };
@@ -553,6 +577,22 @@ function HouseEditor({ race, token, onUpdated }: { race: HouseRace; token: strin
           <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
             type="number" step="0.1" min="0" max="100" placeholder="0.0"
             value={form.pctReporting} onChange={e => set("pctReporting", e.target.value)} />
+        </div>
+      </div>
+
+      <div className="border-t border-border pt-3">
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Candidate Bios (shown in popup)</p>
+        <div className="space-y-2">
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">{form.candidate1Name || "Candidate 1"} Bio</label>
+            <textarea className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none resize-none"
+              rows={3} placeholder="2-3 sentence bio..." value={(form as any).candidate1Bio} onChange={e => set("candidate1Bio", e.target.value)} />
+          </div>
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">{form.candidate2Name || "Candidate 2"} Bio</label>
+            <textarea className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none resize-none"
+              rows={3} placeholder="2-3 sentence bio..." value={(form as any).candidate2Bio} onChange={e => set("candidate2Bio", e.target.value)} />
+          </div>
         </div>
       </div>
 
