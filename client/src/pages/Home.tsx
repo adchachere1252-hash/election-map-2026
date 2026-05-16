@@ -847,37 +847,6 @@ export default function Home() {
             />
           )}
 
-          {/* Desktop popup — top-right corner */}
-          {popup && popup.type === "governor" && (
-            <div className="hidden md:block absolute top-4 right-4 z-20 max-w-xs w-full overflow-y-auto max-h-[80vh]">
-              <GovernorRacePopup
-                race={livePopupData as any}
-                onClose={closePopup}
-                onFocusMap={focusOnMap}
-              />
-            </div>
-          )}
-          {popup && popup.type !== "no-race" && popup.type !== "governor" && (
-            <div className="hidden md:block absolute top-4 right-4 z-20 max-w-xs w-full">
-              <RacePopup
-                type={popup.type as any}
-                data={livePopupData as any}
-                onClose={closePopup}
-                onFocusMap={focusOnMap}
-              />
-            </div>
-          )}
-          {popup && popup.type === "no-race" && popup.stateCode && popup.stateName && (
-            <div className="hidden md:block absolute top-4 right-4 z-20 max-w-xs w-full bg-card border border-border rounded-xl shadow-xl p-4 overflow-y-auto max-h-[80vh]">
-              <NoRaceStatePopup
-                stateCode={popup.stateCode}
-                stateName={popup.stateName}
-                onClose={closePopup}
-                onFocusMap={focusOnMap}
-              />
-            </div>
-          )}
-
           {/* Map hint */}
           {!popup && (
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-card/80 backdrop-blur border border-border rounded-full px-3 py-1.5 text-xs text-muted-foreground pointer-events-none whitespace-nowrap">
@@ -886,6 +855,37 @@ export default function Home() {
             </div>
           )}
         </main>
+
+        {/* Desktop popup — fixed top-right, outside main so overflow-hidden doesn't clip it */}
+        {popup && popup.type === "governor" && (
+          <div className="hidden md:block fixed top-20 right-4 z-30 max-w-xs w-full overflow-y-auto max-h-[calc(100vh-6rem)]">
+            <GovernorRacePopup
+              race={livePopupData as any}
+              onClose={closePopup}
+              onFocusMap={focusOnMap}
+            />
+          </div>
+        )}
+        {popup && popup.type !== "no-race" && popup.type !== "governor" && (
+          <div className="hidden md:block fixed top-20 right-4 z-30 max-w-xs w-full">
+            <RacePopup
+              type={popup.type as any}
+              data={livePopupData as any}
+              onClose={closePopup}
+              onFocusMap={focusOnMap}
+            />
+          </div>
+        )}
+        {popup && popup.type === "no-race" && popup.stateCode && popup.stateName && (
+          <div className="hidden md:block fixed top-20 right-4 z-30 max-w-xs w-full bg-card border border-border rounded-xl shadow-xl p-4 overflow-y-auto max-h-[calc(100vh-6rem)]">
+            <NoRaceStatePopup
+              stateCode={popup.stateCode}
+              stateName={popup.stateName}
+              onClose={closePopup}
+              onFocusMap={focusOnMap}
+            />
+          </div>
+        )}
 
         {/* ── Right Panel: Election Calendar ── */}
         {calendarOpen && (

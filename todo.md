@@ -1387,3 +1387,9 @@
 - [x] Add bio input fields to Senate Admin editor (Candidate Bios section)
 - [x] Add bio input fields to House Admin editor (Candidate Bios section)
 - [x] Run all tests and verify zero TypeScript errors — 58/58 passing
+
+## Popup Scroll Fix (May 16, 2026)
+- [x] Fix desktop popup clipping — moved all three popup types (Senate/House, Governor, No-Race) outside overflow-hidden main element to use fixed positioning (top-20 right-4)
+- [x] Popup now scrolls fully to show context box, bio section, and all content below matchup card
+- [x] Roy Cooper photo confirmed loading correctly in NC Senate popup
+- [x] All 58 tests passing, TypeScript: 0 errors
