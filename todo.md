@@ -1360,3 +1360,20 @@
 - [x] Update client/src/lib/candidatePhotos.ts CDN_PHOTOS with 7 new entries
 - [x] Update server/candidatePhotos.ts CANDIDATE_PHOTOS with 7 new entries
 - [x] All 58 tests passing, zero TypeScript errors
+
+## House Solid D/R Challenger Photos — Round 9 (May 16, 2026)
+- [ ] Query DB for all Solid D/R House challengers missing photos (IL, TX, CA, NY focus)
+- [ ] Research, download, crop, and upload headshots for all identified challengers
+- [ ] Update client/src/lib/candidatePhotos.ts and server/candidatePhotos.ts with new CDN entries
+
+## Bio Expandability in Senate/House Popups (May 16, 2026)
+- [x] Add candidate1Bio and candidate2Bio columns to senate_races schema
+- [x] Add candidate1Bio and candidate2Bio columns to house_races schema
+- [x] Generate Drizzle migration and apply SQL via webdev_execute_sql
+- [x] Update server/db.ts to include bio fields in queries (auto via Drizzle select *)
+- [x] Update server/routers.ts to expose bio fields in tRPC procedures
+- [x] Populate bio data for all competitive Senate races (OH special, NC, NE)
+- [x] Populate bio data for top competitive House races (OH-9, TX-34, NE-2, TX-28, NC-1)
+- [x] Add expandable bio toggle to Senate popup matching Governor popup style
+- [x] Add expandable bio toggle to House popup matching Governor popup style
+- [x] Run all tests and verify zero TypeScript errors — 58/58 passing

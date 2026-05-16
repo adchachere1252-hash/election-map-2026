@@ -1,0 +1,320 @@
+{
+  "query": "\nSELECT state_code, district, candidate1_name, candidate2_name, candidate1_party, candidate2_party, rating, incumbent\nFROM house_races\nWHERE status = 'General'\n  AND rating IN ('Solid D', 'Solid R')\n  AND candidate1_name IS NOT NULL AND candidate1_name != ''\n  AND candidate2_name IS NOT NULL AND candidate2_name != ''\n  AND state_code IN ('IL', 'TX', 'CA', 'NY')\nORDER BY state_code, district\nLIMIT 60;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state_code, district, candidate1_name, candidate2_name, candidate1_party, candidate2_party, rating, incumbent\nFROM house_races\nWHERE status = 'General'\n  AND rating IN ('Solid D', 'Solid R')\n  AND candidate1_name IS NOT NULL AND candidate1_name != ''\n  AND candidate2_name IS NOT NULL AND candidate2_name != ''\n  AND state_code IN ('IL', 'TX', 'CA', 'NY')\nORDER BY state_code, district\nLIMIT 60;\n",
+  "rows": [
+    {
+      "state_code": "IL",
+      "district": "2",
+      "candidate1_name": "Donna Miller",
+      "candidate2_name": "Michael Noack",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid D",
+      "incumbent": "Open Seat"
+    },
+    {
+      "state_code": "IL",
+      "district": "3",
+      "candidate1_name": "Delia Ramirez",
+      "candidate2_name": "Angel Oakley",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid D",
+      "incumbent": "Delia Ramirez"
+    },
+    {
+      "state_code": "IL",
+      "district": "4",
+      "candidate1_name": "Patty Garcia",
+      "candidate2_name": "Lupe Castillo",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid D",
+      "incumbent": "NULL"
+    },
+    {
+      "state_code": "IL",
+      "district": "5",
+      "candidate1_name": "Mike Quigley",
+      "candidate2_name": "Tommy Hanson",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid D",
+      "incumbent": "Mike Quigley"
+    },
+    {
+      "state_code": "IL",
+      "district": "6",
+      "candidate1_name": "Sean Casten",
+      "candidate2_name": "Niki Conforti",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid D",
+      "incumbent": "Sean Casten"
+    },
+    {
+      "state_code": "IL",
+      "district": "7",
+      "candidate1_name": "La Shawn Ford",
+      "candidate2_name": "Chad Koppie",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid D",
+      "incumbent": "Danny Davis"
+    },
+    {
+      "state_code": "IL",
+      "district": "8",
+      "candidate1_name": "Melissa Bean",
+      "candidate2_name": "Jennifer Davis",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid D",
+      "incumbent": "Raja Krishnamoorthi"
+    },
+    {
+      "state_code": "IL",
+      "district": "9",
+      "candidate1_name": "Daniel K. Biss",
+      "candidate2_name": "John Elleson",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid D",
+      "incumbent": "Jan Schakowsky"
+    },
+    {
+      "state_code": "IL",
+      "district": "10",
+      "candidate1_name": "Bradley Schneider",
+      "candidate2_name": "Carl Lambrecht",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid D",
+      "incumbent": "Bradley Schneider"
+    },
+    {
+      "state_code": "IL",
+      "district": "11",
+      "candidate1_name": "Bill Foster",
+      "candidate2_name": "Jeff Walter",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid D",
+      "incumbent": "Bill Foster"
+    },
+    {
+      "state_code": "IL",
+      "district": "12",
+      "candidate1_name": "Julie Fortier",
+      "candidate2_name": "Mike Bost",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "incumbent": "Mike Bost"
+    },
+    {
+      "state_code": "IL",
+      "district": "13",
+      "candidate1_name": "Nikki Budzinski",
+      "candidate2_name": "Jeff Wilson",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid D",
+      "incumbent": "Nikki Budzinski"
+    },
+    {
+      "state_code": "IL",
+      "district": "14",
+      "candidate1_name": "Lauren Underwood",
+      "candidate2_name": "James Marter",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid D",
+      "incumbent": "Lauren Underwood"
+    },
+    {
+      "state_code": "IL",
+      "district": "15",
+      "candidate1_name": "Jennifer Todd",
+      "candidate2_name": "Mary Miller",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "incumbent": "Mary Miller"
+    },
+    {
+      "state_code": "IL",
+      "district": "16",
+      "candidate1_name": "Paul Nolley",
+      "candidate2_name": "Darin LaHood",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "incumbent": "Darin LaHood"
+    },
+    {
+      "state_code": "IL",
+      "district": "17",
+      "candidate1_name": "Eric Sorensen",
+      "candidate2_name": "Dillan Vancil",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid D",
+      "incumbent": "Eric Sorensen"
+    },
+    {
+      "state_code": "TX",
+      "district": "2",
+      "candidate1_name": "Shaun Finnie",
+      "candidate2_name": "Steve Toth",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "incumbent": "Dan Crenshaw"
+    },
+    {
+      "state_code": "TX",
+      "district": "3",
+      "candidate1_name": "Evan Hunt",
+      "candidate2_name": "Keith Self",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "incumbent": "Keith Self"
+    },
+    {
+      "state_code": "TX",
+      "district": "4",
+      "candidate1_name": "Jason Pearce",
+      "candidate2_name": "Pat Fallon",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "incumbent": "Pat Fallon"
+    },
+    {
+      "state_code": "TX",
+      "district": "6",
+      "candidate1_name": "Danny Minton",
+      "candidate2_name": "Jake Ellzey",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "incumbent": "Jake Ellzey"
+    },
+    {
+      "state_code": "TX",
+      "district": "8",
+      "candidate1_name": "Laura Jones",
+      "candidate2_name": "Jessica Steinmann",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "incumbent": "Open Seat"
+    },
+    {
+      "state_code": "TX",
+      "district": "10",
+      "candidate1_name": "Caitlin Rourk",
+      "candidate2_name": "Chris Gober",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "incumbent": "Open Seat"
+    },
+    {
+      "state_code": "TX",
+      "district": "11",
+      "candidate1_name": "Claire Reynolds",
+      "candidate2_name": "August Pfluger",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "incumbent": "August Pfluger"
+    },
+    {
+      "state_code": "TX",
+      "district": "12",
+      "candidate1_name": "Angel Rodrigues-Prillman",
+      "candidate2_name": "Craig A. Goldman",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "incumbent": "Craig A. Goldman"
+    },
+    {
+      "state_code": "TX",
+      "district": "13",
+      "candidate1_name": "Mark Nair",
+      "candidate2_name": "Ronny Jackson",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "incumbent": "Ronny Jackson"
+    },
+    {
+      "state_code": "TX",
+      "district": "18",
+      "candidate1_name": "Christian Menefee (D) / Al Green (I)",
+      "candidate2_name": "Ronald Whitfield",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid D",
+      "incumbent": "Al Green"
+    },
+    {
+      "state_code": "TX",
+      "district": "22",
+      "candidate1_name": "Marquette Greene-Scott",
+      "candidate2_name": "Trever Nehls",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "incumbent": "NULL"
+    },
+    {
+      "state_code": "TX",
+      "district": "27",
+      "candidate1_name": "Tanya Lloyd",
+      "candidate2_name": "Michael Cloud",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "incumbent": "Michael Cloud"
+    },
+    {
+      "state_code": "TX",
+      "district": "29",
+      "candidate1_name": "Sylvia Garcia",
+      "candidate2_name": "Martha Fierro",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid D",
+      "incumbent": "Sylvia Garcia"
+    },
+    {
+      "state_code": "TX",
+      "district": "31",
+      "candidate1_name": "Justin Early",
+      "candidate2_name": "John R. Carter",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "incumbent": "John R. Carter"
+    },
+    {
+      "state_code": "TX",
+      "district": "36",
+      "candidate1_name": "Rhonda Hart",
+      "candidate2_name": "Brian Babin",
+      "candidate1_party": "D",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "incumbent": "Brian Babin"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate2_name\tcandidate1_party\tcandidate2_party\trating\tincumbent\nIL\t2\tDonna Miller\tMichael Noack\tD\tR\tSolid D\tOpen Seat\nIL\t3\tDelia Ramirez\tAngel Oakley\tD\tR\tSolid D\tDelia Ramirez\nIL\t4\tPatty Garcia\tLupe Castillo\tD\tR\tSolid D\tNULL\nIL\t5\tMike Quigley\tTommy Hanson\tD\tR\tSolid D\tMike Quigley\nIL\t6\tSean Casten\tNiki Conforti\tD\tR\tSolid D\tSean Casten\nIL\t7\tLa Shawn Ford\tChad Koppie\tD\tR\tSolid D\tDanny Davis\nIL\t8\tMelissa Bean\tJennifer Davis\tD\tR\tSolid D\tRaja Krishnamoorthi\nIL\t9\tDaniel K. Biss\tJohn Elleson\tD\tR\tSolid D\tJan Schakowsky\nIL\t10\tBradley Schneider\tCarl Lambrecht\tD\tR\tSolid D\tBradley Schneider\nIL\t11\tBill Foster\tJeff Walter\tD\tR\tSolid D\tBill Foster\nIL\t12\tJulie Fortier\tMike Bost\tD\tR\tSolid R\tMike Bost\nIL\t13\tNikki Budzinski\tJeff Wilson\tD\tR\tSolid D\tNikki Budzinski\nIL\t14\tLauren Underwood\tJames Marter\tD\tR\tSolid D\tLauren Underwood\nIL\t15\tJennifer Todd\tMary Miller\tD\tR\tSolid R\tMary Miller\nIL\t16\tPaul Nolley\tDarin LaHood\tD\tR\tSolid R\tDarin LaHood\nIL\t17\tEric Sorensen\tDillan Vancil\tD\tR\tSolid D\tEric Sorensen\nTX\t2\tShaun Finnie\tSteve Toth\tD\tR\tSolid R\tDan Crenshaw\nTX\t3\tEvan Hunt\tKeith Self\tD\tR\tSolid R\tKeith Self\nTX\t4\tJason Pearce\tPat Fallon\tD\tR\tSolid R\tPat Fallon\nTX\t6\tDanny Minton\tJake Ellzey\tD\tR\tSolid R\tJake Ellzey\nTX\t8\tLaura Jones\tJessica Steinmann\tD\tR\tSolid R\tOpen Seat\nTX\t10\tCaitlin Rourk\tChris Gober\tD\tR\tSolid R\tOpen Seat\nTX\t11\tClaire Reynolds\tAugust Pfluger\tD\tR\tSolid R\tAugust Pfluger\nTX\t12\tAngel Rodrigues-Prillman\tCraig A. Goldman\tD\tR\tSolid R\tCraig A. Goldman\nTX\t13\tMark Nair\tRonny Jackson\tD\tR\tSolid R\tRonny Jackson\nTX\t18\tChristian Menefee (D) / Al Green (I)\tRonald Whitfield\tD\tR\tSolid D\tAl Green\nTX\t22\tMarquette Greene-Scott\tTrever Nehls\tD\tR\tSolid R\tNULL\nTX\t27\tTanya Lloyd\tMichael Cloud\tD\tR\tSolid R\tMichael Cloud\nTX\t29\tSylvia Garcia\tMartha Fierro\tD\tR\tSolid D\tSylvia Garcia\nTX\t31\tJustin Early\tJohn R. Carter\tD\tR\tSolid R\tJohn R. Carter\nTX\t36\tRhonda Hart\tBrian Babin\tD\tR\tSolid R\tBrian Babin\n",
+  "stderr": "",
+  "execution_time_ms": 269
+}

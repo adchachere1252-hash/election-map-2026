@@ -1,0 +1,43 @@
+{
+  "query": "SELECT id, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating, incumbent, incumbent_party FROM senate_races WHERE status = 'General' AND rating IN ('Toss-up', 'Lean D', 'Lean R', 'Likely D', 'Likely R') ORDER BY FIELD(rating, 'Toss-up', 'Lean D', 'Lean R', 'Likely D', 'Likely R');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating, incumbent, incumbent_party FROM senate_races WHERE status = 'General' AND rating IN ('Toss-up', 'Lean D', 'Lean R', 'Likely D', 'Likely R') ORDER BY FIELD(rating, 'Toss-up', 'Lean D', 'Lean R', 'Likely D', 'Likely R');",
+  "rows": [
+    {
+      "id": "35",
+      "state_name": "Ohio",
+      "candidate1_name": "Sherrod Brown",
+      "candidate1_party": "D",
+      "candidate2_name": "Jon Husted",
+      "candidate2_party": "R",
+      "rating": "Toss-up",
+      "incumbent": "Jon Husted (appointed)",
+      "incumbent_party": "R"
+    },
+    {
+      "id": "23",
+      "state_name": "North Carolina",
+      "candidate1_name": "Roy Cooper",
+      "candidate1_party": "D",
+      "candidate2_name": "Michael Whatley",
+      "candidate2_party": "R",
+      "rating": "Lean D",
+      "incumbent": "Open Seat (Thom Tillis retiring)",
+      "incumbent_party": "R"
+    },
+    {
+      "id": "19",
+      "state_name": "Nebraska",
+      "candidate1_name": "Cindy Burbank",
+      "candidate1_party": "D",
+      "candidate2_name": "Pete Ricketts",
+      "candidate2_party": "R",
+      "rating": "Likely R",
+      "incumbent": "Pete Ricketts",
+      "incumbent_party": "R"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_name\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\trating\tincumbent\tincumbent_party\n35\tOhio\tSherrod Brown\tD\tJon Husted\tR\tToss-up\tJon Husted (appointed)\tR\n23\tNorth Carolina\tRoy Cooper\tD\tMichael Whatley\tR\tLean D\tOpen Seat (Thom Tillis retiring)\tR\n19\tNebraska\tCindy Burbank\tD\tPete Ricketts\tR\tLikely R\tPete Ricketts\tR\n",
+  "stderr": "",
+  "execution_time_ms": 262
+}

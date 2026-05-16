@@ -1,0 +1,76 @@
+{
+  "query": "SELECT id, state_name, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating, incumbent FROM house_races WHERE status = 'General' AND rating IN ('Toss-up', 'Lean D', 'Lean R') ORDER BY FIELD(rating, 'Toss-up', 'Lean D', 'Lean R'), state_name LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, state_name, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating, incumbent FROM house_races WHERE status = 'General' AND rating IN ('Toss-up', 'Lean D', 'Lean R') ORDER BY FIELD(rating, 'Toss-up', 'Lean D', 'Lean R'), state_name LIMIT 20;",
+  "rows": [
+    {
+      "id": "307",
+      "state_name": "Ohio",
+      "district": "9",
+      "candidate1_name": "Marcy Kaptur",
+      "candidate1_party": "D",
+      "candidate2_name": "Derek Merrin",
+      "candidate2_party": "R",
+      "rating": "Toss-up",
+      "incumbent": "Marcy Kaptur"
+    },
+    {
+      "id": "394",
+      "state_name": "Texas",
+      "district": "34",
+      "candidate1_name": "Vicente Gonzalez Jr.",
+      "candidate1_party": "D",
+      "candidate2_name": "Eric Flores",
+      "candidate2_party": "R",
+      "rating": "Toss-up",
+      "incumbent": "Vicente Gonzalez Jr."
+    },
+    {
+      "id": "235",
+      "state_name": "Nebraska",
+      "district": "2",
+      "candidate1_name": "Denise Powell",
+      "candidate1_party": "D",
+      "candidate2_name": "Brinker Harding",
+      "candidate2_party": "R",
+      "rating": "Lean D",
+      "incumbent": "Open Seat"
+    },
+    {
+      "id": "299",
+      "state_name": "Ohio",
+      "district": "1",
+      "candidate1_name": "Greg Landsman",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "rating": "Lean D",
+      "incumbent": "Greg Landsman"
+    },
+    {
+      "id": "388",
+      "state_name": "Texas",
+      "district": "28",
+      "candidate1_name": "Henry Cuellar",
+      "candidate1_party": "D",
+      "candidate2_name": "Tano Tijerina",
+      "candidate2_party": "R",
+      "rating": "Lean D",
+      "incumbent": "Henry Cuellar"
+    },
+    {
+      "id": "284",
+      "state_name": "North Carolina",
+      "district": "1",
+      "candidate1_name": "Donald Davis",
+      "candidate1_party": "D",
+      "candidate2_name": "Laurie Buckhout",
+      "candidate2_party": "R",
+      "rating": "Lean R",
+      "incumbent": "Don Davis"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_name\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\trating\tincumbent\n307\tOhio\t9\tMarcy Kaptur\tD\tDerek Merrin\tR\tToss-up\tMarcy Kaptur\n394\tTexas\t34\tVicente Gonzalez Jr.\tD\tEric Flores\tR\tToss-up\tVicente Gonzalez Jr.\n235\tNebraska\t2\tDenise Powell\tD\tBrinker Harding\tR\tLean D\tOpen Seat\n299\tOhio\t1\tGreg Landsman\tD\tNULL\tNULL\tLean D\tGreg Landsman\n388\tTexas\t28\tHenry Cuellar\tD\tTano Tijerina\tR\tLean D\tHenry Cuellar\n284\tNorth Carolina\t1\tDonald Davis\tD\tLaurie Buckhout\tR\tLean R\tDon Davis\n",
+  "stderr": "",
+  "execution_time_ms": 264
+}

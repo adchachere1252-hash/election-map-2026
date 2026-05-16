@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT state, district, candidate1, candidate2, party, rating, incumbent\nFROM house_races\nWHERE status = 'General'\n  AND rating IN ('Solid D', 'Solid R')\n  AND candidate1 IS NOT NULL AND candidate1 != ''\n  AND candidate2 IS NOT NULL AND candidate2 != ''\nORDER BY \n  CASE state WHEN 'IL' THEN 1 WHEN 'TX' THEN 2 WHEN 'CA' THEN 3 WHEN 'NY' THEN 4 ELSE 5 END,\n  state, district\nLIMIT 100;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state, district, candidate1, candidate2, party, rating, incumbent\nFROM house_races\nWHERE status = 'General'\n  AND rating IN ('Solid D', 'Solid R')\n  AND candidate1 IS NOT NULL AND candidate1 != ''\n  AND candidate2 IS NOT NULL AND candidate2 != ''\nORDER BY \n  CASE state WHEN 'IL' THEN 1 WHEN 'TX' THEN 2 WHEN 'CA' THEN 3 WHEN 'NY' THEN 4 ELSE 5 END,\n  state, district\nLIMIT 100;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'candidate1' in 'where clause'"
+  ]
+}

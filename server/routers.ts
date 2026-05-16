@@ -142,6 +142,8 @@ export const appRouter = router({
         primaryDate: z.string().nullable().optional(),
         primaryRunoffDate: z.string().nullable().optional(),
         pctReporting: z.number().min(0).max(100).nullable().optional(),
+        candidate1Bio: z.string().nullable().optional(),
+        candidate2Bio: z.string().nullable().optional(),
         notes: z.string().nullable().optional(),
       }))
       .mutation(async ({ input }) => {
@@ -205,6 +207,8 @@ export const appRouter = router({
         status: raceStatusEnum.optional(),
         primaryDate: z.string().nullable().optional(),
         pctReporting: z.number().min(0).max(100).nullable().optional(),
+        candidate1Bio: z.string().nullable().optional(),
+        candidate2Bio: z.string().nullable().optional(),
         notes: z.string().nullable().optional(),
       }))
       .mutation(async ({ input }) => {

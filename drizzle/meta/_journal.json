@@ -113,6 +113,13 @@
       "when": 1778762717015,
       "tag": "0015_nifty_cable",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "5",
+      "when": 1778968343162,
+      "tag": "0016_loud_power_pack",
+      "breakpoints": true
     }
   ]
 }

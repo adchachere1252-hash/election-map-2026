@@ -1,6 +1,6 @@
 // Election Night Build — May 5, 2026 | General Election Mode — May 6, 2026
 import { useState } from "react";
-import { X, MapPin, Calendar, Users, TrendingUp, AlertCircle, ChevronRight, Crosshair } from "lucide-react";
+import { X, MapPin, Calendar, Users, TrendingUp, AlertCircle, ChevronRight, ChevronDown, ChevronUp, Crosshair, Briefcase } from "lucide-react";
 import { getRatingClass, getRatingColor, getPartyColor, getStatusColor, formatVotePct, getPartyLabel } from "@/lib/electionUtils";
 import type { SenateRace, HouseRace, RedistrictingState, Referendum } from "../../../drizzle/schema";
 import { trpc } from "@/lib/trpc";
@@ -279,6 +279,70 @@ function GeneralMatchupSection({
   );
 }
 
+/** Expandable bio card matching Governor popup CandidateCard style */
+function BioCandidateCard({
+  name, party, bio, isIncumbent,
+}: {
+  name: string | null | undefined;
+  party: string | null | undefined;
+  bio: string | null | undefined;
+  isIncumbent?: boolean;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  if (!name || !bio) return null;
+  const partyBg: Record<string, string> = {
+    D: "bg-blue-950/30 border-blue-800/40",
+    R: "bg-red-950/30 border-red-800/40",
+    I: "bg-gray-800/30 border-gray-700/40",
+  };
+  const partyText: Record<string, string> = {
+    D: "text-blue-400",
+    R: "text-red-400",
+    I: "text-gray-400",
+  };
+  const partyLabel: Record<string, string> = {
+    D: "Democrat",
+    R: "Republican",
+    I: "Independent",
+    L: "Libertarian",
+    G: "Green",
+  };
+  return (
+    <div className={`rounded-lg border p-2.5 ${partyBg[party ?? "I"] ?? "bg-muted/30 border-border"}`}>
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex items-start gap-2 min-w-0 flex-1">
+          <CandidateAvatar name={name} party={party} size={36} className="mt-0.5" />
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span className="text-xs font-semibold text-foreground">{name}</span>
+              <span className={`text-[10px] font-medium ${partyText[party ?? "I"] ?? "text-muted-foreground"}`}>
+                {partyLabel[party ?? "I"] ?? party}
+              </span>
+              {isIncumbent && (
+                <span className="text-[10px] px-1 py-0.5 rounded bg-amber-900/40 text-amber-400 border border-amber-700/40 font-semibold">
+                  Incumbent
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="flex-shrink-0 p-0.5 rounded hover:bg-white/10 text-muted-foreground hover:text-foreground transition-colors"
+          title={expanded ? "Hide bio" : "View bio"}
+        >
+          {expanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+        </button>
+      </div>
+      {expanded && (
+        <div className="mt-2 pt-2 border-t border-white/10">
+          <p className="text-[11px] text-muted-foreground leading-relaxed">{bio}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose: () => void; onFocusMap?: () => void }) {
   const { data: senators } = trpc.senators.byState.useQuery({ stateCode: race.stateCode });
   const [selectedSenatorId, setSelectedSenatorId] = useState<number | null>(null);
@@ -369,23 +433,46 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
       )}
 
       {race.status === "General" ? (
-        <GeneralMatchupSection
-          candidate1Name={race.candidate1Name}
-          candidate1Party={race.candidate1Party}
-          candidate2Name={race.candidate2Name}
-          candidate2Party={race.candidate2Party}
-          rating={race.rating}
-          chamber="senate"
-          incumbent={race.incumbent}
-          incumbentParty={race.incumbentParty}
-          incumbentRetiring={race.incumbentRetiring}
-          isSpecial={race.isSpecial}
-          specialNote={race.specialNote}
-          otherCandidateName={(race as any).otherCandidateName}
-          otherCandidateParty={(race as any).otherCandidateParty}
-          generalDate={race.generalDate}
-          previousParty={race.previousParty}
-        />
+        <>
+          <GeneralMatchupSection
+            candidate1Name={race.candidate1Name}
+            candidate1Party={race.candidate1Party}
+            candidate2Name={race.candidate2Name}
+            candidate2Party={race.candidate2Party}
+            rating={race.rating}
+            chamber="senate"
+            incumbent={race.incumbent}
+            incumbentParty={race.incumbentParty}
+            incumbentRetiring={race.incumbentRetiring}
+            isSpecial={race.isSpecial}
+            specialNote={race.specialNote}
+            otherCandidateName={(race as any).otherCandidateName}
+            otherCandidateParty={(race as any).otherCandidateParty}
+            generalDate={race.generalDate}
+            previousParty={race.previousParty}
+          />
+          {/* Expandable candidate bios — shown when bio data is available */}
+          {((race as any).candidate1Bio || (race as any).candidate2Bio) && (
+            <div className="space-y-2 mb-3">
+              <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1">
+                <Briefcase className="w-3 h-3" />
+                Candidate Bios
+              </p>
+              <BioCandidateCard
+                name={race.candidate1Name}
+                party={race.candidate1Party}
+                bio={(race as any).candidate1Bio}
+                isIncumbent={!race.incumbentRetiring && race.incumbentParty === race.candidate1Party}
+              />
+              <BioCandidateCard
+                name={race.candidate2Name}
+                party={race.candidate2Party}
+                bio={(race as any).candidate2Bio}
+                isIncumbent={!race.incumbentRetiring && race.incumbentParty === race.candidate2Party}
+              />
+            </div>
+          )}
+        </>
       ) : (race.candidate1Name || race.candidate2Name) ? (
         <div className="space-y-1.5 mb-3">
           {(() => {
@@ -524,23 +611,46 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
       )}
 
       {race.status === "General" ? (
-        <GeneralMatchupSection
-          candidate1Name={race.candidate1Name}
-          candidate1Party={race.candidate1Party}
-          candidate2Name={race.candidate2Name}
-          candidate2Party={race.candidate2Party}
-          rating={race.rating}
-          chamber="house"
-          incumbent={race.incumbent}
-          incumbentParty={race.incumbentParty}
-          incumbentRetiring={race.incumbentRetiring}
-          otherCandidateName={(race as any).otherCandidateName}
-          otherCandidateParty={(race as any).otherCandidateParty}
-          generalDate={race.generalDate}
-          district={race.district}
-          districtLabel={race.districtLabel}
-          previousParty={race.previousParty}
-        />
+        <>
+          <GeneralMatchupSection
+            candidate1Name={race.candidate1Name}
+            candidate1Party={race.candidate1Party}
+            candidate2Name={race.candidate2Name}
+            candidate2Party={race.candidate2Party}
+            rating={race.rating}
+            chamber="house"
+            incumbent={race.incumbent}
+            incumbentParty={race.incumbentParty}
+            incumbentRetiring={race.incumbentRetiring}
+            otherCandidateName={(race as any).otherCandidateName}
+            otherCandidateParty={(race as any).otherCandidateParty}
+            generalDate={race.generalDate}
+            district={race.district}
+            districtLabel={race.districtLabel}
+            previousParty={race.previousParty}
+          />
+          {/* Expandable candidate bios — shown when bio data is available */}
+          {((race as any).candidate1Bio || (race as any).candidate2Bio) && (
+            <div className="space-y-2 mb-3">
+              <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1">
+                <Briefcase className="w-3 h-3" />
+                Candidate Bios
+              </p>
+              <BioCandidateCard
+                name={race.candidate1Name}
+                party={race.candidate1Party}
+                bio={(race as any).candidate1Bio}
+                isIncumbent={!race.incumbentRetiring && race.incumbentParty === race.candidate1Party}
+              />
+              <BioCandidateCard
+                name={race.candidate2Name}
+                party={race.candidate2Party}
+                bio={(race as any).candidate2Bio}
+                isIncumbent={!race.incumbentRetiring && race.incumbentParty === race.candidate2Party}
+              />
+            </div>
+          )}
+        </>
       ) : (race.candidate1Name || race.candidate2Name) ? (
         <div className="space-y-1.5 mb-3">
           {(() => {
