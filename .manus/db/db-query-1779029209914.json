@@ -1,0 +1,19 @@
+{
+  "query": "\nSELECT state_name, district_label, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating\nFROM house_races\nWHERE state_name IN ('California', 'New York')\n  AND candidate1_name IS NOT NULL\n  AND candidate2_name IS NOT NULL\n  AND candidate1_name NOT LIKE '%TBD%'\n  AND candidate2_name NOT LIKE '%TBD%'\nORDER BY state_name, district;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state_name, district_label, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating\nFROM house_races\nWHERE state_name IN ('California', 'New York')\n  AND candidate1_name IS NOT NULL\n  AND candidate2_name IS NOT NULL\n  AND candidate1_name NOT LIKE '%TBD%'\n  AND candidate2_name NOT LIKE '%TBD%'\nORDER BY state_name, district;\n",
+  "rows": [
+    {
+      "state_name": "California",
+      "district_label": "48",
+      "candidate1_name": "Ammar Campa-Najjar",
+      "candidate1_party": "D",
+      "candidate2_name": "Jim Desmond",
+      "candidate2_party": "R",
+      "rating": "Lean D"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_name\tdistrict_label\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\trating\nCalifornia\t48\tAmmar Campa-Najjar\tD\tJim Desmond\tR\tLean D\n",
+  "stderr": "",
+  "execution_time_ms": 262
+}

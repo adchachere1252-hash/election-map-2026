@@ -1,0 +1,73 @@
+{
+  "query": "\nSELECT state_name, candidate1_name, candidate2_name, status, rating, primary_date, general_date \nFROM senate_races \nWHERE state_name IN ('West Virginia', 'Nebraska')\nUNION ALL\nSELECT state_name, candidate1_name, candidate2_name, status, rating, primary_date, general_date \nFROM house_races \nWHERE state_name IN ('West Virginia', 'Nebraska')\nORDER BY state_name;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state_name, candidate1_name, candidate2_name, status, rating, primary_date, general_date \nFROM senate_races \nWHERE state_name IN ('West Virginia', 'Nebraska')\nUNION ALL\nSELECT state_name, candidate1_name, candidate2_name, status, rating, primary_date, general_date \nFROM house_races \nWHERE state_name IN ('West Virginia', 'Nebraska')\nORDER BY state_name;\n",
+  "rows": [
+    {
+      "state_name": "Nebraska",
+      "candidate1_name": "Cindy Burbank",
+      "candidate2_name": "Pete Ricketts",
+      "status": "General",
+      "rating": "Likely R",
+      "primary_date": "May 12, 2026",
+      "general_date": "November 3, 2026"
+    },
+    {
+      "state_name": "Nebraska",
+      "candidate1_name": "Chris Backemeyer",
+      "candidate2_name": "Mike Flood",
+      "status": "General",
+      "rating": "Solid R",
+      "primary_date": "May 12, 2026",
+      "general_date": "November 3, 2026"
+    },
+    {
+      "state_name": "Nebraska",
+      "candidate1_name": "Denise Powell",
+      "candidate2_name": "Brinker Harding",
+      "status": "General",
+      "rating": "Lean D",
+      "primary_date": "May 12, 2026",
+      "general_date": "November 3, 2026"
+    },
+    {
+      "state_name": "Nebraska",
+      "candidate1_name": "Becky Stille",
+      "candidate2_name": "Adrian Smith",
+      "status": "General",
+      "rating": "Solid R",
+      "primary_date": "May 12, 2026",
+      "general_date": "November 3, 2026"
+    },
+    {
+      "state_name": "West Virginia",
+      "candidate1_name": "Vince George",
+      "candidate2_name": "Carol Miller",
+      "status": "General",
+      "rating": "Solid R",
+      "primary_date": "May 12, 2026",
+      "general_date": "November 3, 2026"
+    },
+    {
+      "state_name": "West Virginia",
+      "candidate1_name": "Ace Parsi",
+      "candidate2_name": "Riley Moore",
+      "status": "General",
+      "rating": "Solid R",
+      "primary_date": "May 12, 2026",
+      "general_date": "November 3, 2026"
+    },
+    {
+      "state_name": "West Virginia",
+      "candidate1_name": "Rachel Fetty Anderson",
+      "candidate2_name": "Shelley Moore Capito",
+      "status": "General",
+      "rating": "Solid R",
+      "primary_date": "May 12, 2026",
+      "general_date": "November 3, 2026"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_name\tcandidate1_name\tcandidate2_name\tstatus\trating\tprimary_date\tgeneral_date\nNebraska\tCindy Burbank\tPete Ricketts\tGeneral\tLikely R\tMay 12, 2026\tNovember 3, 2026\nNebraska\tChris Backemeyer\tMike Flood\tGeneral\tSolid R\tMay 12, 2026\tNovember 3, 2026\nNebraska\tDenise Powell\tBrinker Harding\tGeneral\tLean D\tMay 12, 2026\tNovember 3, 2026\nNebraska\tBecky Stille\tAdrian Smith\tGeneral\tSolid R\tMay 12, 2026\tNovember 3, 2026\nWest Virginia\tVince George\tCarol Miller\tGeneral\tSolid R\tMay 12, 2026\tNovember 3, 2026\nWest Virginia\tAce Parsi\tRiley Moore\tGeneral\tSolid R\tMay 12, 2026\tNovember 3, 2026\nWest Virginia\tRachel Fetty Anderson\tShelley Moore Capito\tGeneral\tSolid R\tMay 12, 2026\tNovember 3, 2026\n",
+  "stderr": "",
+  "execution_time_ms": 260
+}

@@ -1,0 +1,19 @@
+{
+  "query": "SELECT state_name, candidate1_name, candidate2_name, status, primary_runoff_date, general_date, notes FROM senate_races WHERE state_name = 'Louisiana';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_name, candidate1_name, candidate2_name, status, primary_runoff_date, general_date, notes FROM senate_races WHERE state_name = 'Louisiana';",
+  "rows": [
+    {
+      "state_name": "Louisiana",
+      "candidate1_name": "Julia Letlow",
+      "candidate2_name": "John Fleming",
+      "status": "Primary Runoff",
+      "primary_runoff_date": "Jun 27, 2026",
+      "general_date": "November 3, 2026",
+      "notes": "GOP Runoff: Julia Letlow (45%) vs. John Fleming (28%) on June 27, 2026. Incumbent Bill Cassidy (R) eliminated with 25% — first incumbent senator to lose a primary since 2012. Cassidy had voted to convict Trump at his 2021 impeachment trial. Democratic runoff: Jamie Davis (47%) vs. Nick Albares (26%) also on June 27. Winner of GOP runoff heavily favored in the November 3 general election."
+    }
+  ],
+  "messages": [],
+  "stdout": "state_name\tcandidate1_name\tcandidate2_name\tstatus\tprimary_runoff_date\tgeneral_date\tnotes\nLouisiana\tJulia Letlow\tJohn Fleming\tPrimary Runoff\tJun 27, 2026\tNovember 3, 2026\tGOP Runoff: Julia Letlow (45%) vs. John Fleming (28%) on June 27, 2026. Incumbent Bill Cassidy (R) eliminated with 25% — first incumbent senator to lose a primary since 2012. Cassidy had voted to convict Trump at his 2021 impeachment trial. Democratic runoff: Jamie Davis (47%) vs. Nick Albares (26%) also on June 27. Winner of GOP runoff heavily favored in the November 3 general election.\n",
+  "stderr": "",
+  "execution_time_ms": 262
+}

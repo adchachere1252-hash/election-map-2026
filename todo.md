@@ -1395,11 +1395,11 @@
 - [x] All 58 tests passing, TypeScript: 0 errors
 
 ## Louisiana May 16 Primary Updates (May 17, 2026)
-- [ ] Update LA Senate race: status=Primary Runoff, candidate1=Julia Letlow (R), candidate2=John Fleming (R), runoffDate=June 27 2026, notes with Cassidy eliminated (25%)
-- [ ] Update LA Senate Democratic primary: notes with Davis/Albares advancing to June 27 runoff
-- [ ] Update LA Senate race notes to reflect redistricting/House postponement context
-- [ ] Update all 6 LA House district records: status=Scheduled, notes about redistricting postponement (Louisiana v. Callais Supreme Court ruling)
-- [ ] Add photos for Julia Letlow and John Fleming to candidatePhotos.ts
+- [x] Update LA Senate race: status=Primary Runoff, candidate1=Julia Letlow (R), candidate2=John Fleming (R), runoffDate=June 27 2026, notes with Cassidy eliminated (25%)
+- [x] Update LA Senate Democratic primary: notes with Davis/Albares advancing to June 27 runoff
+- [x] Update LA Senate race notes to reflect redistricting/House postponement context
+- [x] Update all 6 LA House district records: status=Scheduled, notes about redistricting postponement (Louisiana v. Callais Supreme Court ruling)
+- [x] Add photos for Julia Letlow and John Fleming to candidatePhotos.ts
 
 ## Louisiana May 16 Primary Update (May 17, 2026)
 - [x] Add "Primary Runoff" to senate_races and house_races status enums (schema migration 0017)
@@ -1410,4 +1410,26 @@
 - [x] Update all 6 Louisiana House districts with redistricting postponement note (Louisiana v. Callais)
 - [x] Add Julia Letlow and John Fleming photos to CDN and candidatePhotos.ts (client + server)
 - [x] Add bios for Julia Letlow and John Fleming in Louisiana Senate race
+- [x] All 58 tests pass, TypeScript: 0 errors
+
+## May 16 Primary Results — AR, MS, WV, NE (May 17, 2026)
+- [ ] Research AR Senate, House, and Governor primary results from May 16
+- [ ] Research MS Senate, House, and Governor primary results from May 16
+- [ ] Research WV Senate, House, and Governor primary results from May 16
+- [ ] Research NE Senate, House, and Governor primary results from May 16
+- [ ] Update database with all confirmed primary winners and General matchups
+- [ ] Add June 27 Louisiana runoff date to the Election Calendar
+- [ ] Verify all updated races display correctly in popups
+
+## CA and NY Solid D/R Challenger Photos (May 17, 2026)
+- [ ] Query DB for CA and NY Solid D/R House challengers missing photos
+- [ ] Download and crop headshots for all identified challengers
+- [ ] Upload photos to CDN and update candidatePhotos.ts (client + server)
+
+## May 17 Calendar + CA/NY Photo Audit (May 17, 2026)
+- [x] Add senate-runoff event type to ElectionCalendar component (amber color #f59e0b)
+- [x] Fix Louisiana primaryRunoffDate to "June 27, 2026" (full month name for parseDate consistency)
+- [x] June 27 Louisiana Senate Runoff now appears in Election Calendar as amber event
+- [x] CA/NY photo audit — CA primaries in June 2026, NY primaries not yet held; only CA-48 has confirmed candidates (Campa-Najjar + Desmond already have CDN photos)
+- [x] Confirmed NE and WV (May 12 primaries) already fully up to date in DB
 - [x] All 58 tests pass, TypeScript: 0 errors

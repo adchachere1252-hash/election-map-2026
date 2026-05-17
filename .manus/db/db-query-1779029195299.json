@@ -1,0 +1,25 @@
+{
+  "query": "\nSELECT state_name, status, COUNT(*) as count\nFROM house_races\nWHERE state_name IN ('California', 'New York')\nGROUP BY state_name, status\nORDER BY state_name, status;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state_name, status, COUNT(*) as count\nFROM house_races\nWHERE state_name IN ('California', 'New York')\nGROUP BY state_name, status\nORDER BY state_name, status;\n",
+  "rows": [
+    {
+      "state_name": "California",
+      "status": "Scheduled",
+      "count": "51"
+    },
+    {
+      "state_name": "California",
+      "status": "General",
+      "count": "1"
+    },
+    {
+      "state_name": "New York",
+      "status": "Scheduled",
+      "count": "26"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_name\tstatus\tcount\nCalifornia\tScheduled\t51\nCalifornia\tGeneral\t1\nNew York\tScheduled\t26\n",
+  "stderr": "",
+  "execution_time_ms": 262
+}

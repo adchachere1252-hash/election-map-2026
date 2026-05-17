@@ -35,6 +35,7 @@ interface ElectionCalendarProps {
 type EventType =
   | "senate-primary"
   | "senate-special"
+  | "senate-runoff"
   | "house-primary"
   | "referendum"
   | "general"
@@ -77,6 +78,7 @@ function daysFromNow(date: Date): number {
 const TYPE_COLORS: Record<EventType, string> = {
   "senate-primary": "#5b8fd4",
   "senate-special": "#7c3aed",
+  "senate-runoff": "#f59e0b",
   "house-primary": "#7c9e6b",
   "referendum": "#9b6b9b",
   "general": "#d96b4a",
@@ -87,6 +89,7 @@ const TYPE_COLORS: Record<EventType, string> = {
 const TYPE_LABELS: Record<EventType, string> = {
   "senate-primary": "Senate Primary",
   "senate-special": "Senate Special",
+  "senate-runoff": "Senate Runoff",
   "house-primary": "House Primary",
   "referendum": "Referendum",
   "general": "General Election",
@@ -133,6 +136,21 @@ export default function ElectionCalendar({
             label: `${race.stateName}`,
             sublabel: race.isSpecial ? "Special Election Primary" : "Senate Primary",
             type: race.isSpecial ? "senate-special" : "senate-primary",
+            stateCode: race.stateCode,
+            data: race,
+          });
+        }
+      }
+      // Runoff date
+      if (race.primaryRunoffDate) {
+        const date = parseDate(race.primaryRunoffDate);
+        if (date && date >= today && (!cutoff || date <= cutoff)) {
+          evts.push({
+            date,
+            dateStr: race.primaryRunoffDate,
+            label: `${race.stateName}`,
+            sublabel: "Senate Runoff",
+            type: "senate-runoff",
             stateCode: race.stateCode,
             data: race,
           });

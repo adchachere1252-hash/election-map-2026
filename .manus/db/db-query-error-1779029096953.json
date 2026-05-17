@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT s.state_name, s.district, s.candidate1, s.candidate2, s.status, s.rating, s.primary_date, s.general_date \nFROM senate_races s\nWHERE s.state_name IN ('West Virginia', 'Nebraska')\nUNION ALL\nSELECT h.state_name, h.district, h.candidate1, h.candidate2, h.status, h.rating, h.primary_date, h.general_date \nFROM house_races h\nWHERE h.state_name IN ('West Virginia', 'Nebraska')\nORDER BY state_name, district;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT s.state_name, s.district, s.candidate1, s.candidate2, s.status, s.rating, s.primary_date, s.general_date \nFROM senate_races s\nWHERE s.state_name IN ('West Virginia', 'Nebraska')\nUNION ALL\nSELECT h.state_name, h.district, h.candidate1, h.candidate2, h.status, h.rating, h.primary_date, h.general_date \nFROM house_races h\nWHERE h.state_name IN ('West Virginia', 'Nebraska')\nORDER BY state_name, district;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 's.district' in 'field list'"
+  ]
+}
