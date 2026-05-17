@@ -1,0 +1,130 @@
+{
+  "query": "\nUPDATE house_races SET status = 'Primary' WHERE state_code IN ('OR', 'KY');\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating FROM house_races WHERE state_code IN ('OR', 'KY') ORDER BY state_code, district;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nUPDATE house_races SET status = 'Primary' WHERE state_code IN ('OR', 'KY');\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating FROM house_races WHERE state_code IN ('OR', 'KY') ORDER BY state_code, district;\n",
+  "rows": [
+    {
+      "state_code": "KY",
+      "district": "1",
+      "status": "Primary",
+      "candidate1_name": "Robert Sutherby",
+      "candidate1_party": "R",
+      "candidate2_name": "David Sims",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "KY",
+      "district": "2",
+      "status": "Primary",
+      "candidate1_name": "G. Perry-Adelmann",
+      "candidate1_party": "R",
+      "candidate2_name": "Joshua Ferguson",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "KY",
+      "district": "3",
+      "status": "Primary",
+      "candidate1_name": "Morgan McGarvey",
+      "candidate1_party": "D",
+      "candidate2_name": "David Nichter",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "KY",
+      "district": "4",
+      "status": "Primary",
+      "candidate1_name": "Ed Gallrein",
+      "candidate1_party": "R",
+      "candidate2_name": "Thomas Massie",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "KY",
+      "district": "5",
+      "status": "Primary",
+      "candidate1_name": "Benjamin Hurley",
+      "candidate1_party": "R",
+      "candidate2_name": "Jerry Shelton",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "KY",
+      "district": "6",
+      "status": "Primary",
+      "candidate1_name": "Ralph Alvarado",
+      "candidate1_party": "R",
+      "candidate2_name": "Ryan Dotson",
+      "candidate2_party": "R",
+      "rating": "Lean R"
+    },
+    {
+      "state_code": "OR",
+      "district": "1",
+      "status": "Primary",
+      "candidate1_name": "Total Write-ins",
+      "candidate1_party": "R",
+      "candidate2_name": "John Verbeek",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "OR",
+      "district": "2",
+      "status": "Primary",
+      "candidate1_name": "Total Write-ins",
+      "candidate1_party": "R",
+      "candidate2_name": "Cliff Bentz",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "OR",
+      "district": "3",
+      "status": "Primary",
+      "candidate1_name": "Loran Ayles",
+      "candidate1_party": "R",
+      "candidate2_name": "Total Write-ins",
+      "candidate2_party": "D",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "OR",
+      "district": "4",
+      "status": "Primary",
+      "candidate1_name": "Total Write-ins",
+      "candidate1_party": "D",
+      "candidate2_name": "Daniel Bahlen",
+      "candidate2_party": "D",
+      "rating": "Lean D"
+    },
+    {
+      "state_code": "OR",
+      "district": "5",
+      "status": "Primary",
+      "candidate1_name": "Total Write-ins",
+      "candidate1_party": "R",
+      "candidate2_name": "Patti Adair",
+      "candidate2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "state_code": "OR",
+      "district": "6",
+      "status": "Primary",
+      "candidate1_name": "David Russ",
+      "candidate1_party": "R",
+      "candidate2_name": "Andrea Salinas",
+      "candidate2_party": "D",
+      "rating": "Lean D"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\trating\nKY\t1\tPrimary\tRobert Sutherby\tR\tDavid Sims\tR\tSolid R\nKY\t2\tPrimary\tG. Perry-Adelmann\tR\tJoshua Ferguson\tR\tSolid R\nKY\t3\tPrimary\tMorgan McGarvey\tD\tDavid Nichter\tR\tSolid D\nKY\t4\tPrimary\tEd Gallrein\tR\tThomas Massie\tR\tSolid R\nKY\t5\tPrimary\tBenjamin Hurley\tR\tJerry Shelton\tR\tSolid R\nKY\t6\tPrimary\tRalph Alvarado\tR\tRyan Dotson\tR\tLean R\nOR\t1\tPrimary\tTotal Write-ins\tR\tJohn Verbeek\tR\tSolid D\nOR\t2\tPrimary\tTotal Write-ins\tR\tCliff Bentz\tR\tSolid R\nOR\t3\tPrimary\tLoran Ayles\tR\tTotal Write-ins\tD\tSolid D\nOR\t4\tPrimary\tTotal Write-ins\tD\tDaniel Bahlen\tD\tLean D\nOR\t5\tPrimary\tTotal Write-ins\tR\tPatti Adair\tR\tToss-up\nOR\t6\tPrimary\tDavid Russ\tR\tAndrea Salinas\tD\tLean D\n",
+  "stderr": "",
+  "execution_time_ms": 270
+}

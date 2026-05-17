@@ -1,0 +1,54 @@
+{
+  "query": "\nSELECT state_name, state_code, status, incumbent, incumbent_party, candidate1_name, candidate1_party, candidate2_name, candidate2_party, primary_date, general_date, rating, notes\nFROM senate_races WHERE state_code IN ('OR', 'KY') ORDER BY state_code;\n\nSELECT state_code, district, status, incumbent, incumbent_party, candidate1_name, candidate1_party, candidate2_name, candidate2_party, primary_date, general_date, rating\nFROM house_races WHERE state_code IN ('OR', 'KY') ORDER BY state_code, district;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state_name, state_code, status, incumbent, incumbent_party, candidate1_name, candidate1_party, candidate2_name, candidate2_party, primary_date, general_date, rating, notes\nFROM senate_races WHERE state_code IN ('OR', 'KY') ORDER BY state_code;\n\nSELECT state_code, district, status, incumbent, incumbent_party, candidate1_name, candidate1_party, candidate2_name, candidate2_party, primary_date, general_date, rating\nFROM house_races WHERE state_code IN ('OR', 'KY') ORDER BY state_code, district;\n",
+  "rows": [
+    {
+      "state_name": "Kentucky",
+      "state_code": "KY",
+      "status": "Scheduled",
+      "incumbent": "Open Seat (Mitch McConnell retired)",
+      "incumbent_party": "R",
+      "candidate1_name": "Pamela Stevenson",
+      "candidate1_party": "D",
+      "candidate2_name": "Logan Forsythe",
+      "candidate2_party": "D",
+      "primary_date": "May 19, 2026",
+      "general_date": "November 3, 2026",
+      "rating": "Solid R",
+      "notes": "McConnell retiring. Andy Barr (R, KY-6) and Nate Morris (R) in Republican primary (May 19). Charles Booker (D) is Democratic candidate. Rated Solid R by all outlets."
+    },
+    {
+      "state_name": "Oregon",
+      "state_code": "OR",
+      "status": "Scheduled",
+      "incumbent": "Jeff Merkley",
+      "incumbent_party": "D",
+      "candidate1_name": "Total Write-ins",
+      "candidate1_party": "D",
+      "candidate2_name": "Paul Wells",
+      "candidate2_party": "D",
+      "primary_date": "May 19, 2026",
+      "general_date": "November 3, 2026",
+      "rating": "Solid D",
+      "notes": "Incumbent Jeff Merkley (D) seeking re-election. Primary May 19, 2026."
+    }
+  ],
+  "messages": [
+    "state_code\tdistrict\tstatus\tincumbent\tincumbent_party\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tprimary_date\tgeneral_date\trating",
+    "KY\t1\tScheduled\tJames Comer\tR\tRobert Sutherby\tR\tDavid Sims\tR\tMay 19, 2026\tNovember 3, 2026\tSolid R",
+    "KY\t2\tScheduled\tBrett Guthrie\tR\tG. Perry-Adelmann\tR\tJoshua Ferguson\tR\tMay 19, 2026\tNovember 3, 2026\tSolid R",
+    "KY\t3\tScheduled\tMorgan McGarvey\tD\tMorgan McGarvey\tD\tDavid Nichter\tR\tMay 19, 2026\tNovember 3, 2026\tSolid D",
+    "KY\t4\tScheduled\tThomas Massie\tR\tEd Gallrein\tR\tThomas Massie\tR\tMay 19, 2026\tNovember 3, 2026\tSolid R",
+    "KY\t5\tScheduled\tHarold D. Rogers\tR\tBenjamin Hurley\tR\tJerry Shelton\tR\tMay 19, 2026\tNovember 3, 2026\tSolid R",
+    "KY\t6\tScheduled\tOpen Seat\tR\tRalph Alvarado\tR\tRyan Dotson\tR\tMay 19, 2026\tNovember 3, 2026\tSolid R",
+    "OR\t1\tScheduled\tSuzanne Bonamici\tD\tTotal Write-ins\tR\tJohn Verbeek\tR\tMay 19, 2026\tNovember 3, 2026\tSolid D",
+    "OR\t2\tScheduled\tCliff Bentz\tR\tTotal Write-ins\tR\tCliff Bentz\tR\tMay 19, 2026\tNovember 3, 2026\tSolid R",
+    "OR\t3\tScheduled\tMaxine Dexter\tD\tLoran Ayles\tR\tTotal Write-ins\tD\tMay 19, 2026\tNovember 3, 2026\tSolid D",
+    "OR\t4\tScheduled\tVal T. Hoyle\tD\tTotal Write-ins\tD\tDaniel Bahlen\tD\tMay 19, 2026\tNovember 3, 2026\tSolid D",
+    "OR\t5\tScheduled\tJanelle S. Bynum\tD\tTotal Write-ins\tR\tPatti Adair\tR\tMay 19, 2026\tNovember 3, 2026\tLikely D",
+    "OR\t6\tScheduled\tAndrea Salinas\tD\tDavid Russ\tR\tAndrea Salinas\tD\tMay 19, 2026\tNovember 3, 2026\tSolid D"
+  ],
+  "stdout": "state_name\tstate_code\tstatus\tincumbent\tincumbent_party\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tprimary_date\tgeneral_date\trating\tnotes\nKentucky\tKY\tScheduled\tOpen Seat (Mitch McConnell retired)\tR\tPamela Stevenson\tD\tLogan Forsythe\tD\tMay 19, 2026\tNovember 3, 2026\tSolid R\tMcConnell retiring. Andy Barr (R, KY-6) and Nate Morris (R) in Republican primary (May 19). Charles Booker (D) is Democratic candidate. Rated Solid R by all outlets.\nOregon\tOR\tScheduled\tJeff Merkley\tD\tTotal Write-ins\tD\tPaul Wells\tD\tMay 19, 2026\tNovember 3, 2026\tSolid D\tIncumbent Jeff Merkley (D) seeking re-election. Primary May 19, 2026.\nstate_code\tdistrict\tstatus\tincumbent\tincumbent_party\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tprimary_date\tgeneral_date\trating\nKY\t1\tScheduled\tJames Comer\tR\tRobert Sutherby\tR\tDavid Sims\tR\tMay 19, 2026\tNovember 3, 2026\tSolid R\nKY\t2\tScheduled\tBrett Guthrie\tR\tG. Perry-Adelmann\tR\tJoshua Ferguson\tR\tMay 19, 2026\tNovember 3, 2026\tSolid R\nKY\t3\tScheduled\tMorgan McGarvey\tD\tMorgan McGarvey\tD\tDavid Nichter\tR\tMay 19, 2026\tNovember 3, 2026\tSolid D\nKY\t4\tScheduled\tThomas Massie\tR\tEd Gallrein\tR\tThomas Massie\tR\tMay 19, 2026\tNovember 3, 2026\tSolid R\nKY\t5\tScheduled\tHarold D. Rogers\tR\tBenjamin Hurley\tR\tJerry Shelton\tR\tMay 19, 2026\tNovember 3, 2026\tSolid R\nKY\t6\tScheduled\tOpen Seat\tR\tRalph Alvarado\tR\tRyan Dotson\tR\tMay 19, 2026\tNovember 3, 2026\tSolid R\nOR\t1\tScheduled\tSuzanne Bonamici\tD\tTotal Write-ins\tR\tJohn Verbeek\tR\tMay 19, 2026\tNovember 3, 2026\tSolid D\nOR\t2\tScheduled\tCliff Bentz\tR\tTotal Write-ins\tR\tCliff Bentz\tR\tMay 19, 2026\tNovember 3, 2026\tSolid R\nOR\t3\tScheduled\tMaxine Dexter\tD\tLoran Ayles\tR\tTotal Write-ins\tD\tMay 19, 2026\tNovember 3, 2026\tSolid D\nOR\t4\tScheduled\tVal T. Hoyle\tD\tTotal Write-ins\tD\tDaniel Bahlen\tD\tMay 19, 2026\tNovember 3, 2026\tSolid D\nOR\t5\tScheduled\tJanelle S. Bynum\tD\tTotal Write-ins\tR\tPatti Adair\tR\tMay 19, 2026\tNovember 3, 2026\tLikely D\nOR\t6\tScheduled\tAndrea Salinas\tD\tDavid Russ\tR\tAndrea Salinas\tD\tMay 19, 2026\tNovember 3, 2026\tSolid D\n",
+  "stderr": "",
+  "execution_time_ms": 282
+}

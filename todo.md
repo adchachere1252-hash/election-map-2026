@@ -1444,3 +1444,19 @@
 - [x] Added amber/orange color scheme, GOP Primary Runoff badge, primary vote percentages, context box
 - [x] Set candidate1VotePct=45, candidate2VotePct=28 in DB for Louisiana Senate (primary results)
 - [x] Run all 58 tests — all passing, TypeScript: 0 errors
+
+## May 19 Oregon & Kentucky Primary Prep (May 17, 2026)
+- [x] Research OR Senate, House (all 6 districts), and Governor primary candidates and race details
+- [x] Research KY Senate, House (all 6 districts), and Governor primary candidates and race details
+- [x] Check current DB state for all OR and KY races
+- [x] Update OR Senate: Jeff Merkley (D) vs Christine Drazan/Jo Rae Perkins (R frontrunners)
+- [x] Update KY Senate: Andy Barr (R) vs Charles Booker (D) — open seat (McConnell retiring)
+- [x] Update all 6 OR House races with correct candidates (fixed Total Write-ins, duplicate names)
+- [x] Update all 6 KY House races with correct candidates (Massie vs Gallrein in KY-4, Alvarado vs Dotson in KY-6)
+- [x] Update OR Governor: Tina Kotek (D, incumbent) vs Christine Drazan (R frontrunner)
+- [x] Set all OR and KY House + Senate races to status = Primary (12 House + 2 Senate)
+- [x] Confirmed 2026-05-19 already in AP Engine ELECTION_DATES array (line 29)
+- [x] AP Engine is live and pulling OR/KY May 19 data every 2 minutes (96 races updated per cycle)
+- [x] Added PrimaryMatchupSection component (purple, VS card, live vote bar, winner badge)
+- [x] Integrated PrimaryMatchupSection into SenatePopup and HousePopup ternary chains
+- [x] Run all 58 tests — all passing, TypeScript: 0 errors

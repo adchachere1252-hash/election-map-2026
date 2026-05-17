@@ -280,6 +280,138 @@ function GeneralMatchupSection({
   );
 }
 
+/** Primary Matchup Card — shown for races in Primary status (before general election nominees are set) */
+function PrimaryMatchupSection({
+  candidate1Name, candidate1Party, candidate1VotePct,
+  candidate2Name, candidate2Party, candidate2VotePct,
+  primaryDate, generalDate, notes, chamber, pctReporting, primaryWinner,
+}: {
+  candidate1Name: string | null | undefined;
+  candidate1Party: string | null | undefined;
+  candidate1VotePct?: string | number | null;
+  candidate2Name: string | null | undefined;
+  candidate2Party: string | null | undefined;
+  candidate2VotePct?: string | number | null;
+  primaryDate?: string | null;
+  generalDate?: string | null;
+  notes?: string | null;
+  chamber?: string;
+  pctReporting?: string | number | null;
+  primaryWinner?: string | null;
+}) {
+  const primaryColor = "#a855f7"; // purple-500
+  const c1Color = getPartyColor(candidate1Party as any);
+  const c2Color = getPartyColor(candidate2Party as any);
+  const photoSize = chamber === "senate" || chamber === "governor" ? 72 : 60;
+
+  // Format vote pct for display
+  const fmt = (v: string | number | null | undefined) => {
+    if (v === null || v === undefined) return null;
+    const n = parseFloat(String(v));
+    return isNaN(n) || n <= 0 ? null : n % 1 === 0 ? String(n) : n.toFixed(1);
+  };
+  const c1Pct = fmt(candidate1VotePct);
+  const c2Pct = fmt(candidate2VotePct);
+  const pctRep = pctReporting ? parseFloat(String(pctReporting)) : 0;
+
+  // Context lines
+  const contextLines: string[] = [];
+  if (primaryDate) contextLines.push(`Primary election: ${primaryDate}.`);
+  if (generalDate) contextLines.push(`General election: ${generalDate}.`);
+  if (notes) contextLines.push(notes);
+
+  return (
+    <>
+      <div className="flex items-center justify-between mb-2">
+        <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Primary Election Matchup</p>
+        <span className="text-xs font-bold px-2 py-0.5 rounded"
+          style={{ background: primaryColor + "22", color: primaryColor, border: "1px solid " + primaryColor + "44" }}>
+          {primaryDate ?? "Primary"}
+        </span>
+      </div>
+      <div className="rounded-lg overflow-hidden border mb-3" style={{ borderColor: primaryColor + "33", background: "linear-gradient(135deg, " + c1Color + "18 0%, transparent 50%, " + c2Color + "18 100%)" }}>
+        {/* Photo row */}
+        <div className="relative flex items-stretch">
+          <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to right, " + c1Color + "22 0%, transparent 50%)" }} />
+          <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to left, " + c2Color + "22 0%, transparent 50%)" }} />
+
+          {/* Candidate 1 */}
+          <div className="flex flex-col items-center gap-1.5 flex-1 min-w-0 px-3 pt-4 pb-3 z-10">
+            <div className="rounded-full p-[3px] flex-shrink-0"
+              style={{ background: "linear-gradient(135deg, " + c1Color + ", " + c1Color + "88)" }}>
+              <CandidateAvatar name={candidate1Name} party={candidate1Party} size={photoSize} />
+            </div>
+            <span className="text-sm font-bold text-center leading-tight">{candidate1Name}</span>
+            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full"
+              style={{ background: c1Color + "33", color: c1Color, border: "1px solid " + c1Color + "55" }}>
+              {getPartyLabel(candidate1Party as any)}
+            </span>
+            {c1Pct && (
+              <span className="text-xs font-semibold" style={{ color: primaryColor }}>{c1Pct}%</span>
+            )}
+            {primaryWinner === candidate1Name && (
+              <span className="text-xs font-bold text-green-400">✓ Winner</span>
+            )}
+          </div>
+
+          {/* VS divider */}
+          <div className="flex flex-col items-center justify-center gap-2 flex-shrink-0 px-1 z-10">
+            <div className="w-px h-8 bg-white/10" />
+            <span className="text-sm font-black text-white/40 tracking-widest">VS</span>
+            <div className="w-px h-8 bg-white/10" />
+          </div>
+
+          {/* Candidate 2 */}
+          <div className="flex flex-col items-center gap-1.5 flex-1 min-w-0 px-3 pt-4 pb-3 z-10">
+            <div className="rounded-full p-[3px] flex-shrink-0"
+              style={{ background: "linear-gradient(135deg, " + c2Color + ", " + c2Color + "88)" }}>
+              <CandidateAvatar name={candidate2Name} party={candidate2Party} size={photoSize} />
+            </div>
+            <span className="text-sm font-bold text-center leading-tight">{candidate2Name}</span>
+            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full"
+              style={{ background: c2Color + "33", color: c2Color, border: "1px solid " + c2Color + "55" }}>
+              {getPartyLabel(candidate2Party as any)}
+            </span>
+            {c2Pct && (
+              <span className="text-xs font-semibold" style={{ color: primaryColor }}>{c2Pct}%</span>
+            )}
+            {primaryWinner === candidate2Name && (
+              <span className="text-xs font-bold text-green-400">✓ Winner</span>
+            )}
+          </div>
+        </div>
+
+        {/* Context block */}
+        {contextLines.length > 0 && (
+          <div className="mx-3 mb-3 bg-purple-900/20 border border-purple-700/30 rounded px-2.5 py-2 space-y-1">
+            {contextLines.map((line, i) => (
+              <div key={i} className="flex items-start gap-1.5">
+                <span className="text-purple-400/70 mt-0.5 flex-shrink-0 text-[10px]">▸</span>
+                <span className="text-xs text-purple-200/90 leading-snug">{line}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Live vote count bar */}
+        {(c1Pct || c2Pct) && (
+          <div className="mx-3 mb-3">
+            <div className="flex justify-between text-[10px] text-muted-foreground mb-1">
+              <span>{c1Pct ? `${c1Pct}%` : "—"}</span>
+              {pctRep > 0 && <span>{pctRep.toFixed(1)}% reporting</span>}
+              <span>{c2Pct ? `${c2Pct}%` : "—"}</span>
+            </div>
+            <div className="h-1.5 rounded-full overflow-hidden flex" style={{ background: "rgba(255,255,255,0.08)" }}>
+              {c1Pct && <div className="h-full rounded-l-full" style={{ width: `${c1Pct}%`, background: c1Color }} />}
+              {c2Pct && <div className="h-full rounded-r-full ml-auto" style={{ width: `${c2Pct}%`, background: c2Color }} />}
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
 /** Runoff Matchup Card — shown for Primary Runoff status races */
 function RunoffMatchupSection({
   candidate1Name, candidate1Party, candidate1PrimaryPct,
@@ -649,6 +781,21 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
             </div>
           )}
         </>
+      ) : race.status === "Primary" && race.candidate1Name && race.candidate2Name ? (
+        <PrimaryMatchupSection
+          candidate1Name={race.candidate1Name}
+          candidate1Party={race.candidate1Party}
+          candidate1VotePct={race.candidate1VotePct}
+          candidate2Name={race.candidate2Name}
+          candidate2Party={race.candidate2Party}
+          candidate2VotePct={race.candidate2VotePct}
+          primaryDate={race.primaryDate}
+          generalDate={race.generalDate}
+          notes={(race as any).notes}
+          chamber="senate"
+          pctReporting={race.pctReporting}
+          primaryWinner={(race as any).primaryWinner}
+        />
       ) : race.status === "Primary Runoff" && race.candidate1Name && race.candidate2Name ? (
         <>
           <RunoffMatchupSection
@@ -865,6 +1012,21 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
             </div>
           )}
         </>
+      ) : race.status === "Primary" && race.candidate1Name && race.candidate2Name ? (
+        <PrimaryMatchupSection
+          candidate1Name={race.candidate1Name}
+          candidate1Party={race.candidate1Party}
+          candidate1VotePct={race.candidate1VotePct}
+          candidate2Name={race.candidate2Name}
+          candidate2Party={race.candidate2Party}
+          candidate2VotePct={race.candidate2VotePct}
+          primaryDate={race.primaryDate}
+          generalDate={race.generalDate}
+          notes={(race as any).notes}
+          chamber="house"
+          pctReporting={race.pctReporting}
+          primaryWinner={(race as any).primaryWinner}
+        />
       ) : (race.candidate1Name || race.candidate2Name) ? (
         <div className="space-y-1.5 mb-3">
           {(() => {
@@ -918,14 +1080,16 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
         </div>
       ) : null}
 
+      {/* PrimaryMatchupSection is rendered above in the ternary chain for status === "Primary" */}
+
       <div className="border-t border-border pt-2 space-y-1">
-        {race.primaryDate && (
+        {race.primaryDate && race.status !== "Primary" && (
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Calendar className="w-3 h-3" />
             <span>Primary: {race.primaryDate}</span>
           </div>
         )}
-        {race.generalDate && (
+        {race.generalDate && race.status !== "Primary" && (
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Calendar className="w-3 h-3" />
             <span>General: {race.generalDate}</span>

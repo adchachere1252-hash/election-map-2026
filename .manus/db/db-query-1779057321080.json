@@ -1,0 +1,285 @@
+{
+  "query": "DESCRIBE governor_races; SELECT * FROM governor_races WHERE state_code = 'OR' LIMIT 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute DESCRIBE governor_races; SELECT * FROM governor_races WHERE state_code = 'OR' LIMIT 1;",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "int",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "state_code",
+      "Type": "varchar(2)",
+      "Null": "NO",
+      "Key": "UNI",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "state_name",
+      "Type": "varchar(64)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "incumbent_name",
+      "Type": "varchar(128)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "incumbent_party",
+      "Type": "enum('D','R','I')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "is_open",
+      "Type": "tinyint(1)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "is_term_limited",
+      "Type": "tinyint(1)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "previous_party",
+      "Type": "enum('D','R','I')",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "rating",
+      "Type": "enum('Solid D','Likely D','Lean D','Toss-up','Lean R','Likely R','Solid R')",
+      "Null": "NO",
+      "Key": "",
+      "Default": "Solid R",
+      "Extra": ""
+    },
+    {
+      "Field": "primary_date",
+      "Type": "varchar(64)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "runoff_date",
+      "Type": "varchar(64)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "general_date",
+      "Type": "varchar(64)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "November 3, 2026",
+      "Extra": ""
+    },
+    {
+      "Field": "is_special",
+      "Type": "tinyint(1)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "status",
+      "Type": "enum('Scheduled','Voting','Called','Certified')",
+      "Null": "NO",
+      "Key": "",
+      "Default": "Scheduled",
+      "Extra": ""
+    },
+    {
+      "Field": "called_party",
+      "Type": "enum('D','R','I')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "called_winner",
+      "Type": "varchar(128)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "dem_votes",
+      "Type": "bigint",
+      "Null": "YES",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "rep_votes",
+      "Type": "bigint",
+      "Null": "YES",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "pct_reporting",
+      "Type": "decimal(5,2)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "dem_candidate",
+      "Type": "varchar(128)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "rep_candidate",
+      "Type": "varchar(128)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "notes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "updated_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+    },
+    {
+      "Field": "dem_previous_office",
+      "Type": "varchar(256)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "rep_previous_office",
+      "Type": "varchar(256)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "dem_bio",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "rep_bio",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "called_at",
+      "Type": "bigint",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "other_candidate_name",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "other_candidate_party",
+      "Type": "enum('D','R','I','L','G')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "other_votes",
+      "Type": "bigint",
+      "Null": "YES",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "other_vote_pct",
+      "Type": "decimal(5,2)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "primary_winner",
+      "Type": "varchar(128)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "primary_party",
+      "Type": "enum('D','R','I')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    }
+  ],
+  "messages": [
+    "id\tstate_code\tstate_name\tincumbent_name\tincumbent_party\tis_open\tis_term_limited\tprevious_party\trating\tprimary_date\trunoff_date\tgeneral_date\tis_special\tstatus\tcalled_party\tcalled_winner\tdem_votes\trep_votes\tpct_reporting\tdem_candidate\trep_candidate\tnotes\tupdated_at\tdem_previous_office\trep_previous_office\tdem_bio\trep_bio\tcalled_at\tother_candidate_name\tother_candidate_party\tother_votes\tother_vote_pct\tprimary_winner\tprimary_party",
+    "8\tOR\tOregon\tTina Kotek\tD\t0\t0\tD\tSolid D\tMay 19, 2026\tNULL\tNovember 3, 2026\t0\tScheduled\tNULL\tNULL\t0\t0\t0.00\tTina Kotek (incumbent)\tTBD — Republican Primary\tKotek eligible for re-election\t2026-05-14 12:45:55\tGovernor of Oregon (2023–present)\tOregon State Senate, District 26 (2023–present)\tThe 39th Governor of Oregon, serving since January 2023. Made history as the first openly lesbian Speaker of a state House of Representatives. Seeking re-election as the sole major Democratic candidate.\tCurrent Oregon State Senator and former House Minority Leader. Was the 2022 Republican gubernatorial nominee, losing to Kotek in a three-way race. Republican primary also includes Chris Dudley (former NBA player and 2010 gubernatorial nominee).\tNULL\tRobert Neuman, Martin Ward, Chris Dudley, Paul Romero, Christine Drazan, Danielle Bethell, Hope Dalrymple, Kyle Duyck, David Medina, Brad Peters, Wen Waddell, Tim Youker, DeAngelo Turner, Total Write-ins, Steve Laible, James Atkinson, David Beem, Tina Kotek, Forest Alexander, Cal Kishawi, Donnie Beckwith, Brittany Jones, Tristan Sheppard, Miranda Weigler\tNULL\t0\t0.00\tNULL\tNULL"
+  ],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tint\tNO\tPRI\tNULL\tauto_increment\nstate_code\tvarchar(2)\tNO\tUNI\tNULL\t\nstate_name\tvarchar(64)\tNO\t\tNULL\t\nincumbent_name\tvarchar(128)\tYES\t\tNULL\t\nincumbent_party\tenum('D','R','I')\tYES\t\tNULL\t\nis_open\ttinyint(1)\tNO\t\t0\t\nis_term_limited\ttinyint(1)\tNO\t\t0\t\nprevious_party\tenum('D','R','I')\tNO\t\tNULL\t\nrating\tenum('Solid D','Likely D','Lean D','Toss-up','Lean R','Likely R','Solid R')\tNO\t\tSolid R\t\nprimary_date\tvarchar(64)\tYES\t\tNULL\t\nrunoff_date\tvarchar(64)\tYES\t\tNULL\t\ngeneral_date\tvarchar(64)\tNO\t\tNovember 3, 2026\t\nis_special\ttinyint(1)\tNO\t\t0\t\nstatus\tenum('Scheduled','Voting','Called','Certified')\tNO\t\tScheduled\t\ncalled_party\tenum('D','R','I')\tYES\t\tNULL\t\ncalled_winner\tvarchar(128)\tYES\t\tNULL\t\ndem_votes\tbigint\tYES\t\t0\t\nrep_votes\tbigint\tYES\t\t0\t\npct_reporting\tdecimal(5,2)\tYES\t\t0\t\ndem_candidate\tvarchar(128)\tYES\t\tNULL\t\nrep_candidate\tvarchar(128)\tYES\t\tNULL\t\nnotes\ttext\tYES\t\tNULL\t\nupdated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP\ndem_previous_office\tvarchar(256)\tYES\t\tNULL\t\nrep_previous_office\tvarchar(256)\tYES\t\tNULL\t\ndem_bio\ttext\tYES\t\tNULL\t\nrep_bio\ttext\tYES\t\tNULL\t\ncalled_at\tbigint\tYES\t\tNULL\t\nother_candidate_name\ttext\tYES\t\tNULL\t\nother_candidate_party\tenum('D','R','I','L','G')\tYES\t\tNULL\t\nother_votes\tbigint\tYES\t\t0\t\nother_vote_pct\tdecimal(5,2)\tYES\t\tNULL\t\nprimary_winner\tvarchar(128)\tYES\t\tNULL\t\nprimary_party\tenum('D','R','I')\tYES\t\tNULL\t\nid\tstate_code\tstate_name\tincumbent_name\tincumbent_party\tis_open\tis_term_limited\tprevious_party\trating\tprimary_date\trunoff_date\tgeneral_date\tis_special\tstatus\tcalled_party\tcalled_winner\tdem_votes\trep_votes\tpct_reporting\tdem_candidate\trep_candidate\tnotes\tupdated_at\tdem_previous_office\trep_previous_office\tdem_bio\trep_bio\tcalled_at\tother_candidate_name\tother_candidate_party\tother_votes\tother_vote_pct\tprimary_winner\tprimary_party\n8\tOR\tOregon\tTina Kotek\tD\t0\t0\tD\tSolid D\tMay 19, 2026\tNULL\tNovember 3, 2026\t0\tScheduled\tNULL\tNULL\t0\t0\t0.00\tTina Kotek (incumbent)\tTBD — Republican Primary\tKotek eligible for re-election\t2026-05-14 12:45:55\tGovernor of Oregon (2023–present)\tOregon State Senate, District 26 (2023–present)\tThe 39th Governor of Oregon, serving since January 2023. Made history as the first openly lesbian Speaker of a state House of Representatives. Seeking re-election as the sole major Democratic candidate.\tCurrent Oregon State Senator and former House Minority Leader. Was the 2022 Republican gubernatorial nominee, losing to Kotek in a three-way race. Republican primary also includes Chris Dudley (former NBA player and 2010 gubernatorial nominee).\tNULL\tRobert Neuman, Martin Ward, Chris Dudley, Paul Romero, Christine Drazan, Danielle Bethell, Hope Dalrymple, Kyle Duyck, David Medina, Brad Peters, Wen Waddell, Tim Youker, DeAngelo Turner, Total Write-ins, Steve Laible, James Atkinson, David Beem, Tina Kotek, Forest Alexander, Cal Kishawi, Donnie Beckwith, Brittany Jones, Tristan Sheppard, Miranda Weigler\tNULL\t0\t0.00\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 266
+}

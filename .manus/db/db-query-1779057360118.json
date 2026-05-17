@@ -1,0 +1,34 @@
+{
+  "query": "\nSHOW COLUMNS FROM senate_races LIKE 'status';\nSHOW COLUMNS FROM house_races LIKE 'status';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSHOW COLUMNS FROM senate_races LIKE 'status';\nSHOW COLUMNS FROM house_races LIKE 'status';\n",
+  "rows": [
+    {
+      "Field": "status",
+      "Type": "enum('Scheduled','Primary','Primary Runoff','General','Called','Certified')",
+      "Null": "NO",
+      "Key": "",
+      "Default": "Scheduled",
+      "Extra": ""
+    },
+    {
+      "Field": "Field",
+      "Type": "Type",
+      "Null": "Null",
+      "Key": "Key",
+      "Default": "Default",
+      "Extra": "Extra"
+    },
+    {
+      "Field": "status",
+      "Type": "enum('Scheduled','Primary','Primary Runoff','General','Called','Certified')",
+      "Null": "NO",
+      "Key": "",
+      "Default": "Scheduled",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nstatus\tenum('Scheduled','Primary','Primary Runoff','General','Called','Certified')\tNO\t\tScheduled\t\nField\tType\tNull\tKey\tDefault\tExtra\nstatus\tenum('Scheduled','Primary','Primary Runoff','General','Called','Certified')\tNO\t\tScheduled\t\n",
+  "stderr": "",
+  "execution_time_ms": 255
+}
