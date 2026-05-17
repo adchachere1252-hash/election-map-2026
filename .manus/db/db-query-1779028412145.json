@@ -1,0 +1,25 @@
+{
+  "query": "SELECT id, state_name, status, incumbent, candidate1_name, candidate1_party, candidate2_name, candidate2_party, primary_date, primary_runoff_date, general_date, rating, notes FROM senate_races WHERE state_code = 'LA';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, state_name, status, incumbent, candidate1_name, candidate1_party, candidate2_name, candidate2_party, primary_date, primary_runoff_date, general_date, rating, notes FROM senate_races WHERE state_code = 'LA';",
+  "rows": [
+    {
+      "id": "12",
+      "state_name": "Louisiana",
+      "status": "Scheduled",
+      "incumbent": "Bill Cassidy",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate1_party": "D",
+      "candidate2_name": "Bill Cassidy",
+      "candidate2_party": "R",
+      "primary_date": "May 16, 2026",
+      "primary_runoff_date": "Jun 27, 2026",
+      "general_date": "November 3, 2026",
+      "rating": "Solid R",
+      "notes": "Incumbent Bill Cassidy (R) seeking re-election. Louisiana jungle primary May 16, 2026."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_name\tstatus\tincumbent\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tprimary_date\tprimary_runoff_date\tgeneral_date\trating\tnotes\n12\tLouisiana\tScheduled\tBill Cassidy\tTBD — Democratic Primary\tD\tBill Cassidy\tR\tMay 16, 2026\tJun 27, 2026\tNovember 3, 2026\tSolid R\tIncumbent Bill Cassidy (R) seeking re-election. Louisiana jungle primary May 16, 2026.\n",
+  "stderr": "",
+  "execution_time_ms": 287
+}

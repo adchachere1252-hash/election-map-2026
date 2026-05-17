@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE senate_races SET\n  status = 'Primary Runoff',\n  candidate1_name = 'Julia Letlow',\n  candidate1_party = 'R',\n  candidate2_name = 'John Fleming',\n  candidate2_party = 'R',\n  primary_winner = 'Runoff',\n  primary_party = 'R',\n  other_candidate_name = 'Jamie Davis',\n  other_candidate_party = 'D',\n  notes = 'GOP Runoff: Julia Letlow (45%) vs. John Fleming (28%) on June 27, 2026. Incumbent Bill Cassidy (R) eliminated with 25% — first incumbent senator to lose a primary since 2012. Cassidy had voted to convict Trump at his 2021 impeachment trial. Democratic runoff: Jamie Davis (47%) vs. Nick Albares (26%) also on June 27. Winner of GOP runoff heavily favored in the November 3 general election.',\n  updated_at = NOW()\nWHERE state_code = 'LA';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE senate_races SET\n  status = 'Primary Runoff',\n  candidate1_name = 'Julia Letlow',\n  candidate1_party = 'R',\n  candidate2_name = 'John Fleming',\n  candidate2_party = 'R',\n  primary_winner = 'Runoff',\n  primary_party = 'R',\n  other_candidate_name = 'Jamie Davis',\n  other_candidate_party = 'D',\n  notes = 'GOP Runoff: Julia Letlow (45%) vs. John Fleming (28%) on June 27, 2026. Incumbent Bill Cassidy (R) eliminated with 25% — first incumbent senator to lose a primary since 2012. Cassidy had voted to convict Trump at his 2021 impeachment trial. Democratic runoff: Jamie Davis (47%) vs. Nick Albares (26%) also on June 27. Winner of GOP runoff heavily favored in the November 3 general election.',\n  updated_at = NOW()\nWHERE state_code = 'LA';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 265
+}

@@ -1,7 +1,7 @@
 // ─── Rating color utilities ───────────────────────────────────────────────────
 export type Rating = "Solid D" | "Likely D" | "Lean D" | "Toss-up" | "Lean R" | "Likely R" | "Solid R" | null | undefined;
 export type Party = "D" | "R" | "I" | "L" | "G" | null | undefined;
-export type RaceStatus = "Scheduled" | "Primary" | "General" | "Called" | "Certified" | null | undefined;
+export type RaceStatus = "Scheduled" | "Primary" | "Primary Runoff" | "General" | "Called" | "Certified" | null | undefined;
 
 export const RATING_COLORS: Record<string, string> = {
   "Solid D": "#1a4fa0",
@@ -65,6 +65,7 @@ export function getStatusColor(status: RaceStatus): string {
   const map: Record<string, string> = {
     Scheduled: "#4a5568",
     Primary: "#805ad5",
+    "Primary Runoff": "#c05a00",
     General: "#2b6cb0",
     Called: "#276749",
     Certified: "#22543d",

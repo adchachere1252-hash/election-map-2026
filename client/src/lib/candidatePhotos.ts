@@ -207,6 +207,7 @@ export const BIOGUIDE_MAP: Record<string, string> = {
   "Joe Neguse": "N000191",
   "Joe Wilson": "W000795",
   "John B. Larson": "L000557",
+  "John Fleming": "F000456",
   "John Garamendi": "G000559",
   "John H. Rutherford": "R000609",
   "John Hickenlooper": "H000273",

@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE house_races SET\n  notes = 'Primary suspended due to Supreme Court ruling in Louisiana v. Callais (April 2026), which found the 2024 redistricting map illegally used racial demographics. Louisiana''s state Senate passed a new map that would eliminate one of the two Black-majority districts. House primaries will be rescheduled once the new map is finalized and any litigation is resolved.',\n  updated_at = NOW()\nWHERE state_code = 'LA';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE house_races SET\n  notes = 'Primary suspended due to Supreme Court ruling in Louisiana v. Callais (April 2026), which found the 2024 redistricting map illegally used racial demographics. Louisiana''s state Senate passed a new map that would eliminate one of the two Black-majority districts. House primaries will be rescheduled once the new map is finalized and any litigation is resolved.',\n  updated_at = NOW()\nWHERE state_code = 'LA';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 265
+}

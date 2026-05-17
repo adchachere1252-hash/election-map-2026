@@ -106,6 +106,9 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "kevin siembida":        `${BASE}/kevin-siembida_0f4e659b.jpg`,
   "jamie ager":            `${BASE}/jamie-ager_025de85b.jpg`,
   "bobby pulido":          `${BASE}/bobby-pulido_116cdf80.jpg`,
+  // Louisiana Senate runoff candidates (May 2026)
+  "julia letlow":          `${BASE}/julia-letlow_42d7ee9c.jpg`,
+  "john fleming":          `${BASE}/john-fleming_363529aa.jpg`,
 };
 
 export const PARTY_LOGOS = {

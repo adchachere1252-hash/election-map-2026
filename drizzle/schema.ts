@@ -40,6 +40,7 @@ export const ratingEnum = mysqlEnum("rating", [
 export const raceStatusEnum = mysqlEnum("race_status", [
   "Scheduled",
   "Primary",
+  "Primary Runoff",
   "General",
   "Called",
   "Certified",
@@ -74,7 +75,7 @@ export const senateRaces = mysqlTable("senate_races", {
   otherVotePct: decimal("other_vote_pct", { precision: 5, scale: 2 }),
   previousParty: mysqlEnum("previous_party", ["D", "R", "I"]), // party that held seat before this election
   rating: mysqlEnum("rating", ["Solid D", "Lean D", "Toss-up", "Lean R", "Solid R", "Safe D", "Safe R"]),
-  status: mysqlEnum("status", ["Scheduled", "Primary", "General", "Called", "Certified"]).default("Scheduled").notNull(),
+  status: mysqlEnum("status", ["Scheduled", "Primary", "Primary Runoff", "General", "Called", "Certified"]).default("Scheduled").notNull(),
   primaryDate: varchar("primary_date", { length: 32 }),
   primaryRunoffDate: varchar("primary_runoff_date", { length: 32 }),
   generalDate: varchar("general_date", { length: 32 }).default("November 3, 2026"),
@@ -119,7 +120,7 @@ export const houseRaces = mysqlTable("house_races", {
   otherVotePct: decimal("other_vote_pct", { precision: 5, scale: 2 }),
   previousParty: mysqlEnum("previous_party", ["D", "R", "I"]), // party that held seat before this election
   rating: mysqlEnum("rating", ["Solid D", "Lean D", "Toss-up", "Lean R", "Solid R", "Safe D", "Safe R"]),
-  status: mysqlEnum("status", ["Scheduled", "Primary", "General", "Called", "Certified"]).default("Scheduled").notNull(),
+  status: mysqlEnum("status", ["Scheduled", "Primary", "Primary Runoff", "General", "Called", "Certified"]).default("Scheduled").notNull(),
   primaryDate: varchar("primary_date", { length: 32 }),
   generalDate: varchar("general_date", { length: 32 }).default("November 3, 2026"),
   pctReporting: decimal("pct_reporting", { precision: 5, scale: 2 }).default("0"),

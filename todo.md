@@ -1393,3 +1393,21 @@
 - [x] Popup now scrolls fully to show context box, bio section, and all content below matchup card
 - [x] Roy Cooper photo confirmed loading correctly in NC Senate popup
 - [x] All 58 tests passing, TypeScript: 0 errors
+
+## Louisiana May 16 Primary Updates (May 17, 2026)
+- [ ] Update LA Senate race: status=Primary Runoff, candidate1=Julia Letlow (R), candidate2=John Fleming (R), runoffDate=June 27 2026, notes with Cassidy eliminated (25%)
+- [ ] Update LA Senate Democratic primary: notes with Davis/Albares advancing to June 27 runoff
+- [ ] Update LA Senate race notes to reflect redistricting/House postponement context
+- [ ] Update all 6 LA House district records: status=Scheduled, notes about redistricting postponement (Louisiana v. Callais Supreme Court ruling)
+- [ ] Add photos for Julia Letlow and John Fleming to candidatePhotos.ts
+
+## Louisiana May 16 Primary Update (May 17, 2026)
+- [x] Add "Primary Runoff" to senate_races and house_races status enums (schema migration 0017)
+- [x] Update Louisiana Senate race: Letlow (45%) and Fleming (28%) advance to GOP runoff June 27; Cassidy eliminated
+- [x] Add "Primary Runoff" orange badge color to StatusBadge in RacePopup.tsx
+- [x] Add "Primary Runoff" to RaceStatus type and getStatusColor in electionUtils.ts
+- [x] Fix showVotes logic to include "Primary Runoff" so vote percentages show for runoff candidates
+- [x] Update all 6 Louisiana House districts with redistricting postponement note (Louisiana v. Callais)
+- [x] Add Julia Letlow and John Fleming photos to CDN and candidatePhotos.ts (client + server)
+- [x] Add bios for Julia Letlow and John Fleming in Louisiana Senate race
+- [x] All 58 tests pass, TypeScript: 0 errors

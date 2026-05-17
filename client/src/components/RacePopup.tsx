@@ -30,6 +30,7 @@ function StatusBadge({ status }: { status: string | null | undefined }) {
   const colors: Record<string, string> = {
     Scheduled: "bg-gray-700 text-gray-300",
     Primary: "bg-purple-900 text-purple-200",
+    "Primary Runoff": "bg-orange-900 text-orange-200",
     General: "bg-blue-900 text-blue-200",
     Called: "bg-green-900 text-green-200",
     Certified: "bg-emerald-900 text-emerald-200",
@@ -480,7 +481,7 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
             const calledWinner = race.calledWinner;
             const effectiveWinner = calledWinner || primaryWinner || null;
             const isPrimary = !!primaryWinner && !calledWinner;
-            const showVotes = race.status === "Primary" || race.status === "Called" || race.status === "Certified";
+            const showVotes = race.status === "Primary" || race.status === "Primary Runoff" || race.status === "Called" || race.status === "Certified";
             return (
               <>
                 <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-1">
@@ -658,7 +659,7 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
             const calledWinner = race.calledWinner;
             const effectiveWinner = calledWinner || primaryWinner || null;
             const isPrimary = !!primaryWinner && !calledWinner;
-            const showVotes = race.status === "Primary" || race.status === "Called" || race.status === "Certified";
+            const showVotes = race.status === "Primary" || race.status === "Primary Runoff" || race.status === "Called" || race.status === "Certified";
             return (
               <>
                 <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-1">

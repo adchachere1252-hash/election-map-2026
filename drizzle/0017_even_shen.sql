@@ -1,0 +1,2 @@
+ALTER TABLE `house_races` MODIFY COLUMN `status` enum('Scheduled','Primary','Primary Runoff','General','Called','Certified') NOT NULL DEFAULT 'Scheduled';--> statement-breakpoint
+ALTER TABLE `senate_races` MODIFY COLUMN `status` enum('Scheduled','Primary','Primary Runoff','General','Called','Certified') NOT NULL DEFAULT 'Scheduled';
