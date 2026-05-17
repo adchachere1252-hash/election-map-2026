@@ -1,0 +1,36 @@
+{
+  "query": "SELECT state_name, candidate1_name, candidate2_name, status, rating, primary_date FROM senate_races WHERE state_name IN ('Arkansas', 'Mississippi') ORDER BY state_name;\nSELECT state_name, district, candidate1_name, candidate2_name, status, rating, primary_date FROM house_races WHERE state_name IN ('Arkansas', 'Mississippi') ORDER BY state_name, district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_name, candidate1_name, candidate2_name, status, rating, primary_date FROM senate_races WHERE state_name IN ('Arkansas', 'Mississippi') ORDER BY state_name;\nSELECT state_name, district, candidate1_name, candidate2_name, status, rating, primary_date FROM house_races WHERE state_name IN ('Arkansas', 'Mississippi') ORDER BY state_name, district;",
+  "rows": [
+    {
+      "state_name": "Arkansas",
+      "candidate1_name": "Hallie Shoffner",
+      "candidate2_name": "Tom Cotton",
+      "status": "General",
+      "rating": "Solid R",
+      "primary_date": "March 3, 2026"
+    },
+    {
+      "state_name": "Mississippi",
+      "candidate1_name": "Scott Colom",
+      "candidate2_name": "Cindy Hyde-Smith",
+      "status": "General",
+      "rating": "Solid R",
+      "primary_date": "March 10, 2026"
+    }
+  ],
+  "messages": [
+    "state_name\tdistrict\tcandidate1_name\tcandidate2_name\tstatus\trating\tprimary_date",
+    "Arkansas\t1\tTerri Yarbrough Green\tRick Crawford\tGeneral\tSolid R\tMar 3, 2026",
+    "Arkansas\t2\tChris Jones\tJ. French Hill\tGeneral\tSolid R\tMar 3, 2026",
+    "Arkansas\t3\tRobb Ryerse\tSteve Womack\tGeneral\tSolid R\tMar 3, 2026",
+    "Arkansas\t4\tJames Russell\tBruce Westerman\tGeneral\tSolid R\tMar 3, 2026",
+    "Mississippi\t1\tCliff Johnson\tTrent Kelly\tGeneral\tSolid R\tMar 10, 2026",
+    "Mississippi\t2\tBennie Thompson\tRon Eller\tGeneral\tSolid D\tMar 10, 2026",
+    "Mississippi\t3\tMichael Chiaradio\tMichael Guest\tGeneral\tSolid R\tMar 10, 2026",
+    "Mississippi\t4\tJeffrey Hulum\tMike Ezell\tGeneral\tSolid R\tMar 10, 2026"
+  ],
+  "stdout": "state_name\tcandidate1_name\tcandidate2_name\tstatus\trating\tprimary_date\nArkansas\tHallie Shoffner\tTom Cotton\tGeneral\tSolid R\tMarch 3, 2026\nMississippi\tScott Colom\tCindy Hyde-Smith\tGeneral\tSolid R\tMarch 10, 2026\nstate_name\tdistrict\tcandidate1_name\tcandidate2_name\tstatus\trating\tprimary_date\nArkansas\t1\tTerri Yarbrough Green\tRick Crawford\tGeneral\tSolid R\tMar 3, 2026\nArkansas\t2\tChris Jones\tJ. French Hill\tGeneral\tSolid R\tMar 3, 2026\nArkansas\t3\tRobb Ryerse\tSteve Womack\tGeneral\tSolid R\tMar 3, 2026\nArkansas\t4\tJames Russell\tBruce Westerman\tGeneral\tSolid R\tMar 3, 2026\nMississippi\t1\tCliff Johnson\tTrent Kelly\tGeneral\tSolid R\tMar 10, 2026\nMississippi\t2\tBennie Thompson\tRon Eller\tGeneral\tSolid D\tMar 10, 2026\nMississippi\t3\tMichael Chiaradio\tMichael Guest\tGeneral\tSolid R\tMar 10, 2026\nMississippi\t4\tJeffrey Hulum\tMike Ezell\tGeneral\tSolid R\tMar 10, 2026\n",
+  "stderr": "",
+  "execution_time_ms": 263
+}

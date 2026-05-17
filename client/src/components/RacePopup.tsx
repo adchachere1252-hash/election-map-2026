@@ -280,6 +280,181 @@ function GeneralMatchupSection({
   );
 }
 
+/** Runoff Matchup Card — shown for Primary Runoff status races */
+function RunoffMatchupSection({
+  candidate1Name, candidate1Party, candidate1PrimaryPct,
+  candidate2Name, candidate2Party, candidate2PrimaryPct,
+  primaryRunoffDate, generalDate,
+  notes,
+  chamber,
+  incumbent, incumbentParty,
+}: {
+  candidate1Name: string | null | undefined;
+  candidate1Party: string | null | undefined;
+  candidate1PrimaryPct?: string | null;
+  candidate2Name: string | null | undefined;
+  candidate2Party: string | null | undefined;
+  candidate2PrimaryPct?: string | null;
+  primaryRunoffDate?: string | null;
+  generalDate?: string | null;
+  notes?: string | null;
+  chamber?: "senate" | "house";
+  incumbent?: string | null;
+  incumbentParty?: string | null;
+}) {
+  if (!candidate1Name || !candidate2Name) return null;
+
+  // Amber/orange color for runoff (same party — GOP runoff)
+  const runoffColor = "#f59e0b"; // amber-400
+  const c1Color = getPartyColor(candidate1Party as any);
+  const c2Color = getPartyColor(candidate2Party as any);
+  const photoSize = chamber === "senate" ? 72 : 60;
+
+  // Build context lines
+  const contextLines: string[] = [];
+
+  if (chamber === "senate") {
+    contextLines.push("U.S. Senate \u2014 Class 2 seat, 6-year term. Winner serves through January 2033.");
+  }
+
+  if (incumbent) {
+    const partyLabel = incumbentParty === "D" ? "Democrat" : incumbentParty === "R" ? "Republican" : incumbentParty ?? "";
+    contextLines.push(`${incumbent} (${partyLabel}) was eliminated in the May 16 primary \u2014 the first incumbent senator to lose a primary since 2012.`);
+  }
+
+  if (candidate1PrimaryPct || candidate2PrimaryPct) {
+    const c1Pct = candidate1PrimaryPct ? ` (${candidate1PrimaryPct}% in primary)` : "";
+    const c2Pct = candidate2PrimaryPct ? ` (${candidate2PrimaryPct}% in primary)` : "";
+    contextLines.push(`${candidate1Name}${c1Pct} and ${candidate2Name}${c2Pct} advanced from the May 16 primary.`);
+  }
+
+  if (primaryRunoffDate) {
+    contextLines.push(`Runoff election: ${primaryRunoffDate}. A majority is required to win the GOP nomination.`);
+  }
+
+  if (generalDate) {
+    contextLines.push(`General election: ${generalDate}. The runoff winner is heavily favored in the general.`);
+  }
+
+  return (
+    <>
+      {/* Header label */}
+      <div className="flex items-center gap-2 mb-2">
+        <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded"
+          style={{ background: runoffColor + "22", color: runoffColor, border: "1px solid " + runoffColor + "44" }}>
+          GOP Primary Runoff
+        </span>
+        {primaryRunoffDate && (
+          <span className="text-xs text-muted-foreground flex items-center gap-1">
+            <Calendar className="w-3 h-3" />
+            {primaryRunoffDate}
+          </span>
+        )}
+      </div>
+
+      {/* Matchup card */}
+      <div className="rounded-lg overflow-hidden border mb-3"
+        style={{
+          borderColor: runoffColor + "33",
+          background: "linear-gradient(135deg, " + c1Color + "18 0%, transparent 50%, " + c2Color + "18 100%)"
+        }}>
+
+        {/* Top accent bar */}
+        <div className="h-1 w-full" style={{ background: "linear-gradient(to right, " + c1Color + ", " + runoffColor + ", " + c2Color + ")" }} />
+
+        {/* Photo row */}
+        <div className="relative flex items-stretch">
+          {/* Left half tint */}
+          <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to right, " + c1Color + "22 0%, transparent 50%)" }} />
+          {/* Right half tint */}
+          <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to left, " + c2Color + "22 0%, transparent 50%)" }} />
+
+          {/* Candidate 1 */}
+          <div className="flex flex-col items-center gap-2 flex-1 min-w-0 px-3 pt-4 pb-3 z-10">
+            <div
+              className="rounded-full p-[3px] flex-shrink-0"
+              style={{ background: "linear-gradient(135deg, " + c1Color + ", " + c1Color + "88)" }}
+            >
+              <CandidateAvatar name={candidate1Name} party={candidate1Party} size={photoSize} />
+            </div>
+            <span className="text-sm font-bold text-center leading-tight">{candidate1Name}</span>
+            <div className="flex flex-col items-center gap-1">
+              <span
+                className="text-xs font-bold px-2.5 py-0.5 rounded-full"
+                style={{
+                  background: c1Color + "33",
+                  color: c1Color,
+                  border: "1px solid " + c1Color + "55"
+                }}
+              >
+                {getPartyLabel(candidate1Party as any)}
+              </span>
+              {candidate1PrimaryPct && (
+                <span className="text-xs font-semibold" style={{ color: runoffColor }}>
+                  {candidate1PrimaryPct}% primary
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* VS divider */}
+          <div className="flex flex-col items-center justify-center gap-2 flex-shrink-0 px-1 z-10">
+            <div className="w-px h-8" style={{ background: runoffColor + "33" }} />
+            <span className="text-sm font-black tracking-widest" style={{ color: runoffColor + "88" }}>VS</span>
+            <div className="w-px h-4" style={{ background: runoffColor + "33" }} />
+            <span className="text-[9px] font-bold uppercase tracking-wider text-center leading-tight"
+              style={{ color: runoffColor + "cc", maxWidth: 40 }}>
+              Runoff
+            </span>
+            <div className="w-px h-8" style={{ background: runoffColor + "33" }} />
+          </div>
+
+          {/* Candidate 2 */}
+          <div className="flex flex-col items-center gap-2 flex-1 min-w-0 px-3 pt-4 pb-3 z-10">
+            <div
+              className="rounded-full p-[3px] flex-shrink-0"
+              style={{ background: "linear-gradient(135deg, " + c2Color + ", " + c2Color + "88)" }}
+            >
+              <CandidateAvatar name={candidate2Name} party={candidate2Party} size={photoSize} />
+            </div>
+            <span className="text-sm font-bold text-center leading-tight">{candidate2Name}</span>
+            <div className="flex flex-col items-center gap-1">
+              <span
+                className="text-xs font-bold px-2.5 py-0.5 rounded-full"
+                style={{
+                  background: c2Color + "33",
+                  color: c2Color,
+                  border: "1px solid " + c2Color + "55"
+                }}
+              >
+                {getPartyLabel(candidate2Party as any)}
+              </span>
+              {candidate2PrimaryPct && (
+                <span className="text-xs font-semibold" style={{ color: runoffColor }}>
+                  {candidate2PrimaryPct}% primary
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Context box */}
+        {contextLines.length > 0 && (
+          <div className="mx-3 mb-3 rounded px-2.5 py-2 space-y-1"
+            style={{ background: runoffColor + "15", border: "1px solid " + runoffColor + "30" }}>
+            {contextLines.map((line, i) => (
+              <div key={i} className="flex items-start gap-1.5">
+                <span className="mt-0.5 flex-shrink-0 text-[10px]" style={{ color: runoffColor + "aa" }}>▸</span>
+                <span className="text-xs leading-snug" style={{ color: runoffColor + "dd" }}>{line}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
 /** Expandable bio card matching Governor popup CandidateCard style */
 function BioCandidateCard({
   name, party, bio, isIncumbent,
@@ -470,6 +645,44 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
                 party={race.candidate2Party}
                 bio={(race as any).candidate2Bio}
                 isIncumbent={!race.incumbentRetiring && race.incumbentParty === race.candidate2Party}
+              />
+            </div>
+          )}
+        </>
+      ) : race.status === "Primary Runoff" && race.candidate1Name && race.candidate2Name ? (
+        <>
+          <RunoffMatchupSection
+            candidate1Name={race.candidate1Name}
+            candidate1Party={race.candidate1Party}
+            candidate1PrimaryPct={race.candidate1VotePct !== null && race.candidate1VotePct !== undefined ? parseFloat(String(race.candidate1VotePct)).toString() : null}
+            candidate2Name={race.candidate2Name}
+            candidate2Party={race.candidate2Party}
+            candidate2PrimaryPct={race.candidate2VotePct !== null && race.candidate2VotePct !== undefined ? parseFloat(String(race.candidate2VotePct)).toString() : null}
+            primaryRunoffDate={race.primaryRunoffDate}
+            generalDate={race.generalDate}
+            notes={(race as any).notes}
+            chamber="senate"
+            incumbent={race.incumbent}
+            incumbentParty={race.incumbentParty}
+          />
+          {/* Expandable candidate bios */}
+          {((race as any).candidate1Bio || (race as any).candidate2Bio) && (
+            <div className="space-y-2 mb-3">
+              <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-1">
+                <Briefcase className="w-3 h-3" />
+                Candidate Bios
+              </p>
+              <BioCandidateCard
+                name={race.candidate1Name}
+                party={race.candidate1Party}
+                bio={(race as any).candidate1Bio}
+                isIncumbent={false}
+              />
+              <BioCandidateCard
+                name={race.candidate2Name}
+                party={race.candidate2Party}
+                bio={(race as any).candidate2Bio}
+                isIncumbent={false}
               />
             </div>
           )}

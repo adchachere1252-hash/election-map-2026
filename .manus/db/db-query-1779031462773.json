@@ -1,0 +1,30 @@
+{
+  "query": "SELECT state_name, candidate1_name, candidate1_party, candidate1_vote_pct, candidate2_name, candidate2_party, candidate2_vote_pct, status, rating, primary_date, primary_runoff_date, general_date, notes, candidate1_bio, candidate2_bio, incumbent, incumbent_party, incumbent_retiring FROM senate_races WHERE state_name = 'Louisiana';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_name, candidate1_name, candidate1_party, candidate1_vote_pct, candidate2_name, candidate2_party, candidate2_vote_pct, status, rating, primary_date, primary_runoff_date, general_date, notes, candidate1_bio, candidate2_bio, incumbent, incumbent_party, incumbent_retiring FROM senate_races WHERE state_name = 'Louisiana';",
+  "rows": [
+    {
+      "state_name": "Louisiana",
+      "candidate1_name": "Julia Letlow",
+      "candidate1_party": "R",
+      "candidate1_vote_pct": "NULL",
+      "candidate2_name": "John Fleming",
+      "candidate2_party": "R",
+      "candidate2_vote_pct": "NULL",
+      "status": "Primary Runoff",
+      "rating": "Solid R",
+      "primary_date": "May 16, 2026",
+      "primary_runoff_date": "June 27, 2026",
+      "general_date": "November 3, 2026",
+      "notes": "GOP Runoff: Julia Letlow (45%) vs. John Fleming (28%) on June 27, 2026. Incumbent Bill Cassidy (R) eliminated with 25% — first incumbent senator to lose a primary since 2012. Cassidy had voted to convict Trump at his 2021 impeachment trial. Democratic runoff: Jamie Davis (47%) vs. Nick Albares (26%) also on June 27. Winner of GOP runoff heavily favored in the November 3 general election.",
+      "candidate1_bio": "Julia Letlow is a Republican congresswoman representing Louisiana's 5th congressional district since 2021. She holds a Ph.D. in Communication from the University of Louisiana at Lafayette and was elected to fill the seat of her late husband Luke Letlow. She serves on the House Appropriations Committee and is a strong advocate for rural healthcare and agriculture.",
+      "candidate2_bio": "John Fleming is a Republican politician and former congressman who represented Louisiana's 4th district from 2009 to 2017. A physician and businessman, he later served as Assistant Secretary of the Army for Acquisition, Logistics and Technology under President Trump. He is a staunch conservative and Trump ally who has focused his Senate campaign on opposing carbon storage projects and cutting federal spending.",
+      "incumbent": "Bill Cassidy",
+      "incumbent_party": "R",
+      "incumbent_retiring": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_name\tcandidate1_name\tcandidate1_party\tcandidate1_vote_pct\tcandidate2_name\tcandidate2_party\tcandidate2_vote_pct\tstatus\trating\tprimary_date\tprimary_runoff_date\tgeneral_date\tnotes\tcandidate1_bio\tcandidate2_bio\tincumbent\tincumbent_party\tincumbent_retiring\nLouisiana\tJulia Letlow\tR\tNULL\tJohn Fleming\tR\tNULL\tPrimary Runoff\tSolid R\tMay 16, 2026\tJune 27, 2026\tNovember 3, 2026\tGOP Runoff: Julia Letlow (45%) vs. John Fleming (28%) on June 27, 2026. Incumbent Bill Cassidy (R) eliminated with 25% — first incumbent senator to lose a primary since 2012. Cassidy had voted to convict Trump at his 2021 impeachment trial. Democratic runoff: Jamie Davis (47%) vs. Nick Albares (26%) also on June 27. Winner of GOP runoff heavily favored in the November 3 general election.\tJulia Letlow is a Republican congresswoman representing Louisiana's 5th congressional district since 2021. She holds a Ph.D. in Communication from the University of Louisiana at Lafayette and was elected to fill the seat of her late husband Luke Letlow. She serves on the House Appropriations Committee and is a strong advocate for rural healthcare and agriculture.\tJohn Fleming is a Republican politician and former congressman who represented Louisiana's 4th district from 2009 to 2017. A physician and businessman, he later served as Assistant Secretary of the Army for Acquisition, Logistics and Technology under President Trump. He is a staunch conservative and Trump ally who has focused his Senate campaign on opposing carbon storage projects and cutting federal spending.\tBill Cassidy\tR\t0\n",
+  "stderr": "",
+  "execution_time_ms": 268
+}
