@@ -378,7 +378,7 @@ async function startServer() {
   // After a primary date passes and primaryWinner is set, automatically promotes
   // races from Primary → General status and populates the matchup card candidates.
   const { runPrimaryToGeneralPromotion } = await import("../primaryToGeneralPromotion");
-  const PROMOTION_INTERVAL_MS = 30 * 60 * 1000; // 30 minutes
+  const PROMOTION_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes (election night speed)
   // Run once immediately on startup to catch any races that should already be promoted
   (async () => {
     try {
