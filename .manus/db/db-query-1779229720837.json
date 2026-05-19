@@ -1,0 +1,36 @@
+{
+  "query": "SELECT state_code, district, district_label, status, primary_winner, primary_party, candidate1_name, candidate1_party, candidate2_name, candidate2_party, primary_date FROM house_races WHERE state_code = 'KY' AND district IN (3, 5);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, district, district_label, status, primary_winner, primary_party, candidate1_name, candidate1_party, candidate2_name, candidate2_party, primary_date FROM house_races WHERE state_code = 'KY' AND district IN (3, 5);",
+  "rows": [
+    {
+      "state_code": "KY",
+      "district": "3",
+      "district_label": "3",
+      "status": "Primary",
+      "primary_winner": "Morgan McGarvey",
+      "primary_party": "D",
+      "candidate1_name": "David Nichter",
+      "candidate1_party": "R",
+      "candidate2_name": "Donald Pay",
+      "candidate2_party": "R",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "state_code": "KY",
+      "district": "5",
+      "district_label": "5",
+      "status": "Primary",
+      "primary_winner": "Ned Pillersdorf",
+      "primary_party": "D",
+      "candidate1_name": "Hal Rogers",
+      "candidate1_party": "R",
+      "candidate2_name": "Kevin Smith",
+      "candidate2_party": "R",
+      "primary_date": "May 19, 2026"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tdistrict_label\tstatus\tprimary_winner\tprimary_party\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tprimary_date\nKY\t3\t3\tPrimary\tMorgan McGarvey\tD\tDavid Nichter\tR\tDonald Pay\tR\tMay 19, 2026\nKY\t5\t5\tPrimary\tNed Pillersdorf\tD\tHal Rogers\tR\tKevin Smith\tR\tMay 19, 2026\n",
+  "stderr": "",
+  "execution_time_ms": 264
+}

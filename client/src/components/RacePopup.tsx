@@ -305,7 +305,96 @@ function PrimaryMatchupSection({
   primaryWinner?: string | null;
 }) {
   const primaryColor = "#a855f7"; // purple-500
-  // Substitute placeholder text when AP sends "Total Write-ins" as a candidate
+
+  // Format vote pct for display
+  const fmt = (v: string | number | null | undefined) => {
+    if (v === null || v === undefined) return null;
+    const n = parseFloat(String(v));
+    return isNaN(n) || n <= 0 ? null : n % 1 === 0 ? String(n) : n.toFixed(1);
+  };
+  const pctRep = pctReporting ? parseFloat(String(pctReporting)) : 0;
+
+  // Collect all candidates for live results list (suppress write-ins)
+  const allCandidates = [
+    { name: candidate1Name, party: candidate1Party, pct: fmt(candidate1VotePct) },
+    { name: candidate2Name, party: candidate2Party, pct: fmt(candidate2VotePct) },
+  ].filter(c => c.name && !isWriteInEntry(c.name))
+   .sort((a, b) => (parseFloat(b.pct ?? "0") || 0) - (parseFloat(a.pct ?? "0") || 0));
+
+  // Context lines
+  const contextLines: string[] = [];
+  if (primaryDate) contextLines.push(`Primary election: ${primaryDate}.`);
+  if (generalDate) contextLines.push(`General election: ${generalDate}.`);
+  if (notes) contextLines.push(notes);
+
+  // ── LIVE COUNTING VIEW (no winner yet) ──────────────────────────────────────
+  // Show a simple results list — NOT a VS matchup card.
+  // The VS card is only appropriate once a winner is confirmed.
+  if (!primaryWinner) {
+    return (
+      <>
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Primary — Live Results</p>
+          <div className="flex items-center gap-2">
+            {pctRep > 0 && (
+              <span className="text-xs text-muted-foreground">{pctRep.toFixed(1)}% reporting</span>
+            )}
+            <span className="text-xs font-bold px-2 py-0.5 rounded"
+              style={{ background: primaryColor + "22", color: primaryColor, border: "1px solid " + primaryColor + "44" }}>
+              {primaryDate ?? "Primary"}
+            </span>
+          </div>
+        </div>
+        <div className="rounded-lg border mb-3 overflow-hidden" style={{ borderColor: primaryColor + "33" }}>
+          {allCandidates.length === 0 ? (
+            <div className="px-3 py-4 text-center text-xs text-muted-foreground italic">Awaiting results…</div>
+          ) : (
+            <div className="divide-y divide-white/5">
+              {allCandidates.map((c, i) => {
+                const cColor = getPartyColor(c.party as any);
+                const pctNum = parseFloat(c.pct ?? "0") || 0;
+                return (
+                  <div key={i} className="flex items-center gap-3 px-3 py-2.5">
+                    <CandidateAvatar name={c.name} party={c.party} size={36} />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-sm font-semibold truncate">{c.name}</span>
+                        <span className="text-sm font-bold flex-shrink-0" style={{ color: cColor }}>
+                          {c.pct ? `${c.pct}%` : "—"}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <span className="text-xs" style={{ color: cColor }}>{getPartyLabel(c.party as any)}</span>
+                      </div>
+                      <VoteBar pct={pctNum} party={c.party} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          {pctRep === 0 && (
+            <div className="px-3 py-2 border-t border-white/5 text-center">
+              <span className="text-xs text-muted-foreground italic">Polls open — results will appear as precincts report</span>
+            </div>
+          )}
+        </div>
+        {contextLines.length > 0 && (
+          <div className="mb-3 bg-purple-900/20 border border-purple-700/30 rounded px-2.5 py-2 space-y-1">
+            {contextLines.map((line, idx) => (
+              <div key={idx} className="flex items-start gap-1.5">
+                <span className="text-purple-400/70 mt-0.5 flex-shrink-0 text-[10px]">▸</span>
+                <span className="text-xs text-purple-200/90 leading-snug">{line}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </>
+    );
+  }
+
+  // ── WINNER CALLED VIEW ──────────────────────────────────────────────────────
+  // Show the VS card only after a winner is confirmed by AP.
   const c1IsWriteIn = isWriteInEntry(candidate1Name);
   const c2IsWriteIn = isWriteInEntry(candidate2Name);
   const displayC1Name = c1IsWriteIn ? "Results Pending" : candidate1Name;
@@ -315,27 +404,13 @@ function PrimaryMatchupSection({
   const c1Color = getPartyColor((c1IsWriteIn ? "I" : candidate1Party) as any);
   const c2Color = getPartyColor((c2IsWriteIn ? "I" : candidate2Party) as any);
   const photoSize = chamber === "senate" || chamber === "governor" ? 72 : 60;
-
-  // Format vote pct for display
-  const fmt = (v: string | number | null | undefined) => {
-    if (v === null || v === undefined) return null;
-    const n = parseFloat(String(v));
-    return isNaN(n) || n <= 0 ? null : n % 1 === 0 ? String(n) : n.toFixed(1);
-  };
   const c1Pct = fmt(candidate1VotePct);
   const c2Pct = fmt(candidate2VotePct);
-  const pctRep = pctReporting ? parseFloat(String(pctReporting)) : 0;
-
-  // Context lines
-  const contextLines: string[] = [];
-  if (primaryDate) contextLines.push(`Primary election: ${primaryDate}.`);
-  if (generalDate) contextLines.push(`General election: ${generalDate}.`);
-  if (notes) contextLines.push(notes);
 
   return (
     <>
       <div className="flex items-center justify-between mb-2">
-        <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Primary Election Matchup</p>
+        <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Primary Winner</p>
         <span className="text-xs font-bold px-2 py-0.5 rounded"
           style={{ background: primaryColor + "22", color: primaryColor, border: "1px solid " + primaryColor + "44" }}>
           {primaryDate ?? "Primary"}

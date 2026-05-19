@@ -1491,3 +1491,12 @@
 - [x] Toast filter: skip if lastEvent.electionDate !== todayET — no more past-race toasts
 - [x] Toast label now shows "State · Chamber District" (e.g. "Kentucky · House KY-3")
 - [x] Run all 58 tests — all passing, TypeScript: 0 errors
+
+## PrimaryMatchupSection Fix — No Premature VS Card (May 19, 2026)
+- [x] PrimaryMatchupSection now shows "Primary — Live Results" list when primaryWinner is null
+- [x] Live results list: candidate rows with party color, vote %, vote bar, sorted by leading %
+- [x] Shows "Awaiting results…" when no candidates have vote data yet
+- [x] Shows "Polls open — results will appear as precincts report" when pctReporting = 0
+- [x] VS matchup card only shown after primaryWinner is confirmed by AP (winner called view)
+- [x] Both SenatePopup and HousePopup use PrimaryMatchupSection — both benefit automatically
+- [x] Run all 58 tests — all passing, TypeScript: 0 errors
