@@ -1508,3 +1508,10 @@
 - [x] hasPrimaryRaces state auto-detects on data load — no manual toggle needed
 - [x] Hard setInterval safety net also uses REFETCH_INTERVAL dynamically
 - [x] Run all 58 tests — all passing, TypeScript: 0 errors
+
+## Primary Popup UX Fixes (May 19, 2026)
+- [x] Added disclaimer note below live results: "Results shown are primary election returns. Percentages reflect leading candidates as votes are counted — not final general election matchup."
+- [x] Note only appears when pctRep > 0 (not before polls close)
+- [x] Removed duplicate Open Seat row in HousePopup (isVacancy row suppressed — GeneralMatchupSection context box covers it)
+- [x] Removed duplicate Open Seat info in SenatePopup (incumbentRetiring row suppressed — context box covers it)
+- [x] Run all 58 tests — all passing, TypeScript: 0 errors

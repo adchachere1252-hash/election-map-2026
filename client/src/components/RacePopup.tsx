@@ -388,6 +388,11 @@ function PrimaryMatchupSection({
             </div>
           )}
         </div>
+        {pctRep > 0 && (
+          <p className="text-[10px] text-muted-foreground italic mb-2">
+            Results shown are primary election returns. Percentages reflect leading candidates as votes are counted — not final general election matchup.
+          </p>
+        )}
         {contextLines.length > 0 && (
           <div className="mb-3 bg-purple-900/20 border border-purple-700/30 rounded px-2.5 py-2 space-y-1">
             {contextLines.map((line, idx) => (
@@ -830,13 +835,12 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
         />
       )}
 
-      {race.incumbent && (
+      {race.incumbent && !race.incumbentRetiring && (
         <div className="flex items-center gap-2 mb-3 text-sm">
           <Users className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
           <span className="text-muted-foreground">Incumbent:</span>
           <PartyDot party={race.incumbentParty} />
           <span className="font-medium">{race.incumbent}</span>
-          {race.incumbentRetiring && <span className="text-orange-400 text-xs">(Retiring)</span>}
         </div>
       )}
 
@@ -1055,13 +1059,7 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
         )}
       </div>
 
-      {race.isVacancy ? (
-        <div className="flex items-center gap-2 mb-3 text-sm">
-          <Users className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
-          <span className="text-muted-foreground">Incumbent:</span>
-          <span className="text-orange-300 font-medium">Open Seat</span>
-        </div>
-      ) : race.incumbent && race.incumbent !== 'Vacant' && (
+      {!race.isVacancy && race.incumbent && race.incumbent !== 'Vacant' && (
         <div className="flex items-center gap-2 mb-3 text-sm">
           <Users className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
           <span className="text-muted-foreground">Incumbent:</span>
