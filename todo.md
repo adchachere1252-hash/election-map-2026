@@ -1472,3 +1472,13 @@
 - [x] Election Night queue filters: General/Called/Certified only — OR/KY in Primary won't appear until promoted
 - [x] Admin Primary tab shows all 14 OR/KY Primary races for manual winner entry if needed
 - [x] Run all 58 tests — all passing, TypeScript: 0 errors
+
+## Race-Called Toast & Log Panel (May 19, 2026 Election Night)
+- [x] Found toast implementation in Home.tsx (sonner, 6s, no queue)
+- [x] Extended toast duration to 10.5 seconds
+- [x] Added FIFO toast queue (toastQueueRef + toastActiveRef) — one toast at a time, next auto-shows on dismiss/autoClose
+- [x] Upgraded ElectionSocketContext to maintain raceCallLog array with addToLog() + clearLog()
+- [x] Persisted raceCallLog in localStorage keyed to today's ET date (election_race_log_YYYY-MM-DD)
+- [x] Built RaceCalledLog component — collapsible panel, bottom-left of map, party-colored border-l, timestamp, trash button
+- [x] Mounted RaceCalledLog inside map area in Home.tsx
+- [x] Run all 58 tests — all passing, TypeScript: 0 errors

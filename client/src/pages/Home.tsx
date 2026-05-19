@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import type { SenateRace, HouseRace, RedistrictingState, Referendum, Senator } from "../../../drizzle/schema";
 import SenatorDetailPopup from "@/components/SenatorDetailPopup";
 import { useElectionSocket } from "@/contexts/ElectionSocketContext";
+import { RaceCalledLog } from "@/components/RaceCalledLog";
 import ResultsTicker from "@/components/ResultsTicker";
 import KeyRaces from "@/components/KeyRaces";
 import { useElectionChime } from "@/hooks/useElectionChime";
@@ -173,20 +174,39 @@ export default function Home() {
   });
   const viewerCount = viewerData?.count ?? 0;
 
-  // Show a toast notification whenever a race is called via live push
+  // Toast queue — show one race-called toast at a time, 10.5s each
+  const toastQueueRef = useRef<Array<{ title: string; description: string }>>([]);
+  const toastActiveRef = useRef(false);
+
+  const showNextToast = useCallback(() => {
+    if (toastQueueRef.current.length === 0) {
+      toastActiveRef.current = false;
+      return;
+    }
+    const next = toastQueueRef.current.shift()!;
+    toastActiveRef.current = true;
+    toast.success(next.title, {
+      description: next.description,
+      duration: 10500,
+      onDismiss: showNextToast,
+      onAutoClose: showNextToast,
+    });
+  }, []);
+
   useEffect(() => {
     if (!lastEvent || lastEvent.type !== "race_called") return;
     const partyLabel = lastEvent.calledParty === "D" ? "Democrat" : lastEvent.calledParty === "R" ? "Republican" : lastEvent.calledParty;
-    const chamberLabel = lastEvent.chamber === "senate" ? "Senate" : "House";
+    const chamberLabel = lastEvent.chamber === "senate" ? "Senate" : lastEvent.chamber === "governor" ? "Governor" : "House";
     const locationLabel = lastEvent.chamber === "house" && lastEvent.districtLabel
       ? `${lastEvent.stateCode}-${lastEvent.districtLabel}`
       : lastEvent.stateName ?? lastEvent.stateCode;
-    toast.success(`⚡ ${chamberLabel} race called — ${locationLabel}`, {
+    toastQueueRef.current.push({
+      title: `⚡ ${chamberLabel} race called — ${locationLabel}`,
       description: `${lastEvent.calledWinner} (${partyLabel}) wins`,
-      duration: 6000,
     });
     playChime();
-  }, [lastEvent, playChime]);
+    if (!toastActiveRef.current) showNextToast();
+  }, [lastEvent, playChime, showNextToast]);
 
   const { data: senateRaces = [], refetch: refetchSenate } = trpc.senate.list.useQuery(undefined, { refetchInterval: 10_000, refetchIntervalInBackground: true, refetchOnWindowFocus: true });
   const { data: houseRaces = [], refetch: refetchHouse } = trpc.house.list.useQuery(undefined, { refetchInterval: 10_000, refetchIntervalInBackground: true, refetchOnWindowFocus: true });
@@ -854,6 +874,9 @@ export default function Home() {
               <span className="sm:hidden">Tap any state to view race details</span>
             </div>
           )}
+
+          {/* Race Called Log — bottom-left, election night persistent panel */}
+          <RaceCalledLog />
         </main>
 
         {/* Desktop popup — fixed top-right, outside main so overflow-hidden doesn't clip it */}
