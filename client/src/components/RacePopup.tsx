@@ -321,6 +321,15 @@ function PrimaryMatchupSection({
   ].filter(c => c.name && !isWriteInEntry(c.name))
    .sort((a, b) => (parseFloat(b.pct ?? "0") || 0) - (parseFloat(a.pct ?? "0") || 0));
 
+  // Determine party label for header — if all valid candidates share the same party, show "[Party] Primary"
+  const validParties = allCandidates.map(c => c.party).filter(Boolean);
+  const uniqueParties = Array.from(new Set(validParties));
+  const partyPrimaryLabel = uniqueParties.length === 1
+    ? uniqueParties[0] === "R" ? "Republican Primary"
+    : uniqueParties[0] === "D" ? "Democratic Primary"
+    : "Primary"
+    : "Primary";
+
   // Context lines
   const contextLines: string[] = [];
   if (primaryDate) contextLines.push(`Primary election: ${primaryDate}.`);
@@ -334,7 +343,7 @@ function PrimaryMatchupSection({
     return (
       <>
         <div className="flex items-center justify-between mb-2">
-          <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Primary — Live Results</p>
+          <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">{partyPrimaryLabel} — Live Results</p>
           <div className="flex items-center gap-2">
             {pctRep > 0 && (
               <span className="text-xs text-muted-foreground">{pctRep.toFixed(1)}% reporting</span>

@@ -213,14 +213,24 @@ export default function Home() {
     if (!toastActiveRef.current) showNextToast();
   }, [lastEvent, playChime, showNextToast]);
 
-  const { data: senateRaces = [], refetch: refetchSenate } = trpc.senate.list.useQuery(undefined, { refetchInterval: 10_000, refetchIntervalInBackground: true, refetchOnWindowFocus: true });
-  const { data: houseRaces = [], refetch: refetchHouse } = trpc.house.list.useQuery(undefined, { refetchInterval: 10_000, refetchIntervalInBackground: true, refetchOnWindowFocus: true });
-  const { data: redistrictingStates = [], refetch: refetchRedistricting } = trpc.redistricting.list.useQuery(undefined, { refetchInterval: 10_000, refetchIntervalInBackground: true, refetchOnWindowFocus: true });
-  const { data: referendums = [], refetch: refetchReferendums } = trpc.referendum.list.useQuery(undefined, { refetchInterval: 10_000, refetchIntervalInBackground: true, refetchOnWindowFocus: true });
-  const { data: senators = [] } = trpc.senators.list.useQuery();
-  const { data: governorRaces = [], refetch: refetchGovernor } = trpc.governor.list.useQuery(undefined, { refetchInterval: 10_000, refetchIntervalInBackground: true, refetchOnWindowFocus: true });
+  // Fetch all races — interval is dynamic: 10s when Primary races are active (election night), 30s otherwise
+  const [hasPrimaryRaces, setHasPrimaryRaces] = useState(false);
+  const REFETCH_INTERVAL = hasPrimaryRaces ? 10_000 : 30_000;
 
-  // Hard interval as a safety net — fires every 10s regardless of tab focus/visibility
+  const { data: senateRaces = [], refetch: refetchSenate } = trpc.senate.list.useQuery(undefined, { refetchInterval: REFETCH_INTERVAL, refetchIntervalInBackground: true, refetchOnWindowFocus: true });
+  const { data: houseRaces = [], refetch: refetchHouse } = trpc.house.list.useQuery(undefined, { refetchInterval: REFETCH_INTERVAL, refetchIntervalInBackground: true, refetchOnWindowFocus: true });
+  const { data: redistrictingStates = [], refetch: refetchRedistricting } = trpc.redistricting.list.useQuery(undefined, { refetchInterval: REFETCH_INTERVAL, refetchIntervalInBackground: true, refetchOnWindowFocus: true });
+  const { data: referendums = [], refetch: refetchReferendums } = trpc.referendum.list.useQuery(undefined, { refetchInterval: REFETCH_INTERVAL, refetchIntervalInBackground: true, refetchOnWindowFocus: true });
+  const { data: senators = [] } = trpc.senators.list.useQuery();
+  const { data: governorRaces = [], refetch: refetchGovernor } = trpc.governor.list.useQuery(undefined, { refetchInterval: REFETCH_INTERVAL, refetchIntervalInBackground: true, refetchOnWindowFocus: true });
+
+  // Detect active Primary races to switch to faster refresh interval on election night
+  useEffect(() => {
+    const anyPrimary = senateRaces.some(r => r.status === "Primary") || houseRaces.some(r => r.status === "Primary");
+    setHasPrimaryRaces(anyPrimary);
+  }, [senateRaces, houseRaces]);
+
+  // Hard interval as a safety net — fires at the same dynamic interval regardless of tab focus/visibility
   useEffect(() => {
     const id = setInterval(() => {
       refetchSenate();
@@ -228,9 +238,9 @@ export default function Home() {
       refetchRedistricting();
       refetchReferendums();
       refetchGovernor();
-    }, 10_000);
+    }, REFETCH_INTERVAL);
     return () => clearInterval(id);
-  }, [refetchSenate, refetchHouse, refetchRedistricting, refetchReferendums, refetchGovernor]);
+  }, [REFETCH_INTERVAL, refetchSenate, refetchHouse, refetchRedistricting, refetchReferendums, refetchGovernor]);
 
   // Build a Set of matching keys for map highlighting based on live search query
   const searchHighlight = useMemo((): Set<string> | null => {

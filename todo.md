@@ -1500,3 +1500,11 @@
 - [x] VS matchup card only shown after primaryWinner is confirmed by AP (winner called view)
 - [x] Both SenatePopup and HousePopup use PrimaryMatchupSection — both benefit automatically
 - [x] Run all 58 tests — all passing, TypeScript: 0 errors
+
+## Primary Popup Polish (May 19, 2026)
+- [x] Added party primary label: "Republican Primary", "Democratic Primary", or "Primary" based on unique parties
+- [x] Uses Array.from(new Set()) to deduplicate parties (TS-safe, no spread of Set)
+- [x] Dynamic refetch interval: 10s when any Primary race is active, 30s otherwise
+- [x] hasPrimaryRaces state auto-detects on data load — no manual toggle needed
+- [x] Hard setInterval safety net also uses REFETCH_INTERVAL dynamically
+- [x] Run all 58 tests — all passing, TypeScript: 0 errors
