@@ -356,11 +356,11 @@ async function startServer() {
     console.log(`Server running on http://localhost:${port}/`);
   });
 
-  // ── Auto AP update: pull fresh results every 2 minutes ──────────────────────
+  // ── Auto AP update: pull fresh results every 1 minute ───────────────────────
   // This runs server-side so results flow in automatically without needing
   // an external heartbeat. Only runs when there are active election dates.
   const { scrapeAndPushResults } = await import("../scheduledApUpdate");
-  const AUTO_UPDATE_INTERVAL_MS = 2 * 60 * 1000; // 2 minutes
+  const AUTO_UPDATE_INTERVAL_MS = 1 * 60 * 1000; // 1 minute (election night speed)
   setInterval(async () => {
     try {
       const result = await scrapeAndPushResults();
