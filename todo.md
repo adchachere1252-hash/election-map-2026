@@ -1482,3 +1482,12 @@
 - [x] Built RaceCalledLog component — collapsible panel, bottom-left of map, party-colored border-l, timestamp, trash button
 - [x] Mounted RaceCalledLog inside map area in Home.tsx
 - [x] Run all 58 tests — all passing, TypeScript: 0 errors
+
+## Toast & Log Panel Fixes (May 19, 2026)
+- [x] Removed RaceCalledLog panel from map area (import + JSX mount both removed)
+- [x] Added broadcastedRaces Set in scheduledApUpdate.ts — each race only broadcasts once per server session
+- [x] Added electionDate field to RaceCalledEvent (ws.ts, routers.ts, scheduledApUpdate.ts)
+- [x] Updated ElectionSocketContext ElectionEvent type with optional electionDate field
+- [x] Toast filter: skip if lastEvent.electionDate !== todayET — no more past-race toasts
+- [x] Toast label now shows "State · Chamber District" (e.g. "Kentucky · House KY-3")
+- [x] Run all 58 tests — all passing, TypeScript: 0 errors

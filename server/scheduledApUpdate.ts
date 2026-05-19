@@ -18,6 +18,12 @@ import {
 } from "./db";
 import { broadcastElectionEvent } from "./ws";
 
+// ── Broadcast deduplication ────────────────────────────────────────────────────
+// Tracks race IDs that have already had their "called" event broadcast this
+// server session. Prevents the same race firing a toast on every AP cycle.
+// Key format: "<electionDate>:<stateCode>:<chamber>:<district|0>"
+const broadcastedRaces = new Set<string>();
+
 // ── AP Elections data API ──────────────────────────────────────────────────────
 const AP_DATA_BASE = "https://interactives.apelections.org/election-results/data-live";
 
@@ -386,23 +392,30 @@ export async function scrapeAndPushResults(): Promise<{
         try {
           await fn(id, payload);
           updates.push({ race: label, id, status: "ok" });
-          // Broadcast WS if race was called
+          // Broadcast WS if race was called — only once per race per server session
           if (payload.calledWinner || payload.primaryWinner) {
             const winner = String(payload.calledWinner ?? payload.primaryWinner);
             const party = String(payload.calledParty ?? payload.primaryParty ?? "");
             const isSenate = label.toLowerCase().includes("senate");
             const isGov = label.toLowerCase().includes("gov");
             const districtMatch = label.match(/(\d+)$/);
-            broadcastElectionEvent({
-              type: "race_called",
-              chamber: isSenate ? "senate" : isGov ? "governor" : "house",
-              stateCode,
-              calledParty: party,
-              calledWinner: winner,
-              district: districtMatch ? parseInt(districtMatch[1]) : undefined,
-              districtLabel: label,
-              timestamp: new Date().toISOString(),
-            });
+            const chamber = isSenate ? "senate" : isGov ? "governor" : "house";
+            const districtNum = districtMatch ? parseInt(districtMatch[1]) : 0;
+            const broadcastKey = `${activeDate}:${stateCode}:${chamber}:${districtNum}`;
+            if (!broadcastedRaces.has(broadcastKey)) {
+              broadcastedRaces.add(broadcastKey);
+              broadcastElectionEvent({
+                type: "race_called",
+                chamber,
+                stateCode,
+                calledParty: party,
+                calledWinner: winner,
+                district: districtMatch ? parseInt(districtMatch[1]) : undefined,
+                districtLabel: label,
+                electionDate: activeDate,
+                timestamp: new Date().toISOString(),
+              });
+            }
           }
         } catch (err) {
           const msg = err instanceof Error ? err.message : String(err);

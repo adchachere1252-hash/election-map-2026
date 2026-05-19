@@ -20,6 +20,7 @@ export type ElectionEvent =
       districtLabel?: string;
       calledWinner: string;
       calledParty: string;
+      electionDate?: string; // ISO date e.g. "2026-05-19" — which election night this call belongs to
       timestamp: string;
     }
   | {

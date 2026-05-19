@@ -12,6 +12,7 @@ export interface RaceCalledEvent {
   district?: number;
   calledParty: string;
   calledWinner: string;
+  electionDate: string; // ISO date string e.g. "2026-05-19" — which election night this call belongs to
   timestamp: string;
 }
 

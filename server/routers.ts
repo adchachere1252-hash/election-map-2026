@@ -431,6 +431,7 @@ export const appRouter = router({
             districtLabel: chamber === "house" && raceInfo && "districtLabel" in raceInfo ? raceInfo.districtLabel : undefined,
             calledParty: input.calledParty,
             calledWinner: input.calledWinner,
+            electionDate: new Date().toLocaleDateString("en-CA", { timeZone: "America/New_York" }),
             timestamp: new Date().toISOString(),
           });
         } else if ((input.status === "General" || govStatus === "Voting") && !input.calledWinner) {
@@ -489,6 +490,7 @@ export const appRouter = router({
                 district: chamber === "house" ? id : undefined,
                 calledParty: u.calledParty,
                 calledWinner: u.calledWinner,
+                electionDate: new Date().toLocaleDateString("en-CA", { timeZone: "America/New_York" }),
                 timestamp: new Date().toISOString(),
               });
             }

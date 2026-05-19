@@ -14,7 +14,6 @@ import { toast } from "sonner";
 import type { SenateRace, HouseRace, RedistrictingState, Referendum, Senator } from "../../../drizzle/schema";
 import SenatorDetailPopup from "@/components/SenatorDetailPopup";
 import { useElectionSocket } from "@/contexts/ElectionSocketContext";
-import { RaceCalledLog } from "@/components/RaceCalledLog";
 import ResultsTicker from "@/components/ResultsTicker";
 import KeyRaces from "@/components/KeyRaces";
 import { useElectionChime } from "@/hooks/useElectionChime";
@@ -195,13 +194,19 @@ export default function Home() {
 
   useEffect(() => {
     if (!lastEvent || lastEvent.type !== "race_called") return;
+    // Only show toasts for tonight's election date — filter out past called races
+    const todayET = new Date().toLocaleDateString("en-CA", { timeZone: "America/New_York" });
+    if (lastEvent.electionDate && lastEvent.electionDate !== todayET) return;
     const partyLabel = lastEvent.calledParty === "D" ? "Democrat" : lastEvent.calledParty === "R" ? "Republican" : lastEvent.calledParty;
-    const chamberLabel = lastEvent.chamber === "senate" ? "Senate" : lastEvent.chamber === "governor" ? "Governor" : "House";
-    const locationLabel = lastEvent.chamber === "house" && lastEvent.districtLabel
-      ? `${lastEvent.stateCode}-${lastEvent.districtLabel}`
-      : lastEvent.stateName ?? lastEvent.stateCode;
+    const stateName = lastEvent.stateName ?? lastEvent.stateCode;
+    // Build a clear "State · Chamber District" label
+    const raceLabel = lastEvent.chamber === "senate"
+      ? `${stateName} · Senate`
+      : lastEvent.chamber === "governor"
+      ? `${stateName} · Governor`
+      : `${stateName} · ${lastEvent.districtLabel ?? lastEvent.stateCode}`;
     toastQueueRef.current.push({
-      title: `⚡ ${chamberLabel} race called — ${locationLabel}`,
+      title: `⚡ Race called — ${raceLabel}`,
       description: `${lastEvent.calledWinner} (${partyLabel}) wins`,
     });
     playChime();
@@ -875,8 +880,6 @@ export default function Home() {
             </div>
           )}
 
-          {/* Race Called Log — bottom-left, election night persistent panel */}
-          <RaceCalledLog />
         </main>
 
         {/* Desktop popup — fixed top-right, outside main so overflow-hidden doesn't clip it */}
