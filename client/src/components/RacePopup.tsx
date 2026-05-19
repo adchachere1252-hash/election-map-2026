@@ -362,12 +362,21 @@ function PrimaryMatchupSection({
               {allCandidates.map((c, i) => {
                 const cColor = getPartyColor(c.party as any);
                 const pctNum = parseFloat(c.pct ?? "0") || 0;
+                const isLeading = i === 0 && pctRep > 0 && pctNum > 0;
                 return (
-                  <div key={i} className="flex items-center gap-3 px-3 py-2.5">
+                  <div key={i} className={`flex items-center gap-3 px-3 py-2.5 ${isLeading ? "bg-white/[0.03]" : ""}`}>
                     <CandidateAvatar name={c.name} party={c.party} size={36} />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
-                        <span className="text-sm font-semibold truncate">{c.name}</span>
+                        <div className="flex items-center gap-1.5 min-w-0">
+                          <span className="text-sm font-semibold truncate">{c.name}</span>
+                          {isLeading && (
+                            <span className="flex-shrink-0 flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded"
+                              style={{ background: cColor + "22", color: cColor, border: "1px solid " + cColor + "44" }}>
+                              ▲ Leading
+                            </span>
+                          )}
+                        </div>
                         <span className="text-sm font-bold flex-shrink-0" style={{ color: cColor }}>
                           {c.pct ? `${c.pct}%` : "—"}
                         </span>
