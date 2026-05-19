@@ -1460,3 +1460,15 @@
 - [x] Added PrimaryMatchupSection component (purple, VS card, live vote bar, winner badge)
 - [x] Integrated PrimaryMatchupSection into SenatePopup and HousePopup ternary chains
 - [x] Run all 58 tests — all passing, TypeScript: 0 errors
+
+## Pre-Election Night Readiness (May 19, 2026)
+- [x] Filter "Total Write-ins" from PrimaryMatchupSection display — shows "Results Pending" in italic gray
+- [x] Filter "Total Write-ins" from CandidateRow fallback display (isWriteInEntry helper, returns null)
+- [x] AP Engine confirmed running every 2 minutes (AUTO_UPDATE_INTERVAL_MS = 2*60*1000), 0 errors
+- [x] AP Engine ELECTION_DATES confirmed: 2026-05-19 at index 2 (after Nov 3 and Jul 15)
+- [x] findActiveDate() tries dates most-recent-first; OR and KY will match 2026-05-19 tonight
+- [x] isGeneral = false for May 19 → AP Engine writes primaryWinner (not calledWinner) — ticker safe
+- [x] Primary-to-General promotion runs every 30 min; will auto-promote winners after AP calls races
+- [x] Election Night queue filters: General/Called/Certified only — OR/KY in Primary won't appear until promoted
+- [x] Admin Primary tab shows all 14 OR/KY Primary races for manual winner entry if needed
+- [x] Run all 58 tests — all passing, TypeScript: 0 errors

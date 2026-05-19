@@ -1,0 +1,59 @@
+{
+  "query": "\nSELECT 'Senate' as chamber, state_name, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, primary_date\nFROM senate_races WHERE status = 'Primary' ORDER BY state_name;\n\nSELECT 'House' as chamber, state_name, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, primary_date\nFROM house_races WHERE status = 'Primary' ORDER BY state_name, district;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT 'Senate' as chamber, state_name, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, primary_date\nFROM senate_races WHERE status = 'Primary' ORDER BY state_name;\n\nSELECT 'House' as chamber, state_name, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, primary_date\nFROM house_races WHERE status = 'Primary' ORDER BY state_name, district;\n",
+  "rows": [
+    {
+      "chamber": "Senate",
+      "state_name": "Kentucky",
+      "status": "Primary",
+      "candidate1_name": "Pamela Stevenson",
+      "candidate1_party": "D",
+      "candidate2_name": "Logan Forsythe",
+      "candidate2_party": "D",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "chamber": "Senate",
+      "state_name": "Oregon",
+      "status": "Primary",
+      "candidate1_name": "Total Write-ins",
+      "candidate1_party": "D",
+      "candidate2_name": "Paul Wells",
+      "candidate2_party": "D",
+      "primary_date": "May 19, 2026"
+    },
+    {
+      "chamber": "Senate",
+      "state_name": "Texas",
+      "status": "Primary",
+      "candidate1_name": "James Talarico",
+      "candidate1_party": "D",
+      "candidate2_name": "John Cornyn/Ken Paxton",
+      "candidate2_party": "R",
+      "primary_date": "March 3, 2026"
+    }
+  ],
+  "messages": [
+    "chamber\tstate_name\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tprimary_date",
+    "House\tKentucky\t1\tPrimary\tRobert Sutherby\tR\tDavid Sims\tR\tMay 19, 2026",
+    "House\tKentucky\t2\tPrimary\tG. Perry-Adelmann\tR\tJoshua Ferguson\tR\tMay 19, 2026",
+    "House\tKentucky\t3\tPrimary\tMorgan McGarvey\tD\tDavid Nichter\tR\tMay 19, 2026",
+    "House\tKentucky\t4\tPrimary\tEd Gallrein\tR\tThomas Massie\tR\tMay 19, 2026",
+    "House\tKentucky\t5\tPrimary\tBenjamin Hurley\tR\tJerry Shelton\tR\tMay 19, 2026",
+    "House\tKentucky\t6\tPrimary\tRalph Alvarado\tR\tRyan Dotson\tR\tMay 19, 2026",
+    "House\tOregon\t1\tPrimary\tTotal Write-ins\tR\tJohn Verbeek\tR\tMay 19, 2026",
+    "House\tOregon\t2\tPrimary\tTotal Write-ins\tR\tCliff Bentz\tR\tMay 19, 2026",
+    "House\tOregon\t3\tPrimary\tLoran Ayles\tR\tTotal Write-ins\tD\tMay 19, 2026",
+    "House\tOregon\t4\tPrimary\tTotal Write-ins\tD\tDaniel Bahlen\tD\tMay 19, 2026",
+    "House\tOregon\t5\tPrimary\tTotal Write-ins\tR\tPatti Adair\tR\tMay 19, 2026",
+    "House\tOregon\t6\tPrimary\tDavid Russ\tR\tAndrea Salinas\tD\tMay 19, 2026",
+    "House\tTexas\t19\tPrimary\tKyle Rable\tD\tTom Sell/AbrahamEnriquez (R runoff May 26)\tR\tMar 3, 2026",
+    "House\tTexas\t32\tPrimary\tDan Barrios\tD\tJace Yarbrough/Ryan Binkley (primary runoff on May 26, 2026)\tR\tMar 3, 2026",
+    "House\tTexas\t33\tPrimary\tColin Allred/Julie Johnson (primary runoff on May 26, 2026)\tD\tPatrick Gillespie/John Sims (primary runoff on May 26, 2026)\tR\tMar 3, 2026",
+    "House\tTexas\t35\tPrimary\tMaureen Galindo/Johnny Garcia (primary runoff on May 26, 2026)\tD\tJohn Lujan/Carlos De La Cruz (primary runoff on May 26, 2026)\tR\tMar 3, 2026",
+    "House\tTexas\t38\tPrimary\tMelissa McDonough\tD\tJon Bonck/ Shelly deZevallos (primary runoff on May 26, 2026)\tR\tMar 3, 2026"
+  ],
+  "stdout": "chamber\tstate_name\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tprimary_date\nSenate\tKentucky\tPrimary\tPamela Stevenson\tD\tLogan Forsythe\tD\tMay 19, 2026\nSenate\tOregon\tPrimary\tTotal Write-ins\tD\tPaul Wells\tD\tMay 19, 2026\nSenate\tTexas\tPrimary\tJames Talarico\tD\tJohn Cornyn/Ken Paxton\tR\tMarch 3, 2026\nchamber\tstate_name\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tprimary_date\nHouse\tKentucky\t1\tPrimary\tRobert Sutherby\tR\tDavid Sims\tR\tMay 19, 2026\nHouse\tKentucky\t2\tPrimary\tG. Perry-Adelmann\tR\tJoshua Ferguson\tR\tMay 19, 2026\nHouse\tKentucky\t3\tPrimary\tMorgan McGarvey\tD\tDavid Nichter\tR\tMay 19, 2026\nHouse\tKentucky\t4\tPrimary\tEd Gallrein\tR\tThomas Massie\tR\tMay 19, 2026\nHouse\tKentucky\t5\tPrimary\tBenjamin Hurley\tR\tJerry Shelton\tR\tMay 19, 2026\nHouse\tKentucky\t6\tPrimary\tRalph Alvarado\tR\tRyan Dotson\tR\tMay 19, 2026\nHouse\tOregon\t1\tPrimary\tTotal Write-ins\tR\tJohn Verbeek\tR\tMay 19, 2026\nHouse\tOregon\t2\tPrimary\tTotal Write-ins\tR\tCliff Bentz\tR\tMay 19, 2026\nHouse\tOregon\t3\tPrimary\tLoran Ayles\tR\tTotal Write-ins\tD\tMay 19, 2026\nHouse\tOregon\t4\tPrimary\tTotal Write-ins\tD\tDaniel Bahlen\tD\tMay 19, 2026\nHouse\tOregon\t5\tPrimary\tTotal Write-ins\tR\tPatti Adair\tR\tMay 19, 2026\nHouse\tOregon\t6\tPrimary\tDavid Russ\tR\tAndrea Salinas\tD\tMay 19, 2026\nHouse\tTexas\t19\tPrimary\tKyle Rable\tD\tTom Sell/AbrahamEnriquez (R runoff May 26)\tR\tMar 3, 2026\nHouse\tTexas\t32\tPrimary\tDan Barrios\tD\tJace Yarbrough/Ryan Binkley (primary runoff on May 26, 2026)\tR\tMar 3, 2026\nHouse\tTexas\t33\tPrimary\tColin Allred/Julie Johnson (primary runoff on May 26, 2026)\tD\tPatrick Gillespie/John Sims (primary runoff on May 26, 2026)\tR\tMar 3, 2026\nHouse\tTexas\t35\tPrimary\tMaureen Galindo/Johnny Garcia (primary runoff on May 26, 2026)\tD\tJohn Lujan/Carlos De La Cruz (primary runoff on May 26, 2026)\tR\tMar 3, 2026\nHouse\tTexas\t38\tPrimary\tMelissa McDonough\tD\tJon Bonck/ Shelly deZevallos (primary runoff on May 26, 2026)\tR\tMar 3, 2026\n",
+  "stderr": "",
+  "execution_time_ms": 266
+}

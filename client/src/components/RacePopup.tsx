@@ -63,10 +63,15 @@ function VoteBar({ pct, party }: { pct: number; party: string | null | undefined
   );
 }
 
+/** AP feed includes "Total Write-ins" as a candidate record — suppress it from all UI displays */
+const isWriteInEntry = (name: string | null | undefined) =>
+  !name || name.toLowerCase().includes("write-in") || name.toLowerCase() === "total write-ins";
+
 function CandidateRow({
   name, party, votePct, isWinner, isEliminated, showVotes
 }: { name: string | null | undefined; party: string | null | undefined; votePct: string | number | null | undefined; isWinner?: boolean; isEliminated?: boolean; showVotes?: boolean }) {
   if (!name) return null;
+  if (isWriteInEntry(name)) return null; // Suppress AP write-in entries
   // If a race has been called and this is NOT the winner, hide this candidate
   if (isEliminated) return null;
   const pctNum = votePct !== null && votePct !== undefined ? parseFloat(String(votePct)) : null;
@@ -300,8 +305,15 @@ function PrimaryMatchupSection({
   primaryWinner?: string | null;
 }) {
   const primaryColor = "#a855f7"; // purple-500
-  const c1Color = getPartyColor(candidate1Party as any);
-  const c2Color = getPartyColor(candidate2Party as any);
+  // Substitute placeholder text when AP sends "Total Write-ins" as a candidate
+  const c1IsWriteIn = isWriteInEntry(candidate1Name);
+  const c2IsWriteIn = isWriteInEntry(candidate2Name);
+  const displayC1Name = c1IsWriteIn ? "Results Pending" : candidate1Name;
+  const displayC2Name = c2IsWriteIn ? "Results Pending" : candidate2Name;
+  const displayC1Party = c1IsWriteIn ? null : candidate1Party;
+  const displayC2Party = c2IsWriteIn ? null : candidate2Party;
+  const c1Color = getPartyColor((c1IsWriteIn ? "I" : candidate1Party) as any);
+  const c2Color = getPartyColor((c2IsWriteIn ? "I" : candidate2Party) as any);
   const photoSize = chamber === "senate" || chamber === "governor" ? 72 : 60;
 
   // Format vote pct for display
@@ -339,17 +351,19 @@ function PrimaryMatchupSection({
           <div className="flex flex-col items-center gap-1.5 flex-1 min-w-0 px-3 pt-4 pb-3 z-10">
             <div className="rounded-full p-[3px] flex-shrink-0"
               style={{ background: "linear-gradient(135deg, " + c1Color + ", " + c1Color + "88)" }}>
-              <CandidateAvatar name={candidate1Name} party={candidate1Party} size={photoSize} />
+              <CandidateAvatar name={displayC1Name} party={displayC1Party} size={photoSize} />
             </div>
-            <span className="text-sm font-bold text-center leading-tight">{candidate1Name}</span>
-            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full"
-              style={{ background: c1Color + "33", color: c1Color, border: "1px solid " + c1Color + "55" }}>
-              {getPartyLabel(candidate1Party as any)}
-            </span>
-            {c1Pct && (
+            <span className={`text-sm font-bold text-center leading-tight ${c1IsWriteIn ? "text-muted-foreground italic" : ""}`}>{displayC1Name}</span>
+            {!c1IsWriteIn && (
+              <span className="text-xs font-bold px-2.5 py-0.5 rounded-full"
+                style={{ background: c1Color + "33", color: c1Color, border: "1px solid " + c1Color + "55" }}>
+                {getPartyLabel(candidate1Party as any)}
+              </span>
+            )}
+            {c1Pct && !c1IsWriteIn && (
               <span className="text-xs font-semibold" style={{ color: primaryColor }}>{c1Pct}%</span>
             )}
-            {primaryWinner === candidate1Name && (
+            {primaryWinner === candidate1Name && !c1IsWriteIn && (
               <span className="text-xs font-bold text-green-400">✓ Winner</span>
             )}
           </div>
@@ -365,17 +379,19 @@ function PrimaryMatchupSection({
           <div className="flex flex-col items-center gap-1.5 flex-1 min-w-0 px-3 pt-4 pb-3 z-10">
             <div className="rounded-full p-[3px] flex-shrink-0"
               style={{ background: "linear-gradient(135deg, " + c2Color + ", " + c2Color + "88)" }}>
-              <CandidateAvatar name={candidate2Name} party={candidate2Party} size={photoSize} />
+              <CandidateAvatar name={displayC2Name} party={displayC2Party} size={photoSize} />
             </div>
-            <span className="text-sm font-bold text-center leading-tight">{candidate2Name}</span>
-            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full"
-              style={{ background: c2Color + "33", color: c2Color, border: "1px solid " + c2Color + "55" }}>
-              {getPartyLabel(candidate2Party as any)}
-            </span>
-            {c2Pct && (
+            <span className={`text-sm font-bold text-center leading-tight ${c2IsWriteIn ? "text-muted-foreground italic" : ""}`}>{displayC2Name}</span>
+            {!c2IsWriteIn && (
+              <span className="text-xs font-bold px-2.5 py-0.5 rounded-full"
+                style={{ background: c2Color + "33", color: c2Color, border: "1px solid " + c2Color + "55" }}>
+                {getPartyLabel(candidate2Party as any)}
+              </span>
+            )}
+            {c2Pct && !c2IsWriteIn && (
               <span className="text-xs font-semibold" style={{ color: primaryColor }}>{c2Pct}%</span>
             )}
-            {primaryWinner === candidate2Name && (
+            {primaryWinner === candidate2Name && !c2IsWriteIn && (
               <span className="text-xs font-bold text-green-400">✓ Winner</span>
             )}
           </div>
