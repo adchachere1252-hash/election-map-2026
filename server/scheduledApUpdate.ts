@@ -112,6 +112,9 @@ interface RaceResult {
   candidates: CandidateResult[];
   // For general election (November)
   isGeneral?: boolean;
+  // Lock flags: set when DB already has a confirmed (non-TBD) candidate name
+  lockedDem?: unknown;
+  lockedRep?: unknown;
 }
 
 // ── Fetch AP data for a single state on a given election date ─────────────────
@@ -289,14 +292,18 @@ function buildUpdate(
       // Governor table uses demCandidate/repCandidate — map by party
       const dCand = sorted.find(c => c.party === 'D');
       const rCand = sorted.find(c => c.party === 'R');
-      if (dCand) {
+      // Only overwrite candidate name if the DB value is still TBD (no confirmed name yet)
+      // This prevents AP from reverting manually-corrected names (e.g. TX Gina Hinojosa)
+      const isLockedDem = race.lockedDem != null; // truthy = confirmed name already in DB
+      const isLockedRep = race.lockedRep != null;
+      if (dCand && !isLockedDem) {
         update.demCandidate = dCand.name;
-        update.demVotes = dCand.votes ?? 0;
       }
-      if (rCand) {
+      if (dCand) update.demVotes = dCand.votes ?? 0;
+      if (rCand && !isLockedRep) {
         update.repCandidate = rCand.name;
-        update.repVotes = rCand.votes ?? 0;
       }
+      if (rCand) update.repVotes = rCand.votes ?? 0;
     } else {
       if (sorted[0]) {
         update.candidate1Name = sorted[0].name;
@@ -453,9 +460,25 @@ export async function scrapeAndPushResults(): Promise<{
           updates.push({ race: label, id, status: "skip", detail: "Primary Runoff — manually curated" });
           return;
         }
+        // For governor races: skip entirely if both candidates are already confirmed (non-TBD)
+        if (raceType === 'governor') {
+          const isTBDVal = (v: unknown) => !v || String(v).startsWith('TBD') || String(v) === 'NULL';
+          const lockedD = (raceResult as any)?.lockedDem;
+          const lockedR = (raceResult as any)?.lockedRep;
+          if (!isTBDVal(lockedD) && !isTBDVal(lockedR)) {
+            updates.push({ race: label, id, status: "skip", detail: "Both candidates confirmed — skipping AP overwrite" });
+            return;
+          }
+        }
         const payload = buildUpdate(raceResult, isGeneral, raceType, currentStatus);
+        // For governor races: never overwrite confirmed (non-TBD) candidate names with AP data
+        if (raceType === 'governor') {
+          const isTBDVal = (v: unknown) => !v || String(v).startsWith('TBD') || String(v) === 'NULL';
+          if (raceResult && !isTBDVal((raceResult as any).lockedDem)) delete payload.demCandidate;
+          if (raceResult && !isTBDVal((raceResult as any).lockedRep)) delete payload.repCandidate;
+        }
         // Skip if payload is empty or has no meaningful values (undefined/null/0 don't generate SQL SET clauses)
-        const meaningfulValues = Object.entries(payload).filter(([, v]) => v !== undefined && v !== null);
+        const meaningfulValues = Object.entries(payload).filter(([, v]) => v !== undefined && v !== null && v !== 0);
         if (meaningfulValues.length === 0) {
           updates.push({ race: label, id, status: "skip", detail: "no AP data or all fields guarded" });
           return;
@@ -523,6 +546,10 @@ export async function scrapeAndPushResults(): Promise<{
       // Governor race for this state
       const stateGovRace = allGovernor.find(r => r.stateCode === stateCode);
       if (stateGovRace && governor) {
+        // Pass current DB candidate names as lock flags so buildUpdate won't overwrite confirmed names
+        const isTBD = (n: unknown) => !n || String(n).startsWith('TBD') || String(n) === 'NULL';
+        governor.lockedDem = isTBD(stateGovRace.demCandidate) ? undefined : stateGovRace.demCandidate;
+        governor.lockedRep = isTBD(stateGovRace.repCandidate) ? undefined : stateGovRace.repCandidate;
         await doUpdate(`${stateCode} Governor`, stateGovRace.id, governor, updateGovernorRace, 'governor', stateGovRace.status, stateGovRace.stateName);
       }
 

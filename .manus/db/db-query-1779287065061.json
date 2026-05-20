@@ -1,0 +1,25 @@
+{
+  "query": "SELECT state_code, dem_candidate, rep_candidate FROM governor_races WHERE state_code IN ('TX', 'PA', 'GA');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, dem_candidate, rep_candidate FROM governor_races WHERE state_code IN ('TX', 'PA', 'GA');",
+  "rows": [
+    {
+      "state_code": "TX",
+      "dem_candidate": "Vikki Goodwin",
+      "rep_candidate": "Greg Abbott (incumbent)"
+    },
+    {
+      "state_code": "PA",
+      "dem_candidate": "Austin Davis",
+      "rep_candidate": "Jason Richey"
+    },
+    {
+      "state_code": "GA",
+      "dem_candidate": "Keisha Lance Bottoms",
+      "rep_candidate": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdem_candidate\trep_candidate\nTX\tVikki Goodwin\tGreg Abbott (incumbent)\nPA\tAustin Davis\tJason Richey\nGA\tKeisha Lance Bottoms\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 258
+}

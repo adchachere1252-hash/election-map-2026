@@ -1,0 +1,130 @@
+{
+  "query": "SELECT state_code, state_name, status, dem_candidate, rep_candidate, incumbent_name, is_open, rating FROM governor_races WHERE state_code >= 'OH' ORDER BY state_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, status, dem_candidate, rep_candidate, incumbent_name, is_open, rating FROM governor_races WHERE state_code >= 'OH' ORDER BY state_code;",
+  "rows": [
+    {
+      "state_code": "OH",
+      "state_name": "Ohio",
+      "status": "Voting",
+      "dem_candidate": "Amy Acton",
+      "rep_candidate": "Vivek Ramaswamy",
+      "incumbent_name": "Open Seat",
+      "is_open": "1",
+      "rating": "Lean R"
+    },
+    {
+      "state_code": "OK",
+      "state_name": "Oklahoma",
+      "status": "Scheduled",
+      "dem_candidate": "TBD — Democratic Primary",
+      "rep_candidate": "TBD — Republican Primary",
+      "incumbent_name": "Open Seat",
+      "is_open": "1",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "OR",
+      "state_name": "Oregon",
+      "status": "Voting",
+      "dem_candidate": "Tina Kotek",
+      "rep_candidate": "Christine Drazan",
+      "incumbent_name": "Tina Kotek",
+      "is_open": "0",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "PA",
+      "state_name": "Pennsylvania",
+      "status": "Voting",
+      "dem_candidate": "Austin Davis",
+      "rep_candidate": "Jason Richey",
+      "incumbent_name": "Josh Shapiro",
+      "is_open": "0",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "RI",
+      "state_name": "Rhode Island",
+      "status": "Scheduled",
+      "dem_candidate": "Daniel McKee (incumbent)",
+      "rep_candidate": "TBD — Republican Primary",
+      "incumbent_name": "Dan McKee",
+      "is_open": "0",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "SC",
+      "state_name": "South Carolina",
+      "status": "Scheduled",
+      "dem_candidate": "TBD — Democratic Primary",
+      "rep_candidate": "TBD — Republican Primary",
+      "incumbent_name": "Open Seat",
+      "is_open": "1",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "SD",
+      "state_name": "South Dakota",
+      "status": "Scheduled",
+      "dem_candidate": "TBD — Democratic Primary",
+      "rep_candidate": "Larry Rhoden (incumbent)",
+      "incumbent_name": "Larry Rhoden",
+      "is_open": "0",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "TN",
+      "state_name": "Tennessee",
+      "status": "Scheduled",
+      "dem_candidate": "TBD — Democratic Primary",
+      "rep_candidate": "TBD — Republican Primary",
+      "incumbent_name": "Open Seat",
+      "is_open": "1",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "TX",
+      "state_name": "Texas",
+      "status": "Voting",
+      "dem_candidate": "Vikki Goodwin",
+      "rep_candidate": "Greg Abbott (incumbent)",
+      "incumbent_name": "Greg Abbott",
+      "is_open": "0",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "VT",
+      "state_name": "Vermont",
+      "status": "Scheduled",
+      "dem_candidate": "TBD — D Primary: Aug 11, 2026 (Janoo, Richards)",
+      "rep_candidate": "Phil Scott (incumbent)",
+      "incumbent_name": "Phil Scott",
+      "is_open": "0",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "WI",
+      "state_name": "Wisconsin",
+      "status": "Scheduled",
+      "dem_candidate": "TBD — D Primary: Aug 11, 2026",
+      "rep_candidate": "TBD — R Primary: Aug 11, 2026",
+      "incumbent_name": "Open Seat",
+      "is_open": "1",
+      "rating": "Toss-up"
+    },
+    {
+      "state_code": "WY",
+      "state_name": "Wyoming",
+      "status": "Scheduled",
+      "dem_candidate": "TBD — Democratic Primary",
+      "rep_candidate": "TBD — Republican Primary",
+      "incumbent_name": "Open Seat",
+      "is_open": "1",
+      "rating": "Solid R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstate_name\tstatus\tdem_candidate\trep_candidate\tincumbent_name\tis_open\trating\nOH\tOhio\tVoting\tAmy Acton\tVivek Ramaswamy\tOpen Seat\t1\tLean R\nOK\tOklahoma\tScheduled\tTBD — Democratic Primary\tTBD — Republican Primary\tOpen Seat\t1\tSolid R\nOR\tOregon\tVoting\tTina Kotek\tChristine Drazan\tTina Kotek\t0\tSolid D\nPA\tPennsylvania\tVoting\tAustin Davis\tJason Richey\tJosh Shapiro\t0\tSolid D\nRI\tRhode Island\tScheduled\tDaniel McKee (incumbent)\tTBD — Republican Primary\tDan McKee\t0\tSolid D\nSC\tSouth Carolina\tScheduled\tTBD — Democratic Primary\tTBD — Republican Primary\tOpen Seat\t1\tSolid R\nSD\tSouth Dakota\tScheduled\tTBD — Democratic Primary\tLarry Rhoden (incumbent)\tLarry Rhoden\t0\tSolid R\nTN\tTennessee\tScheduled\tTBD — Democratic Primary\tTBD — Republican Primary\tOpen Seat\t1\tSolid R\nTX\tTexas\tVoting\tVikki Goodwin\tGreg Abbott (incumbent)\tGreg Abbott\t0\tSolid R\nVT\tVermont\tScheduled\tTBD — D Primary: Aug 11, 2026 (Janoo, Richards)\tPhil Scott (incumbent)\tPhil Scott\t0\tSolid R\nWI\tWisconsin\tScheduled\tTBD — D Primary: Aug 11, 2026\tTBD — R Primary: Aug 11, 2026\tOpen Seat\t1\tToss-up\nWY\tWyoming\tScheduled\tTBD — Democratic Primary\tTBD — Republican Primary\tOpen Seat\t1\tSolid R\n",
+  "stderr": "",
+  "execution_time_ms": 264
+}

@@ -1,0 +1,38 @@
+{
+  "query": "SELECT state_code, dem_candidate, rep_candidate, status, notes FROM governor_races WHERE state_code IN ('TX', 'PA', 'ID', 'MN');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, dem_candidate, rep_candidate, status, notes FROM governor_races WHERE state_code IN ('TX', 'PA', 'ID', 'MN');",
+  "rows": [
+    {
+      "state_code": "TX",
+      "dem_candidate": "Vikki Goodwin",
+      "rep_candidate": "Greg Abbott (incumbent)",
+      "status": "Voting",
+      "notes": "Greg Abbott (R) won the Republican primary with 81.8%. Gina Hinojosa (D) won the Democratic primary with 58.5%. General election November 3, 2026."
+    },
+    {
+      "state_code": "PA",
+      "dem_candidate": "Josh Shapiro",
+      "rep_candidate": "Stacy Garrity",
+      "status": "Voting",
+      "notes": "Shapiro (D, incumbent) and Garrity (R, state treasurer) both won uncontested primaries on May 19. Garrity is Trump-endorsed. Rated Solid D."
+    },
+    {
+      "state_code": "ID",
+      "dem_candidate": "Terri Pickens",
+      "rep_candidate": "Brad Little",
+      "status": "Voting",
+      "notes": "Little won R primary (98.2% in). D nominee TBD — primary still being counted."
+    },
+    {
+      "state_code": "MN",
+      "dem_candidate": "Amy Klobuchar",
+      "rep_candidate": "TBD — R Primary: Aug 11, 2026",
+      "status": "Scheduled",
+      "notes": "Tim Walz left to run for VP; Peggy Flanagan appointed as acting governor. Open seat in 2026."
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdem_candidate\trep_candidate\tstatus\tnotes\nTX\tVikki Goodwin\tGreg Abbott (incumbent)\tVoting\tGreg Abbott (R) won the Republican primary with 81.8%. Gina Hinojosa (D) won the Democratic primary with 58.5%. General election November 3, 2026.\nPA\tJosh Shapiro\tStacy Garrity\tVoting\tShapiro (D, incumbent) and Garrity (R, state treasurer) both won uncontested primaries on May 19. Garrity is Trump-endorsed. Rated Solid D.\nID\tTerri Pickens\tBrad Little\tVoting\tLittle won R primary (98.2% in). D nominee TBD — primary still being counted.\nMN\tAmy Klobuchar\tTBD — R Primary: Aug 11, 2026\tScheduled\tTim Walz left to run for VP; Peggy Flanagan appointed as acting governor. Open seat in 2026.\n",
+  "stderr": "",
+  "execution_time_ms": 258
+}

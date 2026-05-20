@@ -1,0 +1,42 @@
+{
+  "query": "SELECT state_code, status, dem_candidate, rep_candidate, incumbent_name, incumbent_party, is_open, is_term_limited, rating, notes, runoff_date, general_date, primary_winner, primary_party FROM governor_races WHERE state_code IN ('GA', 'TX');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, status, dem_candidate, rep_candidate, incumbent_name, incumbent_party, is_open, is_term_limited, rating, notes, runoff_date, general_date, primary_winner, primary_party FROM governor_races WHERE state_code IN ('GA', 'TX');",
+  "rows": [
+    {
+      "state_code": "GA",
+      "status": "Primary Runoff",
+      "dem_candidate": "Keisha Lance Bottoms",
+      "rep_candidate": "NULL",
+      "incumbent_name": "Open Seat",
+      "incumbent_party": "R",
+      "is_open": "1",
+      "is_term_limited": "1",
+      "rating": "Toss-up",
+      "notes": "R primary runoff (June 16, 2026): Burt Jones (Lt. Governor, Trump-endorsed) vs. Rick Jackson (billionaire businessman). Winner faces Keisha Lance Bottoms (D) in November.",
+      "runoff_date": "June 16, 2026",
+      "general_date": "November 3, 2026",
+      "primary_winner": "Josh McLaurin",
+      "primary_party": "D"
+    },
+    {
+      "state_code": "TX",
+      "status": "Voting",
+      "dem_candidate": "Vikki Goodwin",
+      "rep_candidate": "Greg Abbott (incumbent)",
+      "incumbent_name": "Greg Abbott",
+      "incumbent_party": "R",
+      "is_open": "0",
+      "is_term_limited": "0",
+      "rating": "Solid R",
+      "notes": "Greg Abbott (R) won the Republican primary with 81.8%. Gina Hinojosa (D) won the Democratic primary with 58.5%. General election November 3, 2026.",
+      "runoff_date": "NULL",
+      "general_date": "November 3, 2026",
+      "primary_winner": "NULL",
+      "primary_party": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstatus\tdem_candidate\trep_candidate\tincumbent_name\tincumbent_party\tis_open\tis_term_limited\trating\tnotes\trunoff_date\tgeneral_date\tprimary_winner\tprimary_party\nGA\tPrimary Runoff\tKeisha Lance Bottoms\tNULL\tOpen Seat\tR\t1\t1\tToss-up\tR primary runoff (June 16, 2026): Burt Jones (Lt. Governor, Trump-endorsed) vs. Rick Jackson (billionaire businessman). Winner faces Keisha Lance Bottoms (D) in November.\tJune 16, 2026\tNovember 3, 2026\tJosh McLaurin\tD\nTX\tVoting\tVikki Goodwin\tGreg Abbott (incumbent)\tGreg Abbott\tR\t0\t0\tSolid R\tGreg Abbott (R) won the Republican primary with 81.8%. Gina Hinojosa (D) won the Democratic primary with 58.5%. General election November 3, 2026.\tNULL\tNovember 3, 2026\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 266
+}

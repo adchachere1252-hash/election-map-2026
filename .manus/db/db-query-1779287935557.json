@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE governor_races SET \n  dem_candidate = 'TBD — D Primary: Sep 9, 2026 (McKee, Foulkes)',\n  notes = 'Dan McKee (D, incumbent) faces Helena Foulkes in the September 9 Democratic primary. Foulkes leads by 20 points in polls. R primary also Sep 9.'\nWHERE state_code = 'RI';\n\nUPDATE governor_races SET \n  notes = 'Greg Abbott (R, incumbent) won R primary with 81.8%. Gina Hinojosa (D, state rep) won D primary with 58.5%. General election November 3, 2026. Rated Solid R.'\nWHERE state_code = 'TX';\n\nUPDATE governor_races SET\n  notes = 'Shapiro (D, incumbent) won uncontested primary May 19. Garrity (R, state treasurer, Trump-endorsed) won uncontested primary May 19. Rated Solid D.'\nWHERE state_code = 'PA';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE governor_races SET \n  dem_candidate = 'TBD — D Primary: Sep 9, 2026 (McKee, Foulkes)',\n  notes = 'Dan McKee (D, incumbent) faces Helena Foulkes in the September 9 Democratic primary. Foulkes leads by 20 points in polls. R primary also Sep 9.'\nWHERE state_code = 'RI';\n\nUPDATE governor_races SET \n  notes = 'Greg Abbott (R, incumbent) won R primary with 81.8%. Gina Hinojosa (D, state rep) won D primary with 58.5%. General election November 3, 2026. Rated Solid R.'\nWHERE state_code = 'TX';\n\nUPDATE governor_races SET\n  notes = 'Shapiro (D, incumbent) won uncontested primary May 19. Garrity (R, state treasurer, Trump-endorsed) won uncontested primary May 19. Rated Solid D.'\nWHERE state_code = 'PA';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 287
+}

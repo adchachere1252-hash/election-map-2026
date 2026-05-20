@@ -1,0 +1,35 @@
+{
+  "query": "SELECT state_code, dem_candidate, rep_candidate FROM governor_races WHERE state_code IN ('TX', 'PA', 'GA', 'ID', 'MN');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, dem_candidate, rep_candidate FROM governor_races WHERE state_code IN ('TX', 'PA', 'GA', 'ID', 'MN');",
+  "rows": [
+    {
+      "state_code": "TX",
+      "dem_candidate": "Gina Hinojosa",
+      "rep_candidate": "Greg Abbott (incumbent)"
+    },
+    {
+      "state_code": "PA",
+      "dem_candidate": "Josh Shapiro",
+      "rep_candidate": "Stacy Garrity"
+    },
+    {
+      "state_code": "GA",
+      "dem_candidate": "Keisha Lance Bottoms",
+      "rep_candidate": "NULL"
+    },
+    {
+      "state_code": "ID",
+      "dem_candidate": "Terri Pickens",
+      "rep_candidate": "Brad Little"
+    },
+    {
+      "state_code": "MN",
+      "dem_candidate": "Amy Klobuchar",
+      "rep_candidate": "TBD — R Primary: Aug 11, 2026"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdem_candidate\trep_candidate\nTX\tGina Hinojosa\tGreg Abbott (incumbent)\nPA\tJosh Shapiro\tStacy Garrity\nGA\tKeisha Lance Bottoms\tNULL\nID\tTerri Pickens\tBrad Little\nMN\tAmy Klobuchar\tTBD — R Primary: Aug 11, 2026\n",
+  "stderr": "",
+  "execution_time_ms": 255
+}

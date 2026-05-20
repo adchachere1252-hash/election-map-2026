@@ -1,0 +1,170 @@
+{
+  "query": "SELECT state_code, status, dem_candidate, rep_candidate, rating, notes FROM governor_races WHERE state_code >= 'IA' ORDER BY state_code LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, status, dem_candidate, rep_candidate, rating, notes FROM governor_races WHERE state_code >= 'IA' ORDER BY state_code LIMIT 20;",
+  "rows": [
+    {
+      "state_code": "IA",
+      "status": "Scheduled",
+      "dem_candidate": "Rob Sand",
+      "rep_candidate": "TBD — R Primary: Jun 2, 2026 (Feenstra, Lahn, Sherman, Steen)",
+      "rating": "Toss-up",
+      "notes": "Kim Reynolds is not running for re-election. Cook moved to Toss-up April 9, 2026."
+    },
+    {
+      "state_code": "ID",
+      "status": "Voting",
+      "dem_candidate": "Terri Pickens",
+      "rep_candidate": "Brad Little",
+      "rating": "Solid R",
+      "notes": "Little won R primary (98.2% in). D nominee TBD — primary still being counted."
+    },
+    {
+      "state_code": "IL",
+      "status": "Scheduled",
+      "dem_candidate": "J.B. Pritzker (incumbent)",
+      "rep_candidate": "Darren Bailey",
+      "rating": "Solid D",
+      "notes": "Pritzker eligible for re-election"
+    },
+    {
+      "state_code": "KS",
+      "status": "Scheduled",
+      "dem_candidate": "TBD — Democratic Primary",
+      "rep_candidate": "TBD — Republican Primary",
+      "rating": "Lean R",
+      "notes": "Laura Kelly is term-limited. Open seat in a R-leaning state."
+    },
+    {
+      "state_code": "MA",
+      "status": "Scheduled",
+      "dem_candidate": "Maura Healey (incumbent)",
+      "rep_candidate": "TBD — Republican Primary",
+      "rating": "Solid D",
+      "notes": "Healey eligible for re-election"
+    },
+    {
+      "state_code": "MD",
+      "status": "Scheduled",
+      "dem_candidate": "Wes Moore (incumbent)",
+      "rep_candidate": "TBD — Republican Primary",
+      "rating": "Solid D",
+      "notes": "Moore eligible for re-election"
+    },
+    {
+      "state_code": "ME",
+      "status": "Scheduled",
+      "dem_candidate": "TBD — D Primary: Jun 9, 2026 (Bellows, Jackson, King III, Pingree, Shah)",
+      "rep_candidate": "TBD — R Primary: Jun 9, 2026 (Bennett, Crockett, Glowa, Levasseur)",
+      "rating": "Likely D",
+      "notes": "Janet Mills is term-limited. Open seat in a D-leaning state."
+    },
+    {
+      "state_code": "MI",
+      "status": "Scheduled",
+      "dem_candidate": "TBD — D Primary: Aug 4, 2026 (Benson, Hogan, Sawicki, Swanson)",
+      "rep_candidate": "TBD — R Primary: Aug 4, 2026 (James, Cox, Leonard, Nesbitt)",
+      "rating": "Toss-up",
+      "notes": "Gretchen Whitmer is term-limited. Open seat."
+    },
+    {
+      "state_code": "MN",
+      "status": "Scheduled",
+      "dem_candidate": "Amy Klobuchar",
+      "rep_candidate": "TBD — R Primary: Aug 11, 2026",
+      "rating": "Solid D",
+      "notes": "Tim Walz left to run for VP; Peggy Flanagan appointed as acting governor. Open seat in 2026."
+    },
+    {
+      "state_code": "NE",
+      "status": "Voting",
+      "dem_candidate": "Lynne Walz",
+      "rep_candidate": "Jim Pillen",
+      "rating": "Solid R",
+      "notes": "Pillen won R primary (98.3% in). Walz won D primary. Rated Solid R."
+    },
+    {
+      "state_code": "NH",
+      "status": "Scheduled",
+      "dem_candidate": "TBD — D Primary: Sep 8, 2026 (Warmington, Kiper)",
+      "rep_candidate": "Kelly Ayotte (incumbent)",
+      "rating": "Likely R",
+      "notes": "Kelly Ayotte (R) is the incumbent running for re-election. D primary Sep 8: Cinde Warmington and Jonathan Kiper. R filing deadline June 12. Cook/Sabato: Likely R, IE: Solid R."
+    },
+    {
+      "state_code": "NM",
+      "status": "Scheduled",
+      "dem_candidate": "TBD — Democratic Primary",
+      "rep_candidate": "TBD — Republican Primary",
+      "rating": "Likely D",
+      "notes": "Michelle Luján Grisham is term-limited. Open seat."
+    },
+    {
+      "state_code": "NV",
+      "status": "Scheduled",
+      "dem_candidate": "TBD — D Primary: Jun 9, 2026 (Ford, Hill)",
+      "rep_candidate": "Joe Lombardo (incumbent)",
+      "rating": "Toss-up",
+      "notes": "Joe Lombardo (R) is the incumbent running for re-election. D primary June 9: Aaron Ford (AG), Alexis Hill, and others. Cook: Toss-up, Sabato: Lean R, IE: Tilt R."
+    },
+    {
+      "state_code": "NY",
+      "status": "Scheduled",
+      "dem_candidate": "Kathy Hochul (incumbent)",
+      "rep_candidate": "TBD — Republican Primary",
+      "rating": "Solid D",
+      "notes": "Hochul eligible for re-election"
+    },
+    {
+      "state_code": "OH",
+      "status": "Voting",
+      "dem_candidate": "Amy Acton",
+      "rep_candidate": "Vivek Ramaswamy",
+      "rating": "Lean R",
+      "notes": "Ramaswamy won R primary (98.7% in). Acton won D primary. Rated Lean R."
+    },
+    {
+      "state_code": "OK",
+      "status": "Scheduled",
+      "dem_candidate": "TBD — Democratic Primary",
+      "rep_candidate": "TBD — Republican Primary",
+      "rating": "Solid R",
+      "notes": "Kevin Stitt is term-limited. Open seat."
+    },
+    {
+      "state_code": "OR",
+      "status": "Voting",
+      "dem_candidate": "Tina Kotek",
+      "rep_candidate": "Christine Drazan",
+      "rating": "Solid D",
+      "notes": "Kotek won D primary (72.8% in). Drazan won R primary. Rematch of 2022 race. Rated Solid D."
+    },
+    {
+      "state_code": "PA",
+      "status": "Voting",
+      "dem_candidate": "Austin Davis",
+      "rep_candidate": "Jason Richey",
+      "rating": "Solid D",
+      "notes": "Both primaries uncontested. Shapiro is the heavy favorite. Rated Solid D."
+    },
+    {
+      "state_code": "RI",
+      "status": "Scheduled",
+      "dem_candidate": "Daniel McKee (incumbent)",
+      "rep_candidate": "TBD — Republican Primary",
+      "rating": "Solid D",
+      "notes": "McKee eligible for re-election"
+    },
+    {
+      "state_code": "SC",
+      "status": "Scheduled",
+      "dem_candidate": "TBD — Democratic Primary",
+      "rep_candidate": "TBD — Republican Primary",
+      "rating": "Solid R",
+      "notes": "Henry McMaster is term-limited. Open seat."
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstatus\tdem_candidate\trep_candidate\trating\tnotes\nIA\tScheduled\tRob Sand\tTBD — R Primary: Jun 2, 2026 (Feenstra, Lahn, Sherman, Steen)\tToss-up\tKim Reynolds is not running for re-election. Cook moved to Toss-up April 9, 2026.\nID\tVoting\tTerri Pickens\tBrad Little\tSolid R\tLittle won R primary (98.2% in). D nominee TBD — primary still being counted.\nIL\tScheduled\tJ.B. Pritzker (incumbent)\tDarren Bailey\tSolid D\tPritzker eligible for re-election\nKS\tScheduled\tTBD — Democratic Primary\tTBD — Republican Primary\tLean R\tLaura Kelly is term-limited. Open seat in a R-leaning state.\nMA\tScheduled\tMaura Healey (incumbent)\tTBD — Republican Primary\tSolid D\tHealey eligible for re-election\nMD\tScheduled\tWes Moore (incumbent)\tTBD — Republican Primary\tSolid D\tMoore eligible for re-election\nME\tScheduled\tTBD — D Primary: Jun 9, 2026 (Bellows, Jackson, King III, Pingree, Shah)\tTBD — R Primary: Jun 9, 2026 (Bennett, Crockett, Glowa, Levasseur)\tLikely D\tJanet Mills is term-limited. Open seat in a D-leaning state.\nMI\tScheduled\tTBD — D Primary: Aug 4, 2026 (Benson, Hogan, Sawicki, Swanson)\tTBD — R Primary: Aug 4, 2026 (James, Cox, Leonard, Nesbitt)\tToss-up\tGretchen Whitmer is term-limited. Open seat.\nMN\tScheduled\tAmy Klobuchar\tTBD — R Primary: Aug 11, 2026\tSolid D\tTim Walz left to run for VP; Peggy Flanagan appointed as acting governor. Open seat in 2026.\nNE\tVoting\tLynne Walz\tJim Pillen\tSolid R\tPillen won R primary (98.3% in). Walz won D primary. Rated Solid R.\nNH\tScheduled\tTBD — D Primary: Sep 8, 2026 (Warmington, Kiper)\tKelly Ayotte (incumbent)\tLikely R\tKelly Ayotte (R) is the incumbent running for re-election. D primary Sep 8: Cinde Warmington and Jonathan Kiper. R filing deadline June 12. Cook/Sabato: Likely R, IE: Solid R.\nNM\tScheduled\tTBD — Democratic Primary\tTBD — Republican Primary\tLikely D\tMichelle Luján Grisham is term-limited. Open seat.\nNV\tScheduled\tTBD — D Primary: Jun 9, 2026 (Ford, Hill)\tJoe Lombardo (incumbent)\tToss-up\tJoe Lombardo (R) is the incumbent running for re-election. D primary June 9: Aaron Ford (AG), Alexis Hill, and others. Cook: Toss-up, Sabato: Lean R, IE: Tilt R.\nNY\tScheduled\tKathy Hochul (incumbent)\tTBD — Republican Primary\tSolid D\tHochul eligible for re-election\nOH\tVoting\tAmy Acton\tVivek Ramaswamy\tLean R\tRamaswamy won R primary (98.7% in). Acton won D primary. Rated Lean R.\nOK\tScheduled\tTBD — Democratic Primary\tTBD — Republican Primary\tSolid R\tKevin Stitt is term-limited. Open seat.\nOR\tVoting\tTina Kotek\tChristine Drazan\tSolid D\tKotek won D primary (72.8% in). Drazan won R primary. Rematch of 2022 race. Rated Solid D.\nPA\tVoting\tAustin Davis\tJason Richey\tSolid D\tBoth primaries uncontested. Shapiro is the heavy favorite. Rated Solid D.\nRI\tScheduled\tDaniel McKee (incumbent)\tTBD — Republican Primary\tSolid D\tMcKee eligible for re-election\nSC\tScheduled\tTBD — Democratic Primary\tTBD — Republican Primary\tSolid R\tHenry McMaster is term-limited. Open seat.\n",
+  "stderr": "",
+  "execution_time_ms": 257
+}

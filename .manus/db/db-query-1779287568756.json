@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE governor_races SET dem_candidate = 'Gina Hinojosa' WHERE state_code = 'TX';\nUPDATE governor_races SET dem_candidate = 'Josh Shapiro', rep_candidate = 'Stacy Garrity' WHERE state_code = 'PA';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE governor_races SET dem_candidate = 'Gina Hinojosa' WHERE state_code = 'TX';\nUPDATE governor_races SET dem_candidate = 'Josh Shapiro', rep_candidate = 'Stacy Garrity' WHERE state_code = 'PA';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 274
+}
