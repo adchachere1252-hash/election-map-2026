@@ -134,6 +134,13 @@
       "when": 1779235620129,
       "tag": "0018_smart_cloak",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "5",
+      "when": 1779241495647,
+      "tag": "0019_aberrant_sheva_callister",
+      "breakpoints": true
     }
   ]
 }

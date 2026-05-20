@@ -1,0 +1,28 @@
+{
+  "query": "SELECT 'Senate' as type, COUNT(*) as total, SUM(CASE WHEN status = 'General' THEN 1 ELSE 0 END) as general_ready, SUM(CASE WHEN status = 'Called' OR status = 'Certified' THEN 1 ELSE 0 END) as called FROM senate_races\nUNION ALL\nSELECT 'House', COUNT(*), SUM(CASE WHEN status = 'General' THEN 1 ELSE 0 END), SUM(CASE WHEN status = 'Called' OR status = 'Certified' THEN 1 ELSE 0 END) FROM house_races\nUNION ALL\nSELECT 'Governor', COUNT(*), SUM(CASE WHEN status = 'General' THEN 1 ELSE 0 END), SUM(CASE WHEN status = 'Called' OR status = 'Certified' THEN 1 ELSE 0 END) FROM governor_races;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT 'Senate' as type, COUNT(*) as total, SUM(CASE WHEN status = 'General' THEN 1 ELSE 0 END) as general_ready, SUM(CASE WHEN status = 'Called' OR status = 'Certified' THEN 1 ELSE 0 END) as called FROM senate_races\nUNION ALL\nSELECT 'House', COUNT(*), SUM(CASE WHEN status = 'General' THEN 1 ELSE 0 END), SUM(CASE WHEN status = 'Called' OR status = 'Certified' THEN 1 ELSE 0 END) FROM house_races\nUNION ALL\nSELECT 'Governor', COUNT(*), SUM(CASE WHEN status = 'General' THEN 1 ELSE 0 END), SUM(CASE WHEN status = 'Called' OR status = 'Certified' THEN 1 ELSE 0 END) FROM governor_races;",
+  "rows": [
+    {
+      "type": "Governor",
+      "total": "36",
+      "general_ready": "0",
+      "called": "0"
+    },
+    {
+      "type": "Senate",
+      "total": "35",
+      "general_ready": "9",
+      "called": "0"
+    },
+    {
+      "type": "House",
+      "total": "435",
+      "general_ready": "117",
+      "called": "6"
+    }
+  ],
+  "messages": [],
+  "stdout": "type\ttotal\tgeneral_ready\tcalled\nGovernor\t36\t0\t0\nSenate\t35\t9\t0\nHouse\t435\t117\t6\n",
+  "stderr": "",
+  "execution_time_ms": 262
+}

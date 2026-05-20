@@ -1,0 +1,26 @@
+{
+  "query": "SELECT state_code, status, dem_candidate, rep_candidate, called_winner, called_party, pct_reporting, primary_winner, primary_party, incumbent_name, incumbent_party, is_open, is_term_limited, rating FROM governor_races WHERE state_code = 'GA';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, status, dem_candidate, rep_candidate, called_winner, called_party, pct_reporting, primary_winner, primary_party, incumbent_name, incumbent_party, is_open, is_term_limited, rating FROM governor_races WHERE state_code = 'GA';",
+  "rows": [
+    {
+      "state_code": "GA",
+      "status": "Voting",
+      "dem_candidate": "TBD — D Primary: May 19, 2026 (Bottoms, Brown, Duffy, Duncan, Esteves, Jackson, Thurmond, Romman)",
+      "rep_candidate": "TBD — R Primary: May 19, 2026 (Carr, Dean, Jones, Kirkpatrick, Raffensperger, Williams, Yasger)",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "pct_reporting": "55.00",
+      "primary_winner": "Burt Jones",
+      "primary_party": "R",
+      "incumbent_name": "Open Seat",
+      "incumbent_party": "R",
+      "is_open": "1",
+      "is_term_limited": "1",
+      "rating": "Toss-up"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstatus\tdem_candidate\trep_candidate\tcalled_winner\tcalled_party\tpct_reporting\tprimary_winner\tprimary_party\tincumbent_name\tincumbent_party\tis_open\tis_term_limited\trating\nGA\tVoting\tTBD — D Primary: May 19, 2026 (Bottoms, Brown, Duffy, Duncan, Esteves, Jackson, Thurmond, Romman)\tTBD — R Primary: May 19, 2026 (Carr, Dean, Jones, Kirkpatrick, Raffensperger, Williams, Yasger)\tNULL\tNULL\t55.00\tBurt Jones\tR\tOpen Seat\tR\t1\t1\tToss-up\n",
+  "stderr": "",
+  "execution_time_ms": 260
+}

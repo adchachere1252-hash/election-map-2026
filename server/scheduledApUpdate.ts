@@ -275,8 +275,12 @@ function buildUpdate(
       if (sorted[0].votes !== null) update.candidate1Votes = sorted[0].votes;
     }
     // Only write candidate2 if it's a different real person (not a write-in, not same as candidate1)
+    // Also skip if the last name matches candidate1 — handles AP abbreviated names like "S. Guthrie" vs "Brett Guthrie"
+    const lastName = (name: string) => name.trim().split(/\s+/).pop()?.toLowerCase() ?? "";
+    const cand1LastName = sorted[0] ? lastName(sorted[0].name) : "";
     const cand2 = sorted.find(
-      c => c.name !== sorted[0]?.name && !isWriteIn(c.name)
+      c => c.name !== sorted[0]?.name && !isWriteIn(c.name) &&
+        (cand1LastName.length < 3 || lastName(c.name) !== cand1LastName)
     );
     if (cand2) {
       update.candidate2Name = cand2.name;

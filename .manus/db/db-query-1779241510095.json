@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE governor_races SET \n  status = 'Primary Runoff',\n  rep_candidate = 'Burt Jones',\n  dem_candidate = 'Keisha Lance Bottoms',\n  primary_winner = 'Burt Jones',\n  primary_party = 'R',\n  pct_reporting = 56.00,\n  runoff_date = 'July 2026',\n  notes = 'Republican Primary: Runoff between Burt Jones (38.5%) and Rick Jackson (33.4%) — neither reached 50% threshold. Democratic Primary: Keisha Lance Bottoms leading with 58.8% at 52% reporting, not yet called.'\nWHERE state_code = 'GA';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE governor_races SET \n  status = 'Primary Runoff',\n  rep_candidate = 'Burt Jones',\n  dem_candidate = 'Keisha Lance Bottoms',\n  primary_winner = 'Burt Jones',\n  primary_party = 'R',\n  pct_reporting = 56.00,\n  runoff_date = 'July 2026',\n  notes = 'Republican Primary: Runoff between Burt Jones (38.5%) and Rick Jackson (33.4%) — neither reached 50% threshold. Democratic Primary: Keisha Lance Bottoms leading with 58.8% at 52% reporting, not yet called.'\nWHERE state_code = 'GA';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 263
+}

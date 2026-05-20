@@ -307,7 +307,7 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
   // Show the matchup card whenever both D and R candidates are confirmed (not TBD)
   const hasBothCandidates = !!(race.demCandidate && race.repCandidate &&
     !race.demCandidate.startsWith("TBD") && !race.repCandidate.startsWith("TBD"));
-  const isGeneral = race.status === "General" || hasBothCandidates;
+  const isGeneral = (race.status === "General" || hasBothCandidates) && race.status !== "Primary Runoff" && race.status !== "Voting" && race.status !== "Primary";
 
   // Determine if incumbent is running (not open seat)
   const incumbentIsRunning = !isOpenSeat && !!race.incumbentName;
@@ -501,8 +501,24 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
           </div>
         )}
 
+        {/* Primary Runoff banner */}
+        {race.status === "Primary Runoff" && (
+          <div className="flex items-start gap-2 p-2.5 rounded-lg bg-orange-900/30 border border-orange-700/40">
+            <span className="text-orange-300 text-sm">⚠️</span>
+            <div>
+              <p className="text-xs font-semibold text-orange-200">Republican Primary — Runoff Required</p>
+              <p className="text-[11px] text-orange-300/80 mt-0.5">
+                No candidate reached the 50% threshold. The top two finishers advance to a runoff{race.runoffDate ? ` in ${race.runoffDate}` : " later this year"} to determine the Republican nominee.
+              </p>
+              {race.notes && (
+                <p className="text-[11px] text-orange-200/70 mt-1 leading-relaxed">{race.notes}</p>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Vote results (election night only — hidden in General/Scheduled mode) */}
-        {(race.status === "Primary" || race.status === "Called" || race.status === "Certified") && (
+        {(race.status === "Primary" || race.status === "Primary Runoff" || race.status === "Voting" || race.status === "Called" || race.status === "Certified") && (
           <VoteBar demVotes={race.demVotes} repVotes={race.repVotes} otherVotes={race.otherVotes} pctReporting={race.pctReporting} />
         )}
         {race.calledAt && (

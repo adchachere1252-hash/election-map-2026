@@ -1,0 +1,25 @@
+{
+  "query": "SELECT state_code, district, district_label, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, primary_winner, pct_reporting, incumbent, incumbent_party, incumbent_retiring FROM house_races WHERE state_code = 'KY' AND district = 4;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, district, district_label, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, primary_winner, pct_reporting, incumbent, incumbent_party, incumbent_retiring FROM house_races WHERE state_code = 'KY' AND district = 4;",
+  "rows": [
+    {
+      "state_code": "KY",
+      "district": "4",
+      "district_label": "4",
+      "status": "General",
+      "candidate1_name": "Melissa Strange",
+      "candidate1_party": "D",
+      "candidate2_name": "Ed Gallrein",
+      "candidate2_party": "R",
+      "primary_winner": "Ed Gallrein",
+      "pct_reporting": "96.80",
+      "incumbent": "Thomas Massie",
+      "incumbent_party": "R",
+      "incumbent_retiring": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tdistrict_label\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tprimary_winner\tpct_reporting\tincumbent\tincumbent_party\tincumbent_retiring\nKY\t4\t4\tGeneral\tMelissa Strange\tD\tEd Gallrein\tR\tEd Gallrein\t96.80\tThomas Massie\tR\t0\n",
+  "stderr": "",
+  "execution_time_ms": 267
+}

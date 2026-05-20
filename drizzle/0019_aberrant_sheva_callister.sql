@@ -1,0 +1,1 @@
+ALTER TABLE `governor_races` MODIFY COLUMN `status` enum('Scheduled','Voting','Primary Runoff','Called','Certified') NOT NULL DEFAULT 'Scheduled';

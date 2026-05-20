@@ -1,0 +1,18 @@
+{
+  "query": "SHOW COLUMNS FROM governor_races WHERE Field = 'status';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SHOW COLUMNS FROM governor_races WHERE Field = 'status';",
+  "rows": [
+    {
+      "Field": "status",
+      "Type": "enum('Scheduled','Voting','Called','Certified')",
+      "Null": "NO",
+      "Key": "",
+      "Default": "Scheduled",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nstatus\tenum('Scheduled','Voting','Called','Certified')\tNO\t\tScheduled\t\n",
+  "stderr": "",
+  "execution_time_ms": 263
+}

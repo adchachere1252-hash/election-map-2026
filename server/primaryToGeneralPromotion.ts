@@ -304,16 +304,22 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
       .from(senateRaces)
       .where(eq(senateRaces.status, "General"));
 
+    const lastNameOf = (name: string) => name.trim().split(/\s+/).pop()?.toLowerCase() ?? "";
     for (const race of senateGeneral) {
       const update: Partial<typeof senateRaces.$inferInsert> = {};
 
       // Fill empty D slot from incumbent if incumbent is D and not retiring
-      if (!race.candidate1Name && race.incumbent && race.incumbentParty === "D" && !race.incumbentRetiring) {
+      const c2Last = race.candidate2Name ? lastNameOf(race.candidate2Name) : "";
+      const incLastS = race.incumbent ? lastNameOf(race.incumbent) : "";
+      const sameAsC2 = c2Last.length >= 3 && incLastS.length >= 3 && c2Last === incLastS;
+      if (!race.candidate1Name && race.incumbent && race.incumbentParty === "D" && !race.incumbentRetiring && !sameAsC2) {
         update.candidate1Name = race.incumbent;
         update.candidate1Party = "D";
       }
       // Fill empty R slot from incumbent if incumbent is R and not retiring
-      if (!race.candidate2Name && race.incumbent && race.incumbentParty === "R" && !race.incumbentRetiring) {
+      const c1Last = race.candidate1Name ? lastNameOf(race.candidate1Name) : "";
+      const sameAsC1 = c1Last.length >= 3 && incLastS.length >= 3 && c1Last === incLastS;
+      if (!race.candidate2Name && race.incumbent && race.incumbentParty === "R" && !race.incumbentRetiring && !sameAsC1) {
         update.candidate2Name = race.incumbent;
         update.candidate2Party = "R";
       }
@@ -336,6 +342,7 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
   }
 
   // House cross-link
+  const lastNameOf = (name: string) => name.trim().split(/\s+/).pop()?.toLowerCase() ?? "";
   try {
     const houseGeneral = await db
       .select()
@@ -349,7 +356,11 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
         update.candidate1Name = race.incumbent;
         update.candidate1Party = "D";
       }
-      if (!race.candidate2Name && race.incumbent && race.incumbentParty === "R" && !race.incumbentRetiring) {
+      // Only fill candidate2 from incumbent if candidate1 is NOT the same person (same last name check)
+      const c1Last = race.candidate1Name ? lastNameOf(race.candidate1Name) : "";
+      const incLast = race.incumbent ? lastNameOf(race.incumbent) : "";
+      const samePersonAsC1 = c1Last.length >= 3 && incLast.length >= 3 && c1Last === incLast;
+      if (!race.candidate2Name && race.incumbent && race.incumbentParty === "R" && !race.incumbentRetiring && !samePersonAsC1) {
         update.candidate2Name = race.incumbent;
         update.candidate2Party = "R";
       }

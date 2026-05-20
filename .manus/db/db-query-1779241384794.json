@@ -1,0 +1,70 @@
+{
+  "query": "SELECT column_name FROM information_schema.columns WHERE table_name = 'house_races' AND table_schema = DATABASE() ORDER BY ordinal_position LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT column_name FROM information_schema.columns WHERE table_name = 'house_races' AND table_schema = DATABASE() ORDER BY ordinal_position LIMIT 20;",
+  "rows": [
+    {
+      "column_name": "id"
+    },
+    {
+      "column_name": "state_code"
+    },
+    {
+      "column_name": "state_name"
+    },
+    {
+      "column_name": "district"
+    },
+    {
+      "column_name": "district_label"
+    },
+    {
+      "column_name": "incumbent"
+    },
+    {
+      "column_name": "incumbent_party"
+    },
+    {
+      "column_name": "incumbent_retiring"
+    },
+    {
+      "column_name": "candidate1_name"
+    },
+    {
+      "column_name": "candidate1_party"
+    },
+    {
+      "column_name": "candidate1_vote_pct"
+    },
+    {
+      "column_name": "candidate2_name"
+    },
+    {
+      "column_name": "candidate2_party"
+    },
+    {
+      "column_name": "candidate2_vote_pct"
+    },
+    {
+      "column_name": "called_winner"
+    },
+    {
+      "column_name": "called_party"
+    },
+    {
+      "column_name": "rating"
+    },
+    {
+      "column_name": "status"
+    },
+    {
+      "column_name": "primary_date"
+    },
+    {
+      "column_name": "general_date"
+    }
+  ],
+  "messages": [],
+  "stdout": "column_name\nid\nstate_code\nstate_name\ndistrict\ndistrict_label\nincumbent\nincumbent_party\nincumbent_retiring\ncandidate1_name\ncandidate1_party\ncandidate1_vote_pct\ncandidate2_name\ncandidate2_party\ncandidate2_vote_pct\ncalled_winner\ncalled_party\nrating\nstatus\nprimary_date\ngeneral_date\n",
+  "stderr": "",
+  "execution_time_ms": 259
+}

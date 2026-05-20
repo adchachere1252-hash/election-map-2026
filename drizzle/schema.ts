@@ -227,7 +227,7 @@ export const governorRaces = mysqlTable("governor_races", {
   generalDate: varchar("general_date", { length: 64 }).notNull().default("November 3, 2026"),
   isSpecial: boolean("is_special").default(false).notNull(),
   // Election night results
-  status: mysqlEnum("status", ["Scheduled", "Voting", "Called", "Certified"])
+  status: mysqlEnum("status", ["Scheduled", "Voting", "Primary Runoff", "Called", "Certified"])
     .default("Scheduled").notNull(),
   calledParty: mysqlEnum("called_party", ["D", "R", "I"]),         // set when called
   calledWinner: varchar("called_winner", { length: 128 }),          // winner name when called

@@ -1,0 +1,72 @@
+{
+  "query": "SELECT state_code, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, primary_winner, pct_reporting FROM senate_races WHERE primary_date LIKE '%May 19%' OR primary_date LIKE '%May 20%' ORDER BY state_code;\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, primary_winner, pct_reporting FROM house_races WHERE (primary_date LIKE '%May 19%' OR primary_date LIKE '%May 20%') AND (candidate2_name IS NULL OR status = 'General') ORDER BY state_code, district LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, primary_winner, pct_reporting FROM senate_races WHERE primary_date LIKE '%May 19%' OR primary_date LIKE '%May 20%' ORDER BY state_code;\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, primary_winner, pct_reporting FROM house_races WHERE (primary_date LIKE '%May 19%' OR primary_date LIKE '%May 20%') AND (candidate2_name IS NULL OR status = 'General') ORDER BY state_code, district LIMIT 20;",
+  "rows": [
+    {
+      "state_code": "GA",
+      "status": "General",
+      "candidate1_name": "Jon Ossoff",
+      "candidate1_party": "D",
+      "candidate2_name": "Derek Dooley",
+      "candidate2_party": "R",
+      "primary_winner": "Mike Collins",
+      "pct_reporting": "57.10"
+    },
+    {
+      "state_code": "ID",
+      "status": "Scheduled",
+      "candidate1_name": "David Roth",
+      "candidate1_party": "D",
+      "candidate2_name": "Nickolas Bonds",
+      "candidate2_party": "D",
+      "primary_winner": "NULL",
+      "pct_reporting": "0.00"
+    },
+    {
+      "state_code": "KY",
+      "status": "General",
+      "candidate1_name": "Andy Barr",
+      "candidate1_party": "R",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "primary_winner": "Andy Barr",
+      "pct_reporting": "93.00"
+    },
+    {
+      "state_code": "OR",
+      "status": "Primary",
+      "candidate1_name": "Total Write-ins",
+      "candidate1_party": "D",
+      "candidate2_name": "Paul Wells",
+      "candidate2_party": "D",
+      "primary_winner": "NULL",
+      "pct_reporting": "0.00"
+    }
+  ],
+  "messages": [
+    "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tprimary_winner\tpct_reporting",
+    "AL\t3\tGeneral\tLee McInnis\tD\tTerri LaPoint\tR\tLee McInnis\t5.70",
+    "AL\t5\tGeneral\tDale Strong\tR\tDale W. Strong\tR\tDale Strong\t42.70",
+    "GA\t2\tGeneral\tSanford Bishop\tD\tMatt Day\tR\tMatt Day\t0.00",
+    "GA\t3\tGeneral\tMaura Keller\tD\tBrian Jack\tR\tBrian Jack\t58.40",
+    "GA\t4\tGeneral\tHenry Johnson\tD\tJim Duffie\tR\tJim Duffie\t47.40",
+    "GA\t5\tGeneral\tNikema Williams\tD\tArnetress Beatty\tD\tNikema Williams\t29.50",
+    "GA\t6\tGeneral\tLucy McBath\tD\tJustin Pinker\tR\tLucy McBath\t15.20",
+    "GA\t7\tGeneral\tTony Kozycki\tD\tRich McCormick\tR\tRich McCormick\t15.20",
+    "GA\t8\tGeneral\tKelly Esti\tD\tAustin Scott\tR\tAustin Scott\t80.80",
+    "GA\t9\tGeneral\tAndrew Clyde\tR\tAndrew Clyde\tR\tAndrew Clyde\t68.30",
+    "GA\t11\tGeneral\tChris Harden\tD\tJohn Cowan\tR\tChris Harden\t47.20",
+    "GA\t12\tGeneral\tRick Allen\tR\tRick W. Allen\tR\tRick Allen\t63.60",
+    "GA\t13\tGeneral\tJasmine Clark\tD\tJonathan Chavez\tR\tJonathan Chavez\t61.50",
+    "GA\t14\tGeneral\tShawn Harris\tD\tColton Moore\tR\tClay Fuller\t71.60",
+    "KY\t1\tGeneral\tJohn Williams\tD\tDavid Sims\tR\tJohn Williams\t79.50",
+    "KY\t2\tGeneral\tS. Guthrie\tR\tBrett Guthrie\tR\tMegan Wingfield\t98.10",
+    "KY\t3\tGeneral\tMorgan McGarvey\tD\tDavid Nichter\tR\tMorgan McGarvey\t99.00",
+    "KY\t4\tGeneral\tMelissa Strange\tD\tEd Gallrein\tR\tEd Gallrein\t96.80",
+    "KY\t5\tGeneral\tNed Pillersdorf\tD\tKevin Smith\tR\tNed Pillersdorf\t79.80",
+    "KY\t6\tGeneral\tRalph Alvarado\tR\tRalph Alvarado\tR\tZach Dembo\t93.30"
+  ],
+  "stdout": "state_code\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tprimary_winner\tpct_reporting\nGA\tGeneral\tJon Ossoff\tD\tDerek Dooley\tR\tMike Collins\t57.10\nID\tScheduled\tDavid Roth\tD\tNickolas Bonds\tD\tNULL\t0.00\nKY\tGeneral\tAndy Barr\tR\tNULL\tNULL\tAndy Barr\t93.00\nOR\tPrimary\tTotal Write-ins\tD\tPaul Wells\tD\tNULL\t0.00\nstate_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tprimary_winner\tpct_reporting\nAL\t3\tGeneral\tLee McInnis\tD\tTerri LaPoint\tR\tLee McInnis\t5.70\nAL\t5\tGeneral\tDale Strong\tR\tDale W. Strong\tR\tDale Strong\t42.70\nGA\t2\tGeneral\tSanford Bishop\tD\tMatt Day\tR\tMatt Day\t0.00\nGA\t3\tGeneral\tMaura Keller\tD\tBrian Jack\tR\tBrian Jack\t58.40\nGA\t4\tGeneral\tHenry Johnson\tD\tJim Duffie\tR\tJim Duffie\t47.40\nGA\t5\tGeneral\tNikema Williams\tD\tArnetress Beatty\tD\tNikema Williams\t29.50\nGA\t6\tGeneral\tLucy McBath\tD\tJustin Pinker\tR\tLucy McBath\t15.20\nGA\t7\tGeneral\tTony Kozycki\tD\tRich McCormick\tR\tRich McCormick\t15.20\nGA\t8\tGeneral\tKelly Esti\tD\tAustin Scott\tR\tAustin Scott\t80.80\nGA\t9\tGeneral\tAndrew Clyde\tR\tAndrew Clyde\tR\tAndrew Clyde\t68.30\nGA\t11\tGeneral\tChris Harden\tD\tJohn Cowan\tR\tChris Harden\t47.20\nGA\t12\tGeneral\tRick Allen\tR\tRick W. Allen\tR\tRick Allen\t63.60\nGA\t13\tGeneral\tJasmine Clark\tD\tJonathan Chavez\tR\tJonathan Chavez\t61.50\nGA\t14\tGeneral\tShawn Harris\tD\tColton Moore\tR\tClay Fuller\t71.60\nKY\t1\tGeneral\tJohn Williams\tD\tDavid Sims\tR\tJohn Williams\t79.50\nKY\t2\tGeneral\tS. Guthrie\tR\tBrett Guthrie\tR\tMegan Wingfield\t98.10\nKY\t3\tGeneral\tMorgan McGarvey\tD\tDavid Nichter\tR\tMorgan McGarvey\t99.00\nKY\t4\tGeneral\tMelissa Strange\tD\tEd Gallrein\tR\tEd Gallrein\t96.80\nKY\t5\tGeneral\tNed Pillersdorf\tD\tKevin Smith\tR\tNed Pillersdorf\t79.80\nKY\t6\tGeneral\tRalph Alvarado\tR\tRalph Alvarado\tR\tZach Dembo\t93.30\n",
+  "stderr": "",
+  "execution_time_ms": 277
+}
