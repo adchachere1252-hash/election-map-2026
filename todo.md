@@ -1515,3 +1515,12 @@
 - [x] Removed duplicate Open Seat row in HousePopup (isVacancy row suppressed — GeneralMatchupSection context box covers it)
 - [x] Removed duplicate Open Seat info in SenatePopup (incumbentRetiring row suppressed — context box covers it)
 - [x] Run all 58 tests — all passing, TypeScript: 0 errors
+
+## Toast Uncontested Note (May 19, 2026)
+- [x] Detect uncontested races: filter real candidates (excl. write-ins), isUncontested = realCandidates.length === 1
+- [x] Added isUncontested?: boolean to RaceCalledEvent in ws.ts
+- [x] Pass isUncontested in broadcastElectionEvent call in scheduledApUpdate.ts
+- [x] Added isUncontested to ElectionEvent and RaceCallEntry types in ElectionSocketContext.tsx
+- [x] Pass isUncontested through addToLog in ElectionSocketContext.tsx
+- [x] Toast description now shows " · Uncontested" suffix when isUncontested is true
+- [x] Run all 58 tests — all passing, TypeScript: 0 errors

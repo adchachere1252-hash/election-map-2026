@@ -21,6 +21,7 @@ export type ElectionEvent =
       calledWinner: string;
       calledParty: string;
       electionDate?: string; // ISO date e.g. "2026-05-19" — which election night this call belongs to
+      isUncontested?: boolean; // true when candidate ran without opposition
       timestamp: string;
     }
   | {
@@ -39,6 +40,7 @@ export type RaceCallEntry = {
   districtLabel?: string;
   calledWinner: string;
   calledParty: string;
+  isUncontested?: boolean;
   timestamp: string; // ISO string
 };
 
@@ -111,6 +113,7 @@ export function ElectionSocketProvider({ children }: { children: React.ReactNode
       districtLabel: event.districtLabel,
       calledWinner: event.calledWinner,
       calledParty: event.calledParty,
+      isUncontested: event.isUncontested,
       timestamp: event.timestamp,
     };
     setRaceCallLog(prev => {

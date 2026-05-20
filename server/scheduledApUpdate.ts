@@ -429,6 +429,11 @@ export async function scrapeAndPushResults(): Promise<{
             const alreadyBroadcasted = await hasBroadcasted(broadcastKey);
             if (!alreadyBroadcasted) {
               await markBroadcasted(broadcastKey, activeDate, stateCode, chamber, String(districtNum));
+              // Detect uncontested: only 1 real candidate (excluding write-ins)
+              const realCandidates = (raceResult?.candidates ?? []).filter(
+                c => !c.name.toLowerCase().includes("write-in") && !c.name.toLowerCase().includes("write in")
+              );
+              const isUncontested = realCandidates.length === 1;
               broadcastElectionEvent({
                 type: "race_called",
                 chamber,
@@ -438,6 +443,7 @@ export async function scrapeAndPushResults(): Promise<{
                 district: districtMatch ? parseInt(districtMatch[1]) : undefined,
                 districtLabel: label,
                 electionDate: activeDate,
+                isUncontested,
                 timestamp: new Date().toISOString(),
               });
             }

@@ -13,6 +13,7 @@ export interface RaceCalledEvent {
   calledParty: string;
   calledWinner: string;
   electionDate: string; // ISO date string e.g. "2026-05-19" — which election night this call belongs to
+  isUncontested?: boolean; // true when candidate ran without opposition
   timestamp: string;
 }
 

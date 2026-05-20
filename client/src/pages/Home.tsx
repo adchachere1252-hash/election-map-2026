@@ -205,9 +205,10 @@ export default function Home() {
       : lastEvent.chamber === "governor"
       ? `${stateName} · Governor`
       : `${stateName} · ${lastEvent.districtLabel ?? lastEvent.stateCode}`;
+    const uncontestedNote = lastEvent.isUncontested ? " · Uncontested" : "";
     toastQueueRef.current.push({
       title: `⚡ Race called — ${raceLabel}`,
-      description: `${lastEvent.calledWinner} (${partyLabel}) wins`,
+      description: `${lastEvent.calledWinner} (${partyLabel}) wins${uncontestedNote}`,
     });
     playChime();
     if (!toastActiveRef.current) showNextToast();
