@@ -26,7 +26,7 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider defaultTheme="dark">
         <TooltipProvider>
-          <Toaster />
+          <Toaster theme="dark" richColors position="top-right" />
           <Router />
         </TooltipProvider>
       </ThemeProvider>

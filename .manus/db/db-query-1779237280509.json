@@ -1,0 +1,91 @@
+{
+  "query": "SELECT * FROM broadcast_log WHERE state_code = 'IN' ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT * FROM broadcast_log WHERE state_code = 'IN' ORDER BY id;",
+  "rows": [
+    {
+      "id": "27",
+      "broadcast_key": "2026-05-05:IN:house:1",
+      "election_date": "2026-05-05",
+      "state_code": "IN",
+      "chamber": "house",
+      "district": "1",
+      "createdAt": "2026-05-20 00:09:53"
+    },
+    {
+      "id": "29",
+      "broadcast_key": "2026-05-05:IN:house:2",
+      "election_date": "2026-05-05",
+      "state_code": "IN",
+      "chamber": "house",
+      "district": "2",
+      "createdAt": "2026-05-20 00:09:53"
+    },
+    {
+      "id": "31",
+      "broadcast_key": "2026-05-05:IN:house:3",
+      "election_date": "2026-05-05",
+      "state_code": "IN",
+      "chamber": "house",
+      "district": "3",
+      "createdAt": "2026-05-20 00:09:53"
+    },
+    {
+      "id": "33",
+      "broadcast_key": "2026-05-05:IN:house:4",
+      "election_date": "2026-05-05",
+      "state_code": "IN",
+      "chamber": "house",
+      "district": "4",
+      "createdAt": "2026-05-20 00:09:53"
+    },
+    {
+      "id": "35",
+      "broadcast_key": "2026-05-05:IN:house:5",
+      "election_date": "2026-05-05",
+      "state_code": "IN",
+      "chamber": "house",
+      "district": "5",
+      "createdAt": "2026-05-20 00:09:53"
+    },
+    {
+      "id": "37",
+      "broadcast_key": "2026-05-05:IN:house:6",
+      "election_date": "2026-05-05",
+      "state_code": "IN",
+      "chamber": "house",
+      "district": "6",
+      "createdAt": "2026-05-20 00:09:53"
+    },
+    {
+      "id": "39",
+      "broadcast_key": "2026-05-05:IN:house:7",
+      "election_date": "2026-05-05",
+      "state_code": "IN",
+      "chamber": "house",
+      "district": "7",
+      "createdAt": "2026-05-20 00:09:53"
+    },
+    {
+      "id": "41",
+      "broadcast_key": "2026-05-05:IN:house:8",
+      "election_date": "2026-05-05",
+      "state_code": "IN",
+      "chamber": "house",
+      "district": "8",
+      "createdAt": "2026-05-20 00:09:53"
+    },
+    {
+      "id": "43",
+      "broadcast_key": "2026-05-05:IN:house:9",
+      "election_date": "2026-05-05",
+      "state_code": "IN",
+      "chamber": "house",
+      "district": "9",
+      "createdAt": "2026-05-20 00:09:53"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tbroadcast_key\telection_date\tstate_code\tchamber\tdistrict\tcreatedAt\n27\t2026-05-05:IN:house:1\t2026-05-05\tIN\thouse\t1\t2026-05-20 00:09:53\n29\t2026-05-05:IN:house:2\t2026-05-05\tIN\thouse\t2\t2026-05-20 00:09:53\n31\t2026-05-05:IN:house:3\t2026-05-05\tIN\thouse\t3\t2026-05-20 00:09:53\n33\t2026-05-05:IN:house:4\t2026-05-05\tIN\thouse\t4\t2026-05-20 00:09:53\n35\t2026-05-05:IN:house:5\t2026-05-05\tIN\thouse\t5\t2026-05-20 00:09:53\n37\t2026-05-05:IN:house:6\t2026-05-05\tIN\thouse\t6\t2026-05-20 00:09:53\n39\t2026-05-05:IN:house:7\t2026-05-05\tIN\thouse\t7\t2026-05-20 00:09:53\n41\t2026-05-05:IN:house:8\t2026-05-05\tIN\thouse\t8\t2026-05-20 00:09:53\n43\t2026-05-05:IN:house:9\t2026-05-05\tIN\thouse\t9\t2026-05-20 00:09:53\n",
+  "stderr": "",
+  "execution_time_ms": 264
+}

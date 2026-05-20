@@ -412,7 +412,8 @@ export async function scrapeAndPushResults(): Promise<{
         raceResult: RaceResult | null,
         fn: (id: number, d: Record<string, unknown>) => Promise<void>,
         raceType: 'senate' | 'house' | 'governor' = 'senate',
-        currentStatus?: string | null
+        currentStatus?: string | null,
+        raceStateName?: string
       ) => {
         const payload = buildUpdate(raceResult, isGeneral, raceType, currentStatus);
         if (Object.keys(payload).length === 0) {
@@ -444,10 +445,11 @@ export async function scrapeAndPushResults(): Promise<{
                 type: "race_called",
                 chamber,
                 stateCode,
+                stateName: raceStateName,
                 calledParty: party,
                 calledWinner: winner,
                 district: districtMatch ? parseInt(districtMatch[1]) : undefined,
-                districtLabel: label,
+                districtLabel: districtMatch ? districtMatch[1] : undefined,
                 electionDate: activeDate,
                 isUncontested,
                 timestamp: new Date().toISOString(),
@@ -466,7 +468,7 @@ export async function scrapeAndPushResults(): Promise<{
         const isSpecial = dbRace.isSpecial ?? false;
         const key = isSpecial ? "senate-special" : "senate";
         const apRace = senate[key] ?? senate["senate"] ?? null;
-        await doUpdate(`${stateCode} Senate${isSpecial ? " (Special)" : ""}`, dbRace.id, apRace, updateSenateRace, 'senate', dbRace.status);
+        await doUpdate(`${stateCode} Senate${isSpecial ? " (Special)" : ""}`, dbRace.id, apRace, updateSenateRace, 'senate', dbRace.status, dbRace.stateName);
       }
 
       // House races for this state
@@ -474,13 +476,13 @@ export async function scrapeAndPushResults(): Promise<{
       for (const dbRace of stateHouseRaces) {
         const district = dbRace.district ?? 1;
         const apRace = house[district] ?? null;
-        await doUpdate(`${stateCode}-${district}`, dbRace.id, apRace, updateHouseRace, 'house', dbRace.status);
+        await doUpdate(`${stateCode}-${district}`, dbRace.id, apRace, updateHouseRace, 'house', dbRace.status, dbRace.stateName);
       }
 
       // Governor race for this state
       const stateGovRace = allGovernor.find(r => r.stateCode === stateCode);
       if (stateGovRace && governor) {
-        await doUpdate(`${stateCode} Governor`, stateGovRace.id, governor, updateGovernorRace, 'governor', stateGovRace.status);
+        await doUpdate(`${stateCode} Governor`, stateGovRace.id, governor, updateGovernorRace, 'governor', stateGovRace.status, stateGovRace.stateName);
       }
 
     } catch (err) {

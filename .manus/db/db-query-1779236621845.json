@@ -1,0 +1,280 @@
+{
+  "query": "SELECT * FROM broadcast_log ORDER BY id DESC LIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT * FROM broadcast_log ORDER BY id DESC LIMIT 30;",
+  "rows": [
+    {
+      "id": "71",
+      "broadcast_key": "2026-05-19:GA:house:11",
+      "election_date": "2026-05-19",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "11",
+      "createdAt": "2026-05-20 00:21:14"
+    },
+    {
+      "id": "70",
+      "broadcast_key": "2026-05-05:OH:governor:0",
+      "election_date": "2026-05-05",
+      "state_code": "OH",
+      "chamber": "governor",
+      "district": "0",
+      "createdAt": "2026-05-20 00:09:57"
+    },
+    {
+      "id": "69",
+      "broadcast_key": "2026-05-05:OH:house:15",
+      "election_date": "2026-05-05",
+      "state_code": "OH",
+      "chamber": "house",
+      "district": "15",
+      "createdAt": "2026-05-20 00:09:57"
+    },
+    {
+      "id": "68",
+      "broadcast_key": "2026-05-05:OH:house:14",
+      "election_date": "2026-05-05",
+      "state_code": "OH",
+      "chamber": "house",
+      "district": "14",
+      "createdAt": "2026-05-20 00:09:57"
+    },
+    {
+      "id": "67",
+      "broadcast_key": "2026-05-05:OH:house:13",
+      "election_date": "2026-05-05",
+      "state_code": "OH",
+      "chamber": "house",
+      "district": "13",
+      "createdAt": "2026-05-20 00:09:57"
+    },
+    {
+      "id": "66",
+      "broadcast_key": "2026-05-05:OH:house:12",
+      "election_date": "2026-05-05",
+      "state_code": "OH",
+      "chamber": "house",
+      "district": "12",
+      "createdAt": "2026-05-20 00:09:57"
+    },
+    {
+      "id": "65",
+      "broadcast_key": "2026-05-05:OH:house:11",
+      "election_date": "2026-05-05",
+      "state_code": "OH",
+      "chamber": "house",
+      "district": "11",
+      "createdAt": "2026-05-20 00:09:57"
+    },
+    {
+      "id": "64",
+      "broadcast_key": "2026-05-05:OH:house:10",
+      "election_date": "2026-05-05",
+      "state_code": "OH",
+      "chamber": "house",
+      "district": "10",
+      "createdAt": "2026-05-20 00:09:57"
+    },
+    {
+      "id": "63",
+      "broadcast_key": "2026-05-05:OH:house:9",
+      "election_date": "2026-05-05",
+      "state_code": "OH",
+      "chamber": "house",
+      "district": "9",
+      "createdAt": "2026-05-20 00:09:56"
+    },
+    {
+      "id": "62",
+      "broadcast_key": "2026-05-05:OH:house:8",
+      "election_date": "2026-05-05",
+      "state_code": "OH",
+      "chamber": "house",
+      "district": "8",
+      "createdAt": "2026-05-20 00:09:56"
+    },
+    {
+      "id": "61",
+      "broadcast_key": "2026-05-05:OH:house:7",
+      "election_date": "2026-05-05",
+      "state_code": "OH",
+      "chamber": "house",
+      "district": "7",
+      "createdAt": "2026-05-20 00:09:56"
+    },
+    {
+      "id": "60",
+      "broadcast_key": "2026-05-05:OH:house:6",
+      "election_date": "2026-05-05",
+      "state_code": "OH",
+      "chamber": "house",
+      "district": "6",
+      "createdAt": "2026-05-20 00:09:55"
+    },
+    {
+      "id": "59",
+      "broadcast_key": "2026-05-05:OH:house:5",
+      "election_date": "2026-05-05",
+      "state_code": "OH",
+      "chamber": "house",
+      "district": "5",
+      "createdAt": "2026-05-20 00:09:55"
+    },
+    {
+      "id": "58",
+      "broadcast_key": "2026-05-05:OH:house:4",
+      "election_date": "2026-05-05",
+      "state_code": "OH",
+      "chamber": "house",
+      "district": "4",
+      "createdAt": "2026-05-20 00:09:55"
+    },
+    {
+      "id": "57",
+      "broadcast_key": "2026-05-05:OH:house:3",
+      "election_date": "2026-05-05",
+      "state_code": "OH",
+      "chamber": "house",
+      "district": "3",
+      "createdAt": "2026-05-20 00:09:55"
+    },
+    {
+      "id": "56",
+      "broadcast_key": "2026-05-12:NE:governor:0",
+      "election_date": "2026-05-12",
+      "state_code": "NE",
+      "chamber": "governor",
+      "district": "0",
+      "createdAt": "2026-05-20 00:09:55"
+    },
+    {
+      "id": "55",
+      "broadcast_key": "2026-05-05:OH:house:2",
+      "election_date": "2026-05-05",
+      "state_code": "OH",
+      "chamber": "house",
+      "district": "2",
+      "createdAt": "2026-05-20 00:09:55"
+    },
+    {
+      "id": "54",
+      "broadcast_key": "2026-05-12:NE:house:3",
+      "election_date": "2026-05-12",
+      "state_code": "NE",
+      "chamber": "house",
+      "district": "3",
+      "createdAt": "2026-05-20 00:09:55"
+    },
+    {
+      "id": "53",
+      "broadcast_key": "2026-05-12:WV:house:2",
+      "election_date": "2026-05-12",
+      "state_code": "WV",
+      "chamber": "house",
+      "district": "2",
+      "createdAt": "2026-05-20 00:09:55"
+    },
+    {
+      "id": "52",
+      "broadcast_key": "2026-05-05:OH:house:1",
+      "election_date": "2026-05-05",
+      "state_code": "OH",
+      "chamber": "house",
+      "district": "1",
+      "createdAt": "2026-05-20 00:09:55"
+    },
+    {
+      "id": "51",
+      "broadcast_key": "2026-05-12:NE:house:2",
+      "election_date": "2026-05-12",
+      "state_code": "NE",
+      "chamber": "house",
+      "district": "2",
+      "createdAt": "2026-05-20 00:09:55"
+    },
+    {
+      "id": "50",
+      "broadcast_key": "2026-05-12:WV:house:1",
+      "election_date": "2026-05-12",
+      "state_code": "WV",
+      "chamber": "house",
+      "district": "1",
+      "createdAt": "2026-05-20 00:09:55"
+    },
+    {
+      "id": "49",
+      "broadcast_key": "2026-05-12:NE:house:1",
+      "election_date": "2026-05-12",
+      "state_code": "NE",
+      "chamber": "house",
+      "district": "1",
+      "createdAt": "2026-05-20 00:09:55"
+    },
+    {
+      "id": "48",
+      "broadcast_key": "2026-05-05:OH:senate:0",
+      "election_date": "2026-05-05",
+      "state_code": "OH",
+      "chamber": "senate",
+      "district": "0",
+      "createdAt": "2026-05-20 00:09:55"
+    },
+    {
+      "id": "47",
+      "broadcast_key": "2026-05-12:WV:senate:0",
+      "election_date": "2026-05-12",
+      "state_code": "WV",
+      "chamber": "senate",
+      "district": "0",
+      "createdAt": "2026-05-20 00:09:55"
+    },
+    {
+      "id": "46",
+      "broadcast_key": "2026-05-12:NE:senate:0",
+      "election_date": "2026-05-12",
+      "state_code": "NE",
+      "chamber": "senate",
+      "district": "0",
+      "createdAt": "2026-05-20 00:09:55"
+    },
+    {
+      "id": "45",
+      "broadcast_key": "2026-05-19:PA:governor:0",
+      "election_date": "2026-05-19",
+      "state_code": "PA",
+      "chamber": "governor",
+      "district": "0",
+      "createdAt": "2026-05-20 00:09:53"
+    },
+    {
+      "id": "44",
+      "broadcast_key": "2026-05-19:PA:house:17",
+      "election_date": "2026-05-19",
+      "state_code": "PA",
+      "chamber": "house",
+      "district": "17",
+      "createdAt": "2026-05-20 00:09:53"
+    },
+    {
+      "id": "43",
+      "broadcast_key": "2026-05-05:IN:house:9",
+      "election_date": "2026-05-05",
+      "state_code": "IN",
+      "chamber": "house",
+      "district": "9",
+      "createdAt": "2026-05-20 00:09:53"
+    },
+    {
+      "id": "42",
+      "broadcast_key": "2026-05-19:PA:house:16",
+      "election_date": "2026-05-19",
+      "state_code": "PA",
+      "chamber": "house",
+      "district": "16",
+      "createdAt": "2026-05-20 00:09:53"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tbroadcast_key\telection_date\tstate_code\tchamber\tdistrict\tcreatedAt\n71\t2026-05-19:GA:house:11\t2026-05-19\tGA\thouse\t11\t2026-05-20 00:21:14\n70\t2026-05-05:OH:governor:0\t2026-05-05\tOH\tgovernor\t0\t2026-05-20 00:09:57\n69\t2026-05-05:OH:house:15\t2026-05-05\tOH\thouse\t15\t2026-05-20 00:09:57\n68\t2026-05-05:OH:house:14\t2026-05-05\tOH\thouse\t14\t2026-05-20 00:09:57\n67\t2026-05-05:OH:house:13\t2026-05-05\tOH\thouse\t13\t2026-05-20 00:09:57\n66\t2026-05-05:OH:house:12\t2026-05-05\tOH\thouse\t12\t2026-05-20 00:09:57\n65\t2026-05-05:OH:house:11\t2026-05-05\tOH\thouse\t11\t2026-05-20 00:09:57\n64\t2026-05-05:OH:house:10\t2026-05-05\tOH\thouse\t10\t2026-05-20 00:09:57\n63\t2026-05-05:OH:house:9\t2026-05-05\tOH\thouse\t9\t2026-05-20 00:09:56\n62\t2026-05-05:OH:house:8\t2026-05-05\tOH\thouse\t8\t2026-05-20 00:09:56\n61\t2026-05-05:OH:house:7\t2026-05-05\tOH\thouse\t7\t2026-05-20 00:09:56\n60\t2026-05-05:OH:house:6\t2026-05-05\tOH\thouse\t6\t2026-05-20 00:09:55\n59\t2026-05-05:OH:house:5\t2026-05-05\tOH\thouse\t5\t2026-05-20 00:09:55\n58\t2026-05-05:OH:house:4\t2026-05-05\tOH\thouse\t4\t2026-05-20 00:09:55\n57\t2026-05-05:OH:house:3\t2026-05-05\tOH\thouse\t3\t2026-05-20 00:09:55\n56\t2026-05-12:NE:governor:0\t2026-05-12\tNE\tgovernor\t0\t2026-05-20 00:09:55\n55\t2026-05-05:OH:house:2\t2026-05-05\tOH\thouse\t2\t2026-05-20 00:09:55\n54\t2026-05-12:NE:house:3\t2026-05-12\tNE\thouse\t3\t2026-05-20 00:09:55\n53\t2026-05-12:WV:house:2\t2026-05-12\tWV\thouse\t2\t2026-05-20 00:09:55\n52\t2026-05-05:OH:house:1\t2026-05-05\tOH\thouse\t1\t2026-05-20 00:09:55\n51\t2026-05-12:NE:house:2\t2026-05-12\tNE\thouse\t2\t2026-05-20 00:09:55\n50\t2026-05-12:WV:house:1\t2026-05-12\tWV\thouse\t1\t2026-05-20 00:09:55\n49\t2026-05-12:NE:house:1\t2026-05-12\tNE\thouse\t1\t2026-05-20 00:09:55\n48\t2026-05-05:OH:senate:0\t2026-05-05\tOH\tsenate\t0\t2026-05-20 00:09:55\n47\t2026-05-12:WV:senate:0\t2026-05-12\tWV\tsenate\t0\t2026-05-20 00:09:55\n46\t2026-05-12:NE:senate:0\t2026-05-12\tNE\tsenate\t0\t2026-05-20 00:09:55\n45\t2026-05-19:PA:governor:0\t2026-05-19\tPA\tgovernor\t0\t2026-05-20 00:09:53\n44\t2026-05-19:PA:house:17\t2026-05-19\tPA\thouse\t17\t2026-05-20 00:09:53\n43\t2026-05-05:IN:house:9\t2026-05-05\tIN\thouse\t9\t2026-05-20 00:09:53\n42\t2026-05-19:PA:house:16\t2026-05-19\tPA\thouse\t16\t2026-05-20 00:09:53\n",
+  "stderr": "",
+  "execution_time_ms": 259
+}

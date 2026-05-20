@@ -176,6 +176,8 @@ export default function Home() {
   // Toast queue — show one race-called toast at a time, 10.5s each
   const toastQueueRef = useRef<Array<{ title: string; description: string }>>([]);
   const toastActiveRef = useRef(false);
+  // Client-side dedup: track which race+timestamp combos we've already toasted
+  const seenToastIdsRef = useRef<Set<string>>(new Set());
 
   const showNextToast = useCallback(() => {
     if (toastQueueRef.current.length === 0) {
@@ -194,9 +196,19 @@ export default function Home() {
 
   useEffect(() => {
     if (!lastEvent || lastEvent.type !== "race_called") return;
-    // Only show toasts for tonight's election date — filter out past called races
-    const todayET = new Date().toLocaleDateString("en-CA", { timeZone: "America/New_York" });
-    if (lastEvent.electionDate && lastEvent.electionDate !== todayET) return;
+    // Show toasts for races from the current or recent election night (within 2 days).
+    // This handles the case where the AP Engine assigns an older date (e.g. May 5)
+    // to a race that was called during a later election night (e.g. May 19).
+    if (lastEvent.electionDate) {
+      const eventDate = new Date(lastEvent.electionDate + "T00:00:00");
+      const nowET = new Date(new Date().toLocaleString("en-US", { timeZone: "America/New_York" }));
+      const diffDays = (nowET.getTime() - eventDate.getTime()) / (1000 * 60 * 60 * 24);
+      if (diffDays > 2) return; // filter out stale races from more than 2 days ago
+    }
+    // Client-side dedup: skip if we've already shown a toast for this exact race+winner combo
+    const toastId = `${lastEvent.stateCode}-${lastEvent.chamber}-${lastEvent.district ?? 0}-${lastEvent.calledWinner}`;
+    if (seenToastIdsRef.current.has(toastId)) return;
+    seenToastIdsRef.current.add(toastId);
     const partyLabel = lastEvent.calledParty === "D" ? "Democrat" : lastEvent.calledParty === "R" ? "Republican" : lastEvent.calledParty;
     const stateName = lastEvent.stateName ?? lastEvent.stateCode;
     // Build a clear "State · Chamber District" label
@@ -204,7 +216,7 @@ export default function Home() {
       ? `${stateName} · Senate`
       : lastEvent.chamber === "governor"
       ? `${stateName} · Governor`
-      : `${stateName} · ${lastEvent.districtLabel ?? lastEvent.stateCode}`;
+      : `${stateName} · District ${lastEvent.districtLabel ?? lastEvent.district ?? lastEvent.stateCode}`;
     const uncontestedNote = lastEvent.isUncontested ? " · Uncontested" : "";
     toastQueueRef.current.push({
       title: `⚡ Race called — ${raceLabel}`,

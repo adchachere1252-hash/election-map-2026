@@ -1,0 +1,19 @@
+{
+  "query": "SELECT * FROM broadcast_log WHERE state_code = 'KY' AND chamber = 'house' AND district = '3';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT * FROM broadcast_log WHERE state_code = 'KY' AND chamber = 'house' AND district = '3';",
+  "rows": [
+    {
+      "id": "17",
+      "broadcast_key": "2026-05-19:KY:house:3",
+      "election_date": "2026-05-19",
+      "state_code": "KY",
+      "chamber": "house",
+      "district": "3",
+      "createdAt": "2026-05-20 00:09:51"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tbroadcast_key\telection_date\tstate_code\tchamber\tdistrict\tcreatedAt\n17\t2026-05-19:KY:house:3\t2026-05-19\tKY\thouse\t3\t2026-05-20 00:09:51\n",
+  "stderr": "",
+  "execution_time_ms": 266
+}

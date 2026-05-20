@@ -1,0 +1,19 @@
+{
+  "query": "SELECT * FROM broadcast_log WHERE state_code = 'GA' AND chamber = 'governor' LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT * FROM broadcast_log WHERE state_code = 'GA' AND chamber = 'governor' LIMIT 5;",
+  "rows": [
+    {
+      "id": "72",
+      "broadcast_key": "2026-05-19:GA:governor:0",
+      "election_date": "2026-05-19",
+      "state_code": "GA",
+      "chamber": "governor",
+      "district": "0",
+      "createdAt": "2026-05-20 00:41:46"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tbroadcast_key\telection_date\tstate_code\tchamber\tdistrict\tcreatedAt\n72\t2026-05-19:GA:governor:0\t2026-05-19\tGA\tgovernor\t0\t2026-05-20 00:41:46\n",
+  "stderr": "",
+  "execution_time_ms": 269
+}

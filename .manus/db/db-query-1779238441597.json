@@ -1,0 +1,20 @@
+{
+  "query": "SELECT state_code, state_name, called_winner, called_party, called_at, primary_winner, primary_party, status FROM governor_races WHERE state_code = 'GA' LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, called_winner, called_party, called_at, primary_winner, primary_party, status FROM governor_races WHERE state_code = 'GA' LIMIT 5;",
+  "rows": [
+    {
+      "state_code": "GA",
+      "state_name": "Georgia",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "called_at": "NULL",
+      "primary_winner": "Burt Jones",
+      "primary_party": "R",
+      "status": "Voting"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstate_name\tcalled_winner\tcalled_party\tcalled_at\tprimary_winner\tprimary_party\tstatus\nGA\tGeorgia\tNULL\tNULL\tNULL\tBurt Jones\tR\tVoting\n",
+  "stderr": "",
+  "execution_time_ms": 258
+}

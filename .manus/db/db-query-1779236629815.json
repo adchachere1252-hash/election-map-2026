@@ -1,0 +1,232 @@
+{
+  "query": "SELECT broadcast_key, state_code, chamber, district FROM broadcast_log WHERE election_date = '2026-05-19' ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT broadcast_key, state_code, chamber, district FROM broadcast_log WHERE election_date = '2026-05-19' ORDER BY id;",
+  "rows": [
+    {
+      "broadcast_key": "2026-05-19:GA:senate:0",
+      "state_code": "GA",
+      "chamber": "senate",
+      "district": "0"
+    },
+    {
+      "broadcast_key": "2026-05-19:GA:house:2",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "2"
+    },
+    {
+      "broadcast_key": "2026-05-19:GA:house:3",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "3"
+    },
+    {
+      "broadcast_key": "2026-05-19:GA:house:4",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "4"
+    },
+    {
+      "broadcast_key": "2026-05-19:GA:house:5",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "5"
+    },
+    {
+      "broadcast_key": "2026-05-19:GA:house:6",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "6"
+    },
+    {
+      "broadcast_key": "2026-05-19:GA:house:7",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "7"
+    },
+    {
+      "broadcast_key": "2026-05-19:GA:house:8",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "8"
+    },
+    {
+      "broadcast_key": "2026-05-19:AL:house:3",
+      "state_code": "AL",
+      "chamber": "house",
+      "district": "3"
+    },
+    {
+      "broadcast_key": "2026-05-19:AL:house:5",
+      "state_code": "AL",
+      "chamber": "house",
+      "district": "5"
+    },
+    {
+      "broadcast_key": "2026-05-19:GA:house:12",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "12"
+    },
+    {
+      "broadcast_key": "2026-05-19:GA:house:13",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "13"
+    },
+    {
+      "broadcast_key": "2026-05-19:KY:senate:0",
+      "state_code": "KY",
+      "chamber": "senate",
+      "district": "0"
+    },
+    {
+      "broadcast_key": "2026-05-19:GA:house:14",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "14"
+    },
+    {
+      "broadcast_key": "2026-05-19:KY:house:1",
+      "state_code": "KY",
+      "chamber": "house",
+      "district": "1"
+    },
+    {
+      "broadcast_key": "2026-05-19:KY:house:2",
+      "state_code": "KY",
+      "chamber": "house",
+      "district": "2"
+    },
+    {
+      "broadcast_key": "2026-05-19:KY:house:3",
+      "state_code": "KY",
+      "chamber": "house",
+      "district": "3"
+    },
+    {
+      "broadcast_key": "2026-05-19:KY:house:4",
+      "state_code": "KY",
+      "chamber": "house",
+      "district": "4"
+    },
+    {
+      "broadcast_key": "2026-05-19:KY:house:5",
+      "state_code": "KY",
+      "chamber": "house",
+      "district": "5"
+    },
+    {
+      "broadcast_key": "2026-05-19:PA:house:1",
+      "state_code": "PA",
+      "chamber": "house",
+      "district": "1"
+    },
+    {
+      "broadcast_key": "2026-05-19:PA:house:2",
+      "state_code": "PA",
+      "chamber": "house",
+      "district": "2"
+    },
+    {
+      "broadcast_key": "2026-05-19:PA:house:4",
+      "state_code": "PA",
+      "chamber": "house",
+      "district": "4"
+    },
+    {
+      "broadcast_key": "2026-05-19:PA:house:5",
+      "state_code": "PA",
+      "chamber": "house",
+      "district": "5"
+    },
+    {
+      "broadcast_key": "2026-05-19:PA:house:6",
+      "state_code": "PA",
+      "chamber": "house",
+      "district": "6"
+    },
+    {
+      "broadcast_key": "2026-05-19:PA:house:7",
+      "state_code": "PA",
+      "chamber": "house",
+      "district": "7"
+    },
+    {
+      "broadcast_key": "2026-05-19:PA:house:8",
+      "state_code": "PA",
+      "chamber": "house",
+      "district": "8"
+    },
+    {
+      "broadcast_key": "2026-05-19:PA:house:9",
+      "state_code": "PA",
+      "chamber": "house",
+      "district": "9"
+    },
+    {
+      "broadcast_key": "2026-05-19:PA:house:10",
+      "state_code": "PA",
+      "chamber": "house",
+      "district": "10"
+    },
+    {
+      "broadcast_key": "2026-05-19:PA:house:11",
+      "state_code": "PA",
+      "chamber": "house",
+      "district": "11"
+    },
+    {
+      "broadcast_key": "2026-05-19:PA:house:12",
+      "state_code": "PA",
+      "chamber": "house",
+      "district": "12"
+    },
+    {
+      "broadcast_key": "2026-05-19:PA:house:13",
+      "state_code": "PA",
+      "chamber": "house",
+      "district": "13"
+    },
+    {
+      "broadcast_key": "2026-05-19:PA:house:14",
+      "state_code": "PA",
+      "chamber": "house",
+      "district": "14"
+    },
+    {
+      "broadcast_key": "2026-05-19:PA:house:15",
+      "state_code": "PA",
+      "chamber": "house",
+      "district": "15"
+    },
+    {
+      "broadcast_key": "2026-05-19:PA:house:16",
+      "state_code": "PA",
+      "chamber": "house",
+      "district": "16"
+    },
+    {
+      "broadcast_key": "2026-05-19:PA:house:17",
+      "state_code": "PA",
+      "chamber": "house",
+      "district": "17"
+    },
+    {
+      "broadcast_key": "2026-05-19:PA:governor:0",
+      "state_code": "PA",
+      "chamber": "governor",
+      "district": "0"
+    },
+    {
+      "broadcast_key": "2026-05-19:GA:house:11",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "11"
+    }
+  ],
+  "messages": [],
+  "stdout": "broadcast_key\tstate_code\tchamber\tdistrict\n2026-05-19:GA:senate:0\tGA\tsenate\t0\n2026-05-19:GA:house:2\tGA\thouse\t2\n2026-05-19:GA:house:3\tGA\thouse\t3\n2026-05-19:GA:house:4\tGA\thouse\t4\n2026-05-19:GA:house:5\tGA\thouse\t5\n2026-05-19:GA:house:6\tGA\thouse\t6\n2026-05-19:GA:house:7\tGA\thouse\t7\n2026-05-19:GA:house:8\tGA\thouse\t8\n2026-05-19:AL:house:3\tAL\thouse\t3\n2026-05-19:AL:house:5\tAL\thouse\t5\n2026-05-19:GA:house:12\tGA\thouse\t12\n2026-05-19:GA:house:13\tGA\thouse\t13\n2026-05-19:KY:senate:0\tKY\tsenate\t0\n2026-05-19:GA:house:14\tGA\thouse\t14\n2026-05-19:KY:house:1\tKY\thouse\t1\n2026-05-19:KY:house:2\tKY\thouse\t2\n2026-05-19:KY:house:3\tKY\thouse\t3\n2026-05-19:KY:house:4\tKY\thouse\t4\n2026-05-19:KY:house:5\tKY\thouse\t5\n2026-05-19:PA:house:1\tPA\thouse\t1\n2026-05-19:PA:house:2\tPA\thouse\t2\n2026-05-19:PA:house:4\tPA\thouse\t4\n2026-05-19:PA:house:5\tPA\thouse\t5\n2026-05-19:PA:house:6\tPA\thouse\t6\n2026-05-19:PA:house:7\tPA\thouse\t7\n2026-05-19:PA:house:8\tPA\thouse\t8\n2026-05-19:PA:house:9\tPA\thouse\t9\n2026-05-19:PA:house:10\tPA\thouse\t10\n2026-05-19:PA:house:11\tPA\thouse\t11\n2026-05-19:PA:house:12\tPA\thouse\t12\n2026-05-19:PA:house:13\tPA\thouse\t13\n2026-05-19:PA:house:14\tPA\thouse\t14\n2026-05-19:PA:house:15\tPA\thouse\t15\n2026-05-19:PA:house:16\tPA\thouse\t16\n2026-05-19:PA:house:17\tPA\thouse\t17\n2026-05-19:PA:governor:0\tPA\tgovernor\t0\n2026-05-19:GA:house:11\tGA\thouse\t11\n",
+  "stderr": "",
+  "execution_time_ms": 264
+}

@@ -1,0 +1,100 @@
+{
+  "query": "SELECT * FROM broadcast_log WHERE state_code = 'GA' LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT * FROM broadcast_log WHERE state_code = 'GA' LIMIT 10;",
+  "rows": [
+    {
+      "id": "1",
+      "broadcast_key": "2026-05-19:GA:senate:0",
+      "election_date": "2026-05-19",
+      "state_code": "GA",
+      "chamber": "senate",
+      "district": "0",
+      "createdAt": "2026-05-20 00:09:50"
+    },
+    {
+      "id": "2",
+      "broadcast_key": "2026-05-19:GA:house:2",
+      "election_date": "2026-05-19",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "2",
+      "createdAt": "2026-05-20 00:09:50"
+    },
+    {
+      "id": "3",
+      "broadcast_key": "2026-05-19:GA:house:3",
+      "election_date": "2026-05-19",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "3",
+      "createdAt": "2026-05-20 00:09:50"
+    },
+    {
+      "id": "4",
+      "broadcast_key": "2026-05-19:GA:house:4",
+      "election_date": "2026-05-19",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "4",
+      "createdAt": "2026-05-20 00:09:50"
+    },
+    {
+      "id": "5",
+      "broadcast_key": "2026-05-19:GA:house:5",
+      "election_date": "2026-05-19",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "5",
+      "createdAt": "2026-05-20 00:09:50"
+    },
+    {
+      "id": "6",
+      "broadcast_key": "2026-05-19:GA:house:6",
+      "election_date": "2026-05-19",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "6",
+      "createdAt": "2026-05-20 00:09:50"
+    },
+    {
+      "id": "7",
+      "broadcast_key": "2026-05-19:GA:house:7",
+      "election_date": "2026-05-19",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "7",
+      "createdAt": "2026-05-20 00:09:50"
+    },
+    {
+      "id": "8",
+      "broadcast_key": "2026-05-19:GA:house:8",
+      "election_date": "2026-05-19",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "8",
+      "createdAt": "2026-05-20 00:09:50"
+    },
+    {
+      "id": "11",
+      "broadcast_key": "2026-05-19:GA:house:12",
+      "election_date": "2026-05-19",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "12",
+      "createdAt": "2026-05-20 00:09:51"
+    },
+    {
+      "id": "12",
+      "broadcast_key": "2026-05-19:GA:house:13",
+      "election_date": "2026-05-19",
+      "state_code": "GA",
+      "chamber": "house",
+      "district": "13",
+      "createdAt": "2026-05-20 00:09:51"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tbroadcast_key\telection_date\tstate_code\tchamber\tdistrict\tcreatedAt\n1\t2026-05-19:GA:senate:0\t2026-05-19\tGA\tsenate\t0\t2026-05-20 00:09:50\n2\t2026-05-19:GA:house:2\t2026-05-19\tGA\thouse\t2\t2026-05-20 00:09:50\n3\t2026-05-19:GA:house:3\t2026-05-19\tGA\thouse\t3\t2026-05-20 00:09:50\n4\t2026-05-19:GA:house:4\t2026-05-19\tGA\thouse\t4\t2026-05-20 00:09:50\n5\t2026-05-19:GA:house:5\t2026-05-19\tGA\thouse\t5\t2026-05-20 00:09:50\n6\t2026-05-19:GA:house:6\t2026-05-19\tGA\thouse\t6\t2026-05-20 00:09:50\n7\t2026-05-19:GA:house:7\t2026-05-19\tGA\thouse\t7\t2026-05-20 00:09:50\n8\t2026-05-19:GA:house:8\t2026-05-19\tGA\thouse\t8\t2026-05-20 00:09:50\n11\t2026-05-19:GA:house:12\t2026-05-19\tGA\thouse\t12\t2026-05-20 00:09:51\n12\t2026-05-19:GA:house:13\t2026-05-19\tGA\thouse\t13\t2026-05-20 00:09:51\n",
+  "stderr": "",
+  "execution_time_ms": 267
+}

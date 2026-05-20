@@ -1,0 +1,49 @@
+{
+  "query": "-- Check senate races called tonight\nSELECT state_code, called_winner, called_party, primary_winner, primary_party, status FROM senate_races \nWHERE (called_winner IS NOT NULL OR primary_winner IS NOT NULL) \nAND state_code NOT IN (SELECT state_code FROM broadcast_log WHERE election_date = '2026-05-19' AND chamber = 'senate')\nLIMIT 10;\n\n-- Check house races called tonight that aren't in broadcast_log\nSELECT state_code, district, called_winner, called_party, primary_winner, primary_party, status FROM house_races \nWHERE (called_winner IS NOT NULL OR primary_winner IS NOT NULL) \nLIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- Check senate races called tonight\nSELECT state_code, called_winner, called_party, primary_winner, primary_party, status FROM senate_races \nWHERE (called_winner IS NOT NULL OR primary_winner IS NOT NULL) \nAND state_code NOT IN (SELECT state_code FROM broadcast_log WHERE election_date = '2026-05-19' AND chamber = 'senate')\nLIMIT 10;\n\n-- Check house races called tonight that aren't in broadcast_log\nSELECT state_code, district, called_winner, called_party, primary_winner, primary_party, status FROM house_races \nWHERE (called_winner IS NOT NULL OR primary_winner IS NOT NULL) \nLIMIT 5;",
+  "rows": [
+    {
+      "state_code": "LA",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "primary_winner": "Runoff",
+      "primary_party": "R",
+      "status": "Primary Runoff"
+    },
+    {
+      "state_code": "NE",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "primary_winner": "Cindy Burbank",
+      "primary_party": "D",
+      "status": "General"
+    },
+    {
+      "state_code": "WV",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "primary_winner": "Rachel Anderson",
+      "primary_party": "D",
+      "status": "General"
+    },
+    {
+      "state_code": "OH",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "primary_winner": "Sherrod Brown",
+      "primary_party": "D",
+      "status": "General"
+    }
+  ],
+  "messages": [
+    "state_code\tdistrict\tcalled_winner\tcalled_party\tprimary_winner\tprimary_party\tstatus",
+    "AL\t3\tNULL\tNULL\tLee McInnis\tD\tGeneral",
+    "AL\t5\tNULL\tNULL\tDale Strong\tR\tGeneral",
+    "AZ\t7\tAdelita S. Grijalva\tD\tNULL\tNULL\tCalled",
+    "FL\t1\tJimmy Patronis\tR\tNULL\tNULL\tCalled",
+    "FL\t6\tRandy Fine\tR\tNULL\tNULL\tCalled"
+  ],
+  "stdout": "state_code\tcalled_winner\tcalled_party\tprimary_winner\tprimary_party\tstatus\nLA\tNULL\tNULL\tRunoff\tR\tPrimary Runoff\nNE\tNULL\tNULL\tCindy Burbank\tD\tGeneral\nWV\tNULL\tNULL\tRachel Anderson\tD\tGeneral\nOH\tNULL\tNULL\tSherrod Brown\tD\tGeneral\nstate_code\tdistrict\tcalled_winner\tcalled_party\tprimary_winner\tprimary_party\tstatus\nAL\t3\tNULL\tNULL\tLee McInnis\tD\tGeneral\nAL\t5\tNULL\tNULL\tDale Strong\tR\tGeneral\nAZ\t7\tAdelita S. Grijalva\tD\tNULL\tNULL\tCalled\nFL\t1\tJimmy Patronis\tR\tNULL\tNULL\tCalled\nFL\t6\tRandy Fine\tR\tNULL\tNULL\tCalled\n",
+  "stderr": "",
+  "execution_time_ms": 270
+}

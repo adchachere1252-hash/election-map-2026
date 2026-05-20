@@ -1,0 +1,46 @@
+{
+  "query": "SELECT broadcast_key, election_date FROM broadcast_log WHERE state_code = 'IN' AND chamber = 'house' ORDER BY district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT broadcast_key, election_date FROM broadcast_log WHERE state_code = 'IN' AND chamber = 'house' ORDER BY district;",
+  "rows": [
+    {
+      "broadcast_key": "2026-05-05:IN:house:1",
+      "election_date": "2026-05-05"
+    },
+    {
+      "broadcast_key": "2026-05-05:IN:house:2",
+      "election_date": "2026-05-05"
+    },
+    {
+      "broadcast_key": "2026-05-05:IN:house:3",
+      "election_date": "2026-05-05"
+    },
+    {
+      "broadcast_key": "2026-05-05:IN:house:4",
+      "election_date": "2026-05-05"
+    },
+    {
+      "broadcast_key": "2026-05-05:IN:house:5",
+      "election_date": "2026-05-05"
+    },
+    {
+      "broadcast_key": "2026-05-05:IN:house:6",
+      "election_date": "2026-05-05"
+    },
+    {
+      "broadcast_key": "2026-05-05:IN:house:7",
+      "election_date": "2026-05-05"
+    },
+    {
+      "broadcast_key": "2026-05-05:IN:house:8",
+      "election_date": "2026-05-05"
+    },
+    {
+      "broadcast_key": "2026-05-05:IN:house:9",
+      "election_date": "2026-05-05"
+    }
+  ],
+  "messages": [],
+  "stdout": "broadcast_key\telection_date\n2026-05-05:IN:house:1\t2026-05-05\n2026-05-05:IN:house:2\t2026-05-05\n2026-05-05:IN:house:3\t2026-05-05\n2026-05-05:IN:house:4\t2026-05-05\n2026-05-05:IN:house:5\t2026-05-05\n2026-05-05:IN:house:6\t2026-05-05\n2026-05-05:IN:house:7\t2026-05-05\n2026-05-05:IN:house:8\t2026-05-05\n2026-05-05:IN:house:9\t2026-05-05\n",
+  "stderr": "",
+  "execution_time_ms": 260
+}
