@@ -1558,3 +1558,8 @@
 - [x] Full Senate race verification — verify all 35 races for correct candidates, status, and ratings
 - [x] Full House race verification — verify all called/voting/runoff races for correct candidates
 - [x] Apply all corrections found during Senate/House verification
+
+## Upcoming Tasks (May 20 Session)
+- [x] Fix GA Governor R runoff names to "Burt Jones vs Rick Jackson" (currently "Jones vs Jackson")
+- [x] Verify and populate June 2 primary candidates: IA, MT, NJ, NM, SD (Senate and House)
+- [x] Add TX Senate runoff countdown banner (May 27 runoff — 7 days away)

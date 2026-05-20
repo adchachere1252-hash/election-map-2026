@@ -1,0 +1,50 @@
+{
+  "query": "-- Fix GA Governor R runoff notes\nUPDATE governor_races \nSET notes = 'D Primary Winner: Keisha Lance Bottoms (56.2%). R Runoff: Burt Jones vs Rick Jackson (June 16, 2026). Runoff date: June 16, 2026.'\nWHERE state_code = 'GA';\n\n-- Check June 2 primary states: IA, MT, NJ, NM, SD Senate races\nSELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status\nFROM senate_races \nWHERE state_code IN ('IA','MT','NJ','NM','SD')\nORDER BY state_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- Fix GA Governor R runoff notes\nUPDATE governor_races \nSET notes = 'D Primary Winner: Keisha Lance Bottoms (56.2%). R Runoff: Burt Jones vs Rick Jackson (June 16, 2026). Runoff date: June 16, 2026.'\nWHERE state_code = 'GA';\n\n-- Check June 2 primary states: IA, MT, NJ, NM, SD Senate races\nSELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status\nFROM senate_races \nWHERE state_code IN ('IA','MT','NJ','NM','SD')\nORDER BY state_code;",
+  "rows": [
+    {
+      "state_code": "IA",
+      "candidate1_name": "TBD — D Primary: June 2, 2026 (Turek, Wahls)",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: June 2, 2026 (Carlin, Hinson)",
+      "candidate2_party": "R",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "MT",
+      "candidate1_name": "TBD — D Primary: June 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: June 2, 2026 (Alme, Calhoun)",
+      "candidate2_party": "R",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "NJ",
+      "candidate1_name": "Cory Booker",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Republican Primary",
+      "candidate2_party": "R",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "NM",
+      "candidate1_name": "Ben Ray Luján",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Republican Primary",
+      "candidate2_party": "R",
+      "status": "Scheduled"
+    },
+    {
+      "state_code": "SD",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Rounds",
+      "candidate2_party": "R",
+      "status": "Scheduled"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\nIA\tTBD — D Primary: June 2, 2026 (Turek, Wahls)\tD\tTBD — R Primary: June 2, 2026 (Carlin, Hinson)\tR\tScheduled\nMT\tTBD — D Primary: June 2, 2026\tD\tTBD — R Primary: June 2, 2026 (Alme, Calhoun)\tR\tScheduled\nNJ\tCory Booker\tD\tTBD — Republican Primary\tR\tScheduled\nNM\tBen Ray Luján\tD\tTBD — Republican Primary\tR\tScheduled\nSD\tTBD — Democratic Primary\tD\tMike Rounds\tR\tScheduled\n",
+  "stderr": "",
+  "execution_time_ms": 292
+}
