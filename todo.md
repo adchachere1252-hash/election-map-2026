@@ -1526,7 +1526,7 @@
 - [x] Run all 58 tests — all passing, TypeScript: 0 errors
 
 ## Toast Fixes (May 20, 2026)
-- [ ] Fix toast label format: broadcast sends label like "IN-IN-9" instead of "Indiana · District 9" — stateName not passed in broadcast payload
-- [ ] Fix next-themes compatibility: sonner.tsx uses useTheme from next-themes but app uses custom ThemeContext — toasts may render with wrong theme
-- [ ] Fix electionDate filter in toast useEffect: verify it correctly handles midnight UTC boundary (GA governor toast at 00:41 UTC = May 19 ET)
-- [ ] Add client-side dedup for toast queue: same race should not show multiple toasts if WS reconnects
+- [x] Fix toast label format: broadcast sends label like "IN-IN-9" instead of "Indiana · District 9" — stateName not passed in broadcast payload
+- [x] Fix next-themes compatibility: sonner.tsx uses useTheme from next-themes but app uses custom ThemeContext — toasts may render with wrong theme (fixed by setting theme="dark" directly on Toaster)
+- [x] Fix electionDate filter in toast useEffect: relaxed from strict today-only to within-2-days to handle AP Engine date mismatches and UTC boundary
+- [x] Add client-side dedup for toast queue: same race should not show multiple toasts if WS reconnects (seenToastIdsRef)

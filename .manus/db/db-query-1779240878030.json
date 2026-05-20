@@ -1,0 +1,66 @@
+{
+  "query": "SELECT state_code, state_name, dem_candidate, rep_candidate, other_candidate_name, other_candidate_party FROM governor_races WHERE other_candidate_name IS NOT NULL AND other_candidate_name != '' ORDER BY state_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, dem_candidate, rep_candidate, other_candidate_name, other_candidate_party FROM governor_races WHERE other_candidate_name IS NOT NULL AND other_candidate_name != '' ORDER BY state_code;",
+  "rows": [
+    {
+      "state_code": "AL",
+      "state_name": "Alabama",
+      "dem_candidate": "TBD — Democratic Primary",
+      "rep_candidate": "TBD — Republican Primary",
+      "other_candidate_name": "Phillip Ensler, Darryl Perryman, Wes Allen, John Wahl, Will Boyd, Ken McFeeters, Rick Pate, Jamel Brown, Yolanda Flowers, Nicole Wadsworth, Will Santivasci, Pat Bishop, Stewart Tankersley, George Childress, Chad Martin, Nathan Mathis",
+      "other_candidate_party": "NULL"
+    },
+    {
+      "state_code": "GA",
+      "state_name": "Georgia",
+      "dem_candidate": "TBD — D Primary: May 19, 2026 (Bottoms, Brown, Duffy, Duncan, Esteves, Jackson, Thurmond, Romman)",
+      "rep_candidate": "TBD — R Primary: May 19, 2026 (Carr, Dean, Jones, Kirkpatrick, Raffensperger, Williams, Yasger)",
+      "other_candidate_name": "Nabilah Parkes, Burt Jones, Rick Jackson, John Kennedy, Greg Dolezal, Richard Wright, Blake Tillery, David Clark, Jason Esteves, Brad Raffensperger, Michael Thurmond, Steve Gooch, Chris Carr, Geoff Duncan, Derrick Jackson, Brenda Nelson-Porter, Amanda Duffy, Olu Brown, Takosha Swan, Clark Dean, Gregg Kirkpatrick, Ken Yasger, Tom Williams",
+      "other_candidate_party": "NULL"
+    },
+    {
+      "state_code": "ID",
+      "state_name": "Idaho",
+      "dem_candidate": "TBD — Democratic Primary",
+      "rep_candidate": "Brad Little (incumbent)",
+      "other_candidate_name": "Jill Kirkham, Chanelle Torrez, Eric Myricks, Sean Crystal, Brad Little, Lisa Marie, Mark Fitzpatrick, Daniel Fowler, Ethan Giles, Ron James, Justin Plante, Scott Bedke",
+      "other_candidate_party": "NULL"
+    },
+    {
+      "state_code": "NE",
+      "state_name": "Nebraska",
+      "dem_candidate": "Lynne Walz",
+      "rep_candidate": "TBD — R Primary: May 12, 2026",
+      "other_candidate_name": "John Walz, Larry Marvin, Sheila Korth-Focken, Gary Rogge, Jacy Todd, Sal Holguin",
+      "other_candidate_party": "NULL"
+    },
+    {
+      "state_code": "OH",
+      "state_name": "Ohio",
+      "dem_candidate": "Amy Acton",
+      "rep_candidate": "Vivek Ramaswamy",
+      "other_candidate_name": "Amy Acton",
+      "other_candidate_party": "NULL"
+    },
+    {
+      "state_code": "OR",
+      "state_name": "Oregon",
+      "dem_candidate": "Tina Kotek (incumbent)",
+      "rep_candidate": "Christine Drazan",
+      "other_candidate_name": "Robert Neuman, Martin Ward, Chris Dudley, Paul Romero, Christine Drazan, Danielle Bethell, Hope Dalrymple, Kyle Duyck, David Medina, Brad Peters, Wen Waddell, Tim Youker, DeAngelo Turner, Total Write-ins, Steve Laible, James Atkinson, David Beem, Tina Kotek, Forest Alexander, Cal Kishawi, Donnie Beckwith, Brittany Jones, Tristan Sheppard, Miranda Weigler",
+      "other_candidate_party": "NULL"
+    },
+    {
+      "state_code": "PA",
+      "state_name": "Pennsylvania",
+      "dem_candidate": "Josh Shapiro (incumbent)",
+      "rep_candidate": "TBD — Republican Primary",
+      "other_candidate_name": "Stacy Garrity, Austin Davis, Josh Shapiro",
+      "other_candidate_party": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstate_name\tdem_candidate\trep_candidate\tother_candidate_name\tother_candidate_party\nAL\tAlabama\tTBD — Democratic Primary\tTBD — Republican Primary\tPhillip Ensler, Darryl Perryman, Wes Allen, John Wahl, Will Boyd, Ken McFeeters, Rick Pate, Jamel Brown, Yolanda Flowers, Nicole Wadsworth, Will Santivasci, Pat Bishop, Stewart Tankersley, George Childress, Chad Martin, Nathan Mathis\tNULL\nGA\tGeorgia\tTBD — D Primary: May 19, 2026 (Bottoms, Brown, Duffy, Duncan, Esteves, Jackson, Thurmond, Romman)\tTBD — R Primary: May 19, 2026 (Carr, Dean, Jones, Kirkpatrick, Raffensperger, Williams, Yasger)\tNabilah Parkes, Burt Jones, Rick Jackson, John Kennedy, Greg Dolezal, Richard Wright, Blake Tillery, David Clark, Jason Esteves, Brad Raffensperger, Michael Thurmond, Steve Gooch, Chris Carr, Geoff Duncan, Derrick Jackson, Brenda Nelson-Porter, Amanda Duffy, Olu Brown, Takosha Swan, Clark Dean, Gregg Kirkpatrick, Ken Yasger, Tom Williams\tNULL\nID\tIdaho\tTBD — Democratic Primary\tBrad Little (incumbent)\tJill Kirkham, Chanelle Torrez, Eric Myricks, Sean Crystal, Brad Little, Lisa Marie, Mark Fitzpatrick, Daniel Fowler, Ethan Giles, Ron James, Justin Plante, Scott Bedke\tNULL\nNE\tNebraska\tLynne Walz\tTBD — R Primary: May 12, 2026\tJohn Walz, Larry Marvin, Sheila Korth-Focken, Gary Rogge, Jacy Todd, Sal Holguin\tNULL\nOH\tOhio\tAmy Acton\tVivek Ramaswamy\tAmy Acton\tNULL\nOR\tOregon\tTina Kotek (incumbent)\tChristine Drazan\tRobert Neuman, Martin Ward, Chris Dudley, Paul Romero, Christine Drazan, Danielle Bethell, Hope Dalrymple, Kyle Duyck, David Medina, Brad Peters, Wen Waddell, Tim Youker, DeAngelo Turner, Total Write-ins, Steve Laible, James Atkinson, David Beem, Tina Kotek, Forest Alexander, Cal Kishawi, Donnie Beckwith, Brittany Jones, Tristan Sheppard, Miranda Weigler\tNULL\nPA\tPennsylvania\tJosh Shapiro (incumbent)\tTBD — Republican Primary\tStacy Garrity, Austin Davis, Josh Shapiro\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 271
+}

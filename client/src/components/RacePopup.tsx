@@ -136,8 +136,12 @@ function GeneralMatchupSection({
   districtLabel?: string | null;
   previousParty?: string | null;
 }) {
-  if (!candidate1Name || !candidate2Name) return null;
+   // When one candidate is still TBD (primary not yet called), show a partial matchup card
+  const candidate2TBD = !candidate2Name;
+  const effectiveC2Name = candidate2Name ?? (candidate1Party === "R" ? "TBD — Democratic Nominee" : "TBD — Republican Nominee");
+  const effectiveC2Party = candidate2Party ?? (candidate1Party === "R" ? "D" : "R");
 
+  if (!candidate1Name) return null;
   // Build structured context lines for the yellow info box
   const contextLines: string[] = [];
 
@@ -161,7 +165,7 @@ function GeneralMatchupSection({
     contextLines.push(`Open seat \u2014 ${incumbent} (${partyLabel}) is not seeking re-election. No incumbent advantage.`);
   } else if (incumbent && !incumbentRetiring) {
     const partyLabel = incumbentParty === "D" ? "Democrat" : incumbentParty === "R" ? "Republican" : incumbentParty ?? "";
-    const incumbentSide = incumbentParty === candidate1Party ? candidate1Name : candidate2Name;
+    const incumbentSide = incumbentParty === candidate1Party ? candidate1Name : effectiveC2Name;
     contextLines.push(`${incumbent} (${partyLabel}) is the incumbent seeking re-election${incumbentSide ? " as " + incumbentSide : ""}.`);
   } else if (!incumbent) {
     contextLines.push("Open seat \u2014 no incumbent is running. Both candidates start on equal footing.");
@@ -171,8 +175,8 @@ function GeneralMatchupSection({
   const seatHeldByD = previousParty === "D";
   const seatHeldByR = previousParty === "R";
   const challengerParty = seatHeldByD ? "R" : seatHeldByR ? "D" : null;
-  const challengerName = challengerParty === candidate1Party ? candidate1Name : challengerParty === candidate2Party ? candidate2Name : null;
-  if (previousParty && previousParty !== candidate1Party && previousParty !== candidate2Party) {
+  const challengerName = challengerParty === candidate1Party ? candidate1Name : challengerParty === effectiveC2Party ? effectiveC2Name : null;
+  if (previousParty && previousParty !== candidate1Party && previousParty !== effectiveC2Party) {
     const prevLabel = previousParty === "D" ? "Democrats" : previousParty === "R" ? "Republicans" : previousParty;
     contextLines.push(`This seat is currently held by ${prevLabel}. A win here would be a party flip.`);
   } else if (previousParty && challengerName) {
@@ -203,11 +207,16 @@ function GeneralMatchupSection({
 
   const photoSize = chamber === "senate" || chamber === "governor" ? 72 : 60;
   const c1Color = getPartyColor(candidate1Party as any);
-  const c2Color = getPartyColor(candidate2Party as any);
+  const c2Color = getPartyColor(effectiveC2Party as any);
 
   return (
     <>
       <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-2">November General Election Matchup</p>
+      {candidate2TBD && (
+        <p className="text-[10px] text-amber-400/80 bg-amber-900/20 border border-amber-700/30 rounded px-2 py-1 mb-2 flex items-center gap-1">
+          <span>⏳</span> Democratic primary still being counted — opponent TBD
+        </p>
+      )}
       <div className="rounded-lg overflow-hidden border border-white/10 mb-3" style={{ background: "linear-gradient(135deg, " + c1Color + "18 0%, transparent 50%, " + c2Color + "18 100%)" }}>
         {/* Photo row with split gradient */}
         <div className="relative flex items-stretch">
@@ -253,9 +262,9 @@ function GeneralMatchupSection({
               className="rounded-full p-[3px] flex-shrink-0"
               style={{ background: "linear-gradient(135deg, " + c2Color + ", " + c2Color + "88)" }}
             >
-              <CandidateAvatar name={candidate2Name} party={candidate2Party} size={photoSize} />
+              <CandidateAvatar name={effectiveC2Name} party={effectiveC2Party} size={photoSize} />
             </div>
-            <span className="text-sm font-bold text-center leading-tight">{candidate2Name}</span>
+            <span className={`text-sm font-bold text-center leading-tight ${candidate2TBD ? "text-muted-foreground italic" : ""}`}>{effectiveC2Name}</span>
             <span
               className="text-xs font-bold px-2.5 py-0.5 rounded-full"
               style={{
@@ -264,7 +273,7 @@ function GeneralMatchupSection({
                 border: "1px solid " + c2Color + "55"
               }}
             >
-              {getPartyLabel(candidate2Party as any)}
+              {getPartyLabel(effectiveC2Party as any)}
             </span>
           </div>
         </div>

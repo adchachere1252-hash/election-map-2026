@@ -1,0 +1,52 @@
+{
+  "query": "SELECT column_name FROM information_schema.columns WHERE table_name = 'governor_races' AND ordinal_position > 20 ORDER BY ordinal_position;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT column_name FROM information_schema.columns WHERE table_name = 'governor_races' AND ordinal_position > 20 ORDER BY ordinal_position;",
+  "rows": [
+    {
+      "column_name": "rep_candidate"
+    },
+    {
+      "column_name": "notes"
+    },
+    {
+      "column_name": "updated_at"
+    },
+    {
+      "column_name": "dem_previous_office"
+    },
+    {
+      "column_name": "rep_previous_office"
+    },
+    {
+      "column_name": "dem_bio"
+    },
+    {
+      "column_name": "rep_bio"
+    },
+    {
+      "column_name": "called_at"
+    },
+    {
+      "column_name": "other_candidate_name"
+    },
+    {
+      "column_name": "other_candidate_party"
+    },
+    {
+      "column_name": "other_votes"
+    },
+    {
+      "column_name": "other_vote_pct"
+    },
+    {
+      "column_name": "primary_winner"
+    },
+    {
+      "column_name": "primary_party"
+    }
+  ],
+  "messages": [],
+  "stdout": "column_name\nrep_candidate\nnotes\nupdated_at\ndem_previous_office\nrep_previous_office\ndem_bio\nrep_bio\ncalled_at\nother_candidate_name\nother_candidate_party\nother_votes\nother_vote_pct\nprimary_winner\nprimary_party\n",
+  "stderr": "",
+  "execution_time_ms": 262
+}
