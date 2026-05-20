@@ -1,0 +1,90 @@
+{
+  "query": "\n-- Check for write-ins still in any candidate slot\nSELECT state_code, district, candidate1_name, candidate2_name\nFROM house_races\nWHERE candidate1_name LIKE '%write%' OR candidate2_name LIKE '%write%'\n   OR candidate1_name LIKE '%Write%' OR candidate2_name LIKE '%Write%';\n\n-- Check for same-name duplicates in candidate1/candidate2\nSELECT state_code, district, candidate1_name, candidate2_name, status\nFROM house_races\nWHERE candidate1_name IS NOT NULL \n  AND candidate2_name IS NOT NULL\n  AND candidate1_name = candidate2_name\nLIMIT 10;\n\n-- Quick status summary for tonight's states\nSELECT state_code, status, COUNT(*) as cnt\nFROM house_races\nWHERE state_code IN ('GA','KY','OR','PA','WV','NE','ID')\nGROUP BY state_code, status\nORDER BY state_code, status;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- Check for write-ins still in any candidate slot\nSELECT state_code, district, candidate1_name, candidate2_name\nFROM house_races\nWHERE candidate1_name LIKE '%write%' OR candidate2_name LIKE '%write%'\n   OR candidate1_name LIKE '%Write%' OR candidate2_name LIKE '%Write%';\n\n-- Check for same-name duplicates in candidate1/candidate2\nSELECT state_code, district, candidate1_name, candidate2_name, status\nFROM house_races\nWHERE candidate1_name IS NOT NULL \n  AND candidate2_name IS NOT NULL\n  AND candidate1_name = candidate2_name\nLIMIT 10;\n\n-- Quick status summary for tonight's states\nSELECT state_code, status, COUNT(*) as cnt\nFROM house_races\nWHERE state_code IN ('GA','KY','OR','PA','WV','NE','ID')\nGROUP BY state_code, status\nORDER BY state_code, status;\n",
+  "rows": [
+    {
+      "state_code": "AL",
+      "district": "5",
+      "candidate1_name": "Dale W. Strong",
+      "candidate2_name": "Dale W. Strong",
+      "status": "General"
+    },
+    {
+      "state_code": "GA",
+      "district": "12",
+      "candidate1_name": "Rick W. Allen",
+      "candidate2_name": "Rick W. Allen",
+      "status": "General"
+    },
+    {
+      "state_code": "IN",
+      "district": "3",
+      "candidate1_name": "Marlin Stutzman",
+      "candidate2_name": "Marlin Stutzman",
+      "status": "General"
+    },
+    {
+      "state_code": "IN",
+      "district": "4",
+      "candidate1_name": "Jim Baird",
+      "candidate2_name": "Jim Baird",
+      "status": "General"
+    },
+    {
+      "state_code": "KY",
+      "district": "2",
+      "candidate1_name": "Brett Guthrie",
+      "candidate2_name": "Brett Guthrie",
+      "status": "General"
+    },
+    {
+      "state_code": "OR",
+      "district": "1",
+      "candidate1_name": "John Verbeek",
+      "candidate2_name": "John Verbeek",
+      "status": "Primary"
+    },
+    {
+      "state_code": "OR",
+      "district": "2",
+      "candidate1_name": "Cliff Bentz",
+      "candidate2_name": "Cliff Bentz",
+      "status": "Primary"
+    },
+    {
+      "state_code": "OR",
+      "district": "3",
+      "candidate1_name": "Maxine Dexter",
+      "candidate2_name": "Maxine Dexter",
+      "status": "Primary"
+    },
+    {
+      "state_code": "OR",
+      "district": "4",
+      "candidate1_name": "Monique DeSpain",
+      "candidate2_name": "Monique DeSpain",
+      "status": "Primary"
+    },
+    {
+      "state_code": "OR",
+      "district": "5",
+      "candidate1_name": "Patti Adair",
+      "candidate2_name": "Patti Adair",
+      "status": "Primary"
+    }
+  ],
+  "messages": [
+    "state_code\tstatus\tcnt",
+    "GA\tGeneral\t14",
+    "ID\tScheduled\t2",
+    "KY\tGeneral\t6",
+    "NE\tGeneral\t3",
+    "OR\tPrimary\t6",
+    "PA\tScheduled\t1",
+    "PA\tGeneral\t16",
+    "WV\tGeneral\t2"
+  ],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate2_name\tstatus\nAL\t5\tDale W. Strong\tDale W. Strong\tGeneral\nGA\t12\tRick W. Allen\tRick W. Allen\tGeneral\nIN\t3\tMarlin Stutzman\tMarlin Stutzman\tGeneral\nIN\t4\tJim Baird\tJim Baird\tGeneral\nKY\t2\tBrett Guthrie\tBrett Guthrie\tGeneral\nOR\t1\tJohn Verbeek\tJohn Verbeek\tPrimary\nOR\t2\tCliff Bentz\tCliff Bentz\tPrimary\nOR\t3\tMaxine Dexter\tMaxine Dexter\tPrimary\nOR\t4\tMonique DeSpain\tMonique DeSpain\tPrimary\nOR\t5\tPatti Adair\tPatti Adair\tPrimary\nstate_code\tstatus\tcnt\nGA\tGeneral\t14\nID\tScheduled\t2\nKY\tGeneral\t6\nNE\tGeneral\t3\nOR\tPrimary\t6\nPA\tScheduled\t1\nPA\tGeneral\t16\nWV\tGeneral\t2\n",
+  "stderr": "",
+  "execution_time_ms": 282
+}

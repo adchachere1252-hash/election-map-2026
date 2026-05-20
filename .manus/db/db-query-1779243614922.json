@@ -1,0 +1,55 @@
+{
+  "query": "\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status\nFROM house_races\nWHERE state_code = 'OR' AND district IN (1,2,3,4,5)\nORDER BY district;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status\nFROM house_races\nWHERE state_code = 'OR' AND district IN (1,2,3,4,5)\nORDER BY district;\n",
+  "rows": [
+    {
+      "state_code": "OR",
+      "district": "1",
+      "candidate1_name": "John Verbeek",
+      "candidate1_party": "R",
+      "candidate2_name": "John Verbeek",
+      "candidate2_party": "R",
+      "status": "Primary"
+    },
+    {
+      "state_code": "OR",
+      "district": "2",
+      "candidate1_name": "Cliff Bentz",
+      "candidate1_party": "R",
+      "candidate2_name": "Cliff Bentz",
+      "candidate2_party": "R",
+      "status": "Primary"
+    },
+    {
+      "state_code": "OR",
+      "district": "3",
+      "candidate1_name": "Maxine Dexter",
+      "candidate1_party": "D",
+      "candidate2_name": "Maxine Dexter",
+      "candidate2_party": "D",
+      "status": "Primary"
+    },
+    {
+      "state_code": "OR",
+      "district": "4",
+      "candidate1_name": "Monique DeSpain",
+      "candidate1_party": "R",
+      "candidate2_name": "Monique DeSpain",
+      "candidate2_party": "R",
+      "status": "Primary"
+    },
+    {
+      "state_code": "OR",
+      "district": "5",
+      "candidate1_name": "Patti Adair",
+      "candidate1_party": "R",
+      "candidate2_name": "Patti Adair",
+      "candidate2_party": "R",
+      "status": "Primary"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\nOR\t1\tJohn Verbeek\tR\tJohn Verbeek\tR\tPrimary\nOR\t2\tCliff Bentz\tR\tCliff Bentz\tR\tPrimary\nOR\t3\tMaxine Dexter\tD\tMaxine Dexter\tD\tPrimary\nOR\t4\tMonique DeSpain\tR\tMonique DeSpain\tR\tPrimary\nOR\t5\tPatti Adair\tR\tPatti Adair\tR\tPrimary\n",
+  "stderr": "",
+  "execution_time_ms": 260
+}

@@ -259,28 +259,38 @@ function buildUpdate(
   if (!race) return {};
 
   const update: Record<string, unknown> = {};
-  const sorted = [...race.candidates].sort((a, b) => (b.pct ?? 0) - (a.pct ?? 0));
+
+  // Strip write-ins from all candidate slots — never display them
+  const isWriteIn = (name: string) =>
+    !name ||
+    name.toLowerCase().includes("write-in") ||
+    name.toLowerCase().includes("write in") ||
+    name.toLowerCase().includes("writein") ||
+    name.toLowerCase() === "total write-ins";
+
+  // Filter out write-ins before sorting
+  const realCandidates = race.candidates.filter(c => c.name && !isWriteIn(c.name));
+  const sorted = [...realCandidates].sort((a, b) => (b.pct ?? 0) - (a.pct ?? 0));
 
   // If the race is already in General status and this is a primary-phase update,
   // do NOT overwrite candidate names/parties — those are the general election matchup candidates
   const isAlreadyGeneral = currentStatus === 'General';
 
-  const isWriteIn = (name: string) =>
-    name.toLowerCase().includes("write-in") || name.toLowerCase().includes("write in");
-
   if (!isAlreadyGeneral || isGeneral) {
-    if (sorted[0] && !isWriteIn(sorted[0].name)) {
+    if (sorted[0]) {
       update.candidate1Name = sorted[0].name;
       update.candidate1Party = sorted[0].party;
       if (sorted[0].pct !== null) update.candidate1VotePct = Math.round(sorted[0].pct * 10) / 10;
       if (sorted[0].votes !== null) update.candidate1Votes = sorted[0].votes;
     }
-    // Only write candidate2 if it's a different real person (not a write-in, not same as candidate1)
-    // Also skip if the last name matches candidate1 — handles AP abbreviated names like "S. Guthrie" vs "Brett Guthrie"
+    // Only write candidate2 if it's a genuinely different person:
+    // - Not the same name as candidate1
+    // - Not a write-in (already filtered above)
+    // - Not the same last name (handles AP abbreviated names like "S. Guthrie" vs "Brett Guthrie")
     const lastName = (name: string) => name.trim().split(/\s+/).pop()?.toLowerCase() ?? "";
     const cand1LastName = sorted[0] ? lastName(sorted[0].name) : "";
-    const cand2 = sorted.find(
-      c => c.name !== sorted[0]?.name && !isWriteIn(c.name) &&
+    const cand2 = sorted.slice(1).find(
+      c => c.name !== sorted[0]?.name &&
         (cand1LastName.length < 3 || lastName(c.name) !== cand1LastName)
     );
     if (cand2) {
@@ -289,8 +299,10 @@ function buildUpdate(
       if (cand2.pct !== null) update.candidate2VotePct = Math.round(cand2.pct * 10) / 10;
       if (cand2.votes !== null) update.candidate2Votes = cand2.votes;
     }
-    if (sorted.length > 2) {
-      const others = sorted.slice(2);
+    // Others: all real candidates beyond the top 2
+    const topTwo = new Set([sorted[0]?.name, cand2?.name].filter(Boolean));
+    const others = sorted.filter(c => !topTwo.has(c.name));
+    if (others.length > 0) {
       update.otherCandidateName = others.map(c => c.name).join(", ");
       update.otherVotes = others.reduce((sum, c) => sum + (c.votes ?? 0), 0);
       update.otherVotePct = Math.round(others.reduce((sum, c) => sum + (c.pct ?? 0), 0) * 10) / 10;

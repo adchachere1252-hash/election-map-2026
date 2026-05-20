@@ -1541,3 +1541,15 @@
 - [x] Updated RunoffMatchupSection: dynamic label (GOP/Dem/generic) based on candidate parties; generic context lines
 - [x] Added Primary Runoff branch in HousePopup ternary chain (mirrors SenatePopup pattern)
 - [x] TypeScript: 0 errors
+
+## May 19 Election Night Fixes (May 20, 2026)
+- [x] Strip write-ins from all candidate slots in buildUpdate — filter before sorting, never show in UI
+- [x] Fix buildUpdate: use realCandidates (write-ins excluded) for all candidate slot logic
+- [x] Fix buildUpdate: others list now correctly excludes top-2 candidates
+- [x] Fix promotion logic (primaryToGeneralPromotion.ts): don't duplicate same person in both candidate slots for uncontested R races
+- [x] Fix promotion logic: D uncontested — clear candidate2 if it equals the winner
+- [x] Fix GA-9 (Andrew Clyde) and GA-10 (Houston Gaines) duplicate candidate2 — DB cleaned manually
+- [x] Fix OR-1 through OR-5 write-in as candidate1 — DB cleaned manually
+- [ ] OPEN: OR-1/OR-2/OR-3/OR-4/OR-5 candidate2 still showing same as candidate1 after AP Engine cycles — root cause not yet identified (investigate in morning)
+- [ ] OPEN: Persistent "1 error" per AP Engine cycle — identify which race is erroring (investigate in morning)
+- [ ] OPEN: AL-5, GA-12, IN-3, IN-4, KY-2 also showing candidate1=candidate2 in General status — check if same root cause

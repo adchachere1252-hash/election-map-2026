@@ -194,14 +194,27 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
       if (party === "D") {
         update.candidate1Name = winner;
         update.candidate1Party = "D";
-        if (!race.candidate2Name) {
+        // Clear candidate2 if it's the same person (uncontested primary)
+        if (!race.candidate2Name || race.candidate2Name === winner) {
           update.candidate2Name = null;
           update.candidate2Party = null;
         }
       } else if (party === "R") {
-        update.candidate2Name = winner;
-        update.candidate2Party = "R";
-        if (!race.candidate1Name) {
+        // Only set candidate2 to R winner if candidate1 is a different person (D nominee)
+        // If candidate1 is the same person or empty, put winner in candidate1 slot instead
+        if (race.candidate1Name && race.candidate1Name !== winner) {
+          update.candidate2Name = winner;
+          update.candidate2Party = "R";
+        } else if (!race.candidate1Name) {
+          // No D nominee yet — put R winner in candidate2 slot, leave candidate1 for D
+          update.candidate2Name = winner;
+          update.candidate2Party = "R";
+          update.candidate1Name = null;
+          update.candidate1Party = null;
+        } else {
+          // candidate1 is the same person — uncontested, put in candidate2, clear candidate1
+          update.candidate2Name = winner;
+          update.candidate2Party = "R";
           update.candidate1Name = null;
           update.candidate1Party = null;
         }
@@ -209,7 +222,7 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
         if (!race.candidate1Name) {
           update.candidate1Name = winner;
           update.candidate1Party = "I";
-        } else if (!race.candidate2Name) {
+        } else if (!race.candidate2Name || race.candidate2Name === winner) {
           update.candidate2Name = winner;
           update.candidate2Party = "I";
         }

@@ -1,0 +1,70 @@
+{
+  "query": "\nSELECT id, state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status\nFROM house_races\nWHERE state_code = 'OR'\nORDER BY district, id;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT id, state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status\nFROM house_races\nWHERE state_code = 'OR'\nORDER BY district, id;\n",
+  "rows": [
+    {
+      "id": "319",
+      "state_code": "OR",
+      "district": "1",
+      "candidate1_name": "John Verbeek",
+      "candidate1_party": "R",
+      "candidate2_name": "John Verbeek",
+      "candidate2_party": "R",
+      "status": "Primary"
+    },
+    {
+      "id": "320",
+      "state_code": "OR",
+      "district": "2",
+      "candidate1_name": "Cliff Bentz",
+      "candidate1_party": "R",
+      "candidate2_name": "Cliff Bentz",
+      "candidate2_party": "R",
+      "status": "Primary"
+    },
+    {
+      "id": "321",
+      "state_code": "OR",
+      "district": "3",
+      "candidate1_name": "Maxine Dexter",
+      "candidate1_party": "D",
+      "candidate2_name": "Maxine Dexter",
+      "candidate2_party": "D",
+      "status": "Primary"
+    },
+    {
+      "id": "322",
+      "state_code": "OR",
+      "district": "4",
+      "candidate1_name": "Monique DeSpain",
+      "candidate1_party": "R",
+      "candidate2_name": "Monique DeSpain",
+      "candidate2_party": "R",
+      "status": "Primary"
+    },
+    {
+      "id": "323",
+      "state_code": "OR",
+      "district": "5",
+      "candidate1_name": "Patti Adair",
+      "candidate1_party": "R",
+      "candidate2_name": "Patti Adair",
+      "candidate2_party": "R",
+      "status": "Primary"
+    },
+    {
+      "id": "324",
+      "state_code": "OR",
+      "district": "6",
+      "candidate1_name": "Andrea Salinas",
+      "candidate1_party": "D",
+      "candidate2_name": "David Russ",
+      "candidate2_party": "R",
+      "status": "Primary"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\n319\tOR\t1\tJohn Verbeek\tR\tJohn Verbeek\tR\tPrimary\n320\tOR\t2\tCliff Bentz\tR\tCliff Bentz\tR\tPrimary\n321\tOR\t3\tMaxine Dexter\tD\tMaxine Dexter\tD\tPrimary\n322\tOR\t4\tMonique DeSpain\tR\tMonique DeSpain\tR\tPrimary\n323\tOR\t5\tPatti Adair\tR\tPatti Adair\tR\tPrimary\n324\tOR\t6\tAndrea Salinas\tD\tDavid Russ\tR\tPrimary\n",
+  "stderr": "",
+  "execution_time_ms": 261
+}

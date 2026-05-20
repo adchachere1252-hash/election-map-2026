@@ -1,0 +1,98 @@
+{
+  "query": "\n-- Check GA-9, GA-10 fix\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, primary_winner, pct_reporting\nFROM house_races\nWHERE state_code = 'GA' AND district IN (9, 10);\n\n-- Check OR districts 1-5 fix\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, primary_winner, pct_reporting\nFROM house_races\nWHERE state_code = 'OR' AND district IN (1,2,3,4,5);\n\n-- Check for any other write-in issues across all states\nSELECT state_code, district, candidate1_name, candidate2_name, status\nFROM house_races\nWHERE candidate1_name LIKE '%write%' OR candidate2_name LIKE '%write%'\nLIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- Check GA-9, GA-10 fix\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, primary_winner, pct_reporting\nFROM house_races\nWHERE state_code = 'GA' AND district IN (9, 10);\n\n-- Check OR districts 1-5 fix\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, primary_winner, pct_reporting\nFROM house_races\nWHERE state_code = 'OR' AND district IN (1,2,3,4,5);\n\n-- Check for any other write-in issues across all states\nSELECT state_code, district, candidate1_name, candidate2_name, status\nFROM house_races\nWHERE candidate1_name LIKE '%write%' OR candidate2_name LIKE '%write%'\nLIMIT 10;\n",
+  "rows": [
+    {
+      "state_code": "GA",
+      "district": "9",
+      "candidate1_name": "Andrew Clyde",
+      "candidate1_party": "R",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "General",
+      "primary_winner": "Andrew Clyde",
+      "pct_reporting": "68.90"
+    },
+    {
+      "state_code": "GA",
+      "district": "10",
+      "candidate1_name": "Houston Gaines",
+      "candidate1_party": "R",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "General",
+      "primary_winner": "Houston Gaines",
+      "pct_reporting": "63.10"
+    },
+    {
+      "state_code": "state_code",
+      "district": "district",
+      "candidate1_name": "candidate1_name",
+      "candidate1_party": "candidate1_party",
+      "candidate2_name": "candidate2_name",
+      "candidate2_party": "candidate2_party",
+      "status": "status",
+      "primary_winner": "primary_winner",
+      "pct_reporting": "pct_reporting"
+    },
+    {
+      "state_code": "OR",
+      "district": "1",
+      "candidate1_name": "John Verbeek",
+      "candidate1_party": "R",
+      "candidate2_name": "John Verbeek",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "primary_winner": "NULL",
+      "pct_reporting": "0.00"
+    },
+    {
+      "state_code": "OR",
+      "district": "2",
+      "candidate1_name": "Cliff Bentz",
+      "candidate1_party": "R",
+      "candidate2_name": "Cliff Bentz",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "primary_winner": "NULL",
+      "pct_reporting": "0.00"
+    },
+    {
+      "state_code": "OR",
+      "district": "3",
+      "candidate1_name": "Maxine Dexter",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "primary_winner": "NULL",
+      "pct_reporting": "0.00"
+    },
+    {
+      "state_code": "OR",
+      "district": "4",
+      "candidate1_name": "Monique DeSpain",
+      "candidate1_party": "R",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "primary_winner": "NULL",
+      "pct_reporting": "0.00"
+    },
+    {
+      "state_code": "OR",
+      "district": "5",
+      "candidate1_name": "Patti Adair",
+      "candidate1_party": "R",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "primary_winner": "NULL",
+      "pct_reporting": "0.00"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tprimary_winner\tpct_reporting\nGA\t9\tAndrew Clyde\tR\tNULL\tNULL\tGeneral\tAndrew Clyde\t68.90\nGA\t10\tHouston Gaines\tR\tNULL\tNULL\tGeneral\tHouston Gaines\t63.10\nstate_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tprimary_winner\tpct_reporting\nOR\t1\tJohn Verbeek\tR\tJohn Verbeek\tR\tPrimary\tNULL\t0.00\nOR\t2\tCliff Bentz\tR\tCliff Bentz\tR\tPrimary\tNULL\t0.00\nOR\t3\tMaxine Dexter\tD\tNULL\tNULL\tPrimary\tNULL\t0.00\nOR\t4\tMonique DeSpain\tR\tNULL\tNULL\tPrimary\tNULL\t0.00\nOR\t5\tPatti Adair\tR\tNULL\tNULL\tPrimary\tNULL\t0.00\n",
+  "stderr": "",
+  "execution_time_ms": 285
+}

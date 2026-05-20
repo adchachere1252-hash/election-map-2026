@@ -1,0 +1,20 @@
+{
+  "query": "\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, primary_winner\nFROM house_races\nWHERE state_code = 'OR' AND district = 1;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, primary_winner\nFROM house_races\nWHERE state_code = 'OR' AND district = 1;\n",
+  "rows": [
+    {
+      "state_code": "OR",
+      "district": "1",
+      "candidate1_name": "John Verbeek",
+      "candidate1_party": "R",
+      "candidate2_name": "Barbara Kahl",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "primary_winner": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tprimary_winner\nOR\t1\tJohn Verbeek\tR\tBarbara Kahl\tR\tPrimary\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 262
+}
