@@ -1,0 +1,22 @@
+{
+  "query": "\n-- KY Senate: who won the D primary?\nSELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party,\n       status, primary_winner, primary_party, pct_reporting, notes\nFROM senate_races WHERE state_code = 'KY';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- KY Senate: who won the D primary?\nSELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party,\n       status, primary_winner, primary_party, pct_reporting, notes\nFROM senate_races WHERE state_code = 'KY';\n",
+  "rows": [
+    {
+      "state_code": "KY",
+      "candidate1_name": "Andy Barr",
+      "candidate1_party": "R",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "General",
+      "primary_winner": "Andy Barr",
+      "primary_party": "R",
+      "pct_reporting": "99.00",
+      "notes": "Open seat — Mitch McConnell (R) retiring after 40 years. Republican primary: Andy Barr (Trump-endorsed, incumbent KY-6 rep) vs Daniel Cameron (former AG) and 9 others. Democratic primary: Charles Booker (progressive, prior Senate candidate) vs Amy McGrath (ran vs McConnell 2020), Dale Romans, Pamela Stevenson, and others. Kentucky is R+26; rated Solid R by all outlets."
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tprimary_winner\tprimary_party\tpct_reporting\tnotes\nKY\tAndy Barr\tR\tNULL\tNULL\tGeneral\tAndy Barr\tR\t99.00\tOpen seat — Mitch McConnell (R) retiring after 40 years. Republican primary: Andy Barr (Trump-endorsed, incumbent KY-6 rep) vs Daniel Cameron (former AG) and 9 others. Democratic primary: Charles Booker (progressive, prior Senate candidate) vs Amy McGrath (ran vs McConnell 2020), Dale Romans, Pamela Stevenson, and others. Kentucky is R+26; rated Solid R by all outlets.\n",
+  "stderr": "",
+  "execution_time_ms": 258
+}

@@ -1,0 +1,21 @@
+{
+  "query": "\nSELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, primary_winner, primary_runoff_date, notes\nFROM senate_races\nWHERE state_code = 'TX';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, primary_winner, primary_runoff_date, notes\nFROM senate_races\nWHERE state_code = 'TX';\n",
+  "rows": [
+    {
+      "state_code": "TX",
+      "candidate1_name": "John Cornyn",
+      "candidate1_party": "R",
+      "candidate2_name": "Ken Paxton",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "primary_winner": "NULL",
+      "primary_runoff_date": "May 26, 2026",
+      "notes": "Cornyn forced into Republican primary runoff vs. Ken Paxton on May 26, 2026 (primary results April 8, 2026)"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tprimary_winner\tprimary_runoff_date\tnotes\nTX\tJohn Cornyn\tR\tKen Paxton\tR\tPrimary\tNULL\tMay 26, 2026\tCornyn forced into Republican primary runoff vs. Ken Paxton on May 26, 2026 (primary results April 8, 2026)\n",
+  "stderr": "",
+  "execution_time_ms": 260
+}

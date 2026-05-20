@@ -1,0 +1,88 @@
+{
+  "query": "\n-- Senate races in May 19 states\nSELECT 'Senate' as chamber, state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, \n       status, primary_winner, primary_party, pct_reporting, notes\nFROM senate_races\nWHERE state_code IN ('GA','KY','OR','PA','WV','NE','ID')\nORDER BY state_code;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- Senate races in May 19 states\nSELECT 'Senate' as chamber, state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, \n       status, primary_winner, primary_party, pct_reporting, notes\nFROM senate_races\nWHERE state_code IN ('GA','KY','OR','PA','WV','NE','ID')\nORDER BY state_code;\n",
+  "rows": [
+    {
+      "chamber": "Senate",
+      "state_code": "GA",
+      "candidate1_name": "Jon Ossoff",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Collins",
+      "candidate2_party": "R",
+      "status": "General",
+      "primary_winner": "Mike Collins",
+      "primary_party": "R",
+      "pct_reporting": "98.80",
+      "notes": "Incumbent Jon Ossoff (D) running for re-election. R primary May 19: Earl Carter ($6.2M raised), Mike Collins ($3.3M), Derek Dooley ($3M), John Coyne, Jonathan McColumn. Cook/IE: Toss-up. Sabato: Lean D."
+    },
+    {
+      "chamber": "Senate",
+      "state_code": "ID",
+      "candidate1_name": "David Roth",
+      "candidate1_party": "D",
+      "candidate2_name": "Jim Risch",
+      "candidate2_party": "R",
+      "status": "General",
+      "primary_winner": "Jim Risch",
+      "primary_party": "R",
+      "pct_reporting": "98.20",
+      "notes": "Incumbent Jim Risch (R) seeking re-election. Primary May 19, 2026."
+    },
+    {
+      "chamber": "Senate",
+      "state_code": "KY",
+      "candidate1_name": "Andy Barr",
+      "candidate1_party": "R",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "General",
+      "primary_winner": "Andy Barr",
+      "primary_party": "R",
+      "pct_reporting": "99.00",
+      "notes": "Open seat — Mitch McConnell (R) retiring after 40 years. Republican primary: Andy Barr (Trump-endorsed, incumbent KY-6 rep) vs Daniel Cameron (former AG) and 9 others. Democratic primary: Charles Booker (progressive, prior Senate candidate) vs Amy McGrath (ran vs McConnell 2020), Dale Romans, Pamela Stevenson, and others. Kentucky is R+26; rated Solid R by all outlets."
+    },
+    {
+      "chamber": "Senate",
+      "state_code": "NE",
+      "candidate1_name": "Cindy Burbank",
+      "candidate1_party": "D",
+      "candidate2_name": "Pete Ricketts",
+      "candidate2_party": "R",
+      "status": "General",
+      "primary_winner": "Cindy Burbank",
+      "primary_party": "D",
+      "pct_reporting": "98.30",
+      "notes": "Incumbent Pete Ricketts (R) running for re-election. D primary May 12: Cindy Burbank, William Forbes. Dan Osborn (I) also running in general. R primary May 12: Ricketts + challengers. Cook/IE/Sabato: Likely R."
+    },
+    {
+      "chamber": "Senate",
+      "state_code": "OR",
+      "candidate1_name": "Jeff Merkley",
+      "candidate1_party": "D",
+      "candidate2_name": "David Smith",
+      "candidate2_party": "R",
+      "status": "General",
+      "primary_winner": "Jeff Merkley",
+      "primary_party": "D",
+      "pct_reporting": "72.70",
+      "notes": "Incumbent Jeff Merkley (D) seeking his 3rd term. Primary May 19, 2026. Republican primary features 7 candidates including Jo Rae Perkins (2020 and 2022 GOP nominee) and David Brock Smith (state rep). Merkley won 2020 with 56.9%. Rated Solid D by all outlets."
+    },
+    {
+      "chamber": "Senate",
+      "state_code": "WV",
+      "candidate1_name": "Rachel Fetty Anderson",
+      "candidate1_party": "D",
+      "candidate2_name": "Shelley Moore Capito",
+      "candidate2_party": "R",
+      "status": "General",
+      "primary_winner": "Rachel Anderson",
+      "primary_party": "D",
+      "pct_reporting": "99.00",
+      "notes": "Incumbent Shelley Moore Capito (R) seeking re-election. Primary May 12, 2026."
+    }
+  ],
+  "messages": [],
+  "stdout": "chamber\tstate_code\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tprimary_winner\tprimary_party\tpct_reporting\tnotes\nSenate\tGA\tJon Ossoff\tD\tMike Collins\tR\tGeneral\tMike Collins\tR\t98.80\tIncumbent Jon Ossoff (D) running for re-election. R primary May 19: Earl Carter ($6.2M raised), Mike Collins ($3.3M), Derek Dooley ($3M), John Coyne, Jonathan McColumn. Cook/IE: Toss-up. Sabato: Lean D.\nSenate\tID\tDavid Roth\tD\tJim Risch\tR\tGeneral\tJim Risch\tR\t98.20\tIncumbent Jim Risch (R) seeking re-election. Primary May 19, 2026.\nSenate\tKY\tAndy Barr\tR\tNULL\tNULL\tGeneral\tAndy Barr\tR\t99.00\tOpen seat — Mitch McConnell (R) retiring after 40 years. Republican primary: Andy Barr (Trump-endorsed, incumbent KY-6 rep) vs Daniel Cameron (former AG) and 9 others. Democratic primary: Charles Booker (progressive, prior Senate candidate) vs Amy McGrath (ran vs McConnell 2020), Dale Romans, Pamela Stevenson, and others. Kentucky is R+26; rated Solid R by all outlets.\nSenate\tNE\tCindy Burbank\tD\tPete Ricketts\tR\tGeneral\tCindy Burbank\tD\t98.30\tIncumbent Pete Ricketts (R) running for re-election. D primary May 12: Cindy Burbank, William Forbes. Dan Osborn (I) also running in general. R primary May 12: Ricketts + challengers. Cook/IE/Sabato: Likely R.\nSenate\tOR\tJeff Merkley\tD\tDavid Smith\tR\tGeneral\tJeff Merkley\tD\t72.70\tIncumbent Jeff Merkley (D) seeking his 3rd term. Primary May 19, 2026. Republican primary features 7 candidates including Jo Rae Perkins (2020 and 2022 GOP nominee) and David Brock Smith (state rep). Merkley won 2020 with 56.9%. Rated Solid D by all outlets.\nSenate\tWV\tRachel Fetty Anderson\tD\tShelley Moore Capito\tR\tGeneral\tRachel Anderson\tD\t99.00\tIncumbent Shelley Moore Capito (R) seeking re-election. Primary May 12, 2026.\n",
+  "stderr": "",
+  "execution_time_ms": 426
+}

@@ -1,0 +1,60 @@
+{
+  "query": "\n-- Governor races in May 19 states\nSELECT 'Governor' as chamber, state_code, dem_candidate, rep_candidate, status, primary_winner, pct_reporting, notes\nFROM governor_races\nWHERE state_code IN ('GA','KY','OR','PA','WV','NE','ID')\nORDER BY state_code;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- Governor races in May 19 states\nSELECT 'Governor' as chamber, state_code, dem_candidate, rep_candidate, status, primary_winner, pct_reporting, notes\nFROM governor_races\nWHERE state_code IN ('GA','KY','OR','PA','WV','NE','ID')\nORDER BY state_code;\n",
+  "rows": [
+    {
+      "chamber": "Governor",
+      "state_code": "GA",
+      "dem_candidate": "Keisha Lance Bottoms",
+      "rep_candidate": "NULL",
+      "status": "Voting",
+      "primary_winner": "Josh McLaurin",
+      "pct_reporting": "98.90",
+      "notes": "R primary runoff (July 2026): Burt Jones (38.5%) vs. Rick Jackson (33.4%) — neither reached 50% threshold. D primary: Keisha Lance Bottoms leading with 58.8% at 70% reporting, not yet called."
+    },
+    {
+      "chamber": "Governor",
+      "state_code": "ID",
+      "dem_candidate": "TBD — Democratic Primary",
+      "rep_candidate": "Brad Little (incumbent)",
+      "status": "Voting",
+      "primary_winner": "Scott Bedke",
+      "pct_reporting": "98.20",
+      "notes": "Little eligible for re-election"
+    },
+    {
+      "chamber": "Governor",
+      "state_code": "NE",
+      "dem_candidate": "Lynne Walz",
+      "rep_candidate": "TBD — R Primary: May 12, 2026",
+      "status": "Voting",
+      "primary_winner": "Jim Pillen",
+      "pct_reporting": "98.30",
+      "notes": "Pillen term-limited; open seat. D: Lynne Walz (sister of former MN Gov. Tim Walz). R primary May 12, 2026."
+    },
+    {
+      "chamber": "Governor",
+      "state_code": "OR",
+      "dem_candidate": "Tina Kotek (incumbent)",
+      "rep_candidate": "Christine Drazan",
+      "status": "Voting",
+      "primary_winner": "Tina Kotek",
+      "pct_reporting": "72.80",
+      "notes": "Incumbent Tina Kotek (D) seeking re-election. Primary May 19, 2026. D primary: Kotek runs essentially unopposed. R primary: Christine Drazan (2022 nominee, frontrunner), Chris Dudley (2010 nominee), Danielle Bethell, and 11 others. Rated Solid D — Kotek won 2022 by 2.5% in a three-way race; without a third-party spoiler, margin expected to be wider."
+    },
+    {
+      "chamber": "Governor",
+      "state_code": "PA",
+      "dem_candidate": "Josh Shapiro (incumbent)",
+      "rep_candidate": "TBD — Republican Primary",
+      "status": "Voting",
+      "primary_winner": "Josh Shapiro",
+      "pct_reporting": "96.00",
+      "notes": "Shapiro eligible for re-election"
+    }
+  ],
+  "messages": [],
+  "stdout": "chamber\tstate_code\tdem_candidate\trep_candidate\tstatus\tprimary_winner\tpct_reporting\tnotes\nGovernor\tGA\tKeisha Lance Bottoms\tNULL\tVoting\tJosh McLaurin\t98.90\tR primary runoff (July 2026): Burt Jones (38.5%) vs. Rick Jackson (33.4%) — neither reached 50% threshold. D primary: Keisha Lance Bottoms leading with 58.8% at 70% reporting, not yet called.\nGovernor\tID\tTBD — Democratic Primary\tBrad Little (incumbent)\tVoting\tScott Bedke\t98.20\tLittle eligible for re-election\nGovernor\tNE\tLynne Walz\tTBD — R Primary: May 12, 2026\tVoting\tJim Pillen\t98.30\tPillen term-limited; open seat. D: Lynne Walz (sister of former MN Gov. Tim Walz). R primary May 12, 2026.\nGovernor\tOR\tTina Kotek (incumbent)\tChristine Drazan\tVoting\tTina Kotek\t72.80\tIncumbent Tina Kotek (D) seeking re-election. Primary May 19, 2026. D primary: Kotek runs essentially unopposed. R primary: Christine Drazan (2022 nominee, frontrunner), Chris Dudley (2010 nominee), Danielle Bethell, and 11 others. Rated Solid D — Kotek won 2022 by 2.5% in a three-way race; without a third-party spoiler, margin expected to be wider.\nGovernor\tPA\tJosh Shapiro (incumbent)\tTBD — Republican Primary\tVoting\tJosh Shapiro\t96.00\tShapiro eligible for re-election\n",
+  "stderr": "",
+  "execution_time_ms": 259
+}

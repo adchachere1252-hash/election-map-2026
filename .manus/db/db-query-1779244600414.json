@@ -1,0 +1,9 @@
+{
+  "query": "\nUPDATE senate_races\nSET\n  status = 'Primary Runoff',\n  notes = 'R primary runoff May 26: John Cornyn vs. Ken Paxton. Winner faces Democrat James Talarico in the November general election. (Trump has endorsed Paxton; Cook Political rates race Lean R if Cornyn wins, Toss-up if Paxton wins.)'\nWHERE state_code = 'TX';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nUPDATE senate_races\nSET\n  status = 'Primary Runoff',\n  notes = 'R primary runoff May 26: John Cornyn vs. Ken Paxton. Winner faces Democrat James Talarico in the November general election. (Trump has endorsed Paxton; Cook Political rates race Lean R if Cornyn wins, Toss-up if Paxton wins.)'\nWHERE state_code = 'TX';\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 264
+}
