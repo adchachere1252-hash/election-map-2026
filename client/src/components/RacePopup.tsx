@@ -995,16 +995,6 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
                   isEliminated={!!effectiveWinner && effectiveWinner !== race.candidate2Name}
                   showVotes={showVotes}
                 />
-                {(race as any).otherCandidateName && (
-                  <CandidateRow
-                    name={(race as any).otherCandidateName}
-                    party={(race as any).otherCandidateParty}
-                    votePct={(race as any).otherVotePct}
-                    isWinner={effectiveWinner === (race as any).otherCandidateName}
-                    isEliminated={!!effectiveWinner && effectiveWinner !== (race as any).otherCandidateName}
-                    showVotes={showVotes}
-                  />
-                )}
                 {showVotes && race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && !effectiveWinner && (
                   <p className="text-xs text-muted-foreground text-right">{formatVotePct(race.pctReporting)} reporting</p>
                 )}
@@ -1195,16 +1185,6 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
                   isEliminated={!!effectiveWinner && effectiveWinner !== race.candidate2Name}
                   showVotes={showVotes}
                 />
-                {(race as any).otherCandidateName && (
-                  <CandidateRow
-                    name={(race as any).otherCandidateName}
-                    party={(race as any).otherCandidateParty}
-                    votePct={(race as any).otherVotePct}
-                    isWinner={effectiveWinner === (race as any).otherCandidateName}
-                    isEliminated={!!effectiveWinner && effectiveWinner !== (race as any).otherCandidateName}
-                    showVotes={showVotes}
-                  />
-                )}
                 {showVotes && race.pctReporting && parseFloat(String(race.pctReporting)) > 0 && !effectiveWinner && (
                   <p className="text-xs text-muted-foreground text-right">{formatVotePct(race.pctReporting)} reporting</p>
                 )}

@@ -475,29 +475,7 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
               isIncumbent={incumbentIsRunning && incumbentParty === "R"}
             />
 
-            {/* Other / Third-Party */}
-            {race.otherCandidateName && (
-              <div className="rounded-lg border border-gray-700/40 bg-gray-800/30 p-2.5">
-                <div className="flex items-center gap-2">
-                  <CandidateAvatar name={race.otherCandidateName} party={race.otherCandidateParty ?? "I"} size={32} />
-                  <div className="flex items-center gap-1.5 flex-wrap">
-                    <span className="text-xs font-semibold text-foreground">{race.otherCandidateName}</span>
-                    <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold text-white bg-gray-600">
-                      {race.otherCandidateParty ?? "I"}
-                    </span>
-                    <span className="text-[10px] text-gray-400">
-                      {PARTY_LABELS[race.otherCandidateParty ?? "I"] ?? "Independent"}
-                    </span>
-                  </div>
-                  {race.otherVotes != null && (
-                    <p className="text-[10px] text-muted-foreground mt-0.5">
-                      {race.otherVotes.toLocaleString()} votes
-                      {race.otherVotePct != null && ` · ${Number(race.otherVotePct).toFixed(1)}%`}
-                    </p>
-                  )}
-                </div>
-              </div>
-            )}
+
           </div>
         )}
 
