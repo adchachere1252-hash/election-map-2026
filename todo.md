@@ -1550,9 +1550,9 @@
 - [x] Fix promotion logic: D uncontested — clear candidate2 if it equals the winner
 - [x] Fix GA-9 (Andrew Clyde) and GA-10 (Houston Gaines) duplicate candidate2 — DB cleaned manually
 - [x] Fix OR-1 through OR-5 write-in as candidate1 — DB cleaned manually
-- [ ] OPEN: OR-1/OR-2/OR-3/OR-4/OR-5 candidate2 still showing same as candidate1 after AP Engine cycles — root cause not yet identified (investigate in morning)
-- [ ] OPEN: Persistent "1 error" per AP Engine cycle — identify which race is erroring (investigate in morning)
-- [ ] OPEN: AL-5, GA-12, IN-3, IN-4, KY-2 also showing candidate1=candidate2 in General status — check if same root cause
+- [x] OPEN: OR-1/OR-2/OR-3/OR-4/OR-5 candidate2 still showing same as candidate1 after AP Engine cycles — RESOLVED: fixed by write-in filter + DB cleanup
+- [x] OPEN: Persistent "1 error" per AP Engine cycle — RESOLVED: empty SET clause guard added, AP Engine now runs with 0 errors
+- [x] OPEN: AL-5, GA-12, IN-3, IN-4, KY-2 also showing candidate1=candidate2 in General status — RESOLVED: all verified correct (GA-12/IN-3/IN-4 have no D candidate in safe R districts, AL-5 is D runoff vs Dale Strong, KY-2 is Wingfield D vs Guthrie R)
 
 ## Full Senate & House Verification (Round N)
 - [x] Full Senate race verification — verify all 35 races for correct candidates, status, and ratings
