@@ -317,10 +317,10 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
   const hasDemCandidate = !!(race.demCandidate && !race.demCandidate.startsWith("TBD"));
   const hasRepCandidate = !!(race.repCandidate && !race.repCandidate.startsWith("TBD"));
   const hasBothCandidates = hasDemCandidate && hasRepCandidate;
-  // Show general matchup card for: confirmed matchups, or Primary Runoff with at least D confirmed
+  // Show general matchup card for: confirmed matchups (including Voting status), or Primary Runoff with at least D confirmed
   const isGeneral = (race.status === "General" || hasBothCandidates ||
     (race.status === "Primary Runoff" && hasDemCandidate)) &&
-    race.status !== "Voting" && race.status !== "Primary";
+    race.status !== "Primary";
 
   // Determine if incumbent is running (not open seat)
   const incumbentIsRunning = !isOpenSeat && !!race.incumbentName;
