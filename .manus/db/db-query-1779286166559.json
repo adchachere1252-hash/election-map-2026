@@ -1,0 +1,34 @@
+{
+  "query": "SELECT id, state_code, dem_candidate, rep_candidate, status, notes, rep_bio, dem_bio, rep_previous_office, dem_previous_office FROM governor_races WHERE state_code IN ('TX', 'GA') ORDER BY state_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, state_code, dem_candidate, rep_candidate, status, notes, rep_bio, dem_bio, rep_previous_office, dem_previous_office FROM governor_races WHERE state_code IN ('TX', 'GA') ORDER BY state_code;",
+  "rows": [
+    {
+      "id": "21",
+      "state_code": "GA",
+      "dem_candidate": "Keisha Lance Bottoms",
+      "rep_candidate": "NULL",
+      "status": "Primary Runoff",
+      "notes": "R primary runoff (July 2026): Burt Jones (Lt. Governor, Trump-endorsed) vs. Rick Jackson. Winner faces Keisha Lance Bottoms (D) in November.",
+      "rep_bio": "NULL",
+      "dem_bio": "Former Mayor of Atlanta (2018–2022) and senior adviser to President Biden. Previously a member of the Atlanta City Council. Democratic primary also includes Geoff Duncan (former Lt. Governor), Jason Esteves, and Michael Thurmond.",
+      "rep_previous_office": "NULL",
+      "dem_previous_office": "Mayor of Atlanta (2018–2022)"
+    },
+    {
+      "id": "34",
+      "state_code": "TX",
+      "dem_candidate": "Vikki Goodwin",
+      "rep_candidate": "Greg Abbott (incumbent)",
+      "status": "Scheduled",
+      "notes": "Abbott eligible for re-election",
+      "rep_bio": "The 48th Governor of Texas, serving since 2015. Former Texas Attorney General (1999–2015). Seeking a fourth term in a solidly Republican state.",
+      "dem_bio": "Current member of the Texas House of Representatives, serving since 2017. Attorney and advocate for Texas families. Won the Democratic primary as the sole major Democratic candidate.",
+      "rep_previous_office": "Governor of Texas (2015–present)",
+      "dem_previous_office": "Texas House of Representatives (2017–present)"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tdem_candidate\trep_candidate\tstatus\tnotes\trep_bio\tdem_bio\trep_previous_office\tdem_previous_office\n21\tGA\tKeisha Lance Bottoms\tNULL\tPrimary Runoff\tR primary runoff (July 2026): Burt Jones (Lt. Governor, Trump-endorsed) vs. Rick Jackson. Winner faces Keisha Lance Bottoms (D) in November.\tNULL\tFormer Mayor of Atlanta (2018–2022) and senior adviser to President Biden. Previously a member of the Atlanta City Council. Democratic primary also includes Geoff Duncan (former Lt. Governor), Jason Esteves, and Michael Thurmond.\tNULL\tMayor of Atlanta (2018–2022)\n34\tTX\tVikki Goodwin\tGreg Abbott (incumbent)\tScheduled\tAbbott eligible for re-election\tThe 48th Governor of Texas, serving since 2015. Former Texas Attorney General (1999–2015). Seeking a fourth term in a solidly Republican state.\tCurrent member of the Texas House of Representatives, serving since 2017. Attorney and advocate for Texas families. Won the Democratic primary as the sole major Democratic candidate.\tGovernor of Texas (2015–present)\tTexas House of Representatives (2017–present)\n",
+  "stderr": "",
+  "execution_time_ms": 264
+}

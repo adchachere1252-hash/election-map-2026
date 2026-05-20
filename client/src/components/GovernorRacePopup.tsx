@@ -212,10 +212,11 @@ function GeneralMatchupCard({
   // Determine candidate1 (D) and candidate2 (R) for display
   const c1Name = demCandidate;
   const c1Party = "D";
-  const c2Name = repCandidate;
+  const c2Name = repCandidate ?? "TBD — Republican Nominee";
   const c2Party = "R";
+  const c2TBD = !repCandidate;
 
-  if (!c1Name || !c2Name) return null;
+  if (!c1Name) return null;
 
   const c1Color = getPartyColor(c1Party as any);
   const c2Color = getPartyColor(c2Party as any);
@@ -269,9 +270,9 @@ function GeneralMatchupCard({
               className="rounded-full p-[3px] flex-shrink-0"
               style={{ background: "linear-gradient(135deg, " + c2Color + ", " + c2Color + "88)" }}
             >
-              <CandidateAvatar name={c2Name} party={c2Party} size={photoSize} />
+              <CandidateAvatar name={c2TBD ? "" : c2Name} party={c2Party} size={photoSize} />
             </div>
-            <span className="text-sm font-bold text-center leading-tight">{c2Name}</span>
+            <span className={`text-sm font-bold text-center leading-tight ${c2TBD ? "text-muted-foreground italic" : ""}`}>{c2Name}</span>
             <span
               className="text-xs font-bold px-2.5 py-0.5 rounded-full"
               style={{
@@ -285,6 +286,13 @@ function GeneralMatchupCard({
           </div>
         </div>
 
+        {/* TBD runoff banner */}
+        {c2TBD && (
+          <div className="mx-3 mb-2 bg-orange-900/30 border border-orange-700/40 rounded px-2.5 py-1.5 flex items-center gap-2">
+            <span className="text-orange-400 text-sm">⏳</span>
+            <span className="text-xs text-orange-200/90">Republican primary runoff in progress — opponent TBD</span>
+          </div>
+        )}
         {/* Structured context block */}
         {contextLines.length > 0 && (
           <div className="mx-3 mb-3 bg-yellow-900/25 border border-yellow-700/35 rounded px-2.5 py-2 space-y-1">
@@ -304,10 +312,15 @@ function GeneralMatchupCard({
 export default function GovernorRacePopup({ race, onClose, onFocusMap }: GovernorRacePopupProps) {
   const isCalled = !!race.calledParty;
   const isOpenSeat = race.isOpen || race.isTermLimited;
-  // Show the matchup card whenever both D and R candidates are confirmed (not TBD)
-  const hasBothCandidates = !!(race.demCandidate && race.repCandidate &&
-    !race.demCandidate.startsWith("TBD") && !race.repCandidate.startsWith("TBD"));
-  const isGeneral = (race.status === "General" || hasBothCandidates) && race.status !== "Primary Runoff" && race.status !== "Voting" && race.status !== "Primary";
+  // Show the matchup card when at least the D candidate is confirmed
+  // For Primary Runoff races, show matchup card with TBD Republican if D is confirmed
+  const hasDemCandidate = !!(race.demCandidate && !race.demCandidate.startsWith("TBD"));
+  const hasRepCandidate = !!(race.repCandidate && !race.repCandidate.startsWith("TBD"));
+  const hasBothCandidates = hasDemCandidate && hasRepCandidate;
+  // Show general matchup card for: confirmed matchups, or Primary Runoff with at least D confirmed
+  const isGeneral = (race.status === "General" || hasBothCandidates ||
+    (race.status === "Primary Runoff" && hasDemCandidate)) &&
+    race.status !== "Voting" && race.status !== "Primary";
 
   // Determine if incumbent is running (not open seat)
   const incumbentIsRunning = !isOpenSeat && !!race.incumbentName;
@@ -480,7 +493,7 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
         )}
 
         {/* Primary Runoff banner */}
-        {race.status === "Primary Runoff" && (
+        {race.status === "Primary Runoff" && !isGeneral && (
           <div className="flex items-start gap-2 p-2.5 rounded-lg bg-orange-900/30 border border-orange-700/40">
             <span className="text-orange-300 text-sm">⚠️</span>
             <div>
