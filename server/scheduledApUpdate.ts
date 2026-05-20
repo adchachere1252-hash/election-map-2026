@@ -15,14 +15,38 @@ import { parse as parseCookieHeader } from "cookie";
 import {
   getAllSenateRaces, getAllHouseRaces, getAllGovernorRaces,
   updateSenateRace, updateHouseRace, updateGovernorRace,
+  getDb,
 } from "./db";
 import { broadcastElectionEvent } from "./ws";
+import { broadcastLog } from "../drizzle/schema";
+import { eq } from "drizzle-orm";
 
-// ── Broadcast deduplication ────────────────────────────────────────────────────
-// Tracks race IDs that have already had their "called" event broadcast this
-// server session. Prevents the same race firing a toast on every AP cycle.
+// ── Broadcast deduplication (DB-backed, survives server restarts) ───────────────────────────────
 // Key format: "<electionDate>:<stateCode>:<chamber>:<district|0>"
-const broadcastedRaces = new Set<string>();
+async function hasBroadcasted(key: string): Promise<boolean> {
+  try {
+    const db = await getDb();
+    if (!db) return false;
+    const rows = await db.select().from(broadcastLog)
+      .where(eq(broadcastLog.broadcastKey, key))
+      .limit(1);
+    return rows.length > 0;
+  } catch { return false; }
+}
+
+async function markBroadcasted(key: string, electionDate: string, stateCode: string, chamber: string, district: string): Promise<void> {
+  try {
+    const db = await getDb();
+    if (!db) return;
+    await db.insert(broadcastLog).ignore().values({
+      broadcastKey: key,
+      electionDate,
+      stateCode,
+      chamber,
+      district,
+    });
+  } catch { /* ignore duplicate key errors */ }
+}
 
 // ── AP Elections data API ──────────────────────────────────────────────────────
 const AP_DATA_BASE = "https://interactives.apelections.org/election-results/data-live";
@@ -30,11 +54,11 @@ const AP_DATA_BASE = "https://interactives.apelections.org/election-results/data
 // Known election dates to try (most recent first)
 // On election night, AP activates the date-specific feed automatically
 const ELECTION_DATES = [
-  "2026-11-03", // November 3, 2026 — General Election
-  "2026-07-15", // July 15 — Louisiana U.S. House primaries (postponed from May 16)
-  "2026-05-19", // May 19 primaries (OR, etc.)
+  "2026-05-19", // May 19 primaries (GA, KY, OR, etc.) — checked first so primary data takes precedence
   "2026-05-12", // May 12 primaries (NE, WV)
   "2026-05-05", // May 5 primaries (OH, IN)
+  "2026-07-15", // July 15 — Louisiana U.S. House primaries
+  "2026-11-03", // November 3, 2026 — General Election (checked last as fallback)
 ];
 
 const AP_HEADERS = {
@@ -402,8 +426,9 @@ export async function scrapeAndPushResults(): Promise<{
             const chamber = isSenate ? "senate" : isGov ? "governor" : "house";
             const districtNum = districtMatch ? parseInt(districtMatch[1]) : 0;
             const broadcastKey = `${activeDate}:${stateCode}:${chamber}:${districtNum}`;
-            if (!broadcastedRaces.has(broadcastKey)) {
-              broadcastedRaces.add(broadcastKey);
+            const alreadyBroadcasted = await hasBroadcasted(broadcastKey);
+            if (!alreadyBroadcasted) {
+              await markBroadcasted(broadcastKey, activeDate, stateCode, chamber, String(districtNum));
               broadcastElectionEvent({
                 type: "race_called",
                 chamber,

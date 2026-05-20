@@ -127,6 +127,13 @@
       "when": 1779028486938,
       "tag": "0017_even_shen",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "5",
+      "when": 1779235620129,
+      "tag": "0018_smart_cloak",
+      "breakpoints": true
     }
   ]
 }

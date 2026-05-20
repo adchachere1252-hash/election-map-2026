@@ -265,3 +265,14 @@ export const adminSessions = mysqlTable("admin_sessions", {
 });
 
 export type AdminSession = typeof adminSessions.$inferSelect;
+
+// ─── Broadcast log — persists race-called dedup across server restarts ────────
+export const broadcastLog = mysqlTable("broadcast_log", {
+  id: int("id").autoincrement().primaryKey(),
+  broadcastKey: varchar("broadcast_key", { length: 128 }).notNull().unique(),
+  electionDate: varchar("election_date", { length: 16 }).notNull(),
+  stateCode: varchar("state_code", { length: 4 }).notNull(),
+  chamber: varchar("chamber", { length: 16 }).notNull(),
+  district: varchar("district", { length: 8 }).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
