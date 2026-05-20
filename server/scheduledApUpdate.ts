@@ -278,35 +278,50 @@ function buildUpdate(
   const isAlreadyRunoff = currentStatus === 'Primary Runoff';
 
   if ((!isAlreadyGeneral && !isAlreadyRunoff) || isGeneral) {
-    if (sorted[0]) {
-      update.candidate1Name = sorted[0].name;
-      update.candidate1Party = sorted[0].party;
-      if (sorted[0].pct !== null) update.candidate1VotePct = Math.round(sorted[0].pct * 10) / 10;
-      if (sorted[0].votes !== null) update.candidate1Votes = sorted[0].votes;
-    }
-    // Only write candidate2 if it's a genuinely different person:
-    // - Not the same name as candidate1
-    // - Not a write-in (already filtered above)
-    // - Not the same last name (handles AP abbreviated names like "S. Guthrie" vs "Brett Guthrie")
     const lastName = (name: string) => name.trim().split(/\s+/).pop()?.toLowerCase() ?? "";
     const cand1LastName = sorted[0] ? lastName(sorted[0].name) : "";
     const cand2 = sorted.slice(1).find(
       c => c.name !== sorted[0]?.name &&
         (cand1LastName.length < 3 || lastName(c.name) !== cand1LastName)
     );
-    if (cand2) {
-      update.candidate2Name = cand2.name;
-      update.candidate2Party = cand2.party;
-      if (cand2.pct !== null) update.candidate2VotePct = Math.round(cand2.pct * 10) / 10;
-      if (cand2.votes !== null) update.candidate2Votes = cand2.votes;
-    }
-    // Others: all real candidates beyond the top 2
-    const topTwo = new Set([sorted[0]?.name, cand2?.name].filter(Boolean));
-    const others = sorted.filter(c => !topTwo.has(c.name));
-    if (others.length > 0) {
-      update.otherCandidateName = others.map(c => c.name).join(", ");
-      update.otherVotes = others.reduce((sum, c) => sum + (c.votes ?? 0), 0);
-      update.otherVotePct = Math.round(others.reduce((sum, c) => sum + (c.pct ?? 0), 0) * 10) / 10;
+
+    if (raceType === 'governor') {
+      // Governor table uses demCandidate/repCandidate — map by party
+      const dCand = sorted.find(c => c.party === 'D');
+      const rCand = sorted.find(c => c.party === 'R');
+      if (dCand) {
+        update.demCandidate = dCand.name;
+        update.demVotes = dCand.votes ?? 0;
+      }
+      if (rCand) {
+        update.repCandidate = rCand.name;
+        update.repVotes = rCand.votes ?? 0;
+      }
+    } else {
+      if (sorted[0]) {
+        update.candidate1Name = sorted[0].name;
+        update.candidate1Party = sorted[0].party;
+        if (sorted[0].pct !== null) update.candidate1VotePct = Math.round(sorted[0].pct * 10) / 10;
+        if (sorted[0].votes !== null) update.candidate1Votes = sorted[0].votes;
+      }
+      // Only write candidate2 if it's a genuinely different person:
+      // - Not the same name as candidate1
+      // - Not a write-in (already filtered above)
+      // - Not the same last name (handles AP abbreviated names like "S. Guthrie" vs "Brett Guthrie")
+      if (cand2) {
+        update.candidate2Name = cand2.name;
+        update.candidate2Party = cand2.party;
+        if (cand2.pct !== null) update.candidate2VotePct = Math.round(cand2.pct * 10) / 10;
+        if (cand2.votes !== null) update.candidate2Votes = cand2.votes;
+      }
+      // Others: all real candidates beyond the top 2
+      const topTwo = new Set([sorted[0]?.name, cand2?.name].filter(Boolean));
+      const others = sorted.filter(c => !topTwo.has(c.name));
+      if (others.length > 0) {
+        update.otherCandidateName = others.map(c => c.name).join(", ");
+        update.otherVotes = others.reduce((sum, c) => sum + (c.votes ?? 0), 0);
+        update.otherVotePct = Math.round(others.reduce((sum, c) => sum + (c.pct ?? 0), 0) * 10) / 10;
+      }
     }
   }
   if (race.pctReporting > 0) {
@@ -433,9 +448,16 @@ export async function scrapeAndPushResults(): Promise<{
         currentStatus?: string | null,
         raceStateName?: string
       ) => {
+        // Never let AP Engine touch manually-curated Primary Runoff races
+        if (currentStatus === 'Primary Runoff') {
+          updates.push({ race: label, id, status: "skip", detail: "Primary Runoff — manually curated" });
+          return;
+        }
         const payload = buildUpdate(raceResult, isGeneral, raceType, currentStatus);
-        if (Object.keys(payload).length === 0) {
-          updates.push({ race: label, id, status: "skip", detail: "no AP data" });
+        // Skip if payload is empty or has no meaningful values (undefined/null/0 don't generate SQL SET clauses)
+        const meaningfulValues = Object.entries(payload).filter(([, v]) => v !== undefined && v !== null);
+        if (meaningfulValues.length === 0) {
+          updates.push({ race: label, id, status: "skip", detail: "no AP data or all fields guarded" });
           return;
         }
         try {
@@ -476,6 +498,7 @@ export async function scrapeAndPushResults(): Promise<{
           }
         } catch (err) {
           const msg = err instanceof Error ? err.message : String(err);
+          log(`[ERROR] Race "${label}" (id=${id}): ${msg}`);
           updates.push({ race: label, id, status: "error", detail: msg });
         }
       };
