@@ -1,0 +1,22 @@
+{
+  "query": "\nSELECT id, state_code, state_name, dem_candidate, rep_candidate, status, primary_winner, runoff_date, notes, pct_reporting\nFROM governor_races\nWHERE state_code = 'GA';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT id, state_code, state_name, dem_candidate, rep_candidate, status, primary_winner, runoff_date, notes, pct_reporting\nFROM governor_races\nWHERE state_code = 'GA';\n",
+  "rows": [
+    {
+      "id": "21",
+      "state_code": "GA",
+      "state_name": "Georgia",
+      "dem_candidate": "Keisha Lance Bottoms",
+      "rep_candidate": "Burt Jones",
+      "status": "Voting",
+      "primary_winner": "Josh McLaurin",
+      "runoff_date": "July 2026",
+      "notes": "Republican Primary: Runoff between Burt Jones (38.5%) and Rick Jackson (33.4%) — neither reached 50% threshold. Democratic Primary: Keisha Lance Bottoms leading with 58.8% at 52% reporting, not yet called.",
+      "pct_reporting": "70.50"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tstate_name\tdem_candidate\trep_candidate\tstatus\tprimary_winner\trunoff_date\tnotes\tpct_reporting\n21\tGA\tGeorgia\tKeisha Lance Bottoms\tBurt Jones\tVoting\tJosh McLaurin\tJuly 2026\tRepublican Primary: Runoff between Burt Jones (38.5%) and Rick Jackson (33.4%) — neither reached 50% threshold. Democratic Primary: Keisha Lance Bottoms leading with 58.8% at 52% reporting, not yet called.\t70.50\n",
+  "stderr": "",
+  "execution_time_ms": 262
+}

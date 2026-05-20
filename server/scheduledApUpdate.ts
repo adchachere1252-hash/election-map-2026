@@ -272,11 +272,12 @@ function buildUpdate(
   const realCandidates = race.candidates.filter(c => c.name && !isWriteIn(c.name));
   const sorted = [...realCandidates].sort((a, b) => (b.pct ?? 0) - (a.pct ?? 0));
 
-  // If the race is already in General status and this is a primary-phase update,
-  // do NOT overwrite candidate names/parties — those are the general election matchup candidates
+  // If the race is already in General or Primary Runoff status and this is a primary-phase update,
+  // do NOT overwrite candidate names/parties — those are manually curated
   const isAlreadyGeneral = currentStatus === 'General';
+  const isAlreadyRunoff = currentStatus === 'Primary Runoff';
 
-  if (!isAlreadyGeneral || isGeneral) {
+  if ((!isAlreadyGeneral && !isAlreadyRunoff) || isGeneral) {
     if (sorted[0]) {
       update.candidate1Name = sorted[0].name;
       update.candidate1Party = sorted[0].party;
@@ -323,14 +324,14 @@ function buildUpdate(
       update.primaryWinner = race.winner;
       if (race.winnerParty) update.primaryParty = race.winnerParty;
       // Governor uses Voting (no Primary in its enum); senate/house use Primary
-      // NEVER downgrade from General — once a race is in General it stays there
-      if (currentStatus !== 'General') {
+      // NEVER downgrade from General or Primary Runoff — those are manually curated
+      if (currentStatus !== 'General' && currentStatus !== 'Primary Runoff') {
         update.status = raceType === 'governor' ? "Voting" : "Primary";
       }
     }
   } else if (!race.called && !isGeneral) {
-    // Voting in progress for a primary — but never downgrade from General
-    if (currentStatus !== 'General') {
+    // Voting in progress for a primary — but never downgrade from General or Primary Runoff
+    if (currentStatus !== 'General' && currentStatus !== 'Primary Runoff') {
       update.status = raceType === 'governor' ? "Voting" : "Primary";
     }
   }
