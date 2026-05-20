@@ -1,0 +1,18 @@
+{
+  "query": "SELECT state_code, dem_candidate, rep_candidate, status, pct_reporting, notes FROM governor_races WHERE state_code = 'PA';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, dem_candidate, rep_candidate, status, pct_reporting, notes FROM governor_races WHERE state_code = 'PA';",
+  "rows": [
+    {
+      "state_code": "PA",
+      "dem_candidate": "Josh Shapiro (incumbent)",
+      "rep_candidate": "TBD — Republican Primary",
+      "status": "Voting",
+      "pct_reporting": "96.00",
+      "notes": "Shapiro eligible for re-election"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdem_candidate\trep_candidate\tstatus\tpct_reporting\tnotes\nPA\tJosh Shapiro (incumbent)\tTBD — Republican Primary\tVoting\t96.00\tShapiro eligible for re-election\n",
+  "stderr": "",
+  "execution_time_ms": 280
+}

@@ -1,0 +1,9 @@
+{
+  "query": "\nUPDATE governor_races\nSET\n  dem_candidate = 'Josh Shapiro',\n  rep_candidate = 'Stacy Garrity',\n  notes = 'Incumbent Gov. Josh Shapiro (D) seeking re-election vs. Stacy Garrity (R, state treasurer, Trump-endorsed). Both won uncontested primaries on May 19. Rated Lean D.'\nWHERE state_code = 'PA';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nUPDATE governor_races\nSET\n  dem_candidate = 'Josh Shapiro',\n  rep_candidate = 'Stacy Garrity',\n  notes = 'Incumbent Gov. Josh Shapiro (D) seeking re-election vs. Stacy Garrity (R, state treasurer, Trump-endorsed). Both won uncontested primaries on May 19. Rated Lean D.'\nWHERE state_code = 'PA';\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 281
+}
