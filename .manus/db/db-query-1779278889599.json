@@ -1,0 +1,26 @@
+{
+  "query": "\n-- House status summary\nSELECT status, COUNT(*) as count FROM house_races GROUP BY status ORDER BY count DESC;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- House status summary\nSELECT status, COUNT(*) as count FROM house_races GROUP BY status ORDER BY count DESC;\n",
+  "rows": [
+    {
+      "status": "Scheduled",
+      "count": "295"
+    },
+    {
+      "status": "General",
+      "count": "129"
+    },
+    {
+      "status": "Called",
+      "count": "6"
+    },
+    {
+      "status": "Primary Runoff",
+      "count": "5"
+    }
+  ],
+  "messages": [],
+  "stdout": "status\tcount\nScheduled\t295\nGeneral\t129\nCalled\t6\nPrimary Runoff\t5\n",
+  "stderr": "",
+  "execution_time_ms": 260
+}

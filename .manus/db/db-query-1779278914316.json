@@ -1,0 +1,20 @@
+{
+  "query": "\n-- Senate races still in Primary (not yet General)\nSELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, primary_winner, pct_reporting\nFROM senate_races WHERE status = 'Primary' ORDER BY state_code;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- Senate races still in Primary (not yet General)\nSELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, primary_winner, pct_reporting\nFROM senate_races WHERE status = 'Primary' ORDER BY state_code;\n",
+  "rows": [
+    {
+      "state_code": "AL",
+      "candidate1_name": "Everett Wess",
+      "candidate1_party": "D",
+      "candidate2_name": "Barry Moore",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "primary_winner": "Barry Moore",
+      "pct_reporting": "98.90"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tprimary_winner\tpct_reporting\nAL\tEverett Wess\tD\tBarry Moore\tR\tPrimary\tBarry Moore\t98.90\n",
+  "stderr": "",
+  "execution_time_ms": 260
+}

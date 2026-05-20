@@ -1,0 +1,76 @@
+{
+  "query": "\n-- House races with Called status\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, primary_winner, pct_reporting\nFROM house_races WHERE status = 'Called' ORDER BY state_code, district;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- House races with Called status\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, primary_winner, pct_reporting\nFROM house_races WHERE status = 'Called' ORDER BY state_code, district;\n",
+  "rows": [
+    {
+      "state_code": "AZ",
+      "district": "7",
+      "candidate1_name": "Adelita S. Grijalva",
+      "candidate1_party": "D",
+      "candidate2_name": "Daniel Butierez",
+      "candidate2_party": "R",
+      "status": "Called",
+      "primary_winner": "NULL",
+      "pct_reporting": "0.00"
+    },
+    {
+      "state_code": "FL",
+      "district": "1",
+      "candidate1_name": "Gay Valimont",
+      "candidate1_party": "D",
+      "candidate2_name": "Jimmy Patronis",
+      "candidate2_party": "R",
+      "status": "Called",
+      "primary_winner": "NULL",
+      "pct_reporting": "0.00"
+    },
+    {
+      "state_code": "FL",
+      "district": "6",
+      "candidate1_name": "Randy Fine",
+      "candidate1_party": "R",
+      "candidate2_name": "Joshua Weil",
+      "candidate2_party": "D",
+      "status": "Called",
+      "primary_winner": "NULL",
+      "pct_reporting": "0.00"
+    },
+    {
+      "state_code": "NJ",
+      "district": "11",
+      "candidate1_name": "Analilia Mejia",
+      "candidate1_party": "D",
+      "candidate2_name": "Joe Hathaway",
+      "candidate2_party": "R",
+      "status": "Called",
+      "primary_winner": "NULL",
+      "pct_reporting": "96.00"
+    },
+    {
+      "state_code": "TN",
+      "district": "7",
+      "candidate1_name": "Matt Van Epps",
+      "candidate1_party": "R",
+      "candidate2_name": "Aftyn Behn",
+      "candidate2_party": "D",
+      "status": "Called",
+      "primary_winner": "NULL",
+      "pct_reporting": "0.00"
+    },
+    {
+      "state_code": "VA",
+      "district": "11",
+      "candidate1_name": "James R. Walkinshaw",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "R",
+      "status": "Called",
+      "primary_winner": "NULL",
+      "pct_reporting": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tprimary_winner\tpct_reporting\nAZ\t7\tAdelita S. Grijalva\tD\tDaniel Butierez\tR\tCalled\tNULL\t0.00\nFL\t1\tGay Valimont\tD\tJimmy Patronis\tR\tCalled\tNULL\t0.00\nFL\t6\tRandy Fine\tR\tJoshua Weil\tD\tCalled\tNULL\t0.00\nNJ\t11\tAnalilia Mejia\tD\tJoe Hathaway\tR\tCalled\tNULL\t96.00\nTN\t7\tMatt Van Epps\tR\tAftyn Behn\tD\tCalled\tNULL\t0.00\nVA\t11\tJames R. Walkinshaw\tD\tNULL\tR\tCalled\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 266
+}

@@ -1,0 +1,9 @@
+{
+  "query": "\n-- 1. Clear duplicate candidate2 slots in 6 uncontested House races\nUPDATE house_races SET candidate2_name = NULL, candidate2_party = NULL\nWHERE (state_code = 'AL' AND district = 5 AND candidate2_name = 'Dale W. Strong')\n   OR (state_code = 'IN' AND district = 3 AND candidate2_name = 'Marlin Stutzman')\n   OR (state_code = 'IN' AND district = 4 AND candidate2_name = 'Jim Baird')\n   OR (state_code = 'KY' AND district = 2 AND candidate2_name = 'Brett Guthrie')\n   OR (state_code = 'PA' AND district = 7 AND candidate2_name = 'Ryan Mackenzie')\n   OR (state_code = 'PA' AND district = 10 AND candidate2_name = 'Scott Perry');\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- 1. Clear duplicate candidate2 slots in 6 uncontested House races\nUPDATE house_races SET candidate2_name = NULL, candidate2_party = NULL\nWHERE (state_code = 'AL' AND district = 5 AND candidate2_name = 'Dale W. Strong')\n   OR (state_code = 'IN' AND district = 3 AND candidate2_name = 'Marlin Stutzman')\n   OR (state_code = 'IN' AND district = 4 AND candidate2_name = 'Jim Baird')\n   OR (state_code = 'KY' AND district = 2 AND candidate2_name = 'Brett Guthrie')\n   OR (state_code = 'PA' AND district = 7 AND candidate2_name = 'Ryan Mackenzie')\n   OR (state_code = 'PA' AND district = 10 AND candidate2_name = 'Scott Perry');\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 261
+}

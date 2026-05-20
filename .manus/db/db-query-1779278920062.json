@@ -1,0 +1,73 @@
+{
+  "query": "\nSELECT state_code, dem_candidate, rep_candidate, status, primary_winner, pct_reporting, notes\nFROM governor_races WHERE status IN ('Voting', 'Primary Runoff') ORDER BY state_code;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state_code, dem_candidate, rep_candidate, status, primary_winner, pct_reporting, notes\nFROM governor_races WHERE status IN ('Voting', 'Primary Runoff') ORDER BY state_code;\n",
+  "rows": [
+    {
+      "state_code": "AL",
+      "dem_candidate": "TBD — Democratic Primary",
+      "rep_candidate": "TBD — Republican Primary",
+      "status": "Voting",
+      "primary_winner": "John Wahl",
+      "pct_reporting": "98.90",
+      "notes": "Kay Ivey is term-limited. Open seat."
+    },
+    {
+      "state_code": "GA",
+      "dem_candidate": "Keisha Lance Bottoms",
+      "rep_candidate": "NULL",
+      "status": "Primary Runoff",
+      "primary_winner": "Josh McLaurin",
+      "pct_reporting": "98.90",
+      "notes": "D nominee: Keisha Lance Bottoms (former Atlanta Mayor) won D primary. R primary runoff (July 2026): Burt Jones (Trump-endorsed Lt. Gov.) vs. Rick Jackson (MAGA billionaire) — Raffensperger eliminated. Winner faces Bottoms in November."
+    },
+    {
+      "state_code": "ID",
+      "dem_candidate": "TBD — Democratic Primary",
+      "rep_candidate": "Brad Little (incumbent)",
+      "status": "Voting",
+      "primary_winner": "Scott Bedke",
+      "pct_reporting": "98.20",
+      "notes": "Little eligible for re-election"
+    },
+    {
+      "state_code": "NE",
+      "dem_candidate": "Lynne Walz",
+      "rep_candidate": "TBD — R Primary: May 12, 2026",
+      "status": "Voting",
+      "primary_winner": "Jim Pillen",
+      "pct_reporting": "98.30",
+      "notes": "Pillen term-limited; open seat. D: Lynne Walz (sister of former MN Gov. Tim Walz). R primary May 12, 2026."
+    },
+    {
+      "state_code": "OH",
+      "dem_candidate": "Amy Acton",
+      "rep_candidate": "Vivek Ramaswamy",
+      "status": "Voting",
+      "primary_winner": "Amy Acton",
+      "pct_reporting": "98.70",
+      "notes": "2026 Ohio Governor's race: Amy Acton (D) vs Vivek Ramaswamy (R). General election November 3, 2026."
+    },
+    {
+      "state_code": "OR",
+      "dem_candidate": "Tina Kotek (incumbent)",
+      "rep_candidate": "Christine Drazan",
+      "status": "Voting",
+      "primary_winner": "Tina Kotek",
+      "pct_reporting": "72.80",
+      "notes": "Incumbent Tina Kotek (D) seeking re-election. Primary May 19, 2026. D primary: Kotek runs essentially unopposed. R primary: Christine Drazan (2022 nominee, frontrunner), Chris Dudley (2010 nominee), Danielle Bethell, and 11 others. Rated Solid D — Kotek won 2022 by 2.5% in a three-way race; without a third-party spoiler, margin expected to be wider."
+    },
+    {
+      "state_code": "PA",
+      "dem_candidate": "Josh Shapiro (incumbent)",
+      "rep_candidate": "TBD — Republican Primary",
+      "status": "Voting",
+      "primary_winner": "Josh Shapiro",
+      "pct_reporting": "96.00",
+      "notes": "Shapiro eligible for re-election"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdem_candidate\trep_candidate\tstatus\tprimary_winner\tpct_reporting\tnotes\nAL\tTBD — Democratic Primary\tTBD — Republican Primary\tVoting\tJohn Wahl\t98.90\tKay Ivey is term-limited. Open seat.\nGA\tKeisha Lance Bottoms\tNULL\tPrimary Runoff\tJosh McLaurin\t98.90\tD nominee: Keisha Lance Bottoms (former Atlanta Mayor) won D primary. R primary runoff (July 2026): Burt Jones (Trump-endorsed Lt. Gov.) vs. Rick Jackson (MAGA billionaire) — Raffensperger eliminated. Winner faces Bottoms in November.\nID\tTBD — Democratic Primary\tBrad Little (incumbent)\tVoting\tScott Bedke\t98.20\tLittle eligible for re-election\nNE\tLynne Walz\tTBD — R Primary: May 12, 2026\tVoting\tJim Pillen\t98.30\tPillen term-limited; open seat. D: Lynne Walz (sister of former MN Gov. Tim Walz). R primary May 12, 2026.\nOH\tAmy Acton\tVivek Ramaswamy\tVoting\tAmy Acton\t98.70\t2026 Ohio Governor's race: Amy Acton (D) vs Vivek Ramaswamy (R). General election November 3, 2026.\nOR\tTina Kotek (incumbent)\tChristine Drazan\tVoting\tTina Kotek\t72.80\tIncumbent Tina Kotek (D) seeking re-election. Primary May 19, 2026. D primary: Kotek runs essentially unopposed. R primary: Christine Drazan (2022 nominee, frontrunner), Chris Dudley (2010 nominee), Danielle Bethell, and 11 others. Rated Solid D — Kotek won 2022 by 2.5% in a three-way race; without a third-party spoiler, margin expected to be wider.\nPA\tJosh Shapiro (incumbent)\tTBD — Republican Primary\tVoting\tJosh Shapiro\t96.00\tShapiro eligible for re-election\n",
+  "stderr": "",
+  "execution_time_ms": 261
+}

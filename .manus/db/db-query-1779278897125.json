@@ -1,0 +1,52 @@
+{
+  "query": "\n-- House races in General with same candidate in both slots (duplicates)\nSELECT state_code, district, candidate1_name, candidate2_name, status\nFROM house_races\nWHERE status = 'General' \n  AND candidate1_name IS NOT NULL \n  AND candidate2_name IS NOT NULL\n  AND candidate1_name = candidate2_name\nORDER BY state_code, district;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- House races in General with same candidate in both slots (duplicates)\nSELECT state_code, district, candidate1_name, candidate2_name, status\nFROM house_races\nWHERE status = 'General' \n  AND candidate1_name IS NOT NULL \n  AND candidate2_name IS NOT NULL\n  AND candidate1_name = candidate2_name\nORDER BY state_code, district;\n",
+  "rows": [
+    {
+      "state_code": "AL",
+      "district": "5",
+      "candidate1_name": "Dale W. Strong",
+      "candidate2_name": "Dale W. Strong",
+      "status": "General"
+    },
+    {
+      "state_code": "IN",
+      "district": "3",
+      "candidate1_name": "Marlin Stutzman",
+      "candidate2_name": "Marlin Stutzman",
+      "status": "General"
+    },
+    {
+      "state_code": "IN",
+      "district": "4",
+      "candidate1_name": "Jim Baird",
+      "candidate2_name": "Jim Baird",
+      "status": "General"
+    },
+    {
+      "state_code": "KY",
+      "district": "2",
+      "candidate1_name": "Brett Guthrie",
+      "candidate2_name": "Brett Guthrie",
+      "status": "General"
+    },
+    {
+      "state_code": "PA",
+      "district": "7",
+      "candidate1_name": "Ryan Mackenzie",
+      "candidate2_name": "Ryan Mackenzie",
+      "status": "General"
+    },
+    {
+      "state_code": "PA",
+      "district": "10",
+      "candidate1_name": "Scott Perry",
+      "candidate2_name": "Scott Perry",
+      "status": "General"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate2_name\tstatus\nAL\t5\tDale W. Strong\tDale W. Strong\tGeneral\nIN\t3\tMarlin Stutzman\tMarlin Stutzman\tGeneral\nIN\t4\tJim Baird\tJim Baird\tGeneral\nKY\t2\tBrett Guthrie\tBrett Guthrie\tGeneral\nPA\t7\tRyan Mackenzie\tRyan Mackenzie\tGeneral\nPA\t10\tScott Perry\tScott Perry\tGeneral\n",
+  "stderr": "",
+  "execution_time_ms": 267
+}

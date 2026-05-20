@@ -1,0 +1,26 @@
+{
+  "query": "\n-- Senate status summary\nSELECT status, COUNT(*) as count FROM senate_races GROUP BY status ORDER BY count DESC;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- Senate status summary\nSELECT status, COUNT(*) as count FROM senate_races GROUP BY status ORDER BY count DESC;\n",
+  "rows": [
+    {
+      "status": "Scheduled",
+      "count": "21"
+    },
+    {
+      "status": "General",
+      "count": "11"
+    },
+    {
+      "status": "Primary Runoff",
+      "count": "2"
+    },
+    {
+      "status": "Primary",
+      "count": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "status\tcount\nScheduled\t21\nGeneral\t11\nPrimary Runoff\t2\nPrimary\t1\n",
+  "stderr": "",
+  "execution_time_ms": 263
+}
