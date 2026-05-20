@@ -1,0 +1,20 @@
+{
+  "query": "\n-- CA-1: LaMalfa died Jan 6, 2026. Special election Aug 4 for current seat.\n-- New redrawn CA-1 general election: Mike McGuire (D) vs TBD R (top-2 primary not yet held)\n-- Set to Scheduled since CA primary hasn't occurred, and update candidates\nUPDATE house_races \nSET candidate1_name = 'Mike McGuire',\n    candidate1_party = 'D',\n    candidate2_name = NULL,\n    candidate2_party = 'R',\n    status = 'Scheduled',\n    notes = 'CA top-2 primary June 2026. D: Mike McGuire (CA Senate leader). R TBD. Special election for current seat Aug 4, 2026.'\nWHERE state_code = 'CA' AND district = 1;\n\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, notes\nFROM house_races WHERE state_code = 'CA' AND district = 1;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- CA-1: LaMalfa died Jan 6, 2026. Special election Aug 4 for current seat.\n-- New redrawn CA-1 general election: Mike McGuire (D) vs TBD R (top-2 primary not yet held)\n-- Set to Scheduled since CA primary hasn't occurred, and update candidates\nUPDATE house_races \nSET candidate1_name = 'Mike McGuire',\n    candidate1_party = 'D',\n    candidate2_name = NULL,\n    candidate2_party = 'R',\n    status = 'Scheduled',\n    notes = 'CA top-2 primary June 2026. D: Mike McGuire (CA Senate leader). R TBD. Special election for current seat Aug 4, 2026.'\nWHERE state_code = 'CA' AND district = 1;\n\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, notes\nFROM house_races WHERE state_code = 'CA' AND district = 1;\n",
+  "rows": [
+    {
+      "state_code": "CA",
+      "district": "1",
+      "candidate1_name": "Mike McGuire",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "notes": "CA top-2 primary June 2026. D: Mike McGuire (CA Senate leader). R TBD. Special election for current seat Aug 4, 2026."
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tnotes\nCA\t1\tMike McGuire\tD\tNULL\tR\tScheduled\tCA top-2 primary June 2026. D: Mike McGuire (CA Senate leader). R TBD. Special election for current seat Aug 4, 2026.\n",
+  "stderr": "",
+  "execution_time_ms": 272
+}

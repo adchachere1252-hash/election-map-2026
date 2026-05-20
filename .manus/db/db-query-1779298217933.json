@@ -1,0 +1,19 @@
+{
+  "query": "\n-- PA-7: Add Ryan Mackenzie as R incumbent\nUPDATE house_races SET candidate2_name = 'Ryan Mackenzie', candidate2_party = 'R' WHERE state_code = 'PA' AND district = 7;\n\n-- PA-10: Add Scott Perry as R incumbent  \nUPDATE house_races SET candidate2_name = 'Scott Perry', candidate2_party = 'R' WHERE state_code = 'PA' AND district = 10;\n\n-- PA-5: Fix extra space in Mary Gay Scanlon's name\nUPDATE house_races SET candidate1_name = 'Mary Gay Scanlon' WHERE state_code = 'PA' AND district = 5;\n\n-- Check CA-1\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status\nFROM house_races WHERE state_code = 'CA' AND district = 1;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- PA-7: Add Ryan Mackenzie as R incumbent\nUPDATE house_races SET candidate2_name = 'Ryan Mackenzie', candidate2_party = 'R' WHERE state_code = 'PA' AND district = 7;\n\n-- PA-10: Add Scott Perry as R incumbent  \nUPDATE house_races SET candidate2_name = 'Scott Perry', candidate2_party = 'R' WHERE state_code = 'PA' AND district = 10;\n\n-- PA-5: Fix extra space in Mary Gay Scanlon's name\nUPDATE house_races SET candidate1_name = 'Mary Gay Scanlon' WHERE state_code = 'PA' AND district = 5;\n\n-- Check CA-1\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status\nFROM house_races WHERE state_code = 'CA' AND district = 1;\n",
+  "rows": [
+    {
+      "state_code": "CA",
+      "district": "1",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Doug LaMalfa",
+      "candidate2_party": "R",
+      "status": "General"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\nCA\t1\tNULL\tD\tDoug LaMalfa\tR\tGeneral\n",
+  "stderr": "",
+  "execution_time_ms": 302
+}

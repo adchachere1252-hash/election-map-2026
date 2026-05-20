@@ -1,0 +1,118 @@
+{
+  "query": "\n-- NC-4: Add Mahesh Ganorkar as R nominee\nUPDATE house_races SET candidate2_name = 'Mahesh Ganorkar', candidate2_party = 'R' WHERE state_code = 'NC' AND district = 4;\n\n-- NC-7: Add Kimberly Hardy as D nominee\nUPDATE house_races SET candidate1_name = 'Kimberly Hardy', candidate1_party = 'D' WHERE state_code = 'NC' AND district = 7;\n\n-- OH-1: Add Eric Conroy as R nominee\nUPDATE house_races SET candidate2_name = 'Eric Conroy', candidate2_party = 'R' WHERE state_code = 'OH' AND district = 1;\n\n-- PA-1: Fix D nominee to Bob Harvie (not Brian Harvie)\nUPDATE house_races SET candidate1_name = 'Bob Harvie', candidate1_party = 'D' WHERE state_code = 'PA' AND district = 1;\n\n-- PA-2: Add Jessica Arriaga as R nominee\nUPDATE house_races SET candidate2_name = 'Jessica Arriaga', candidate2_party = 'R' WHERE state_code = 'PA' AND district = 2;\n\n-- PA-4: Add Aurora Stuski as R nominee\nUPDATE house_races SET candidate2_name = 'Aurora Stuski', candidate2_party = 'R' WHERE state_code = 'PA' AND district = 4;\n\n-- PA-5: Add Nick Manganaro as R nominee\nUPDATE house_races SET candidate2_name = 'Nick Manganaro', candidate2_party = 'R' WHERE state_code = 'PA' AND district = 5;\n\n-- PA-6: Add Marty Young as R nominee\nUPDATE house_races SET candidate2_name = 'Marty Young', candidate2_party = 'R' WHERE state_code = 'PA' AND district = 6;\n\n-- PA-7: Add Bob Brooks as D nominee\nUPDATE house_races SET candidate1_name = 'Bob Brooks', candidate1_party = 'D' WHERE state_code = 'PA' AND district = 7;\n\n-- PA-8: Add Paige Cognetti as D nominee\nUPDATE house_races SET candidate1_name = 'Paige Cognetti', candidate1_party = 'D' WHERE state_code = 'PA' AND district = 8;\n\n-- PA-9: Add Rachel Wallace as D nominee\nUPDATE house_races SET candidate1_name = 'Rachel Wallace', candidate1_party = 'D' WHERE state_code = 'PA' AND district = 9;\n\n-- PA-10: Add Janelle Stelson as D nominee\nUPDATE house_races SET candidate1_name = 'Janelle Stelson', candidate1_party = 'D' WHERE state_code = 'PA' AND district = 10;\n\n-- PA-3: Confirm no R candidate (correct as-is, no update needed)\n-- CA-1: Need to check D candidate separately\n\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status\nFROM house_races\nWHERE (state_code = 'NC' AND district IN (4,7))\n   OR (state_code = 'OH' AND district = 1)\n   OR (state_code = 'PA' AND district IN (1,2,4,5,6,7,8,9,10))\nORDER BY state_code, district;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- NC-4: Add Mahesh Ganorkar as R nominee\nUPDATE house_races SET candidate2_name = 'Mahesh Ganorkar', candidate2_party = 'R' WHERE state_code = 'NC' AND district = 4;\n\n-- NC-7: Add Kimberly Hardy as D nominee\nUPDATE house_races SET candidate1_name = 'Kimberly Hardy', candidate1_party = 'D' WHERE state_code = 'NC' AND district = 7;\n\n-- OH-1: Add Eric Conroy as R nominee\nUPDATE house_races SET candidate2_name = 'Eric Conroy', candidate2_party = 'R' WHERE state_code = 'OH' AND district = 1;\n\n-- PA-1: Fix D nominee to Bob Harvie (not Brian Harvie)\nUPDATE house_races SET candidate1_name = 'Bob Harvie', candidate1_party = 'D' WHERE state_code = 'PA' AND district = 1;\n\n-- PA-2: Add Jessica Arriaga as R nominee\nUPDATE house_races SET candidate2_name = 'Jessica Arriaga', candidate2_party = 'R' WHERE state_code = 'PA' AND district = 2;\n\n-- PA-4: Add Aurora Stuski as R nominee\nUPDATE house_races SET candidate2_name = 'Aurora Stuski', candidate2_party = 'R' WHERE state_code = 'PA' AND district = 4;\n\n-- PA-5: Add Nick Manganaro as R nominee\nUPDATE house_races SET candidate2_name = 'Nick Manganaro', candidate2_party = 'R' WHERE state_code = 'PA' AND district = 5;\n\n-- PA-6: Add Marty Young as R nominee\nUPDATE house_races SET candidate2_name = 'Marty Young', candidate2_party = 'R' WHERE state_code = 'PA' AND district = 6;\n\n-- PA-7: Add Bob Brooks as D nominee\nUPDATE house_races SET candidate1_name = 'Bob Brooks', candidate1_party = 'D' WHERE state_code = 'PA' AND district = 7;\n\n-- PA-8: Add Paige Cognetti as D nominee\nUPDATE house_races SET candidate1_name = 'Paige Cognetti', candidate1_party = 'D' WHERE state_code = 'PA' AND district = 8;\n\n-- PA-9: Add Rachel Wallace as D nominee\nUPDATE house_races SET candidate1_name = 'Rachel Wallace', candidate1_party = 'D' WHERE state_code = 'PA' AND district = 9;\n\n-- PA-10: Add Janelle Stelson as D nominee\nUPDATE house_races SET candidate1_name = 'Janelle Stelson', candidate1_party = 'D' WHERE state_code = 'PA' AND district = 10;\n\n-- PA-3: Confirm no R candidate (correct as-is, no update needed)\n-- CA-1: Need to check D candidate separately\n\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status\nFROM house_races\nWHERE (state_code = 'NC' AND district IN (4,7))\n   OR (state_code = 'OH' AND district = 1)\n   OR (state_code = 'PA' AND district IN (1,2,4,5,6,7,8,9,10))\nORDER BY state_code, district;\n",
+  "rows": [
+    {
+      "state_code": "NC",
+      "district": "4",
+      "candidate1_name": "Valerie Foushee",
+      "candidate1_party": "D",
+      "candidate2_name": "Mahesh Ganorkar",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "state_code": "NC",
+      "district": "7",
+      "candidate1_name": "Kimberly Hardy",
+      "candidate1_party": "D",
+      "candidate2_name": "David Rouzer",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "state_code": "OH",
+      "district": "1",
+      "candidate1_name": "Greg Landsman",
+      "candidate1_party": "D",
+      "candidate2_name": "Eric Conroy",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "state_code": "PA",
+      "district": "1",
+      "candidate1_name": "Bob Harvie",
+      "candidate1_party": "D",
+      "candidate2_name": "Brian Fitzpatrick",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "state_code": "PA",
+      "district": "2",
+      "candidate1_name": "Brendan Boyle",
+      "candidate1_party": "D",
+      "candidate2_name": "Jessica Arriaga",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "state_code": "PA",
+      "district": "4",
+      "candidate1_name": "Madeleine Dean",
+      "candidate1_party": "D",
+      "candidate2_name": "Aurora Stuski",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "state_code": "PA",
+      "district": "5",
+      "candidate1_name": "Mary  Scanlon",
+      "candidate1_party": "D",
+      "candidate2_name": "Nick Manganaro",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "state_code": "PA",
+      "district": "6",
+      "candidate1_name": "Chrissy Houlahan",
+      "candidate1_party": "D",
+      "candidate2_name": "Marty Young",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "state_code": "PA",
+      "district": "7",
+      "candidate1_name": "Bob Brooks",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "General"
+    },
+    {
+      "state_code": "PA",
+      "district": "8",
+      "candidate1_name": "Paige Cognetti",
+      "candidate1_party": "D",
+      "candidate2_name": "Robert P. Bresnahan",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "state_code": "PA",
+      "district": "9",
+      "candidate1_name": "Rachel Wallace",
+      "candidate1_party": "D",
+      "candidate2_name": "Daniel Meuser",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "state_code": "PA",
+      "district": "10",
+      "candidate1_name": "Janelle Stelson",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "General"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\nNC\t4\tValerie Foushee\tD\tMahesh Ganorkar\tR\tGeneral\nNC\t7\tKimberly Hardy\tD\tDavid Rouzer\tR\tGeneral\nOH\t1\tGreg Landsman\tD\tEric Conroy\tR\tGeneral\nPA\t1\tBob Harvie\tD\tBrian Fitzpatrick\tR\tGeneral\nPA\t2\tBrendan Boyle\tD\tJessica Arriaga\tR\tGeneral\nPA\t4\tMadeleine Dean\tD\tAurora Stuski\tR\tGeneral\nPA\t5\tMary  Scanlon\tD\tNick Manganaro\tR\tGeneral\nPA\t6\tChrissy Houlahan\tD\tMarty Young\tR\tGeneral\nPA\t7\tBob Brooks\tD\tNULL\tNULL\tGeneral\nPA\t8\tPaige Cognetti\tD\tRobert P. Bresnahan\tR\tGeneral\nPA\t9\tRachel Wallace\tD\tDaniel Meuser\tR\tGeneral\nPA\t10\tJanelle Stelson\tD\tNULL\tNULL\tGeneral\n",
+  "stderr": "",
+  "execution_time_ms": 375
+}

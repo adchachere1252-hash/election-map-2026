@@ -631,10 +631,12 @@ export default function Home() {
             houseRaces={houseRaces}
             redistrictingStates={redistrictingStates}
             referendums={referendums}
+            governorRaces={governorRaces as any}
             onSelectSenate={handleSelectSenate}
             onSelectHouse={handleSelectHouse}
             onSelectRedistricting={handleSelectRedistricting}
             onSelectReferendum={handleSelectReferendum}
+            onSelectGovernor={handleSelectGovernor}
             onQueryChange={setLiveSearchQuery}
             onSelectSenator={(s: Senator) => setSelectedSenatorId(s.id)}
           />
@@ -648,10 +650,12 @@ export default function Home() {
               houseRaces={houseRaces}
               redistrictingStates={redistrictingStates}
               referendums={referendums}
+              governorRaces={governorRaces as any}
               onSelectSenate={handleSelectSenate}
               onSelectHouse={handleSelectHouse}
               onSelectRedistricting={handleSelectRedistricting}
               onSelectReferendum={handleSelectReferendum}
+              onSelectGovernor={handleSelectGovernor}
               onQueryChange={setLiveSearchQuery}
               onSelectSenator={(s: Senator) => setSelectedSenatorId(s.id)}
             />

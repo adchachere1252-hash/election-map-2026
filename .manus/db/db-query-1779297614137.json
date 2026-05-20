@@ -1,0 +1,60 @@
+{
+  "query": "\n-- Senate races with NULL candidates in General/Called/Certified status\nSELECT state_code, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status\nFROM senate_races\nWHERE status IN ('General','Called','Certified') AND (candidate1_name IS NULL OR candidate2_name IS NULL);\n\n-- Governor races with NULL dem or rep candidate in Voting/Called/Certified status  \nSELECT state_code, dem_candidate, rep_candidate, status\nFROM governor_races\nWHERE status IN ('Voting','Called','Certified') AND (dem_candidate IS NULL OR rep_candidate IS NULL)\nLIMIT 20;\n\n-- House races in General/Called with BOTH candidates NULL\nSELECT state_code, district, status, candidate1_name, candidate2_name\nFROM house_races\nWHERE status IN ('General','Called','Certified') AND candidate1_name IS NULL AND candidate2_name IS NULL\nLIMIT 20;\n\n-- AP Engine health: count by status for all three tables\nSELECT 'senate' as tbl, status, COUNT(*) as cnt FROM senate_races GROUP BY status\nUNION ALL\nSELECT 'house' as tbl, status, COUNT(*) as cnt FROM house_races GROUP BY status\nUNION ALL\nSELECT 'governor' as tbl, status, COUNT(*) as cnt FROM governor_races GROUP BY status\nORDER BY tbl, status;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- Senate races with NULL candidates in General/Called/Certified status\nSELECT state_code, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status\nFROM senate_races\nWHERE status IN ('General','Called','Certified') AND (candidate1_name IS NULL OR candidate2_name IS NULL);\n\n-- Governor races with NULL dem or rep candidate in Voting/Called/Certified status  \nSELECT state_code, dem_candidate, rep_candidate, status\nFROM governor_races\nWHERE status IN ('Voting','Called','Certified') AND (dem_candidate IS NULL OR rep_candidate IS NULL)\nLIMIT 20;\n\n-- House races in General/Called with BOTH candidates NULL\nSELECT state_code, district, status, candidate1_name, candidate2_name\nFROM house_races\nWHERE status IN ('General','Called','Certified') AND candidate1_name IS NULL AND candidate2_name IS NULL\nLIMIT 20;\n\n-- AP Engine health: count by status for all three tables\nSELECT 'senate' as tbl, status, COUNT(*) as cnt FROM senate_races GROUP BY status\nUNION ALL\nSELECT 'house' as tbl, status, COUNT(*) as cnt FROM house_races GROUP BY status\nUNION ALL\nSELECT 'governor' as tbl, status, COUNT(*) as cnt FROM governor_races GROUP BY status\nORDER BY tbl, status;\n",
+  "rows": [
+    {
+      "tbl": "governor",
+      "status": "Primary Runoff",
+      "cnt": "1"
+    },
+    {
+      "tbl": "governor",
+      "status": "Scheduled",
+      "cnt": "28"
+    },
+    {
+      "tbl": "governor",
+      "status": "Voting",
+      "cnt": "7"
+    },
+    {
+      "tbl": "house",
+      "status": "Called",
+      "cnt": "6"
+    },
+    {
+      "tbl": "house",
+      "status": "General",
+      "cnt": "130"
+    },
+    {
+      "tbl": "house",
+      "status": "Primary Runoff",
+      "cnt": "16"
+    },
+    {
+      "tbl": "house",
+      "status": "Scheduled",
+      "cnt": "283"
+    },
+    {
+      "tbl": "senate",
+      "status": "General",
+      "cnt": "10"
+    },
+    {
+      "tbl": "senate",
+      "status": "Primary Runoff",
+      "cnt": "4"
+    },
+    {
+      "tbl": "senate",
+      "status": "Scheduled",
+      "cnt": "21"
+    }
+  ],
+  "messages": [],
+  "stdout": "tbl\tstatus\tcnt\ngovernor\tPrimary Runoff\t1\ngovernor\tScheduled\t28\ngovernor\tVoting\t7\nhouse\tCalled\t6\nhouse\tGeneral\t130\nhouse\tPrimary Runoff\t16\nhouse\tScheduled\t283\nsenate\tGeneral\t10\nsenate\tPrimary Runoff\t4\nsenate\tScheduled\t21\n",
+  "stderr": "",
+  "execution_time_ms": 272
+}
