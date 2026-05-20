@@ -54,7 +54,8 @@ const AP_DATA_BASE = "https://interactives.apelections.org/election-results/data
 // Known election dates to try (most recent first)
 // On election night, AP activates the date-specific feed automatically
 const ELECTION_DATES = [
-  "2026-05-19", // May 19 primaries (GA, KY, OR, etc.) — checked first so primary data takes precedence
+  "2026-05-26", // May 26 — Texas runoff (TX-19, TX-32, TX-33, TX-35, TX-38) — checked first
+  "2026-05-19", // May 19 primaries (GA, KY, OR, etc.)
   "2026-05-12", // May 12 primaries (NE, WV)
   "2026-05-05", // May 5 primaries (OH, IN)
   "2026-07-15", // July 15 — Louisiana U.S. House primaries

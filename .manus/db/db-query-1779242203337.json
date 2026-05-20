@@ -1,0 +1,55 @@
+{
+  "query": "SELECT district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, notes FROM house_races WHERE state_code = 'TX' AND district IN (19, 32, 33, 35, 38) ORDER BY district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, notes FROM house_races WHERE state_code = 'TX' AND district IN (19, 32, 33, 35, 38) ORDER BY district;",
+  "rows": [
+    {
+      "district": "19",
+      "candidate1_name": "Kyle Rable",
+      "candidate1_party": "D",
+      "candidate2_name": "Tom Sell",
+      "candidate2_party": "R",
+      "status": "Primary Runoff",
+      "notes": "R primary runoff May 26: Tom Sell vs. Abraham Enriquez. D nominee: Kyle Rable (uncontested)."
+    },
+    {
+      "district": "32",
+      "candidate1_name": "Dan Barrios",
+      "candidate1_party": "D",
+      "candidate2_name": "Jace Yarbrough",
+      "candidate2_party": "R",
+      "status": "Primary Runoff",
+      "notes": "R primary runoff May 26: Jace Yarbrough vs. Ryan Binkley. D nominee: Dan Barrios."
+    },
+    {
+      "district": "33",
+      "candidate1_name": "Colin Allred",
+      "candidate1_party": "D",
+      "candidate2_name": "Patrick Gillespie",
+      "candidate2_party": "R",
+      "status": "Primary Runoff",
+      "notes": "D primary runoff May 26: Colin Allred vs. Julie Johnson. R primary runoff May 26: Patrick Gillespie vs. John Sims."
+    },
+    {
+      "district": "35",
+      "candidate1_name": "Maureen Galindo",
+      "candidate1_party": "D",
+      "candidate2_name": "John Lujan",
+      "candidate2_party": "R",
+      "status": "Primary Runoff",
+      "notes": "D primary runoff May 26: Maureen Galindo vs. Johnny Garcia. R primary runoff May 26: John Lujan vs. Carlos De La Cruz."
+    },
+    {
+      "district": "38",
+      "candidate1_name": "Melissa McDonough",
+      "candidate1_party": "D",
+      "candidate2_name": "Jon Bonck",
+      "candidate2_party": "R",
+      "status": "Primary Runoff",
+      "notes": "R primary runoff May 26: Jon Bonck vs. Shelly deZevallos. D nominee: Melissa McDonough."
+    }
+  ],
+  "messages": [],
+  "stdout": "district\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tnotes\n19\tKyle Rable\tD\tTom Sell\tR\tPrimary Runoff\tR primary runoff May 26: Tom Sell vs. Abraham Enriquez. D nominee: Kyle Rable (uncontested).\n32\tDan Barrios\tD\tJace Yarbrough\tR\tPrimary Runoff\tR primary runoff May 26: Jace Yarbrough vs. Ryan Binkley. D nominee: Dan Barrios.\n33\tColin Allred\tD\tPatrick Gillespie\tR\tPrimary Runoff\tD primary runoff May 26: Colin Allred vs. Julie Johnson. R primary runoff May 26: Patrick Gillespie vs. John Sims.\n35\tMaureen Galindo\tD\tJohn Lujan\tR\tPrimary Runoff\tD primary runoff May 26: Maureen Galindo vs. Johnny Garcia. R primary runoff May 26: John Lujan vs. Carlos De La Cruz.\n38\tMelissa McDonough\tD\tJon Bonck\tR\tPrimary Runoff\tR primary runoff May 26: Jon Bonck vs. Shelly deZevallos. D nominee: Melissa McDonough.\n",
+  "stderr": "",
+  "execution_time_ms": 259
+}

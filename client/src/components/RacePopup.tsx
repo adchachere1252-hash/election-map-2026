@@ -543,6 +543,7 @@ function RunoffMatchupSection({
   notes,
   chamber,
   incumbent, incumbentParty,
+  runoffLabel,
 }: {
   candidate1Name: string | null | undefined;
   candidate1Party: string | null | undefined;
@@ -556,10 +557,19 @@ function RunoffMatchupSection({
   chamber?: "senate" | "house";
   incumbent?: string | null;
   incumbentParty?: string | null;
+  /** Override the header label — defaults to "Primary Runoff" */
+  runoffLabel?: string | null;
 }) {
   if (!candidate1Name || !candidate2Name) return null;
 
-  // Amber/orange color for runoff (same party — GOP runoff)
+  // Determine runoff label: if both candidates are same party → party-specific label
+  const sameParty = candidate1Party && candidate2Party && candidate1Party === candidate2Party;
+  const derivedLabel = runoffLabel ??
+    (sameParty
+      ? (candidate1Party === "R" ? "GOP Primary Runoff" : candidate1Party === "D" ? "Democratic Primary Runoff" : "Primary Runoff")
+      : "Primary Runoff");
+
+  // Amber/orange color for runoff
   const runoffColor = "#f59e0b"; // amber-400
   const c1Color = getPartyColor(candidate1Party as any);
   const c2Color = getPartyColor(candidate2Party as any);
@@ -574,21 +584,21 @@ function RunoffMatchupSection({
 
   if (incumbent) {
     const partyLabel = incumbentParty === "D" ? "Democrat" : incumbentParty === "R" ? "Republican" : incumbentParty ?? "";
-    contextLines.push(`${incumbent} (${partyLabel}) was eliminated in the May 16 primary \u2014 the first incumbent senator to lose a primary since 2012.`);
+    contextLines.push(`${incumbent} (${partyLabel}) was eliminated in the primary.`);
   }
 
   if (candidate1PrimaryPct || candidate2PrimaryPct) {
     const c1Pct = candidate1PrimaryPct ? ` (${candidate1PrimaryPct}% in primary)` : "";
     const c2Pct = candidate2PrimaryPct ? ` (${candidate2PrimaryPct}% in primary)` : "";
-    contextLines.push(`${candidate1Name}${c1Pct} and ${candidate2Name}${c2Pct} advanced from the May 16 primary.`);
+    contextLines.push(`${candidate1Name}${c1Pct} and ${candidate2Name}${c2Pct} advanced from the primary.`);
   }
 
   if (primaryRunoffDate) {
-    contextLines.push(`Runoff election: ${primaryRunoffDate}. A majority is required to win the GOP nomination.`);
+    contextLines.push(`Runoff election: ${primaryRunoffDate}. A majority is required to win the nomination.`);
   }
 
   if (generalDate) {
-    contextLines.push(`General election: ${generalDate}. The runoff winner is heavily favored in the general.`);
+    contextLines.push(`General election: ${generalDate}. The runoff winner advances to the November ballot.`);
   }
 
   return (
@@ -597,7 +607,7 @@ function RunoffMatchupSection({
       <div className="flex items-center gap-2 mb-2">
         <span className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded"
           style={{ background: runoffColor + "22", color: runoffColor, border: "1px solid " + runoffColor + "44" }}>
-          GOP Primary Runoff
+          {derivedLabel}
         </span>
         {primaryRunoffDate && (
           <span className="text-xs text-muted-foreground flex items-center gap-1">
@@ -1142,6 +1152,19 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
           chamber="house"
           pctReporting={race.pctReporting}
           primaryWinner={(race as any).primaryWinner}
+        />
+      ) : race.status === "Primary Runoff" && race.candidate1Name && race.candidate2Name ? (
+        <RunoffMatchupSection
+          candidate1Name={race.candidate1Name}
+          candidate1Party={race.candidate1Party}
+          candidate2Name={race.candidate2Name}
+          candidate2Party={race.candidate2Party}
+          primaryRunoffDate="May 26, 2026"
+          generalDate={race.generalDate}
+          notes={(race as any).notes}
+          chamber="house"
+          incumbent={race.incumbent}
+          incumbentParty={race.incumbentParty}
         />
       ) : (race.candidate1Name || race.candidate2Name) ? (
         <div className="space-y-1.5 mb-3">

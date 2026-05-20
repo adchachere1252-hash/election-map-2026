@@ -1530,3 +1530,14 @@
 - [x] Fix next-themes compatibility: sonner.tsx uses useTheme from next-themes but app uses custom ThemeContext — toasts may render with wrong theme (fixed by setting theme="dark" directly on Toaster)
 - [x] Fix electionDate filter in toast useEffect: relaxed from strict today-only to within-2-days to handle AP Engine date mismatches and UTC boundary
 - [x] Add client-side dedup for toast queue: same race should not show multiple toasts if WS reconnects (seenToastIdsRef)
+
+## TX May 26 Runoff Races (May 20, 2026)
+- [x] Confirmed house_races status enum already includes 'Primary Runoff' (no migration needed)
+- [x] Updated TX-19 DB: candidate2_name='Tom Sell', status='Primary Runoff', notes with full runoff context
+- [x] Updated TX-32 DB: candidate2_name='Jace Yarbrough', status='Primary Runoff', notes with full runoff context
+- [x] Updated TX-33 DB: candidate1_name='Colin Allred', candidate2_name='Patrick Gillespie', status='Primary Runoff'
+- [x] Updated TX-35 DB: candidate1_name='Maureen Galindo', candidate2_name='John Lujan', status='Primary Runoff'
+- [x] Updated TX-38 DB: candidate2_name='Jon Bonck', status='Primary Runoff', notes with full runoff context
+- [x] Updated RunoffMatchupSection: dynamic label (GOP/Dem/generic) based on candidate parties; generic context lines
+- [x] Added Primary Runoff branch in HousePopup ternary chain (mirrors SenatePopup pattern)
+- [x] TypeScript: 0 errors
