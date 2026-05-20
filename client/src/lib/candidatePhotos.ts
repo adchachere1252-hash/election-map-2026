@@ -621,6 +621,14 @@ const CDN_PHOTOS: Record<string, string> = {
   "martha fierro":          `${CDN_BASE}/martha-fierro-tx29_eadceada.jpg`,
   "justin early":           `${CDN_BASE}/justin-early-tx31_b879849a.jpg`,
   "rhonda hart":            `${CDN_BASE}/rhonda-hart-tx36_1c42977d.jpg`,
+  // Governor candidates — May 19 2026 primaries
+  "tommy tuberville":       `${PHOTO_BASE}/T000278.jpg`,
+  "doug jones":             `${PHOTO_BASE}/J000300.jpg`,
+  "stacy garrity":          `${CDN_BASE}/stacy-garrity_bc758a4e.jpg`,
+  "keisha lance bottoms":   `${CDN_BASE}/keisha-lance-bottoms_ded16f80.jpg`,
+  "christine drazan":       `${CDN_BASE}/christine-drazan_bb481554.jpg`,
+  "burt jones":             `${CDN_BASE}/burt-jones_08b2b196.jpg`,
+  "rick jackson":           `${CDN_BASE}/rick-jackson_40d48fbc.jpg`,
 };
 
 /**
