@@ -1,0 +1,9 @@
+{
+  "query": "-- Clear candidate2 for all house races where both candidates are the same person (uncontested)\nUPDATE house_races \nSET candidate2_name = NULL, candidate2_party = NULL, candidate2_vote_pct = NULL, candidate2_votes = NULL\nWHERE candidate1_name = candidate2_name AND candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL;\n\n-- Same fix for senate races\nUPDATE senate_races \nSET candidate2_name = NULL, candidate2_party = NULL, candidate2_vote_pct = NULL, candidate2_votes = NULL\nWHERE candidate1_name = candidate2_name AND candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- Clear candidate2 for all house races where both candidates are the same person (uncontested)\nUPDATE house_races \nSET candidate2_name = NULL, candidate2_party = NULL, candidate2_vote_pct = NULL, candidate2_votes = NULL\nWHERE candidate1_name = candidate2_name AND candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL;\n\n-- Same fix for senate races\nUPDATE senate_races \nSET candidate2_name = NULL, candidate2_party = NULL, candidate2_vote_pct = NULL, candidate2_votes = NULL\nWHERE candidate1_name = candidate2_name AND candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 279
+}

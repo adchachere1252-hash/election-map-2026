@@ -1,0 +1,163 @@
+{
+  "query": "SELECT state_code, district, status, primary_date, candidate1_name, candidate2_name, primary_winner FROM house_races WHERE state_code = 'PA' ORDER BY district LIMIT 20;\nSELECT state_code, status, primary_date, candidate1_name, candidate2_name, primary_winner FROM senate_races WHERE state_code = 'PA';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, district, status, primary_date, candidate1_name, candidate2_name, primary_winner FROM house_races WHERE state_code = 'PA' ORDER BY district LIMIT 20;\nSELECT state_code, status, primary_date, candidate1_name, candidate2_name, primary_winner FROM senate_races WHERE state_code = 'PA';",
+  "rows": [
+    {
+      "state_code": "PA",
+      "district": "1",
+      "status": "General",
+      "primary_date": "May 19, 2026",
+      "candidate1_name": "Brian Fitzpatrick",
+      "candidate2_name": "Brian Fitzpatrick",
+      "primary_winner": "Brian Fitzpatrick"
+    },
+    {
+      "state_code": "PA",
+      "district": "2",
+      "status": "General",
+      "primary_date": "May 19, 2026",
+      "candidate1_name": "Brendan Boyle",
+      "candidate2_name": "Jessica Arriaga",
+      "primary_winner": "Jessica Arriaga"
+    },
+    {
+      "state_code": "PA",
+      "district": "3",
+      "status": "Scheduled",
+      "primary_date": "May 19, 2026",
+      "candidate1_name": "Ala Stanford",
+      "candidate2_name": "Chris Rabb",
+      "primary_winner": "NULL"
+    },
+    {
+      "state_code": "PA",
+      "district": "4",
+      "status": "General",
+      "primary_date": "May 19, 2026",
+      "candidate1_name": "Madeleine Dean",
+      "candidate2_name": "Aurora Stuski",
+      "primary_winner": "Aurora Stuski"
+    },
+    {
+      "state_code": "PA",
+      "district": "5",
+      "status": "General",
+      "primary_date": "May 19, 2026",
+      "candidate1_name": "Mary  Scanlon",
+      "candidate2_name": "Mary  Scanlon",
+      "primary_winner": "Mary  Scanlon"
+    },
+    {
+      "state_code": "PA",
+      "district": "6",
+      "status": "General",
+      "primary_date": "May 19, 2026",
+      "candidate1_name": "Chrissy Houlahan",
+      "candidate2_name": "Chrissy Houlahan",
+      "primary_winner": "Chrissy Houlahan"
+    },
+    {
+      "state_code": "PA",
+      "district": "7",
+      "status": "General",
+      "primary_date": "May 19, 2026",
+      "candidate1_name": "Ryan Mackenzie",
+      "candidate2_name": "Ryan Mackenzie",
+      "primary_winner": "Ryan Mackenzie"
+    },
+    {
+      "state_code": "PA",
+      "district": "8",
+      "status": "General",
+      "primary_date": "May 19, 2026",
+      "candidate1_name": "Paige Cognetti",
+      "candidate2_name": "Paige Cognetti",
+      "primary_winner": "Paige Cognetti"
+    },
+    {
+      "state_code": "PA",
+      "district": "9",
+      "status": "General",
+      "primary_date": "May 19, 2026",
+      "candidate1_name": "Rachel Wallace",
+      "candidate2_name": "Rachel Wallace",
+      "primary_winner": "Rachel Wallace"
+    },
+    {
+      "state_code": "PA",
+      "district": "10",
+      "status": "General",
+      "primary_date": "May 19, 2026",
+      "candidate1_name": "Scott Perry",
+      "candidate2_name": "Scott Perry",
+      "primary_winner": "Scott Perry"
+    },
+    {
+      "state_code": "PA",
+      "district": "11",
+      "status": "General",
+      "primary_date": "May 19, 2026",
+      "candidate1_name": "Nancy Mannion",
+      "candidate2_name": "Nancy Mannion",
+      "primary_winner": "Nancy Mannion"
+    },
+    {
+      "state_code": "PA",
+      "district": "12",
+      "status": "General",
+      "primary_date": "May 19, 2026",
+      "candidate1_name": "Summer Lee",
+      "candidate2_name": "James Hayes",
+      "primary_winner": "James Hayes"
+    },
+    {
+      "state_code": "PA",
+      "district": "13",
+      "status": "General",
+      "primary_date": "May 19, 2026",
+      "candidate1_name": "Beth Farnham",
+      "candidate2_name": "Beth Farnham",
+      "primary_winner": "Beth Farnham"
+    },
+    {
+      "state_code": "PA",
+      "district": "14",
+      "status": "General",
+      "primary_date": "May 19, 2026",
+      "candidate1_name": "Alan Bradstock",
+      "candidate2_name": "Alan Bradstock",
+      "primary_winner": "Alan Bradstock"
+    },
+    {
+      "state_code": "PA",
+      "district": "15",
+      "status": "General",
+      "primary_date": "May 19, 2026",
+      "candidate1_name": "Ray Bilger",
+      "candidate2_name": "Ray Bilger",
+      "primary_winner": "Ray Bilger"
+    },
+    {
+      "state_code": "PA",
+      "district": "16",
+      "status": "General",
+      "primary_date": "May 19, 2026",
+      "candidate1_name": "Justin Wagner",
+      "candidate2_name": "Justin Wagner",
+      "primary_winner": "Justin Wagner"
+    },
+    {
+      "state_code": "PA",
+      "district": "17",
+      "status": "General",
+      "primary_date": "May 19, 2026",
+      "candidate1_name": "Chris Deluzio",
+      "candidate2_name": "Tony Guy",
+      "primary_winner": "Chris Deluzio"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tstatus\tprimary_date\tcandidate1_name\tcandidate2_name\tprimary_winner\nPA\t1\tGeneral\tMay 19, 2026\tBrian Fitzpatrick\tBrian Fitzpatrick\tBrian Fitzpatrick\nPA\t2\tGeneral\tMay 19, 2026\tBrendan Boyle\tJessica Arriaga\tJessica Arriaga\nPA\t3\tScheduled\tMay 19, 2026\tAla Stanford\tChris Rabb\tNULL\nPA\t4\tGeneral\tMay 19, 2026\tMadeleine Dean\tAurora Stuski\tAurora Stuski\nPA\t5\tGeneral\tMay 19, 2026\tMary  Scanlon\tMary  Scanlon\tMary  Scanlon\nPA\t6\tGeneral\tMay 19, 2026\tChrissy Houlahan\tChrissy Houlahan\tChrissy Houlahan\nPA\t7\tGeneral\tMay 19, 2026\tRyan Mackenzie\tRyan Mackenzie\tRyan Mackenzie\nPA\t8\tGeneral\tMay 19, 2026\tPaige Cognetti\tPaige Cognetti\tPaige Cognetti\nPA\t9\tGeneral\tMay 19, 2026\tRachel Wallace\tRachel Wallace\tRachel Wallace\nPA\t10\tGeneral\tMay 19, 2026\tScott Perry\tScott Perry\tScott Perry\nPA\t11\tGeneral\tMay 19, 2026\tNancy Mannion\tNancy Mannion\tNancy Mannion\nPA\t12\tGeneral\tMay 19, 2026\tSummer Lee\tJames Hayes\tJames Hayes\nPA\t13\tGeneral\tMay 19, 2026\tBeth Farnham\tBeth Farnham\tBeth Farnham\nPA\t14\tGeneral\tMay 19, 2026\tAlan Bradstock\tAlan Bradstock\tAlan Bradstock\nPA\t15\tGeneral\tMay 19, 2026\tRay Bilger\tRay Bilger\tRay Bilger\nPA\t16\tGeneral\tMay 19, 2026\tJustin Wagner\tJustin Wagner\tJustin Wagner\nPA\t17\tGeneral\tMay 19, 2026\tChris Deluzio\tTony Guy\tChris Deluzio\n",
+  "stderr": "",
+  "execution_time_ms": 275
+}

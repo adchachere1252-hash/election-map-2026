@@ -264,19 +264,25 @@ function buildUpdate(
   // do NOT overwrite candidate names/parties — those are the general election matchup candidates
   const isAlreadyGeneral = currentStatus === 'General';
 
+  const isWriteIn = (name: string) =>
+    name.toLowerCase().includes("write-in") || name.toLowerCase().includes("write in");
+
   if (!isAlreadyGeneral || isGeneral) {
-    if (sorted[0]) {
+    if (sorted[0] && !isWriteIn(sorted[0].name)) {
       update.candidate1Name = sorted[0].name;
       update.candidate1Party = sorted[0].party;
       if (sorted[0].pct !== null) update.candidate1VotePct = Math.round(sorted[0].pct * 10) / 10;
       if (sorted[0].votes !== null) update.candidate1Votes = sorted[0].votes;
     }
-    // Only write candidate2 if it's a different person (avoid duplicating unopposed candidates)
-    if (sorted[1] && sorted[1].name !== sorted[0]?.name) {
-      update.candidate2Name = sorted[1].name;
-      update.candidate2Party = sorted[1].party;
-      if (sorted[1].pct !== null) update.candidate2VotePct = Math.round(sorted[1].pct * 10) / 10;
-      if (sorted[1].votes !== null) update.candidate2Votes = sorted[1].votes;
+    // Only write candidate2 if it's a different real person (not a write-in, not same as candidate1)
+    const cand2 = sorted.find(
+      c => c.name !== sorted[0]?.name && !isWriteIn(c.name)
+    );
+    if (cand2) {
+      update.candidate2Name = cand2.name;
+      update.candidate2Party = cand2.party;
+      if (cand2.pct !== null) update.candidate2VotePct = Math.round(cand2.pct * 10) / 10;
+      if (cand2.votes !== null) update.candidate2Votes = cand2.votes;
     }
     if (sorted.length > 2) {
       const others = sorted.slice(2);
