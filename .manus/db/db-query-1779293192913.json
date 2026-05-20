@@ -1,0 +1,20 @@
+{
+  "query": "-- Fix PA Governor: Josh Shapiro (D, incumbent) vs Stacy Garrity (R)\n-- The AP Engine skip guard fires when both dem_candidate and rep_candidate are non-TBD\n-- Austin Davis and Jason Richey are non-TBD so the guard is treating them as locked\n-- We need to update AND ensure the skip guard recognizes the correct names\nUPDATE governor_races \nSET dem_candidate = 'Josh Shapiro (incumbent)', rep_candidate = 'Stacy Garrity'\nWHERE state_code = 'PA';\n\n-- Fix LA Senate: swap candidate1 (D) and candidate2 (R) — they are currently reversed\nUPDATE senate_races \nSET candidate1_name = 'Jamie Davis → Gary Crockett (D Runoff, June 16)',\n    candidate1_party = 'D',\n    candidate2_name = 'Julia Letlow → John Fleming (R Runoff, June 16)',\n    candidate2_party = 'R'\nWHERE state_code = 'LA';\n\n-- Verify both fixes\nSELECT 'GOVERNOR PA' as check_type, dem_candidate, rep_candidate FROM governor_races WHERE state_code = 'PA'\nUNION ALL\nSELECT 'SENATE LA', candidate1_name, candidate2_name FROM senate_races WHERE state_code = 'LA';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- Fix PA Governor: Josh Shapiro (D, incumbent) vs Stacy Garrity (R)\n-- The AP Engine skip guard fires when both dem_candidate and rep_candidate are non-TBD\n-- Austin Davis and Jason Richey are non-TBD so the guard is treating them as locked\n-- We need to update AND ensure the skip guard recognizes the correct names\nUPDATE governor_races \nSET dem_candidate = 'Josh Shapiro (incumbent)', rep_candidate = 'Stacy Garrity'\nWHERE state_code = 'PA';\n\n-- Fix LA Senate: swap candidate1 (D) and candidate2 (R) — they are currently reversed\nUPDATE senate_races \nSET candidate1_name = 'Jamie Davis → Gary Crockett (D Runoff, June 16)',\n    candidate1_party = 'D',\n    candidate2_name = 'Julia Letlow → John Fleming (R Runoff, June 16)',\n    candidate2_party = 'R'\nWHERE state_code = 'LA';\n\n-- Verify both fixes\nSELECT 'GOVERNOR PA' as check_type, dem_candidate, rep_candidate FROM governor_races WHERE state_code = 'PA'\nUNION ALL\nSELECT 'SENATE LA', candidate1_name, candidate2_name FROM senate_races WHERE state_code = 'LA';",
+  "rows": [
+    {
+      "check_type": "SENATE LA",
+      "dem_candidate": "Jamie Davis → Gary Crockett (D Runoff, June 16)",
+      "rep_candidate": "Julia Letlow → John Fleming (R Runoff, June 16)"
+    },
+    {
+      "check_type": "GOVERNOR PA",
+      "dem_candidate": "Josh Shapiro (incumbent)",
+      "rep_candidate": "Stacy Garrity"
+    }
+  ],
+  "messages": [],
+  "stdout": "check_type\tdem_candidate\trep_candidate\nSENATE LA\tJamie Davis → Gary Crockett (D Runoff, June 16)\tJulia Letlow → John Fleming (R Runoff, June 16)\nGOVERNOR PA\tJosh Shapiro (incumbent)\tStacy Garrity\n",
+  "stderr": "",
+  "execution_time_ms": 296
+}

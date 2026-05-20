@@ -1,0 +1,28 @@
+{
+  "query": "SELECT 'GOVERNOR PA' as check_type, dem_candidate, rep_candidate, status FROM governor_races WHERE state_code = 'PA'\nUNION ALL\nSELECT 'GOVERNOR TX', dem_candidate, rep_candidate, status FROM governor_races WHERE state_code = 'TX'\nUNION ALL\nSELECT 'SENATE LA', candidate1_name, candidate2_name, status FROM senate_races WHERE state_code = 'LA';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT 'GOVERNOR PA' as check_type, dem_candidate, rep_candidate, status FROM governor_races WHERE state_code = 'PA'\nUNION ALL\nSELECT 'GOVERNOR TX', dem_candidate, rep_candidate, status FROM governor_races WHERE state_code = 'TX'\nUNION ALL\nSELECT 'SENATE LA', candidate1_name, candidate2_name, status FROM senate_races WHERE state_code = 'LA';",
+  "rows": [
+    {
+      "check_type": "SENATE LA",
+      "dem_candidate": "Jamie Davis → Gary Crockett (D Runoff, June 16)",
+      "rep_candidate": "Julia Letlow → John Fleming (R Runoff, June 16)",
+      "status": "Primary Runoff"
+    },
+    {
+      "check_type": "GOVERNOR TX",
+      "dem_candidate": "Gina Hinojosa",
+      "rep_candidate": "Greg Abbott (incumbent)",
+      "status": "Voting"
+    },
+    {
+      "check_type": "GOVERNOR PA",
+      "dem_candidate": "Josh Shapiro (incumbent)",
+      "rep_candidate": "Stacy Garrity",
+      "status": "Voting"
+    }
+  ],
+  "messages": [],
+  "stdout": "check_type\tdem_candidate\trep_candidate\tstatus\nSENATE LA\tJamie Davis → Gary Crockett (D Runoff, June 16)\tJulia Letlow → John Fleming (R Runoff, June 16)\tPrimary Runoff\nGOVERNOR TX\tGina Hinojosa\tGreg Abbott (incumbent)\tVoting\nGOVERNOR PA\tJosh Shapiro (incumbent)\tStacy Garrity\tVoting\n",
+  "stderr": "",
+  "execution_time_ms": 266
+}

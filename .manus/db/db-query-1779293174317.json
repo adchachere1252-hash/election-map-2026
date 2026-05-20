@@ -1,0 +1,157 @@
+{
+  "query": "-- Check all the key races we corrected\nSELECT 'GOVERNOR' as type, state_code, dem_candidate, rep_candidate, status \nFROM governor_races WHERE state_code IN ('TX','GA','PA')\nUNION ALL\nSELECT 'SENATE', state_code, candidate1_name, candidate2_name, status \nFROM senate_races WHERE state_code IN ('AL','GA','KY','LA','TX','OH')\nUNION ALL\nSELECT 'HOUSE', CONCAT(state_code,'-',district), candidate1_name, candidate2_name, status \nFROM house_races WHERE (state_code='KY' AND district='4')\n   OR (state_code='OH' AND district IN ('3','5','7','8','10','15'))\n   OR (state_code='PA' AND district IN ('1','3'))\n   OR (state_code='IN' AND district='8')\n   OR (state_code='GA' AND district IN ('1','5'))\nORDER BY type, state_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- Check all the key races we corrected\nSELECT 'GOVERNOR' as type, state_code, dem_candidate, rep_candidate, status \nFROM governor_races WHERE state_code IN ('TX','GA','PA')\nUNION ALL\nSELECT 'SENATE', state_code, candidate1_name, candidate2_name, status \nFROM senate_races WHERE state_code IN ('AL','GA','KY','LA','TX','OH')\nUNION ALL\nSELECT 'HOUSE', CONCAT(state_code,'-',district), candidate1_name, candidate2_name, status \nFROM house_races WHERE (state_code='KY' AND district='4')\n   OR (state_code='OH' AND district IN ('3','5','7','8','10','15'))\n   OR (state_code='PA' AND district IN ('1','3'))\n   OR (state_code='IN' AND district='8')\n   OR (state_code='GA' AND district IN ('1','5'))\nORDER BY type, state_code;",
+  "rows": [
+    {
+      "type": "GOVERNOR",
+      "state_code": "GA",
+      "dem_candidate": "Keisha Lance Bottoms",
+      "rep_candidate": "NULL",
+      "status": "Primary Runoff"
+    },
+    {
+      "type": "GOVERNOR",
+      "state_code": "PA",
+      "dem_candidate": "Austin Davis",
+      "rep_candidate": "Jason Richey",
+      "status": "Voting"
+    },
+    {
+      "type": "GOVERNOR",
+      "state_code": "TX",
+      "dem_candidate": "Gina Hinojosa",
+      "rep_candidate": "Greg Abbott (incumbent)",
+      "status": "Voting"
+    },
+    {
+      "type": "HOUSE",
+      "state_code": "GA-1",
+      "dem_candidate": "Joyce Griggs → A. Hollowell (D Runoff, June 16)",
+      "rep_candidate": "Jim Kingston",
+      "status": "Primary Runoff"
+    },
+    {
+      "type": "HOUSE",
+      "state_code": "GA-5",
+      "dem_candidate": "Nikema Williams",
+      "rep_candidate": "J. Salvesen",
+      "status": "General"
+    },
+    {
+      "type": "HOUSE",
+      "state_code": "IN-8",
+      "dem_candidate": "Mary Allen",
+      "rep_candidate": "Mark Messmer",
+      "status": "General"
+    },
+    {
+      "type": "HOUSE",
+      "state_code": "KY-4",
+      "dem_candidate": "Melissa Strange",
+      "rep_candidate": "Ed Gallrein",
+      "status": "General"
+    },
+    {
+      "type": "HOUSE",
+      "state_code": "OH-10",
+      "dem_candidate": "Kristina Knickerbocker",
+      "rep_candidate": "Mike Turner",
+      "status": "General"
+    },
+    {
+      "type": "HOUSE",
+      "state_code": "OH-15",
+      "dem_candidate": "Don Leonard",
+      "rep_candidate": "Mike Carey",
+      "status": "General"
+    },
+    {
+      "type": "HOUSE",
+      "state_code": "OH-3",
+      "dem_candidate": "Joyce Beatty",
+      "rep_candidate": "C. Dulaney",
+      "status": "General"
+    },
+    {
+      "type": "HOUSE",
+      "state_code": "OH-5",
+      "dem_candidate": "Brian Shaver",
+      "rep_candidate": "Bob Latta",
+      "status": "General"
+    },
+    {
+      "type": "HOUSE",
+      "state_code": "OH-7",
+      "dem_candidate": "Brian Poindexter",
+      "rep_candidate": "Max Miller",
+      "status": "General"
+    },
+    {
+      "type": "HOUSE",
+      "state_code": "OH-8",
+      "dem_candidate": "Vanessa Enoch",
+      "rep_candidate": "Warren Davidson",
+      "status": "General"
+    },
+    {
+      "type": "HOUSE",
+      "state_code": "PA-1",
+      "dem_candidate": "Brian Harvie",
+      "rep_candidate": "Brian Fitzpatrick",
+      "status": "General"
+    },
+    {
+      "type": "HOUSE",
+      "state_code": "PA-3",
+      "dem_candidate": "Chris Rabb",
+      "rep_candidate": "NULL",
+      "status": "General"
+    },
+    {
+      "type": "SENATE",
+      "state_code": "AL",
+      "dem_candidate": "Everett Wess → Dakarai Larriett (D Runoff, June 16)",
+      "rep_candidate": "Barry Moore → Jared Hudson (R Runoff, June 16)",
+      "status": "Primary Runoff"
+    },
+    {
+      "type": "SENATE",
+      "state_code": "GA",
+      "dem_candidate": "Jon Ossoff (D, uncontested)",
+      "rep_candidate": "Mike Collins → Derek Dooley (R Runoff, June 16)",
+      "status": "Primary Runoff"
+    },
+    {
+      "type": "SENATE",
+      "state_code": "KY",
+      "dem_candidate": "Charles Booker",
+      "rep_candidate": "Andy Barr",
+      "status": "General"
+    },
+    {
+      "type": "SENATE",
+      "state_code": "LA",
+      "dem_candidate": "Julia Letlow → John Fleming (R Runoff, June 16)",
+      "rep_candidate": "Jamie Davis → Gary Crockett (D Runoff, June 16)",
+      "status": "Primary Runoff"
+    },
+    {
+      "type": "SENATE",
+      "state_code": "OH",
+      "dem_candidate": "Sherrod Brown",
+      "rep_candidate": "Jon Husted",
+      "status": "General"
+    },
+    {
+      "type": "SENATE",
+      "state_code": "TX",
+      "dem_candidate": "James Talarico",
+      "rep_candidate": "John Cornyn → Ken Paxton (R Runoff, May 27)",
+      "status": "Primary Runoff"
+    }
+  ],
+  "messages": [],
+  "stdout": "type\tstate_code\tdem_candidate\trep_candidate\tstatus\nGOVERNOR\tGA\tKeisha Lance Bottoms\tNULL\tPrimary Runoff\nGOVERNOR\tPA\tAustin Davis\tJason Richey\tVoting\nGOVERNOR\tTX\tGina Hinojosa\tGreg Abbott (incumbent)\tVoting\nHOUSE\tGA-1\tJoyce Griggs → A. Hollowell (D Runoff, June 16)\tJim Kingston\tPrimary Runoff\nHOUSE\tGA-5\tNikema Williams\tJ. Salvesen\tGeneral\nHOUSE\tIN-8\tMary Allen\tMark Messmer\tGeneral\nHOUSE\tKY-4\tMelissa Strange\tEd Gallrein\tGeneral\nHOUSE\tOH-10\tKristina Knickerbocker\tMike Turner\tGeneral\nHOUSE\tOH-15\tDon Leonard\tMike Carey\tGeneral\nHOUSE\tOH-3\tJoyce Beatty\tC. Dulaney\tGeneral\nHOUSE\tOH-5\tBrian Shaver\tBob Latta\tGeneral\nHOUSE\tOH-7\tBrian Poindexter\tMax Miller\tGeneral\nHOUSE\tOH-8\tVanessa Enoch\tWarren Davidson\tGeneral\nHOUSE\tPA-1\tBrian Harvie\tBrian Fitzpatrick\tGeneral\nHOUSE\tPA-3\tChris Rabb\tNULL\tGeneral\nSENATE\tAL\tEverett Wess → Dakarai Larriett (D Runoff, June 16)\tBarry Moore → Jared Hudson (R Runoff, June 16)\tPrimary Runoff\nSENATE\tGA\tJon Ossoff (D, uncontested)\tMike Collins → Derek Dooley (R Runoff, June 16)\tPrimary Runoff\nSENATE\tKY\tCharles Booker\tAndy Barr\tGeneral\nSENATE\tLA\tJulia Letlow → John Fleming (R Runoff, June 16)\tJamie Davis → Gary Crockett (D Runoff, June 16)\tPrimary Runoff\nSENATE\tOH\tSherrod Brown\tJon Husted\tGeneral\nSENATE\tTX\tJames Talarico\tJohn Cornyn → Ken Paxton (R Runoff, May 27)\tPrimary Runoff\n",
+  "stderr": "",
+  "execution_time_ms": 263
+}
