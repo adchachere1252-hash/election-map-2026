@@ -1,0 +1,23 @@
+{
+  "query": "SELECT state_code, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, primary_winner, primary_party, pct_reporting, notes FROM senate_races WHERE state_code = 'GA';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, primary_winner, primary_party, pct_reporting, notes FROM senate_races WHERE state_code = 'GA';",
+  "rows": [
+    {
+      "state_code": "GA",
+      "state_name": "Georgia",
+      "candidate1_name": "Jon Ossoff",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Collins",
+      "candidate2_party": "R",
+      "status": "General",
+      "primary_winner": "Mike Collins",
+      "primary_party": "R",
+      "pct_reporting": "98.80",
+      "notes": "Incumbent Jon Ossoff (D) running for re-election. R primary May 19: Earl Carter ($6.2M raised), Mike Collins ($3.3M), Derek Dooley ($3M), John Coyne, Jonathan McColumn. Cook/IE: Toss-up. Sabato: Lean D."
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstate_name\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tprimary_winner\tprimary_party\tpct_reporting\tnotes\nGA\tGeorgia\tJon Ossoff\tD\tMike Collins\tR\tGeneral\tMike Collins\tR\t98.80\tIncumbent Jon Ossoff (D) running for re-election. R primary May 19: Earl Carter ($6.2M raised), Mike Collins ($3.3M), Derek Dooley ($3M), John Coyne, Jonathan McColumn. Cook/IE: Toss-up. Sabato: Lean D.\n",
+  "stderr": "",
+  "execution_time_ms": 262
+}

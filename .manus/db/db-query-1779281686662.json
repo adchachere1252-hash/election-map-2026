@@ -1,0 +1,9 @@
+{
+  "query": "\nUPDATE senate_races\nSET \n  status = 'Primary Runoff',\n  candidate2_name = NULL,\n  candidate2_party = NULL,\n  primary_winner = NULL,\n  primary_party = NULL,\n  notes = 'R primary runoff (June 2026): Mike Collins (incumbent Rep.) vs. Derek Dooley (former UT football coach). Winner faces incumbent Sen. Jon Ossoff (D) in November. Rated Toss-up.'\nWHERE state_code = 'GA';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nUPDATE senate_races\nSET \n  status = 'Primary Runoff',\n  candidate2_name = NULL,\n  candidate2_party = NULL,\n  primary_winner = NULL,\n  primary_party = NULL,\n  notes = 'R primary runoff (June 2026): Mike Collins (incumbent Rep.) vs. Derek Dooley (former UT football coach). Winner faces incumbent Sen. Jon Ossoff (D) in November. Rated Toss-up.'\nWHERE state_code = 'GA';\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 262
+}
