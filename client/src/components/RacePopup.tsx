@@ -214,7 +214,7 @@ function GeneralMatchupSection({
       <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-2">November General Election Matchup</p>
       {candidate2TBD && (
         <p className="text-[10px] text-amber-400/80 bg-amber-900/20 border border-amber-700/30 rounded px-2 py-1 mb-2 flex items-center gap-1">
-          <span>⏳</span> Democratic primary still being counted — opponent TBD
+          <span>⏳</span> {candidate1Party === "R" ? "Democratic" : "Republican"} primary runoff in progress — opponent TBD
         </p>
       )}
       <div className="rounded-lg overflow-hidden border border-white/10 mb-3" style={{ background: "linear-gradient(135deg, " + c1Color + "18 0%, transparent 50%, " + c2Color + "18 100%)" }}>
@@ -927,6 +927,23 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
           chamber="senate"
           pctReporting={race.pctReporting}
           primaryWinner={(race as any).primaryWinner}
+        />
+      ) : race.status === "Primary Runoff" && race.candidate1Name && !race.candidate2Name ? (
+        /* One confirmed nominee + TBD opponent (e.g. GA Senate: Ossoff D confirmed, R runoff pending) */
+        <GeneralMatchupSection
+          candidate1Name={race.candidate1Name}
+          candidate1Party={race.candidate1Party}
+          candidate2Name={null}
+          candidate2Party={race.candidate1Party === "D" ? "R" : "D"}
+          rating={race.rating}
+          chamber="senate"
+          incumbent={race.incumbent}
+          incumbentParty={race.incumbentParty}
+          incumbentRetiring={race.incumbentRetiring}
+          isSpecial={race.isSpecial}
+          specialNote={race.specialNote}
+          generalDate={race.generalDate}
+          previousParty={race.previousParty}
         />
       ) : race.status === "Primary Runoff" && race.candidate1Name && race.candidate2Name ? (
         <>
