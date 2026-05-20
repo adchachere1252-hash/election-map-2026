@@ -1,0 +1,64 @@
+{
+  "query": "SELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'OR' ORDER BY district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'OR' ORDER BY district;",
+  "rows": [
+    {
+      "state_code": "OR",
+      "district": "1",
+      "status": "General",
+      "candidate1_name": "Suzanne Bonamici",
+      "candidate1_party": "D",
+      "candidate2_name": "Barbara Kahl",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "OR",
+      "district": "2",
+      "status": "General",
+      "candidate1_name": "NULL",
+      "candidate1_party": "NULL",
+      "candidate2_name": "Cliff Bentz",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "OR",
+      "district": "3",
+      "status": "General",
+      "candidate1_name": "Maxine Dexter",
+      "candidate1_party": "D",
+      "candidate2_name": "Loran Ayles",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "OR",
+      "district": "4",
+      "status": "General",
+      "candidate1_name": "Val Hoyle",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL"
+    },
+    {
+      "state_code": "OR",
+      "district": "5",
+      "status": "General",
+      "candidate1_name": "Janelle Bynum",
+      "candidate1_party": "D",
+      "candidate2_name": "Patti Adair",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "OR",
+      "district": "6",
+      "status": "General",
+      "candidate1_name": "Andrea Salinas",
+      "candidate1_party": "D",
+      "candidate2_name": "David Russ",
+      "candidate2_party": "R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\nOR\t1\tGeneral\tSuzanne Bonamici\tD\tBarbara Kahl\tR\nOR\t2\tGeneral\tNULL\tNULL\tCliff Bentz\tR\nOR\t3\tGeneral\tMaxine Dexter\tD\tLoran Ayles\tR\nOR\t4\tGeneral\tVal Hoyle\tD\tNULL\tNULL\nOR\t5\tGeneral\tJanelle Bynum\tD\tPatti Adair\tR\nOR\t6\tGeneral\tAndrea Salinas\tD\tDavid Russ\tR\n",
+  "stderr": "",
+  "execution_time_ms": 265
+}

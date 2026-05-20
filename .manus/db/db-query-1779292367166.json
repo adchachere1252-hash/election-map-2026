@@ -1,0 +1,9 @@
+{
+  "query": "-- Find all Scheduled house races where primary date has passed (before today May 20, 2026)\n-- States with March/April primaries that should now be General or Primary Runoff\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party,\n       primary_date\nFROM house_races \nWHERE status = 'Scheduled' \n  AND primary_date IS NOT NULL \n  AND primary_date < '2026-05-20'\nORDER BY state_code, CAST(district AS UNSIGNED) LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- Find all Scheduled house races where primary date has passed (before today May 20, 2026)\n-- States with March/April primaries that should now be General or Primary Runoff\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party,\n       primary_date\nFROM house_races \nWHERE status = 'Scheduled' \n  AND primary_date IS NOT NULL \n  AND primary_date < '2026-05-20'\nORDER BY state_code, CAST(district AS UNSIGNED) LIMIT 20;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 260
+}

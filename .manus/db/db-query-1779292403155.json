@@ -1,0 +1,172 @@
+{
+  "query": "-- Fix KY Senate party swap (D should be candidate1, R should be candidate2)\nUPDATE senate_races SET candidate1_name = 'Charles Booker', candidate1_party = 'D', candidate2_name = 'Andy Barr', candidate2_party = 'R'\nWHERE state_code = 'KY';\n\n-- Get remaining Senate races\nSELECT state_code, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating\nFROM senate_races \nWHERE state_code > 'MN'\nORDER BY state_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- Fix KY Senate party swap (D should be candidate1, R should be candidate2)\nUPDATE senate_races SET candidate1_name = 'Charles Booker', candidate1_party = 'D', candidate2_name = 'Andy Barr', candidate2_party = 'R'\nWHERE state_code = 'KY';\n\n-- Get remaining Senate races\nSELECT state_code, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating\nFROM senate_races \nWHERE state_code > 'MN'\nORDER BY state_code;",
+  "rows": [
+    {
+      "state_code": "MS",
+      "status": "General",
+      "candidate1_name": "Scott Colom",
+      "candidate1_party": "D",
+      "candidate2_name": "Cindy Hyde-Smith",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "MT",
+      "status": "Scheduled",
+      "candidate1_name": "TBD — D Primary: June 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: June 2, 2026 (Alme, Calhoun)",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "NC",
+      "status": "General",
+      "candidate1_name": "Roy Cooper",
+      "candidate1_party": "D",
+      "candidate2_name": "Michael Whatley",
+      "candidate2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "state_code": "NE",
+      "status": "General",
+      "candidate1_name": "Cindy Burbank",
+      "candidate1_party": "D",
+      "candidate2_name": "Pete Ricketts",
+      "candidate2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "state_code": "NH",
+      "status": "Scheduled",
+      "candidate1_name": "TBD — D Primary: Sep 8, 2026 (Pappas, Manzur)",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Sep 8, 2026 (Brown, Sununu)",
+      "candidate2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "state_code": "NJ",
+      "status": "Scheduled",
+      "candidate1_name": "Cory Booker",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Republican Primary",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "NM",
+      "status": "Scheduled",
+      "candidate1_name": "Ben Ray Luján",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Republican Primary",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "OH",
+      "status": "General",
+      "candidate1_name": "Sherrod Brown",
+      "candidate1_party": "D",
+      "candidate2_name": "Jon Husted",
+      "candidate2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "state_code": "OK",
+      "status": "Scheduled",
+      "candidate1_name": "TBD — D Primary: Jun 16, 2026 (Cassity, Green, LaVann, Priest, Thomas, Yen)",
+      "candidate1_party": "D",
+      "candidate2_name": "Kevin Hern (frontrunner) — R Primary: Jun 16, 2026",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "OR",
+      "status": "General",
+      "candidate1_name": "Jeff Merkley",
+      "candidate1_party": "D",
+      "candidate2_name": "David Smith",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "RI",
+      "status": "Scheduled",
+      "candidate1_name": "Jack Reed",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Republican Primary",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "SC",
+      "status": "Scheduled",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate1_party": "D",
+      "candidate2_name": "Lindsey Graham",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "SD",
+      "status": "Scheduled",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Rounds",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "TN",
+      "status": "Scheduled",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate1_party": "D",
+      "candidate2_name": "Bill Hagerty",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "TX",
+      "status": "Primary Runoff",
+      "candidate1_name": "James Talarico",
+      "candidate1_party": "D",
+      "candidate2_name": "John Cornyn → Ken Paxton (R Runoff, May 27)",
+      "candidate2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "state_code": "VA",
+      "status": "Scheduled",
+      "candidate1_name": "Mark Warner",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Aug 4, 2026",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "WV",
+      "status": "General",
+      "candidate1_name": "Rachel Fetty Anderson",
+      "candidate1_party": "D",
+      "candidate2_name": "Shelley Moore Capito",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "WY",
+      "status": "Scheduled",
+      "candidate1_name": "James W. Byrd",
+      "candidate1_party": "D",
+      "candidate2_name": "Harriet Hageman",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\trating\nMS\tGeneral\tScott Colom\tD\tCindy Hyde-Smith\tR\tSolid R\nMT\tScheduled\tTBD — D Primary: June 2, 2026\tD\tTBD — R Primary: June 2, 2026 (Alme, Calhoun)\tR\tSolid R\nNC\tGeneral\tRoy Cooper\tD\tMichael Whatley\tR\tLean D\nNE\tGeneral\tCindy Burbank\tD\tPete Ricketts\tR\tLikely R\nNH\tScheduled\tTBD — D Primary: Sep 8, 2026 (Pappas, Manzur)\tD\tTBD — R Primary: Sep 8, 2026 (Brown, Sununu)\tR\tLean D\nNJ\tScheduled\tCory Booker\tD\tTBD — Republican Primary\tR\tSolid D\nNM\tScheduled\tBen Ray Luján\tD\tTBD — Republican Primary\tR\tSolid D\nOH\tGeneral\tSherrod Brown\tD\tJon Husted\tR\tToss-up\nOK\tScheduled\tTBD — D Primary: Jun 16, 2026 (Cassity, Green, LaVann, Priest, Thomas, Yen)\tD\tKevin Hern (frontrunner) — R Primary: Jun 16, 2026\tR\tSolid R\nOR\tGeneral\tJeff Merkley\tD\tDavid Smith\tR\tSolid D\nRI\tScheduled\tJack Reed\tD\tTBD — Republican Primary\tR\tSolid D\nSC\tScheduled\tTBD — Democratic Primary\tD\tLindsey Graham\tR\tSolid R\nSD\tScheduled\tTBD — Democratic Primary\tD\tMike Rounds\tR\tSolid R\nTN\tScheduled\tTBD — Democratic Primary\tD\tBill Hagerty\tR\tSolid R\nTX\tPrimary Runoff\tJames Talarico\tD\tJohn Cornyn → Ken Paxton (R Runoff, May 27)\tR\tLikely R\nVA\tScheduled\tMark Warner\tD\tTBD — R Primary: Aug 4, 2026\tR\tSolid D\nWV\tGeneral\tRachel Fetty Anderson\tD\tShelley Moore Capito\tR\tSolid R\nWY\tScheduled\tJames W. Byrd\tD\tHarriet Hageman\tR\tSolid R\n",
+  "stderr": "",
+  "execution_time_ms": 275
+}

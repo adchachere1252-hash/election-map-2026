@@ -1,0 +1,28 @@
+{
+  "query": "SELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'WV' ORDER BY district;\n\n-- WV-1: Carol Miller (R, 72%) won, V. George (D, 53%) won\n-- WV-2: R. Moore (R, unopposed), A. Parsi (D, 39.8% plurality) won",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'WV' ORDER BY district;\n\n-- WV-1: Carol Miller (R, 72%) won, V. George (D, 53%) won\n-- WV-2: R. Moore (R, unopposed), A. Parsi (D, 39.8% plurality) won",
+  "rows": [
+    {
+      "state_code": "WV",
+      "district": "1",
+      "status": "General",
+      "candidate1_name": "Vince George",
+      "candidate1_party": "D",
+      "candidate2_name": "Carol Miller",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "WV",
+      "district": "2",
+      "status": "General",
+      "candidate1_name": "Ace Parsi",
+      "candidate1_party": "D",
+      "candidate2_name": "Riley Moore",
+      "candidate2_party": "R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\nWV\t1\tGeneral\tVince George\tD\tCarol Miller\tR\nWV\t2\tGeneral\tAce Parsi\tD\tRiley Moore\tR\n",
+  "stderr": "",
+  "execution_time_ms": 261
+}

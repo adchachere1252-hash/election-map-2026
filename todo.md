@@ -1553,3 +1553,8 @@
 - [ ] OPEN: OR-1/OR-2/OR-3/OR-4/OR-5 candidate2 still showing same as candidate1 after AP Engine cycles — root cause not yet identified (investigate in morning)
 - [ ] OPEN: Persistent "1 error" per AP Engine cycle — identify which race is erroring (investigate in morning)
 - [ ] OPEN: AL-5, GA-12, IN-3, IN-4, KY-2 also showing candidate1=candidate2 in General status — check if same root cause
+
+## Full Senate & House Verification (Round N)
+- [x] Full Senate race verification — verify all 35 races for correct candidates, status, and ratings
+- [x] Full House race verification — verify all called/voting/runoff races for correct candidates
+- [x] Apply all corrections found during Senate/House verification

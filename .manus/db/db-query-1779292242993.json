@@ -1,0 +1,190 @@
+{
+  "query": "SELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code IN ('ID', 'IL', 'MS') ORDER BY state_code, CAST(district AS UNSIGNED) LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code IN ('ID', 'IL', 'MS') ORDER BY state_code, CAST(district AS UNSIGNED) LIMIT 20;",
+  "rows": [
+    {
+      "state_code": "ID",
+      "district": "1",
+      "status": "General",
+      "candidate1_name": "Kaylee Peterson",
+      "candidate1_party": "D",
+      "candidate2_name": "Russ Fulcher",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "ID",
+      "district": "2",
+      "status": "General",
+      "candidate1_name": "Ellie Gilbreath",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Simpson",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "IL",
+      "district": "1",
+      "status": "Scheduled",
+      "candidate1_name": "Jonathan L. Jackson",
+      "candidate1_party": "D",
+      "candidate2_name": "Christian Maxwell",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "IL",
+      "district": "2",
+      "status": "General",
+      "candidate1_name": "Donna Miller",
+      "candidate1_party": "D",
+      "candidate2_name": "Michael Noack",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "IL",
+      "district": "3",
+      "status": "General",
+      "candidate1_name": "Delia Ramirez",
+      "candidate1_party": "D",
+      "candidate2_name": "Angel Oakley",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "IL",
+      "district": "4",
+      "status": "General",
+      "candidate1_name": "Patty Garcia",
+      "candidate1_party": "D",
+      "candidate2_name": "Lupe Castillo",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "IL",
+      "district": "5",
+      "status": "General",
+      "candidate1_name": "Mike Quigley",
+      "candidate1_party": "D",
+      "candidate2_name": "Tommy Hanson",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "IL",
+      "district": "6",
+      "status": "General",
+      "candidate1_name": "Sean Casten",
+      "candidate1_party": "D",
+      "candidate2_name": "Niki Conforti",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "IL",
+      "district": "7",
+      "status": "General",
+      "candidate1_name": "La Shawn Ford",
+      "candidate1_party": "D",
+      "candidate2_name": "Chad Koppie",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "IL",
+      "district": "8",
+      "status": "General",
+      "candidate1_name": "Melissa Bean",
+      "candidate1_party": "D",
+      "candidate2_name": "Jennifer Davis",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "IL",
+      "district": "9",
+      "status": "General",
+      "candidate1_name": "Daniel K. Biss",
+      "candidate1_party": "D",
+      "candidate2_name": "John Elleson",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "IL",
+      "district": "10",
+      "status": "General",
+      "candidate1_name": "Bradley Schneider",
+      "candidate1_party": "D",
+      "candidate2_name": "Carl Lambrecht",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "IL",
+      "district": "11",
+      "status": "General",
+      "candidate1_name": "Bill Foster",
+      "candidate1_party": "D",
+      "candidate2_name": "Jeff Walter",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "IL",
+      "district": "12",
+      "status": "General",
+      "candidate1_name": "Julie Fortier",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Bost",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "IL",
+      "district": "13",
+      "status": "General",
+      "candidate1_name": "Nikki Budzinski",
+      "candidate1_party": "D",
+      "candidate2_name": "Jeff Wilson",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "IL",
+      "district": "14",
+      "status": "General",
+      "candidate1_name": "Lauren Underwood",
+      "candidate1_party": "D",
+      "candidate2_name": "James Marter",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "IL",
+      "district": "15",
+      "status": "General",
+      "candidate1_name": "Jennifer Todd",
+      "candidate1_party": "D",
+      "candidate2_name": "Mary Miller",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "IL",
+      "district": "16",
+      "status": "General",
+      "candidate1_name": "Paul Nolley",
+      "candidate1_party": "D",
+      "candidate2_name": "Darin LaHood",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "IL",
+      "district": "17",
+      "status": "General",
+      "candidate1_name": "Eric Sorensen",
+      "candidate1_party": "D",
+      "candidate2_name": "Dillan Vancil",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "MS",
+      "district": "1",
+      "status": "General",
+      "candidate1_name": "Cliff Johnson",
+      "candidate1_party": "D",
+      "candidate2_name": "Trent Kelly",
+      "candidate2_party": "R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\nID\t1\tGeneral\tKaylee Peterson\tD\tRuss Fulcher\tR\nID\t2\tGeneral\tEllie Gilbreath\tD\tMike Simpson\tR\nIL\t1\tScheduled\tJonathan L. Jackson\tD\tChristian Maxwell\tR\nIL\t2\tGeneral\tDonna Miller\tD\tMichael Noack\tR\nIL\t3\tGeneral\tDelia Ramirez\tD\tAngel Oakley\tR\nIL\t4\tGeneral\tPatty Garcia\tD\tLupe Castillo\tR\nIL\t5\tGeneral\tMike Quigley\tD\tTommy Hanson\tR\nIL\t6\tGeneral\tSean Casten\tD\tNiki Conforti\tR\nIL\t7\tGeneral\tLa Shawn Ford\tD\tChad Koppie\tR\nIL\t8\tGeneral\tMelissa Bean\tD\tJennifer Davis\tR\nIL\t9\tGeneral\tDaniel K. Biss\tD\tJohn Elleson\tR\nIL\t10\tGeneral\tBradley Schneider\tD\tCarl Lambrecht\tR\nIL\t11\tGeneral\tBill Foster\tD\tJeff Walter\tR\nIL\t12\tGeneral\tJulie Fortier\tD\tMike Bost\tR\nIL\t13\tGeneral\tNikki Budzinski\tD\tJeff Wilson\tR\nIL\t14\tGeneral\tLauren Underwood\tD\tJames Marter\tR\nIL\t15\tGeneral\tJennifer Todd\tD\tMary Miller\tR\nIL\t16\tGeneral\tPaul Nolley\tD\tDarin LaHood\tR\nIL\t17\tGeneral\tEric Sorensen\tD\tDillan Vancil\tR\nMS\t1\tGeneral\tCliff Johnson\tD\tTrent Kelly\tR\n",
+  "stderr": "",
+  "execution_time_ms": 259
+}

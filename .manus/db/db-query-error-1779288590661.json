@@ -1,0 +1,8 @@
+{
+  "query": "SELECT state_code, state_name, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, incumbent_name, incumbent_party, rating, is_special FROM senate_races ORDER BY state_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, incumbent_name, incumbent_party, rating, is_special FROM senate_races ORDER BY state_code;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'incumbent_name' in 'field list'"
+  ]
+}

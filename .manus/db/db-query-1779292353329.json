@@ -1,0 +1,26 @@
+{
+  "query": "-- Verify TX governor\nSELECT state_code, dem_candidate, rep_candidate, status FROM governor_races WHERE state_code = 'TX';\n\n-- Check AR House races\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code IN ('AR', 'MS') ORDER BY state_code, CAST(district AS UNSIGNED);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- Verify TX governor\nSELECT state_code, dem_candidate, rep_candidate, status FROM governor_races WHERE state_code = 'TX';\n\n-- Check AR House races\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code IN ('AR', 'MS') ORDER BY state_code, CAST(district AS UNSIGNED);",
+  "rows": [
+    {
+      "state_code": "TX",
+      "dem_candidate": "Gina Hinojosa",
+      "rep_candidate": "Greg Abbott (incumbent)",
+      "status": "Voting"
+    }
+  ],
+  "messages": [
+    "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party",
+    "AR\t1\tGeneral\tTerri Yarbrough Green\tD\tRick Crawford\tR",
+    "AR\t2\tGeneral\tChris Jones\tD\tJ. French Hill\tR",
+    "AR\t3\tGeneral\tRobb Ryerse\tD\tSteve Womack\tR",
+    "AR\t4\tGeneral\tJames Russell\tD\tBruce Westerman\tR",
+    "MS\t1\tGeneral\tCliff Johnson\tD\tTrent Kelly\tR",
+    "MS\t2\tGeneral\tBennie Thompson\tD\tRon Eller\tR",
+    "MS\t3\tGeneral\tMichael Chiaradio\tD\tMichael Guest\tR",
+    "MS\t4\tGeneral\tJeffrey Hulum\tD\tMike Ezell\tR"
+  ],
+  "stdout": "state_code\tdem_candidate\trep_candidate\tstatus\nTX\tGina Hinojosa\tGreg Abbott (incumbent)\tVoting\nstate_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\nAR\t1\tGeneral\tTerri Yarbrough Green\tD\tRick Crawford\tR\nAR\t2\tGeneral\tChris Jones\tD\tJ. French Hill\tR\nAR\t3\tGeneral\tRobb Ryerse\tD\tSteve Womack\tR\nAR\t4\tGeneral\tJames Russell\tD\tBruce Westerman\tR\nMS\t1\tGeneral\tCliff Johnson\tD\tTrent Kelly\tR\nMS\t2\tGeneral\tBennie Thompson\tD\tRon Eller\tR\nMS\t3\tGeneral\tMichael Chiaradio\tD\tMichael Guest\tR\nMS\t4\tGeneral\tJeffrey Hulum\tD\tMike Ezell\tR\n",
+  "stderr": "",
+  "execution_time_ms": 267
+}

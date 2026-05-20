@@ -1,0 +1,46 @@
+{
+  "query": "-- PA-1: Brian Fitzpatrick (R) vs B. Harvie (D, won 65.1%)\nUPDATE house_races SET candidate1_name = 'Brian Harvie', candidate1_party = 'D', candidate2_name = 'Brian Fitzpatrick', candidate2_party = 'R'\nWHERE state_code = 'PA' AND district = '1';\n\n-- PA-3: Chris Rabb won D primary (44.3%), R nominee is not listed (safe D district, likely no R)\n-- PA-3 is a deep blue Philadelphia district - R candidate may not exist or is a token candidate\n-- Keep Rabb as D nominee, clear candidate2 since no R candidate confirmed\nUPDATE house_races SET candidate1_name = 'Chris Rabb', candidate1_party = 'D', candidate2_name = NULL, candidate2_party = NULL\nWHERE state_code = 'PA' AND district = '3';\n\n-- IN-8: Mark Messmer (R incumbent) vs Mary Allen (D nominee)\nUPDATE house_races SET candidate1_name = 'Mary Allen', candidate1_party = 'D', candidate2_name = 'Mark Messmer', candidate2_party = 'R'\nWHERE state_code = 'IN' AND district = '8';\n\n-- OH-15: Don Leonard (D) vs Mike Carey (R) - OH-15 is solidly R, Mike Carey was the incumbent\n-- From Ballotpedia: R nominee is Mike Carey (unopposed)\nUPDATE house_races SET candidate1_name = 'Don Leonard', candidate1_party = 'D', candidate2_name = 'Mike Carey', candidate2_party = 'R'\nWHERE state_code = 'OH' AND district = '15';\n\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE (state_code = 'PA' AND district IN ('1','3')) \n   OR (state_code = 'IN' AND district = '8')\n   OR (state_code = 'OH' AND district = '15')\nORDER BY state_code, CAST(district AS UNSIGNED);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- PA-1: Brian Fitzpatrick (R) vs B. Harvie (D, won 65.1%)\nUPDATE house_races SET candidate1_name = 'Brian Harvie', candidate1_party = 'D', candidate2_name = 'Brian Fitzpatrick', candidate2_party = 'R'\nWHERE state_code = 'PA' AND district = '1';\n\n-- PA-3: Chris Rabb won D primary (44.3%), R nominee is not listed (safe D district, likely no R)\n-- PA-3 is a deep blue Philadelphia district - R candidate may not exist or is a token candidate\n-- Keep Rabb as D nominee, clear candidate2 since no R candidate confirmed\nUPDATE house_races SET candidate1_name = 'Chris Rabb', candidate1_party = 'D', candidate2_name = NULL, candidate2_party = NULL\nWHERE state_code = 'PA' AND district = '3';\n\n-- IN-8: Mark Messmer (R incumbent) vs Mary Allen (D nominee)\nUPDATE house_races SET candidate1_name = 'Mary Allen', candidate1_party = 'D', candidate2_name = 'Mark Messmer', candidate2_party = 'R'\nWHERE state_code = 'IN' AND district = '8';\n\n-- OH-15: Don Leonard (D) vs Mike Carey (R) - OH-15 is solidly R, Mike Carey was the incumbent\n-- From Ballotpedia: R nominee is Mike Carey (unopposed)\nUPDATE house_races SET candidate1_name = 'Don Leonard', candidate1_party = 'D', candidate2_name = 'Mike Carey', candidate2_party = 'R'\nWHERE state_code = 'OH' AND district = '15';\n\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE (state_code = 'PA' AND district IN ('1','3')) \n   OR (state_code = 'IN' AND district = '8')\n   OR (state_code = 'OH' AND district = '15')\nORDER BY state_code, CAST(district AS UNSIGNED);",
+  "rows": [
+    {
+      "state_code": "IN",
+      "district": "8",
+      "status": "General",
+      "candidate1_name": "Mary Allen",
+      "candidate1_party": "D",
+      "candidate2_name": "Mark Messmer",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "OH",
+      "district": "15",
+      "status": "General",
+      "candidate1_name": "Don Leonard",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Carey",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "PA",
+      "district": "1",
+      "status": "General",
+      "candidate1_name": "Brian Harvie",
+      "candidate1_party": "D",
+      "candidate2_name": "Brian Fitzpatrick",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "PA",
+      "district": "3",
+      "status": "General",
+      "candidate1_name": "Chris Rabb",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\nIN\t8\tGeneral\tMary Allen\tD\tMark Messmer\tR\nOH\t15\tGeneral\tDon Leonard\tD\tMike Carey\tR\nPA\t1\tGeneral\tBrian Harvie\tD\tBrian Fitzpatrick\tR\nPA\t3\tGeneral\tChris Rabb\tD\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 300
+}

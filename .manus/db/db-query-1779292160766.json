@@ -1,0 +1,82 @@
+{
+  "query": "-- Fix TX-1 runoff label to be cleaner\nUPDATE house_races SET candidate1_name = 'Y. Prince / D. Alexander (D Runoff)'\nWHERE state_code = 'TX' AND district = '1';\n\n-- Fix TX-5 runoff label\nUPDATE house_races SET candidate1_name = 'C. Hockett / R. Torres (D Runoff)'\nWHERE state_code = 'TX' AND district = '5';\n\n-- Fix TX-7 runoff label  \nUPDATE house_races SET candidate2_name = 'A. Hale / T. Cohen (R Runoff)'\nWHERE state_code = 'TX' AND district = '7';\n\n-- Fix TX-9 runoff label\nUPDATE house_races SET candidate2_name = 'A. Mealer / B. Cain (R Runoff)'\nWHERE state_code = 'TX' AND district = '9';\n\n-- TX-14: D runoff (Bartie vs Davis), no R candidate yet - fix label\nUPDATE house_races SET candidate1_name = 'T. Bartie / R. Davis (D Runoff)'\nWHERE state_code = 'TX' AND district = '14';\n\n-- TX-16: Two R candidates means R primary runoff\nUPDATE house_races SET status = 'Primary Runoff', candidate2_name = 'A. Bauman / M. Barraza (R Runoff)', candidate2_party = 'R', candidate1_name = NULL, candidate1_party = NULL\nWHERE state_code = 'TX' AND district = '16';\n\n-- TX-17: Two D candidates means D primary runoff\nUPDATE house_races SET status = 'Primary Runoff', candidate1_name = 'M. Flores / C. Shepard (D Runoff)', candidate1_party = 'D', candidate2_name = NULL, candidate2_party = NULL\nWHERE state_code = 'TX' AND district = '17';\n\n-- TX-24: Two D candidates means D primary runoff\nUPDATE house_races SET status = 'Primary Runoff', candidate1_name = 'K. Burge / T. Ware (D Runoff)', candidate1_party = 'D', candidate2_name = NULL, candidate2_party = NULL\nWHERE state_code = 'TX' AND district = '24';\n\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'TX' AND district IN ('1','5','7','9','14','16','17','24') ORDER BY CAST(district AS UNSIGNED);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- Fix TX-1 runoff label to be cleaner\nUPDATE house_races SET candidate1_name = 'Y. Prince / D. Alexander (D Runoff)'\nWHERE state_code = 'TX' AND district = '1';\n\n-- Fix TX-5 runoff label\nUPDATE house_races SET candidate1_name = 'C. Hockett / R. Torres (D Runoff)'\nWHERE state_code = 'TX' AND district = '5';\n\n-- Fix TX-7 runoff label  \nUPDATE house_races SET candidate2_name = 'A. Hale / T. Cohen (R Runoff)'\nWHERE state_code = 'TX' AND district = '7';\n\n-- Fix TX-9 runoff label\nUPDATE house_races SET candidate2_name = 'A. Mealer / B. Cain (R Runoff)'\nWHERE state_code = 'TX' AND district = '9';\n\n-- TX-14: D runoff (Bartie vs Davis), no R candidate yet - fix label\nUPDATE house_races SET candidate1_name = 'T. Bartie / R. Davis (D Runoff)'\nWHERE state_code = 'TX' AND district = '14';\n\n-- TX-16: Two R candidates means R primary runoff\nUPDATE house_races SET status = 'Primary Runoff', candidate2_name = 'A. Bauman / M. Barraza (R Runoff)', candidate2_party = 'R', candidate1_name = NULL, candidate1_party = NULL\nWHERE state_code = 'TX' AND district = '16';\n\n-- TX-17: Two D candidates means D primary runoff\nUPDATE house_races SET status = 'Primary Runoff', candidate1_name = 'M. Flores / C. Shepard (D Runoff)', candidate1_party = 'D', candidate2_name = NULL, candidate2_party = NULL\nWHERE state_code = 'TX' AND district = '17';\n\n-- TX-24: Two D candidates means D primary runoff\nUPDATE house_races SET status = 'Primary Runoff', candidate1_name = 'K. Burge / T. Ware (D Runoff)', candidate1_party = 'D', candidate2_name = NULL, candidate2_party = NULL\nWHERE state_code = 'TX' AND district = '24';\n\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'TX' AND district IN ('1','5','7','9','14','16','17','24') ORDER BY CAST(district AS UNSIGNED);",
+  "rows": [
+    {
+      "state_code": "TX",
+      "district": "1",
+      "status": "Primary Runoff",
+      "candidate1_name": "Y. Prince / D. Alexander (D Runoff)",
+      "candidate1_party": "D",
+      "candidate2_name": "Dax Alexander",
+      "candidate2_party": "D"
+    },
+    {
+      "state_code": "TX",
+      "district": "5",
+      "status": "Primary Runoff",
+      "candidate1_name": "C. Hockett / R. Torres (D Runoff)",
+      "candidate1_party": "D",
+      "candidate2_name": "Chelsey Hockett",
+      "candidate2_party": "D"
+    },
+    {
+      "state_code": "TX",
+      "district": "7",
+      "status": "Primary Runoff",
+      "candidate1_name": "Alexander Hale",
+      "candidate1_party": "R",
+      "candidate2_name": "A. Hale / T. Cohen (R Runoff)",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "9",
+      "status": "Primary Runoff",
+      "candidate1_name": "Briscoe Cain",
+      "candidate1_party": "R",
+      "candidate2_name": "A. Mealer / B. Cain (R Runoff)",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "14",
+      "status": "Primary Runoff",
+      "candidate1_name": "T. Bartie / R. Davis (D Runoff)",
+      "candidate1_party": "D",
+      "candidate2_name": "Richard Davis",
+      "candidate2_party": "D"
+    },
+    {
+      "state_code": "TX",
+      "district": "16",
+      "status": "Primary Runoff",
+      "candidate1_name": "NULL",
+      "candidate1_party": "NULL",
+      "candidate2_name": "A. Bauman / M. Barraza (R Runoff)",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "17",
+      "status": "Primary Runoff",
+      "candidate1_name": "M. Flores / C. Shepard (D Runoff)",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL"
+    },
+    {
+      "state_code": "TX",
+      "district": "24",
+      "status": "Primary Runoff",
+      "candidate1_name": "K. Burge / T. Ware (D Runoff)",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\nTX\t1\tPrimary Runoff\tY. Prince / D. Alexander (D Runoff)\tD\tDax Alexander\tD\nTX\t5\tPrimary Runoff\tC. Hockett / R. Torres (D Runoff)\tD\tChelsey Hockett\tD\nTX\t7\tPrimary Runoff\tAlexander Hale\tR\tA. Hale / T. Cohen (R Runoff)\tR\nTX\t9\tPrimary Runoff\tBriscoe Cain\tR\tA. Mealer / B. Cain (R Runoff)\tR\nTX\t14\tPrimary Runoff\tT. Bartie / R. Davis (D Runoff)\tD\tRichard Davis\tD\nTX\t16\tPrimary Runoff\tNULL\tNULL\tA. Bauman / M. Barraza (R Runoff)\tR\nTX\t17\tPrimary Runoff\tM. Flores / C. Shepard (D Runoff)\tD\tNULL\tNULL\nTX\t24\tPrimary Runoff\tK. Burge / T. Ware (D Runoff)\tD\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 346
+}

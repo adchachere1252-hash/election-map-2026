@@ -1,0 +1,109 @@
+{
+  "query": "SELECT state_code, state_name, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating, is_special FROM senate_races WHERE state_code >= 'OR' ORDER BY state_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating, is_special FROM senate_races WHERE state_code >= 'OR' ORDER BY state_code;",
+  "rows": [
+    {
+      "state_code": "OR",
+      "state_name": "Oregon",
+      "status": "General",
+      "candidate1_name": "Jeff Merkley",
+      "candidate1_party": "D",
+      "candidate2_name": "David Smith",
+      "candidate2_party": "R",
+      "rating": "Solid D",
+      "is_special": "0"
+    },
+    {
+      "state_code": "RI",
+      "state_name": "Rhode Island",
+      "status": "Scheduled",
+      "candidate1_name": "Jack Reed",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Republican Primary",
+      "candidate2_party": "R",
+      "rating": "Solid D",
+      "is_special": "0"
+    },
+    {
+      "state_code": "SC",
+      "state_name": "South Carolina",
+      "status": "Scheduled",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate1_party": "D",
+      "candidate2_name": "Lindsey Graham",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "is_special": "0"
+    },
+    {
+      "state_code": "SD",
+      "state_name": "South Dakota",
+      "status": "Scheduled",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Rounds",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "is_special": "0"
+    },
+    {
+      "state_code": "TN",
+      "state_name": "Tennessee",
+      "status": "Scheduled",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate1_party": "D",
+      "candidate2_name": "Bill Hagerty",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "is_special": "0"
+    },
+    {
+      "state_code": "TX",
+      "state_name": "Texas",
+      "status": "Primary Runoff",
+      "candidate1_name": "John Cornyn",
+      "candidate1_party": "R",
+      "candidate2_name": "Ken Paxton",
+      "candidate2_party": "R",
+      "rating": "Likely R",
+      "is_special": "0"
+    },
+    {
+      "state_code": "VA",
+      "state_name": "Virginia",
+      "status": "Scheduled",
+      "candidate1_name": "Mark Warner",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Aug 4, 2026",
+      "candidate2_party": "R",
+      "rating": "Solid D",
+      "is_special": "0"
+    },
+    {
+      "state_code": "WV",
+      "state_name": "West Virginia",
+      "status": "General",
+      "candidate1_name": "Rachel Fetty Anderson",
+      "candidate1_party": "D",
+      "candidate2_name": "Shelley Moore Capito",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "is_special": "0"
+    },
+    {
+      "state_code": "WY",
+      "state_name": "Wyoming",
+      "status": "Scheduled",
+      "candidate1_name": "James W. Byrd",
+      "candidate1_party": "D",
+      "candidate2_name": "Harriet Hageman",
+      "candidate2_party": "R",
+      "rating": "Solid R",
+      "is_special": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstate_name\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\trating\tis_special\nOR\tOregon\tGeneral\tJeff Merkley\tD\tDavid Smith\tR\tSolid D\t0\nRI\tRhode Island\tScheduled\tJack Reed\tD\tTBD — Republican Primary\tR\tSolid D\t0\nSC\tSouth Carolina\tScheduled\tTBD — Democratic Primary\tD\tLindsey Graham\tR\tSolid R\t0\nSD\tSouth Dakota\tScheduled\tTBD — Democratic Primary\tD\tMike Rounds\tR\tSolid R\t0\nTN\tTennessee\tScheduled\tTBD — Democratic Primary\tD\tBill Hagerty\tR\tSolid R\t0\nTX\tTexas\tPrimary Runoff\tJohn Cornyn\tR\tKen Paxton\tR\tLikely R\t0\nVA\tVirginia\tScheduled\tMark Warner\tD\tTBD — R Primary: Aug 4, 2026\tR\tSolid D\t0\nWV\tWest Virginia\tGeneral\tRachel Fetty Anderson\tD\tShelley Moore Capito\tR\tSolid R\t0\nWY\tWyoming\tScheduled\tJames W. Byrd\tD\tHarriet Hageman\tR\tSolid R\t0\n",
+  "stderr": "",
+  "execution_time_ms": 256
+}

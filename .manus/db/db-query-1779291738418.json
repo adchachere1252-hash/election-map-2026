@@ -1,0 +1,42 @@
+{
+  "query": "-- AL Senate: Both parties going to June 16 runoff\nUPDATE senate_races SET \n  status = 'Primary Runoff',\n  candidate1_name = 'Everett Wess → Dakarai Larriett (D Runoff, June 16)',\n  candidate2_name = 'Barry Moore → Jared Hudson (R Runoff, June 16)'\nWHERE state_code = 'AL';\n\n-- GA Senate: Jon Ossoff won D primary uncontested; R runoff is Collins vs Dooley (June 16)\nUPDATE senate_races SET \n  status = 'Primary Runoff',\n  candidate1_name = 'Jon Ossoff (D, uncontested)',\n  candidate2_name = 'Mike Collins → Derek Dooley (R Runoff, June 16)'\nWHERE state_code = 'GA';\n\n-- LA Senate: R runoff Letlow vs Fleming; D runoff Jamie Davis vs Gary Crockett\nUPDATE senate_races SET \n  candidate1_name = 'Julia Letlow → John Fleming (R Runoff, June 16)',\n  candidate2_name = 'Jamie Davis → Gary Crockett (D Runoff, June 16)',\n  candidate2_party = 'D'\nWHERE state_code = 'LA';\n\n-- TX Senate: Add Democratic candidate James Talarico\nUPDATE senate_races SET \n  candidate1_name = 'James Talarico',\n  candidate1_party = 'D'\nWHERE state_code = 'TX';\n\nSELECT state_code, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM senate_races \nWHERE state_code IN ('AL','GA','LA','TX')\nORDER BY state_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- AL Senate: Both parties going to June 16 runoff\nUPDATE senate_races SET \n  status = 'Primary Runoff',\n  candidate1_name = 'Everett Wess → Dakarai Larriett (D Runoff, June 16)',\n  candidate2_name = 'Barry Moore → Jared Hudson (R Runoff, June 16)'\nWHERE state_code = 'AL';\n\n-- GA Senate: Jon Ossoff won D primary uncontested; R runoff is Collins vs Dooley (June 16)\nUPDATE senate_races SET \n  status = 'Primary Runoff',\n  candidate1_name = 'Jon Ossoff (D, uncontested)',\n  candidate2_name = 'Mike Collins → Derek Dooley (R Runoff, June 16)'\nWHERE state_code = 'GA';\n\n-- LA Senate: R runoff Letlow vs Fleming; D runoff Jamie Davis vs Gary Crockett\nUPDATE senate_races SET \n  candidate1_name = 'Julia Letlow → John Fleming (R Runoff, June 16)',\n  candidate2_name = 'Jamie Davis → Gary Crockett (D Runoff, June 16)',\n  candidate2_party = 'D'\nWHERE state_code = 'LA';\n\n-- TX Senate: Add Democratic candidate James Talarico\nUPDATE senate_races SET \n  candidate1_name = 'James Talarico',\n  candidate1_party = 'D'\nWHERE state_code = 'TX';\n\nSELECT state_code, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM senate_races \nWHERE state_code IN ('AL','GA','LA','TX')\nORDER BY state_code;",
+  "rows": [
+    {
+      "state_code": "AL",
+      "status": "Primary Runoff",
+      "candidate1_name": "Everett Wess → Dakarai Larriett (D Runoff, June 16)",
+      "candidate1_party": "D",
+      "candidate2_name": "Barry Moore → Jared Hudson (R Runoff, June 16)",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "GA",
+      "status": "Primary Runoff",
+      "candidate1_name": "Jon Ossoff (D, uncontested)",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Collins → Derek Dooley (R Runoff, June 16)",
+      "candidate2_party": "NULL"
+    },
+    {
+      "state_code": "LA",
+      "status": "Primary Runoff",
+      "candidate1_name": "Julia Letlow → John Fleming (R Runoff, June 16)",
+      "candidate1_party": "R",
+      "candidate2_name": "Jamie Davis → Gary Crockett (D Runoff, June 16)",
+      "candidate2_party": "D"
+    },
+    {
+      "state_code": "TX",
+      "status": "Primary Runoff",
+      "candidate1_name": "James Talarico",
+      "candidate1_party": "D",
+      "candidate2_name": "Ken Paxton",
+      "candidate2_party": "R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\nAL\tPrimary Runoff\tEverett Wess → Dakarai Larriett (D Runoff, June 16)\tD\tBarry Moore → Jared Hudson (R Runoff, June 16)\tR\nGA\tPrimary Runoff\tJon Ossoff (D, uncontested)\tD\tMike Collins → Derek Dooley (R Runoff, June 16)\tNULL\nLA\tPrimary Runoff\tJulia Letlow → John Fleming (R Runoff, June 16)\tR\tJamie Davis → Gary Crockett (D Runoff, June 16)\tD\nTX\tPrimary Runoff\tJames Talarico\tD\tKen Paxton\tR\n",
+  "stderr": "",
+  "execution_time_ms": 300
+}

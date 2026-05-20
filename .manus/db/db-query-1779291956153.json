@@ -1,0 +1,73 @@
+{
+  "query": "-- AL-3: Mike Rogers won R primary (83.2%), not Terri LaPoint\nUPDATE house_races SET candidate2_name = 'Mike Rogers', candidate2_party = 'R'\nWHERE state_code = 'AL' AND district = '3';\n\n-- AL-5: Dale Strong (R, unopposed); D primary going to runoff (Sneed vs Duvieilh, June 16)\nUPDATE house_races SET \n  status = 'Primary Runoff',\n  candidate1_name = 'A. Sneed → C. Duvieilh (D Runoff, June 16)',\n  candidate1_party = 'D'\nWHERE state_code = 'AL' AND district = '5';\n\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'AL' ORDER BY district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- AL-3: Mike Rogers won R primary (83.2%), not Terri LaPoint\nUPDATE house_races SET candidate2_name = 'Mike Rogers', candidate2_party = 'R'\nWHERE state_code = 'AL' AND district = '3';\n\n-- AL-5: Dale Strong (R, unopposed); D primary going to runoff (Sneed vs Duvieilh, June 16)\nUPDATE house_races SET \n  status = 'Primary Runoff',\n  candidate1_name = 'A. Sneed → C. Duvieilh (D Runoff, June 16)',\n  candidate1_party = 'D'\nWHERE state_code = 'AL' AND district = '5';\n\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'AL' ORDER BY district;",
+  "rows": [
+    {
+      "state_code": "AL",
+      "district": "1",
+      "status": "Scheduled",
+      "candidate1_name": "Rhett Marques",
+      "candidate1_party": "R",
+      "candidate2_name": "Jerry Carl",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "AL",
+      "district": "2",
+      "status": "Scheduled",
+      "candidate1_name": "Hampton Harris",
+      "candidate1_party": "R",
+      "candidate2_name": "Shomari Figures",
+      "candidate2_party": "D"
+    },
+    {
+      "state_code": "AL",
+      "district": "3",
+      "status": "General",
+      "candidate1_name": "Lee McInnis",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Rogers",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "AL",
+      "district": "4",
+      "status": "General",
+      "candidate1_name": "Amanda Pusczek",
+      "candidate1_party": "D",
+      "candidate2_name": "Robert B. Aderholt",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "AL",
+      "district": "5",
+      "status": "Primary Runoff",
+      "candidate1_name": "A. Sneed → C. Duvieilh (D Runoff, June 16)",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL"
+    },
+    {
+      "state_code": "AL",
+      "district": "6",
+      "status": "Scheduled",
+      "candidate1_name": "Keith Pilkington",
+      "candidate1_party": "D",
+      "candidate2_name": "Gary Palmer",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "AL",
+      "district": "7",
+      "status": "Scheduled",
+      "candidate1_name": "Terri Sewell",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\nAL\t1\tScheduled\tRhett Marques\tR\tJerry Carl\tR\nAL\t2\tScheduled\tHampton Harris\tR\tShomari Figures\tD\nAL\t3\tGeneral\tLee McInnis\tD\tMike Rogers\tR\nAL\t4\tGeneral\tAmanda Pusczek\tD\tRobert B. Aderholt\tR\nAL\t5\tPrimary Runoff\tA. Sneed → C. Duvieilh (D Runoff, June 16)\tD\tNULL\tNULL\nAL\t6\tScheduled\tKeith Pilkington\tD\tGary Palmer\tR\nAL\t7\tScheduled\tTerri Sewell\tD\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 288
+}

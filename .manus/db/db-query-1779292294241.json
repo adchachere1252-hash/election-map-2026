@@ -1,0 +1,64 @@
+{
+  "query": "-- OH-3: Joyce Beatty (D) won primary (79.4%), R nominee is C. Dulaney\nUPDATE house_races SET candidate1_name = 'Joyce Beatty', candidate1_party = 'D', candidate2_name = 'C. Dulaney', candidate2_party = 'R'\nWHERE state_code = 'OH' AND district = '3';\n\n-- OH-5: B. Shaver won D primary (28.7% plurality), R nominee is B. Latta\nUPDATE house_races SET candidate1_name = 'Brian Shaver', candidate1_party = 'D', candidate2_name = 'Bob Latta', candidate2_party = 'R'\nWHERE state_code = 'OH' AND district = '5';\n\n-- OH-7: B. Poindexter won D primary (37% plurality), R nominee is M. Miller\nUPDATE house_races SET candidate1_name = 'Brian Poindexter', candidate1_party = 'D', candidate2_name = 'Max Miller', candidate2_party = 'R'\nWHERE state_code = 'OH' AND district = '7';\n\n-- OH-8: V. Enoch won D primary (74.5%), R nominee is W. Davidson\nUPDATE house_races SET candidate1_name = 'Vanessa Enoch', candidate1_party = 'D', candidate2_name = 'Warren Davidson', candidate2_party = 'R'\nWHERE state_code = 'OH' AND district = '8';\n\n-- OH-10: K. Knickerbocker won D primary (32.7% plurality), R nominee is M. Turner\nUPDATE house_races SET candidate1_name = 'Kristina Knickerbocker', candidate1_party = 'D', candidate2_name = 'Mike Turner', candidate2_party = 'R'\nWHERE state_code = 'OH' AND district = '10';\n\n-- OH-15: Need to check - D vs D error, need R nominee\n-- OH-15 R nominee is not in the NBC results shown above, let's check\n\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'OH' AND district IN ('3','5','7','8','10','15') ORDER BY CAST(district AS UNSIGNED);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- OH-3: Joyce Beatty (D) won primary (79.4%), R nominee is C. Dulaney\nUPDATE house_races SET candidate1_name = 'Joyce Beatty', candidate1_party = 'D', candidate2_name = 'C. Dulaney', candidate2_party = 'R'\nWHERE state_code = 'OH' AND district = '3';\n\n-- OH-5: B. Shaver won D primary (28.7% plurality), R nominee is B. Latta\nUPDATE house_races SET candidate1_name = 'Brian Shaver', candidate1_party = 'D', candidate2_name = 'Bob Latta', candidate2_party = 'R'\nWHERE state_code = 'OH' AND district = '5';\n\n-- OH-7: B. Poindexter won D primary (37% plurality), R nominee is M. Miller\nUPDATE house_races SET candidate1_name = 'Brian Poindexter', candidate1_party = 'D', candidate2_name = 'Max Miller', candidate2_party = 'R'\nWHERE state_code = 'OH' AND district = '7';\n\n-- OH-8: V. Enoch won D primary (74.5%), R nominee is W. Davidson\nUPDATE house_races SET candidate1_name = 'Vanessa Enoch', candidate1_party = 'D', candidate2_name = 'Warren Davidson', candidate2_party = 'R'\nWHERE state_code = 'OH' AND district = '8';\n\n-- OH-10: K. Knickerbocker won D primary (32.7% plurality), R nominee is M. Turner\nUPDATE house_races SET candidate1_name = 'Kristina Knickerbocker', candidate1_party = 'D', candidate2_name = 'Mike Turner', candidate2_party = 'R'\nWHERE state_code = 'OH' AND district = '10';\n\n-- OH-15: Need to check - D vs D error, need R nominee\n-- OH-15 R nominee is not in the NBC results shown above, let's check\n\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'OH' AND district IN ('3','5','7','8','10','15') ORDER BY CAST(district AS UNSIGNED);",
+  "rows": [
+    {
+      "state_code": "OH",
+      "district": "3",
+      "status": "General",
+      "candidate1_name": "Joyce Beatty",
+      "candidate1_party": "D",
+      "candidate2_name": "C. Dulaney",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "OH",
+      "district": "5",
+      "status": "General",
+      "candidate1_name": "Brian Shaver",
+      "candidate1_party": "D",
+      "candidate2_name": "Bob Latta",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "OH",
+      "district": "7",
+      "status": "General",
+      "candidate1_name": "Brian Poindexter",
+      "candidate1_party": "D",
+      "candidate2_name": "Max Miller",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "OH",
+      "district": "8",
+      "status": "General",
+      "candidate1_name": "Vanessa Enoch",
+      "candidate1_party": "D",
+      "candidate2_name": "Warren Davidson",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "OH",
+      "district": "10",
+      "status": "General",
+      "candidate1_name": "Kristina Knickerbocker",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Turner",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "OH",
+      "district": "15",
+      "status": "General",
+      "candidate1_name": "Don Leonard",
+      "candidate1_party": "D",
+      "candidate2_name": "Adam Miller",
+      "candidate2_party": "D"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\nOH\t3\tGeneral\tJoyce Beatty\tD\tC. Dulaney\tR\nOH\t5\tGeneral\tBrian Shaver\tD\tBob Latta\tR\nOH\t7\tGeneral\tBrian Poindexter\tD\tMax Miller\tR\nOH\t8\tGeneral\tVanessa Enoch\tD\tWarren Davidson\tR\nOH\t10\tGeneral\tKristina Knickerbocker\tD\tMike Turner\tR\nOH\t15\tGeneral\tDon Leonard\tD\tAdam Miller\tD\n",
+  "stderr": "",
+  "execution_time_ms": 308
+}

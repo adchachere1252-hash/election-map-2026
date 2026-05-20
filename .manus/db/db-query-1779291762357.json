@@ -1,0 +1,510 @@
+{
+  "query": "SELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating \nFROM house_races \nWHERE status IN ('General', 'Primary Runoff', 'Called', 'Certified')\nORDER BY state_code, district\nLIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating \nFROM house_races \nWHERE status IN ('General', 'Primary Runoff', 'Called', 'Certified')\nORDER BY state_code, district\nLIMIT 50;",
+  "rows": [
+    {
+      "state_code": "AL",
+      "district": "3",
+      "status": "General",
+      "candidate1_name": "Lee McInnis",
+      "candidate1_party": "D",
+      "candidate2_name": "Terri LaPoint",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "AL",
+      "district": "4",
+      "status": "General",
+      "candidate1_name": "Amanda Pusczek",
+      "candidate1_party": "D",
+      "candidate2_name": "Robert B. Aderholt",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "AL",
+      "district": "5",
+      "status": "General",
+      "candidate1_name": "Dale W. Strong",
+      "candidate1_party": "R",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "AR",
+      "district": "1",
+      "status": "General",
+      "candidate1_name": "Terri Yarbrough Green",
+      "candidate1_party": "D",
+      "candidate2_name": "Rick Crawford",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "AR",
+      "district": "2",
+      "status": "General",
+      "candidate1_name": "Chris Jones",
+      "candidate1_party": "D",
+      "candidate2_name": "J. French Hill",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "AR",
+      "district": "3",
+      "status": "General",
+      "candidate1_name": "Robb Ryerse",
+      "candidate1_party": "D",
+      "candidate2_name": "Steve Womack",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "AR",
+      "district": "4",
+      "status": "General",
+      "candidate1_name": "James Russell",
+      "candidate1_party": "D",
+      "candidate2_name": "Bruce Westerman",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "AZ",
+      "district": "7",
+      "status": "Called",
+      "candidate1_name": "Adelita S. Grijalva",
+      "candidate1_party": "D",
+      "candidate2_name": "Daniel Butierez",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "CA",
+      "district": "1",
+      "status": "General",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Doug LaMalfa",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "FL",
+      "district": "1",
+      "status": "Called",
+      "candidate1_name": "Gay Valimont",
+      "candidate1_party": "D",
+      "candidate2_name": "Jimmy Patronis",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "FL",
+      "district": "6",
+      "status": "Called",
+      "candidate1_name": "Randy Fine",
+      "candidate1_party": "R",
+      "candidate2_name": "Joshua Weil",
+      "candidate2_party": "D",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "GA",
+      "district": "1",
+      "status": "General",
+      "candidate1_name": "Joyce Griggs",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "GA",
+      "district": "2",
+      "status": "General",
+      "candidate1_name": "Sanford Bishop",
+      "candidate1_party": "D",
+      "candidate2_name": "Matt Day",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "GA",
+      "district": "3",
+      "status": "General",
+      "candidate1_name": "Maura Keller",
+      "candidate1_party": "D",
+      "candidate2_name": "Brian Jack",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "GA",
+      "district": "4",
+      "status": "General",
+      "candidate1_name": "Henry Johnson",
+      "candidate1_party": "D",
+      "candidate2_name": "Jim Duffie",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "GA",
+      "district": "5",
+      "status": "General",
+      "candidate1_name": "Nikema Williams",
+      "candidate1_party": "D",
+      "candidate2_name": "Arnetress Beatty",
+      "candidate2_party": "D",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "GA",
+      "district": "6",
+      "status": "General",
+      "candidate1_name": "Lucy McBath",
+      "candidate1_party": "D",
+      "candidate2_name": "Justin Pinker",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "GA",
+      "district": "7",
+      "status": "General",
+      "candidate1_name": "Tony Kozycki",
+      "candidate1_party": "D",
+      "candidate2_name": "Rich McCormick",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "GA",
+      "district": "8",
+      "status": "General",
+      "candidate1_name": "Kelly Esti",
+      "candidate1_party": "D",
+      "candidate2_name": "Austin Scott",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "GA",
+      "district": "9",
+      "status": "General",
+      "candidate1_name": "Andrew Clyde",
+      "candidate1_party": "R",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "GA",
+      "district": "10",
+      "status": "General",
+      "candidate1_name": "Houston Gaines",
+      "candidate1_party": "R",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "GA",
+      "district": "11",
+      "status": "General",
+      "candidate1_name": "Chris Harden",
+      "candidate1_party": "D",
+      "candidate2_name": "John Cowan",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "GA",
+      "district": "12",
+      "status": "General",
+      "candidate1_name": "Rick W. Allen",
+      "candidate1_party": "R",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "GA",
+      "district": "13",
+      "status": "General",
+      "candidate1_name": "Jasmine Clark",
+      "candidate1_party": "D",
+      "candidate2_name": "Jonathan Chavez",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "GA",
+      "district": "14",
+      "status": "General",
+      "candidate1_name": "Shawn Harris",
+      "candidate1_party": "D",
+      "candidate2_name": "Colton Moore",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "ID",
+      "district": "1",
+      "status": "General",
+      "candidate1_name": "Kaylee Peterson",
+      "candidate1_party": "D",
+      "candidate2_name": "Russ Fulcher",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "ID",
+      "district": "2",
+      "status": "General",
+      "candidate1_name": "Ellie Gilbreath",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Simpson",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "IL",
+      "district": "2",
+      "status": "General",
+      "candidate1_name": "Donna Miller",
+      "candidate1_party": "D",
+      "candidate2_name": "Michael Noack",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "IL",
+      "district": "3",
+      "status": "General",
+      "candidate1_name": "Delia Ramirez",
+      "candidate1_party": "D",
+      "candidate2_name": "Angel Oakley",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "IL",
+      "district": "4",
+      "status": "General",
+      "candidate1_name": "Patty Garcia",
+      "candidate1_party": "D",
+      "candidate2_name": "Lupe Castillo",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "IL",
+      "district": "5",
+      "status": "General",
+      "candidate1_name": "Mike Quigley",
+      "candidate1_party": "D",
+      "candidate2_name": "Tommy Hanson",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "IL",
+      "district": "6",
+      "status": "General",
+      "candidate1_name": "Sean Casten",
+      "candidate1_party": "D",
+      "candidate2_name": "Niki Conforti",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "IL",
+      "district": "7",
+      "status": "General",
+      "candidate1_name": "La Shawn Ford",
+      "candidate1_party": "D",
+      "candidate2_name": "Chad Koppie",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "IL",
+      "district": "8",
+      "status": "General",
+      "candidate1_name": "Melissa Bean",
+      "candidate1_party": "D",
+      "candidate2_name": "Jennifer Davis",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "IL",
+      "district": "9",
+      "status": "General",
+      "candidate1_name": "Daniel K. Biss",
+      "candidate1_party": "D",
+      "candidate2_name": "John Elleson",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "IL",
+      "district": "10",
+      "status": "General",
+      "candidate1_name": "Bradley Schneider",
+      "candidate1_party": "D",
+      "candidate2_name": "Carl Lambrecht",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "IL",
+      "district": "11",
+      "status": "General",
+      "candidate1_name": "Bill Foster",
+      "candidate1_party": "D",
+      "candidate2_name": "Jeff Walter",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "IL",
+      "district": "12",
+      "status": "General",
+      "candidate1_name": "Julie Fortier",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Bost",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "IL",
+      "district": "13",
+      "status": "General",
+      "candidate1_name": "Nikki Budzinski",
+      "candidate1_party": "D",
+      "candidate2_name": "Jeff Wilson",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "IL",
+      "district": "14",
+      "status": "General",
+      "candidate1_name": "Lauren Underwood",
+      "candidate1_party": "D",
+      "candidate2_name": "James Marter",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "IL",
+      "district": "15",
+      "status": "General",
+      "candidate1_name": "Jennifer Todd",
+      "candidate1_party": "D",
+      "candidate2_name": "Mary Miller",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "IL",
+      "district": "16",
+      "status": "General",
+      "candidate1_name": "Paul Nolley",
+      "candidate1_party": "D",
+      "candidate2_name": "Darin LaHood",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "IL",
+      "district": "17",
+      "status": "General",
+      "candidate1_name": "Eric Sorensen",
+      "candidate1_party": "D",
+      "candidate2_name": "Dillan Vancil",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "IN",
+      "district": "1",
+      "status": "General",
+      "candidate1_name": "Frank Mrvan",
+      "candidate1_party": "D",
+      "candidate2_name": "Barb Regnitz",
+      "candidate2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "state_code": "IN",
+      "district": "2",
+      "status": "General",
+      "candidate1_name": "Jamee Decio",
+      "candidate1_party": "D",
+      "candidate2_name": "Rudy Yakym",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "IN",
+      "district": "3",
+      "status": "General",
+      "candidate1_name": "Marlin Stutzman",
+      "candidate1_party": "R",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "IN",
+      "district": "4",
+      "status": "General",
+      "candidate1_name": "Jim Baird",
+      "candidate1_party": "R",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "IN",
+      "district": "5",
+      "status": "General",
+      "candidate1_name": "J.D. Ford",
+      "candidate1_party": "D",
+      "candidate2_name": "Victoria Spartz",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "IN",
+      "district": "6",
+      "status": "General",
+      "candidate1_name": "Cynthia Wirth",
+      "candidate1_party": "D",
+      "candidate2_name": "Jefferson Shreve",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "IN",
+      "district": "7",
+      "status": "General",
+      "candidate1_name": "André Carson",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "rating": "Solid D"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\trating\nAL\t3\tGeneral\tLee McInnis\tD\tTerri LaPoint\tR\tSolid R\nAL\t4\tGeneral\tAmanda Pusczek\tD\tRobert B. Aderholt\tR\tSolid R\nAL\t5\tGeneral\tDale W. Strong\tR\tNULL\tNULL\tSolid R\nAR\t1\tGeneral\tTerri Yarbrough Green\tD\tRick Crawford\tR\tSolid R\nAR\t2\tGeneral\tChris Jones\tD\tJ. French Hill\tR\tSolid R\nAR\t3\tGeneral\tRobb Ryerse\tD\tSteve Womack\tR\tSolid R\nAR\t4\tGeneral\tJames Russell\tD\tBruce Westerman\tR\tSolid R\nAZ\t7\tCalled\tAdelita S. Grijalva\tD\tDaniel Butierez\tR\tSolid D\nCA\t1\tGeneral\tNULL\tD\tDoug LaMalfa\tR\tSolid R\nFL\t1\tCalled\tGay Valimont\tD\tJimmy Patronis\tR\tSolid R\nFL\t6\tCalled\tRandy Fine\tR\tJoshua Weil\tD\tSolid R\nGA\t1\tGeneral\tJoyce Griggs\tD\tNULL\tNULL\tSolid R\nGA\t2\tGeneral\tSanford Bishop\tD\tMatt Day\tR\tSolid D\nGA\t3\tGeneral\tMaura Keller\tD\tBrian Jack\tR\tSolid R\nGA\t4\tGeneral\tHenry Johnson\tD\tJim Duffie\tR\tSolid D\nGA\t5\tGeneral\tNikema Williams\tD\tArnetress Beatty\tD\tSolid D\nGA\t6\tGeneral\tLucy McBath\tD\tJustin Pinker\tR\tSolid D\nGA\t7\tGeneral\tTony Kozycki\tD\tRich McCormick\tR\tSolid R\nGA\t8\tGeneral\tKelly Esti\tD\tAustin Scott\tR\tSolid R\nGA\t9\tGeneral\tAndrew Clyde\tR\tNULL\tNULL\tSolid R\nGA\t10\tGeneral\tHouston Gaines\tR\tNULL\tNULL\tSolid R\nGA\t11\tGeneral\tChris Harden\tD\tJohn Cowan\tR\tSolid R\nGA\t12\tGeneral\tRick W. Allen\tR\tNULL\tNULL\tSolid R\nGA\t13\tGeneral\tJasmine Clark\tD\tJonathan Chavez\tR\tSolid D\nGA\t14\tGeneral\tShawn Harris\tD\tColton Moore\tR\tSolid R\nID\t1\tGeneral\tKaylee Peterson\tD\tRuss Fulcher\tR\tSolid R\nID\t2\tGeneral\tEllie Gilbreath\tD\tMike Simpson\tR\tSolid R\nIL\t2\tGeneral\tDonna Miller\tD\tMichael Noack\tR\tSolid D\nIL\t3\tGeneral\tDelia Ramirez\tD\tAngel Oakley\tR\tSolid D\nIL\t4\tGeneral\tPatty Garcia\tD\tLupe Castillo\tR\tSolid D\nIL\t5\tGeneral\tMike Quigley\tD\tTommy Hanson\tR\tSolid D\nIL\t6\tGeneral\tSean Casten\tD\tNiki Conforti\tR\tSolid D\nIL\t7\tGeneral\tLa Shawn Ford\tD\tChad Koppie\tR\tSolid D\nIL\t8\tGeneral\tMelissa Bean\tD\tJennifer Davis\tR\tSolid D\nIL\t9\tGeneral\tDaniel K. Biss\tD\tJohn Elleson\tR\tSolid D\nIL\t10\tGeneral\tBradley Schneider\tD\tCarl Lambrecht\tR\tSolid D\nIL\t11\tGeneral\tBill Foster\tD\tJeff Walter\tR\tSolid D\nIL\t12\tGeneral\tJulie Fortier\tD\tMike Bost\tR\tSolid R\nIL\t13\tGeneral\tNikki Budzinski\tD\tJeff Wilson\tR\tSolid D\nIL\t14\tGeneral\tLauren Underwood\tD\tJames Marter\tR\tSolid D\nIL\t15\tGeneral\tJennifer Todd\tD\tMary Miller\tR\tSolid R\nIL\t16\tGeneral\tPaul Nolley\tD\tDarin LaHood\tR\tSolid R\nIL\t17\tGeneral\tEric Sorensen\tD\tDillan Vancil\tR\tSolid D\nIN\t1\tGeneral\tFrank Mrvan\tD\tBarb Regnitz\tR\tLikely D\nIN\t2\tGeneral\tJamee Decio\tD\tRudy Yakym\tR\tSolid R\nIN\t3\tGeneral\tMarlin Stutzman\tR\tNULL\tNULL\tSolid R\nIN\t4\tGeneral\tJim Baird\tR\tNULL\tNULL\tSolid R\nIN\t5\tGeneral\tJ.D. Ford\tD\tVictoria Spartz\tR\tSolid R\nIN\t6\tGeneral\tCynthia Wirth\tD\tJefferson Shreve\tR\tSolid R\nIN\t7\tGeneral\tAndré Carson\tD\tNULL\tNULL\tSolid D\n",
+  "stderr": "",
+  "execution_time_ms": 258
+}

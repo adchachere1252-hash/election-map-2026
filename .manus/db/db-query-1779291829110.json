@@ -1,0 +1,42 @@
+{
+  "query": "-- GA-9: Add D candidate C. Gegen (won D primary 60%)\nUPDATE house_races SET \n  candidate2_name = 'Andrew Clyde',\n  candidate2_party = 'R',\n  candidate1_name = 'C. Gegen',\n  candidate1_party = 'D'\nWHERE state_code = 'GA' AND district = '9';\n\n-- GA-10: Add D candidate P. Delancy (won D primary 54.4%)\nUPDATE house_races SET \n  candidate2_name = 'Houston Gaines',\n  candidate2_party = 'R',\n  candidate1_name = 'P. Delancy',\n  candidate1_party = 'D'\nWHERE state_code = 'GA' AND district = '10';\n\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'GA' AND district IN ('9','10','11','12');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- GA-9: Add D candidate C. Gegen (won D primary 60%)\nUPDATE house_races SET \n  candidate2_name = 'Andrew Clyde',\n  candidate2_party = 'R',\n  candidate1_name = 'C. Gegen',\n  candidate1_party = 'D'\nWHERE state_code = 'GA' AND district = '9';\n\n-- GA-10: Add D candidate P. Delancy (won D primary 54.4%)\nUPDATE house_races SET \n  candidate2_name = 'Houston Gaines',\n  candidate2_party = 'R',\n  candidate1_name = 'P. Delancy',\n  candidate1_party = 'D'\nWHERE state_code = 'GA' AND district = '10';\n\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'GA' AND district IN ('9','10','11','12');",
+  "rows": [
+    {
+      "state_code": "GA",
+      "district": "9",
+      "candidate1_name": "C. Gegen",
+      "candidate1_party": "D",
+      "candidate2_name": "Andrew Clyde",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "GA",
+      "district": "10",
+      "candidate1_name": "P. Delancy",
+      "candidate1_party": "D",
+      "candidate2_name": "Houston Gaines",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "GA",
+      "district": "11",
+      "candidate1_name": "Chris Harden",
+      "candidate1_party": "D",
+      "candidate2_name": "John Cowan",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "GA",
+      "district": "12",
+      "candidate1_name": "Rick W. Allen",
+      "candidate1_party": "R",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\nGA\t9\tC. Gegen\tD\tAndrew Clyde\tR\nGA\t10\tP. Delancy\tD\tHouston Gaines\tR\nGA\t11\tChris Harden\tD\tJohn Cowan\tR\nGA\t12\tRick W. Allen\tR\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 275
+}

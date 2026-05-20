@@ -1,0 +1,58 @@
+{
+  "query": "-- KY-1: James Comer won R primary (88.1%), not David Sims\nUPDATE house_races SET candidate2_name = 'James Comer', candidate2_party = 'R'\nWHERE state_code = 'KY' AND district = '1';\n\n-- KY-2: Brett Guthrie won R primary (85.4%); Wingfield is D\nUPDATE house_races SET candidate2_name = 'Brett Guthrie', candidate2_party = 'R'\nWHERE state_code = 'KY' AND district = '2';\n\n-- KY-5: Harold Rogers won R primary (77.4%), not Kevin Smith\nUPDATE house_races SET candidate2_name = 'Harold Rogers', candidate2_party = 'R'\nWHERE state_code = 'KY' AND district = '5';\n\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'KY' ORDER BY district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- KY-1: James Comer won R primary (88.1%), not David Sims\nUPDATE house_races SET candidate2_name = 'James Comer', candidate2_party = 'R'\nWHERE state_code = 'KY' AND district = '1';\n\n-- KY-2: Brett Guthrie won R primary (85.4%); Wingfield is D\nUPDATE house_races SET candidate2_name = 'Brett Guthrie', candidate2_party = 'R'\nWHERE state_code = 'KY' AND district = '2';\n\n-- KY-5: Harold Rogers won R primary (77.4%), not Kevin Smith\nUPDATE house_races SET candidate2_name = 'Harold Rogers', candidate2_party = 'R'\nWHERE state_code = 'KY' AND district = '5';\n\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'KY' ORDER BY district;",
+  "rows": [
+    {
+      "state_code": "KY",
+      "district": "1",
+      "candidate1_name": "John Williams",
+      "candidate1_party": "D",
+      "candidate2_name": "James Comer",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "KY",
+      "district": "2",
+      "candidate1_name": "M. Wingfield",
+      "candidate1_party": "D",
+      "candidate2_name": "Brett Guthrie",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "KY",
+      "district": "3",
+      "candidate1_name": "Morgan McGarvey",
+      "candidate1_party": "D",
+      "candidate2_name": "M. Rodriguez",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "KY",
+      "district": "4",
+      "candidate1_name": "Melissa Strange",
+      "candidate1_party": "D",
+      "candidate2_name": "Ed Gallrein",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "KY",
+      "district": "5",
+      "candidate1_name": "Ned Pillersdorf",
+      "candidate1_party": "D",
+      "candidate2_name": "Harold Rogers",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "KY",
+      "district": "6",
+      "candidate1_name": "Zach Dembo",
+      "candidate1_party": "D",
+      "candidate2_name": "Robert Alvarado",
+      "candidate2_party": "R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\nKY\t1\tJohn Williams\tD\tJames Comer\tR\nKY\t2\tM. Wingfield\tD\tBrett Guthrie\tR\nKY\t3\tMorgan McGarvey\tD\tM. Rodriguez\tR\nKY\t4\tMelissa Strange\tD\tEd Gallrein\tR\nKY\t5\tNed Pillersdorf\tD\tHarold Rogers\tR\nKY\t6\tZach Dembo\tD\tRobert Alvarado\tR\n",
+  "stderr": "",
+  "execution_time_ms": 306
+}

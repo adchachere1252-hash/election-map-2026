@@ -1,0 +1,136 @@
+{
+  "query": "-- GA-1: Jim Kingston won R primary; D primary going to runoff (Griggs vs Hollowell, June 16)\nUPDATE house_races SET \n  candidate2_name = 'Jim Kingston',\n  candidate2_party = 'R',\n  status = 'Primary Runoff',\n  candidate1_name = 'Joyce Griggs → A. Hollowell (D Runoff, June 16)'\nWHERE state_code = 'GA' AND district = '1';\n\n-- GA-5: Nikema Williams (D) won primary; J. Salvesen is the R candidate (not Arnetress Beatty who was D primary challenger)\nUPDATE house_races SET \n  candidate1_name = 'Nikema Williams',\n  candidate1_party = 'D',\n  candidate2_name = 'J. Salvesen',\n  candidate2_party = 'R'\nWHERE state_code = 'GA' AND district = '5';\n\n-- GA-7: D primary going to runoff (Kozycki vs Norton, June 16); R candidate is McCormick\nUPDATE house_races SET \n  status = 'Primary Runoff',\n  candidate1_name = 'T. Kozycki → C. Norton (D Runoff, June 16)'\nWHERE state_code = 'GA' AND district = '7';\n\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'GA' ORDER BY district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- GA-1: Jim Kingston won R primary; D primary going to runoff (Griggs vs Hollowell, June 16)\nUPDATE house_races SET \n  candidate2_name = 'Jim Kingston',\n  candidate2_party = 'R',\n  status = 'Primary Runoff',\n  candidate1_name = 'Joyce Griggs → A. Hollowell (D Runoff, June 16)'\nWHERE state_code = 'GA' AND district = '1';\n\n-- GA-5: Nikema Williams (D) won primary; J. Salvesen is the R candidate (not Arnetress Beatty who was D primary challenger)\nUPDATE house_races SET \n  candidate1_name = 'Nikema Williams',\n  candidate1_party = 'D',\n  candidate2_name = 'J. Salvesen',\n  candidate2_party = 'R'\nWHERE state_code = 'GA' AND district = '5';\n\n-- GA-7: D primary going to runoff (Kozycki vs Norton, June 16); R candidate is McCormick\nUPDATE house_races SET \n  status = 'Primary Runoff',\n  candidate1_name = 'T. Kozycki → C. Norton (D Runoff, June 16)'\nWHERE state_code = 'GA' AND district = '7';\n\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'GA' ORDER BY district;",
+  "rows": [
+    {
+      "state_code": "GA",
+      "district": "1",
+      "status": "Primary Runoff",
+      "candidate1_name": "Joyce Griggs → A. Hollowell (D Runoff, June 16)",
+      "candidate1_party": "D",
+      "candidate2_name": "Jim Kingston",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "GA",
+      "district": "2",
+      "status": "General",
+      "candidate1_name": "Sanford Bishop",
+      "candidate1_party": "D",
+      "candidate2_name": "Matt Day",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "GA",
+      "district": "3",
+      "status": "General",
+      "candidate1_name": "Maura Keller",
+      "candidate1_party": "D",
+      "candidate2_name": "Brian Jack",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "GA",
+      "district": "4",
+      "status": "General",
+      "candidate1_name": "Henry Johnson",
+      "candidate1_party": "D",
+      "candidate2_name": "Jim Duffie",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "GA",
+      "district": "5",
+      "status": "General",
+      "candidate1_name": "Nikema Williams",
+      "candidate1_party": "D",
+      "candidate2_name": "J. Salvesen",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "GA",
+      "district": "6",
+      "status": "General",
+      "candidate1_name": "Lucy McBath",
+      "candidate1_party": "D",
+      "candidate2_name": "Justin Pinker",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "GA",
+      "district": "7",
+      "status": "Primary Runoff",
+      "candidate1_name": "T. Kozycki → C. Norton (D Runoff, June 16)",
+      "candidate1_party": "D",
+      "candidate2_name": "Rich McCormick",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "GA",
+      "district": "8",
+      "status": "General",
+      "candidate1_name": "Kelly Esti",
+      "candidate1_party": "D",
+      "candidate2_name": "Austin Scott",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "GA",
+      "district": "9",
+      "status": "General",
+      "candidate1_name": "Andrew Clyde",
+      "candidate1_party": "R",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL"
+    },
+    {
+      "state_code": "GA",
+      "district": "10",
+      "status": "General",
+      "candidate1_name": "Houston Gaines",
+      "candidate1_party": "R",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL"
+    },
+    {
+      "state_code": "GA",
+      "district": "11",
+      "status": "General",
+      "candidate1_name": "Chris Harden",
+      "candidate1_party": "D",
+      "candidate2_name": "John Cowan",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "GA",
+      "district": "12",
+      "status": "General",
+      "candidate1_name": "Rick W. Allen",
+      "candidate1_party": "R",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL"
+    },
+    {
+      "state_code": "GA",
+      "district": "13",
+      "status": "General",
+      "candidate1_name": "Jasmine Clark",
+      "candidate1_party": "D",
+      "candidate2_name": "Jonathan Chavez",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "GA",
+      "district": "14",
+      "status": "General",
+      "candidate1_name": "Shawn Harris",
+      "candidate1_party": "D",
+      "candidate2_name": "Colton Moore",
+      "candidate2_party": "R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\nGA\t1\tPrimary Runoff\tJoyce Griggs → A. Hollowell (D Runoff, June 16)\tD\tJim Kingston\tR\nGA\t2\tGeneral\tSanford Bishop\tD\tMatt Day\tR\nGA\t3\tGeneral\tMaura Keller\tD\tBrian Jack\tR\nGA\t4\tGeneral\tHenry Johnson\tD\tJim Duffie\tR\nGA\t5\tGeneral\tNikema Williams\tD\tJ. Salvesen\tR\nGA\t6\tGeneral\tLucy McBath\tD\tJustin Pinker\tR\nGA\t7\tPrimary Runoff\tT. Kozycki → C. Norton (D Runoff, June 16)\tD\tRich McCormick\tR\nGA\t8\tGeneral\tKelly Esti\tD\tAustin Scott\tR\nGA\t9\tGeneral\tAndrew Clyde\tR\tNULL\tNULL\nGA\t10\tGeneral\tHouston Gaines\tR\tNULL\tNULL\nGA\t11\tGeneral\tChris Harden\tD\tJohn Cowan\tR\nGA\t12\tGeneral\tRick W. Allen\tR\tNULL\tNULL\nGA\t13\tGeneral\tJasmine Clark\tD\tJonathan Chavez\tR\nGA\t14\tGeneral\tShawn Harris\tD\tColton Moore\tR\n",
+  "stderr": "",
+  "execution_time_ms": 298
+}

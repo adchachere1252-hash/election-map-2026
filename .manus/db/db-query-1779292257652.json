@@ -1,0 +1,154 @@
+{
+  "query": "-- Find races where both candidates have same party (likely data errors)\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races \nWHERE candidate1_party IS NOT NULL \n  AND candidate2_party IS NOT NULL \n  AND candidate1_party = candidate2_party\nORDER BY state_code, CAST(district AS UNSIGNED);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- Find races where both candidates have same party (likely data errors)\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races \nWHERE candidate1_party IS NOT NULL \n  AND candidate2_party IS NOT NULL \n  AND candidate1_party = candidate2_party\nORDER BY state_code, CAST(district AS UNSIGNED);",
+  "rows": [
+    {
+      "state_code": "AL",
+      "district": "1",
+      "status": "Scheduled",
+      "candidate1_name": "Rhett Marques",
+      "candidate1_party": "R",
+      "candidate2_name": "Jerry Carl",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "IN",
+      "district": "8",
+      "status": "General",
+      "candidate1_name": "Mary Allen",
+      "candidate1_party": "D",
+      "candidate2_name": "Tabitha Zeigler",
+      "candidate2_party": "D"
+    },
+    {
+      "state_code": "OH",
+      "district": "3",
+      "status": "General",
+      "candidate1_name": "Joyce Beatty",
+      "candidate1_party": "D",
+      "candidate2_name": "Joe Gerard",
+      "candidate2_party": "D"
+    },
+    {
+      "state_code": "OH",
+      "district": "5",
+      "status": "General",
+      "candidate1_name": "Brian Shaver",
+      "candidate1_party": "D",
+      "candidate2_name": "Martin Heberling",
+      "candidate2_party": "D"
+    },
+    {
+      "state_code": "OH",
+      "district": "7",
+      "status": "General",
+      "candidate1_name": "Brian Poindexter",
+      "candidate1_party": "D",
+      "candidate2_name": "Ed FitzGerald",
+      "candidate2_party": "D"
+    },
+    {
+      "state_code": "OH",
+      "district": "8",
+      "status": "General",
+      "candidate1_name": "Vanessa Enoch",
+      "candidate1_party": "D",
+      "candidate2_name": "Madaris Grant",
+      "candidate2_party": "D"
+    },
+    {
+      "state_code": "OH",
+      "district": "10",
+      "status": "General",
+      "candidate1_name": "Kristina Knickerbocker",
+      "candidate1_party": "D",
+      "candidate2_name": "Janice Beckett",
+      "candidate2_party": "D"
+    },
+    {
+      "state_code": "OH",
+      "district": "15",
+      "status": "General",
+      "candidate1_name": "Don Leonard",
+      "candidate1_party": "D",
+      "candidate2_name": "Adam Miller",
+      "candidate2_party": "D"
+    },
+    {
+      "state_code": "PA",
+      "district": "1",
+      "status": "General",
+      "candidate1_name": "Brian Fitzpatrick",
+      "candidate1_party": "R",
+      "candidate2_name": "Brian K. Fitzpatrick",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "PA",
+      "district": "3",
+      "status": "General",
+      "candidate1_name": "Chris Rabb",
+      "candidate1_party": "D",
+      "candidate2_name": "Sharif Street",
+      "candidate2_party": "D"
+    },
+    {
+      "state_code": "TX",
+      "district": "19",
+      "status": "Primary Runoff",
+      "candidate1_name": "Abraham Enriquez",
+      "candidate1_party": "R",
+      "candidate2_name": "Tom Sell",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "30",
+      "status": "Scheduled",
+      "candidate1_name": "Everett Jackson",
+      "candidate1_party": "R",
+      "candidate2_name": "Sholdon Daniels",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "33",
+      "status": "Primary Runoff",
+      "candidate1_name": "John Sims",
+      "candidate1_party": "R",
+      "candidate2_name": "Patrick Gillespie",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "35",
+      "status": "Primary Runoff",
+      "candidate1_name": "John Lujan",
+      "candidate1_party": "R",
+      "candidate2_name": "Carlos De La Cruz",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "37",
+      "status": "Scheduled",
+      "candidate1_name": "Ge'Nell Gary",
+      "candidate1_party": "R",
+      "candidate2_name": "Lauren Peña",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "38",
+      "status": "Primary Runoff",
+      "candidate1_name": "Shelly deZevallos",
+      "candidate1_party": "R",
+      "candidate2_name": "Jon Bonck",
+      "candidate2_party": "R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\nAL\t1\tScheduled\tRhett Marques\tR\tJerry Carl\tR\nIN\t8\tGeneral\tMary Allen\tD\tTabitha Zeigler\tD\nOH\t3\tGeneral\tJoyce Beatty\tD\tJoe Gerard\tD\nOH\t5\tGeneral\tBrian Shaver\tD\tMartin Heberling\tD\nOH\t7\tGeneral\tBrian Poindexter\tD\tEd FitzGerald\tD\nOH\t8\tGeneral\tVanessa Enoch\tD\tMadaris Grant\tD\nOH\t10\tGeneral\tKristina Knickerbocker\tD\tJanice Beckett\tD\nOH\t15\tGeneral\tDon Leonard\tD\tAdam Miller\tD\nPA\t1\tGeneral\tBrian Fitzpatrick\tR\tBrian K. Fitzpatrick\tR\nPA\t3\tGeneral\tChris Rabb\tD\tSharif Street\tD\nTX\t19\tPrimary Runoff\tAbraham Enriquez\tR\tTom Sell\tR\nTX\t30\tScheduled\tEverett Jackson\tR\tSholdon Daniels\tR\nTX\t33\tPrimary Runoff\tJohn Sims\tR\tPatrick Gillespie\tR\nTX\t35\tPrimary Runoff\tJohn Lujan\tR\tCarlos De La Cruz\tR\nTX\t37\tScheduled\tGe'Nell Gary\tR\tLauren Peña\tR\nTX\t38\tPrimary Runoff\tShelly deZevallos\tR\tJon Bonck\tR\n",
+  "stderr": "",
+  "execution_time_ms": 257
+}

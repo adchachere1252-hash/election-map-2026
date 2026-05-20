@@ -1,0 +1,145 @@
+{
+  "query": "SELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'TX' ORDER BY CAST(district AS UNSIGNED) LIMIT 15;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'TX' ORDER BY CAST(district AS UNSIGNED) LIMIT 15;",
+  "rows": [
+    {
+      "state_code": "TX",
+      "district": "1",
+      "status": "Scheduled",
+      "candidate1_name": "Yolanda Prince",
+      "candidate1_party": "D",
+      "candidate2_name": "Dax Alexander",
+      "candidate2_party": "D"
+    },
+    {
+      "state_code": "TX",
+      "district": "2",
+      "status": "General",
+      "candidate1_name": "Shaun Finnie",
+      "candidate1_party": "D",
+      "candidate2_name": "Steve Toth",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "3",
+      "status": "General",
+      "candidate1_name": "Evan Hunt",
+      "candidate1_party": "D",
+      "candidate2_name": "Keith Self",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "4",
+      "status": "General",
+      "candidate1_name": "Jason Pearce",
+      "candidate1_party": "D",
+      "candidate2_name": "Pat Fallon",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "5",
+      "status": "Scheduled",
+      "candidate1_name": "Ruth Torres",
+      "candidate1_party": "D",
+      "candidate2_name": "Chelsey Hockett",
+      "candidate2_party": "D"
+    },
+    {
+      "state_code": "TX",
+      "district": "6",
+      "status": "General",
+      "candidate1_name": "Danny Minton",
+      "candidate1_party": "D",
+      "candidate2_name": "Jake Ellzey",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "7",
+      "status": "Scheduled",
+      "candidate1_name": "Alexander Hale",
+      "candidate1_party": "R",
+      "candidate2_name": "Tina Cohen",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "8",
+      "status": "General",
+      "candidate1_name": "Laura Jones",
+      "candidate1_party": "D",
+      "candidate2_name": "Jessica Steinmann",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "9",
+      "status": "Scheduled",
+      "candidate1_name": "Briscoe Cain",
+      "candidate1_party": "R",
+      "candidate2_name": "Alex Mealer",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "10",
+      "status": "General",
+      "candidate1_name": "Caitlin Rourk",
+      "candidate1_party": "D",
+      "candidate2_name": "Chris Gober",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "11",
+      "status": "General",
+      "candidate1_name": "Claire Reynolds",
+      "candidate1_party": "D",
+      "candidate2_name": "August Pfluger",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "12",
+      "status": "General",
+      "candidate1_name": "Angel Rodrigues-Prillman",
+      "candidate1_party": "D",
+      "candidate2_name": "Craig A. Goldman",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "13",
+      "status": "General",
+      "candidate1_name": "Mark Nair",
+      "candidate1_party": "D",
+      "candidate2_name": "Ronny Jackson",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "14",
+      "status": "Scheduled",
+      "candidate1_name": "Thurman Bartie",
+      "candidate1_party": "D",
+      "candidate2_name": "Richard Davis",
+      "candidate2_party": "D"
+    },
+    {
+      "state_code": "TX",
+      "district": "15",
+      "status": "General",
+      "candidate1_name": "Bobby Pulido",
+      "candidate1_party": "D",
+      "candidate2_name": "Monica De La Cruz",
+      "candidate2_party": "R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\nTX\t1\tScheduled\tYolanda Prince\tD\tDax Alexander\tD\nTX\t2\tGeneral\tShaun Finnie\tD\tSteve Toth\tR\nTX\t3\tGeneral\tEvan Hunt\tD\tKeith Self\tR\nTX\t4\tGeneral\tJason Pearce\tD\tPat Fallon\tR\nTX\t5\tScheduled\tRuth Torres\tD\tChelsey Hockett\tD\nTX\t6\tGeneral\tDanny Minton\tD\tJake Ellzey\tR\nTX\t7\tScheduled\tAlexander Hale\tR\tTina Cohen\tR\nTX\t8\tGeneral\tLaura Jones\tD\tJessica Steinmann\tR\nTX\t9\tScheduled\tBriscoe Cain\tR\tAlex Mealer\tR\nTX\t10\tGeneral\tCaitlin Rourk\tD\tChris Gober\tR\nTX\t11\tGeneral\tClaire Reynolds\tD\tAugust Pfluger\tR\nTX\t12\tGeneral\tAngel Rodrigues-Prillman\tD\tCraig A. Goldman\tR\nTX\t13\tGeneral\tMark Nair\tD\tRonny Jackson\tR\nTX\t14\tScheduled\tThurman Bartie\tD\tRichard Davis\tD\nTX\t15\tGeneral\tBobby Pulido\tD\tMonica De La Cruz\tR\n",
+  "stderr": "",
+  "execution_time_ms": 270
+}

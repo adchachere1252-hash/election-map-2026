@@ -1,0 +1,58 @@
+{
+  "query": "-- OR-2: D nominee is C. Beck (won plurality 34.5%)\nUPDATE house_races SET candidate1_name = 'C. Beck', candidate1_party = 'D'\nWHERE state_code = 'OR' AND district = '2';\n\n-- OR-4: R nominee is M. DeSpain (won 86.7%)\nUPDATE house_races SET candidate2_name = 'M. DeSpain', candidate2_party = 'R'\nWHERE state_code = 'OR' AND district = '4';\n\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'OR' ORDER BY district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- OR-2: D nominee is C. Beck (won plurality 34.5%)\nUPDATE house_races SET candidate1_name = 'C. Beck', candidate1_party = 'D'\nWHERE state_code = 'OR' AND district = '2';\n\n-- OR-4: R nominee is M. DeSpain (won 86.7%)\nUPDATE house_races SET candidate2_name = 'M. DeSpain', candidate2_party = 'R'\nWHERE state_code = 'OR' AND district = '4';\n\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'OR' ORDER BY district;",
+  "rows": [
+    {
+      "state_code": "OR",
+      "district": "1",
+      "candidate1_name": "Suzanne Bonamici",
+      "candidate1_party": "D",
+      "candidate2_name": "Barbara Kahl",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "OR",
+      "district": "2",
+      "candidate1_name": "C. Beck",
+      "candidate1_party": "D",
+      "candidate2_name": "Cliff Bentz",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "OR",
+      "district": "3",
+      "candidate1_name": "Maxine Dexter",
+      "candidate1_party": "D",
+      "candidate2_name": "Loran Ayles",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "OR",
+      "district": "4",
+      "candidate1_name": "Val Hoyle",
+      "candidate1_party": "D",
+      "candidate2_name": "M. DeSpain",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "OR",
+      "district": "5",
+      "candidate1_name": "Janelle Bynum",
+      "candidate1_party": "D",
+      "candidate2_name": "Patti Adair",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "OR",
+      "district": "6",
+      "candidate1_name": "Andrea Salinas",
+      "candidate1_party": "D",
+      "candidate2_name": "David Russ",
+      "candidate2_party": "R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\nOR\t1\tSuzanne Bonamici\tD\tBarbara Kahl\tR\nOR\t2\tC. Beck\tD\tCliff Bentz\tR\nOR\t3\tMaxine Dexter\tD\tLoran Ayles\tR\nOR\t4\tVal Hoyle\tD\tM. DeSpain\tR\nOR\t5\tJanelle Bynum\tD\tPatti Adair\tR\nOR\t6\tAndrea Salinas\tD\tDavid Russ\tR\n",
+  "stderr": "",
+  "execution_time_ms": 285
+}

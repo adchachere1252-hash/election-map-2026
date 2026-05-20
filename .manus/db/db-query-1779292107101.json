@@ -1,0 +1,262 @@
+{
+  "query": "-- TX-14: D runoff between Bartie and Davis, no R candidate yet (or R is TBD)\nUPDATE house_races SET candidate2_name = NULL, candidate2_party = NULL\nWHERE state_code = 'TX' AND district = '14';\n\n-- Get remaining TX districts 11-38\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'TX' ORDER BY CAST(district AS UNSIGNED) LIMIT 38 OFFSET 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- TX-14: D runoff between Bartie and Davis, no R candidate yet (or R is TBD)\nUPDATE house_races SET candidate2_name = NULL, candidate2_party = NULL\nWHERE state_code = 'TX' AND district = '14';\n\n-- Get remaining TX districts 11-38\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'TX' ORDER BY CAST(district AS UNSIGNED) LIMIT 38 OFFSET 10;",
+  "rows": [
+    {
+      "state_code": "TX",
+      "district": "11",
+      "status": "General",
+      "candidate1_name": "Claire Reynolds",
+      "candidate1_party": "D",
+      "candidate2_name": "August Pfluger",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "12",
+      "status": "General",
+      "candidate1_name": "Angel Rodrigues-Prillman",
+      "candidate1_party": "D",
+      "candidate2_name": "Craig A. Goldman",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "13",
+      "status": "General",
+      "candidate1_name": "Mark Nair",
+      "candidate1_party": "D",
+      "candidate2_name": "Ronny Jackson",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "14",
+      "status": "Primary Runoff",
+      "candidate1_name": "Thurman Bartie",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL"
+    },
+    {
+      "state_code": "TX",
+      "district": "15",
+      "status": "General",
+      "candidate1_name": "Bobby Pulido",
+      "candidate1_party": "D",
+      "candidate2_name": "Monica De La Cruz",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "16",
+      "status": "Scheduled",
+      "candidate1_name": "Adam Bauman",
+      "candidate1_party": "R",
+      "candidate2_name": "Manuel Barraza",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "17",
+      "status": "Scheduled",
+      "candidate1_name": "Milah Flores",
+      "candidate1_party": "D",
+      "candidate2_name": "Casey Shepard",
+      "candidate2_party": "D"
+    },
+    {
+      "state_code": "TX",
+      "district": "18",
+      "status": "General",
+      "candidate1_name": "Christian Menefee (D) / Al Green (I)",
+      "candidate1_party": "D",
+      "candidate2_name": "Ronald Whitfield",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "19",
+      "status": "Primary Runoff",
+      "candidate1_name": "Abraham Enriquez",
+      "candidate1_party": "R",
+      "candidate2_name": "Tom Sell",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "20",
+      "status": "Scheduled",
+      "candidate1_name": "Joaquin Castro",
+      "candidate1_party": "D",
+      "candidate2_name": "Edgardo Baez",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "21",
+      "status": "Scheduled",
+      "candidate1_name": "Kristin Hook",
+      "candidate1_party": "D",
+      "candidate2_name": "Mark Teixeira",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "22",
+      "status": "General",
+      "candidate1_name": "Marquette Greene-Scott",
+      "candidate1_party": "D",
+      "candidate2_name": "Trever Nehls",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "23",
+      "status": "Scheduled",
+      "candidate1_name": "NULL",
+      "candidate1_party": "NULL",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL"
+    },
+    {
+      "state_code": "TX",
+      "district": "24",
+      "status": "Scheduled",
+      "candidate1_name": "Kevin Burge",
+      "candidate1_party": "D",
+      "candidate2_name": "TJ Ware",
+      "candidate2_party": "D"
+    },
+    {
+      "state_code": "TX",
+      "district": "25",
+      "status": "Scheduled",
+      "candidate1_name": "Dione Sims",
+      "candidate1_party": "D",
+      "candidate2_name": "Roger Williams",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "26",
+      "status": "Scheduled",
+      "candidate1_name": "Steven Shook",
+      "candidate1_party": "D",
+      "candidate2_name": "Brandon Gill",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "27",
+      "status": "General",
+      "candidate1_name": "Tanya Lloyd",
+      "candidate1_party": "D",
+      "candidate2_name": "Michael Cloud",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "28",
+      "status": "General",
+      "candidate1_name": "Henry Cuellar",
+      "candidate1_party": "D",
+      "candidate2_name": "Tano Tijerina",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "29",
+      "status": "General",
+      "candidate1_name": "Sylvia Garcia",
+      "candidate1_party": "D",
+      "candidate2_name": "Martha Fierro",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "30",
+      "status": "Scheduled",
+      "candidate1_name": "Everett Jackson",
+      "candidate1_party": "R",
+      "candidate2_name": "Sholdon Daniels",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "31",
+      "status": "General",
+      "candidate1_name": "Justin Early",
+      "candidate1_party": "D",
+      "candidate2_name": "John R. Carter",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "32",
+      "status": "Primary Runoff",
+      "candidate1_name": "Dan Barrios",
+      "candidate1_party": "D",
+      "candidate2_name": "Jace Yarbrough",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "33",
+      "status": "Primary Runoff",
+      "candidate1_name": "John Sims",
+      "candidate1_party": "R",
+      "candidate2_name": "Patrick Gillespie",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "34",
+      "status": "General",
+      "candidate1_name": "Vicente Gonzalez Jr.",
+      "candidate1_party": "D",
+      "candidate2_name": "Eric Flores",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "35",
+      "status": "Primary Runoff",
+      "candidate1_name": "John Lujan",
+      "candidate1_party": "R",
+      "candidate2_name": "Carlos De La Cruz",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "36",
+      "status": "General",
+      "candidate1_name": "Rhonda Hart",
+      "candidate1_party": "D",
+      "candidate2_name": "Brian Babin",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "37",
+      "status": "Scheduled",
+      "candidate1_name": "Ge'Nell Gary",
+      "candidate1_party": "R",
+      "candidate2_name": "Lauren Peña",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "38",
+      "status": "Primary Runoff",
+      "candidate1_name": "Shelly deZevallos",
+      "candidate1_party": "R",
+      "candidate2_name": "Jon Bonck",
+      "candidate2_party": "R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\nTX\t11\tGeneral\tClaire Reynolds\tD\tAugust Pfluger\tR\nTX\t12\tGeneral\tAngel Rodrigues-Prillman\tD\tCraig A. Goldman\tR\nTX\t13\tGeneral\tMark Nair\tD\tRonny Jackson\tR\nTX\t14\tPrimary Runoff\tThurman Bartie\tD\tNULL\tNULL\nTX\t15\tGeneral\tBobby Pulido\tD\tMonica De La Cruz\tR\nTX\t16\tScheduled\tAdam Bauman\tR\tManuel Barraza\tR\nTX\t17\tScheduled\tMilah Flores\tD\tCasey Shepard\tD\nTX\t18\tGeneral\tChristian Menefee (D) / Al Green (I)\tD\tRonald Whitfield\tR\nTX\t19\tPrimary Runoff\tAbraham Enriquez\tR\tTom Sell\tR\nTX\t20\tScheduled\tJoaquin Castro\tD\tEdgardo Baez\tR\nTX\t21\tScheduled\tKristin Hook\tD\tMark Teixeira\tR\nTX\t22\tGeneral\tMarquette Greene-Scott\tD\tTrever Nehls\tR\nTX\t23\tScheduled\tNULL\tNULL\tNULL\tNULL\nTX\t24\tScheduled\tKevin Burge\tD\tTJ Ware\tD\nTX\t25\tScheduled\tDione Sims\tD\tRoger Williams\tR\nTX\t26\tScheduled\tSteven Shook\tD\tBrandon Gill\tR\nTX\t27\tGeneral\tTanya Lloyd\tD\tMichael Cloud\tR\nTX\t28\tGeneral\tHenry Cuellar\tD\tTano Tijerina\tR\nTX\t29\tGeneral\tSylvia Garcia\tD\tMartha Fierro\tR\nTX\t30\tScheduled\tEverett Jackson\tR\tSholdon Daniels\tR\nTX\t31\tGeneral\tJustin Early\tD\tJohn R. Carter\tR\nTX\t32\tPrimary Runoff\tDan Barrios\tD\tJace Yarbrough\tR\nTX\t33\tPrimary Runoff\tJohn Sims\tR\tPatrick Gillespie\tR\nTX\t34\tGeneral\tVicente Gonzalez Jr.\tD\tEric Flores\tR\nTX\t35\tPrimary Runoff\tJohn Lujan\tR\tCarlos De La Cruz\tR\nTX\t36\tGeneral\tRhonda Hart\tD\tBrian Babin\tR\nTX\t37\tScheduled\tGe'Nell Gary\tR\tLauren Peña\tR\nTX\t38\tPrimary Runoff\tShelly deZevallos\tR\tJon Bonck\tR\n",
+  "stderr": "",
+  "execution_time_ms": 274
+}

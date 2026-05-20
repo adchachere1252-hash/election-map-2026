@@ -1,0 +1,64 @@
+{
+  "query": "-- KY-4: Thomas Massie LOST primary to Ed Gallrein (Trump-endorsed Navy SEAL)\nUPDATE house_races SET \n  candidate2_name = 'Ed Gallrein',\n  candidate2_party = 'R'\nWHERE state_code = 'KY' AND district = '4';\n\n-- KY-6: Open seat (Barr running for Senate) - R: Alvarado, D: Dembo\nUPDATE house_races SET \n  candidate1_name = 'Zach Dembo',\n  candidate1_party = 'D',\n  candidate2_name = 'Robert Alvarado',\n  candidate2_party = 'R'\nWHERE state_code = 'KY' AND district = '6';\n\n-- KY-2: D nominee is M. Wingfield (won plurality)\nUPDATE house_races SET \n  candidate1_name = 'M. Wingfield',\n  candidate1_party = 'D'\nWHERE state_code = 'KY' AND district = '2';\n\n-- KY-3: R nominee is M. Rodriguez (won plurality)\nUPDATE house_races SET \n  candidate2_name = 'M. Rodriguez',\n  candidate2_party = 'R'\nWHERE state_code = 'KY' AND district = '3';\n\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'KY' ORDER BY district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- KY-4: Thomas Massie LOST primary to Ed Gallrein (Trump-endorsed Navy SEAL)\nUPDATE house_races SET \n  candidate2_name = 'Ed Gallrein',\n  candidate2_party = 'R'\nWHERE state_code = 'KY' AND district = '4';\n\n-- KY-6: Open seat (Barr running for Senate) - R: Alvarado, D: Dembo\nUPDATE house_races SET \n  candidate1_name = 'Zach Dembo',\n  candidate1_party = 'D',\n  candidate2_name = 'Robert Alvarado',\n  candidate2_party = 'R'\nWHERE state_code = 'KY' AND district = '6';\n\n-- KY-2: D nominee is M. Wingfield (won plurality)\nUPDATE house_races SET \n  candidate1_name = 'M. Wingfield',\n  candidate1_party = 'D'\nWHERE state_code = 'KY' AND district = '2';\n\n-- KY-3: R nominee is M. Rodriguez (won plurality)\nUPDATE house_races SET \n  candidate2_name = 'M. Rodriguez',\n  candidate2_party = 'R'\nWHERE state_code = 'KY' AND district = '3';\n\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'KY' ORDER BY district;",
+  "rows": [
+    {
+      "state_code": "KY",
+      "district": "1",
+      "status": "General",
+      "candidate1_name": "John Williams",
+      "candidate1_party": "D",
+      "candidate2_name": "David Sims",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "KY",
+      "district": "2",
+      "status": "General",
+      "candidate1_name": "M. Wingfield",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL"
+    },
+    {
+      "state_code": "KY",
+      "district": "3",
+      "status": "General",
+      "candidate1_name": "Morgan McGarvey",
+      "candidate1_party": "D",
+      "candidate2_name": "M. Rodriguez",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "KY",
+      "district": "4",
+      "status": "General",
+      "candidate1_name": "Melissa Strange",
+      "candidate1_party": "D",
+      "candidate2_name": "Ed Gallrein",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "KY",
+      "district": "5",
+      "status": "General",
+      "candidate1_name": "Ned Pillersdorf",
+      "candidate1_party": "D",
+      "candidate2_name": "Kevin Smith",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "KY",
+      "district": "6",
+      "status": "General",
+      "candidate1_name": "Zach Dembo",
+      "candidate1_party": "D",
+      "candidate2_name": "Robert Alvarado",
+      "candidate2_party": "R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\nKY\t1\tGeneral\tJohn Williams\tD\tDavid Sims\tR\nKY\t2\tGeneral\tM. Wingfield\tD\tNULL\tNULL\nKY\t3\tGeneral\tMorgan McGarvey\tD\tM. Rodriguez\tR\nKY\t4\tGeneral\tMelissa Strange\tD\tEd Gallrein\tR\nKY\t5\tGeneral\tNed Pillersdorf\tD\tKevin Smith\tR\nKY\t6\tGeneral\tZach Dembo\tD\tRobert Alvarado\tR\n",
+  "stderr": "",
+  "execution_time_ms": 492
+}

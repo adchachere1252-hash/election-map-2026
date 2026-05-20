@@ -1,0 +1,136 @@
+{
+  "query": "SELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'NC' ORDER BY CAST(district AS UNSIGNED);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'NC' ORDER BY CAST(district AS UNSIGNED);",
+  "rows": [
+    {
+      "state_code": "NC",
+      "district": "1",
+      "status": "General",
+      "candidate1_name": "Donald Davis",
+      "candidate1_party": "D",
+      "candidate2_name": "Laurie Buckhout",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "NC",
+      "district": "2",
+      "status": "Scheduled",
+      "candidate1_name": "Deborah K. Ross",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL"
+    },
+    {
+      "state_code": "NC",
+      "district": "3",
+      "status": "Scheduled",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Greg Murphy",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "NC",
+      "district": "4",
+      "status": "Scheduled",
+      "candidate1_name": "Valerie Foushee",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "NC",
+      "district": "5",
+      "status": "General",
+      "candidate1_name": "Chuck Hubbard",
+      "candidate1_party": "D",
+      "candidate2_name": "Virginia Foxx",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "NC",
+      "district": "6",
+      "status": "Scheduled",
+      "candidate1_name": "Cyril Jefferson",
+      "candidate1_party": "D",
+      "candidate2_name": "Addison P. McDowell",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "NC",
+      "district": "7",
+      "status": "Scheduled",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "David Rouzer",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "NC",
+      "district": "8",
+      "status": "General",
+      "candidate1_name": "Colby Watson",
+      "candidate1_party": "D",
+      "candidate2_name": "Mark Harris",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "NC",
+      "district": "9",
+      "status": "General",
+      "candidate1_name": "Richard Ojeda",
+      "candidate1_party": "D",
+      "candidate2_name": "Richard Hudson",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "NC",
+      "district": "10",
+      "status": "General",
+      "candidate1_name": "Ashley Bell",
+      "candidate1_party": "D",
+      "candidate2_name": "Pat Harrigan",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "NC",
+      "district": "11",
+      "status": "General",
+      "candidate1_name": "Jamie Ager",
+      "candidate1_party": "D",
+      "candidate2_name": "Chuck Edwards",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "NC",
+      "district": "12",
+      "status": "General",
+      "candidate1_name": "Alma S. Adams",
+      "candidate1_party": "D",
+      "candidate2_name": "Jack Codiga",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "NC",
+      "district": "13",
+      "status": "General",
+      "candidate1_name": "Paul Barringer",
+      "candidate1_party": "D",
+      "candidate2_name": "Brad Knott",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "NC",
+      "district": "14",
+      "status": "General",
+      "candidate1_name": "Lakesha Womack",
+      "candidate1_party": "D",
+      "candidate2_name": "Tim Moore",
+      "candidate2_party": "R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\nNC\t1\tGeneral\tDonald Davis\tD\tLaurie Buckhout\tR\nNC\t2\tScheduled\tDeborah K. Ross\tD\tNULL\tNULL\nNC\t3\tScheduled\tNULL\tD\tGreg Murphy\tR\nNC\t4\tScheduled\tValerie Foushee\tD\tNULL\tR\nNC\t5\tGeneral\tChuck Hubbard\tD\tVirginia Foxx\tR\nNC\t6\tScheduled\tCyril Jefferson\tD\tAddison P. McDowell\tR\nNC\t7\tScheduled\tNULL\tD\tDavid Rouzer\tR\nNC\t8\tGeneral\tColby Watson\tD\tMark Harris\tR\nNC\t9\tGeneral\tRichard Ojeda\tD\tRichard Hudson\tR\nNC\t10\tGeneral\tAshley Bell\tD\tPat Harrigan\tR\nNC\t11\tGeneral\tJamie Ager\tD\tChuck Edwards\tR\nNC\t12\tGeneral\tAlma S. Adams\tD\tJack Codiga\tR\nNC\t13\tGeneral\tPaul Barringer\tD\tBrad Knott\tR\nNC\t14\tGeneral\tLakesha Womack\tD\tTim Moore\tR\n",
+  "stderr": "",
+  "execution_time_ms": 267
+}

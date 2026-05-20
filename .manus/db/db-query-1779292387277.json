@@ -1,0 +1,190 @@
+{
+  "query": "SELECT state_code, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating\nFROM senate_races \nORDER BY state_code LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating\nFROM senate_races \nORDER BY state_code LIMIT 20;",
+  "rows": [
+    {
+      "state_code": "AK",
+      "status": "Scheduled",
+      "candidate1_name": "Mary Peltola",
+      "candidate1_party": "D",
+      "candidate2_name": "Dan Sullivan",
+      "candidate2_party": "R",
+      "rating": "Lean R"
+    },
+    {
+      "state_code": "AL",
+      "status": "Primary Runoff",
+      "candidate1_name": "Everett Wess → Dakarai Larriett (D Runoff, June 16)",
+      "candidate1_party": "D",
+      "candidate2_name": "Barry Moore → Jared Hudson (R Runoff, June 16)",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "AR",
+      "status": "General",
+      "candidate1_name": "Hallie Shoffner",
+      "candidate1_party": "D",
+      "candidate2_name": "Tom Cotton",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "CO",
+      "status": "Scheduled",
+      "candidate1_name": "John Hickenlooper",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: June 30, 2026",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "DE",
+      "status": "Scheduled",
+      "candidate1_name": "Chris Coons",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Republican Primary",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "FL",
+      "status": "Scheduled",
+      "candidate1_name": "TBD — D Primary: Aug 18, 2026 (Grayson, Vindman, Nixon, Jenkins, Weil, and others)",
+      "candidate1_party": "D",
+      "candidate2_name": "Ashley Moody",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "GA",
+      "status": "Primary Runoff",
+      "candidate1_name": "Jon Ossoff (D, uncontested)",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Collins → Derek Dooley (R Runoff, June 16)",
+      "candidate2_party": "R",
+      "rating": "Lean D"
+    },
+    {
+      "state_code": "IA",
+      "status": "Scheduled",
+      "candidate1_name": "TBD — D Primary: June 2, 2026 (Turek, Wahls)",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: June 2, 2026 (Carlin, Hinson)",
+      "candidate2_party": "R",
+      "rating": "Likely R"
+    },
+    {
+      "state_code": "ID",
+      "status": "General",
+      "candidate1_name": "David Roth",
+      "candidate1_party": "D",
+      "candidate2_name": "Jim Risch",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "IL",
+      "status": "General",
+      "candidate1_name": "Juliana Stratton",
+      "candidate1_party": "D",
+      "candidate2_name": "Don Tracy",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "KS",
+      "status": "Scheduled",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate1_party": "D",
+      "candidate2_name": "Roger Marshall",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "KY",
+      "status": "General",
+      "candidate1_name": "Andy Barr",
+      "candidate1_party": "R",
+      "candidate2_name": "Charles Booker",
+      "candidate2_party": "D",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "LA",
+      "status": "Primary Runoff",
+      "candidate1_name": "Julia Letlow → John Fleming (R Runoff, June 16)",
+      "candidate1_party": "R",
+      "candidate2_name": "Jamie Davis → Gary Crockett (D Runoff, June 16)",
+      "candidate2_party": "D",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "MA",
+      "status": "Scheduled",
+      "candidate1_name": "Ed Markey",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Republican Primary",
+      "candidate2_party": "R",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "ME",
+      "status": "Scheduled",
+      "candidate1_name": "Graham Platner",
+      "candidate1_party": "D",
+      "candidate2_name": "Susan Collins",
+      "candidate2_party": "R",
+      "rating": "Lean R"
+    },
+    {
+      "state_code": "MI",
+      "status": "Scheduled",
+      "candidate1_name": "TBD — D Primary: Aug 4, 2026 (El-Sayed, McMorrow, Stevens, Howard)",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Rogers",
+      "candidate2_party": "R",
+      "rating": "Toss-up"
+    },
+    {
+      "state_code": "MN",
+      "status": "Scheduled",
+      "candidate1_name": "TBD — D Primary: Aug 11, 2026 (Flanagan, Craig, Nord)",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Aug 11, 2026 (Tafoya, White)",
+      "candidate2_party": "R",
+      "rating": "Likely D"
+    },
+    {
+      "state_code": "MS",
+      "status": "General",
+      "candidate1_name": "Scott Colom",
+      "candidate1_party": "D",
+      "candidate2_name": "Cindy Hyde-Smith",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "MT",
+      "status": "Scheduled",
+      "candidate1_name": "TBD — D Primary: June 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: June 2, 2026 (Alme, Calhoun)",
+      "candidate2_party": "R",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "NC",
+      "status": "General",
+      "candidate1_name": "Roy Cooper",
+      "candidate1_party": "D",
+      "candidate2_name": "Michael Whatley",
+      "candidate2_party": "R",
+      "rating": "Lean D"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\trating\nAK\tScheduled\tMary Peltola\tD\tDan Sullivan\tR\tLean R\nAL\tPrimary Runoff\tEverett Wess → Dakarai Larriett (D Runoff, June 16)\tD\tBarry Moore → Jared Hudson (R Runoff, June 16)\tR\tSolid R\nAR\tGeneral\tHallie Shoffner\tD\tTom Cotton\tR\tSolid R\nCO\tScheduled\tJohn Hickenlooper\tD\tTBD — R Primary: June 30, 2026\tR\tSolid D\nDE\tScheduled\tChris Coons\tD\tTBD — Republican Primary\tR\tSolid D\nFL\tScheduled\tTBD — D Primary: Aug 18, 2026 (Grayson, Vindman, Nixon, Jenkins, Weil, and others)\tD\tAshley Moody\tR\tSolid R\nGA\tPrimary Runoff\tJon Ossoff (D, uncontested)\tD\tMike Collins → Derek Dooley (R Runoff, June 16)\tR\tLean D\nIA\tScheduled\tTBD — D Primary: June 2, 2026 (Turek, Wahls)\tD\tTBD — R Primary: June 2, 2026 (Carlin, Hinson)\tR\tLikely R\nID\tGeneral\tDavid Roth\tD\tJim Risch\tR\tSolid R\nIL\tGeneral\tJuliana Stratton\tD\tDon Tracy\tR\tSolid D\nKS\tScheduled\tTBD — Democratic Primary\tD\tRoger Marshall\tR\tSolid R\nKY\tGeneral\tAndy Barr\tR\tCharles Booker\tD\tSolid R\nLA\tPrimary Runoff\tJulia Letlow → John Fleming (R Runoff, June 16)\tR\tJamie Davis → Gary Crockett (D Runoff, June 16)\tD\tSolid R\nMA\tScheduled\tEd Markey\tD\tTBD — Republican Primary\tR\tSolid D\nME\tScheduled\tGraham Platner\tD\tSusan Collins\tR\tLean R\nMI\tScheduled\tTBD — D Primary: Aug 4, 2026 (El-Sayed, McMorrow, Stevens, Howard)\tD\tMike Rogers\tR\tToss-up\nMN\tScheduled\tTBD — D Primary: Aug 11, 2026 (Flanagan, Craig, Nord)\tD\tTBD — R Primary: Aug 11, 2026 (Tafoya, White)\tR\tLikely D\nMS\tGeneral\tScott Colom\tD\tCindy Hyde-Smith\tR\tSolid R\nMT\tScheduled\tTBD — D Primary: June 2, 2026\tD\tTBD — R Primary: June 2, 2026 (Alme, Calhoun)\tR\tSolid R\nNC\tGeneral\tRoy Cooper\tD\tMichael Whatley\tR\tLean D\n",
+  "stderr": "",
+  "execution_time_ms": 271
+}

@@ -1,0 +1,55 @@
+{
+  "query": "-- TX-1: Remove stale candidate2 (Dax Alexander - he's in the runoff, not the R nominee)\nUPDATE house_races SET candidate2_name = 'N. Moran', candidate2_party = 'R'\nWHERE state_code = 'TX' AND district = '1';\n\n-- TX-5: Remove stale candidate2 (Chelsey Hockett - she's in the runoff, not the R nominee)\nUPDATE house_races SET candidate2_name = 'Lance Gooden', candidate2_party = 'R'\nWHERE state_code = 'TX' AND district = '5';\n\n-- TX-7: Remove stale candidate1 (Alexander Hale - he's in the runoff)\nUPDATE house_races SET candidate1_name = 'Lizzie Fletcher', candidate1_party = 'D'\nWHERE state_code = 'TX' AND district = '7';\n\n-- TX-9: Remove stale candidate1 (Briscoe Cain - he's in the runoff)\nUPDATE house_races SET candidate1_name = 'Lorenzo Gutierrez', candidate1_party = 'D'\nWHERE state_code = 'TX' AND district = '9';\n\n-- TX-14: Remove stale candidate2 (Richard Davis - he's in the D runoff, no R candidate yet)\nUPDATE house_races SET candidate2_name = NULL, candidate2_party = NULL\nWHERE state_code = 'TX' AND district = '14';\n\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'TX' AND district IN ('1','5','7','9','14') ORDER BY CAST(district AS UNSIGNED);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- TX-1: Remove stale candidate2 (Dax Alexander - he's in the runoff, not the R nominee)\nUPDATE house_races SET candidate2_name = 'N. Moran', candidate2_party = 'R'\nWHERE state_code = 'TX' AND district = '1';\n\n-- TX-5: Remove stale candidate2 (Chelsey Hockett - she's in the runoff, not the R nominee)\nUPDATE house_races SET candidate2_name = 'Lance Gooden', candidate2_party = 'R'\nWHERE state_code = 'TX' AND district = '5';\n\n-- TX-7: Remove stale candidate1 (Alexander Hale - he's in the runoff)\nUPDATE house_races SET candidate1_name = 'Lizzie Fletcher', candidate1_party = 'D'\nWHERE state_code = 'TX' AND district = '7';\n\n-- TX-9: Remove stale candidate1 (Briscoe Cain - he's in the runoff)\nUPDATE house_races SET candidate1_name = 'Lorenzo Gutierrez', candidate1_party = 'D'\nWHERE state_code = 'TX' AND district = '9';\n\n-- TX-14: Remove stale candidate2 (Richard Davis - he's in the D runoff, no R candidate yet)\nUPDATE house_races SET candidate2_name = NULL, candidate2_party = NULL\nWHERE state_code = 'TX' AND district = '14';\n\nSELECT state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party \nFROM house_races WHERE state_code = 'TX' AND district IN ('1','5','7','9','14') ORDER BY CAST(district AS UNSIGNED);",
+  "rows": [
+    {
+      "state_code": "TX",
+      "district": "1",
+      "status": "Primary Runoff",
+      "candidate1_name": "Y. Prince / D. Alexander (D Runoff)",
+      "candidate1_party": "D",
+      "candidate2_name": "N. Moran",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "5",
+      "status": "Primary Runoff",
+      "candidate1_name": "C. Hockett / R. Torres (D Runoff)",
+      "candidate1_party": "D",
+      "candidate2_name": "Lance Gooden",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "7",
+      "status": "Primary Runoff",
+      "candidate1_name": "Lizzie Fletcher",
+      "candidate1_party": "D",
+      "candidate2_name": "A. Hale / T. Cohen (R Runoff)",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "9",
+      "status": "Primary Runoff",
+      "candidate1_name": "Lorenzo Gutierrez",
+      "candidate1_party": "D",
+      "candidate2_name": "A. Mealer / B. Cain (R Runoff)",
+      "candidate2_party": "R"
+    },
+    {
+      "state_code": "TX",
+      "district": "14",
+      "status": "Primary Runoff",
+      "candidate1_name": "T. Bartie / R. Davis (D Runoff)",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\nTX\t1\tPrimary Runoff\tY. Prince / D. Alexander (D Runoff)\tD\tN. Moran\tR\nTX\t5\tPrimary Runoff\tC. Hockett / R. Torres (D Runoff)\tD\tLance Gooden\tR\nTX\t7\tPrimary Runoff\tLizzie Fletcher\tD\tA. Hale / T. Cohen (R Runoff)\tR\nTX\t9\tPrimary Runoff\tLorenzo Gutierrez\tD\tA. Mealer / B. Cain (R Runoff)\tR\nTX\t14\tPrimary Runoff\tT. Bartie / R. Davis (D Runoff)\tD\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 314
+}

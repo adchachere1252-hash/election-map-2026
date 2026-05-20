@@ -1,0 +1,205 @@
+{
+  "query": "-- Count Scheduled races by state to understand what's upcoming\nSELECT state_code, COUNT(*) as scheduled_count, MIN(primary_date) as earliest_primary\nFROM house_races \nWHERE status = 'Scheduled'\nGROUP BY state_code\nORDER BY earliest_primary, state_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- Count Scheduled races by state to understand what's upcoming\nSELECT state_code, COUNT(*) as scheduled_count, MIN(primary_date) as earliest_primary\nFROM house_races \nWHERE status = 'Scheduled'\nGROUP BY state_code\nORDER BY earliest_primary, state_code;",
+  "rows": [
+    {
+      "state_code": "AL",
+      "scheduled_count": "4",
+      "earliest_primary": "Aug 11, 2026"
+    },
+    {
+      "state_code": "CT",
+      "scheduled_count": "5",
+      "earliest_primary": "Aug 11, 2026"
+    },
+    {
+      "state_code": "MN",
+      "scheduled_count": "8",
+      "earliest_primary": "Aug 11, 2026"
+    },
+    {
+      "state_code": "VT",
+      "scheduled_count": "1",
+      "earliest_primary": "Aug 11, 2026"
+    },
+    {
+      "state_code": "WI",
+      "scheduled_count": "8",
+      "earliest_primary": "Aug 11, 2026"
+    },
+    {
+      "state_code": "AK",
+      "scheduled_count": "1",
+      "earliest_primary": "Aug 18, 2026"
+    },
+    {
+      "state_code": "FL",
+      "scheduled_count": "26",
+      "earliest_primary": "Aug 18, 2026"
+    },
+    {
+      "state_code": "WY",
+      "scheduled_count": "1",
+      "earliest_primary": "Aug 18, 2026"
+    },
+    {
+      "state_code": "KS",
+      "scheduled_count": "4",
+      "earliest_primary": "Aug 4, 2026"
+    },
+    {
+      "state_code": "MI",
+      "scheduled_count": "13",
+      "earliest_primary": "Aug 4, 2026"
+    },
+    {
+      "state_code": "MO",
+      "scheduled_count": "8",
+      "earliest_primary": "Aug 4, 2026"
+    },
+    {
+      "state_code": "VA",
+      "scheduled_count": "10",
+      "earliest_primary": "Aug 4, 2026"
+    },
+    {
+      "state_code": "WA",
+      "scheduled_count": "10",
+      "earliest_primary": "Aug 4, 2026"
+    },
+    {
+      "state_code": "TN",
+      "scheduled_count": "8",
+      "earliest_primary": "Aug 6, 2026"
+    },
+    {
+      "state_code": "HI",
+      "scheduled_count": "2",
+      "earliest_primary": "Aug 8, 2026"
+    },
+    {
+      "state_code": "AZ",
+      "scheduled_count": "8",
+      "earliest_primary": "Jul 21, 2026"
+    },
+    {
+      "state_code": "LA",
+      "scheduled_count": "6",
+      "earliest_primary": "July 15, 2026"
+    },
+    {
+      "state_code": "OK",
+      "scheduled_count": "5",
+      "earliest_primary": "Jun 16, 2026"
+    },
+    {
+      "state_code": "CA",
+      "scheduled_count": "51",
+      "earliest_primary": "Jun 16, 2026 (Special Primary)"
+    },
+    {
+      "state_code": "IA",
+      "scheduled_count": "4",
+      "earliest_primary": "Jun 2, 2026"
+    },
+    {
+      "state_code": "MT",
+      "scheduled_count": "2",
+      "earliest_primary": "Jun 2, 2026"
+    },
+    {
+      "state_code": "NJ",
+      "scheduled_count": "11",
+      "earliest_primary": "Jun 2, 2026"
+    },
+    {
+      "state_code": "NM",
+      "scheduled_count": "3",
+      "earliest_primary": "Jun 2, 2026"
+    },
+    {
+      "state_code": "SD",
+      "scheduled_count": "1",
+      "earliest_primary": "Jun 2, 2026"
+    },
+    {
+      "state_code": "MD",
+      "scheduled_count": "8",
+      "earliest_primary": "Jun 23, 2026"
+    },
+    {
+      "state_code": "NY",
+      "scheduled_count": "26",
+      "earliest_primary": "Jun 23, 2026"
+    },
+    {
+      "state_code": "UT",
+      "scheduled_count": "4",
+      "earliest_primary": "Jun 23, 2026"
+    },
+    {
+      "state_code": "CO",
+      "scheduled_count": "8",
+      "earliest_primary": "Jun 30, 2026"
+    },
+    {
+      "state_code": "ME",
+      "scheduled_count": "2",
+      "earliest_primary": "Jun 9, 2026"
+    },
+    {
+      "state_code": "ND",
+      "scheduled_count": "1",
+      "earliest_primary": "Jun 9, 2026"
+    },
+    {
+      "state_code": "NV",
+      "scheduled_count": "4",
+      "earliest_primary": "Jun 9, 2026"
+    },
+    {
+      "state_code": "SC",
+      "scheduled_count": "7",
+      "earliest_primary": "Jun 9, 2026"
+    },
+    {
+      "state_code": "IL",
+      "scheduled_count": "1",
+      "earliest_primary": "Mar 17, 2026"
+    },
+    {
+      "state_code": "NC",
+      "scheduled_count": "1",
+      "earliest_primary": "Mar 3, 2026"
+    },
+    {
+      "state_code": "TX",
+      "scheduled_count": "7",
+      "earliest_primary": "Mar 3, 2026"
+    },
+    {
+      "state_code": "MA",
+      "scheduled_count": "9",
+      "earliest_primary": "Sep 1, 2026"
+    },
+    {
+      "state_code": "DE",
+      "scheduled_count": "1",
+      "earliest_primary": "Sep 15, 2026"
+    },
+    {
+      "state_code": "NH",
+      "scheduled_count": "2",
+      "earliest_primary": "Sep 8, 2026"
+    },
+    {
+      "state_code": "RI",
+      "scheduled_count": "2",
+      "earliest_primary": "Sep 8, 2026"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tscheduled_count\tearliest_primary\nAL\t4\tAug 11, 2026\nCT\t5\tAug 11, 2026\nMN\t8\tAug 11, 2026\nVT\t1\tAug 11, 2026\nWI\t8\tAug 11, 2026\nAK\t1\tAug 18, 2026\nFL\t26\tAug 18, 2026\nWY\t1\tAug 18, 2026\nKS\t4\tAug 4, 2026\nMI\t13\tAug 4, 2026\nMO\t8\tAug 4, 2026\nVA\t10\tAug 4, 2026\nWA\t10\tAug 4, 2026\nTN\t8\tAug 6, 2026\nHI\t2\tAug 8, 2026\nAZ\t8\tJul 21, 2026\nLA\t6\tJuly 15, 2026\nOK\t5\tJun 16, 2026\nCA\t51\tJun 16, 2026 (Special Primary)\nIA\t4\tJun 2, 2026\nMT\t2\tJun 2, 2026\nNJ\t11\tJun 2, 2026\nNM\t3\tJun 2, 2026\nSD\t1\tJun 2, 2026\nMD\t8\tJun 23, 2026\nNY\t26\tJun 23, 2026\nUT\t4\tJun 23, 2026\nCO\t8\tJun 30, 2026\nME\t2\tJun 9, 2026\nND\t1\tJun 9, 2026\nNV\t4\tJun 9, 2026\nSC\t7\tJun 9, 2026\nIL\t1\tMar 17, 2026\nNC\t1\tMar 3, 2026\nTX\t7\tMar 3, 2026\nMA\t9\tSep 1, 2026\nDE\t1\tSep 15, 2026\nNH\t2\tSep 8, 2026\nRI\t2\tSep 8, 2026\n",
+  "stderr": "",
+  "execution_time_ms": 265
+}
