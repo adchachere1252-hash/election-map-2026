@@ -1,0 +1,70 @@
+{
+  "query": "\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, pct_reporting\nFROM house_races\nWHERE state_code = 'OR'\nORDER BY district;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, pct_reporting\nFROM house_races\nWHERE state_code = 'OR'\nORDER BY district;\n",
+  "rows": [
+    {
+      "state_code": "OR",
+      "district": "1",
+      "candidate1_name": "Suzanne Bonamici",
+      "candidate1_party": "D",
+      "candidate2_name": "Barbara Kahl",
+      "candidate2_party": "R",
+      "status": "General",
+      "pct_reporting": "79.30"
+    },
+    {
+      "state_code": "OR",
+      "district": "2",
+      "candidate1_name": "NULL",
+      "candidate1_party": "NULL",
+      "candidate2_name": "Cliff Bentz",
+      "candidate2_party": "R",
+      "status": "General",
+      "pct_reporting": "84.60"
+    },
+    {
+      "state_code": "OR",
+      "district": "3",
+      "candidate1_name": "Maxine Dexter",
+      "candidate1_party": "D",
+      "candidate2_name": "Loran Ayles",
+      "candidate2_party": "R",
+      "status": "General",
+      "pct_reporting": "64.40"
+    },
+    {
+      "state_code": "OR",
+      "district": "4",
+      "candidate1_name": "Val Hoyle",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "General",
+      "pct_reporting": "78.70"
+    },
+    {
+      "state_code": "OR",
+      "district": "5",
+      "candidate1_name": "Janelle Bynum",
+      "candidate1_party": "D",
+      "candidate2_name": "Patti Adair",
+      "candidate2_party": "R",
+      "status": "General",
+      "pct_reporting": "67.50"
+    },
+    {
+      "state_code": "OR",
+      "district": "6",
+      "candidate1_name": "Andrea Salinas",
+      "candidate1_party": "D",
+      "candidate2_name": "David Russ",
+      "candidate2_party": "R",
+      "status": "General",
+      "pct_reporting": "0.00"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tpct_reporting\nOR\t1\tSuzanne Bonamici\tD\tBarbara Kahl\tR\tGeneral\t79.30\nOR\t2\tNULL\tNULL\tCliff Bentz\tR\tGeneral\t84.60\nOR\t3\tMaxine Dexter\tD\tLoran Ayles\tR\tGeneral\t64.40\nOR\t4\tVal Hoyle\tD\tNULL\tNULL\tGeneral\t78.70\nOR\t5\tJanelle Bynum\tD\tPatti Adair\tR\tGeneral\t67.50\nOR\t6\tAndrea Salinas\tD\tDavid Russ\tR\tGeneral\t0.00\n",
+  "stderr": "",
+  "execution_time_ms": 270
+}

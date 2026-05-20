@@ -1,0 +1,9 @@
+{
+  "query": "\nUPDATE governor_races\nSET \n  notes = 'R primary runoff (July 2026): Burt Jones (Lt. Governor, Trump-endorsed) vs. Rick Jackson. Winner faces Keisha Lance Bottoms (D) in November.',\n  rep_previous_office = NULL,\n  rep_bio = NULL,\n  other_candidate_name = 'Burt Jones, Rick Jackson',\n  other_candidate_party = 'R'\nWHERE state_code = 'GA';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nUPDATE governor_races\nSET \n  notes = 'R primary runoff (July 2026): Burt Jones (Lt. Governor, Trump-endorsed) vs. Rick Jackson. Winner faces Keisha Lance Bottoms (D) in November.',\n  rep_previous_office = NULL,\n  rep_bio = NULL,\n  other_candidate_name = 'Burt Jones, Rick Jackson',\n  other_candidate_party = 'R'\nWHERE state_code = 'GA';\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 262
+}

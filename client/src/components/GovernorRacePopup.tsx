@@ -531,8 +531,8 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
           </div>
         </div>
 
-        {/* Analyst consensus / notes — shown for non-General statuses only */}
-        {race.notes && !isGeneral && (
+        {/* Analyst consensus / notes — shown for non-General, non-runoff statuses only */}
+        {race.notes && !isGeneral && race.status !== 'Primary Runoff' && (
           <div className="p-2.5 rounded-lg bg-muted/30 border border-border/50">
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-1">
               Analyst Consensus
