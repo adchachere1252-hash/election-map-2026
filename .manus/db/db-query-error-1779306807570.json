@@ -1,0 +1,8 @@
+{
+  "query": "SELECT state_code, state_name, dem_candidate, rep_candidate, dem_photo_url, rep_photo_url, status FROM governor_races WHERE dem_candidate IS NOT NULL AND dem_candidate NOT LIKE 'TBD%' AND rep_candidate IS NOT NULL AND rep_candidate NOT LIKE 'TBD%' ORDER BY state_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, dem_candidate, rep_candidate, dem_photo_url, rep_photo_url, status FROM governor_races WHERE dem_candidate IS NOT NULL AND dem_candidate NOT LIKE 'TBD%' AND rep_candidate IS NOT NULL AND rep_candidate NOT LIKE 'TBD%' ORDER BY state_code;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'dem_photo_url' in 'field list'"
+  ]
+}

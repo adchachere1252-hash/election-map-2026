@@ -1,0 +1,112 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'governor_races' ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'governor_races' ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "state_code"
+    },
+    {
+      "COLUMN_NAME": "state_name"
+    },
+    {
+      "COLUMN_NAME": "incumbent_name"
+    },
+    {
+      "COLUMN_NAME": "incumbent_party"
+    },
+    {
+      "COLUMN_NAME": "is_open"
+    },
+    {
+      "COLUMN_NAME": "is_term_limited"
+    },
+    {
+      "COLUMN_NAME": "previous_party"
+    },
+    {
+      "COLUMN_NAME": "rating"
+    },
+    {
+      "COLUMN_NAME": "primary_date"
+    },
+    {
+      "COLUMN_NAME": "runoff_date"
+    },
+    {
+      "COLUMN_NAME": "general_date"
+    },
+    {
+      "COLUMN_NAME": "is_special"
+    },
+    {
+      "COLUMN_NAME": "status"
+    },
+    {
+      "COLUMN_NAME": "called_party"
+    },
+    {
+      "COLUMN_NAME": "called_winner"
+    },
+    {
+      "COLUMN_NAME": "dem_votes"
+    },
+    {
+      "COLUMN_NAME": "rep_votes"
+    },
+    {
+      "COLUMN_NAME": "pct_reporting"
+    },
+    {
+      "COLUMN_NAME": "dem_candidate"
+    },
+    {
+      "COLUMN_NAME": "rep_candidate"
+    },
+    {
+      "COLUMN_NAME": "notes"
+    },
+    {
+      "COLUMN_NAME": "updated_at"
+    },
+    {
+      "COLUMN_NAME": "dem_previous_office"
+    },
+    {
+      "COLUMN_NAME": "rep_previous_office"
+    },
+    {
+      "COLUMN_NAME": "dem_bio"
+    },
+    {
+      "COLUMN_NAME": "rep_bio"
+    },
+    {
+      "COLUMN_NAME": "called_at"
+    },
+    {
+      "COLUMN_NAME": "other_candidate_name"
+    },
+    {
+      "COLUMN_NAME": "other_candidate_party"
+    },
+    {
+      "COLUMN_NAME": "other_votes"
+    },
+    {
+      "COLUMN_NAME": "other_vote_pct"
+    },
+    {
+      "COLUMN_NAME": "primary_winner"
+    },
+    {
+      "COLUMN_NAME": "primary_party"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\nstate_code\nstate_name\nincumbent_name\nincumbent_party\nis_open\nis_term_limited\nprevious_party\nrating\nprimary_date\nrunoff_date\ngeneral_date\nis_special\nstatus\ncalled_party\ncalled_winner\ndem_votes\nrep_votes\npct_reporting\ndem_candidate\nrep_candidate\nnotes\nupdated_at\ndem_previous_office\nrep_previous_office\ndem_bio\nrep_bio\ncalled_at\nother_candidate_name\nother_candidate_party\nother_votes\nother_vote_pct\nprimary_winner\nprimary_party\n",
+  "stderr": "",
+  "execution_time_ms": 263
+}

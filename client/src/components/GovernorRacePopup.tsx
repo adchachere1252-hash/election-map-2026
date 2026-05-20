@@ -106,7 +106,7 @@ function VoteBar({ demVotes, repVotes, otherVotes, pctReporting }: {
     <div className="mt-2">
       <div className="flex justify-between text-[10px] text-muted-foreground mb-1">
         <span>Dem {demPct.toFixed(1)}%</span>
-        {pctReporting !== null && <span>{pctReporting.toFixed(0)}% reporting</span>}
+        {pctReporting !== null && <span>{Number(pctReporting).toFixed(0)}% reporting</span>}
         <span>Rep {repPct.toFixed(1)}%</span>
       </div>
       <div className="h-2 rounded-full overflow-hidden flex bg-muted">

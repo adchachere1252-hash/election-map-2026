@@ -629,6 +629,9 @@ const CDN_PHOTOS: Record<string, string> = {
   "christine drazan":       `${CDN_BASE}/christine-drazan_bb481554.jpg`,
   "burt jones":             `${CDN_BASE}/burt-jones_08b2b196.jpg`,
   "rick jackson":           `${CDN_BASE}/rick-jackson_40d48fbc.jpg`,
+  // ID + NE Governor candidates
+  "terri pickens":          `${CDN_BASE}/terri-pickens_ca701396.jpg`,
+  "jim pillen":             `${CDN_BASE}/jim-pillen_dd46a1a3.jpg`,
 };
 
 /**
@@ -676,8 +679,13 @@ export function getCandidatePhotoUrl(name: string | null | undefined): string | 
   }
 
   // 3. Fallback to CDN photos for non-Congress candidates
+  // Try raw name first, then normalized variants (handles "(incumbent)" suffix etc.)
   const cdnKey = name.toLowerCase().trim();
   if (CDN_PHOTOS[cdnKey]) return CDN_PHOTOS[cdnKey];
+  for (const variant of normalizeName(name)) {
+    const normalizedCdnKey = variant.toLowerCase().trim();
+    if (CDN_PHOTOS[normalizedCdnKey]) return CDN_PHOTOS[normalizedCdnKey];
+  }
 
   return null;
 }
