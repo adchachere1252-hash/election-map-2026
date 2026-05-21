@@ -1,0 +1,80 @@
+{
+  "query": "SELECT state_code, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, incumbent FROM senate_races ORDER BY state_name LIMIT 20 OFFSET 28;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, incumbent FROM senate_races ORDER BY state_name LIMIT 20 OFFSET 28;",
+  "rows": [
+    {
+      "state_code": "SC",
+      "state_name": "South Carolina",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate1_party": "D",
+      "candidate2_name": "Lindsey Graham",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "incumbent": "Lindsey Graham"
+    },
+    {
+      "state_code": "SD",
+      "state_name": "South Dakota",
+      "candidate1_name": "Julian Beaudion",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Rounds (incumbent)",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "incumbent": "Mike Rounds"
+    },
+    {
+      "state_code": "TN",
+      "state_name": "Tennessee",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate1_party": "D",
+      "candidate2_name": "Bill Hagerty",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "incumbent": "Bill Hagerty"
+    },
+    {
+      "state_code": "TX",
+      "state_name": "Texas",
+      "candidate1_name": "James Talarico",
+      "candidate1_party": "D",
+      "candidate2_name": "John Cornyn → Ken Paxton (R Runoff, May 27)",
+      "candidate2_party": "R",
+      "status": "Primary Runoff",
+      "incumbent": "John Cornyn"
+    },
+    {
+      "state_code": "VA",
+      "state_name": "Virginia",
+      "candidate1_name": "Mark Warner",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Aug 4, 2026",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "incumbent": "Mark Warner"
+    },
+    {
+      "state_code": "WV",
+      "state_name": "West Virginia",
+      "candidate1_name": "Rachel Fetty Anderson",
+      "candidate1_party": "D",
+      "candidate2_name": "Shelley Moore Capito",
+      "candidate2_party": "R",
+      "status": "General",
+      "incumbent": "Shelley Moore Capito"
+    },
+    {
+      "state_code": "WY",
+      "state_name": "Wyoming",
+      "candidate1_name": "James W. Byrd",
+      "candidate1_party": "D",
+      "candidate2_name": "Harriet Hageman",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "incumbent": "Open Seat (John Barrasso not up)"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstate_name\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tincumbent\nSC\tSouth Carolina\tTBD — Democratic Primary\tD\tLindsey Graham\tR\tScheduled\tLindsey Graham\nSD\tSouth Dakota\tJulian Beaudion\tD\tMike Rounds (incumbent)\tR\tScheduled\tMike Rounds\nTN\tTennessee\tTBD — Democratic Primary\tD\tBill Hagerty\tR\tScheduled\tBill Hagerty\nTX\tTexas\tJames Talarico\tD\tJohn Cornyn → Ken Paxton (R Runoff, May 27)\tR\tPrimary Runoff\tJohn Cornyn\nVA\tVirginia\tMark Warner\tD\tTBD — R Primary: Aug 4, 2026\tR\tScheduled\tMark Warner\nWV\tWest Virginia\tRachel Fetty Anderson\tD\tShelley Moore Capito\tR\tGeneral\tShelley Moore Capito\nWY\tWyoming\tJames W. Byrd\tD\tHarriet Hageman\tR\tScheduled\tOpen Seat (John Barrasso not up)\n",
+  "stderr": "",
+  "execution_time_ms": 261
+}

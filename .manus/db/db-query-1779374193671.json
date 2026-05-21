@@ -1,0 +1,210 @@
+{
+  "query": "SELECT state_code, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, incumbent FROM senate_races ORDER BY state_name LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, incumbent FROM senate_races ORDER BY state_name LIMIT 20;",
+  "rows": [
+    {
+      "state_code": "AL",
+      "state_name": "Alabama",
+      "candidate1_name": "Everett Wess → Dakarai Larriett (D Runoff, June 16)",
+      "candidate1_party": "D",
+      "candidate2_name": "Barry Moore → Jared Hudson (R Runoff, June 16)",
+      "candidate2_party": "R",
+      "status": "Primary Runoff",
+      "incumbent": "Open Seat (Tommy Tuberville not up)"
+    },
+    {
+      "state_code": "AK",
+      "state_name": "Alaska",
+      "candidate1_name": "Mary Peltola",
+      "candidate1_party": "D",
+      "candidate2_name": "Dan Sullivan",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "incumbent": "Dan Sullivan"
+    },
+    {
+      "state_code": "AR",
+      "state_name": "Arkansas",
+      "candidate1_name": "Hallie Shoffner",
+      "candidate1_party": "D",
+      "candidate2_name": "Tom Cotton",
+      "candidate2_party": "R",
+      "status": "General",
+      "incumbent": "Tom Cotton"
+    },
+    {
+      "state_code": "CO",
+      "state_name": "Colorado",
+      "candidate1_name": "John Hickenlooper",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: June 30, 2026",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "incumbent": "John Hickenlooper"
+    },
+    {
+      "state_code": "DE",
+      "state_name": "Delaware",
+      "candidate1_name": "Chris Coons",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Republican Primary",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "incumbent": "Chris Coons"
+    },
+    {
+      "state_code": "FL",
+      "state_name": "Florida",
+      "candidate1_name": "TBD — D Primary: Aug 18, 2026 (Grayson, Vindman, Nixon, Jenkins, Weil, and others)",
+      "candidate1_party": "D",
+      "candidate2_name": "Ashley Moody",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "incumbent": "Ashley Moody (appointed)"
+    },
+    {
+      "state_code": "GA",
+      "state_name": "Georgia",
+      "candidate1_name": "Jon Ossoff (D, uncontested)",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Collins → Derek Dooley (R Runoff, June 16)",
+      "candidate2_party": "R",
+      "status": "Primary Runoff",
+      "incumbent": "Jon Ossoff"
+    },
+    {
+      "state_code": "ID",
+      "state_name": "Idaho",
+      "candidate1_name": "David Roth",
+      "candidate1_party": "D",
+      "candidate2_name": "Jim Risch",
+      "candidate2_party": "R",
+      "status": "General",
+      "incumbent": "Jim Risch"
+    },
+    {
+      "state_code": "IL",
+      "state_name": "Illinois",
+      "candidate1_name": "Juliana Stratton",
+      "candidate1_party": "D",
+      "candidate2_name": "Don Tracy",
+      "candidate2_party": "R",
+      "status": "General",
+      "incumbent": "Open Seat (Dick Durbin retiring)"
+    },
+    {
+      "state_code": "IA",
+      "state_name": "Iowa",
+      "candidate1_name": "TBD — D Primary: Josh Turek vs Zach Wahls (June 2)",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Jim Carlin vs Ashley Hinson (June 2)",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "incumbent": "Open Seat (Chuck Grassley retiring)"
+    },
+    {
+      "state_code": "KS",
+      "state_name": "Kansas",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate1_party": "D",
+      "candidate2_name": "Roger Marshall",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "incumbent": "Roger Marshall"
+    },
+    {
+      "state_code": "KY",
+      "state_name": "Kentucky",
+      "candidate1_name": "Charles Booker",
+      "candidate1_party": "D",
+      "candidate2_name": "Andy Barr",
+      "candidate2_party": "R",
+      "status": "General",
+      "incumbent": "Open Seat (Mitch McConnell retired)"
+    },
+    {
+      "state_code": "LA",
+      "state_name": "Louisiana",
+      "candidate1_name": "Jamie Davis → Gary Crockett (D Runoff, June 16)",
+      "candidate1_party": "D",
+      "candidate2_name": "Julia Letlow → John Fleming (R Runoff, June 16)",
+      "candidate2_party": "R",
+      "status": "Primary Runoff",
+      "incumbent": "Bill Cassidy"
+    },
+    {
+      "state_code": "ME",
+      "state_name": "Maine",
+      "candidate1_name": "Graham Platner",
+      "candidate1_party": "D",
+      "candidate2_name": "Susan Collins",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "incumbent": "Susan Collins"
+    },
+    {
+      "state_code": "MA",
+      "state_name": "Massachusetts",
+      "candidate1_name": "Ed Markey",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Republican Primary",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "incumbent": "Ed Markey"
+    },
+    {
+      "state_code": "MI",
+      "state_name": "Michigan",
+      "candidate1_name": "TBD — D Primary: Aug 4, 2026 (El-Sayed, McMorrow, Stevens, Howard)",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Rogers",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "incumbent": "Open Seat (Gary Peters retiring)"
+    },
+    {
+      "state_code": "MN",
+      "state_name": "Minnesota",
+      "candidate1_name": "TBD — D Primary: Aug 11, 2026 (Flanagan, Craig, Nord)",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Aug 11, 2026 (Tafoya, White)",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "incumbent": "Open Seat (Tina Smith retiring)"
+    },
+    {
+      "state_code": "MS",
+      "state_name": "Mississippi",
+      "candidate1_name": "Scott Colom",
+      "candidate1_party": "D",
+      "candidate2_name": "Cindy Hyde-Smith",
+      "candidate2_party": "R",
+      "status": "General",
+      "incumbent": "Cindy Hyde-Smith"
+    },
+    {
+      "state_code": "MT",
+      "state_name": "Montana",
+      "candidate1_name": "TBD — D Primary: June 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Kurt Alme vs Lee Calhoun vs Charles Walking Child (June 2)",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "incumbent": "Open Seat (Steve Daines not up — Jon Tester lost 2024)"
+    },
+    {
+      "state_code": "NE",
+      "state_name": "Nebraska",
+      "candidate1_name": "Cindy Burbank",
+      "candidate1_party": "D",
+      "candidate2_name": "Pete Ricketts",
+      "candidate2_party": "R",
+      "status": "General",
+      "incumbent": "Pete Ricketts"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstate_name\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tincumbent\nAL\tAlabama\tEverett Wess → Dakarai Larriett (D Runoff, June 16)\tD\tBarry Moore → Jared Hudson (R Runoff, June 16)\tR\tPrimary Runoff\tOpen Seat (Tommy Tuberville not up)\nAK\tAlaska\tMary Peltola\tD\tDan Sullivan\tR\tScheduled\tDan Sullivan\nAR\tArkansas\tHallie Shoffner\tD\tTom Cotton\tR\tGeneral\tTom Cotton\nCO\tColorado\tJohn Hickenlooper\tD\tTBD — R Primary: June 30, 2026\tR\tScheduled\tJohn Hickenlooper\nDE\tDelaware\tChris Coons\tD\tTBD — Republican Primary\tR\tScheduled\tChris Coons\nFL\tFlorida\tTBD — D Primary: Aug 18, 2026 (Grayson, Vindman, Nixon, Jenkins, Weil, and others)\tD\tAshley Moody\tR\tScheduled\tAshley Moody (appointed)\nGA\tGeorgia\tJon Ossoff (D, uncontested)\tD\tMike Collins → Derek Dooley (R Runoff, June 16)\tR\tPrimary Runoff\tJon Ossoff\nID\tIdaho\tDavid Roth\tD\tJim Risch\tR\tGeneral\tJim Risch\nIL\tIllinois\tJuliana Stratton\tD\tDon Tracy\tR\tGeneral\tOpen Seat (Dick Durbin retiring)\nIA\tIowa\tTBD — D Primary: Josh Turek vs Zach Wahls (June 2)\tD\tTBD — R Primary: Jim Carlin vs Ashley Hinson (June 2)\tR\tScheduled\tOpen Seat (Chuck Grassley retiring)\nKS\tKansas\tTBD — Democratic Primary\tD\tRoger Marshall\tR\tScheduled\tRoger Marshall\nKY\tKentucky\tCharles Booker\tD\tAndy Barr\tR\tGeneral\tOpen Seat (Mitch McConnell retired)\nLA\tLouisiana\tJamie Davis → Gary Crockett (D Runoff, June 16)\tD\tJulia Letlow → John Fleming (R Runoff, June 16)\tR\tPrimary Runoff\tBill Cassidy\nME\tMaine\tGraham Platner\tD\tSusan Collins\tR\tScheduled\tSusan Collins\nMA\tMassachusetts\tEd Markey\tD\tTBD — Republican Primary\tR\tScheduled\tEd Markey\nMI\tMichigan\tTBD — D Primary: Aug 4, 2026 (El-Sayed, McMorrow, Stevens, Howard)\tD\tMike Rogers\tR\tScheduled\tOpen Seat (Gary Peters retiring)\nMN\tMinnesota\tTBD — D Primary: Aug 11, 2026 (Flanagan, Craig, Nord)\tD\tTBD — R Primary: Aug 11, 2026 (Tafoya, White)\tR\tScheduled\tOpen Seat (Tina Smith retiring)\nMS\tMississippi\tScott Colom\tD\tCindy Hyde-Smith\tR\tGeneral\tCindy Hyde-Smith\nMT\tMontana\tTBD — D Primary: June 2, 2026\tD\tTBD — R Primary: Kurt Alme vs Lee Calhoun vs Charles Walking Child (June 2)\tR\tScheduled\tOpen Seat (Steve Daines not up — Jon Tester lost 2024)\nNE\tNebraska\tCindy Burbank\tD\tPete Ricketts\tR\tGeneral\tPete Ricketts\n",
+  "stderr": "",
+  "execution_time_ms": 256
+}

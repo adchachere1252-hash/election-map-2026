@@ -1,0 +1,42 @@
+{
+  "query": "SELECT state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status FROM senate_races WHERE state_code IN ('PA', 'FL', 'ID', 'OR', 'SD') ORDER BY state_name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status FROM senate_races WHERE state_code IN ('PA', 'FL', 'ID', 'OR', 'SD') ORDER BY state_name;",
+  "rows": [
+    {
+      "state_name": "Florida",
+      "candidate1_name": "TBD — D Primary: Aug 18, 2026 (Grayson, Vindman, Nixon, Jenkins, Weil, and others)",
+      "candidate1_party": "D",
+      "candidate2_name": "Ashley Moody",
+      "candidate2_party": "R",
+      "status": "Scheduled"
+    },
+    {
+      "state_name": "Idaho",
+      "candidate1_name": "David Roth",
+      "candidate1_party": "D",
+      "candidate2_name": "Jim Risch",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "state_name": "Oregon",
+      "candidate1_name": "Jeff Merkley",
+      "candidate1_party": "D",
+      "candidate2_name": "David Smith",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "state_name": "South Dakota",
+      "candidate1_name": "Julian Beaudion",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Rounds (incumbent)",
+      "candidate2_party": "R",
+      "status": "Scheduled"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_name\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\nFlorida\tTBD — D Primary: Aug 18, 2026 (Grayson, Vindman, Nixon, Jenkins, Weil, and others)\tD\tAshley Moody\tR\tScheduled\nIdaho\tDavid Roth\tD\tJim Risch\tR\tGeneral\nOregon\tJeff Merkley\tD\tDavid Smith\tR\tGeneral\nSouth Dakota\tJulian Beaudion\tD\tMike Rounds (incumbent)\tR\tScheduled\n",
+  "stderr": "",
+  "execution_time_ms": 266
+}

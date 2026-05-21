@@ -504,26 +504,26 @@ export const BIOGUIDE_MAP: Record<string, string> = {
 const CDN_BASE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663521029713/Duqshn4D3kdv9jkbtBdj4X";
 const CDN_PHOTOS: Record<string, string> = {
   // Previously uploaded
-  "juliana stratton":     `${CDN_BASE}/juliana-stratton_a6b800ae.jpg`,
+  "juliana stratton":     `${CDN_BASE}/juliana-stratton_5e692d1c.jpg`,  // sharpened HD
   "laurie buckhout":      `${CDN_BASE}/laurie-buckhout_18f4c9b7.jpg`,
   "tina smith":           `${CDN_BASE}/tina-smith_853cdf1a.jpg`,
   "jeanne shaheen":       `${CDN_BASE}/jeanne-shaheen_9a7397d7.jpg`,
   // Note: gary-peters and dick-durbin removed — both retiring, not running in 2026
   // Senate challengers / non-Congress candidates (Round 2)
-  "don tracy":            `${CDN_BASE}/don-tracy_3770cfc3.jpg`,
+  "don tracy":            `${CDN_BASE}/don-tracy_00be914e.jpg`,  // sharpened HD
   "earl carter":          `${CDN_BASE}/earl-carter_cba92698.jpg`,
   // michael whatley updated below with better portrait
   "ron kincaid":          `${CDN_BASE}/ron-kincaid_7bc5aec9.jpg`,
-  "graham platner":       `${CDN_BASE}/graham-platner_b9a8fdd2.jpg`,
-  "cindy burbank":        `${CDN_BASE}/cindy-burbank_7a45530c.jpg`,
-  "james talarico":       `${CDN_BASE}/james-talarico_80ead04e.jpg`,
+  "graham platner":       `${CDN_BASE}/graham-platner_9f3a16bc.jpg`,  // sharpened HD
+  "cindy burbank":        `${CDN_BASE}/cindy-burbank_96083831.jpg`,  // sharpened HD
+  "james talarico":       `${CDN_BASE}/james-talarico_3cdf6d87.jpg`,  // sharpened HD
   "john cornyn":          `${CDN_BASE}/john-cornyn_6230288e.jpg`,
-  "charles booker":       `${CDN_BASE}/charles-booker_c7f21579.jpg`,
-  "scott colom":          `${CDN_BASE}/scott-colom_77c97e30.jpg`,
-  "rachel fetty anderson":`${CDN_BASE}/rachel-fetty-anderson_de7b83b6.jpg`,
-  "james w. byrd":        `${CDN_BASE}/james-byrd_491067c8.jpg`,
-  "james byrd":           `${CDN_BASE}/james-byrd_491067c8.jpg`,
-  "hallie shoffner":      `${CDN_BASE}/hallie-shoffner_7fbd32e9.jpg`,
+  "charles booker":       `${CDN_BASE}/charles-booker_a8c546aa.jpg`,  // sharpened HD
+  "scott colom":          `${CDN_BASE}/scott-colom_f64015b6.jpg`,  // sharpened HD
+  "rachel fetty anderson":`${CDN_BASE}/rachel-fetty-anderson_df3ac766.jpg`,  // sharpened HD
+  "james w. byrd":        `${CDN_BASE}/james-byrd_0484d960.jpg`,  // sharpened HD
+  "james byrd":           `${CDN_BASE}/james-byrd_0484d960.jpg`,  // sharpened HD
+  "hallie shoffner":      `${CDN_BASE}/hallie-shoffner_f5291478.jpg`,  // sharpened HD
   "dakarai larriett":     `${CDN_BASE}/dakarai-larriett_eb9a26e2.jpg`,
   // Governor candidates (Round 3 — confirmed running in 2026)
   "wes moore":            `${CDN_BASE}/wes-moore_181f290a.jpg`,
@@ -542,7 +542,7 @@ const CDN_PHOTOS: Record<string, string> = {
   // OH-9: Derek Merrin won primary (Josh Williams lost), faces Marcy Kaptur
   "derek merrin":         `${CDN_BASE}/derek-merrin_431549e8.jpg`,
   // Michael Whatley updated portrait (replaces old side-by-side crop)
-  "michael whatley":      `${CDN_BASE}/michael-whatley_b5138cff.jpg`,
+  "michael whatley":      `${CDN_BASE}/michael-whatley_b8972d07.jpg`,  // sharpened HD
   // Governor candidates (Round 4 — incumbents + new challengers)
   "maura healey":         `${CDN_BASE}/maura-healey_38185e14.jpg`,
   "josh shapiro":         `${CDN_BASE}/josh-shapiro_4af6b942.jpg`,
@@ -561,12 +561,12 @@ const CDN_PHOTOS: Record<string, string> = {
   // TX Governor (Round 5)
   "greg abbott":          `${CDN_BASE}/greg-abbott_a1c32b47.jpg`,
   // OH Senate (Round 6) — Jon Husted (appointed R incumbent)
-  "jon husted":           `${CDN_BASE}/jon-husted_b39430c8.jpg`,
+  "jon husted":           `${CDN_BASE}/jon-husted_7cc5d67d.jpg`,  // sharpened HD
   // WV Senate (Round 6) — Jim Justice (R incumbent)
   "jim justice":          `${CDN_BASE}/jim-justice_9559bc9b.jpg`,
   // Governor photo audit (Round 7) — missing Governor candidates
   // Roy Cooper: bioguide C000760 returns 404 (never served in Congress), using CDN
-  "roy cooper":           `${CDN_BASE}/roy-cooper_be49f249.jpg`,
+  "roy cooper":           `${CDN_BASE}/roy-cooper_20ad9d0f.jpg`,  // sharpened HD
   "ned lamont":           `${CDN_BASE}/ned-lamont_24e0ecdd.jpg`,
   "joe lombardo":         `${CDN_BASE}/joe-lombardo_fb7e8617.jpg`,
   "larry rhoden":         `${CDN_BASE}/larry-rhoden_1ce6b32f.jpg`,
@@ -636,6 +636,12 @@ const CDN_PHOTOS: Record<string, string> = {
   "phil scott":             `${CDN_BASE}/phil-scott_6f4482cf.jpg`,
   // AR Governor candidates
   "fred love":              `${CDN_BASE}/fred-love-sharp_3b39f47a.jpg`,
+  // Senate audit (Round 10) — new candidates
+  "ashley moody":           `${CDN_BASE}/ashley-moody_20ecb424.jpg`,  // FL R Senator
+  "david roth":             `${CDN_BASE}/david-roth_1d92fd5c.jpg`,  // ID D challenger
+  "david smith":            `${CDN_BASE}/david-smith-or_6682773f.jpg`,  // OR R challenger
+  "julian beaudion":        `${CDN_BASE}/julian-beaudion_d87af6af.jpg`,  // SD D challenger
+  "dave mccormick":         `${CDN_BASE}/dave-mccormick_5fb329d8.jpg`,  // PA R Senator
 };
 
 /**
