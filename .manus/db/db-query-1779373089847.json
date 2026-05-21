@@ -1,0 +1,18 @@
+{
+  "query": "SELECT state_code, state_name, dem_candidate, rep_candidate, status, primary_date FROM governor_races WHERE dem_candidate IS NOT NULL AND rep_candidate IS NOT NULL AND dem_candidate NOT LIKE '%TBD%' AND rep_candidate NOT LIKE '%TBD%' AND status = 'Scheduled' ORDER BY state_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, dem_candidate, rep_candidate, status, primary_date FROM governor_races WHERE dem_candidate IS NOT NULL AND rep_candidate IS NOT NULL AND dem_candidate NOT LIKE '%TBD%' AND rep_candidate NOT LIKE '%TBD%' AND status = 'Scheduled' ORDER BY state_code;",
+  "rows": [
+    {
+      "state_code": "IL",
+      "state_name": "Illinois",
+      "dem_candidate": "J.B. Pritzker (incumbent)",
+      "rep_candidate": "Darren Bailey",
+      "status": "Scheduled",
+      "primary_date": "March 17, 2026"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstate_name\tdem_candidate\trep_candidate\tstatus\tprimary_date\nIL\tIllinois\tJ.B. Pritzker (incumbent)\tDarren Bailey\tScheduled\tMarch 17, 2026\n",
+  "stderr": "",
+  "execution_time_ms": 261
+}

@@ -530,8 +530,8 @@ const CDN_PHOTOS: Record<string, string> = {
   "kathy hochul":         `${CDN_BASE}/kathy-hochul_ad50280c.jpg`,
   "darren bailey":        `${CDN_BASE}/darren-bailey_a50797b3.jpg`,
   "rob sand":             `${CDN_BASE}/rob-sand_f46705e4.jpg`,
-  "j.b. pritzker":        `${CDN_BASE}/jb-pritzker_09c03720.jpg`,
-  "jb pritzker":          `${CDN_BASE}/jb-pritzker_09c03720.jpg`,
+  "j.b. pritzker":        `${CDN_BASE}/jb-pritzker-hd_48b33ad9.jpg`,
+  "jb pritzker":          `${CDN_BASE}/jb-pritzker-hd_48b33ad9.jpg`,
   "amy klobuchar":        `${CDN_BASE}/amy-klobuchar_4167e3f7.jpg`,
   // House competitive candidates (Round 3)
   "frank mrvan":          `${CDN_BASE}/frank-mrvan_edfce460.jpg`,
@@ -624,18 +624,18 @@ const CDN_PHOTOS: Record<string, string> = {
   // Governor candidates — May 19 2026 primaries
   "tommy tuberville":       `${PHOTO_BASE}/T000278.jpg`,
   "doug jones":             `${CDN_BASE}/doug-jones_68b7351c.png`,  // bioguide J000300 returns 404
-  "stacy garrity":          `${CDN_BASE}/stacy-garrity_bc758a4e.jpg`,
+  "stacy garrity":          `${CDN_BASE}/stacy-garrity-hd_01cbe5af.png`,
   "keisha lance bottoms":   `${CDN_BASE}/keisha-lance-bottoms_ded16f80.jpg`,
   "christine drazan":       `${CDN_BASE}/christine-drazan_bb481554.jpg`,
   "burt jones":             `${CDN_BASE}/burt-jones_08b2b196.jpg`,
   "rick jackson":           `${CDN_BASE}/rick-jackson_40d48fbc.jpg`,
   // ID + NE Governor candidates
   "terri pickens":          `${CDN_BASE}/terri-pickens_ca701396.jpg`,
-  "jim pillen":             `${CDN_BASE}/jim-pillen-v2_19e7bb9b.jpg`,  // updated to official governor portrait
+  "jim pillen":             `${CDN_BASE}/jim-pillen-hd2_0c531716.jpg`,  // updated to official governor portrait
   // VT Governor incumbent
   "phil scott":             `${CDN_BASE}/phil-scott_6f4482cf.jpg`,
   // AR Governor candidates
-  "fred love":              `${CDN_BASE}/fred-love_2966db99.jpg`,
+  "fred love":              `${CDN_BASE}/fred-love-hd_d8008fcf.jpg`,
 };
 
 /**
