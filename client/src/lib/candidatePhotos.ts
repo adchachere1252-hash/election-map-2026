@@ -642,6 +642,8 @@ const CDN_PHOTOS: Record<string, string> = {
   "david smith":            `${CDN_BASE}/david-smith-or_6682773f.jpg`,  // OR R challenger
   "julian beaudion":        `${CDN_BASE}/julian-beaudion_d87af6af.jpg`,  // SD D challenger
   "dave mccormick":         `${CDN_BASE}/dave-mccormick_5fb329d8.jpg`,  // PA R Senator
+  // LA Senate runoff candidates
+  "jamie davis":             `${CDN_BASE}/jamie-davis-sharp_1f4b2478.jpg`,  // LA D Senate runoff candidate
 };
 
 /**

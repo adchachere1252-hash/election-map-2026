@@ -1,0 +1,34 @@
+{
+  "query": "SELECT state_code, status, candidate1_name, candidate2_name, primary_runoff_date, notes FROM senate_races WHERE state_code IN ('GA', 'TX', 'LA');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, status, candidate1_name, candidate2_name, primary_runoff_date, notes FROM senate_races WHERE state_code IN ('GA', 'TX', 'LA');",
+  "rows": [
+    {
+      "state_code": "GA",
+      "status": "Primary Runoff",
+      "candidate1_name": "Jon Ossoff (D, uncontested)",
+      "candidate2_name": "NULL",
+      "primary_runoff_date": "Jun 16, 2026",
+      "notes": "R primary runoff June 16: Mike Collins (incumbent Rep.) vs. Derek Dooley (former UT football coach). Winner faces incumbent Sen. Jon Ossoff (D) in November. Rated Lean D."
+    },
+    {
+      "state_code": "LA",
+      "status": "Primary Runoff",
+      "candidate1_name": "Jamie Davis",
+      "candidate2_name": "Julia Letlow",
+      "primary_runoff_date": "June 27, 2026",
+      "notes": "Both parties in runoff June 27. GOP: Julia Letlow (45%) vs. John Fleming (28%) — incumbent Cassidy eliminated with 25%. Dem: Jamie Davis (47%) vs. Gary Crockett. GOP runoff winner heavily favored in November."
+    },
+    {
+      "state_code": "TX",
+      "status": "Primary Runoff",
+      "candidate1_name": "James Talarico",
+      "candidate2_name": "NULL",
+      "primary_runoff_date": "May 26, 2026",
+      "notes": "R primary runoff May 26: John Cornyn (incumbent) vs. Ken Paxton (TX AG, Trump-endorsed). Winner faces Democrat James Talarico in November. Cook: Lean R if Cornyn wins, Toss-up if Paxton wins."
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstatus\tcandidate1_name\tcandidate2_name\tprimary_runoff_date\tnotes\nGA\tPrimary Runoff\tJon Ossoff (D, uncontested)\tNULL\tJun 16, 2026\tR primary runoff June 16: Mike Collins (incumbent Rep.) vs. Derek Dooley (former UT football coach). Winner faces incumbent Sen. Jon Ossoff (D) in November. Rated Lean D.\nLA\tPrimary Runoff\tJamie Davis\tJulia Letlow\tJune 27, 2026\tBoth parties in runoff June 27. GOP: Julia Letlow (45%) vs. John Fleming (28%) — incumbent Cassidy eliminated with 25%. Dem: Jamie Davis (47%) vs. Gary Crockett. GOP runoff winner heavily favored in November.\nTX\tPrimary Runoff\tJames Talarico\tNULL\tMay 26, 2026\tR primary runoff May 26: John Cornyn (incumbent) vs. Ken Paxton (TX AG, Trump-endorsed). Winner faces Democrat James Talarico in November. Cook: Lean R if Cornyn wins, Toss-up if Paxton wins.\n",
+  "stderr": "",
+  "execution_time_ms": 267
+}
