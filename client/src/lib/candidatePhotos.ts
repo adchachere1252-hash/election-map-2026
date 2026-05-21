@@ -624,18 +624,18 @@ const CDN_PHOTOS: Record<string, string> = {
   // Governor candidates — May 19 2026 primaries
   "tommy tuberville":       `${PHOTO_BASE}/T000278.jpg`,
   "doug jones":             `${CDN_BASE}/doug-jones_68b7351c.png`,  // bioguide J000300 returns 404
-  "stacy garrity":          `${CDN_BASE}/stacy-garrity-hd_01cbe5af.png`,
+  "stacy garrity":          `${CDN_BASE}/stacy-garrity-sharp_ce3606db.jpg`,
   "keisha lance bottoms":   `${CDN_BASE}/keisha-lance-bottoms_ded16f80.jpg`,
-  "christine drazan":       `${CDN_BASE}/christine-drazan_bb481554.jpg`,
+  "christine drazan":       `${CDN_BASE}/christine-drazan-sharp_47c2d6f6.jpg`,
   "burt jones":             `${CDN_BASE}/burt-jones_08b2b196.jpg`,
   "rick jackson":           `${CDN_BASE}/rick-jackson_40d48fbc.jpg`,
   // ID + NE Governor candidates
   "terri pickens":          `${CDN_BASE}/terri-pickens_ca701396.jpg`,
-  "jim pillen":             `${CDN_BASE}/jim-pillen-hd2_0c531716.jpg`,  // updated to official governor portrait
+  "jim pillen":             `${CDN_BASE}/jim-pillen-sharp_ffb6db90.jpg`,
   // VT Governor incumbent
   "phil scott":             `${CDN_BASE}/phil-scott_6f4482cf.jpg`,
   // AR Governor candidates
-  "fred love":              `${CDN_BASE}/fred-love-hd_d8008fcf.jpg`,
+  "fred love":              `${CDN_BASE}/fred-love-sharp_3b39f47a.jpg`,
 };
 
 /**
