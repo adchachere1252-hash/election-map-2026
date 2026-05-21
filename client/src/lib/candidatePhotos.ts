@@ -530,8 +530,8 @@ const CDN_PHOTOS: Record<string, string> = {
   "kathy hochul":         `${CDN_BASE}/kathy-hochul_ad50280c.jpg`,
   "darren bailey":        `${CDN_BASE}/darren-bailey_a50797b3.jpg`,
   "rob sand":             `${CDN_BASE}/rob-sand_f46705e4.jpg`,
-  "j.b. pritzker":        `${CDN_BASE}/jb-pritzker_bd87f5a7.jpg`,
-  "jb pritzker":          `${CDN_BASE}/jb-pritzker_bd87f5a7.jpg`,
+  "j.b. pritzker":        `${CDN_BASE}/jb-pritzker_09c03720.jpg`,
+  "jb pritzker":          `${CDN_BASE}/jb-pritzker_09c03720.jpg`,
   "amy klobuchar":        `${CDN_BASE}/amy-klobuchar_4167e3f7.jpg`,
   // House competitive candidates (Round 3)
   "frank mrvan":          `${CDN_BASE}/frank-mrvan_edfce460.jpg`,
@@ -631,9 +631,11 @@ const CDN_PHOTOS: Record<string, string> = {
   "rick jackson":           `${CDN_BASE}/rick-jackson_40d48fbc.jpg`,
   // ID + NE Governor candidates
   "terri pickens":          `${CDN_BASE}/terri-pickens_ca701396.jpg`,
-  "jim pillen":             `${CDN_BASE}/jim-pillen_dd46a1a3.jpg`,
+  "jim pillen":             `${CDN_BASE}/jim-pillen-v2_19e7bb9b.jpg`,  // updated to official governor portrait
   // VT Governor incumbent
   "phil scott":             `${CDN_BASE}/phil-scott_6f4482cf.jpg`,
+  // AR Governor candidates
+  "fred love":              `${CDN_BASE}/fred-love_2966db99.jpg`,
 };
 
 /**

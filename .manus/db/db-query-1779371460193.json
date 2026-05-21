@@ -1,0 +1,100 @@
+{
+  "query": "SELECT state_code, dem_candidate, dem_bio, dem_previous_office, rep_candidate, rep_bio, rep_previous_office FROM governor_races WHERE status = 'Scheduled' AND (dem_bio IS NOT NULL OR rep_bio IS NOT NULL OR dem_previous_office IS NOT NULL OR rep_previous_office IS NOT NULL) LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, dem_candidate, dem_bio, dem_previous_office, rep_candidate, rep_bio, rep_previous_office FROM governor_races WHERE status = 'Scheduled' AND (dem_bio IS NOT NULL OR rep_bio IS NOT NULL OR dem_previous_office IS NOT NULL OR rep_previous_office IS NOT NULL) LIMIT 10;",
+  "rows": [
+    {
+      "state_code": "CA",
+      "dem_candidate": "TBD — Democratic Primary",
+      "dem_bio": "Former Mayor of Los Angeles and former Speaker of the California State Assembly. Running in a crowded top-two primary alongside Xavier Becerra (former HHS Secretary), Katie Porter (former U.S. Rep), Matt Mahan (San Jose Mayor), Thomas Steyer (businessman), and Eric Swalwell (U.S. Rep).",
+      "dem_previous_office": "Mayor of Los Angeles (2005–2013)",
+      "rep_candidate": "TBD — Republican Primary",
+      "rep_bio": "Elected Sheriff-Coroner of Riverside County in 2018 after 26 years at the department. A vocal critic of California's progressive policies. Republican primary also includes Steve Hilton (former Fox News host and tech entrepreneur).",
+      "rep_previous_office": "Sheriff-Coroner of Riverside County (2018–present)"
+    },
+    {
+      "state_code": "CO",
+      "dem_candidate": "TBD — Democratic Primary",
+      "dem_bio": "Senior U.S. Senator from Colorado since 2009. Former superintendent of Denver Public Schools. Widely regarded as a pragmatic centrist. Gave up his Senate seat to run for governor.",
+      "dem_previous_office": "U.S. Senator from Colorado (2009–present)",
+      "rep_candidate": "TBD — Republican Primary",
+      "rep_bio": "Former U.S. Representative for Colorado's 4th congressional district. Previously served as Mayor of Parker, Colorado. Running on a platform of fiscal conservatism and reducing government regulation.",
+      "rep_previous_office": "U.S. Representative, CO-4 (2024–2025)"
+    },
+    {
+      "state_code": "CT",
+      "dem_candidate": "Ned Lamont (incumbent)",
+      "dem_bio": "The 89th Governor of Connecticut, serving since 2019. Founder of Lamont Digital Systems, a telecommunications company. Seeking a third term; faces a primary challenge from Joshua Elliott.",
+      "dem_previous_office": "Governor of Connecticut (2019–present)",
+      "rep_candidate": "TBD — Republican Primary",
+      "rep_bio": "Former Mayor of New Britain, Connecticut, serving from 2013 to 2023. One of the longest-serving mayors in New Britain history. Republican primary also includes Ryan Fazio (State Senator), Betsy McCaughey (former NY Lt. Governor), and Timothy Wilcox.",
+      "rep_previous_office": "Mayor of New Britain, Connecticut (2013–2023)"
+    },
+    {
+      "state_code": "HI",
+      "dem_candidate": "Josh Green (incumbent)",
+      "dem_bio": "The 9th Governor of Hawaii, serving since December 2022. A physician by training, he previously served as Lieutenant Governor and a state senator. Seeking re-election in a solidly Democratic state.",
+      "dem_previous_office": "Governor of Hawaii (2023–present)",
+      "rep_candidate": "TBD — Republican Primary",
+      "rep_bio": "No major Republican candidate has declared as of April 2026. Hawaii is a strongly Democratic state.",
+      "rep_previous_office": "TBD"
+    },
+    {
+      "state_code": "IL",
+      "dem_candidate": "J.B. Pritzker (incumbent)",
+      "dem_bio": "The 43rd Governor of Illinois, serving since 2019. An heir to the Hyatt Hotel chain who has focused on progressive policies including expanded healthcare and education funding. Seeking a third term in a rematch of 2022.",
+      "dem_previous_office": "Governor of Illinois (2019–present)",
+      "rep_candidate": "Darren Bailey",
+      "rep_bio": "Farmer and former Illinois State Senator and House member. Was the 2022 Republican gubernatorial nominee, losing to Pritzker by 12 points. Running again in a rematch — the first such gubernatorial rematch since 1986.",
+      "rep_previous_office": "Illinois State Senate (2021–2023)"
+    },
+    {
+      "state_code": "MA",
+      "dem_candidate": "Maura Healey (incumbent)",
+      "dem_bio": "The 73rd Governor of Massachusetts and the first openly lesbian governor in U.S. history, serving since January 2023. Former Massachusetts Attorney General (2015–2023). Seeking re-election; faces minor primary challenges from Matthew Dewar and Andrea James.",
+      "dem_previous_office": "Governor of Massachusetts (2023–present)",
+      "rep_candidate": "TBD — Republican Primary",
+      "rep_bio": "Former Massachusetts Secretary of Housing and Economic Development under Governor Charlie Baker. Running as a moderate Republican in a heavily Democratic state.",
+      "rep_previous_office": "Massachusetts Secretary of Housing and Economic Development"
+    },
+    {
+      "state_code": "MD",
+      "dem_candidate": "Wes Moore (incumbent)",
+      "dem_bio": "The 63rd Governor of Maryland and the state's first Black governor, serving since January 2023. Combat veteran, bestselling author, and former CEO of Robin Hood Foundation. Seeking re-election; faces a minor primary challenge from Eric Felber.",
+      "dem_previous_office": "Governor of Maryland (2023–present)",
+      "rep_candidate": "TBD — Republican Primary",
+      "rep_bio": "Former member of the Maryland House of Delegates. Was the 2022 Republican gubernatorial nominee, losing to Moore by 32 points. Running again in 2026. Primary also includes John Myrick.",
+      "rep_previous_office": "Maryland House of Delegates (2019–2023)"
+    },
+    {
+      "state_code": "RI",
+      "dem_candidate": "TBD — D Primary: Sep 9, 2026 (McKee, Foulkes)",
+      "dem_bio": "The 76th Governor of Rhode Island, serving since March 2021 after ascending from Lt. Governor when Gina Raimondo joined the Biden cabinet. Former Mayor of Cumberland. Seeking a full second term; primary also includes Helena Foulkes and Gregory Stevens.",
+      "dem_previous_office": "Governor of Rhode Island (2021–present)",
+      "rep_candidate": "TBD — Republican Primary",
+      "rep_bio": "Former Director of Advance at the Governor's Office under Governor Carcieri. Previously ran for Lieutenant Governor in 2022. Republican primary also includes Elaine Pelino and Robert Raimondo.",
+      "rep_previous_office": "Former Director of Advance, Governor's Office"
+    },
+    {
+      "state_code": "ME",
+      "dem_candidate": "TBD — D Primary: Jun 9, 2026 (Bellows, Jackson, King III, Pingree, Shah)",
+      "dem_bio": "The 50th Secretary of State of Maine, serving since 2019. Civil rights advocate and former ACLU Maine director. Democratic primary also includes Senate President Troy Jackson, Angus King III (son of Sen. Angus King), former House Speaker Hannah Pingree, and Dr. Nirav Shah.",
+      "dem_previous_office": "Secretary of State of Maine (2019–present)",
+      "rep_candidate": "TBD — R Primary: Jun 9, 2026 (Bennett, Crockett, Glowa, Levasseur)",
+      "rep_bio": "Former Maine State Senator and Senate Majority Leader. Republican primary also includes Jonathan Bush (co-founder of athenahealth), Bobby Charles (former Asst. Secretary of State), Ben Midgley (former Planet Fitness president), and James Libby.",
+      "rep_previous_office": "Maine State Senate Majority Leader"
+    },
+    {
+      "state_code": "MN",
+      "dem_candidate": "Amy Klobuchar",
+      "dem_bio": "Senior U.S. Senator from Minnesota since 2007. Former Hennepin County Attorney. 2020 presidential candidate. Gave up her Senate seat to run for governor. Democratic primary also includes Mandela Barnes (former Lt. Governor), Sara Rodriguez (Lt. Governor), and others.",
+      "dem_previous_office": "U.S. Senator from Minnesota (2007–present)",
+      "rep_candidate": "TBD — R Primary: Aug 11, 2026",
+      "rep_bio": "Current Minnesota House Minority Leader. Republican primary also includes Kendall Qualls (former congressional candidate), Peggy Bennett (State Rep), and Mike Lindell (MyPillow CEO).",
+      "rep_previous_office": "Minnesota House Minority Leader"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdem_candidate\tdem_bio\tdem_previous_office\trep_candidate\trep_bio\trep_previous_office\nCA\tTBD — Democratic Primary\tFormer Mayor of Los Angeles and former Speaker of the California State Assembly. Running in a crowded top-two primary alongside Xavier Becerra (former HHS Secretary), Katie Porter (former U.S. Rep), Matt Mahan (San Jose Mayor), Thomas Steyer (businessman), and Eric Swalwell (U.S. Rep).\tMayor of Los Angeles (2005–2013)\tTBD — Republican Primary\tElected Sheriff-Coroner of Riverside County in 2018 after 26 years at the department. A vocal critic of California's progressive policies. Republican primary also includes Steve Hilton (former Fox News host and tech entrepreneur).\tSheriff-Coroner of Riverside County (2018–present)\nCO\tTBD — Democratic Primary\tSenior U.S. Senator from Colorado since 2009. Former superintendent of Denver Public Schools. Widely regarded as a pragmatic centrist. Gave up his Senate seat to run for governor.\tU.S. Senator from Colorado (2009–present)\tTBD — Republican Primary\tFormer U.S. Representative for Colorado's 4th congressional district. Previously served as Mayor of Parker, Colorado. Running on a platform of fiscal conservatism and reducing government regulation.\tU.S. Representative, CO-4 (2024–2025)\nCT\tNed Lamont (incumbent)\tThe 89th Governor of Connecticut, serving since 2019. Founder of Lamont Digital Systems, a telecommunications company. Seeking a third term; faces a primary challenge from Joshua Elliott.\tGovernor of Connecticut (2019–present)\tTBD — Republican Primary\tFormer Mayor of New Britain, Connecticut, serving from 2013 to 2023. One of the longest-serving mayors in New Britain history. Republican primary also includes Ryan Fazio (State Senator), Betsy McCaughey (former NY Lt. Governor), and Timothy Wilcox.\tMayor of New Britain, Connecticut (2013–2023)\nHI\tJosh Green (incumbent)\tThe 9th Governor of Hawaii, serving since December 2022. A physician by training, he previously served as Lieutenant Governor and a state senator. Seeking re-election in a solidly Democratic state.\tGovernor of Hawaii (2023–present)\tTBD — Republican Primary\tNo major Republican candidate has declared as of April 2026. Hawaii is a strongly Democratic state.\tTBD\nIL\tJ.B. Pritzker (incumbent)\tThe 43rd Governor of Illinois, serving since 2019. An heir to the Hyatt Hotel chain who has focused on progressive policies including expanded healthcare and education funding. Seeking a third term in a rematch of 2022.\tGovernor of Illinois (2019–present)\tDarren Bailey\tFarmer and former Illinois State Senator and House member. Was the 2022 Republican gubernatorial nominee, losing to Pritzker by 12 points. Running again in a rematch — the first such gubernatorial rematch since 1986.\tIllinois State Senate (2021–2023)\nMA\tMaura Healey (incumbent)\tThe 73rd Governor of Massachusetts and the first openly lesbian governor in U.S. history, serving since January 2023. Former Massachusetts Attorney General (2015–2023). Seeking re-election; faces minor primary challenges from Matthew Dewar and Andrea James.\tGovernor of Massachusetts (2023–present)\tTBD — Republican Primary\tFormer Massachusetts Secretary of Housing and Economic Development under Governor Charlie Baker. Running as a moderate Republican in a heavily Democratic state.\tMassachusetts Secretary of Housing and Economic Development\nMD\tWes Moore (incumbent)\tThe 63rd Governor of Maryland and the state's first Black governor, serving since January 2023. Combat veteran, bestselling author, and former CEO of Robin Hood Foundation. Seeking re-election; faces a minor primary challenge from Eric Felber.\tGovernor of Maryland (2023–present)\tTBD — Republican Primary\tFormer member of the Maryland House of Delegates. Was the 2022 Republican gubernatorial nominee, losing to Moore by 32 points. Running again in 2026. Primary also includes John Myrick.\tMaryland House of Delegates (2019–2023)\nRI\tTBD — D Primary: Sep 9, 2026 (McKee, Foulkes)\tThe 76th Governor of Rhode Island, serving since March 2021 after ascending from Lt. Governor when Gina Raimondo joined the Biden cabinet. Former Mayor of Cumberland. Seeking a full second term; primary also includes Helena Foulkes and Gregory Stevens.\tGovernor of Rhode Island (2021–present)\tTBD — Republican Primary\tFormer Director of Advance at the Governor's Office under Governor Carcieri. Previously ran for Lieutenant Governor in 2022. Republican primary also includes Elaine Pelino and Robert Raimondo.\tFormer Director of Advance, Governor's Office\nME\tTBD — D Primary: Jun 9, 2026 (Bellows, Jackson, King III, Pingree, Shah)\tThe 50th Secretary of State of Maine, serving since 2019. Civil rights advocate and former ACLU Maine director. Democratic primary also includes Senate President Troy Jackson, Angus King III (son of Sen. Angus King), former House Speaker Hannah Pingree, and Dr. Nirav Shah.\tSecretary of State of Maine (2019–present)\tTBD — R Primary: Jun 9, 2026 (Bennett, Crockett, Glowa, Levasseur)\tFormer Maine State Senator and Senate Majority Leader. Republican primary also includes Jonathan Bush (co-founder of athenahealth), Bobby Charles (former Asst. Secretary of State), Ben Midgley (former Planet Fitness president), and James Libby.\tMaine State Senate Majority Leader\nMN\tAmy Klobuchar\tSenior U.S. Senator from Minnesota since 2007. Former Hennepin County Attorney. 2020 presidential candidate. Gave up her Senate seat to run for governor. Democratic primary also includes Mandela Barnes (former Lt. Governor), Sara Rodriguez (Lt. Governor), and others.\tU.S. Senator from Minnesota (2007–present)\tTBD — R Primary: Aug 11, 2026\tCurrent Minnesota House Minority Leader. Republican primary also includes Kendall Qualls (former congressional candidate), Peggy Bennett (State Rep), and Mike Lindell (MyPillow CEO).\tMinnesota House Minority Leader\n",
+  "stderr": "",
+  "execution_time_ms": 285
+}

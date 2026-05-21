@@ -155,7 +155,7 @@ function CandidateCard({
                 </span>
               )}
             </div>
-            {previousOffice && (
+            {previousOffice && !isTbd && (
               <div className="flex items-start gap-1 mt-0.5">
                 <Briefcase className="w-2.5 h-2.5 text-muted-foreground flex-shrink-0 mt-0.5" />
                 <span className="text-[10px] text-muted-foreground leading-relaxed">{previousOffice}</span>
@@ -163,7 +163,7 @@ function CandidateCard({
             )}
           </div>
         </div>
-        {bio && (
+        {bio && !isTbd && (
           <button
             onClick={() => setExpanded(!expanded)}
             className="flex-shrink-0 p-0.5 rounded hover:bg-white/10 text-muted-foreground hover:text-foreground transition-colors"
@@ -172,8 +172,8 @@ function CandidateCard({
           </button>
         )}
       </div>
-      {/* Expandable bio */}
-      {expanded && bio && (
+      {/* Expandable bio — hidden for TBD candidates */}
+      {expanded && bio && !isTbd && (
         <div className="mt-2 pt-2 border-t border-white/10">
           <p className="text-[11px] text-muted-foreground leading-relaxed">{bio}</p>
         </div>
@@ -508,8 +508,8 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
           </div>
         )}
 
-        {/* Vote results (election night only — hidden in General/Scheduled mode) */}
-        {(race.status === "Primary" || race.status === "Primary Runoff" || race.status === "Voting" || race.status === "Called" || race.status === "Certified") && (
+        {/* Vote results (election night only — hidden when showing GeneralMatchupCard or in Scheduled mode) */}
+        {!isGeneral && (race.status === "Primary" || race.status === "Primary Runoff" || race.status === "Voting" || race.status === "Called" || race.status === "Certified") && (
           <VoteBar demVotes={race.demVotes} repVotes={race.repVotes} otherVotes={race.otherVotes} pctReporting={race.pctReporting} />
         )}
         {race.calledAt && (

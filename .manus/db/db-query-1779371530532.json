@@ -1,0 +1,20 @@
+{
+  "query": "SELECT state_code, status, dem_candidate, rep_candidate, dem_bio, dem_previous_office, rating, primary_date FROM governor_races WHERE state_code = 'AR';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, status, dem_candidate, rep_candidate, dem_bio, dem_previous_office, rating, primary_date FROM governor_races WHERE state_code = 'AR';",
+  "rows": [
+    {
+      "state_code": "AR",
+      "status": "Scheduled",
+      "dem_candidate": "TBD — Democratic Primary",
+      "rep_candidate": "Sarah Huckabee Sanders",
+      "dem_bio": "Democratic member of the Arkansas State Senate representing District 15. Previously served multiple terms in the Arkansas House of Representatives. Won the Democratic primary over Supha Xayprasith-Mays.",
+      "dem_previous_office": "Arkansas State Senate, District 15",
+      "rating": "Solid R",
+      "primary_date": "March 3, 2026"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstatus\tdem_candidate\trep_candidate\tdem_bio\tdem_previous_office\trating\tprimary_date\nAR\tScheduled\tTBD — Democratic Primary\tSarah Huckabee Sanders\tDemocratic member of the Arkansas State Senate representing District 15. Previously served multiple terms in the Arkansas House of Representatives. Won the Democratic primary over Supha Xayprasith-Mays.\tArkansas State Senate, District 15\tSolid R\tMarch 3, 2026\n",
+  "stderr": "",
+  "execution_time_ms": 273
+}
