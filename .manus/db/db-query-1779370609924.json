@@ -1,0 +1,22 @@
+{
+  "query": "SELECT state_code, primary_date, runoff_date, general_date FROM governor_races WHERE state_code IN ('AL', 'VT');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, primary_date, runoff_date, general_date FROM governor_races WHERE state_code IN ('AL', 'VT');",
+  "rows": [
+    {
+      "state_code": "AL",
+      "primary_date": "May 5, 2026",
+      "runoff_date": "NULL",
+      "general_date": "November 3, 2026"
+    },
+    {
+      "state_code": "VT",
+      "primary_date": "August 11, 2026",
+      "runoff_date": "NULL",
+      "general_date": "November 3, 2026"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tprimary_date\trunoff_date\tgeneral_date\nAL\tMay 5, 2026\tNULL\tNovember 3, 2026\nVT\tAugust 11, 2026\tNULL\tNovember 3, 2026\n",
+  "stderr": "",
+  "execution_time_ms": 267
+}

@@ -623,7 +623,7 @@ const CDN_PHOTOS: Record<string, string> = {
   "rhonda hart":            `${CDN_BASE}/rhonda-hart-tx36_1c42977d.jpg`,
   // Governor candidates — May 19 2026 primaries
   "tommy tuberville":       `${PHOTO_BASE}/T000278.jpg`,
-  "doug jones":             `${PHOTO_BASE}/J000300.jpg`,
+  "doug jones":             `${CDN_BASE}/doug-jones_68b7351c.png`,  // bioguide J000300 returns 404
   "stacy garrity":          `${CDN_BASE}/stacy-garrity_bc758a4e.jpg`,
   "keisha lance bottoms":   `${CDN_BASE}/keisha-lance-bottoms_ded16f80.jpg`,
   "christine drazan":       `${CDN_BASE}/christine-drazan_bb481554.jpg`,
@@ -632,6 +632,8 @@ const CDN_PHOTOS: Record<string, string> = {
   // ID + NE Governor candidates
   "terri pickens":          `${CDN_BASE}/terri-pickens_ca701396.jpg`,
   "jim pillen":             `${CDN_BASE}/jim-pillen_dd46a1a3.jpg`,
+  // VT Governor incumbent
+  "phil scott":             `${CDN_BASE}/phil-scott_6f4482cf.jpg`,
 };
 
 /**

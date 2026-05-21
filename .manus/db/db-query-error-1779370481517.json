@@ -1,0 +1,8 @@
+{
+  "query": "UPDATE governor_races SET status = 'General', pct_reporting = '0.00', dem_votes = '0', rep_votes = '0' WHERE state_code = 'AL';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE governor_races SET status = 'General', pct_reporting = '0.00', dem_votes = '0', rep_votes = '0' WHERE state_code = 'AL';",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1265 (01000) at line 1: Data truncated for column '%s' at row %d"
+  ]
+}
