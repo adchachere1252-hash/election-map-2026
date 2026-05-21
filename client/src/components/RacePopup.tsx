@@ -928,6 +928,35 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
           pctReporting={race.pctReporting}
           primaryWinner={(race as any).primaryWinner}
         />
+      ) : race.status === "Primary Runoff" && !race.candidate1Name && !race.candidate2Name ? (
+        /* Both parties still in runoff — neither nominee confirmed */
+        <div className="mb-3 rounded-lg overflow-hidden border border-orange-500/30">
+          <div className="bg-orange-950/40 px-3 py-2 flex items-center gap-2 border-b border-orange-500/20">
+            <span className="text-base">⏳</span>
+            <span className="text-xs font-semibold text-orange-300 uppercase tracking-wider">Both Parties in Primary Runoff</span>
+          </div>
+          <div className="grid grid-cols-2 divide-x divide-orange-500/20">
+            <div className="flex flex-col items-center gap-1.5 p-3 bg-blue-950/20">
+              <div className="w-12 h-12 rounded-full bg-blue-800/50 border-2 border-blue-500/40 flex items-center justify-center">
+                <span className="text-lg font-bold text-blue-300">?</span>
+              </div>
+              <span className="text-xs font-semibold text-blue-300 text-center leading-tight">TBD — Democratic Nominee</span>
+              <span className="text-[10px] text-muted-foreground text-center">Primary runoff pending</span>
+            </div>
+            <div className="flex flex-col items-center gap-1.5 p-3 bg-red-950/20">
+              <div className="w-12 h-12 rounded-full bg-red-800/50 border-2 border-red-500/40 flex items-center justify-center">
+                <span className="text-lg font-bold text-red-300">?</span>
+              </div>
+              <span className="text-xs font-semibold text-red-300 text-center leading-tight">TBD — Republican Nominee</span>
+              <span className="text-[10px] text-muted-foreground text-center">Primary runoff pending</span>
+            </div>
+          </div>
+          {(race as any).primaryRunoffDate && (
+            <div className="bg-orange-950/30 px-3 py-1.5 text-center">
+              <span className="text-xs text-orange-300 font-medium">⚡ Runoff: {(race as any).primaryRunoffDate}</span>
+            </div>
+          )}
+        </div>
       ) : race.status === "Primary Runoff" && race.candidate1Name && !race.candidate2Name ? (
         /* One confirmed nominee + TBD opponent (e.g. GA Senate: Ossoff D confirmed, R runoff pending) */
         <GeneralMatchupSection
