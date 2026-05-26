@@ -1570,3 +1570,7 @@
 - [x] Louisiana Senate: confirmed already showing "Both Parties in Primary Runoff" TBD card correctly
 - [x] Alabama notes updated with full runoff context (D: Everett Wess vs Dakarai Larriett, R: Barry Moore vs Jared Hudson, June 16)
 - [x] AP Engine confirmed running: 0 errors, 82 updated, every ~5s cycle
+
+## House Runoff Popup & Photo Fixes (May 26, 2026)
+- [x] Clear messy runoff text from candidate name fields for AL-5, GA-1, GA-7, TX-1/5/7/9/14/16/17/24 + TX-18 (12 races)
+- [x] Add 17 BIOGUIDE_MAP name aliases for Congress members with shortened names (Ramirez, Schneider, Miller, Yakym, Stutzman, Carson, Thompson, Davis, Turner, Brown, Sykes, Hoyle, Bynum, Fitzpatrick, Boyle, Max Miller, Carol Miller)

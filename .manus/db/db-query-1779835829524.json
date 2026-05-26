@@ -1,0 +1,20 @@
+{
+  "query": "SELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, notes FROM house_races WHERE state_code = 'TX' AND district = 18;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, notes FROM house_races WHERE state_code = 'TX' AND district = 18;",
+  "rows": [
+    {
+      "state_code": "TX",
+      "district": "18",
+      "candidate1_name": "Christian Menefee (D) / Al Green (I)",
+      "candidate1_party": "D",
+      "candidate2_name": "Ronald Whitfield",
+      "candidate2_party": "R",
+      "status": "General",
+      "notes": "D primary runoff May 26, 2026: Al Green (former TX-9 rep, redistricted into TX-18) vs Christian Menefee (current TX-18 incumbent, won Jan 31 special election). Both are Democrats. Winner faces Ronald Whitfield (R) in general. Rating: Solid D. Al Green (former D incumbent) is running as an Independent in 2026."
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tnotes\nTX\t18\tChristian Menefee (D) / Al Green (I)\tD\tRonald Whitfield\tR\tGeneral\tD primary runoff May 26, 2026: Al Green (former TX-9 rep, redistricted into TX-18) vs Christian Menefee (current TX-18 incumbent, won Jan 31 special election). Both are Democrats. Winner faces Ronald Whitfield (R) in general. Rating: Solid D. Al Green (former D incumbent) is running as an Independent in 2026.\n",
+  "stderr": "",
+  "execution_time_ms": 260
+}

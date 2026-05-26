@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE house_races \nSET \n  candidate1_name = NULL,\n  status = 'Primary Runoff',\n  notes = 'D primary runoff May 26, 2026: Christian Menefee (D, current TX-18 incumbent) vs. Al Green (D, former TX-9 rep redistricted into TX-18). Winner faces Ronald Whitfield (R) in November general. Solid D seat.'\nWHERE state_code = 'TX' AND district = 18;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE house_races \nSET \n  candidate1_name = NULL,\n  status = 'Primary Runoff',\n  notes = 'D primary runoff May 26, 2026: Christian Menefee (D, current TX-18 incumbent) vs. Al Green (D, former TX-9 rep redistricted into TX-18). Winner faces Ronald Whitfield (R) in November general. Solid D seat.'\nWHERE state_code = 'TX' AND district = 18;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 273
+}
