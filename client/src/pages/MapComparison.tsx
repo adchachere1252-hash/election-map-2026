@@ -364,6 +364,7 @@ interface D3MapPanelProps {
   panelId: "A" | "B";
   compareMode: boolean;
   onDistrictClick?: (props: Record<string, unknown>) => void;
+  selectedState?: string; // full state name e.g. "Texas" — zooms map to that state's bounding box
 }
 
 export interface D3MapPanelHandle {
@@ -371,7 +372,7 @@ export interface D3MapPanelHandle {
   jumpTo: (congress: number) => void;
 }
 
-const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMode, onDistrictClick }: D3MapPanelProps, ref: React.Ref<D3MapPanelHandle>) {
+const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMode, onDistrictClick, selectedState }: D3MapPanelProps, ref: React.Ref<D3MapPanelHandle>) {
   const svgRef = useRef<SVGSVGElement>(null);
   const gRef = useRef<SVGGElement>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -382,6 +383,61 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
   const onDistrictClickRef = useRef(onDistrictClick);
   useEffect(() => { congressRef.current = congress; }, [congress]);
   useEffect(() => { onDistrictClickRef.current = onDistrictClick; }, [onDistrictClick]);
+
+  // ── Zoom transform state for Jump to State ─────────────────────────────────
+  const [zoomTransform, setZoomTransform] = useState<string | null>(null);
+
+  // Compute zoom transform whenever selectedState or congress changes
+  useEffect(() => {
+    if (!selectedState) { setZoomTransform(null); return; }
+    const svg = svgRef.current;
+    if (!svg) return;
+    const cached = layerDataCache.get(congressRef.current);
+    if (!cached) return;
+    const stateAbbrev = STATE_CODES[selectedState] ?? "";
+    if (!stateAbbrev) { setZoomTransform(null); return; }
+
+    // Filter features belonging to the selected state
+    const stateFeatures = cached.features.filter(f => {
+      const p = (f.properties ?? {}) as Record<string, unknown>;
+      return String(p._stateAbbrev ?? "") === stateAbbrev;
+    });
+    if (stateFeatures.length === 0) { setZoomTransform(null); return; }
+
+    const rect = svg.getBoundingClientRect();
+    const W = rect.width || 960;
+    const H = rect.height || 600;
+    const projection = buildProjection(W, H);
+    const pathGen = d3.geoPath().projection(projection);
+
+    // Compute bounding box of all state features in screen space
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    for (const f of stateFeatures) {
+      const b = pathGen.bounds(f);
+      if (b[0][0] < minX) minX = b[0][0];
+      if (b[0][1] < minY) minY = b[0][1];
+      if (b[1][0] > maxX) maxX = b[1][0];
+      if (b[1][1] > maxY) maxY = b[1][1];
+    }
+    if (!isFinite(minX)) { setZoomTransform(null); return; }
+
+    // Add padding (10% of each dimension)
+    const padX = (maxX - minX) * 0.12;
+    const padY = (maxY - minY) * 0.12;
+    minX -= padX; maxX += padX;
+    minY -= padY; maxY += padY;
+
+    const bW = maxX - minX;
+    const bH = maxY - minY;
+    const scale = Math.min(W / bW, H / bH) * 0.92;
+    const cx = (minX + maxX) / 2;
+    const cy = (minY + maxY) / 2;
+    // CSS transform: scale around center of SVG, then translate bounding box center to SVG center
+    const tx = W / 2 - cx * scale;
+    const ty = H / 2 - cy * scale;
+    setZoomTransform(`translate(${tx}px, ${ty}px) scale(${scale})`);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedState, congress]);
 
   // ── Shared projection builder ──────────────────────────────────────────────
   function buildProjection(W: number, H: number) {
@@ -597,7 +653,7 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
         className="w-full h-full"
         style={{ background: "transparent" }}
       >
-        <g ref={gRef} />
+        <g ref={gRef} style={zoomTransform ? { transform: zoomTransform, transformOrigin: "0 0", transition: "transform 0.6s cubic-bezier(0.4,0,0.2,1)" } : { transition: "transform 0.6s cubic-bezier(0.4,0,0.2,1)" }} />
       </svg>
 
       {/* Loading indicator */}
@@ -949,6 +1005,7 @@ export default function MapComparison() {
           panelId="A"
           compareMode={compareMode}
           onDistrictClick={setDistrictPopup}
+          selectedState={selectedState || undefined}
         />
         {compareMode && (
           <>
@@ -959,6 +1016,7 @@ export default function MapComparison() {
               panelId="B"
               compareMode={compareMode}
               onDistrictClick={setDistrictPopup}
+              selectedState={selectedState || undefined}
             />
           </>
         )}

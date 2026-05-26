@@ -1574,3 +1574,7 @@
 ## House Runoff Popup & Photo Fixes (May 26, 2026)
 - [x] Clear messy runoff text from candidate name fields for AL-5, GA-1, GA-7, TX-1/5/7/9/14/16/17/24 + TX-18 (12 races)
 - [x] Add 17 BIOGUIDE_MAP name aliases for Congress members with shortened names (Ramirez, Schneider, Miller, Yakym, Stutzman, Carson, Thompson, Davis, Turner, Brown, Sykes, Hoyle, Bynum, Fitzpatrick, Boyle, Max Miller, Carol Miller)
+
+## Historical Atlas Fixes (May 26, 2026)
+- [x] Implement Jump to State zoom/pan — pass selectedState to D3MapPanel, zoom to state bounding box using D3 AlbersUSA projection
+- [x] Verify playback animation works correctly across all 31 Congresses (confirmed live: 89th→91st animation, seat counts correct, era markers visible)
