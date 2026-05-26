@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE senate_races SET \n  candidate1_name = NULL,\n  candidate2_name = NULL,\n  notes = 'Tommy Tuberville (R) is not seeking re-election; running for governor instead. D runoff June 16: Everett Wess vs. Dakarai Larriett. R runoff June 16: Barry Moore vs. Jared Hudson. Neither party nominee confirmed until June 16.'\nWHERE state_code = 'AL';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE senate_races SET \n  candidate1_name = NULL,\n  candidate2_name = NULL,\n  notes = 'Tommy Tuberville (R) is not seeking re-election; running for governor instead. D runoff June 16: Everett Wess vs. Dakarai Larriett. R runoff June 16: Barry Moore vs. Jared Hudson. Neither party nominee confirmed until June 16.'\nWHERE state_code = 'AL';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 271
+}

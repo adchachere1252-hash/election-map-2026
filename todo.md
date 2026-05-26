@@ -1563,3 +1563,10 @@
 - [x] Fix GA Governor R runoff names to "Burt Jones vs Rick Jackson" (currently "Jones vs Jackson")
 - [x] Verify and populate June 2 primary candidates: IA, MT, NJ, NM, SD (Senate and House)
 - [x] Add TX Senate runoff countdown banner (May 27 runoff — 7 days away)
+
+## Senate Popup Audit & Fixes (May 26, 2026)
+- [x] Full photo audit of all 42 named Senate candidates — all covered (bioguide or CDN)
+- [x] Alabama Senate: fixed candidate names from messy runoff strings to NULL — now shows "Both Parties in Primary Runoff" TBD card correctly
+- [x] Louisiana Senate: confirmed already showing "Both Parties in Primary Runoff" TBD card correctly
+- [x] Alabama notes updated with full runoff context (D: Everett Wess vs Dakarai Larriett, R: Barry Moore vs Jared Hudson, June 16)
+- [x] AP Engine confirmed running: 0 errors, 82 updated, every ~5s cycle

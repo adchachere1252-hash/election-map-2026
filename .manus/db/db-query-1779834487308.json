@@ -1,0 +1,250 @@
+{
+  "query": "SELECT state_code, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating FROM senate_races WHERE state_name >= 'Kentucky' ORDER BY state_name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating FROM senate_races WHERE state_name >= 'Kentucky' ORDER BY state_name;",
+  "rows": [
+    {
+      "state_code": "KY",
+      "state_name": "Kentucky",
+      "candidate1_name": "Charles Booker",
+      "candidate1_party": "D",
+      "candidate2_name": "Andy Barr",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "LA",
+      "state_name": "Louisiana",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "R",
+      "status": "Primary Runoff",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "ME",
+      "state_name": "Maine",
+      "candidate1_name": "Graham Platner",
+      "candidate1_party": "D",
+      "candidate2_name": "Susan Collins",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Lean R"
+    },
+    {
+      "state_code": "MA",
+      "state_name": "Massachusetts",
+      "candidate1_name": "Ed Markey",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Republican Primary",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "MI",
+      "state_name": "Michigan",
+      "candidate1_name": "TBD — D Primary: Aug 4, 2026 (El-Sayed, McMorrow, Stevens, Howard)",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Rogers",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Toss-up"
+    },
+    {
+      "state_code": "MN",
+      "state_name": "Minnesota",
+      "candidate1_name": "TBD — D Primary: Aug 11, 2026 (Flanagan, Craig, Nord)",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Aug 11, 2026 (Tafoya, White)",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Likely D"
+    },
+    {
+      "state_code": "MS",
+      "state_name": "Mississippi",
+      "candidate1_name": "Scott Colom",
+      "candidate1_party": "D",
+      "candidate2_name": "Cindy Hyde-Smith",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "MT",
+      "state_name": "Montana",
+      "candidate1_name": "TBD — D Primary: June 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Kurt Alme vs Lee Calhoun vs Charles Walking Child (June 2)",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "NE",
+      "state_name": "Nebraska",
+      "candidate1_name": "Cindy Burbank",
+      "candidate1_party": "D",
+      "candidate2_name": "Pete Ricketts",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Likely R"
+    },
+    {
+      "state_code": "NH",
+      "state_name": "New Hampshire",
+      "candidate1_name": "TBD — D Primary: Sep 8, 2026 (Pappas, Manzur)",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Sep 8, 2026 (Brown, Sununu)",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Lean D"
+    },
+    {
+      "state_code": "NJ",
+      "state_name": "New Jersey",
+      "candidate1_name": "Cory Booker (incumbent)",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Murphy/Tabor/Lebovics/Zdan (June 2)",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "NM",
+      "state_name": "New Mexico",
+      "candidate1_name": "Ben Ray Luján (incumbent)",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Larry Marker (write-in, June 2)",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "NC",
+      "state_name": "North Carolina",
+      "candidate1_name": "Roy Cooper",
+      "candidate1_party": "D",
+      "candidate2_name": "Michael Whatley",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Lean D"
+    },
+    {
+      "state_code": "OH",
+      "state_name": "Ohio",
+      "candidate1_name": "Sherrod Brown",
+      "candidate1_party": "D",
+      "candidate2_name": "Jon Husted",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Toss-up"
+    },
+    {
+      "state_code": "OK",
+      "state_name": "Oklahoma",
+      "candidate1_name": "TBD — D Primary: Jun 16, 2026 (Cassity, Green, LaVann, Priest, Thomas, Yen)",
+      "candidate1_party": "D",
+      "candidate2_name": "Kevin Hern (frontrunner) — R Primary: Jun 16, 2026",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "OR",
+      "state_name": "Oregon",
+      "candidate1_name": "Jeff Merkley",
+      "candidate1_party": "D",
+      "candidate2_name": "David Smith",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "RI",
+      "state_name": "Rhode Island",
+      "candidate1_name": "Jack Reed",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Republican Primary",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "SC",
+      "state_name": "South Carolina",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate1_party": "D",
+      "candidate2_name": "Lindsey Graham",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "SD",
+      "state_name": "South Dakota",
+      "candidate1_name": "Julian Beaudion",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Rounds (incumbent)",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "TN",
+      "state_name": "Tennessee",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate1_party": "D",
+      "candidate2_name": "Bill Hagerty",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "TX",
+      "state_name": "Texas",
+      "candidate1_name": "James Talarico",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary Runoff",
+      "rating": "Likely R"
+    },
+    {
+      "state_code": "VA",
+      "state_name": "Virginia",
+      "candidate1_name": "Mark Warner",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Aug 4, 2026",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "WV",
+      "state_name": "West Virginia",
+      "candidate1_name": "Rachel Fetty Anderson",
+      "candidate1_party": "D",
+      "candidate2_name": "Shelley Moore Capito",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "WY",
+      "state_name": "Wyoming",
+      "candidate1_name": "James W. Byrd",
+      "candidate1_party": "D",
+      "candidate2_name": "Harriet Hageman",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstate_name\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\trating\nKY\tKentucky\tCharles Booker\tD\tAndy Barr\tR\tGeneral\tSolid R\nLA\tLouisiana\tNULL\tD\tNULL\tR\tPrimary Runoff\tSolid R\nME\tMaine\tGraham Platner\tD\tSusan Collins\tR\tScheduled\tLean R\nMA\tMassachusetts\tEd Markey\tD\tTBD — Republican Primary\tR\tScheduled\tSolid D\nMI\tMichigan\tTBD — D Primary: Aug 4, 2026 (El-Sayed, McMorrow, Stevens, Howard)\tD\tMike Rogers\tR\tScheduled\tToss-up\nMN\tMinnesota\tTBD — D Primary: Aug 11, 2026 (Flanagan, Craig, Nord)\tD\tTBD — R Primary: Aug 11, 2026 (Tafoya, White)\tR\tScheduled\tLikely D\nMS\tMississippi\tScott Colom\tD\tCindy Hyde-Smith\tR\tGeneral\tSolid R\nMT\tMontana\tTBD — D Primary: June 2, 2026\tD\tTBD — R Primary: Kurt Alme vs Lee Calhoun vs Charles Walking Child (June 2)\tR\tScheduled\tSolid R\nNE\tNebraska\tCindy Burbank\tD\tPete Ricketts\tR\tGeneral\tLikely R\nNH\tNew Hampshire\tTBD — D Primary: Sep 8, 2026 (Pappas, Manzur)\tD\tTBD — R Primary: Sep 8, 2026 (Brown, Sununu)\tR\tScheduled\tLean D\nNJ\tNew Jersey\tCory Booker (incumbent)\tD\tTBD — R Primary: Murphy/Tabor/Lebovics/Zdan (June 2)\tR\tScheduled\tSolid D\nNM\tNew Mexico\tBen Ray Luján (incumbent)\tD\tTBD — R Primary: Larry Marker (write-in, June 2)\tR\tScheduled\tSolid D\nNC\tNorth Carolina\tRoy Cooper\tD\tMichael Whatley\tR\tGeneral\tLean D\nOH\tOhio\tSherrod Brown\tD\tJon Husted\tR\tGeneral\tToss-up\nOK\tOklahoma\tTBD — D Primary: Jun 16, 2026 (Cassity, Green, LaVann, Priest, Thomas, Yen)\tD\tKevin Hern (frontrunner) — R Primary: Jun 16, 2026\tR\tScheduled\tSolid R\nOR\tOregon\tJeff Merkley\tD\tDavid Smith\tR\tGeneral\tSolid D\nRI\tRhode Island\tJack Reed\tD\tTBD — Republican Primary\tR\tScheduled\tSolid D\nSC\tSouth Carolina\tTBD — Democratic Primary\tD\tLindsey Graham\tR\tScheduled\tSolid R\nSD\tSouth Dakota\tJulian Beaudion\tD\tMike Rounds (incumbent)\tR\tScheduled\tSolid R\nTN\tTennessee\tTBD — Democratic Primary\tD\tBill Hagerty\tR\tScheduled\tSolid R\nTX\tTexas\tJames Talarico\tD\tNULL\tNULL\tPrimary Runoff\tLikely R\nVA\tVirginia\tMark Warner\tD\tTBD — R Primary: Aug 4, 2026\tR\tScheduled\tSolid D\nWV\tWest Virginia\tRachel Fetty Anderson\tD\tShelley Moore Capito\tR\tGeneral\tSolid R\nWY\tWyoming\tJames W. Byrd\tD\tHarriet Hageman\tR\tScheduled\tSolid R\n",
+  "stderr": "",
+  "execution_time_ms": 255
+}

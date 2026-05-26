@@ -1,0 +1,22 @@
+{
+  "query": "SELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating, primary_date, primary_runoff_date, notes FROM senate_races WHERE state_code = 'LA';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating, primary_date, primary_runoff_date, notes FROM senate_races WHERE state_code = 'LA';",
+  "rows": [
+    {
+      "state_code": "LA",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "R",
+      "status": "Primary Runoff",
+      "rating": "Solid R",
+      "primary_date": "May 16, 2026",
+      "primary_runoff_date": "June 27, 2026",
+      "notes": "Both parties in runoff June 27. GOP: Julia Letlow (45%) vs. John Fleming (28%) — incumbent Cassidy eliminated. Dem: Jamie Davis (47%) vs. Gary Crockett. GOP runoff winner heavily favored in November. Neither party nominee confirmed until June 27."
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\trating\tprimary_date\tprimary_runoff_date\tnotes\nLA\tNULL\tD\tNULL\tR\tPrimary Runoff\tSolid R\tMay 16, 2026\tJune 27, 2026\tBoth parties in runoff June 27. GOP: Julia Letlow (45%) vs. John Fleming (28%) — incumbent Cassidy eliminated. Dem: Jamie Davis (47%) vs. Gary Crockett. GOP runoff winner heavily favored in November. Neither party nominee confirmed until June 27.\n",
+  "stderr": "",
+  "execution_time_ms": 260
+}

@@ -1,0 +1,22 @@
+{
+  "query": "SELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating, primary_date, primary_runoff_date, notes FROM senate_races WHERE state_code = 'AL';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating, primary_date, primary_runoff_date, notes FROM senate_races WHERE state_code = 'AL';",
+  "rows": [
+    {
+      "state_code": "AL",
+      "candidate1_name": "Everett Wess → Dakarai Larriett (D Runoff, June 16)",
+      "candidate1_party": "D",
+      "candidate2_name": "Barry Moore → Jared Hudson (R Runoff, June 16)",
+      "candidate2_party": "R",
+      "status": "Primary Runoff",
+      "rating": "Solid R",
+      "primary_date": "June 2, 2026",
+      "primary_runoff_date": "Jun 16, 2026",
+      "notes": "Tommy Tuberville (R) is not seeking re-election; running for governor instead. Republican primary May 19, 2026."
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\trating\tprimary_date\tprimary_runoff_date\tnotes\nAL\tEverett Wess → Dakarai Larriett (D Runoff, June 16)\tD\tBarry Moore → Jared Hudson (R Runoff, June 16)\tR\tPrimary Runoff\tSolid R\tJune 2, 2026\tJun 16, 2026\tTommy Tuberville (R) is not seeking re-election; running for governor instead. Republican primary May 19, 2026.\n",
+  "stderr": "",
+  "execution_time_ms": 260
+}
