@@ -1,0 +1,46 @@
+{
+  "query": "SELECT state_code, status, candidate1_name, candidate2_name, called_winner, called_party, pct_reporting, candidate1_vote_pct, candidate2_vote_pct, updated_at FROM senate_races WHERE state_code = 'TX';\nSELECT state_code, district, status, candidate1_name, candidate2_name, called_winner, pct_reporting, candidate1_vote_pct, candidate2_vote_pct, updated_at FROM house_races WHERE state_code = 'TX' AND district = 18;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, status, candidate1_name, candidate2_name, called_winner, called_party, pct_reporting, candidate1_vote_pct, candidate2_vote_pct, updated_at FROM senate_races WHERE state_code = 'TX';\nSELECT state_code, district, status, candidate1_name, candidate2_name, called_winner, pct_reporting, candidate1_vote_pct, candidate2_vote_pct, updated_at FROM house_races WHERE state_code = 'TX' AND district = 18;",
+  "rows": [
+    {
+      "state_code": "TX",
+      "status": "Primary Runoff",
+      "candidate1_name": "James Talarico",
+      "candidate2_name": "NULL",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "pct_reporting": "0.00",
+      "candidate1_vote_pct": "0.00",
+      "candidate2_vote_pct": "NULL",
+      "updated_at": "2026-05-21 18:09:47"
+    },
+    {
+      "state_code": "state_code",
+      "status": "district",
+      "candidate1_name": "status",
+      "candidate2_name": "candidate1_name",
+      "called_winner": "candidate2_name",
+      "called_party": "called_winner",
+      "pct_reporting": "pct_reporting",
+      "candidate1_vote_pct": "candidate1_vote_pct",
+      "candidate2_vote_pct": "candidate2_vote_pct",
+      "updated_at": "updated_at"
+    },
+    {
+      "state_code": "TX",
+      "status": "18",
+      "candidate1_name": "Primary Runoff",
+      "candidate2_name": "NULL",
+      "called_winner": "Ronald Whitfield",
+      "called_party": "NULL",
+      "pct_reporting": "NULL",
+      "candidate1_vote_pct": "NULL",
+      "candidate2_vote_pct": "NULL",
+      "updated_at": "2026-05-26 22:50:45"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstatus\tcandidate1_name\tcandidate2_name\tcalled_winner\tcalled_party\tpct_reporting\tcandidate1_vote_pct\tcandidate2_vote_pct\tupdated_at\nTX\tPrimary Runoff\tJames Talarico\tNULL\tNULL\tNULL\t0.00\t0.00\tNULL\t2026-05-21 18:09:47\nstate_code\tdistrict\tstatus\tcandidate1_name\tcandidate2_name\tcalled_winner\tpct_reporting\tcandidate1_vote_pct\tcandidate2_vote_pct\tupdated_at\nTX\t18\tPrimary Runoff\tNULL\tRonald Whitfield\tNULL\tNULL\tNULL\tNULL\t2026-05-26 22:50:45\n",
+  "stderr": "",
+  "execution_time_ms": 260
+}

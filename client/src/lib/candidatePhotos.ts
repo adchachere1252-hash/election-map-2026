@@ -91,7 +91,8 @@ export const BIOGUIDE_MAP: Record<string, string> = {
   "Chris Deluzio": "D000530",
   "Chris Pappas": "P000614",
   "Chrissy Houlahan": "H001085",
-  "Christian D. Menefee": "M001245",
+  // "Christian D. Menefee": "M001245",  // unitedstates.github.io 404 — using CDN photo instead
+  // "Christian Menefee": "M001245",  // unitedstates.github.io 404 — using CDN photo instead
   "Christopher H. Smith": "S000522",
   "Chuck Edwards": "E000246",
   "Chuck Fleischmann": "F000459",
@@ -632,7 +633,7 @@ const CDN_PHOTOS: Record<string, string> = {
   "angel rodrigues-prillman": `${CDN_BASE}/angel-rodrigues-tx12_2c1e2bd0.jpg`,
   "mark nair":              `${CDN_BASE}/mark-nair-tx13_e30b0587.jpg`,
   "ronald whitfield":       `${CDN_BASE}/ronald-whitfield-tx18_9dba8f6a.jpg`,
-  "christian menefee":      `${CDN_BASE}/christian-menefee-tx18_5851098d.jpg`,
+  "christian menefee":      `${CDN_BASE}/christian-menefee-headshot_85e2ff9b.png`,
   "marquette greene-scott": `${CDN_BASE}/marquette-greene-scott-tx22_806026e0.jpg`,
   "trever nehls":           `${CDN_BASE}/trever-nehls-tx22_a4c8eb5b.jpg`,
   "tanya lloyd":            `${CDN_BASE}/tanya-lloyd-tx27_c793c82a.jpg`,

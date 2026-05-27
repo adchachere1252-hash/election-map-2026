@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE house_races SET \n  candidate1_name = 'Christian Menefee',\n  candidate1_party = 'D',\n  status = 'General',\n  called_winner = 'Christian Menefee',\n  called_party = 'D',\n  called_at = NOW(),\n  notes = 'Christian Menefee (D) won the May 26 Democratic primary runoff over Al Green. Faces Ronald Whitfield (R) in the November general election. TX-18 is rated Safe D.',\n  updated_at = NOW()\nWHERE state_code = 'TX' AND district = 18;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE house_races SET \n  candidate1_name = 'Christian Menefee',\n  candidate1_party = 'D',\n  status = 'General',\n  called_winner = 'Christian Menefee',\n  called_party = 'D',\n  called_at = NOW(),\n  notes = 'Christian Menefee (D) won the May 26 Democratic primary runoff over Al Green. Faces Ronald Whitfield (R) in the November general election. TX-18 is rated Safe D.',\n  updated_at = NOW()\nWHERE state_code = 'TX' AND district = 18;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 269
+}

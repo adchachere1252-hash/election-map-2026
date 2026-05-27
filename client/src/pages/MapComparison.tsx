@@ -106,8 +106,8 @@ const MILESTONES: { congress: number; label: string }[] = [
 
 // ─── Play speed options ───────────────────────────────────────────────────────
 const PLAY_SPEEDS = [
-  { label: "Slow", ms: 3000 },
-  { label: "Normal", ms: 1800 },
+  { label: "Slow", ms: 2500 },
+  { label: "Normal", ms: 1200 },
 ];
 
 // ─── Sky video backgrounds ────────────────────────────────────────────────────
@@ -826,8 +826,8 @@ export default function MapComparison() {
   const [districtPopup, setDistrictPopup] = useState<Record<string, unknown> | null>(null);
   const [isPlayingA, setIsPlayingA] = useState(false);
   const [isPlayingB, setIsPlayingB] = useState(false);
-  const [speedIdxA, setSpeedIdxA] = useState(0);
-  const [speedIdxB, setSpeedIdxB] = useState(0);
+  const [speedIdxA, setSpeedIdxA] = useState(1); // default: Normal (1000ms)
+  const [speedIdxB, setSpeedIdxB] = useState(1); // default: Normal (1000ms)
   const panelARef = useRef<D3MapPanelHandle>(null);
   const panelBRef = useRef<D3MapPanelHandle>(null);
   const sky = getSkyVideo();
@@ -874,6 +874,13 @@ export default function MapComparison() {
         const c = congressARef.current;
         if (c >= CONGRESS_END) { setIsPlayingA(false); return; }
         const next = c + 1;
+        // Only advance if the next congress is already cached — never skip or freeze
+        if (!layerDataCache.has(next)) {
+          // Data not ready yet — reset timer and wait for next tick
+          lastTime = now;
+          rafId = requestAnimationFrame(tick);
+          return;
+        }
         panelARef.current?.jumpTo(next); // D3 update: synchronous, zero React overhead
         setCongressA(next);              // UI update: slider, seat counts
       }
@@ -882,7 +889,6 @@ export default function MapComparison() {
     rafId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafId);
   }, [isPlayingA, speedIdxA]);
-
   // Animation playback B — rAF ticker
   useEffect(() => {
     if (!isPlayingB) return;
@@ -895,6 +901,12 @@ export default function MapComparison() {
         const c = congressBRef.current;
         if (c >= CONGRESS_END) { setIsPlayingB(false); return; }
         const next = c + 1;
+        // Only advance if the next congress is already cached
+        if (!layerDataCache.has(next)) {
+          lastTime = now;
+          rafId = requestAnimationFrame(tick);
+          return;
+        }
         panelBRef.current?.jumpTo(next);
         setCongressB(next);
       }

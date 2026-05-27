@@ -1,0 +1,21 @@
+{
+  "query": "SELECT status, candidate1_name, candidate1_vote_pct, candidate2_name, candidate2_vote_pct, called_winner, called_party, pct_reporting, updated_at FROM senate_races WHERE state_code = 'TX';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT status, candidate1_name, candidate1_vote_pct, candidate2_name, candidate2_vote_pct, called_winner, called_party, pct_reporting, updated_at FROM senate_races WHERE state_code = 'TX';",
+  "rows": [
+    {
+      "status": "Primary Runoff",
+      "candidate1_name": "James Talarico",
+      "candidate1_vote_pct": "0.00",
+      "candidate2_name": "NULL",
+      "candidate2_vote_pct": "NULL",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "pct_reporting": "0.00",
+      "updated_at": "2026-05-21 18:09:47"
+    }
+  ],
+  "messages": [],
+  "stdout": "status\tcandidate1_name\tcandidate1_vote_pct\tcandidate2_name\tcandidate2_vote_pct\tcalled_winner\tcalled_party\tpct_reporting\tupdated_at\nPrimary Runoff\tJames Talarico\t0.00\tNULL\tNULL\tNULL\tNULL\t0.00\t2026-05-21 18:09:47\n",
+  "stderr": "",
+  "execution_time_ms": 256
+}
