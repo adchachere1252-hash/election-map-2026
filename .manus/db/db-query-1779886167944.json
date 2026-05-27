@@ -1,0 +1,150 @@
+{
+  "query": "SELECT district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, incumbent, notes FROM house_races WHERE state_code = 'TX' AND district IN (1, 5, 7, 9, 14, 16, 17, 19, 24, 32, 33, 35, 37, 38) ORDER BY district ASC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, incumbent, notes FROM house_races WHERE state_code = 'TX' AND district IN (1, 5, 7, 9, 14, 16, 17, 19, 24, 32, 33, 35, 37, 38) ORDER BY district ASC;",
+  "rows": [
+    {
+      "district": "1",
+      "status": "General",
+      "candidate1_name": "Yolanda Prince",
+      "candidate1_party": "D",
+      "candidate2_name": "Nathaniel Moran",
+      "candidate2_party": "R",
+      "incumbent": "Nathaniel Moran",
+      "notes": "Yolanda Prince (D) won the May 26 Democratic primary runoff over Dax Alexander (72.2% vs 27.8%). Nathaniel Moran (R) ran uncontested. Rated Solid R."
+    },
+    {
+      "district": "5",
+      "status": "General",
+      "candidate1_name": "Chelsey Hockett",
+      "candidate1_party": "D",
+      "candidate2_name": "Lance Gooden",
+      "candidate2_party": "R",
+      "incumbent": "Lance Gooden",
+      "notes": "Chelsey Hockett (D) won the May 26 Democratic primary runoff over R. Torres (54.7% vs 45.3%). Faces incumbent Lance Gooden (R) in November. Rated Solid R."
+    },
+    {
+      "district": "7",
+      "status": "Primary Runoff",
+      "candidate1_name": "Lizzie Fletcher",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "R",
+      "incumbent": "Lizzie Fletcher",
+      "notes": "NULL"
+    },
+    {
+      "district": "9",
+      "status": "General",
+      "candidate1_name": "Lorenzo Gutierrez",
+      "candidate1_party": "D",
+      "candidate2_name": "Alex Mealer",
+      "candidate2_party": "R",
+      "incumbent": "NULL",
+      "notes": "Open seat (Al Green moved to TX-18). Alex Mealer (R) won the May 26 Republican primary runoff over Briscoe Cain (69.3% vs 30.7%). Lorenzo Gutierrez (D) won the D primary outright in March. Rated Solid R."
+    },
+    {
+      "district": "14",
+      "status": "General",
+      "candidate1_name": "Thurman Bartie",
+      "candidate1_party": "D",
+      "candidate2_name": "Randy Weber",
+      "candidate2_party": "R",
+      "incumbent": "Randy K. Weber Sr.",
+      "notes": "Thurman Bartie (D) won the May 26 Democratic primary runoff over Richard Davis (51.9% vs 48.1%). Faces incumbent Randy Weber (R) in November. Rated Solid R."
+    },
+    {
+      "district": "16",
+      "status": "General",
+      "candidate1_name": "Veronica Escobar",
+      "candidate1_party": "D",
+      "candidate2_name": "Adam Bauman",
+      "candidate2_party": "R",
+      "incumbent": "Veronica Escobar",
+      "notes": "Veronica Escobar (D) is the incumbent. Adam Bauman (R) won the May 26 Republican primary runoff over Manuel Barraza (69.9% vs 30.1%). Rated Solid D."
+    },
+    {
+      "district": "17",
+      "status": "General",
+      "candidate1_name": "Casey Shepard",
+      "candidate1_party": "D",
+      "candidate2_name": "Pete Sessions",
+      "candidate2_party": "R",
+      "incumbent": "Pete Sessions",
+      "notes": "NULL"
+    },
+    {
+      "district": "19",
+      "status": "General",
+      "candidate1_name": "Kyle Rable",
+      "candidate1_party": "D",
+      "candidate2_name": "Tom Sell",
+      "candidate2_party": "R",
+      "incumbent": "Open Seat",
+      "notes": "Open seat (Jodey Arrington retired). Tom Sell (R) won the May 26 Republican primary runoff over Abraham Enriquez (65.6% vs 34.4%). Faces Democrat Kyle Rable in November. Rated Solid R."
+    },
+    {
+      "district": "24",
+      "status": "General",
+      "candidate1_name": "Kevin Burge",
+      "candidate1_party": "D",
+      "candidate2_name": "Beth Van Duyne",
+      "candidate2_party": "R",
+      "incumbent": "Beth Van Duyne",
+      "notes": "NULL"
+    },
+    {
+      "district": "32",
+      "status": "General",
+      "candidate1_name": "Dan Barrios",
+      "candidate1_party": "D",
+      "candidate2_name": "Patrick Gillespie",
+      "candidate2_party": "R",
+      "incumbent": "Open Seat",
+      "notes": "Open seat (redrawn district). Patrick Gillespie (R) won the May 26 Republican primary runoff over John Sims (56.2% vs 43.8%). Faces Democrat Dan Barrios in November. Rated Lean R."
+    },
+    {
+      "district": "33",
+      "status": "General",
+      "candidate1_name": "Colin Allred",
+      "candidate1_party": "D",
+      "candidate2_name": "Patrick David Gillespie",
+      "candidate2_party": "R",
+      "incumbent": "Open Seat",
+      "notes": "Open seat (newly drawn district). Colin Allred (D) won the May 26 Democratic primary runoff over incumbent Julie Johnson (54.9% vs 45.1%). Patrick David Gillespie (R) won the R runoff over John Sims (56.2% vs 43.8%). Rated Solid D."
+    },
+    {
+      "district": "35",
+      "status": "General",
+      "candidate1_name": "Johnny Garcia",
+      "candidate1_party": "D",
+      "candidate2_name": "Carlos De La Cruz",
+      "candidate2_party": "R",
+      "incumbent": "Open Seat",
+      "notes": "Open seat (Greg Casar moved to TX-37). Carlos De La Cruz (R) won the May 26 Republican primary runoff over John Lujan (54.5% vs 45.5%). Johnny Garcia (D) won the D runoff over Maureen Galindo (59.2% vs 40.8%). Rated Likely R."
+    },
+    {
+      "district": "37",
+      "status": "General",
+      "candidate1_name": "Greg Casar",
+      "candidate1_party": "D",
+      "candidate2_name": "Lauren Peña",
+      "candidate2_party": "R",
+      "incumbent": "Greg Casar",
+      "notes": "Greg Casar (D) is the incumbent (moved from old TX-35 after redistricting). Lauren Peña (R) won the May 26 Republican primary runoff over Ge'Nell Gary (58.4% vs 41.6%). Rated Solid D."
+    },
+    {
+      "district": "38",
+      "status": "General",
+      "candidate1_name": "Melissa McDonough",
+      "candidate1_party": "D",
+      "candidate2_name": "Jon Bonck",
+      "candidate2_party": "R",
+      "incumbent": "Open Seat",
+      "notes": "Open seat. Jon Bonck (R) won the May 26 Republican primary runoff over Shelly deZevallos (65.4% vs 34.6%). Faces Democrat Melissa McDonough in November. Rated Solid R."
+    }
+  ],
+  "messages": [],
+  "stdout": "district\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tincumbent\tnotes\n1\tGeneral\tYolanda Prince\tD\tNathaniel Moran\tR\tNathaniel Moran\tYolanda Prince (D) won the May 26 Democratic primary runoff over Dax Alexander (72.2% vs 27.8%). Nathaniel Moran (R) ran uncontested. Rated Solid R.\n5\tGeneral\tChelsey Hockett\tD\tLance Gooden\tR\tLance Gooden\tChelsey Hockett (D) won the May 26 Democratic primary runoff over R. Torres (54.7% vs 45.3%). Faces incumbent Lance Gooden (R) in November. Rated Solid R.\n7\tPrimary Runoff\tLizzie Fletcher\tD\tNULL\tR\tLizzie Fletcher\tNULL\n9\tGeneral\tLorenzo Gutierrez\tD\tAlex Mealer\tR\tNULL\tOpen seat (Al Green moved to TX-18). Alex Mealer (R) won the May 26 Republican primary runoff over Briscoe Cain (69.3% vs 30.7%). Lorenzo Gutierrez (D) won the D primary outright in March. Rated Solid R.\n14\tGeneral\tThurman Bartie\tD\tRandy Weber\tR\tRandy K. Weber Sr.\tThurman Bartie (D) won the May 26 Democratic primary runoff over Richard Davis (51.9% vs 48.1%). Faces incumbent Randy Weber (R) in November. Rated Solid R.\n16\tGeneral\tVeronica Escobar\tD\tAdam Bauman\tR\tVeronica Escobar\tVeronica Escobar (D) is the incumbent. Adam Bauman (R) won the May 26 Republican primary runoff over Manuel Barraza (69.9% vs 30.1%). Rated Solid D.\n17\tGeneral\tCasey Shepard\tD\tPete Sessions\tR\tPete Sessions\tNULL\n19\tGeneral\tKyle Rable\tD\tTom Sell\tR\tOpen Seat\tOpen seat (Jodey Arrington retired). Tom Sell (R) won the May 26 Republican primary runoff over Abraham Enriquez (65.6% vs 34.4%). Faces Democrat Kyle Rable in November. Rated Solid R.\n24\tGeneral\tKevin Burge\tD\tBeth Van Duyne\tR\tBeth Van Duyne\tNULL\n32\tGeneral\tDan Barrios\tD\tPatrick Gillespie\tR\tOpen Seat\tOpen seat (redrawn district). Patrick Gillespie (R) won the May 26 Republican primary runoff over John Sims (56.2% vs 43.8%). Faces Democrat Dan Barrios in November. Rated Lean R.\n33\tGeneral\tColin Allred\tD\tPatrick David Gillespie\tR\tOpen Seat\tOpen seat (newly drawn district). Colin Allred (D) won the May 26 Democratic primary runoff over incumbent Julie Johnson (54.9% vs 45.1%). Patrick David Gillespie (R) won the R runoff over John Sims (56.2% vs 43.8%). Rated Solid D.\n35\tGeneral\tJohnny Garcia\tD\tCarlos De La Cruz\tR\tOpen Seat\tOpen seat (Greg Casar moved to TX-37). Carlos De La Cruz (R) won the May 26 Republican primary runoff over John Lujan (54.5% vs 45.5%). Johnny Garcia (D) won the D runoff over Maureen Galindo (59.2% vs 40.8%). Rated Likely R.\n37\tGeneral\tGreg Casar\tD\tLauren Peña\tR\tGreg Casar\tGreg Casar (D) is the incumbent (moved from old TX-35 after redistricting). Lauren Peña (R) won the May 26 Republican primary runoff over Ge'Nell Gary (58.4% vs 41.6%). Rated Solid D.\n38\tGeneral\tMelissa McDonough\tD\tJon Bonck\tR\tOpen Seat\tOpen seat. Jon Bonck (R) won the May 26 Republican primary runoff over Shelly deZevallos (65.4% vs 34.6%). Faces Democrat Melissa McDonough in November. Rated Solid R.\n",
+  "stderr": "",
+  "execution_time_ms": 264
+}

@@ -1,0 +1,46 @@
+{
+  "query": "SELECT district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, incumbent FROM house_races WHERE state_code = 'TX' AND district IN (33, 35, 37, 38) ORDER BY district ASC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, incumbent FROM house_races WHERE state_code = 'TX' AND district IN (33, 35, 37, 38) ORDER BY district ASC;",
+  "rows": [
+    {
+      "district": "33",
+      "status": "General",
+      "candidate1_name": "Colin Allred",
+      "candidate1_party": "D",
+      "candidate2_name": "Patrick David Gillespie",
+      "candidate2_party": "R",
+      "incumbent": "Open Seat"
+    },
+    {
+      "district": "35",
+      "status": "General",
+      "candidate1_name": "Johnny Garcia",
+      "candidate1_party": "D",
+      "candidate2_name": "Carlos De La Cruz",
+      "candidate2_party": "R",
+      "incumbent": "Open Seat"
+    },
+    {
+      "district": "37",
+      "status": "General",
+      "candidate1_name": "Greg Casar",
+      "candidate1_party": "D",
+      "candidate2_name": "Lauren Peña",
+      "candidate2_party": "R",
+      "incumbent": "Greg Casar"
+    },
+    {
+      "district": "38",
+      "status": "General",
+      "candidate1_name": "Melissa McDonough",
+      "candidate1_party": "D",
+      "candidate2_name": "Jon Bonck",
+      "candidate2_party": "R",
+      "incumbent": "Open Seat"
+    }
+  ],
+  "messages": [],
+  "stdout": "district\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tincumbent\n33\tGeneral\tColin Allred\tD\tPatrick David Gillespie\tR\tOpen Seat\n35\tGeneral\tJohnny Garcia\tD\tCarlos De La Cruz\tR\tOpen Seat\n37\tGeneral\tGreg Casar\tD\tLauren Peña\tR\tGreg Casar\n38\tGeneral\tMelissa McDonough\tD\tJon Bonck\tR\tOpen Seat\n",
+  "stderr": "",
+  "execution_time_ms": 268
+}

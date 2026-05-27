@@ -674,6 +674,7 @@ const CDN_PHOTOS: Record<string, string> = {
   "colin allred":             `${CDN_BASE}/colin_allred_14cb6e63.jpg`,      // TX-33 D nominee
   "johnny garcia":            `${CDN_BASE}/johnny_garcia_6c0010d6.jpg`,     // TX-35 D nominee
   "jon bonck":                `${CDN_BASE}/jon_bonck_2d62fea1.jpg`,         // TX-38 R nominee
+  "alex mealer":              `${CDN_BASE}/alex_mealer_c5a0dc89.jpg`,         // TX-9 R nominee (won May 26 runoff over Briscoe Cain)
 };
 
 /**
