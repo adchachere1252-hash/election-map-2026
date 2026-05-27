@@ -1,0 +1,13 @@
+{
+  "query": "SELECT notes FROM senate_races WHERE state_code = 'TX';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT notes FROM senate_races WHERE state_code = 'TX';",
+  "rows": [
+    {
+      "notes": "John Cornyn (Republican) is the incumbent seeking re-election as Ken Paxton is seeking to un-seat the longtime Senator. Paxton, the former Texas Attorney General and Trump-endorsed candidate, won the May 26, 2026 Republican primary runoff. He faces Democrat James Talarico in the November 3, 2026 general election. Rated Likely R (Cook Political Report / Inside Elections / Sabato's Crystal Ball). Election day: November 3, 2026."
+    }
+  ],
+  "messages": [],
+  "stdout": "notes\nJohn Cornyn (Republican) is the incumbent seeking re-election as Ken Paxton is seeking to un-seat the longtime Senator. Paxton, the former Texas Attorney General and Trump-endorsed candidate, won the May 26, 2026 Republican primary runoff. He faces Democrat James Talarico in the November 3, 2026 general election. Rated Likely R (Cook Political Report / Inside Elections / Sabato's Crystal Ball). Election day: November 3, 2026.\n",
+  "stderr": "",
+  "execution_time_ms": 260
+}
