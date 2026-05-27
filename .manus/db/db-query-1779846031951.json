@@ -1,0 +1,9 @@
+{
+  "query": "\n-- TX-14 (D): Thurman Bartie wins D runoff over Richard Davis (51.9% vs 48.1% per NBC)\n-- R incumbent is Randy Weber\nUPDATE house_races SET \n  status = 'General',\n  candidate1_name = 'Thurman Bartie',\n  candidate1_party = 'D',\n  candidate2_name = 'Randy Weber',\n  candidate2_party = 'R',\n  notes = 'Thurman Bartie (D) won the May 26 Democratic primary runoff over Richard Davis (51.9% vs 48.1%). Faces incumbent Randy Weber (R) in November. Rated Solid R.'\nWHERE state_code = 'TX' AND district = 14;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- TX-14 (D): Thurman Bartie wins D runoff over Richard Davis (51.9% vs 48.1% per NBC)\n-- R incumbent is Randy Weber\nUPDATE house_races SET \n  status = 'General',\n  candidate1_name = 'Thurman Bartie',\n  candidate1_party = 'D',\n  candidate2_name = 'Randy Weber',\n  candidate2_party = 'R',\n  notes = 'Thurman Bartie (D) won the May 26 Democratic primary runoff over Richard Davis (51.9% vs 48.1%). Faces incumbent Randy Weber (R) in November. Rated Solid R.'\nWHERE state_code = 'TX' AND district = 14;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 301
+}

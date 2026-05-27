@@ -1,0 +1,142 @@
+{
+  "query": "SELECT id, state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, incumbent, notes FROM house_races WHERE state_code = 'TX' AND status = 'Primary Runoff' ORDER BY district ASC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, state_code, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, incumbent, notes FROM house_races WHERE state_code = 'TX' AND status = 'Primary Runoff' ORDER BY district ASC;",
+  "rows": [
+    {
+      "id": "361",
+      "state_code": "TX",
+      "district": "1",
+      "status": "Primary Runoff",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "N. Moran",
+      "candidate2_party": "R",
+      "incumbent": "Nathaniel Moran",
+      "notes": "NULL"
+    },
+    {
+      "id": "365",
+      "state_code": "TX",
+      "district": "5",
+      "status": "Primary Runoff",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Lance Gooden",
+      "candidate2_party": "R",
+      "incumbent": "Lance Gooden",
+      "notes": "NULL"
+    },
+    {
+      "id": "367",
+      "state_code": "TX",
+      "district": "7",
+      "status": "Primary Runoff",
+      "candidate1_name": "Lizzie Fletcher",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "R",
+      "incumbent": "Lizzie Fletcher",
+      "notes": "NULL"
+    },
+    {
+      "id": "369",
+      "state_code": "TX",
+      "district": "9",
+      "status": "Primary Runoff",
+      "candidate1_name": "Lorenzo Gutierrez",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "R",
+      "incumbent": "NULL",
+      "notes": "Open seat. Al Green not running for re-election. Leticia Gutierrez (D) vs Roy Morales (R) in general. Cook/IE: Solid R."
+    },
+    {
+      "id": "374",
+      "state_code": "TX",
+      "district": "14",
+      "status": "Primary Runoff",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "incumbent": "Randy K. Weber Sr.",
+      "notes": "NULL"
+    },
+    {
+      "id": "376",
+      "state_code": "TX",
+      "district": "16",
+      "status": "Primary Runoff",
+      "candidate1_name": "NULL",
+      "candidate1_party": "NULL",
+      "candidate2_name": "NULL",
+      "candidate2_party": "R",
+      "incumbent": "Veronica Escobar",
+      "notes": "NULL"
+    },
+    {
+      "id": "379",
+      "state_code": "TX",
+      "district": "19",
+      "status": "Primary Runoff",
+      "candidate1_name": "Abraham Enriquez",
+      "candidate1_party": "R",
+      "candidate2_name": "Tom Sell",
+      "candidate2_party": "R",
+      "incumbent": "Open Seat",
+      "notes": "R primary runoff May 26: Tom Sell vs. Abraham Enriquez. Winner faces Democrat Kyle Rable in the November general election."
+    },
+    {
+      "id": "392",
+      "state_code": "TX",
+      "district": "32",
+      "status": "Primary Runoff",
+      "candidate1_name": "Dan Barrios",
+      "candidate1_party": "D",
+      "candidate2_name": "Jace Yarbrough",
+      "candidate2_party": "R",
+      "incumbent": "Open Seat",
+      "notes": "R primary runoff May 26: Jace Yarbrough vs. Ryan Binkley. Winner faces Democrat Dan Barrios in the November general election."
+    },
+    {
+      "id": "393",
+      "state_code": "TX",
+      "district": "33",
+      "status": "Primary Runoff",
+      "candidate1_name": "John Sims",
+      "candidate1_party": "R",
+      "candidate2_name": "Patrick Gillespie",
+      "candidate2_party": "R",
+      "incumbent": "Open Seat",
+      "notes": "R primary runoff May 26: Patrick Gillespie vs. John Sims. D primary runoff May 26: Colin Allred vs. Julie Johnson. The winners of both runoffs will meet in the November general election."
+    },
+    {
+      "id": "395",
+      "state_code": "TX",
+      "district": "35",
+      "status": "Primary Runoff",
+      "candidate1_name": "John Lujan",
+      "candidate1_party": "R",
+      "candidate2_name": "Carlos De La Cruz",
+      "candidate2_party": "R",
+      "incumbent": "Open Seat",
+      "notes": "R primary runoff May 26: John Lujan vs. Carlos De La Cruz. D primary runoff May 26: Maureen Galindo vs. Johnny Garcia. The winners of both runoffs will meet in the November general election."
+    },
+    {
+      "id": "398",
+      "state_code": "TX",
+      "district": "38",
+      "status": "Primary Runoff",
+      "candidate1_name": "Shelly deZevallos",
+      "candidate1_party": "R",
+      "candidate2_name": "Jon Bonck",
+      "candidate2_party": "R",
+      "incumbent": "Open Seat",
+      "notes": "R primary runoff May 26: Jon Bonck vs. Shelly deZevallos. Winner faces Democrat Melissa McDonough in the November general election."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tincumbent\tnotes\n361\tTX\t1\tPrimary Runoff\tNULL\tD\tN. Moran\tR\tNathaniel Moran\tNULL\n365\tTX\t5\tPrimary Runoff\tNULL\tD\tLance Gooden\tR\tLance Gooden\tNULL\n367\tTX\t7\tPrimary Runoff\tLizzie Fletcher\tD\tNULL\tR\tLizzie Fletcher\tNULL\n369\tTX\t9\tPrimary Runoff\tLorenzo Gutierrez\tD\tNULL\tR\tNULL\tOpen seat. Al Green not running for re-election. Leticia Gutierrez (D) vs Roy Morales (R) in general. Cook/IE: Solid R.\n374\tTX\t14\tPrimary Runoff\tNULL\tD\tNULL\tNULL\tRandy K. Weber Sr.\tNULL\n376\tTX\t16\tPrimary Runoff\tNULL\tNULL\tNULL\tR\tVeronica Escobar\tNULL\n379\tTX\t19\tPrimary Runoff\tAbraham Enriquez\tR\tTom Sell\tR\tOpen Seat\tR primary runoff May 26: Tom Sell vs. Abraham Enriquez. Winner faces Democrat Kyle Rable in the November general election.\n392\tTX\t32\tPrimary Runoff\tDan Barrios\tD\tJace Yarbrough\tR\tOpen Seat\tR primary runoff May 26: Jace Yarbrough vs. Ryan Binkley. Winner faces Democrat Dan Barrios in the November general election.\n393\tTX\t33\tPrimary Runoff\tJohn Sims\tR\tPatrick Gillespie\tR\tOpen Seat\tR primary runoff May 26: Patrick Gillespie vs. John Sims. D primary runoff May 26: Colin Allred vs. Julie Johnson. The winners of both runoffs will meet in the November general election.\n395\tTX\t35\tPrimary Runoff\tJohn Lujan\tR\tCarlos De La Cruz\tR\tOpen Seat\tR primary runoff May 26: John Lujan vs. Carlos De La Cruz. D primary runoff May 26: Maureen Galindo vs. Johnny Garcia. The winners of both runoffs will meet in the November general election.\n398\tTX\t38\tPrimary Runoff\tShelly deZevallos\tR\tJon Bonck\tR\tOpen Seat\tR primary runoff May 26: Jon Bonck vs. Shelly deZevallos. Winner faces Democrat Melissa McDonough in the November general election.\n",
+  "stderr": "",
+  "execution_time_ms": 269
+}

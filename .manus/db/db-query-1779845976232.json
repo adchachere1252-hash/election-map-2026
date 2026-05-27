@@ -1,0 +1,24 @@
+{
+  "query": "\n-- TX-16 (R): Adam Bauman wins R runoff over Manuel Barraza (69.9% vs 30.1%)\n-- TX-16 D incumbent is Veronica Escobar\nUPDATE house_races SET \n  status = 'General',\n  candidate1_name = 'Veronica Escobar',\n  candidate1_party = 'D',\n  candidate2_name = 'Adam Bauman',\n  candidate2_party = 'R',\n  notes = 'Veronica Escobar (D) is the incumbent. Adam Bauman (R) won the May 26 Republican primary runoff over Manuel Barraza (69.9% vs 30.1%). Rated Solid D.'\nWHERE state_code = 'TX' AND district = 16;\n\n-- Check remaining Primary Runoff races in TX\nSELECT id, district, status, candidate1_name, candidate2_name FROM house_races WHERE state_code = 'TX' AND status = 'Primary Runoff';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- TX-16 (R): Adam Bauman wins R runoff over Manuel Barraza (69.9% vs 30.1%)\n-- TX-16 D incumbent is Veronica Escobar\nUPDATE house_races SET \n  status = 'General',\n  candidate1_name = 'Veronica Escobar',\n  candidate1_party = 'D',\n  candidate2_name = 'Adam Bauman',\n  candidate2_party = 'R',\n  notes = 'Veronica Escobar (D) is the incumbent. Adam Bauman (R) won the May 26 Republican primary runoff over Manuel Barraza (69.9% vs 30.1%). Rated Solid D.'\nWHERE state_code = 'TX' AND district = 16;\n\n-- Check remaining Primary Runoff races in TX\nSELECT id, district, status, candidate1_name, candidate2_name FROM house_races WHERE state_code = 'TX' AND status = 'Primary Runoff';\n",
+  "rows": [
+    {
+      "id": "367",
+      "district": "7",
+      "status": "Primary Runoff",
+      "candidate1_name": "Lizzie Fletcher",
+      "candidate2_name": "NULL"
+    },
+    {
+      "id": "374",
+      "district": "14",
+      "status": "Primary Runoff",
+      "candidate1_name": "NULL",
+      "candidate2_name": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tdistrict\tstatus\tcandidate1_name\tcandidate2_name\n367\t7\tPrimary Runoff\tLizzie Fletcher\tNULL\n374\t14\tPrimary Runoff\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 267
+}

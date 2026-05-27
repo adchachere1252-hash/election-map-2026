@@ -1,0 +1,32 @@
+{
+  "query": "SELECT id, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, incumbent, notes FROM house_races WHERE state_code = 'TX' AND district IN (37, 38);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, incumbent, notes FROM house_races WHERE state_code = 'TX' AND district IN (37, 38);",
+  "rows": [
+    {
+      "id": "397",
+      "district": "37",
+      "status": "Scheduled",
+      "candidate1_name": "Lauren Peña",
+      "candidate1_party": "R",
+      "candidate2_name": "Ge'Nell Gary",
+      "candidate2_party": "R",
+      "incumbent": "Greg Casar",
+      "notes": "Greg Casar (D) is the incumbent, elected in 2024 when TX-37 was redrawn. Lloyd Doggett moved to TX-33."
+    },
+    {
+      "id": "398",
+      "district": "38",
+      "status": "Primary Runoff",
+      "candidate1_name": "Shelly deZevallos",
+      "candidate1_party": "R",
+      "candidate2_name": "Jon Bonck",
+      "candidate2_party": "R",
+      "incumbent": "Open Seat",
+      "notes": "R primary runoff May 26: Jon Bonck vs. Shelly deZevallos. Winner faces Democrat Melissa McDonough in the November general election."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tincumbent\tnotes\n397\t37\tScheduled\tLauren Peña\tR\tGe'Nell Gary\tR\tGreg Casar\tGreg Casar (D) is the incumbent, elected in 2024 when TX-37 was redrawn. Lloyd Doggett moved to TX-33.\n398\t38\tPrimary Runoff\tShelly deZevallos\tR\tJon Bonck\tR\tOpen Seat\tR primary runoff May 26: Jon Bonck vs. Shelly deZevallos. Winner faces Democrat Melissa McDonough in the November general election.\n",
+  "stderr": "",
+  "execution_time_ms": 265
+}

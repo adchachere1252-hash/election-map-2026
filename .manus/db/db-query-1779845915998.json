@@ -1,0 +1,43 @@
+{
+  "query": "SELECT id, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, incumbent, notes FROM house_races WHERE state_code = 'TX' AND district IN (9, 23, 37) ORDER BY district ASC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, district, status, candidate1_name, candidate1_party, candidate2_name, candidate2_party, incumbent, notes FROM house_races WHERE state_code = 'TX' AND district IN (9, 23, 37) ORDER BY district ASC;",
+  "rows": [
+    {
+      "id": "369",
+      "district": "9",
+      "status": "Primary Runoff",
+      "candidate1_name": "Lorenzo Gutierrez",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "R",
+      "incumbent": "NULL",
+      "notes": "Open seat. Al Green not running for re-election. Leticia Gutierrez (D) vs Roy Morales (R) in general. Cook/IE: Solid R."
+    },
+    {
+      "id": "383",
+      "district": "23",
+      "status": "Scheduled",
+      "candidate1_name": "NULL",
+      "candidate1_party": "NULL",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "incumbent": "Vacant",
+      "notes": "Rep. Tony Gonzales (R) resigned from Congress effective April 14, 2026, amid sexual misconduct allegations. TX-23 is the largest district in Texas, spanning from west San Antonio to El Paso. Gov. Greg Abbott has not yet called a special election. If called, Texas law requires at least 36 days' notice. The next uniform election date is November 3, 2026."
+    },
+    {
+      "id": "397",
+      "district": "37",
+      "status": "Scheduled",
+      "candidate1_name": "Lauren Peña",
+      "candidate1_party": "R",
+      "candidate2_name": "Ge'Nell Gary",
+      "candidate2_party": "R",
+      "incumbent": "Greg Casar",
+      "notes": "Greg Casar (D) is the incumbent, elected in 2024 when TX-37 was redrawn. Lloyd Doggett moved to TX-33."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tdistrict\tstatus\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tincumbent\tnotes\n369\t9\tPrimary Runoff\tLorenzo Gutierrez\tD\tNULL\tR\tNULL\tOpen seat. Al Green not running for re-election. Leticia Gutierrez (D) vs Roy Morales (R) in general. Cook/IE: Solid R.\n383\t23\tScheduled\tNULL\tNULL\tNULL\tNULL\tVacant\tRep. Tony Gonzales (R) resigned from Congress effective April 14, 2026, amid sexual misconduct allegations. TX-23 is the largest district in Texas, spanning from west San Antonio to El Paso. Gov. Greg Abbott has not yet called a special election. If called, Texas law requires at least 36 days' notice. The next uniform election date is November 3, 2026.\n397\t37\tScheduled\tLauren Peña\tR\tGe'Nell Gary\tR\tGreg Casar\tGreg Casar (D) is the incumbent, elected in 2024 when TX-37 was redrawn. Lloyd Doggett moved to TX-33.\n",
+  "stderr": "",
+  "execution_time_ms": 263
+}
