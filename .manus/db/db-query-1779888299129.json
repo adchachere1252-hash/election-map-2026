@@ -1,0 +1,80 @@
+{
+  "query": "SELECT state_code, state_name, incumbent, incumbent_party, incumbent_retiring, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating, notes FROM senate_races WHERE state_name IN ('Iowa', 'Montana', 'New Jersey', 'New Mexico', 'South Dakota') ORDER BY state_name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, incumbent, incumbent_party, incumbent_retiring, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating, notes FROM senate_races WHERE state_name IN ('Iowa', 'Montana', 'New Jersey', 'New Mexico', 'South Dakota') ORDER BY state_name;",
+  "rows": [
+    {
+      "state_code": "IA",
+      "state_name": "Iowa",
+      "incumbent": "Open Seat (Chuck Grassley retiring)",
+      "incumbent_party": "R",
+      "incumbent_retiring": "1",
+      "candidate1_name": "TBD — D Primary: Josh Turek vs Zach Wahls (June 2)",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Jim Carlin vs Ashley Hinson (June 2)",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Likely R",
+      "notes": "Open seat — Joni Ernst (R) not running for re-election. D primary June 2: Josh Turek, Zach Wahls. R primary June 2: Jim Carlin, Ashley Hinson. Cook/IE/Sabato: Likely Republican."
+    },
+    {
+      "state_code": "MT",
+      "state_name": "Montana",
+      "incumbent": "Open Seat (Steve Daines not up — Jon Tester lost 2024)",
+      "incumbent_party": "R",
+      "incumbent_retiring": "1",
+      "candidate1_name": "TBD — D Primary: June 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Kurt Alme vs Lee Calhoun vs Charles Walking Child (June 2)",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R",
+      "notes": "Open seat — Steve Daines withdrew. Seth Bodnar running as Independent in general."
+    },
+    {
+      "state_code": "NJ",
+      "state_name": "New Jersey",
+      "incumbent": "Cory Booker",
+      "incumbent_party": "D",
+      "incumbent_retiring": "0",
+      "candidate1_name": "Cory Booker (incumbent)",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Murphy/Tabor/Lebovics/Zdan (June 2)",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid D",
+      "notes": "Incumbent Cory Booker (D) seeking re-election. Primary June 2, 2026."
+    },
+    {
+      "state_code": "NM",
+      "state_name": "New Mexico",
+      "incumbent": "Ben Ray Luján",
+      "incumbent_party": "D",
+      "incumbent_retiring": "0",
+      "candidate1_name": "Ben Ray Luján (incumbent)",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Larry Marker (write-in, June 2)",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid D",
+      "notes": "R candidate Christopher Heuvel was disqualified. Larry Marker qualified as write-in only — must get 2,351 write-in votes to advance."
+    },
+    {
+      "state_code": "SD",
+      "state_name": "South Dakota",
+      "incumbent": "Mike Rounds",
+      "incumbent_party": "R",
+      "incumbent_retiring": "0",
+      "candidate1_name": "Julian Beaudion",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Rounds (incumbent)",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R",
+      "notes": "Incumbent Mike Rounds (R) seeking re-election. Primary June 2, 2026."
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstate_name\tincumbent\tincumbent_party\tincumbent_retiring\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\trating\tnotes\nIA\tIowa\tOpen Seat (Chuck Grassley retiring)\tR\t1\tTBD — D Primary: Josh Turek vs Zach Wahls (June 2)\tD\tTBD — R Primary: Jim Carlin vs Ashley Hinson (June 2)\tR\tScheduled\tLikely R\tOpen seat — Joni Ernst (R) not running for re-election. D primary June 2: Josh Turek, Zach Wahls. R primary June 2: Jim Carlin, Ashley Hinson. Cook/IE/Sabato: Likely Republican.\nMT\tMontana\tOpen Seat (Steve Daines not up — Jon Tester lost 2024)\tR\t1\tTBD — D Primary: June 2, 2026\tD\tTBD — R Primary: Kurt Alme vs Lee Calhoun vs Charles Walking Child (June 2)\tR\tScheduled\tSolid R\tOpen seat — Steve Daines withdrew. Seth Bodnar running as Independent in general.\nNJ\tNew Jersey\tCory Booker\tD\t0\tCory Booker (incumbent)\tD\tTBD — R Primary: Murphy/Tabor/Lebovics/Zdan (June 2)\tR\tScheduled\tSolid D\tIncumbent Cory Booker (D) seeking re-election. Primary June 2, 2026.\nNM\tNew Mexico\tBen Ray Luján\tD\t0\tBen Ray Luján (incumbent)\tD\tTBD — R Primary: Larry Marker (write-in, June 2)\tR\tScheduled\tSolid D\tR candidate Christopher Heuvel was disqualified. Larry Marker qualified as write-in only — must get 2,351 write-in votes to advance.\nSD\tSouth Dakota\tMike Rounds\tR\t0\tJulian Beaudion\tD\tMike Rounds (incumbent)\tR\tScheduled\tSolid R\tIncumbent Mike Rounds (R) seeking re-election. Primary June 2, 2026.\n",
+  "stderr": "",
+  "execution_time_ms": 268
+}
