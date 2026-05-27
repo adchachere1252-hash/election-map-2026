@@ -675,6 +675,11 @@ const CDN_PHOTOS: Record<string, string> = {
   "johnny garcia":            `${CDN_BASE}/johnny_garcia_6c0010d6.jpg`,     // TX-35 D nominee
   "jon bonck":                `${CDN_BASE}/jon_bonck_b5b66743.jpg`,         // TX-38 R nominee
   "alex mealer":              `${CDN_BASE}/alex_mealer_c5a0dc89.jpg`,         // TX-9 R nominee (won May 26 runoff over Briscoe Cain)
+  // Additional TX photos added May 27 2026
+  "randy weber":               `${CDN_BASE}/randy_weber_68b46e5f.jpg`,          // TX-14 R incumbent
+  "patrick david gillespie":   `${CDN_BASE}/patrick_gillespie_c208f7f7.jpg`,    // TX-32/33 R nominee
+  "leticia gutierrez":         `${CDN_BASE}/leticia_gutierrez_a85e0c99.jpg`,    // TX-9 D nominee
+  "carlos de la cruz":         `${CDN_BASE}/carlos_de_la_cruz_995856b9.jpg`,    // TX-35 R nominee
 };
 
 /**

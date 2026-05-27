@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE house_races SET \n  candidate1_name = 'Leticia Gutierrez',\n  notes = 'Open seat (Al Green moved to TX-18). Alex Mealer (R) won the May 26 Republican primary runoff over Briscoe Cain (69.3% vs 30.7%). Leticia Gutierrez (D) won the D primary outright in March. Rated Solid R.'\nWHERE state_code = 'TX' AND district = 9;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE house_races SET \n  candidate1_name = 'Leticia Gutierrez',\n  notes = 'Open seat (Al Green moved to TX-18). Alex Mealer (R) won the May 26 Republican primary runoff over Briscoe Cain (69.3% vs 30.7%). Leticia Gutierrez (D) won the D primary outright in March. Rated Solid R.'\nWHERE state_code = 'TX' AND district = 9;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 266
+}
