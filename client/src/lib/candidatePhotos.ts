@@ -663,6 +663,7 @@ const CDN_PHOTOS: Record<string, string> = {
   "dave mccormick":         `${CDN_BASE}/dave-mccormick_5fb329d8.jpg`,  // PA R Senator
   // LA Senate runoff candidates
   "jamie davis":             `${CDN_BASE}/jamie-davis-sharp_1f4b2478.jpg`,  // LA D Senate runoff candidate
+  "ken paxton":              `${CDN_BASE}/ken-paxton-tx-senate_07ee6c8a.jpg`,  // TX R Senate nominee (won May 26 runoff)
 };
 
 /**

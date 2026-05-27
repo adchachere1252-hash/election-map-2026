@@ -1,0 +1,17 @@
+{
+  "query": "SELECT id, state_code, candidate1_name, candidate2_name, status FROM senate_races WHERE state_code = 'TX';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, state_code, candidate1_name, candidate2_name, status FROM senate_races WHERE state_code = 'TX';",
+  "rows": [
+    {
+      "id": "30",
+      "state_code": "TX",
+      "candidate1_name": "James Talarico",
+      "candidate2_name": "NULL",
+      "status": "Primary Runoff"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tcandidate1_name\tcandidate2_name\tstatus\n30\tTX\tJames Talarico\tNULL\tPrimary Runoff\n",
+  "stderr": "",
+  "execution_time_ms": 261
+}

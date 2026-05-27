@@ -1,0 +1,17 @@
+{
+  "query": "SELECT id, state_code, district, candidate1_name, notes FROM house_races WHERE state_code = 'TX' AND district = 18;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, state_code, district, candidate1_name, notes FROM house_races WHERE state_code = 'TX' AND district = 18;",
+  "rows": [
+    {
+      "id": "378",
+      "state_code": "TX",
+      "district": "18",
+      "candidate1_name": "Christian Menefee",
+      "notes": "Christian Menefee (Democrat) won the May 26, 2026 Democratic primary runoff over incumbent Al Green, becoming the Democratic nominee. Ronald Whitfield is the Republican challenger; a win would flip the seat. Solidly Democratic — not expected to be competitive. Democrat is heavily favored. (Cook Political Report / Inside Elections / Sabato's Crystal Ball). Election day: November 3, 2026."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tdistrict\tcandidate1_name\tnotes\n378\tTX\t18\tChristian Menefee\tChristian Menefee (Democrat) won the May 26, 2026 Democratic primary runoff over incumbent Al Green, becoming the Democratic nominee. Ronald Whitfield is the Republican challenger; a win would flip the seat. Solidly Democratic — not expected to be competitive. Democrat is heavily favored. (Cook Political Report / Inside Elections / Sabato's Crystal Ball). Election day: November 3, 2026.\n",
+  "stderr": "",
+  "execution_time_ms": 266
+}

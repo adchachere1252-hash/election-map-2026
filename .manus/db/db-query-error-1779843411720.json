@@ -1,0 +1,8 @@
+{
+  "query": "UPDATE house_races SET notes = 'Christian Menefee (Democrat) won the May 26, 2026 Democratic primary runoff over incumbent Al Green, becoming the Democratic nominee. Ronald Whitfield is the Republican challenger; a win would flip the seat. Solidly Democratic — not expected to be competitive. Democrat is heavily favored. (Cook Political Report / Inside Elections / Sabato''s Crystal Ball). Election day: November 3, 2026.' WHERE state_code = 'TX' AND district_number = 18;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE house_races SET notes = 'Christian Menefee (Democrat) won the May 26, 2026 Democratic primary runoff over incumbent Al Green, becoming the Democratic nominee. Ronald Whitfield is the Republican challenger; a win would flip the seat. Solidly Democratic — not expected to be competitive. Democrat is heavily favored. (Cook Political Report / Inside Elections / Sabato''s Crystal Ball). Election day: November 3, 2026.' WHERE state_code = 'TX' AND district_number = 18;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'district_number' in 'where clause'"
+  ]
+}
