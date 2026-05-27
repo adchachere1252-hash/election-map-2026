@@ -677,9 +677,11 @@ const CDN_PHOTOS: Record<string, string> = {
   "alex mealer":              `${CDN_BASE}/alex_mealer_c5a0dc89.jpg`,         // TX-9 R nominee (won May 26 runoff over Briscoe Cain)
   // Additional TX photos added May 27 2026
   "randy weber":               `${CDN_BASE}/randy_weber_68b46e5f.jpg`,          // TX-14 R incumbent
-  "patrick david gillespie":   `${CDN_BASE}/patrick_gillespie_c208f7f7.jpg`,    // TX-32/33 R nominee
+  "patrick david gillespie":   `${CDN_BASE}/patrick_gillespie_c208f7f7.jpg`,    // TX-32/33 R nominee (full name)
+  "patrick gillespie":         `${CDN_BASE}/patrick_gillespie_c208f7f7.jpg`,    // TX-32 R nominee (short name)
   "leticia gutierrez":         `${CDN_BASE}/leticia_gutierrez_a85e0c99.jpg`,    // TX-9 D nominee
   "carlos de la cruz":         `${CDN_BASE}/carlos_de_la_cruz_995856b9.jpg`,    // TX-35 R nominee
+  "dan barrios":               `${CDN_BASE}/dan_barrios_1c746312.jpg`,           // TX-32 D nominee
 };
 
 /**
