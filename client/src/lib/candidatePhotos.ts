@@ -682,6 +682,7 @@ const CDN_PHOTOS: Record<string, string> = {
   "leticia gutierrez":         `${CDN_BASE}/leticia_gutierrez_a85e0c99.jpg`,    // TX-9 D nominee
   "carlos de la cruz":         `${CDN_BASE}/carlos_de_la_cruz_995856b9.jpg`,    // TX-35 R nominee
   "dan barrios":               `${CDN_BASE}/dan_barrios_1c746312.jpg`,           // TX-32 D nominee
+  "alexander hale":            `${CDN_BASE}/alexander_hale_68a89b9f.jpg`,        // TX-7 R nominee (won May 26 runoff over Tina Blum Cohen)
 };
 
 /**

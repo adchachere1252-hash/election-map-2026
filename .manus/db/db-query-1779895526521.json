@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE house_races SET \n  candidate2_name = 'Alexander Hale',\n  candidate2_party = 'R',\n  status = 'General',\n  primary_winner = 'Alexander Hale',\n  primary_party = 'R',\n  notes = 'Alexander Hale (R) won the May 26 Republican primary runoff over Tina Blum Cohen. He faces the Democratic nominee in the November 3, 2026 general election. Rated Solid R.'\nWHERE state_code = 'TX' AND district = 7;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE house_races SET \n  candidate2_name = 'Alexander Hale',\n  candidate2_party = 'R',\n  status = 'General',\n  primary_winner = 'Alexander Hale',\n  primary_party = 'R',\n  notes = 'Alexander Hale (R) won the May 26 Republican primary runoff over Tina Blum Cohen. He faces the Democratic nominee in the November 3, 2026 general election. Rated Solid R.'\nWHERE state_code = 'TX' AND district = 7;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 269
+}
