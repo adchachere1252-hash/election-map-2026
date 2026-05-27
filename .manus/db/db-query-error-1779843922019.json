@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, incumbent, incumbent_party, context_notes, notes FROM senate_races WHERE state_code = 'TX';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, incumbent, incumbent_party, context_notes, notes FROM senate_races WHERE state_code = 'TX';",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'context_notes' in 'field list'"
+  ]
+}

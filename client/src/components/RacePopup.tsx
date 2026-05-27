@@ -165,8 +165,16 @@ function GeneralMatchupSection({
     contextLines.push(`Open seat \u2014 ${incumbent} (${partyLabel}) is not seeking re-election. No incumbent advantage.`);
   } else if (incumbent && !incumbentRetiring) {
     const partyLabel = incumbentParty === "D" ? "Democrat" : incumbentParty === "R" ? "Republican" : incumbentParty ?? "";
-    const incumbentSide = incumbentParty === candidate1Party ? candidate1Name : effectiveC2Name;
-    contextLines.push(`${incumbent} (${partyLabel}) is the incumbent seeking re-election${incumbentSide ? " as " + incumbentSide : ""}.`);
+    // Check if incumbent's name matches either candidate — if not, they lost the primary
+    const incumbentIsCandidate =
+      (candidate1Name && candidate1Name.toLowerCase().includes(incumbent.toLowerCase().split(" ").slice(-1)[0].toLowerCase())) ||
+      (effectiveC2Name && effectiveC2Name.toLowerCase().includes(incumbent.toLowerCase().split(" ").slice(-1)[0].toLowerCase()));
+    if (!incumbentIsCandidate && (candidate1Name || effectiveC2Name)) {
+      contextLines.push(`${incumbent} (${partyLabel}) was the incumbent but lost the primary and is not on the November ballot.`);
+    } else {
+      const incumbentSide = incumbentParty === candidate1Party ? candidate1Name : effectiveC2Name;
+      contextLines.push(`${incumbent} (${partyLabel}) is the incumbent seeking re-election${incumbentSide ? " as " + incumbentSide : ""}.`);
+    }
   } else if (!incumbent) {
     contextLines.push("Open seat \u2014 no incumbent is running. Both candidates start on equal footing.");
   }
