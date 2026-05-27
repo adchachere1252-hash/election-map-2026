@@ -117,6 +117,7 @@ function GeneralMatchupSection({
   generalDate,
   chamber, district, districtLabel,
   previousParty,
+  notes,
 }: {
   candidate1Name: string | null | undefined;
   candidate1Party: string | null | undefined;
@@ -135,6 +136,7 @@ function GeneralMatchupSection({
   district?: number | null;
   districtLabel?: string | null;
   previousParty?: string | null;
+  notes?: string | null;
 }) {
    // When one candidate is still TBD (primary not yet called), show a partial matchup card
   const candidate2TBD = !candidate2Name;
@@ -160,23 +162,26 @@ function GeneralMatchupSection({
   }
 
   // 2. Incumbent / open seat with party context
-  if (incumbent && incumbentRetiring) {
-    const partyLabel = incumbentParty === "D" ? "Democrat" : incumbentParty === "R" ? "Republican" : incumbentParty ?? "";
-    contextLines.push(`Open seat \u2014 ${incumbent} (${partyLabel}) is not seeking re-election. No incumbent advantage.`);
-  } else if (incumbent && !incumbentRetiring) {
-    const partyLabel = incumbentParty === "D" ? "Democrat" : incumbentParty === "R" ? "Republican" : incumbentParty ?? "";
-    // Check if incumbent's name matches either candidate — if not, they lost the primary
-    const incumbentIsCandidate =
-      (candidate1Name && candidate1Name.toLowerCase().includes(incumbent.toLowerCase().split(" ").slice(-1)[0].toLowerCase())) ||
-      (effectiveC2Name && effectiveC2Name.toLowerCase().includes(incumbent.toLowerCase().split(" ").slice(-1)[0].toLowerCase()));
-    if (!incumbentIsCandidate && (candidate1Name || effectiveC2Name)) {
-      contextLines.push(`${incumbent} (${partyLabel}) was the incumbent but lost the primary and is not on the November ballot.`);
-    } else {
-      const incumbentSide = incumbentParty === candidate1Party ? candidate1Name : effectiveC2Name;
-      contextLines.push(`${incumbent} (${partyLabel}) is the incumbent seeking re-election${incumbentSide ? " as " + incumbentSide : ""}.`);
+  // Skip auto-generated incumbent note when DB notes are provided — they tell the full story
+  if (!notes) {
+    if (incumbent && incumbentRetiring) {
+      const partyLabel = incumbentParty === "D" ? "Democrat" : incumbentParty === "R" ? "Republican" : incumbentParty ?? "";
+      contextLines.push(`Open seat \u2014 ${incumbent} (${partyLabel}) is not seeking re-election. No incumbent advantage.`);
+    } else if (incumbent && !incumbentRetiring) {
+      const partyLabel = incumbentParty === "D" ? "Democrat" : incumbentParty === "R" ? "Republican" : incumbentParty ?? "";
+      // Check if incumbent's name matches either candidate — if not, they lost the primary
+      const incumbentIsCandidate =
+        (candidate1Name && candidate1Name.toLowerCase().includes(incumbent.toLowerCase().split(" ").slice(-1)[0].toLowerCase())) ||
+        (effectiveC2Name && effectiveC2Name.toLowerCase().includes(incumbent.toLowerCase().split(" ").slice(-1)[0].toLowerCase()));
+      if (!incumbentIsCandidate && (candidate1Name || effectiveC2Name)) {
+        contextLines.push(`${incumbent} (${partyLabel}) was the incumbent but lost the primary and is not on the November ballot.`);
+      } else {
+        const incumbentSide = incumbentParty === candidate1Party ? candidate1Name : effectiveC2Name;
+        contextLines.push(`${incumbent} (${partyLabel}) is the incumbent seeking re-election${incumbentSide ? " as " + incumbentSide : ""}`);
+      }
+    } else if (!incumbent) {
+      contextLines.push("Open seat \u2014 no incumbent is running. Both candidates start on equal footing.");
     }
-  } else if (!incumbent) {
-    contextLines.push("Open seat \u2014 no incumbent is running. Both candidates start on equal footing.");
   }
 
   // 3. Seat history / flip potential
@@ -286,9 +291,15 @@ function GeneralMatchupSection({
           </div>
         </div>
 
-        {/* Structured context block — replaces raw notes */}
-        {contextLines.length > 0 && (
+        {/* Structured context block — auto-generated lines + optional DB notes */}
+        {(contextLines.length > 0 || notes) && (
           <div className="mx-3 mb-3 bg-yellow-900/25 border border-yellow-700/35 rounded px-2.5 py-2 space-y-1">
+            {notes && (
+              <div className="flex items-start gap-1.5">
+                <span className="text-yellow-500/70 mt-0.5 flex-shrink-0 text-[10px]">▸</span>
+                <span className="text-xs text-yellow-200/90 leading-snug">{notes}</span>
+              </div>
+            )}
             {contextLines.map((line, i) => (
               <div key={i} className="flex items-start gap-1.5">
                 <span className="text-yellow-500/70 mt-0.5 flex-shrink-0 text-[10px]">▸</span>
@@ -898,6 +909,7 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
             otherCandidateParty={(race as any).otherCandidateParty}
             generalDate={race.generalDate}
             previousParty={race.previousParty}
+            notes={(race as any).notes}
           />
           {/* Expandable candidate bios — shown when bio data is available */}
           {((race as any).candidate1Bio || (race as any).candidate2Bio) && (

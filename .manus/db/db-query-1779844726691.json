@@ -1,0 +1,21 @@
+{
+  "query": "SELECT id, state_name, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, incumbent FROM house_races WHERE state_name = 'Texas' AND district = 24;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, state_name, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, incumbent FROM house_races WHERE state_name = 'Texas' AND district = 24;",
+  "rows": [
+    {
+      "id": "384",
+      "state_name": "Texas",
+      "district": "24",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary Runoff",
+      "incumbent": "Beth Van Duyne"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_name\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tincumbent\n384\tTexas\t24\tNULL\tD\tNULL\tNULL\tPrimary Runoff\tBeth Van Duyne\n",
+  "stderr": "",
+  "execution_time_ms": 286
+}

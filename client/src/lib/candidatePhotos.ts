@@ -664,6 +664,7 @@ const CDN_PHOTOS: Record<string, string> = {
   // LA Senate runoff candidates
   "jamie davis":             `${CDN_BASE}/jamie-davis-sharp_1f4b2478.jpg`,  // LA D Senate runoff candidate
   "ken paxton":              `${CDN_BASE}/ken-paxton-tx-senate_07ee6c8a.jpg`,  // TX R Senate nominee (won May 26 runoff)
+  "kevin burge":             `${CDN_BASE}/kevin_burge_165b36fa.jpg`,              // TX-24 D primary winner (May 26 runoff)
 };
 
 /**
