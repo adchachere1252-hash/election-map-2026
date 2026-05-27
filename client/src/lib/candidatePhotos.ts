@@ -664,8 +664,8 @@ const CDN_PHOTOS: Record<string, string> = {
   // LA Senate runoff candidates
   "jamie davis":             `${CDN_BASE}/jamie-davis-sharp_1f4b2478.jpg`,  // LA D Senate runoff candidate
   "ken paxton":              `${CDN_BASE}/ken-paxton-tx-senate_07ee6c8a.jpg`,  // TX R Senate nominee (won May 26 runoff)
-  "kevin burge":             `${CDN_BASE}/kevin_burge_v4_ac341b13.jpg`,           // TX-24 D primary winner (May 26 runoff) — face-centered crop
-  "casey shepard":           `${CDN_BASE}/casey_shepard_v5_48e9ce37.jpg`,           // TX-17 D primary winner (May 26 runoff) — head+shoulders padded square
+  "kevin burge":             `${CDN_BASE}/kevin_burge_v4_ff96832d.jpg`,           // TX-24 D primary winner (May 26 runoff) — face-centered crop
+  "casey shepard":           `${CDN_BASE}/casey_shepard_v5_67c25d2f.jpg`,           // TX-17 D primary winner (May 26 runoff) — head+shoulders padded square
   // TX May 26 runoff winners — photos added May 27 2026
   "yolanda prince":           `${CDN_BASE}/yolanda_prince_318e7f9d.jpg`,   // TX-1 D nominee
   "chelsey hockett":          `${CDN_BASE}/chelsey_hockett_356da4bd.jpg`,  // TX-5 D nominee
@@ -673,7 +673,7 @@ const CDN_PHOTOS: Record<string, string> = {
   "tom sell":                 `${CDN_BASE}/tom_sell_75546d8b.jpg`,          // TX-19 R nominee
   "colin allred":             `${CDN_BASE}/colin_allred_14cb6e63.jpg`,      // TX-33 D nominee
   "johnny garcia":            `${CDN_BASE}/johnny_garcia_6c0010d6.jpg`,     // TX-35 D nominee
-  "jon bonck":                `${CDN_BASE}/jon_bonck_2d62fea1.jpg`,         // TX-38 R nominee
+  "jon bonck":                `${CDN_BASE}/jon_bonck_b5b66743.jpg`,         // TX-38 R nominee
   "alex mealer":              `${CDN_BASE}/alex_mealer_c5a0dc89.jpg`,         // TX-9 R nominee (won May 26 runoff over Briscoe Cain)
 };
 
