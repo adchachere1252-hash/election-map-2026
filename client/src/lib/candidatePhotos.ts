@@ -19,6 +19,7 @@ export const BIOGUIDE_MAP: Record<string, string> = {
   "Aaron Bean": "B001314",
   "Abraham J. Hamadeh": "H001098",
   "Adam Gray": "G000605",
+  "Adam Schiff": "S001150",
   "Adam Smith": "S000510",
   "Addison P. McDowell": "M001240",
   "Adelita S. Grijalva": "G000606",
@@ -253,6 +254,7 @@ export const BIOGUIDE_MAP: Record<string, string> = {
   "Keith Self": "S001224",
   "Kelly Morrison": "M001234",
   "Kevin Hern": "H001082",
+  "Kevin Kiley": "K000395",
   "Kevin Mullin": "M001225",
   "Kim Schrier": "S001216",
   "Kristen McDonald Rivet": "M001237",
@@ -683,6 +685,12 @@ const CDN_PHOTOS: Record<string, string> = {
   "carlos de la cruz":         `${CDN_BASE}/carlos_de_la_cruz_995856b9.jpg`,    // TX-35 R nominee
   "dan barrios":               `${CDN_BASE}/dan_barrios_1c746312.jpg`,           // TX-32 D nominee
   "alexander hale":            `${CDN_BASE}/alexander_hale_68a89b9f.jpg`,        // TX-7 R nominee (won May 26 runoff over Tina Blum Cohen)
+  // June 2 primary candidates — pre-sourced before tonight's results
+  "jim carlin":                `${CDN_BASE}/jim_carlin_15369a31.jpg`,              // IA-R Senate primary candidate
+  "zach wahls":                `${CDN_BASE}/zach_wahls_fdc6136d.jpg`,              // IA-D Senate primary candidate
+  "josh turek":                `${CDN_BASE}/josh_turek_922f3d97.jpg`,              // IA-D Senate primary candidate
+  "kurt alme":                 `${CDN_BASE}/kurt_alme_8e520b8c.jpg`,               // MT-R Senate primary candidate
+  "alex zdan":                 `${CDN_BASE}/alex_zdan_4aaa9881.jpg`,               // NJ-R Senate primary candidate
 };
 
 /**

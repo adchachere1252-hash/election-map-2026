@@ -1,0 +1,131 @@
+{
+  "query": "SELECT district_label, incumbent, incumbent_retiring, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating FROM house_races WHERE state_code = 'CA' AND district IN (3, 6, 11, 13, 14, 22, 27, 30, 40, 45, 47) ORDER BY district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT district_label, incumbent, incumbent_retiring, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating FROM house_races WHERE state_code = 'CA' AND district IN (3, 6, 11, 13, 14, 22, 27, 30, 40, 45, 47) ORDER BY district;",
+  "rows": [
+    {
+      "district_label": "3",
+      "incumbent": "Kevin Kiley",
+      "incumbent_retiring": "1",
+      "candidate1_name": "TBD — Primary: Jun 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid R"
+    },
+    {
+      "district_label": "6",
+      "incumbent": "Kevin Kiley",
+      "incumbent_retiring": "0",
+      "candidate1_name": "TBD — Primary: Jun 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "Kevin Kiley",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district_label": "11",
+      "incumbent": "Nancy Pelosi",
+      "incumbent_retiring": "1",
+      "candidate1_name": "TBD — Top-Two Primary: Jun 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Top-Two Primary: Jun 2, 2026",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district_label": "13",
+      "incumbent": "Adam Gray",
+      "incumbent_retiring": "0",
+      "candidate1_name": "Adam Gray",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Primary: Jun 2, 2026",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Lean D"
+    },
+    {
+      "district_label": "14",
+      "incumbent": "Vacant",
+      "incumbent_retiring": "1",
+      "candidate1_name": "NULL",
+      "candidate1_party": "NULL",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district_label": "22",
+      "incumbent": "David G. Valadao",
+      "incumbent_retiring": "0",
+      "candidate1_name": "TBD — Primary: Jun 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "David G. Valadao",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Toss-up"
+    },
+    {
+      "district_label": "27",
+      "incumbent": "George Whitesides",
+      "incumbent_retiring": "0",
+      "candidate1_name": "George Whitesides",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district_label": "30",
+      "incumbent": "Laura Friedman",
+      "incumbent_retiring": "0",
+      "candidate1_name": "Laura Friedman",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district_label": "40",
+      "incumbent": "Young Kim",
+      "incumbent_retiring": "0",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Young Kim",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Solid R"
+    },
+    {
+      "district_label": "45",
+      "incumbent": "Derek Tran",
+      "incumbent_retiring": "0",
+      "candidate1_name": "Derek Tran",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Lean D"
+    },
+    {
+      "district_label": "47",
+      "incumbent": "Dave Min",
+      "incumbent_retiring": "0",
+      "candidate1_name": "Dave Min",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    }
+  ],
+  "messages": [],
+  "stdout": "district_label\tincumbent\tincumbent_retiring\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\trating\n3\tKevin Kiley\t1\tTBD — Primary: Jun 2, 2026\tD\tNULL\tNULL\tPrimary\tSolid R\n6\tKevin Kiley\t0\tTBD — Primary: Jun 2, 2026\tD\tKevin Kiley\tR\tPrimary\tSolid D\n11\tNancy Pelosi\t1\tTBD — Top-Two Primary: Jun 2, 2026\tD\tTBD — Top-Two Primary: Jun 2, 2026\tR\tPrimary\tSolid D\n13\tAdam Gray\t0\tAdam Gray\tD\tTBD — Primary: Jun 2, 2026\tR\tPrimary\tLean D\n14\tVacant\t1\tNULL\tNULL\tNULL\tNULL\tPrimary\tSolid D\n22\tDavid G. Valadao\t0\tTBD — Primary: Jun 2, 2026\tD\tDavid G. Valadao\tR\tPrimary\tToss-up\n27\tGeorge Whitesides\t0\tGeorge Whitesides\tD\tNULL\tNULL\tPrimary\tSolid D\n30\tLaura Friedman\t0\tLaura Friedman\tD\tNULL\tNULL\tPrimary\tSolid D\n40\tYoung Kim\t0\tNULL\tD\tYoung Kim\tR\tPrimary\tSolid R\n45\tDerek Tran\t0\tDerek Tran\tD\tR Primary TBD\tR\tPrimary\tLean D\n47\tDave Min\t0\tDave Min\tD\tNULL\tNULL\tPrimary\tSolid D\n",
+  "stderr": "",
+  "execution_time_ms": 266
+}

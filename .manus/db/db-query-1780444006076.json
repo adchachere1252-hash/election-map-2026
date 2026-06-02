@@ -1,0 +1,20 @@
+{
+  "query": "SELECT district_label, incumbent, incumbent_party, incumbent_retiring, candidate1_name, candidate2_name, status, notes FROM house_races WHERE state_code = 'CA' AND district = 11;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT district_label, incumbent, incumbent_party, incumbent_retiring, candidate1_name, candidate2_name, status, notes FROM house_races WHERE state_code = 'CA' AND district = 11;",
+  "rows": [
+    {
+      "district_label": "11",
+      "incumbent": "Nancy Pelosi",
+      "incumbent_party": "D",
+      "incumbent_retiring": "1",
+      "candidate1_name": "TBD — Top-Two Primary: Jun 2, 2026",
+      "candidate2_name": "TBD — Top-Two Primary: Jun 2, 2026",
+      "status": "Primary",
+      "notes": "Nancy Pelosi (D) is retiring. This is an open seat top-two jungle primary. Key candidates include Saikat Chakrabarti, Connie Chan, and Scott Wiener (all D). Top two finishers advance to November regardless of party."
+    }
+  ],
+  "messages": [],
+  "stdout": "district_label\tincumbent\tincumbent_party\tincumbent_retiring\tcandidate1_name\tcandidate2_name\tstatus\tnotes\n11\tNancy Pelosi\tD\t1\tTBD — Top-Two Primary: Jun 2, 2026\tTBD — Top-Two Primary: Jun 2, 2026\tPrimary\tNancy Pelosi (D) is retiring. This is an open seat top-two jungle primary. Key candidates include Saikat Chakrabarti, Connie Chan, and Scott Wiener (all D). Top two finishers advance to November regardless of party.\n",
+  "stderr": "",
+  "execution_time_ms": 256
+}

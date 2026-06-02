@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE house_races SET incumbent = 'Kevin Kiley (moved to CA-6)', incumbent_party = 'R', incumbent_retiring = 1, notes = 'Kevin Kiley (R) represented the old CA-3 but is running in CA-6 after redistricting. This is effectively an open seat in the new CA-3.' WHERE state_code = 'CA' AND district = 3;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE house_races SET incumbent = 'Kevin Kiley (moved to CA-6)', incumbent_party = 'R', incumbent_retiring = 1, notes = 'Kevin Kiley (R) represented the old CA-3 but is running in CA-6 after redistricting. This is effectively an open seat in the new CA-3.' WHERE state_code = 'CA' AND district = 3;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 268
+}
