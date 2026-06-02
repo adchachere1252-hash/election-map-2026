@@ -1,0 +1,170 @@
+{
+  "query": "SELECT district_label, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status FROM house_races WHERE state_code = 'CA' ORDER BY district LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT district_label, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status FROM house_races WHERE state_code = 'CA' ORDER BY district LIMIT 20;",
+  "rows": [
+    {
+      "district_label": "1",
+      "candidate1_name": "Mike McGuire",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "R",
+      "status": "Scheduled"
+    },
+    {
+      "district_label": "2",
+      "candidate1_name": "Jared Huffman",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "district_label": "3",
+      "candidate1_name": "TBD — Primary: Jun 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "district_label": "4",
+      "candidate1_name": "Mike Thompson",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "district_label": "5",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Tom McClintock",
+      "candidate2_party": "R",
+      "status": "Scheduled"
+    },
+    {
+      "district_label": "6",
+      "candidate1_name": "TBD — Primary: Jun 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "Kevin Kiley",
+      "candidate2_party": "I",
+      "status": "Scheduled"
+    },
+    {
+      "district_label": "7",
+      "candidate1_name": "Doris O. Matsui",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "district_label": "8",
+      "candidate1_name": "John Garamendi",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "district_label": "9",
+      "candidate1_name": "Josh Harder",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "district_label": "10",
+      "candidate1_name": "Mark DeSaulnier",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "district_label": "11",
+      "candidate1_name": "Nancy Pelosi",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "district_label": "12",
+      "candidate1_name": "Lateefah Simon",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "district_label": "13",
+      "candidate1_name": "Adam Gray",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Primary: Jun 2, 2026",
+      "candidate2_party": "R",
+      "status": "Scheduled"
+    },
+    {
+      "district_label": "14",
+      "candidate1_name": "NULL",
+      "candidate1_party": "NULL",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "district_label": "15",
+      "candidate1_name": "Kevin Mullin",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "district_label": "16",
+      "candidate1_name": "Sam T. Liccardo",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "district_label": "17",
+      "candidate1_name": "Ro Khanna",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "district_label": "18",
+      "candidate1_name": "Zoe Lofgren",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "district_label": "19",
+      "candidate1_name": "Jimmy Panetta",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled"
+    },
+    {
+      "district_label": "20",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Vince Fong",
+      "candidate2_party": "R",
+      "status": "Scheduled"
+    }
+  ],
+  "messages": [],
+  "stdout": "district_label\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\n1\tMike McGuire\tD\tNULL\tR\tScheduled\n2\tJared Huffman\tD\tNULL\tNULL\tScheduled\n3\tTBD — Primary: Jun 2, 2026\tD\tNULL\tNULL\tScheduled\n4\tMike Thompson\tD\tNULL\tNULL\tScheduled\n5\tNULL\tD\tTom McClintock\tR\tScheduled\n6\tTBD — Primary: Jun 2, 2026\tD\tKevin Kiley\tI\tScheduled\n7\tDoris O. Matsui\tD\tNULL\tNULL\tScheduled\n8\tJohn Garamendi\tD\tNULL\tNULL\tScheduled\n9\tJosh Harder\tD\tNULL\tNULL\tScheduled\n10\tMark DeSaulnier\tD\tNULL\tNULL\tScheduled\n11\tNancy Pelosi\tD\tNULL\tNULL\tScheduled\n12\tLateefah Simon\tD\tNULL\tNULL\tScheduled\n13\tAdam Gray\tD\tTBD — Primary: Jun 2, 2026\tR\tScheduled\n14\tNULL\tNULL\tNULL\tNULL\tScheduled\n15\tKevin Mullin\tD\tNULL\tNULL\tScheduled\n16\tSam T. Liccardo\tD\tNULL\tNULL\tScheduled\n17\tRo Khanna\tD\tNULL\tNULL\tScheduled\n18\tZoe Lofgren\tD\tNULL\tNULL\tScheduled\n19\tJimmy Panetta\tD\tNULL\tNULL\tScheduled\n20\tNULL\tD\tVince Fong\tR\tScheduled\n",
+  "stderr": "",
+  "execution_time_ms": 255
+}

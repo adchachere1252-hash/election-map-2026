@@ -1,0 +1,9 @@
+{
+  "query": "\nUPDATE house_races SET status = 'Primary', primary_date = 'June 2, 2026' WHERE state_code = 'CA';\n\n-- Fix CA-11 (Nancy Pelosi retired — open seat, top-two primary)\nUPDATE house_races SET incumbent = 'Nancy Pelosi', incumbent_retiring = 1, candidate1_name = 'TBD — Top-Two Primary: Jun 2, 2026', candidate1_party = 'D', candidate2_name = 'TBD — Top-Two Primary: Jun 2, 2026', candidate2_party = 'R', notes = 'Nancy Pelosi (D) is retiring. This is an open seat top-two jungle primary. Key candidates include Saikat Chakrabarti, Connie Chan, and Scott Wiener (all D). Top two finishers advance to November regardless of party.' WHERE state_code = 'CA' AND district = 11;\n\n-- Fix CA-6 (Kevin Kiley party — he is R not I)\nUPDATE house_races SET candidate2_party = 'R' WHERE state_code = 'CA' AND district = 6;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nUPDATE house_races SET status = 'Primary', primary_date = 'June 2, 2026' WHERE state_code = 'CA';\n\n-- Fix CA-11 (Nancy Pelosi retired — open seat, top-two primary)\nUPDATE house_races SET incumbent = 'Nancy Pelosi', incumbent_retiring = 1, candidate1_name = 'TBD — Top-Two Primary: Jun 2, 2026', candidate1_party = 'D', candidate2_name = 'TBD — Top-Two Primary: Jun 2, 2026', candidate2_party = 'R', notes = 'Nancy Pelosi (D) is retiring. This is an open seat top-two jungle primary. Key candidates include Saikat Chakrabarti, Connie Chan, and Scott Wiener (all D). Top two finishers advance to November regardless of party.' WHERE state_code = 'CA' AND district = 11;\n\n-- Fix CA-6 (Kevin Kiley party — he is R not I)\nUPDATE house_races SET candidate2_party = 'R' WHERE state_code = 'CA' AND district = 6;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 284
+}

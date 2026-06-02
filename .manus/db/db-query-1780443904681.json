@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO senate_races (state_code, state_name, is_special, incumbent, incumbent_party, incumbent_retiring, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating, status, primary_date, general_date, notes)\nVALUES ('CA', 'California', 0, 'Adam Schiff', 'D', 0, 'Adam Schiff', 'D', 'TBD — Top-Two Primary: Jun 2, 2026', 'R', 'Solid D', 'Primary', 'June 2, 2026', 'November 3, 2026', 'Adam Schiff (D) is the incumbent seeking his first full term after being appointed in December 2024. California uses a top-two jungle primary — the top two finishers regardless of party advance to November. Schiff is expected to advance easily. Rated Solid D.');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute INSERT INTO senate_races (state_code, state_name, is_special, incumbent, incumbent_party, incumbent_retiring, candidate1_name, candidate1_party, candidate2_name, candidate2_party, rating, status, primary_date, general_date, notes)\nVALUES ('CA', 'California', 0, 'Adam Schiff', 'D', 0, 'Adam Schiff', 'D', 'TBD — Top-Two Primary: Jun 2, 2026', 'R', 'Solid D', 'Primary', 'June 2, 2026', 'November 3, 2026', 'Adam Schiff (D) is the incumbent seeking his first full term after being appointed in December 2024. California uses a top-two jungle primary — the top two finishers regardless of party advance to November. Schiff is expected to advance easily. Rated Solid D.');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 264
+}
