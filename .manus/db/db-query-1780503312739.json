@@ -1,0 +1,210 @@
+{
+  "query": "SELECT state_code, state_name, incumbent, incumbent_party, status, rating, candidate1_name, candidate2_name FROM senate_races ORDER BY state_code LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, incumbent, incumbent_party, status, rating, candidate1_name, candidate2_name FROM senate_races ORDER BY state_code LIMIT 20;",
+  "rows": [
+    {
+      "state_code": "AK",
+      "state_name": "Alaska",
+      "incumbent": "Dan Sullivan",
+      "incumbent_party": "R",
+      "status": "Scheduled",
+      "rating": "Lean R",
+      "candidate1_name": "Mary Peltola",
+      "candidate2_name": "Dan Sullivan"
+    },
+    {
+      "state_code": "AL",
+      "state_name": "Alabama",
+      "incumbent": "Tommy Tuberville",
+      "incumbent_party": "R",
+      "status": "Primary Runoff",
+      "rating": "Solid R",
+      "candidate1_name": "Everett Wess",
+      "candidate2_name": "Barry Moore"
+    },
+    {
+      "state_code": "AR",
+      "state_name": "Arkansas",
+      "incumbent": "Tom Cotton",
+      "incumbent_party": "R",
+      "status": "General",
+      "rating": "Solid R",
+      "candidate1_name": "Hallie Shoffner",
+      "candidate2_name": "Tom Cotton"
+    },
+    {
+      "state_code": "CO",
+      "state_name": "Colorado",
+      "incumbent": "John Hickenlooper",
+      "incumbent_party": "D",
+      "status": "Scheduled",
+      "rating": "Solid D",
+      "candidate1_name": "TBD — D Primary: Hickenlooper vs. Gonzales (June 30)",
+      "candidate2_name": "TBD — R Primary: June 30, 2026"
+    },
+    {
+      "state_code": "DE",
+      "state_name": "Delaware",
+      "incumbent": "Chris Coons",
+      "incumbent_party": "D",
+      "status": "Scheduled",
+      "rating": "Solid D",
+      "candidate1_name": "Chris Coons",
+      "candidate2_name": "TBD — Republican Primary"
+    },
+    {
+      "state_code": "FL",
+      "state_name": "Florida",
+      "incumbent": "Ashley Moody (appointed)",
+      "incumbent_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R",
+      "candidate1_name": "TBD — D Primary: Aug 18, 2026 (Grayson, Vindman, Nixon, Jenkins, Weil, and others)",
+      "candidate2_name": "Ashley Moody"
+    },
+    {
+      "state_code": "GA",
+      "state_name": "Georgia",
+      "incumbent": "Jon Ossoff",
+      "incumbent_party": "D",
+      "status": "Primary Runoff",
+      "rating": "Lean D",
+      "candidate1_name": "Jon Ossoff (D, uncontested)",
+      "candidate2_name": "Mike Collins"
+    },
+    {
+      "state_code": "IA",
+      "state_name": "Iowa",
+      "incumbent": "Open Seat (Joni Ernst retiring)",
+      "incumbent_party": "R",
+      "status": "General",
+      "rating": "Likely R",
+      "candidate1_name": "Josh Turek",
+      "candidate2_name": "Ashley Hinson"
+    },
+    {
+      "state_code": "ID",
+      "state_name": "Idaho",
+      "incumbent": "Jim Risch",
+      "incumbent_party": "R",
+      "status": "General",
+      "rating": "Solid R",
+      "candidate1_name": "David Roth",
+      "candidate2_name": "Jim Risch"
+    },
+    {
+      "state_code": "IL",
+      "state_name": "Illinois",
+      "incumbent": "Open Seat (Dick Durbin retiring)",
+      "incumbent_party": "D",
+      "status": "General",
+      "rating": "Solid D",
+      "candidate1_name": "Juliana Stratton",
+      "candidate2_name": "Don Tracy"
+    },
+    {
+      "state_code": "KS",
+      "state_name": "Kansas",
+      "incumbent": "Roger Marshall",
+      "incumbent_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate2_name": "Roger Marshall"
+    },
+    {
+      "state_code": "KY",
+      "state_name": "Kentucky",
+      "incumbent": "Open Seat (Mitch McConnell retired)",
+      "incumbent_party": "R",
+      "status": "General",
+      "rating": "Solid R",
+      "candidate1_name": "Charles Booker",
+      "candidate2_name": "Andy Barr"
+    },
+    {
+      "state_code": "LA",
+      "state_name": "Louisiana",
+      "incumbent": "Bill Cassidy",
+      "incumbent_party": "R",
+      "status": "Primary Runoff",
+      "rating": "Solid R",
+      "candidate1_name": "Shawn Davis",
+      "candidate2_name": "Julia Letlow"
+    },
+    {
+      "state_code": "MA",
+      "state_name": "Massachusetts",
+      "incumbent": "Ed Markey",
+      "incumbent_party": "D",
+      "status": "Scheduled",
+      "rating": "Solid D",
+      "candidate1_name": "Ed Markey",
+      "candidate2_name": "TBD — Republican Primary"
+    },
+    {
+      "state_code": "ME",
+      "state_name": "Maine",
+      "incumbent": "Susan Collins",
+      "incumbent_party": "R",
+      "status": "Scheduled",
+      "rating": "Toss-up",
+      "candidate1_name": "TBD — D Primary: Costello, Platner, LaFlamme (RCV)",
+      "candidate2_name": "Susan Collins"
+    },
+    {
+      "state_code": "MI",
+      "state_name": "Michigan",
+      "incumbent": "Open Seat (Gary Peters retiring)",
+      "incumbent_party": "D",
+      "status": "Scheduled",
+      "rating": "Toss-up",
+      "candidate1_name": "TBD — D Primary: Aug 4, 2026 (El-Sayed, McMorrow, Stevens, Howard)",
+      "candidate2_name": "Mike Rogers"
+    },
+    {
+      "state_code": "MN",
+      "state_name": "Minnesota",
+      "incumbent": "Open Seat (Tina Smith retiring)",
+      "incumbent_party": "D",
+      "status": "Scheduled",
+      "rating": "Likely D",
+      "candidate1_name": "TBD — D Primary: Aug 11, 2026 (Flanagan, Craig, Nord)",
+      "candidate2_name": "TBD — R Primary: Aug 11, 2026 (Tafoya, White)"
+    },
+    {
+      "state_code": "MS",
+      "state_name": "Mississippi",
+      "incumbent": "Cindy Hyde-Smith",
+      "incumbent_party": "R",
+      "status": "General",
+      "rating": "Solid R",
+      "candidate1_name": "Scott Colom",
+      "candidate2_name": "Cindy Hyde-Smith"
+    },
+    {
+      "state_code": "MT",
+      "state_name": "Montana",
+      "incumbent": "Open Seat (Steve Daines retiring)",
+      "incumbent_party": "R",
+      "status": "General",
+      "rating": "Solid R",
+      "candidate1_name": "Alani Bankhead",
+      "candidate2_name": "Kurt Alme"
+    },
+    {
+      "state_code": "NC",
+      "state_name": "North Carolina",
+      "incumbent": "Open Seat (Thom Tillis retiring)",
+      "incumbent_party": "R",
+      "status": "General",
+      "rating": "Lean D",
+      "candidate1_name": "Roy Cooper",
+      "candidate2_name": "Michael Whatley"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstate_name\tincumbent\tincumbent_party\tstatus\trating\tcandidate1_name\tcandidate2_name\nAK\tAlaska\tDan Sullivan\tR\tScheduled\tLean R\tMary Peltola\tDan Sullivan\nAL\tAlabama\tTommy Tuberville\tR\tPrimary Runoff\tSolid R\tEverett Wess\tBarry Moore\nAR\tArkansas\tTom Cotton\tR\tGeneral\tSolid R\tHallie Shoffner\tTom Cotton\nCO\tColorado\tJohn Hickenlooper\tD\tScheduled\tSolid D\tTBD — D Primary: Hickenlooper vs. Gonzales (June 30)\tTBD — R Primary: June 30, 2026\nDE\tDelaware\tChris Coons\tD\tScheduled\tSolid D\tChris Coons\tTBD — Republican Primary\nFL\tFlorida\tAshley Moody (appointed)\tR\tScheduled\tSolid R\tTBD — D Primary: Aug 18, 2026 (Grayson, Vindman, Nixon, Jenkins, Weil, and others)\tAshley Moody\nGA\tGeorgia\tJon Ossoff\tD\tPrimary Runoff\tLean D\tJon Ossoff (D, uncontested)\tMike Collins\nIA\tIowa\tOpen Seat (Joni Ernst retiring)\tR\tGeneral\tLikely R\tJosh Turek\tAshley Hinson\nID\tIdaho\tJim Risch\tR\tGeneral\tSolid R\tDavid Roth\tJim Risch\nIL\tIllinois\tOpen Seat (Dick Durbin retiring)\tD\tGeneral\tSolid D\tJuliana Stratton\tDon Tracy\nKS\tKansas\tRoger Marshall\tR\tScheduled\tSolid R\tTBD — Democratic Primary\tRoger Marshall\nKY\tKentucky\tOpen Seat (Mitch McConnell retired)\tR\tGeneral\tSolid R\tCharles Booker\tAndy Barr\nLA\tLouisiana\tBill Cassidy\tR\tPrimary Runoff\tSolid R\tShawn Davis\tJulia Letlow\nMA\tMassachusetts\tEd Markey\tD\tScheduled\tSolid D\tEd Markey\tTBD — Republican Primary\nME\tMaine\tSusan Collins\tR\tScheduled\tToss-up\tTBD — D Primary: Costello, Platner, LaFlamme (RCV)\tSusan Collins\nMI\tMichigan\tOpen Seat (Gary Peters retiring)\tD\tScheduled\tToss-up\tTBD — D Primary: Aug 4, 2026 (El-Sayed, McMorrow, Stevens, Howard)\tMike Rogers\nMN\tMinnesota\tOpen Seat (Tina Smith retiring)\tD\tScheduled\tLikely D\tTBD — D Primary: Aug 11, 2026 (Flanagan, Craig, Nord)\tTBD — R Primary: Aug 11, 2026 (Tafoya, White)\nMS\tMississippi\tCindy Hyde-Smith\tR\tGeneral\tSolid R\tScott Colom\tCindy Hyde-Smith\nMT\tMontana\tOpen Seat (Steve Daines retiring)\tR\tGeneral\tSolid R\tAlani Bankhead\tKurt Alme\nNC\tNorth Carolina\tOpen Seat (Thom Tillis retiring)\tR\tGeneral\tLean D\tRoy Cooper\tMichael Whatley\n",
+  "stderr": "",
+  "execution_time_ms": 262
+}

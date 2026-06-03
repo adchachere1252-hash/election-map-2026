@@ -1,0 +1,58 @@
+{
+  "query": "SELECT id, state_code, state_name, incumbent, incumbent_party, status, rating, candidate1_name, candidate2_name, notes FROM senate_races WHERE state_code IN ('IA', 'MT', 'CA', 'OK') ORDER BY state_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, state_code, state_name, incumbent, incumbent_party, status, rating, candidate1_name, candidate2_name, notes FROM senate_races WHERE state_code IN ('IA', 'MT', 'CA', 'OK') ORDER BY state_code;",
+  "rows": [
+    {
+      "id": "30001",
+      "state_code": "CA",
+      "state_name": "California",
+      "incumbent": "Adam Schiff",
+      "incumbent_party": "D",
+      "status": "Scheduled",
+      "rating": "Solid D",
+      "candidate1_name": "Adam Schiff (incumbent, not up in 2026)",
+      "candidate2_name": "NULL",
+      "notes": "Adam Schiff won in Nov 2024, serves until Jan 2031. No 2026 Senate race in California."
+    },
+    {
+      "id": "9",
+      "state_code": "IA",
+      "state_name": "Iowa",
+      "incumbent": "Open Seat (Chuck Grassley retiring)",
+      "incumbent_party": "R",
+      "status": "General",
+      "rating": "Likely R",
+      "candidate1_name": "Josh Turek",
+      "candidate2_name": "Ashley Hinson",
+      "notes": "Open seat — Joni Ernst (R) not running for re-election. D primary June 2: Josh Turek vs Zach Wahls. R primary June 2: Jim Carlin vs Ashley Hinson. Cook/IE/Sabato: Likely Republican."
+    },
+    {
+      "id": "18",
+      "state_code": "MT",
+      "state_name": "Montana",
+      "incumbent": "Tim Sheehy",
+      "incumbent_party": "R",
+      "status": "General",
+      "rating": "Solid R",
+      "candidate1_name": "Alani Bankhead",
+      "candidate2_name": "Kurt Alme",
+      "notes": "Open seat — Steve Daines withdrew. D primary June 2: Alani Bankhead, Michael Black Wolf, Michael Hummert, Christopher Kehoe, Reilly Neill. R primary June 2: Kurt Alme, Lee Calhoun, Charles Walking Child. Seth Bodnar running as Independent in general. Cook/IE/Sabato: Solid Republican."
+    },
+    {
+      "id": "24",
+      "state_code": "OK",
+      "state_name": "Oklahoma",
+      "incumbent": "Open Seat (Lankford)",
+      "incumbent_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R",
+      "candidate1_name": "TBD — D Primary: Jun 16, 2026 (Cassity, Green, LaVann, Priest, Thomas, Yen)",
+      "candidate2_name": "Kevin Hern (frontrunner) — R Primary: Jun 16, 2026",
+      "notes": "Open seat — Markwayne Mullin resigned. R primary Jun 16: Kevin Hern (frontrunner), Sean Buckner, Gary England, Nick Hankins, Brian Ragain, Tammy Swearengin, Wayne Washington. D primary Jun 16: R.O. Joe Cassity, Troy Green, Rebekah LaVann, Jim Priest, N'Kiyla Thomas, Ervin Yen. Rating: Solid Republican."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tstate_name\tincumbent\tincumbent_party\tstatus\trating\tcandidate1_name\tcandidate2_name\tnotes\n30001\tCA\tCalifornia\tAdam Schiff\tD\tScheduled\tSolid D\tAdam Schiff (incumbent, not up in 2026)\tNULL\tAdam Schiff won in Nov 2024, serves until Jan 2031. No 2026 Senate race in California.\n9\tIA\tIowa\tOpen Seat (Chuck Grassley retiring)\tR\tGeneral\tLikely R\tJosh Turek\tAshley Hinson\tOpen seat — Joni Ernst (R) not running for re-election. D primary June 2: Josh Turek vs Zach Wahls. R primary June 2: Jim Carlin vs Ashley Hinson. Cook/IE/Sabato: Likely Republican.\n18\tMT\tMontana\tTim Sheehy\tR\tGeneral\tSolid R\tAlani Bankhead\tKurt Alme\tOpen seat — Steve Daines withdrew. D primary June 2: Alani Bankhead, Michael Black Wolf, Michael Hummert, Christopher Kehoe, Reilly Neill. R primary June 2: Kurt Alme, Lee Calhoun, Charles Walking Child. Seth Bodnar running as Independent in general. Cook/IE/Sabato: Solid Republican.\n24\tOK\tOklahoma\tOpen Seat (Lankford)\tR\tScheduled\tSolid R\tTBD — D Primary: Jun 16, 2026 (Cassity, Green, LaVann, Priest, Thomas, Yen)\tKevin Hern (frontrunner) — R Primary: Jun 16, 2026\tOpen seat — Markwayne Mullin resigned. R primary Jun 16: Kevin Hern (frontrunner), Sean Buckner, Gary England, Nick Hankins, Brian Ragain, Tammy Swearengin, Wayne Washington. D primary Jun 16: R.O. Joe Cassity, Troy Green, Rebekah LaVann, Jim Priest, N'Kiyla Thomas, Ervin Yen. Rating: Solid Republican.\n",
+  "stderr": "",
+  "execution_time_ms": 259
+}

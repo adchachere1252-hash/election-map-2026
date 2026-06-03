@@ -1,0 +1,160 @@
+{
+  "query": "SELECT state_code, state_name, incumbent, incumbent_party, status, rating, candidate1_name, candidate2_name FROM senate_races ORDER BY state_code LIMIT 15 OFFSET 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, incumbent, incumbent_party, status, rating, candidate1_name, candidate2_name FROM senate_races ORDER BY state_code LIMIT 15 OFFSET 20;",
+  "rows": [
+    {
+      "state_code": "NE",
+      "state_name": "Nebraska",
+      "incumbent": "Pete Ricketts",
+      "incumbent_party": "R",
+      "status": "General",
+      "rating": "Likely R",
+      "candidate1_name": "Cindy Burbank",
+      "candidate2_name": "Pete Ricketts"
+    },
+    {
+      "state_code": "NH",
+      "state_name": "New Hampshire",
+      "incumbent": "Open Seat (Jeanne Shaheen retiring)",
+      "incumbent_party": "D",
+      "status": "Scheduled",
+      "rating": "Lean D",
+      "candidate1_name": "TBD — D Primary: Sep 8, 2026 (Pappas, Manzur)",
+      "candidate2_name": "TBD — R Primary: Sep 8, 2026 (Brown, Sununu)"
+    },
+    {
+      "state_code": "NJ",
+      "state_name": "New Jersey",
+      "incumbent": "Cory Booker",
+      "incumbent_party": "D",
+      "status": "General",
+      "rating": "Solid D",
+      "candidate1_name": "Cory Booker",
+      "candidate2_name": "Justin Murphy"
+    },
+    {
+      "state_code": "NM",
+      "state_name": "New Mexico",
+      "incumbent": "Ben Ray Luján",
+      "incumbent_party": "D",
+      "status": "General",
+      "rating": "Solid D",
+      "candidate1_name": "Ben Ray Luján",
+      "candidate2_name": "No R nominee on ballot (write-in only)"
+    },
+    {
+      "state_code": "OH",
+      "state_name": "Ohio",
+      "incumbent": "Jon Husted (appointed)",
+      "incumbent_party": "R",
+      "status": "General",
+      "rating": "Toss-up",
+      "candidate1_name": "Sherrod Brown",
+      "candidate2_name": "Jon Husted"
+    },
+    {
+      "state_code": "OK",
+      "state_name": "Oklahoma",
+      "incumbent": "Open Seat (Lankford)",
+      "incumbent_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R",
+      "candidate1_name": "TBD — D Primary: Jun 16, 2026 (Cassity, Green, LaVann, Priest, Thomas, Yen)",
+      "candidate2_name": "Kevin Hern (frontrunner) — R Primary: Jun 16, 2026"
+    },
+    {
+      "state_code": "OR",
+      "state_name": "Oregon",
+      "incumbent": "Jeff Merkley",
+      "incumbent_party": "D",
+      "status": "General",
+      "rating": "Solid D",
+      "candidate1_name": "Jeff Merkley",
+      "candidate2_name": "David Smith"
+    },
+    {
+      "state_code": "RI",
+      "state_name": "Rhode Island",
+      "incumbent": "Jack Reed",
+      "incumbent_party": "D",
+      "status": "Scheduled",
+      "rating": "Solid D",
+      "candidate1_name": "Jack Reed",
+      "candidate2_name": "TBD — Republican Primary"
+    },
+    {
+      "state_code": "SC",
+      "state_name": "South Carolina",
+      "incumbent": "Lindsey Graham",
+      "incumbent_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R",
+      "candidate1_name": "TBD — D Primary: Andrews, Brown, Freeman",
+      "candidate2_name": "Lindsey Graham"
+    },
+    {
+      "state_code": "SD",
+      "state_name": "South Dakota",
+      "incumbent": "Mike Rounds",
+      "incumbent_party": "R",
+      "status": "General",
+      "rating": "Solid R",
+      "candidate1_name": "Julian Beaudion",
+      "candidate2_name": "Mike Rounds"
+    },
+    {
+      "state_code": "TN",
+      "state_name": "Tennessee",
+      "incumbent": "Bill Hagerty",
+      "incumbent_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate2_name": "Bill Hagerty"
+    },
+    {
+      "state_code": "TX",
+      "state_name": "Texas",
+      "incumbent": "John Cornyn",
+      "incumbent_party": "R",
+      "status": "General",
+      "rating": "Likely R",
+      "candidate1_name": "James Talarico",
+      "candidate2_name": "Ken Paxton"
+    },
+    {
+      "state_code": "VA",
+      "state_name": "Virginia",
+      "incumbent": "Mark Warner",
+      "incumbent_party": "D",
+      "status": "Scheduled",
+      "rating": "Solid D",
+      "candidate1_name": "Mark Warner",
+      "candidate2_name": "TBD — R Primary: Aug 4, 2026"
+    },
+    {
+      "state_code": "WV",
+      "state_name": "West Virginia",
+      "incumbent": "Shelley Moore Capito",
+      "incumbent_party": "R",
+      "status": "General",
+      "rating": "Solid R",
+      "candidate1_name": "Rachel Fetty Anderson",
+      "candidate2_name": "Shelley Moore Capito"
+    },
+    {
+      "state_code": "WY",
+      "state_name": "Wyoming",
+      "incumbent": "Open Seat (John Barrasso not up)",
+      "incumbent_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R",
+      "candidate1_name": "James W. Byrd",
+      "candidate2_name": "Harriet Hageman"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstate_name\tincumbent\tincumbent_party\tstatus\trating\tcandidate1_name\tcandidate2_name\nNE\tNebraska\tPete Ricketts\tR\tGeneral\tLikely R\tCindy Burbank\tPete Ricketts\nNH\tNew Hampshire\tOpen Seat (Jeanne Shaheen retiring)\tD\tScheduled\tLean D\tTBD — D Primary: Sep 8, 2026 (Pappas, Manzur)\tTBD — R Primary: Sep 8, 2026 (Brown, Sununu)\nNJ\tNew Jersey\tCory Booker\tD\tGeneral\tSolid D\tCory Booker\tJustin Murphy\nNM\tNew Mexico\tBen Ray Luján\tD\tGeneral\tSolid D\tBen Ray Luján\tNo R nominee on ballot (write-in only)\nOH\tOhio\tJon Husted (appointed)\tR\tGeneral\tToss-up\tSherrod Brown\tJon Husted\nOK\tOklahoma\tOpen Seat (Lankford)\tR\tScheduled\tSolid R\tTBD — D Primary: Jun 16, 2026 (Cassity, Green, LaVann, Priest, Thomas, Yen)\tKevin Hern (frontrunner) — R Primary: Jun 16, 2026\nOR\tOregon\tJeff Merkley\tD\tGeneral\tSolid D\tJeff Merkley\tDavid Smith\nRI\tRhode Island\tJack Reed\tD\tScheduled\tSolid D\tJack Reed\tTBD — Republican Primary\nSC\tSouth Carolina\tLindsey Graham\tR\tScheduled\tSolid R\tTBD — D Primary: Andrews, Brown, Freeman\tLindsey Graham\nSD\tSouth Dakota\tMike Rounds\tR\tGeneral\tSolid R\tJulian Beaudion\tMike Rounds\nTN\tTennessee\tBill Hagerty\tR\tScheduled\tSolid R\tTBD — Democratic Primary\tBill Hagerty\nTX\tTexas\tJohn Cornyn\tR\tGeneral\tLikely R\tJames Talarico\tKen Paxton\nVA\tVirginia\tMark Warner\tD\tScheduled\tSolid D\tMark Warner\tTBD — R Primary: Aug 4, 2026\nWV\tWest Virginia\tShelley Moore Capito\tR\tGeneral\tSolid R\tRachel Fetty Anderson\tShelley Moore Capito\nWY\tWyoming\tOpen Seat (John Barrasso not up)\tR\tScheduled\tSolid R\tJames W. Byrd\tHarriet Hageman\n",
+  "stderr": "",
+  "execution_time_ms": 264
+}
