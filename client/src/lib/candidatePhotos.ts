@@ -691,6 +691,9 @@ const CDN_PHOTOS: Record<string, string> = {
   "josh turek":                `${CDN_BASE}/josh_turek_922f3d97.jpg`,              // IA-D Senate primary candidate
   "kurt alme":                 `${CDN_BASE}/kurt_alme_8e520b8c.jpg`,               // MT-R Senate primary candidate
   "alex zdan":                 `${CDN_BASE}/alex_zdan_4aaa9881.jpg`,               // NJ-R Senate primary candidate
+  // June 2 confirmed nominees — photos added June 3 2026
+  "alani bankhead":            `${CDN_BASE}/alani_bankhead_64fa939f.jpg`,           // MT-D Senate nominee (Montana Public Radio portrait)
+  "justin murphy":             `${CDN_BASE}/justin_murphy_b4a44b43.jpg`,           // NJ-R Senate nominee (Ballotpedia portrait)
 };
 
 /**

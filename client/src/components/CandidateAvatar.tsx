@@ -6,6 +6,8 @@ interface CandidateAvatarProps {
   party?: string | null;
   size?: number; // diameter in px, default 36
   className?: string;
+  /** Explicit photo URL (e.g., from DB candidate1_photo column). Takes priority over name-based lookup. */
+  photo?: string | null;
 }
 
 /**
@@ -17,8 +19,10 @@ export function CandidateAvatar({
   party,
   size = 36,
   className = "",
+  photo,
 }: CandidateAvatarProps) {
-  const photoUrl = getCandidatePhotoUrl(name);
+  // Use explicit DB photo first, then fall back to name-based lookup
+  const photoUrl = photo ?? getCandidatePhotoUrl(name);
   const [imgError, setImgError] = useState(false);
 
   // Reset error state whenever the photo URL changes (e.g., popup opens for a different candidate)

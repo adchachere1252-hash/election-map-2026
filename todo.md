@@ -1585,3 +1585,21 @@
 - [x] Show a subtle "Last updated X seconds ago" or animated refresh indicator on the map
 - [x] Ensure WebSocket push still triggers instant invalidation on race_called events
 - [x] Add governor.list, redistricting.list, referendum.list to WebSocket invalidation (was missing)
+
+## Candidate Photos (Round N)
+- [ ] Add candidate1_photo and candidate2_photo URL columns to senate_races schema
+- [ ] Add candidate1_photo and candidate2_photo URL columns to governor_races schema
+- [ ] Source and upload official photos for all confirmed Senate nominees (35 races)
+- [ ] Source and upload official photos for all confirmed Governor nominees
+- [ ] Update race detail pop-up to display candidate headshots
+- [ ] Verify all photos display correctly and save checkpoint
+
+## Candidate Photos (June 3, 2026)
+- [x] Add candidate1_photo, candidate2_photo columns to senate_races and house_races tables
+- [x] Add dem_photo, rep_photo columns to governor_races table
+- [x] Source and upload photos for Alani Bankhead (MT-D Senate nominee) and Justin Murphy (NJ-R Senate nominee)
+- [x] Add Bankhead and Murphy to candidatePhotos.ts CDN lookup
+- [x] Add optional `photo` prop to CandidateAvatar component (DB URL takes priority over name lookup)
+- [x] Thread photo props through GeneralMatchupSection (Senate/House popups)
+- [x] Thread photo props through BioCandidateCard (Senate/House popups)
+- [x] Thread photo props through GovernorRacePopup GeneralMatchupCard and CandidateCard

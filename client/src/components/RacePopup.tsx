@@ -107,8 +107,8 @@ function CandidateRow({
 }
 
 function GeneralMatchupSection({
-  candidate1Name, candidate1Party,
-  candidate2Name, candidate2Party,
+  candidate1Name, candidate1Party, candidate1Photo,
+  candidate2Name, candidate2Party, candidate2Photo,
   rating,
   // Context props for the yellow info box
   incumbent, incumbentParty, incumbentRetiring,
@@ -121,8 +121,10 @@ function GeneralMatchupSection({
 }: {
   candidate1Name: string | null | undefined;
   candidate1Party: string | null | undefined;
+  candidate1Photo?: string | null;
   candidate2Name: string | null | undefined;
   candidate2Party: string | null | undefined;
+  candidate2Photo?: string | null;
   rating?: string | null;
   incumbent?: string | null;
   incumbentParty?: string | null;
@@ -244,7 +246,7 @@ function GeneralMatchupSection({
               className="rounded-full p-[3px] flex-shrink-0"
               style={{ background: "linear-gradient(135deg, " + c1Color + ", " + c1Color + "88)" }}
             >
-              <CandidateAvatar name={candidate1Name} party={candidate1Party} size={photoSize} />
+              <CandidateAvatar name={candidate1Name} party={candidate1Party} size={photoSize} photo={candidate1Photo} />
             </div>
             <span className="text-sm font-bold text-center leading-tight">{candidate1Name}</span>
             <span
@@ -275,7 +277,7 @@ function GeneralMatchupSection({
               className="rounded-full p-[3px] flex-shrink-0"
               style={{ background: "linear-gradient(135deg, " + c2Color + ", " + c2Color + "88)" }}
             >
-              <CandidateAvatar name={effectiveC2Name} party={effectiveC2Party} size={photoSize} />
+              <CandidateAvatar name={effectiveC2Name} party={effectiveC2Party} size={photoSize} photo={candidate2TBD ? null : candidate2Photo} />
             </div>
             <span className={`text-sm font-bold text-center leading-tight ${candidate2TBD ? "text-muted-foreground italic" : ""}`}>{effectiveC2Name}</span>
             <span
@@ -741,12 +743,13 @@ function RunoffMatchupSection({
 
 /** Expandable bio card matching Governor popup CandidateCard style */
 function BioCandidateCard({
-  name, party, bio, isIncumbent,
+  name, party, bio, isIncumbent, photo,
 }: {
   name: string | null | undefined;
   party: string | null | undefined;
   bio: string | null | undefined;
   isIncumbent?: boolean;
+  photo?: string | null;
 }) {
   const [expanded, setExpanded] = useState(false);
   if (!name || !bio) return null;
@@ -771,7 +774,7 @@ function BioCandidateCard({
     <div className={`rounded-lg border p-2.5 ${partyBg[party ?? "I"] ?? "bg-muted/30 border-border"}`}>
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-start gap-2 min-w-0 flex-1">
-          <CandidateAvatar name={name} party={party} size={36} className="mt-0.5" />
+          <CandidateAvatar name={name} party={party} size={36} className="mt-0.5" photo={photo} />
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5 flex-wrap">
               <span className="text-xs font-semibold text-foreground">{name}</span>
@@ -896,8 +899,10 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
           <GeneralMatchupSection
             candidate1Name={race.candidate1Name}
             candidate1Party={race.candidate1Party}
+            candidate1Photo={(race as any).candidate1Photo}
             candidate2Name={race.candidate2Name}
             candidate2Party={race.candidate2Party}
+            candidate2Photo={(race as any).candidate2Photo}
             rating={race.rating}
             chamber="senate"
             incumbent={race.incumbent}
@@ -922,12 +927,14 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
                 name={race.candidate1Name}
                 party={race.candidate1Party}
                 bio={(race as any).candidate1Bio}
+                photo={(race as any).candidate1Photo}
                 isIncumbent={!race.incumbentRetiring && race.incumbentParty === race.candidate1Party}
               />
               <BioCandidateCard
                 name={race.candidate2Name}
                 party={race.candidate2Party}
                 bio={(race as any).candidate2Bio}
+                photo={(race as any).candidate2Photo}
                 isIncumbent={!race.incumbentRetiring && race.incumbentParty === race.candidate2Party}
               />
             </div>
@@ -1158,8 +1165,10 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
           <GeneralMatchupSection
             candidate1Name={race.candidate1Name}
             candidate1Party={race.candidate1Party}
+            candidate1Photo={(race as any).candidate1Photo}
             candidate2Name={race.candidate2Name}
             candidate2Party={race.candidate2Party}
+            candidate2Photo={(race as any).candidate2Photo}
             rating={race.rating}
             chamber="house"
             incumbent={race.incumbent}
@@ -1183,12 +1192,14 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
                 name={race.candidate1Name}
                 party={race.candidate1Party}
                 bio={(race as any).candidate1Bio}
+                photo={(race as any).candidate1Photo}
                 isIncumbent={!race.incumbentRetiring && race.incumbentParty === race.candidate1Party}
               />
               <BioCandidateCard
                 name={race.candidate2Name}
                 party={race.candidate2Party}
                 bio={(race as any).candidate2Bio}
+                photo={(race as any).candidate2Photo}
                 isIncumbent={!race.incumbentRetiring && race.incumbentParty === race.candidate2Party}
               />
             </div>

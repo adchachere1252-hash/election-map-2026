@@ -22,6 +22,8 @@ interface GovernorRace {
   repPreviousOffice?: string | null;
   demBio?: string | null;
   repBio?: string | null;
+  demPhoto?: string | null;
+  repPhoto?: string | null;
   status: string;
   calledParty: string | null;
   demVotes: number | null;
@@ -124,12 +126,14 @@ function CandidateCard({
   previousOffice,
   bio,
   isIncumbent,
+  photo,
 }: {
   name: string | null;
   party: "D" | "R" | "I";
   previousOffice?: string | null;
   bio?: string | null;
   isIncumbent?: boolean;
+  photo?: string | null;
 }) {
   const [expanded, setExpanded] = useState(false);
   const displayName = name ?? `TBD ${PARTY_LABELS[party]} Primary`;
@@ -140,7 +144,7 @@ function CandidateCard({
       {/* Candidate header */}
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-start gap-2 min-w-0 flex-1">
-          <CandidateAvatar name={isTbd ? null : name} party={party} size={36} className="mt-0.5" />
+          <CandidateAvatar name={isTbd ? null : name} party={party} size={36} className="mt-0.5" photo={isTbd ? null : photo} />
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5 flex-wrap">
               <span className={`text-xs font-semibold ${isTbd ? "text-muted-foreground italic" : "text-foreground"}`}>
@@ -189,6 +193,8 @@ function CandidateCard({
 function GeneralMatchupCard({
   demCandidate,
   repCandidate,
+  demPhoto,
+  repPhoto,
   rating,
   incumbentName,
   incumbentParty,
@@ -200,6 +206,8 @@ function GeneralMatchupCard({
 }: {
   demCandidate: string | null;
   repCandidate: string | null;
+  demPhoto?: string | null;
+  repPhoto?: string | null;
   rating: string | null;
   incumbentName: string | null;
   incumbentParty: string | null;
@@ -239,7 +247,7 @@ function GeneralMatchupCard({
               className="rounded-full p-[3px] flex-shrink-0"
               style={{ background: "linear-gradient(135deg, " + c1Color + ", " + c1Color + "88)" }}
             >
-              <CandidateAvatar name={c1Name} party={c1Party} size={photoSize} />
+              <CandidateAvatar name={c1Name} party={c1Party} size={photoSize} photo={demPhoto} />
             </div>
             <span className="text-sm font-bold text-center leading-tight">{c1Name}</span>
             <span
@@ -270,7 +278,7 @@ function GeneralMatchupCard({
               className="rounded-full p-[3px] flex-shrink-0"
               style={{ background: "linear-gradient(135deg, " + c2Color + ", " + c2Color + "88)" }}
             >
-              <CandidateAvatar name={c2TBD ? "" : c2Name} party={c2Party} size={photoSize} />
+              <CandidateAvatar name={c2TBD ? "" : c2Name} party={c2Party} size={photoSize} photo={c2TBD ? null : repPhoto} />
             </div>
             <span className={`text-sm font-bold text-center leading-tight ${c2TBD ? "text-muted-foreground italic" : ""}`}>{c2Name}</span>
             <span
@@ -454,6 +462,8 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
           <GeneralMatchupCard
             demCandidate={race.demCandidate}
             repCandidate={race.repCandidate}
+            demPhoto={race.demPhoto}
+            repPhoto={race.repPhoto}
             rating={race.rating}
             incumbentName={race.incumbentName}
             incumbentParty={race.incumbentParty}
@@ -476,6 +486,7 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
               party="D"
               previousOffice={race.demPreviousOffice}
               bio={race.demBio}
+              photo={race.demPhoto}
               isIncumbent={incumbentIsRunning && incumbentParty === "D"}
             />
 
@@ -485,6 +496,7 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
               party="R"
               previousOffice={race.repPreviousOffice}
               bio={race.repBio}
+              photo={race.repPhoto}
               isIncumbent={incumbentIsRunning && incumbentParty === "R"}
             />
 
