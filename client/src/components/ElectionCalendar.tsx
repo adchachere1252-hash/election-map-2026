@@ -40,6 +40,7 @@ type EventType =
   | "referendum"
   | "general"
   | "governor-primary"
+  | "governor-runoff"
   | "governor-general";
 
 interface CalendarEvent {
@@ -83,6 +84,7 @@ const TYPE_COLORS: Record<EventType, string> = {
   "referendum": "#9b6b9b",
   "general": "#d96b4a",
   "governor-primary": "#2dd4bf",   // teal
+  "governor-runoff": "#f59e0b",    // amber — matches senate-runoff
   "governor-general": "#f97316",   // orange
 };
 
@@ -94,6 +96,7 @@ const TYPE_LABELS: Record<EventType, string> = {
   "referendum": "Referendum",
   "general": "General Election",
   "governor-primary": "Governor Primary",
+  "governor-runoff": "Governor Runoff",
   "governor-general": "Governor General",
 };
 
@@ -262,6 +265,24 @@ export default function ElectionCalendar({
       }
     }
 
+    // Governor runoffs — individual entries (rare, high-profile events)
+    for (const race of governorRaces) {
+      if (race.runoffDate) {
+        const date = parseDate(race.runoffDate);
+        if (date && date >= today && (!cutoff || date <= cutoff)) {
+          evts.push({
+            date,
+            dateStr: race.runoffDate,
+            label: `${race.stateName} — Governor Runoff`,
+            sublabel: `${race.repCandidate ?? "Rep TBD"} vs ${race.demCandidate ?? "Dem TBD"}`,
+            type: "governor-runoff",
+            stateCode: race.stateCode,
+            data: race,
+          });
+        }
+      }
+    }
+
     // Governor general elections — group by date
     const govGeneralMap: Record<string, { date: Date; dateStr: string; races: GovernorRace[] }> = {};
     for (const race of governorRaces) {
@@ -395,6 +416,7 @@ export default function ElectionCalendar({
                   evt.type === "general" ||
                   evt.type === "referendum" ||
                   evt.type === "governor-primary" ||
+                  evt.type === "governor-runoff" ||
                   evt.type === "governor-general";
 
                 return (
@@ -405,7 +427,7 @@ export default function ElectionCalendar({
                         onSelectSenate(evt.data as SenateRace);
                       } else if (evt.type === "referendum" && onSelectReferendum) {
                         onSelectReferendum(evt.data as Referendum);
-                      } else if ((evt.type === "governor-primary" || evt.type === "governor-general") && onSelectGovernor) {
+                      } else if ((evt.type === "governor-primary" || evt.type === "governor-runoff" || evt.type === "governor-general") && onSelectGovernor) {
                         onSelectGovernor(evt.data as GovernorRace);
                       }
                     }}

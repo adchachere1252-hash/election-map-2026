@@ -1,0 +1,37 @@
+{
+  "query": "SELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status FROM house_races WHERE (state_code = 'NJ' AND district = '12') OR (state_code = 'CA' AND district IN ('6','22')) ORDER BY state_code, district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status FROM house_races WHERE (state_code = 'NJ' AND district = '12') OR (state_code = 'CA' AND district IN ('6','22')) ORDER BY state_code, district;",
+  "rows": [
+    {
+      "state_code": "CA",
+      "district": "6",
+      "candidate1_name": "Kevin Kiley (Ind., frontrunner)",
+      "candidate1_party": "I",
+      "candidate2_name": "Kevin Kiley",
+      "candidate2_party": "R",
+      "status": "Primary"
+    },
+    {
+      "state_code": "CA",
+      "district": "22",
+      "candidate1_name": "TBD — Dem: Villegas vs Bains (counting)",
+      "candidate1_party": "D",
+      "candidate2_name": "David G. Valadao",
+      "candidate2_party": "R",
+      "status": "Primary"
+    },
+    {
+      "state_code": "NJ",
+      "district": "12",
+      "candidate1_name": "Adam Hamawy",
+      "candidate1_party": "D",
+      "candidate2_name": "Greg Mele",
+      "candidate2_party": "R",
+      "status": "General"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\nCA\t6\tKevin Kiley (Ind., frontrunner)\tI\tKevin Kiley\tR\tPrimary\nCA\t22\tTBD — Dem: Villegas vs Bains (counting)\tD\tDavid G. Valadao\tR\tPrimary\nNJ\t12\tAdam Hamawy\tD\tGreg Mele\tR\tGeneral\n",
+  "stderr": "",
+  "execution_time_ms": 266
+}
