@@ -1,0 +1,9 @@
+{
+  "query": "\n-- MT-2: Brian Miller won D primary 55.7%, Troy Downing (R) uncontested incumbent\nUPDATE house_races SET candidate1_name = 'Brian Miller', candidate1_party = 'D', status = 'General', notes = 'Brian Miller won D primary 55.7% (23,492 votes) vs Sam Lux 27.2% (11,481) vs Jonathan Windy Boy 17.0% (7,186). Troy Downing (R) ran uncontested. Source: AP via NPR, June 3, 2026.' WHERE state_code = 'MT' AND district = 2;\n\n-- NJ-8: Rob Menendez (D) won primary 68.9% — no R candidate listed by AP (safe D seat)\nUPDATE house_races SET status = 'General', notes = 'Rob Menendez (D) won primary 68.9% (27,761 votes) vs Mussab Ali 31.1% (12,539 votes). No Republican candidate filed. Source: AP via NPR, June 3, 2026.' WHERE state_code = 'NJ' AND district = 8;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- MT-2: Brian Miller won D primary 55.7%, Troy Downing (R) uncontested incumbent\nUPDATE house_races SET candidate1_name = 'Brian Miller', candidate1_party = 'D', status = 'General', notes = 'Brian Miller won D primary 55.7% (23,492 votes) vs Sam Lux 27.2% (11,481) vs Jonathan Windy Boy 17.0% (7,186). Troy Downing (R) ran uncontested. Source: AP via NPR, June 3, 2026.' WHERE state_code = 'MT' AND district = 2;\n\n-- NJ-8: Rob Menendez (D) won primary 68.9% — no R candidate listed by AP (safe D seat)\nUPDATE house_races SET status = 'General', notes = 'Rob Menendez (D) won primary 68.9% (27,761 votes) vs Mussab Ali 31.1% (12,539 votes). No Republican candidate filed. Source: AP via NPR, June 3, 2026.' WHERE state_code = 'NJ' AND district = 8;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 274
+}

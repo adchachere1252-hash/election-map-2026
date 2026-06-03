@@ -61,6 +61,17 @@ const CANDIDATE_PHOTOS: Record<string, string> = {
   "deb haaland":           `${CDN_BASE}/deb_haaland_70d42c34.jpg`,
   "gregg hull":            `${CDN_BASE}/gregg_hull_52308593.jpg`,
   "zach lahn":             `${CDN_BASE}/zach_lahn_a30bee0e.jpg`,
+  // June 3 batch 2 — full verification additions
+  "dan ahlers":            `${CDN_BASE}/dan_ahlers_808ef1bf.jpg`,
+  "brian miller":          `${CDN_BASE}/brian_miller_90583729.jpg`,
+  "zack mullock":          `${CDN_BASE}/zack_mullock_17ebd1af.jpg`,
+  "michael mcguire":       `${CDN_BASE}/michael_mcguire_nj3_a7d50bd9.jpg`,
+  "rachel peace":          `${CDN_BASE}/rachel_peace_a7d6f6d5.jpg`,
+  "sean kirrane":          `${CDN_BASE}/sean_kirrane_bebbda68.jpg`,
+  "hillary herzig":        `${CDN_BASE}/hillary_herzig_048abfb2.jpg`,
+  "rosie pino":            `${CDN_BASE}/rosie_pino_233de605.jpg`,
+  "carmen bucco":          `${CDN_BASE}/carmen_bucco_3e3f9d95.jpg`,
+  "damon galdo":           `${CDN_BASE}/damon_galdo_6d559bce.jpg`,
 };
 
 function getCandidatePhoto(name: string | null | undefined): string | null {

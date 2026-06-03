@@ -717,6 +717,17 @@ const CDN_PHOTOS: Record<string, string> = {
   "gregg hull":                `${CDN_BASE}/gregg_hull_52308593.jpg`,              // NM Governor R (Ballotpedia official headshot)
   // rob sand already in CDN_PHOTOS at line 553 (kept original)
   "zach lahn":                 `${CDN_BASE}/zach_lahn_a30bee0e.jpg`,               // IA Governor R (Iowa Public Radio outdoor portrait)
+  // June 3 batch 2 — full verification additions
+  "dan ahlers":                `${CDN_BASE}/dan_ahlers_808ef1bf.jpg`,              // SD Governor D (Ballotpedia portrait)
+  "brian miller":              `${CDN_BASE}/brian_miller_90583729.jpg`,            // MT-2 D (Montana Election Guide portrait)
+  "zack mullock":              `${CDN_BASE}/zack_mullock_17ebd1af.jpg`,            // NJ-2 D (NJ Globe headshot)
+  "michael mcguire":           `${CDN_BASE}/michael_mcguire_nj3_a7d50bd9.jpg`,    // NJ-3 R (NJ Globe portrait — Marine Corps veteran)
+  "rachel peace":              `${CDN_BASE}/rachel_peace_a7d6f6d5.jpg`,            // NJ-4 D (WHYY beach campaign photo)
+  "sean kirrane":              `${CDN_BASE}/sean_kirrane_bebbda68.jpg`,            // NJ-5 R (Ballotpedia portrait)
+  "hillary herzig":            `${CDN_BASE}/hillary_herzig_048abfb2.jpg`,          // NJ-6 R (NJ Globe headshot)
+  "rosie pino":                `${CDN_BASE}/rosie_pino_233de605.jpg`,              // NJ-9 R (NJ Globe campaign photo)
+  "carmen bucco":              `${CDN_BASE}/carmen_bucco_3e3f9d95.jpg`,            // NJ-10 R (BallotReady portrait)
+  "damon galdo":               `${CDN_BASE}/damon_galdo_6d559bce.jpg`,             // NJ-1 R (NJ Globe flag background portrait)
 };
 
 /**

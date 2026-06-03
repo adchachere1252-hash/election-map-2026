@@ -1,0 +1,130 @@
+{
+  "query": "SELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating, notes, incumbent FROM house_races WHERE state_code IN ('IA','MT','NJ','NM','SD') AND district >= 4 ORDER BY state_code, district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating, notes, incumbent FROM house_races WHERE state_code IN ('IA','MT','NJ','NM','SD') AND district >= 4 ORDER BY state_code, district;",
+  "rows": [
+    {
+      "state_code": "IA",
+      "district": "4",
+      "candidate1_name": "Dave Dawson",
+      "candidate1_party": "D",
+      "candidate2_name": "Chris McGowan",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Solid R",
+      "notes": "NULL",
+      "incumbent": "Randy Feenstra"
+    },
+    {
+      "state_code": "NJ",
+      "district": "4",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Christopher H. Smith",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R",
+      "notes": "NULL",
+      "incumbent": "Christopher Smith"
+    },
+    {
+      "state_code": "NJ",
+      "district": "5",
+      "candidate1_name": "Josh Gottheimer",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled",
+      "rating": "Solid D",
+      "notes": "NULL",
+      "incumbent": "Josh Gottheimer"
+    },
+    {
+      "state_code": "NJ",
+      "district": "6",
+      "candidate1_name": "Frank Pallone Jr.",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled",
+      "rating": "Solid D",
+      "notes": "NULL",
+      "incumbent": "Frank Pallone Jr."
+    },
+    {
+      "state_code": "NJ",
+      "district": "7",
+      "candidate1_name": "Rebecca Bennett",
+      "candidate1_party": "D",
+      "candidate2_name": "Thomas Kean Jr.",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Toss-up",
+      "notes": "Thomas Kean Jr. (R) incumbent; Democratic primary June 2, 2026",
+      "incumbent": "Thomas Kean Jr."
+    },
+    {
+      "state_code": "NJ",
+      "district": "8",
+      "candidate1_name": "Rob Menendez",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled",
+      "rating": "Solid D",
+      "notes": "NULL",
+      "incumbent": "Rob Menendez"
+    },
+    {
+      "state_code": "NJ",
+      "district": "9",
+      "candidate1_name": "Nellie Pou",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Likely D",
+      "notes": "NULL",
+      "incumbent": "Nellie Pou"
+    },
+    {
+      "state_code": "NJ",
+      "district": "10",
+      "candidate1_name": "LaMonica McIver",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled",
+      "rating": "Solid D",
+      "notes": "NULL",
+      "incumbent": "LaMonica McIver"
+    },
+    {
+      "state_code": "NJ",
+      "district": "11",
+      "candidate1_name": "Analilia Mejia",
+      "candidate1_party": "D",
+      "candidate2_name": "Joe Hathaway",
+      "candidate2_party": "R",
+      "status": "Called",
+      "rating": "Solid D",
+      "notes": "Rep. Mikie Sherrill (D) vacated this seat after winning the NJ Governor race in November 2025. Analilia Mejia (D) won the special general election on April 16, 2026. AP called the race at 8:09 PM EDT on April 16, 2026. Third-party candidate Alan Bond (OTH) received 596 votes (0.5%). Results as of 94% reporting.",
+      "incumbent": "NULL"
+    },
+    {
+      "state_code": "NJ",
+      "district": "12",
+      "candidate1_name": "Adam Hamawy",
+      "candidate1_party": "D",
+      "candidate2_name": "Greg Mele",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Solid D",
+      "notes": "NULL",
+      "incumbent": "Bonnie Watson Coleman"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\trating\tnotes\tincumbent\nIA\t4\tDave Dawson\tD\tChris McGowan\tR\tGeneral\tSolid R\tNULL\tRandy Feenstra\nNJ\t4\tNULL\tD\tChristopher H. Smith\tR\tScheduled\tSolid R\tNULL\tChristopher Smith\nNJ\t5\tJosh Gottheimer\tD\tNULL\tNULL\tScheduled\tSolid D\tNULL\tJosh Gottheimer\nNJ\t6\tFrank Pallone Jr.\tD\tNULL\tNULL\tScheduled\tSolid D\tNULL\tFrank Pallone Jr.\nNJ\t7\tRebecca Bennett\tD\tThomas Kean Jr.\tR\tGeneral\tToss-up\tThomas Kean Jr. (R) incumbent; Democratic primary June 2, 2026\tThomas Kean Jr.\nNJ\t8\tRob Menendez\tD\tNULL\tNULL\tScheduled\tSolid D\tNULL\tRob Menendez\nNJ\t9\tNellie Pou\tD\tR Primary TBD\tR\tScheduled\tLikely D\tNULL\tNellie Pou\nNJ\t10\tLaMonica McIver\tD\tNULL\tNULL\tScheduled\tSolid D\tNULL\tLaMonica McIver\nNJ\t11\tAnalilia Mejia\tD\tJoe Hathaway\tR\tCalled\tSolid D\tRep. Mikie Sherrill (D) vacated this seat after winning the NJ Governor race in November 2025. Analilia Mejia (D) won the special general election on April 16, 2026. AP called the race at 8:09 PM EDT on April 16, 2026. Third-party candidate Alan Bond (OTH) received 596 votes (0.5%). Results as of 94% reporting.\tNULL\nNJ\t12\tAdam Hamawy\tD\tGreg Mele\tR\tGeneral\tSolid D\tNULL\tBonnie Watson Coleman\n",
+  "stderr": "",
+  "execution_time_ms": 263
+}

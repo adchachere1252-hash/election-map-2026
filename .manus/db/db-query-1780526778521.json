@@ -1,0 +1,40 @@
+{
+  "query": "\nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, notes FROM house_races WHERE (state_code = 'MT' AND district = 2) OR (state_code = 'NJ' AND district = 8) OR (state_code = 'NJ' AND district = 11);\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \nSELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, notes FROM house_races WHERE (state_code = 'MT' AND district = 2) OR (state_code = 'NJ' AND district = 8) OR (state_code = 'NJ' AND district = 11);\n",
+  "rows": [
+    {
+      "state_code": "MT",
+      "district": "2",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Troy Downing",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "notes": "NULL"
+    },
+    {
+      "state_code": "NJ",
+      "district": "8",
+      "candidate1_name": "Rob Menendez",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled",
+      "notes": "NULL"
+    },
+    {
+      "state_code": "NJ",
+      "district": "11",
+      "candidate1_name": "Analilia Mejia",
+      "candidate1_party": "D",
+      "candidate2_name": "Joe Hathaway",
+      "candidate2_party": "R",
+      "status": "Called",
+      "notes": "Rep. Mikie Sherrill (D) vacated this seat after winning the NJ Governor race in November 2025. Analilia Mejia (D) won the special general election on April 16, 2026. AP called the race at 8:09 PM EDT on April 16, 2026. Third-party candidate Alan Bond (OTH) received 596 votes (0.5%). Results as of 94% reporting."
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tnotes\nMT\t2\tNULL\tD\tTroy Downing\tR\tScheduled\tNULL\nNJ\t8\tRob Menendez\tD\tNULL\tNULL\tScheduled\tNULL\nNJ\t11\tAnalilia Mejia\tD\tJoe Hathaway\tR\tCalled\tRep. Mikie Sherrill (D) vacated this seat after winning the NJ Governor race in November 2025. Analilia Mejia (D) won the special general election on April 16, 2026. AP called the race at 8:09 PM EDT on April 16, 2026. Third-party candidate Alan Bond (OTH) received 596 votes (0.5%). Results as of 94% reporting.\n",
+  "stderr": "",
+  "execution_time_ms": 261
+}

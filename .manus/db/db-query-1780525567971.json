@@ -1,0 +1,75 @@
+{
+  "query": "SELECT state_code, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating, notes, incumbent, incumbent_party FROM senate_races WHERE state_code IN ('IA','MT','NJ','NM','SD') ORDER BY state_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating, notes, incumbent, incumbent_party FROM senate_races WHERE state_code IN ('IA','MT','NJ','NM','SD') ORDER BY state_code;",
+  "rows": [
+    {
+      "state_code": "IA",
+      "state_name": "Iowa",
+      "candidate1_name": "Josh Turek",
+      "candidate1_party": "D",
+      "candidate2_name": "Ashley Hinson",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Likely R",
+      "notes": "Open seat — Joni Ernst (R) announced retirement Aug 2025. D primary June 2: Josh Turek won (64.4% vs Wahls 35.6%). R primary June 2: Ashley Hinson won (76.3% vs Carlin 23.4%). Cook/IE/Sabato: Likely Republican.",
+      "incumbent": "Open Seat (Joni Ernst retiring)",
+      "incumbent_party": "R"
+    },
+    {
+      "state_code": "MT",
+      "state_name": "Montana",
+      "candidate1_name": "Alani Bankhead",
+      "candidate1_party": "D",
+      "candidate2_name": "Kurt Alme",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Solid R",
+      "notes": "Open seat — Steve Daines (R) withdrew from re-election on March 4, 2026 just before filing deadline. D primary June 2: Alani Bankhead won (43.7% vs Neill 32.9%). R primary June 2: Kurt Alme won (76.3% vs Calhoun 13.6%). Seth Bodnar running as Independent in general. Cook/IE/Sabato: Solid Republican.",
+      "incumbent": "Open Seat (Steve Daines retiring)",
+      "incumbent_party": "R"
+    },
+    {
+      "state_code": "NJ",
+      "state_name": "New Jersey",
+      "candidate1_name": "Cory Booker",
+      "candidate1_party": "D",
+      "candidate2_name": "Justin Murphy",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Solid D",
+      "notes": "Incumbent Cory Booker (D) seeking re-election. Primary June 2, 2026.",
+      "incumbent": "Cory Booker",
+      "incumbent_party": "D"
+    },
+    {
+      "state_code": "NM",
+      "state_name": "New Mexico",
+      "candidate1_name": "Ben Ray Luján",
+      "candidate1_party": "D",
+      "candidate2_name": "No R nominee on ballot (write-in only)",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Solid D",
+      "notes": "R candidate Christopher Heuvel was disqualified. Larry Marker qualified as write-in only — must get 2,351 write-in votes to advance.",
+      "incumbent": "Ben Ray Luján",
+      "incumbent_party": "D"
+    },
+    {
+      "state_code": "SD",
+      "state_name": "South Dakota",
+      "candidate1_name": "Julian Beaudion",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Rounds",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Solid R",
+      "notes": "Incumbent Mike Rounds (R) seeking re-election. Primary June 2, 2026.",
+      "incumbent": "Mike Rounds",
+      "incumbent_party": "R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstate_name\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\trating\tnotes\tincumbent\tincumbent_party\nIA\tIowa\tJosh Turek\tD\tAshley Hinson\tR\tGeneral\tLikely R\tOpen seat — Joni Ernst (R) announced retirement Aug 2025. D primary June 2: Josh Turek won (64.4% vs Wahls 35.6%). R primary June 2: Ashley Hinson won (76.3% vs Carlin 23.4%). Cook/IE/Sabato: Likely Republican.\tOpen Seat (Joni Ernst retiring)\tR\nMT\tMontana\tAlani Bankhead\tD\tKurt Alme\tR\tGeneral\tSolid R\tOpen seat — Steve Daines (R) withdrew from re-election on March 4, 2026 just before filing deadline. D primary June 2: Alani Bankhead won (43.7% vs Neill 32.9%). R primary June 2: Kurt Alme won (76.3% vs Calhoun 13.6%). Seth Bodnar running as Independent in general. Cook/IE/Sabato: Solid Republican.\tOpen Seat (Steve Daines retiring)\tR\nNJ\tNew Jersey\tCory Booker\tD\tJustin Murphy\tR\tGeneral\tSolid D\tIncumbent Cory Booker (D) seeking re-election. Primary June 2, 2026.\tCory Booker\tD\nNM\tNew Mexico\tBen Ray Luján\tD\tNo R nominee on ballot (write-in only)\tR\tGeneral\tSolid D\tR candidate Christopher Heuvel was disqualified. Larry Marker qualified as write-in only — must get 2,351 write-in votes to advance.\tBen Ray Luján\tD\nSD\tSouth Dakota\tJulian Beaudion\tD\tMike Rounds\tR\tGeneral\tSolid R\tIncumbent Mike Rounds (R) seeking re-election. Primary June 2, 2026.\tMike Rounds\tR\n",
+  "stderr": "",
+  "execution_time_ms": 259
+}

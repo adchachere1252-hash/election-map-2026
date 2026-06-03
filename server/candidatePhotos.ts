@@ -133,6 +133,17 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "deb haaland":           `${BASE}/deb_haaland_70d42c34.jpg`,            // NM Governor D
   "gregg hull":            `${BASE}/gregg_hull_52308593.jpg`,             // NM Governor R
   "zach lahn":             `${BASE}/zach_lahn_a30bee0e.jpg`,              // IA Governor R
+  // June 3 batch 2 — full verification additions
+  "dan ahlers":            `${BASE}/dan_ahlers_808ef1bf.jpg`,             // SD Governor D
+  "brian miller":          `${BASE}/brian_miller_90583729.jpg`,           // MT-2 D
+  "zack mullock":          `${BASE}/zack_mullock_17ebd1af.jpg`,           // NJ-2 D
+  "michael mcguire":       `${BASE}/michael_mcguire_nj3_a7d50bd9.jpg`,   // NJ-3 R
+  "rachel peace":          `${BASE}/rachel_peace_a7d6f6d5.jpg`,           // NJ-4 D
+  "sean kirrane":          `${BASE}/sean_kirrane_bebbda68.jpg`,           // NJ-5 R
+  "hillary herzig":        `${BASE}/hillary_herzig_048abfb2.jpg`,         // NJ-6 R
+  "rosie pino":            `${BASE}/rosie_pino_233de605.jpg`,             // NJ-9 R
+  "carmen bucco":          `${BASE}/carmen_bucco_3e3f9d95.jpg`,           // NJ-10 R
+  "damon galdo":           `${BASE}/damon_galdo_6d559bce.jpg`,            // NJ-1 R
 };
 
 export const PARTY_LOGOS = {
