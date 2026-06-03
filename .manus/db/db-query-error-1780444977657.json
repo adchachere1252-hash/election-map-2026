@@ -1,0 +1,8 @@
+{
+  "query": "UPDATE governor_races SET \n  status = 'Primary',\n  dem_candidate = 'Eleni Kounalakis',\n  rep_candidate = 'Chad Bianco',\n  notes = 'Gavin Newsom is term-limited — open seat. Top-two jungle primary: top two finishers advance to November regardless of party. Key D candidates: Eleni Kounalakis (Lt. Gov), Xavier Becerra, Katie Porter, Eric Swalwell, Matt Mahan, Thomas Steyer. Key R candidates: Chad Bianco (Riverside County Sheriff), Steve Hilton.'\nWHERE state_code = 'CA';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE governor_races SET \n  status = 'Primary',\n  dem_candidate = 'Eleni Kounalakis',\n  rep_candidate = 'Chad Bianco',\n  notes = 'Gavin Newsom is term-limited — open seat. Top-two jungle primary: top two finishers advance to November regardless of party. Key D candidates: Eleni Kounalakis (Lt. Gov), Xavier Becerra, Katie Porter, Eric Swalwell, Matt Mahan, Thomas Steyer. Key R candidates: Chad Bianco (Riverside County Sheriff), Steve Hilton.'\nWHERE state_code = 'CA';",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1265 (01000) at line 1: Data truncated for column '%s' at row %d"
+  ]
+}

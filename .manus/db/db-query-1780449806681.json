@@ -1,0 +1,22 @@
+{
+  "query": "SELECT id, state_code, incumbent, candidate1_name, candidate1_party, candidate2_name, candidate2_party, called_winner, called_party, status FROM senate_races WHERE state_code = 'NM';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, state_code, incumbent, candidate1_name, candidate1_party, candidate2_name, candidate2_party, called_winner, called_party, status FROM senate_races WHERE state_code = 'NM';",
+  "rows": [
+    {
+      "id": "22",
+      "state_code": "NM",
+      "incumbent": "Ben Ray Luján",
+      "candidate1_name": "Ben Ray Luján (incumbent)",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Larry Marker (write-in, June 2)",
+      "candidate2_party": "R",
+      "called_winner": "NULL",
+      "called_party": "NULL",
+      "status": "Primary"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tincumbent\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tcalled_winner\tcalled_party\tstatus\n22\tNM\tBen Ray Luján\tBen Ray Luján (incumbent)\tD\tTBD — R Primary: Larry Marker (write-in, June 2)\tR\tNULL\tNULL\tPrimary\n",
+  "stderr": "",
+  "execution_time_ms": 270
+}

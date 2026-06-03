@@ -1,0 +1,19 @@
+{
+  "query": "SELECT id, state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status FROM senate_races WHERE state_code = 'IA';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT id, state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status FROM senate_races WHERE state_code = 'IA';",
+  "rows": [
+    {
+      "id": "9",
+      "state_code": "IA",
+      "candidate1_name": "TBD — D Primary: Josh Turek vs Zach Wahls (June 2)",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Jim Carlin vs Ashley Hinson (June 2)",
+      "candidate2_party": "R",
+      "status": "Primary"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstate_code\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\n9\tIA\tTBD — D Primary: Josh Turek vs Zach Wahls (June 2)\tD\tTBD — R Primary: Jim Carlin vs Ashley Hinson (June 2)\tR\tPrimary\n",
+  "stderr": "",
+  "execution_time_ms": 264
+}
