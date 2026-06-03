@@ -1578,3 +1578,10 @@
 ## Historical Atlas Fixes (May 26, 2026)
 - [x] Implement Jump to State zoom/pan — pass selectedState to D3MapPanel, zoom to state bounding box using D3 AlbersUSA projection
 - [x] Verify playback animation works correctly across all 31 Congresses (confirmed live: 89th→91st animation, seat counts correct, era markers visible)
+
+## Auto-Refresh Mechanism (Round 14)
+- [x] Reduce tRPC polling intervals for senate.list and house.list to 30s (currently manual/stale)
+- [x] Add refetchInterval to all map data queries so race data refreshes automatically
+- [x] Show a subtle "Last updated X seconds ago" or animated refresh indicator on the map
+- [x] Ensure WebSocket push still triggers instant invalidation on race_called events
+- [x] Add governor.list, redistricting.list, referendum.list to WebSocket invalidation (was missing)

@@ -100,6 +100,9 @@ export function ElectionSocketProvider({ children }: { children: React.ReactNode
     utils.scoreboard.get.invalidate();
     utils.senate.list.invalidate();
     utils.house.list.invalidate();
+    utils.governor.list.invalidate();
+    utils.redistricting.list.invalidate();
+    utils.referendum.list.invalidate();
     utils.flips.get.invalidate();
     utils.live.recentResults.invalidate();
   }, [utils]);
