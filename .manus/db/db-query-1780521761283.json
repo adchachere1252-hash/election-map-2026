@@ -1,0 +1,67 @@
+{
+  "query": "SELECT column_name FROM information_schema.columns WHERE table_name = 'house_races' AND ordinal_position > 20 ORDER BY ordinal_position;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT column_name FROM information_schema.columns WHERE table_name = 'house_races' AND ordinal_position > 20 ORDER BY ordinal_position;",
+  "rows": [
+    {
+      "column_name": "pct_reporting"
+    },
+    {
+      "column_name": "notes"
+    },
+    {
+      "column_name": "created_at"
+    },
+    {
+      "column_name": "updated_at"
+    },
+    {
+      "column_name": "previous_party"
+    },
+    {
+      "column_name": "is_vacancy"
+    },
+    {
+      "column_name": "candidate1_votes"
+    },
+    {
+      "column_name": "candidate2_votes"
+    },
+    {
+      "column_name": "called_at"
+    },
+    {
+      "column_name": "other_candidate_name"
+    },
+    {
+      "column_name": "other_candidate_party"
+    },
+    {
+      "column_name": "other_votes"
+    },
+    {
+      "column_name": "other_vote_pct"
+    },
+    {
+      "column_name": "primary_winner"
+    },
+    {
+      "column_name": "primary_party"
+    },
+    {
+      "column_name": "candidate1_bio"
+    },
+    {
+      "column_name": "candidate2_bio"
+    },
+    {
+      "column_name": "candidate1_photo"
+    },
+    {
+      "column_name": "candidate2_photo"
+    }
+  ],
+  "messages": [],
+  "stdout": "column_name\npct_reporting\nnotes\ncreated_at\nupdated_at\nprevious_party\nis_vacancy\ncandidate1_votes\ncandidate2_votes\ncalled_at\nother_candidate_name\nother_candidate_party\nother_votes\nother_vote_pct\nprimary_winner\nprimary_party\ncandidate1_bio\ncandidate2_bio\ncandidate1_photo\ncandidate2_photo\n",
+  "stderr": "",
+  "execution_time_ms": 256
+}

@@ -1,0 +1,127 @@
+{
+  "query": "SELECT column_name FROM information_schema.columns WHERE table_name = 'house_races' ORDER BY ordinal_position;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT column_name FROM information_schema.columns WHERE table_name = 'house_races' ORDER BY ordinal_position;",
+  "rows": [
+    {
+      "column_name": "id"
+    },
+    {
+      "column_name": "state_code"
+    },
+    {
+      "column_name": "state_name"
+    },
+    {
+      "column_name": "district"
+    },
+    {
+      "column_name": "district_label"
+    },
+    {
+      "column_name": "incumbent"
+    },
+    {
+      "column_name": "incumbent_party"
+    },
+    {
+      "column_name": "incumbent_retiring"
+    },
+    {
+      "column_name": "candidate1_name"
+    },
+    {
+      "column_name": "candidate1_party"
+    },
+    {
+      "column_name": "candidate1_vote_pct"
+    },
+    {
+      "column_name": "candidate2_name"
+    },
+    {
+      "column_name": "candidate2_party"
+    },
+    {
+      "column_name": "candidate2_vote_pct"
+    },
+    {
+      "column_name": "called_winner"
+    },
+    {
+      "column_name": "called_party"
+    },
+    {
+      "column_name": "rating"
+    },
+    {
+      "column_name": "status"
+    },
+    {
+      "column_name": "primary_date"
+    },
+    {
+      "column_name": "general_date"
+    },
+    {
+      "column_name": "pct_reporting"
+    },
+    {
+      "column_name": "notes"
+    },
+    {
+      "column_name": "created_at"
+    },
+    {
+      "column_name": "updated_at"
+    },
+    {
+      "column_name": "previous_party"
+    },
+    {
+      "column_name": "is_vacancy"
+    },
+    {
+      "column_name": "candidate1_votes"
+    },
+    {
+      "column_name": "candidate2_votes"
+    },
+    {
+      "column_name": "called_at"
+    },
+    {
+      "column_name": "other_candidate_name"
+    },
+    {
+      "column_name": "other_candidate_party"
+    },
+    {
+      "column_name": "other_votes"
+    },
+    {
+      "column_name": "other_vote_pct"
+    },
+    {
+      "column_name": "primary_winner"
+    },
+    {
+      "column_name": "primary_party"
+    },
+    {
+      "column_name": "candidate1_bio"
+    },
+    {
+      "column_name": "candidate2_bio"
+    },
+    {
+      "column_name": "candidate1_photo"
+    },
+    {
+      "column_name": "candidate2_photo"
+    }
+  ],
+  "messages": [],
+  "stdout": "column_name\nid\nstate_code\nstate_name\ndistrict\ndistrict_label\nincumbent\nincumbent_party\nincumbent_retiring\ncandidate1_name\ncandidate1_party\ncandidate1_vote_pct\ncandidate2_name\ncandidate2_party\ncandidate2_vote_pct\ncalled_winner\ncalled_party\nrating\nstatus\nprimary_date\ngeneral_date\npct_reporting\nnotes\ncreated_at\nupdated_at\nprevious_party\nis_vacancy\ncandidate1_votes\ncandidate2_votes\ncalled_at\nother_candidate_name\nother_candidate_party\nother_votes\nother_vote_pct\nprimary_winner\nprimary_party\ncandidate1_bio\ncandidate2_bio\ncandidate1_photo\ncandidate2_photo\n",
+  "stderr": "",
+  "execution_time_ms": 257
+}

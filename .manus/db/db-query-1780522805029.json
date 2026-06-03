@@ -1,0 +1,23 @@
+{
+  "query": "SELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, notes, rating, incumbent, incumbent_party FROM house_races WHERE state_code = 'CA' AND district = '12';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, notes, rating, incumbent, incumbent_party FROM house_races WHERE state_code = 'CA' AND district = '12';",
+  "rows": [
+    {
+      "state_code": "CA",
+      "district": "12",
+      "candidate1_name": "Lateefah Simon",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL",
+      "rating": "Solid D",
+      "incumbent": "Lateefah Simon",
+      "incumbent_party": "D"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tnotes\trating\tincumbent\tincumbent_party\nCA\t12\tLateefah Simon\tD\tNULL\tNULL\tPrimary\tNULL\tSolid D\tLateefah Simon\tD\n",
+  "stderr": "",
+  "execution_time_ms": 274
+}

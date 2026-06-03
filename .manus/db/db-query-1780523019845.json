@@ -1,0 +1,478 @@
+{
+  "query": "SELECT district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, notes FROM house_races WHERE state_code = 'CA' ORDER BY CAST(district AS UNSIGNED);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, notes FROM house_races WHERE state_code = 'CA' ORDER BY CAST(district AS UNSIGNED);",
+  "rows": [
+    {
+      "district": "1",
+      "candidate1_name": "Mike McGuire",
+      "candidate1_party": "D",
+      "candidate2_name": "James Gallagher",
+      "candidate2_party": "R",
+      "status": "General",
+      "notes": "CA top-2 primary June 2026. D: Mike McGuire (CA Senate leader). R TBD. Special election for current seat Aug 4, 2026."
+    },
+    {
+      "district": "2",
+      "candidate1_name": "Jared Huffman",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "3",
+      "candidate1_name": "TBD — Primary: Jun 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "Kevin Kiley (R) represented the old CA-3 but is running in CA-6 after redistricting. This is effectively an open seat in the new CA-3."
+    },
+    {
+      "district": "4",
+      "candidate1_name": "Mike Thompson",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "5",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Tom McClintock",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "6",
+      "candidate1_name": "Kevin Kiley (Ind., leading 26.8%)",
+      "candidate1_party": "I",
+      "candidate2_name": "TBD — Stansfield (R) 22.2% vs Pan (D) 21.2%",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "notes": "Ballots still counting as of Jun 3. Kevin Kiley (Ind., incumbent) leads at 26.8%. Second spot uncalled: Michael Stansfield (R) at 22.2% vs Richard Pan (D) at 21.2% — separated by ~1%. Est. 116,000 ballots remaining. AP has not called the 2nd spot. (Source: NBC News / AP, 47.8% in)"
+    },
+    {
+      "district": "7",
+      "candidate1_name": "Doris O. Matsui",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Vang (D) 24.9% vs Wooden (R) 24.1%",
+      "candidate2_party": "D",
+      "status": "Primary",
+      "notes": "Ballots still counting as of Jun 3. Doris Matsui (D, incumbent) leads at 30.6%. Second spot uncalled: Mai Vang (D) at 24.9% vs Zachariah Wooden (R) at 24.1% — separated by <1%. Est. 120,000 ballots remaining in Sacramento County alone. AP has not called the 2nd spot. (Source: NYT / AP, 47% in)"
+    },
+    {
+      "district": "8",
+      "candidate1_name": "John Garamendi",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "9",
+      "candidate1_name": "Josh Harder",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "10",
+      "candidate1_name": "Mark DeSaulnier",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "11",
+      "candidate1_name": "Scott Wiener",
+      "candidate1_party": "D",
+      "candidate2_name": "Connie Chan",
+      "candidate2_party": "D",
+      "status": "General",
+      "notes": "Nancy Pelosi (D) is retiring. This is an open seat top-two jungle primary. Key candidates include Saikat Chakrabarti, Connie Chan, and Scott Wiener (all D). Top two finishers advance to November regardless of party."
+    },
+    {
+      "district": "12",
+      "candidate1_name": "Lateefah Simon",
+      "candidate1_party": "D",
+      "candidate2_name": "Jamie Joyce",
+      "candidate2_party": "D",
+      "status": "General",
+      "notes": "AP called: Lateefah Simon (D, incumbent) and Jamie Joyce (D) both advance to the November general election. D vs D matchup — no Republican in the race. (Source: AP / NBC News, Jun 3 2026)"
+    },
+    {
+      "district": "13",
+      "candidate1_name": "Adam Gray",
+      "candidate1_party": "D",
+      "candidate2_name": "Kevin Lincoln",
+      "candidate2_party": "R",
+      "status": "General",
+      "notes": "CA top-two primary Jun 2. D: Adam Gray (incumbent), Daniel Garibay Rodriguez. R: Vin Kruttiventi, Kevin Lincoln II."
+    },
+    {
+      "district": "14",
+      "candidate1_name": "NULL",
+      "candidate1_party": "NULL",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "Rep. Eric Swalwell (D) resigned from Congress. Gov. Gavin Newsom called a special primary for June 16, 2026. If no candidate wins a majority, the top two advance to an August 18, 2026 runoff. The winner serves out the remainder of Swalwell's term through January 2027."
+    },
+    {
+      "district": "15",
+      "candidate1_name": "Kevin Mullin",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "16",
+      "candidate1_name": "Sam T. Liccardo",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "17",
+      "candidate1_name": "Ro Khanna",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "18",
+      "candidate1_name": "Zoe Lofgren",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "19",
+      "candidate1_name": "Jimmy Panetta",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "20",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Vince Fong",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "21",
+      "candidate1_name": "Jim Costa",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "status": "General",
+      "notes": "NULL"
+    },
+    {
+      "district": "22",
+      "candidate1_name": "TBD — Villegas (D) 29.8% vs Bains (D) 25.7%",
+      "candidate1_party": "D",
+      "candidate2_name": "David G. Valadao",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "notes": "Ballots still counting as of Jun 3. David Valadao (R, incumbent) called by AP at 44.5%. Second spot uncalled: Randy Villegas (D) at 29.8% vs Jasmeet Bains (D) at 25.7% — Villegas leads by ~4%. Est. 34,000 ballots remaining. AP has not called the 2nd spot. (Source: NBC News / AP, 54.8% in)"
+    },
+    {
+      "district": "23",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Jay Obernolte",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "24",
+      "candidate1_name": "Salud O. Carbajal",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "25",
+      "candidate1_name": "Raul Ruiz",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "26",
+      "candidate1_name": "Julia Brownley",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "27",
+      "candidate1_name": "George Whitesides",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "George Whitesides (D) won CA-27 in 2024. Cook does not list as competitive. Lean D."
+    },
+    {
+      "district": "28",
+      "candidate1_name": "Judy Chu",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "29",
+      "candidate1_name": "Luz M. Rivas",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "30",
+      "candidate1_name": "Laura Friedman",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "31",
+      "candidate1_name": "Gil Cisneros",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "32",
+      "candidate1_name": "Brad Sherman",
+      "candidate1_party": "D",
+      "candidate2_name": "Larry Thompson",
+      "candidate2_party": "R",
+      "status": "General",
+      "notes": "NULL"
+    },
+    {
+      "district": "33",
+      "candidate1_name": "Pete Aguilar",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "34",
+      "candidate1_name": "Jimmy Gomez",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "35",
+      "candidate1_name": "Norma J. Torres",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "36",
+      "candidate1_name": "Ted Lieu",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "37",
+      "candidate1_name": "Sydney Kamlager-Dove",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "38",
+      "candidate1_name": "Linda T. Sanchez",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "39",
+      "candidate1_name": "Mark Takano",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "40",
+      "candidate1_name": "Ken Calvert",
+      "candidate1_party": "R",
+      "candidate2_name": "Young Kim",
+      "candidate2_party": "R",
+      "status": "General",
+      "notes": "NULL"
+    },
+    {
+      "district": "41",
+      "candidate1_name": "Linda Sánchez",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Primary: Jun 2, 2026",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "notes": "Redistricted per CA Prop 50. Linda Sánchez (D, formerly CA-38) now runs in new CA-41. Ken Calvert (R) moved to CA-40."
+    },
+    {
+      "district": "42",
+      "candidate1_name": "Robert Garcia",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "43",
+      "candidate1_name": "Maxine Waters",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "44",
+      "candidate1_name": "Nanette Diaz Barragan",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "45",
+      "candidate1_name": "Derek Tran",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "status": "General",
+      "notes": "Top-two primary June 2, 2026. R candidates: Chi Charlie Nguyen, Mark Leonard, Amy Phan West, Chuong Vo, Thomas Vo."
+    },
+    {
+      "district": "46",
+      "candidate1_name": "Lou Correa",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "47",
+      "candidate1_name": "Dave Min",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "48",
+      "candidate1_name": "Marni von Wilpert",
+      "candidate1_party": "D",
+      "candidate2_name": "Jim Desmond",
+      "candidate2_party": "R",
+      "status": "General",
+      "notes": "Open seat (Darrell Issa retiring). D primary June 2, 2026 (top-two). Leading D: Ammar Campa-Najjar."
+    },
+    {
+      "district": "49",
+      "candidate1_name": "Mike Levin",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "50",
+      "candidate1_name": "Scott H. Peters",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "51",
+      "candidate1_name": "Sara Jacobs",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    },
+    {
+      "district": "52",
+      "candidate1_name": "Juan Vargas",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "notes": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "district\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tnotes\n1\tMike McGuire\tD\tJames Gallagher\tR\tGeneral\tCA top-2 primary June 2026. D: Mike McGuire (CA Senate leader). R TBD. Special election for current seat Aug 4, 2026.\n2\tJared Huffman\tD\tNULL\tNULL\tPrimary\tNULL\n3\tTBD — Primary: Jun 2, 2026\tD\tNULL\tNULL\tPrimary\tKevin Kiley (R) represented the old CA-3 but is running in CA-6 after redistricting. This is effectively an open seat in the new CA-3.\n4\tMike Thompson\tD\tNULL\tNULL\tPrimary\tNULL\n5\tNULL\tD\tTom McClintock\tR\tPrimary\tNULL\n6\tKevin Kiley (Ind., leading 26.8%)\tI\tTBD — Stansfield (R) 22.2% vs Pan (D) 21.2%\tR\tPrimary\tBallots still counting as of Jun 3. Kevin Kiley (Ind., incumbent) leads at 26.8%. Second spot uncalled: Michael Stansfield (R) at 22.2% vs Richard Pan (D) at 21.2% — separated by ~1%. Est. 116,000 ballots remaining. AP has not called the 2nd spot. (Source: NBC News / AP, 47.8% in)\n7\tDoris O. Matsui\tD\tTBD — Vang (D) 24.9% vs Wooden (R) 24.1%\tD\tPrimary\tBallots still counting as of Jun 3. Doris Matsui (D, incumbent) leads at 30.6%. Second spot uncalled: Mai Vang (D) at 24.9% vs Zachariah Wooden (R) at 24.1% — separated by <1%. Est. 120,000 ballots remaining in Sacramento County alone. AP has not called the 2nd spot. (Source: NYT / AP, 47% in)\n8\tJohn Garamendi\tD\tNULL\tNULL\tPrimary\tNULL\n9\tJosh Harder\tD\tNULL\tNULL\tPrimary\tNULL\n10\tMark DeSaulnier\tD\tNULL\tNULL\tPrimary\tNULL\n11\tScott Wiener\tD\tConnie Chan\tD\tGeneral\tNancy Pelosi (D) is retiring. This is an open seat top-two jungle primary. Key candidates include Saikat Chakrabarti, Connie Chan, and Scott Wiener (all D). Top two finishers advance to November regardless of party.\n12\tLateefah Simon\tD\tJamie Joyce\tD\tGeneral\tAP called: Lateefah Simon (D, incumbent) and Jamie Joyce (D) both advance to the November general election. D vs D matchup — no Republican in the race. (Source: AP / NBC News, Jun 3 2026)\n13\tAdam Gray\tD\tKevin Lincoln\tR\tGeneral\tCA top-two primary Jun 2. D: Adam Gray (incumbent), Daniel Garibay Rodriguez. R: Vin Kruttiventi, Kevin Lincoln II.\n14\tNULL\tNULL\tNULL\tNULL\tPrimary\tRep. Eric Swalwell (D) resigned from Congress. Gov. Gavin Newsom called a special primary for June 16, 2026. If no candidate wins a majority, the top two advance to an August 18, 2026 runoff. The winner serves out the remainder of Swalwell's term through January 2027.\n15\tKevin Mullin\tD\tNULL\tNULL\tPrimary\tNULL\n16\tSam T. Liccardo\tD\tNULL\tNULL\tPrimary\tNULL\n17\tRo Khanna\tD\tNULL\tNULL\tPrimary\tNULL\n18\tZoe Lofgren\tD\tNULL\tNULL\tPrimary\tNULL\n19\tJimmy Panetta\tD\tNULL\tNULL\tPrimary\tNULL\n20\tNULL\tD\tVince Fong\tR\tPrimary\tNULL\n21\tJim Costa\tD\tR Primary TBD\tR\tGeneral\tNULL\n22\tTBD — Villegas (D) 29.8% vs Bains (D) 25.7%\tD\tDavid G. Valadao\tR\tPrimary\tBallots still counting as of Jun 3. David Valadao (R, incumbent) called by AP at 44.5%. Second spot uncalled: Randy Villegas (D) at 29.8% vs Jasmeet Bains (D) at 25.7% — Villegas leads by ~4%. Est. 34,000 ballots remaining. AP has not called the 2nd spot. (Source: NBC News / AP, 54.8% in)\n23\tNULL\tD\tJay Obernolte\tR\tPrimary\tNULL\n24\tSalud O. Carbajal\tD\tNULL\tNULL\tPrimary\tNULL\n25\tRaul Ruiz\tD\tNULL\tNULL\tPrimary\tNULL\n26\tJulia Brownley\tD\tNULL\tNULL\tPrimary\tNULL\n27\tGeorge Whitesides\tD\tNULL\tNULL\tPrimary\tGeorge Whitesides (D) won CA-27 in 2024. Cook does not list as competitive. Lean D.\n28\tJudy Chu\tD\tNULL\tNULL\tPrimary\tNULL\n29\tLuz M. Rivas\tD\tNULL\tNULL\tPrimary\tNULL\n30\tLaura Friedman\tD\tNULL\tNULL\tPrimary\tNULL\n31\tGil Cisneros\tD\tNULL\tNULL\tPrimary\tNULL\n32\tBrad Sherman\tD\tLarry Thompson\tR\tGeneral\tNULL\n33\tPete Aguilar\tD\tNULL\tNULL\tPrimary\tNULL\n34\tJimmy Gomez\tD\tNULL\tNULL\tPrimary\tNULL\n35\tNorma J. Torres\tD\tNULL\tNULL\tPrimary\tNULL\n36\tTed Lieu\tD\tNULL\tNULL\tPrimary\tNULL\n37\tSydney Kamlager-Dove\tD\tNULL\tNULL\tPrimary\tNULL\n38\tLinda T. Sanchez\tD\tNULL\tNULL\tPrimary\tNULL\n39\tMark Takano\tD\tNULL\tNULL\tPrimary\tNULL\n40\tKen Calvert\tR\tYoung Kim\tR\tGeneral\tNULL\n41\tLinda Sánchez\tD\tTBD — Primary: Jun 2, 2026\tR\tPrimary\tRedistricted per CA Prop 50. Linda Sánchez (D, formerly CA-38) now runs in new CA-41. Ken Calvert (R) moved to CA-40.\n42\tRobert Garcia\tD\tNULL\tNULL\tPrimary\tNULL\n43\tMaxine Waters\tD\tNULL\tNULL\tPrimary\tNULL\n44\tNanette Diaz Barragan\tD\tNULL\tNULL\tPrimary\tNULL\n45\tDerek Tran\tD\tR Primary TBD\tR\tGeneral\tTop-two primary June 2, 2026. R candidates: Chi Charlie Nguyen, Mark Leonard, Amy Phan West, Chuong Vo, Thomas Vo.\n46\tLou Correa\tD\tNULL\tNULL\tPrimary\tNULL\n47\tDave Min\tD\tNULL\tNULL\tPrimary\tNULL\n48\tMarni von Wilpert\tD\tJim Desmond\tR\tGeneral\tOpen seat (Darrell Issa retiring). D primary June 2, 2026 (top-two). Leading D: Ammar Campa-Najjar.\n49\tMike Levin\tD\tNULL\tNULL\tPrimary\tNULL\n50\tScott H. Peters\tD\tNULL\tNULL\tPrimary\tNULL\n51\tSara Jacobs\tD\tNULL\tNULL\tPrimary\tNULL\n52\tJuan Vargas\tD\tNULL\tNULL\tPrimary\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 262
+}

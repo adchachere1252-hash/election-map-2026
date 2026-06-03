@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE house_races \nSET notes = 'AP called: Scott Wiener (D, CA State Senator, 41.3%) and Connie Chan (D, SF Supervisor, 28.6%) both advance to November. D vs D matchup — no Republican in the top two. Saikat Chakrabarti (D) finished 3rd at 14.9%. (Source: NBC News / AP, Jun 2 2026)'\nWHERE state_code = 'CA' AND district = '11';\n\nUPDATE house_races \nSET notes = 'AP called: Lateefah Simon (D, incumbent, leading) and Jamie Joyce (D) both advance to November. D vs D matchup — no Republican in the race. (Source: AP / NBC News, Jun 3 2026)'\nWHERE state_code = 'CA' AND district = '12';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE house_races \nSET notes = 'AP called: Scott Wiener (D, CA State Senator, 41.3%) and Connie Chan (D, SF Supervisor, 28.6%) both advance to November. D vs D matchup — no Republican in the top two. Saikat Chakrabarti (D) finished 3rd at 14.9%. (Source: NBC News / AP, Jun 2 2026)'\nWHERE state_code = 'CA' AND district = '11';\n\nUPDATE house_races \nSET notes = 'AP called: Lateefah Simon (D, incumbent, leading) and Jamie Joyce (D) both advance to November. D vs D matchup — no Republican in the race. (Source: AP / NBC News, Jun 3 2026)'\nWHERE state_code = 'CA' AND district = '12';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 293
+}

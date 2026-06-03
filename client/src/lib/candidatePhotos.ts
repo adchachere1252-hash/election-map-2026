@@ -694,6 +694,10 @@ const CDN_PHOTOS: Record<string, string> = {
   // June 2 confirmed nominees — photos added June 3 2026
   "alani bankhead":            `${CDN_BASE}/alani_bankhead_64fa939f.jpg`,           // MT-D Senate nominee (Montana Public Radio portrait)
   "justin murphy":             `${CDN_BASE}/justin_murphy_b4a44b43.jpg`,           // NJ-R Senate nominee (Ballotpedia portrait)
+  // CA D vs D races — CA-11 and CA-12 (added June 3 2026)
+  "scott wiener":              `${CDN_BASE}/scott_wiener_61873c20.jpg`,             // CA-11 D (CA State Senator, official Senate portrait)
+  "connie chan":               `${CDN_BASE}/connie_chan_11dcae1f.jpg`,              // CA-11 D (SF Supervisor, campaign photo — Source: conniechansf.com)
+  "jamie joyce":               `${CDN_BASE}/jamie_joyce_e5b8b63a.jpg`,             // CA-12 D (Ballotpedia portrait)
 };
 
 /**
