@@ -1587,12 +1587,12 @@
 - [x] Add governor.list, redistricting.list, referendum.list to WebSocket invalidation (was missing)
 
 ## Candidate Photos (Round N)
-- [ ] Add candidate1_photo and candidate2_photo URL columns to senate_races schema
-- [ ] Add candidate1_photo and candidate2_photo URL columns to governor_races schema
-- [ ] Source and upload official photos for all confirmed Senate nominees (35 races)
-- [ ] Source and upload official photos for all confirmed Governor nominees
-- [ ] Update race detail pop-up to display candidate headshots
-- [ ] Verify all photos display correctly and save checkpoint
+- [x] Add candidate1_photo and candidate2_photo URL columns to senate_races schema
+- [x] Add candidate1_photo and candidate2_photo URL columns to governor_races schema
+- [x] Source and upload official photos for all confirmed Senate nominees (35 races) — via name-based CDN lookup
+- [x] Source and upload official photos for all confirmed Governor nominees — via name-based CDN lookup
+- [x] Update race detail pop-up to display candidate headshots
+- [x] Verify all photos display correctly and save checkpoint
 
 ## Candidate Photos (June 3, 2026)
 - [x] Add candidate1_photo, candidate2_photo columns to senate_races and house_races tables

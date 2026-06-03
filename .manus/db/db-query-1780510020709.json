@@ -1,0 +1,9 @@
+{
+  "query": "\n-- IA and NM primaries are done — set to Scheduled (general is Nov 3) since there's no \"General\" status for governor\n-- Actually the governor races use different status enum - let's set them to Voting since primaries are done and general is upcoming\n-- Looking at the enum: 'Scheduled','Voting','Primary Runoff','Called','Certified'\n-- \"Voting\" seems to be used for states where candidates are set for November\nUPDATE governor_races SET status = 'Voting' WHERE state_code IN ('IA', 'NM');\n\n-- SD: Update rep_candidate to show both runoff candidates\nUPDATE governor_races SET rep_candidate = 'Toby Doeden or Larry Rhoden (R runoff July 28)' WHERE state_code = 'SD';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- IA and NM primaries are done — set to Scheduled (general is Nov 3) since there's no \"General\" status for governor\n-- Actually the governor races use different status enum - let's set them to Voting since primaries are done and general is upcoming\n-- Looking at the enum: 'Scheduled','Voting','Primary Runoff','Called','Certified'\n-- \"Voting\" seems to be used for states where candidates are set for November\nUPDATE governor_races SET status = 'Voting' WHERE state_code IN ('IA', 'NM');\n\n-- SD: Update rep_candidate to show both runoff candidates\nUPDATE governor_races SET rep_candidate = 'Toby Doeden or Larry Rhoden (R runoff July 28)' WHERE state_code = 'SD';\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 278
+}

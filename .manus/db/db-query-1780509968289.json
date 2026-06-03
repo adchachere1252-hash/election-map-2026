@@ -1,0 +1,30 @@
+{
+  "query": "SELECT COLUMN_NAME, COLUMN_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME = 'house_races' AND COLUMN_NAME IN ('status', 'candidate1_name', 'candidate2_name', 'candidate1_party', 'candidate2_party') ORDER BY COLUMN_NAME;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT COLUMN_NAME, COLUMN_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME = 'house_races' AND COLUMN_NAME IN ('status', 'candidate1_name', 'candidate2_name', 'candidate1_party', 'candidate2_party') ORDER BY COLUMN_NAME;",
+  "rows": [
+    {
+      "COLUMN_NAME": "candidate1_name",
+      "COLUMN_TYPE": "varchar(128)"
+    },
+    {
+      "COLUMN_NAME": "candidate1_party",
+      "COLUMN_TYPE": "enum('D','R','I','L','G')"
+    },
+    {
+      "COLUMN_NAME": "candidate2_name",
+      "COLUMN_TYPE": "varchar(128)"
+    },
+    {
+      "COLUMN_NAME": "candidate2_party",
+      "COLUMN_TYPE": "enum('D','R','I','L','G')"
+    },
+    {
+      "COLUMN_NAME": "status",
+      "COLUMN_TYPE": "enum('Scheduled','Primary','Primary Runoff','General','Called','Certified')"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tCOLUMN_TYPE\ncandidate1_name\tvarchar(128)\ncandidate1_party\tenum('D','R','I','L','G')\ncandidate2_name\tvarchar(128)\ncandidate2_party\tenum('D','R','I','L','G')\nstatus\tenum('Scheduled','Primary','Primary Runoff','General','Called','Certified')\n",
+  "stderr": "",
+  "execution_time_ms": 264
+}

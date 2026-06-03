@@ -1,0 +1,330 @@
+{
+  "query": "SELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating FROM house_races WHERE (state_code = 'CA' AND district IN ('1','6','11','13','21','22','32','34','40','48')) OR state_code IN ('IA','MT','NJ','NM','SD') ORDER BY state_code, CAST(district AS UNSIGNED);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating FROM house_races WHERE (state_code = 'CA' AND district IN ('1','6','11','13','21','22','32','34','40','48')) OR state_code IN ('IA','MT','NJ','NM','SD') ORDER BY state_code, CAST(district AS UNSIGNED);",
+  "rows": [
+    {
+      "state_code": "CA",
+      "district": "1",
+      "candidate1_name": "Mike McGuire",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "CA",
+      "district": "6",
+      "candidate1_name": "TBD — Primary: Jun 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "Kevin Kiley",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "CA",
+      "district": "11",
+      "candidate1_name": "TBD — Top-Two Primary: Jun 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Top-Two Primary: Jun 2, 2026",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "CA",
+      "district": "13",
+      "candidate1_name": "Adam Gray",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Primary: Jun 2, 2026",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Lean D"
+    },
+    {
+      "state_code": "CA",
+      "district": "21",
+      "candidate1_name": "Jim Costa",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Likely D"
+    },
+    {
+      "state_code": "CA",
+      "district": "22",
+      "candidate1_name": "TBD — Primary: Jun 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "David G. Valadao",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Toss-up"
+    },
+    {
+      "state_code": "CA",
+      "district": "32",
+      "candidate1_name": "Brad Sherman",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "CA",
+      "district": "34",
+      "candidate1_name": "Jimmy Gomez",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "CA",
+      "district": "40",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Young Kim",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "CA",
+      "district": "48",
+      "candidate1_name": "Ammar Campa-Najjar",
+      "candidate1_party": "D",
+      "candidate2_name": "Jim Desmond",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Lean D"
+    },
+    {
+      "state_code": "IA",
+      "district": "1",
+      "candidate1_name": "TBD — D Primary: Jun 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "Mariannette Miller-Meeks",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Toss-up"
+    },
+    {
+      "state_code": "IA",
+      "district": "2",
+      "candidate1_name": "TBD — D Primary: Jun 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Jun 2, 2026",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Likely R"
+    },
+    {
+      "state_code": "IA",
+      "district": "3",
+      "candidate1_name": "TBD — D Primary: Jun 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "Zach Nunn",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Toss-up"
+    },
+    {
+      "state_code": "IA",
+      "district": "4",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Randy Feenstra",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "MT",
+      "district": "1",
+      "candidate1_name": "D Primary TBD",
+      "candidate1_party": "D",
+      "candidate2_name": "Ryan K. Zinke",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Likely R"
+    },
+    {
+      "state_code": "MT",
+      "district": "2",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Troy Downing",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "NJ",
+      "district": "1",
+      "candidate1_name": "Donald Norcross",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "NJ",
+      "district": "2",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Jeff Van Drew",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "NJ",
+      "district": "3",
+      "candidate1_name": "Herb Conaway Jr.",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "NJ",
+      "district": "4",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Christopher H. Smith",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "NJ",
+      "district": "5",
+      "candidate1_name": "Josh Gottheimer",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "NJ",
+      "district": "6",
+      "candidate1_name": "Frank Pallone Jr.",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "NJ",
+      "district": "7",
+      "candidate1_name": "TBD — D Primary: Jun 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "Thomas Kean Jr.",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Toss-up"
+    },
+    {
+      "state_code": "NJ",
+      "district": "8",
+      "candidate1_name": "Rob Menendez",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "NJ",
+      "district": "9",
+      "candidate1_name": "Nellie Pou",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Likely D"
+    },
+    {
+      "state_code": "NJ",
+      "district": "10",
+      "candidate1_name": "LaMonica McIver",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "NJ",
+      "district": "11",
+      "candidate1_name": "Analilia Mejia",
+      "candidate1_party": "D",
+      "candidate2_name": "Joe Hathaway",
+      "candidate2_party": "R",
+      "status": "Called",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "NJ",
+      "district": "12",
+      "candidate1_name": "Bonnie Watson Coleman",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "NM",
+      "district": "1",
+      "candidate1_name": "Melanie A. Stansbury",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "NM",
+      "district": "2",
+      "candidate1_name": "Gabe Vasquez",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Lean D"
+    },
+    {
+      "state_code": "NM",
+      "district": "3",
+      "candidate1_name": "Teresa Leger Fernandez",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Scheduled",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "SD",
+      "district": "0",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Dusty Johnson",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tdistrict\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\trating\nCA\t1\tMike McGuire\tD\tNULL\tR\tPrimary\tSolid R\nCA\t6\tTBD — Primary: Jun 2, 2026\tD\tKevin Kiley\tR\tPrimary\tSolid D\nCA\t11\tTBD — Top-Two Primary: Jun 2, 2026\tD\tTBD — Top-Two Primary: Jun 2, 2026\tR\tPrimary\tSolid D\nCA\t13\tAdam Gray\tD\tTBD — Primary: Jun 2, 2026\tR\tPrimary\tLean D\nCA\t21\tJim Costa\tD\tR Primary TBD\tR\tPrimary\tLikely D\nCA\t22\tTBD — Primary: Jun 2, 2026\tD\tDavid G. Valadao\tR\tPrimary\tToss-up\nCA\t32\tBrad Sherman\tD\tNULL\tNULL\tPrimary\tSolid D\nCA\t34\tJimmy Gomez\tD\tNULL\tNULL\tPrimary\tSolid D\nCA\t40\tNULL\tD\tYoung Kim\tR\tPrimary\tSolid R\nCA\t48\tAmmar Campa-Najjar\tD\tJim Desmond\tR\tPrimary\tLean D\nIA\t1\tTBD — D Primary: Jun 2, 2026\tD\tMariannette Miller-Meeks\tR\tScheduled\tToss-up\nIA\t2\tTBD — D Primary: Jun 2, 2026\tD\tTBD — R Primary: Jun 2, 2026\tR\tScheduled\tLikely R\nIA\t3\tTBD — D Primary: Jun 2, 2026\tD\tZach Nunn\tR\tScheduled\tToss-up\nIA\t4\tNULL\tD\tRandy Feenstra\tR\tScheduled\tSolid R\nMT\t1\tD Primary TBD\tD\tRyan K. Zinke\tR\tScheduled\tLikely R\nMT\t2\tNULL\tD\tTroy Downing\tR\tScheduled\tSolid R\nNJ\t1\tDonald Norcross\tD\tNULL\tNULL\tScheduled\tSolid D\nNJ\t2\tNULL\tD\tJeff Van Drew\tR\tScheduled\tSolid R\nNJ\t3\tHerb Conaway Jr.\tD\tNULL\tNULL\tScheduled\tSolid D\nNJ\t4\tNULL\tD\tChristopher H. Smith\tR\tScheduled\tSolid R\nNJ\t5\tJosh Gottheimer\tD\tNULL\tNULL\tScheduled\tSolid D\nNJ\t6\tFrank Pallone Jr.\tD\tNULL\tNULL\tScheduled\tSolid D\nNJ\t7\tTBD — D Primary: Jun 2, 2026\tD\tThomas Kean Jr.\tR\tScheduled\tToss-up\nNJ\t8\tRob Menendez\tD\tNULL\tNULL\tScheduled\tSolid D\nNJ\t9\tNellie Pou\tD\tR Primary TBD\tR\tScheduled\tLikely D\nNJ\t10\tLaMonica McIver\tD\tNULL\tNULL\tScheduled\tSolid D\nNJ\t11\tAnalilia Mejia\tD\tJoe Hathaway\tR\tCalled\tSolid D\nNJ\t12\tBonnie Watson Coleman\tD\tNULL\tNULL\tScheduled\tSolid D\nNM\t1\tMelanie A. Stansbury\tD\tNULL\tNULL\tScheduled\tSolid D\nNM\t2\tGabe Vasquez\tD\tR Primary TBD\tR\tScheduled\tLean D\nNM\t3\tTeresa Leger Fernandez\tD\tNULL\tNULL\tScheduled\tSolid D\nSD\t0\tNULL\tD\tDusty Johnson\tR\tScheduled\tSolid R\n",
+  "stderr": "",
+  "execution_time_ms": 271
+}

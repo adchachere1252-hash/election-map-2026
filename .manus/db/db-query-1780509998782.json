@@ -1,0 +1,9 @@
+{
+  "query": "\n-- Update all CA house races that were in \"Primary\" status to \"General\" where we have both candidates confirmed\nUPDATE house_races SET status = 'General' WHERE state_code = 'CA' AND status = 'Primary' AND candidate1_name NOT LIKE 'TBD%' AND candidate2_name NOT LIKE 'TBD%' AND candidate1_name NOT LIKE 'NULL%' AND candidate2_name NOT LIKE 'NULL%' AND candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- Update all CA house races that were in \"Primary\" status to \"General\" where we have both candidates confirmed\nUPDATE house_races SET status = 'General' WHERE state_code = 'CA' AND status = 'Primary' AND candidate1_name NOT LIKE 'TBD%' AND candidate2_name NOT LIKE 'TBD%' AND candidate1_name NOT LIKE 'NULL%' AND candidate2_name NOT LIKE 'NULL%' AND candidate1_name IS NOT NULL AND candidate2_name IS NOT NULL;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 275
+}

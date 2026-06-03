@@ -1,0 +1,70 @@
+{
+  "query": "SELECT state_code, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating FROM senate_races WHERE state_code > 'SC' ORDER BY state_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating FROM senate_races WHERE state_code > 'SC' ORDER BY state_code;",
+  "rows": [
+    {
+      "state_code": "SD",
+      "state_name": "South Dakota",
+      "candidate1_name": "Julian Beaudion",
+      "candidate1_party": "D",
+      "candidate2_name": "Mike Rounds",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "TN",
+      "state_name": "Tennessee",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate1_party": "D",
+      "candidate2_name": "Bill Hagerty",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "TX",
+      "state_name": "Texas",
+      "candidate1_name": "James Talarico",
+      "candidate1_party": "D",
+      "candidate2_name": "Ken Paxton",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Likely R"
+    },
+    {
+      "state_code": "VA",
+      "state_name": "Virginia",
+      "candidate1_name": "Mark Warner",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — R Primary: Aug 4, 2026",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid D"
+    },
+    {
+      "state_code": "WV",
+      "state_name": "West Virginia",
+      "candidate1_name": "Rachel Fetty Anderson",
+      "candidate1_party": "D",
+      "candidate2_name": "Shelley Moore Capito",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Solid R"
+    },
+    {
+      "state_code": "WY",
+      "state_name": "Wyoming",
+      "candidate1_name": "James W. Byrd",
+      "candidate1_party": "D",
+      "candidate2_name": "Harriet Hageman",
+      "candidate2_party": "R",
+      "status": "Scheduled",
+      "rating": "Solid R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstate_name\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\trating\nSD\tSouth Dakota\tJulian Beaudion\tD\tMike Rounds\tR\tGeneral\tSolid R\nTN\tTennessee\tTBD — Democratic Primary\tD\tBill Hagerty\tR\tScheduled\tSolid R\nTX\tTexas\tJames Talarico\tD\tKen Paxton\tR\tGeneral\tLikely R\nVA\tVirginia\tMark Warner\tD\tTBD — R Primary: Aug 4, 2026\tR\tScheduled\tSolid D\nWV\tWest Virginia\tRachel Fetty Anderson\tD\tShelley Moore Capito\tR\tGeneral\tSolid R\nWY\tWyoming\tJames W. Byrd\tD\tHarriet Hageman\tR\tScheduled\tSolid R\n",
+  "stderr": "",
+  "execution_time_ms": 268
+}
