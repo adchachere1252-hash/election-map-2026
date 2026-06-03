@@ -35,6 +35,18 @@ const CANDIDATE_PHOTOS: Record<string, string> = {
   "nicholas begich":      `${CDN_BASE}/nicholas-begich_eb851933.jpg`,
   "elijah crane":         `${CDN_BASE}/elijah-crane_0100ed41.jpg`,
   "laurie buckhout":      `${CDN_BASE}/laurie-buckhout_18f4c9b7.jpg`,
+  // June 2 2026 primary nominees
+  "alani bankhead":        `${CDN_BASE}/alani_bankhead_64fa939f.jpg`,
+  "justin murphy":         `${CDN_BASE}/justin_murphy_b4a44b43.jpg`,
+  // NJ-12 general election candidates
+  "adam hamawy":           `${CDN_BASE}/adam_hamawy_1769a586.jpg`,
+  "greg mele":             `${CDN_BASE}/greg_mele_350691f2.jpg`,
+  // CA D vs D races
+  "scott wiener":          `${CDN_BASE}/scott_wiener_61873c20.jpg`,
+  "connie chan":           `${CDN_BASE}/connie_chan_11dcae1f.jpg`,
+  "jamie joyce":           `${CDN_BASE}/jamie_joyce_e5b8b63a.jpg`,
+  // CA-12 incumbent — bioguide S001226
+  "lateefah simon":        "https://bioguide.congress.gov/bioguide/photo/S/S001226.jpg",
 };
 
 function getCandidatePhoto(name: string | null | undefined): string | null {

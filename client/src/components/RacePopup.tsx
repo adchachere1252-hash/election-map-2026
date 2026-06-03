@@ -145,6 +145,14 @@ function GeneralMatchupSection({
   const effectiveC2Name = candidate2Name ?? (candidate1Party === "R" ? "TBD — Democratic Nominee" : "TBD — Republican Nominee");
   const effectiveC2Party = candidate2Party ?? (candidate1Party === "R" ? "D" : "R");
 
+  // Detect same-party matchup (D vs D or R vs R)
+  const isSameParty = !candidate2TBD && candidate1Party && candidate2Party && candidate1Party === candidate2Party;
+  const samePartyLabel = isSameParty
+    ? (candidate1Party === "D" ? "Democrat vs. Democrat — No Republican on ballot"
+      : candidate1Party === "R" ? "Republican vs. Republican — No Democrat on ballot"
+      : "Same-party general election")
+    : null;
+
   if (!candidate1Name) return null;
   // Build structured context lines for the yellow info box
   const contextLines: string[] = [];
@@ -230,6 +238,16 @@ function GeneralMatchupSection({
       {candidate2TBD && (
         <p className="text-[10px] text-amber-400/80 bg-amber-900/20 border border-amber-700/30 rounded px-2 py-1 mb-2 flex items-center gap-1">
           <span>⏳</span> {candidate1Party === "R" ? "Democratic" : "Republican"} primary runoff in progress — opponent TBD
+        </p>
+      )}
+      {samePartyLabel && (
+        <p className={`text-[10px] font-semibold rounded px-2 py-1 mb-2 flex items-center gap-1.5 ${
+          candidate1Party === "D"
+            ? "bg-blue-900/30 border border-blue-600/40 text-blue-300"
+            : "bg-red-900/30 border border-red-600/40 text-red-300"
+        }`}>
+          <span>{candidate1Party === "D" ? "🔵" : "🔴"}</span>
+          {samePartyLabel}
         </p>
       )}
       <div className="rounded-lg overflow-hidden border border-white/10 mb-3" style={{ background: "linear-gradient(135deg, " + c1Color + "18 0%, transparent 50%, " + c2Color + "18 100%)" }}>
