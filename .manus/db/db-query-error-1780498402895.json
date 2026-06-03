@@ -1,0 +1,8 @@
+{
+  "query": "SELECT \n  state_code,\n  state_name,\n  status,\n  candidate1_name,\n  candidate1_party,\n  candidate2_name,\n  candidate2_party,\n  incumbent,\n  incumbent_party,\n  race_rating,\n  primary_date,\n  primary_winner,\n  called_winner,\n  pct_reporting\nFROM senate_races\nORDER BY primary_date, state_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT \n  state_code,\n  state_name,\n  status,\n  candidate1_name,\n  candidate1_party,\n  candidate2_name,\n  candidate2_party,\n  incumbent,\n  incumbent_party,\n  race_rating,\n  primary_date,\n  primary_winner,\n  called_winner,\n  pct_reporting\nFROM senate_races\nORDER BY primary_date, state_code;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'race_rating' in 'field list'"
+  ]
+}

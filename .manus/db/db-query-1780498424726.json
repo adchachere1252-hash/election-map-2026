@@ -1,0 +1,158 @@
+{
+  "query": "SELECT COLUMN_NAME, COLUMN_TYPE \nFROM INFORMATION_SCHEMA.COLUMNS \nWHERE TABLE_NAME = 'senate_races' \nORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT COLUMN_NAME, COLUMN_TYPE \nFROM INFORMATION_SCHEMA.COLUMNS \nWHERE TABLE_NAME = 'senate_races' \nORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id",
+      "COLUMN_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "state_code",
+      "COLUMN_TYPE": "varchar(2)"
+    },
+    {
+      "COLUMN_NAME": "state_name",
+      "COLUMN_TYPE": "varchar(64)"
+    },
+    {
+      "COLUMN_NAME": "is_special",
+      "COLUMN_TYPE": "tinyint(1)"
+    },
+    {
+      "COLUMN_NAME": "special_note",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "incumbent",
+      "COLUMN_TYPE": "varchar(128)"
+    },
+    {
+      "COLUMN_NAME": "incumbent_party",
+      "COLUMN_TYPE": "enum('D','R','I')"
+    },
+    {
+      "COLUMN_NAME": "incumbent_retiring",
+      "COLUMN_TYPE": "tinyint(1)"
+    },
+    {
+      "COLUMN_NAME": "candidate1_name",
+      "COLUMN_TYPE": "varchar(128)"
+    },
+    {
+      "COLUMN_NAME": "candidate1_party",
+      "COLUMN_TYPE": "enum('D','R','I','L','G')"
+    },
+    {
+      "COLUMN_NAME": "candidate1_vote_pct",
+      "COLUMN_TYPE": "decimal(5,2)"
+    },
+    {
+      "COLUMN_NAME": "candidate2_name",
+      "COLUMN_TYPE": "varchar(128)"
+    },
+    {
+      "COLUMN_NAME": "candidate2_party",
+      "COLUMN_TYPE": "enum('D','R','I','L','G')"
+    },
+    {
+      "COLUMN_NAME": "candidate2_vote_pct",
+      "COLUMN_TYPE": "decimal(5,2)"
+    },
+    {
+      "COLUMN_NAME": "called_winner",
+      "COLUMN_TYPE": "varchar(128)"
+    },
+    {
+      "COLUMN_NAME": "called_party",
+      "COLUMN_TYPE": "enum('D','R','I')"
+    },
+    {
+      "COLUMN_NAME": "rating",
+      "COLUMN_TYPE": "enum('Solid D','Likely D','Lean D','Toss-up','Lean R','Likely R','Solid R','Safe D','Safe R')"
+    },
+    {
+      "COLUMN_NAME": "status",
+      "COLUMN_TYPE": "enum('Scheduled','Primary','Primary Runoff','General','Called','Certified')"
+    },
+    {
+      "COLUMN_NAME": "primary_date",
+      "COLUMN_TYPE": "varchar(32)"
+    },
+    {
+      "COLUMN_NAME": "primary_runoff_date",
+      "COLUMN_TYPE": "varchar(32)"
+    },
+    {
+      "COLUMN_NAME": "general_date",
+      "COLUMN_TYPE": "varchar(32)"
+    },
+    {
+      "COLUMN_NAME": "pct_reporting",
+      "COLUMN_TYPE": "decimal(5,2)"
+    },
+    {
+      "COLUMN_NAME": "notes",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "created_at",
+      "COLUMN_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "updated_at",
+      "COLUMN_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "previous_party",
+      "COLUMN_TYPE": "enum('D','R','I')"
+    },
+    {
+      "COLUMN_NAME": "candidate1_votes",
+      "COLUMN_TYPE": "bigint"
+    },
+    {
+      "COLUMN_NAME": "candidate2_votes",
+      "COLUMN_TYPE": "bigint"
+    },
+    {
+      "COLUMN_NAME": "called_at",
+      "COLUMN_TYPE": "bigint"
+    },
+    {
+      "COLUMN_NAME": "other_candidate_name",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "other_candidate_party",
+      "COLUMN_TYPE": "enum('D','R','I','L','G')"
+    },
+    {
+      "COLUMN_NAME": "other_votes",
+      "COLUMN_TYPE": "bigint"
+    },
+    {
+      "COLUMN_NAME": "other_vote_pct",
+      "COLUMN_TYPE": "decimal(5,2)"
+    },
+    {
+      "COLUMN_NAME": "primary_winner",
+      "COLUMN_TYPE": "varchar(128)"
+    },
+    {
+      "COLUMN_NAME": "primary_party",
+      "COLUMN_TYPE": "enum('D','R','I')"
+    },
+    {
+      "COLUMN_NAME": "candidate1_bio",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "candidate2_bio",
+      "COLUMN_TYPE": "text"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tCOLUMN_TYPE\nid\tint\nstate_code\tvarchar(2)\nstate_name\tvarchar(64)\nis_special\ttinyint(1)\nspecial_note\ttext\nincumbent\tvarchar(128)\nincumbent_party\tenum('D','R','I')\nincumbent_retiring\ttinyint(1)\ncandidate1_name\tvarchar(128)\ncandidate1_party\tenum('D','R','I','L','G')\ncandidate1_vote_pct\tdecimal(5,2)\ncandidate2_name\tvarchar(128)\ncandidate2_party\tenum('D','R','I','L','G')\ncandidate2_vote_pct\tdecimal(5,2)\ncalled_winner\tvarchar(128)\ncalled_party\tenum('D','R','I')\nrating\tenum('Solid D','Likely D','Lean D','Toss-up','Lean R','Likely R','Solid R','Safe D','Safe R')\nstatus\tenum('Scheduled','Primary','Primary Runoff','General','Called','Certified')\nprimary_date\tvarchar(32)\nprimary_runoff_date\tvarchar(32)\ngeneral_date\tvarchar(32)\npct_reporting\tdecimal(5,2)\nnotes\ttext\ncreated_at\ttimestamp\nupdated_at\ttimestamp\nprevious_party\tenum('D','R','I')\ncandidate1_votes\tbigint\ncandidate2_votes\tbigint\ncalled_at\tbigint\nother_candidate_name\ttext\nother_candidate_party\tenum('D','R','I','L','G')\nother_votes\tbigint\nother_vote_pct\tdecimal(5,2)\nprimary_winner\tvarchar(128)\nprimary_party\tenum('D','R','I')\ncandidate1_bio\ttext\ncandidate2_bio\ttext\n",
+  "stderr": "",
+  "execution_time_ms": 260
+}

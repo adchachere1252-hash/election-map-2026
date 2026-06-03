@@ -1,0 +1,18 @@
+{
+  "query": "SELECT state_name, candidate1_name, candidate2_name, status, primary_date, rating FROM senate_races WHERE state_name IN ('Nevada', 'Maryland', 'New York', 'Utah', 'Colorado', 'North Dakota') ORDER BY state_name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_name, candidate1_name, candidate2_name, status, primary_date, rating FROM senate_races WHERE state_name IN ('Nevada', 'Maryland', 'New York', 'Utah', 'Colorado', 'North Dakota') ORDER BY state_name;",
+  "rows": [
+    {
+      "state_name": "Colorado",
+      "candidate1_name": "John Hickenlooper",
+      "candidate2_name": "TBD — R Primary: June 30, 2026",
+      "status": "Scheduled",
+      "primary_date": "Jun 30, 2026",
+      "rating": "Solid D"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_name\tcandidate1_name\tcandidate2_name\tstatus\tprimary_date\trating\nColorado\tJohn Hickenlooper\tTBD — R Primary: June 30, 2026\tScheduled\tJun 30, 2026\tSolid D\n",
+  "stderr": "",
+  "execution_time_ms": 259
+}

@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE senate_races SET\n  incumbent = 'John Hickenlooper',\n  incumbent_party = 'D',\n  incumbent_retiring = 0,\n  candidate1_name = 'TBD — D Primary: Hickenlooper vs. Gonzales (June 30)',\n  candidate1_party = 'D',\n  candidate2_name = 'TBD — R Primary: June 30, 2026',\n  candidate2_party = 'R',\n  status = 'Scheduled',\n  primary_date = 'June 30, 2026',\n  rating = 'Solid D',\n  notes = 'D primary June 30: Hickenlooper (incumbent) vs. Julie Gonzales (state senator). R primary also June 30 — no major R candidates filed. Hickenlooper is heavily favored in general.'\nWHERE state_code = 'CO';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE senate_races SET\n  incumbent = 'John Hickenlooper',\n  incumbent_party = 'D',\n  incumbent_retiring = 0,\n  candidate1_name = 'TBD — D Primary: Hickenlooper vs. Gonzales (June 30)',\n  candidate1_party = 'D',\n  candidate2_name = 'TBD — R Primary: June 30, 2026',\n  candidate2_party = 'R',\n  status = 'Scheduled',\n  primary_date = 'June 30, 2026',\n  rating = 'Solid D',\n  notes = 'D primary June 30: Hickenlooper (incumbent) vs. Julie Gonzales (state senator). R primary also June 30 — no major R candidates filed. Hickenlooper is heavily favored in general.'\nWHERE state_code = 'CO';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 264
+}

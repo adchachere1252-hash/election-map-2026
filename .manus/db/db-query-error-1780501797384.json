@@ -1,0 +1,8 @@
+{
+  "query": "SELECT state, candidate1_name, candidate2_name, status, primary_date, race_rating FROM senate_races WHERE state IN ('Nevada', 'Maryland', 'New York', 'Utah', 'Colorado', 'North Dakota') ORDER BY state;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state, candidate1_name, candidate2_name, status, primary_date, race_rating FROM senate_races WHERE state IN ('Nevada', 'Maryland', 'New York', 'Utah', 'Colorado', 'North Dakota') ORDER BY state;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'state' in 'where clause'"
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "query": "SELECT COUNT(*) as total FROM senate_races; SELECT state_name, state_code, candidate1_name, candidate2_name, status, primary_date, rating FROM senate_races ORDER BY primary_date, state_name LIMIT 20 OFFSET 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT COUNT(*) as total FROM senate_races; SELECT state_name, state_code, candidate1_name, candidate2_name, status, primary_date, rating FROM senate_races ORDER BY primary_date, state_name LIMIT 20 OFFSET 30;",
+  "rows": [
+    {
+      "total": "36"
+    },
+    {
+      "total": "state_name\tstate_code\tcandidate1_name\tcandidate2_name\tstatus\tprimary_date\trating"
+    },
+    {
+      "total": "Kentucky\tKY\tCharles Booker\tAndy Barr\tGeneral\tMay 19, 2026\tSolid R"
+    },
+    {
+      "total": "Oregon\tOR\tJeff Merkley\tDavid Smith\tGeneral\tMay 19, 2026\tSolid D"
+    },
+    {
+      "total": "Massachusetts\tMA\tEd Markey\tTBD — Republican Primary\tScheduled\tSep 1, 2026\tSolid D"
+    },
+    {
+      "total": "Delaware\tDE\tChris Coons\tTBD — Republican Primary\tScheduled\tSep 15, 2026\tSolid D"
+    },
+    {
+      "total": "New Hampshire\tNH\tTBD — D Primary: Sep 8, 2026 (Pappas, Manzur)\tTBD — R Primary: Sep 8, 2026 (Brown, Sununu)\tScheduled\tSep 8, 2026\tLean D"
+    },
+    {
+      "total": "Rhode Island\tRI\tJack Reed\tTBD — Republican Primary\tScheduled\tSep 8, 2026\tSolid D"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\n36\nstate_name\tstate_code\tcandidate1_name\tcandidate2_name\tstatus\tprimary_date\trating\nKentucky\tKY\tCharles Booker\tAndy Barr\tGeneral\tMay 19, 2026\tSolid R\nOregon\tOR\tJeff Merkley\tDavid Smith\tGeneral\tMay 19, 2026\tSolid D\nMassachusetts\tMA\tEd Markey\tTBD — Republican Primary\tScheduled\tSep 1, 2026\tSolid D\nDelaware\tDE\tChris Coons\tTBD — Republican Primary\tScheduled\tSep 15, 2026\tSolid D\nNew Hampshire\tNH\tTBD — D Primary: Sep 8, 2026 (Pappas, Manzur)\tTBD — R Primary: Sep 8, 2026 (Brown, Sununu)\tScheduled\tSep 8, 2026\tLean D\nRhode Island\tRI\tJack Reed\tTBD — Republican Primary\tScheduled\tSep 8, 2026\tSolid D\n",
+  "stderr": "",
+  "execution_time_ms": 268
+}

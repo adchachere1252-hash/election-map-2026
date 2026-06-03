@@ -1,0 +1,55 @@
+{
+  "query": "\n-- Fix Alabama: Add runoff candidates (R: Moore vs Hudson, D: Wess vs Larriett)\nUPDATE senate_races \nSET candidate1_name = 'Everett Wess', candidate2_name = 'Barry Moore',\n    notes = 'R Runoff Jun 16: Barry Moore (39.2%) vs Jared Hudson (25.6%). D Runoff Jun 16: Everett Wess (39.6%) vs Dakarai Larriett (29.1%). Open seat — Tuberville running for governor.'\nWHERE state_code = 'AL';\n\n-- Fix Georgia: Add R runoff candidates (Collins vs Dooley, Ossoff D uncontested)\nUPDATE senate_races \nSET candidate2_name = 'Mike Collins',\n    notes = 'R Runoff Jun 16: Mike Collins (~40.5%) vs Andrew Dooley (~30.2%). Jon Ossoff (D) is uncontested. Open seat — Warnock not running.'\nWHERE state_code = 'GA';\n\n-- Fix Oklahoma: Correct primary date from June 24 to June 16\nUPDATE senate_races \nSET primary_date = 'June 16, 2026'\nWHERE state_code = 'OK';\n\n-- Fix California: Mark as no 2026 Senate race (Schiff serves until 2030)\nUPDATE senate_races \nSET status = 'Scheduled', \n    candidate1_name = 'Adam Schiff (incumbent, not up in 2026)',\n    candidate2_name = NULL,\n    notes = 'Adam Schiff won in Nov 2024, serves until Jan 2031. No 2026 Senate race in California.',\n    primary_date = NULL\nWHERE state_code = 'CA';\n\n-- Fix Louisiana: Add runoff candidates\nUPDATE senate_races \nSET candidate1_name = 'Shawn Davis',\n    candidate2_name = 'Julia Letlow',\n    notes = 'R Runoff Jun 27: Julia Letlow (~44.8%) vs John Fleming (~28.3%). D Runoff Jun 27: Shawn Davis (~47.4%) vs Karla Crockett (~26.3%). Open seat — Cassidy eliminated in primary.'\nWHERE state_code = 'LA';\n\nSELECT state_code, state_name, candidate1_name, candidate2_name, status, primary_date, notes \nFROM senate_races \nWHERE state_code IN ('AL', 'GA', 'OK', 'CA', 'LA')\nORDER BY state_code;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute \n-- Fix Alabama: Add runoff candidates (R: Moore vs Hudson, D: Wess vs Larriett)\nUPDATE senate_races \nSET candidate1_name = 'Everett Wess', candidate2_name = 'Barry Moore',\n    notes = 'R Runoff Jun 16: Barry Moore (39.2%) vs Jared Hudson (25.6%). D Runoff Jun 16: Everett Wess (39.6%) vs Dakarai Larriett (29.1%). Open seat — Tuberville running for governor.'\nWHERE state_code = 'AL';\n\n-- Fix Georgia: Add R runoff candidates (Collins vs Dooley, Ossoff D uncontested)\nUPDATE senate_races \nSET candidate2_name = 'Mike Collins',\n    notes = 'R Runoff Jun 16: Mike Collins (~40.5%) vs Andrew Dooley (~30.2%). Jon Ossoff (D) is uncontested. Open seat — Warnock not running.'\nWHERE state_code = 'GA';\n\n-- Fix Oklahoma: Correct primary date from June 24 to June 16\nUPDATE senate_races \nSET primary_date = 'June 16, 2026'\nWHERE state_code = 'OK';\n\n-- Fix California: Mark as no 2026 Senate race (Schiff serves until 2030)\nUPDATE senate_races \nSET status = 'Scheduled', \n    candidate1_name = 'Adam Schiff (incumbent, not up in 2026)',\n    candidate2_name = NULL,\n    notes = 'Adam Schiff won in Nov 2024, serves until Jan 2031. No 2026 Senate race in California.',\n    primary_date = NULL\nWHERE state_code = 'CA';\n\n-- Fix Louisiana: Add runoff candidates\nUPDATE senate_races \nSET candidate1_name = 'Shawn Davis',\n    candidate2_name = 'Julia Letlow',\n    notes = 'R Runoff Jun 27: Julia Letlow (~44.8%) vs John Fleming (~28.3%). D Runoff Jun 27: Shawn Davis (~47.4%) vs Karla Crockett (~26.3%). Open seat — Cassidy eliminated in primary.'\nWHERE state_code = 'LA';\n\nSELECT state_code, state_name, candidate1_name, candidate2_name, status, primary_date, notes \nFROM senate_races \nWHERE state_code IN ('AL', 'GA', 'OK', 'CA', 'LA')\nORDER BY state_code;\n",
+  "rows": [
+    {
+      "state_code": "AL",
+      "state_name": "Alabama",
+      "candidate1_name": "Everett Wess",
+      "candidate2_name": "Barry Moore",
+      "status": "Primary Runoff",
+      "primary_date": "June 2, 2026",
+      "notes": "R Runoff Jun 16: Barry Moore (39.2%) vs Jared Hudson (25.6%). D Runoff Jun 16: Everett Wess (39.6%) vs Dakarai Larriett (29.1%). Open seat — Tuberville running for governor."
+    },
+    {
+      "state_code": "CA",
+      "state_name": "California",
+      "candidate1_name": "Adam Schiff (incumbent, not up in 2026)",
+      "candidate2_name": "NULL",
+      "status": "Scheduled",
+      "primary_date": "NULL",
+      "notes": "Adam Schiff won in Nov 2024, serves until Jan 2031. No 2026 Senate race in California."
+    },
+    {
+      "state_code": "GA",
+      "state_name": "Georgia",
+      "candidate1_name": "Jon Ossoff (D, uncontested)",
+      "candidate2_name": "Mike Collins",
+      "status": "Primary Runoff",
+      "primary_date": "May 19, 2026",
+      "notes": "R Runoff Jun 16: Mike Collins (~40.5%) vs Andrew Dooley (~30.2%). Jon Ossoff (D) is uncontested. Open seat — Warnock not running."
+    },
+    {
+      "state_code": "LA",
+      "state_name": "Louisiana",
+      "candidate1_name": "Shawn Davis",
+      "candidate2_name": "Julia Letlow",
+      "status": "Primary Runoff",
+      "primary_date": "May 16, 2026",
+      "notes": "R Runoff Jun 27: Julia Letlow (~44.8%) vs John Fleming (~28.3%). D Runoff Jun 27: Shawn Davis (~47.4%) vs Karla Crockett (~26.3%). Open seat — Cassidy eliminated in primary."
+    },
+    {
+      "state_code": "OK",
+      "state_name": "Oklahoma",
+      "candidate1_name": "TBD — D Primary: Jun 16, 2026 (Cassity, Green, LaVann, Priest, Thomas, Yen)",
+      "candidate2_name": "Kevin Hern (frontrunner) — R Primary: Jun 16, 2026",
+      "status": "Scheduled",
+      "primary_date": "June 16, 2026",
+      "notes": "Open seat — Markwayne Mullin resigned. R primary Jun 16: Kevin Hern (frontrunner), Sean Buckner, Gary England, Nick Hankins, Brian Ragain, Tammy Swearengin, Wayne Washington. D primary Jun 16: R.O. Joe Cassity, Troy Green, Rebekah LaVann, Jim Priest, N'Kiyla Thomas, Ervin Yen. Rating: Solid Republican."
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstate_name\tcandidate1_name\tcandidate2_name\tstatus\tprimary_date\tnotes\nAL\tAlabama\tEverett Wess\tBarry Moore\tPrimary Runoff\tJune 2, 2026\tR Runoff Jun 16: Barry Moore (39.2%) vs Jared Hudson (25.6%). D Runoff Jun 16: Everett Wess (39.6%) vs Dakarai Larriett (29.1%). Open seat — Tuberville running for governor.\nCA\tCalifornia\tAdam Schiff (incumbent, not up in 2026)\tNULL\tScheduled\tNULL\tAdam Schiff won in Nov 2024, serves until Jan 2031. No 2026 Senate race in California.\nGA\tGeorgia\tJon Ossoff (D, uncontested)\tMike Collins\tPrimary Runoff\tMay 19, 2026\tR Runoff Jun 16: Mike Collins (~40.5%) vs Andrew Dooley (~30.2%). Jon Ossoff (D) is uncontested. Open seat — Warnock not running.\nLA\tLouisiana\tShawn Davis\tJulia Letlow\tPrimary Runoff\tMay 16, 2026\tR Runoff Jun 27: Julia Letlow (~44.8%) vs John Fleming (~28.3%). D Runoff Jun 27: Shawn Davis (~47.4%) vs Karla Crockett (~26.3%). Open seat — Cassidy eliminated in primary.\nOK\tOklahoma\tTBD — D Primary: Jun 16, 2026 (Cassity, Green, LaVann, Priest, Thomas, Yen)\tKevin Hern (frontrunner) — R Primary: Jun 16, 2026\tScheduled\tJune 16, 2026\tOpen seat — Markwayne Mullin resigned. R primary Jun 16: Kevin Hern (frontrunner), Sean Buckner, Gary England, Nick Hankins, Brian Ragain, Tammy Swearengin, Wayne Washington. D primary Jun 16: R.O. Joe Cassity, Troy Green, Rebekah LaVann, Jim Priest, N'Kiyla Thomas, Ervin Yen. Rating: Solid Republican.\n",
+  "stderr": "",
+  "execution_time_ms": 320
+}

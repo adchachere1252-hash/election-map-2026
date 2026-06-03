@@ -1,0 +1,40 @@
+{
+  "query": "SELECT state_name, state_code, incumbent, candidate1_name, candidate2_name, status, primary_date, rating FROM senate_races WHERE state_code IN ('ME', 'SC', 'CO') ORDER BY state_name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_name, state_code, incumbent, candidate1_name, candidate2_name, status, primary_date, rating FROM senate_races WHERE state_code IN ('ME', 'SC', 'CO') ORDER BY state_name;",
+  "rows": [
+    {
+      "state_name": "Colorado",
+      "state_code": "CO",
+      "incumbent": "John Hickenlooper",
+      "candidate1_name": "John Hickenlooper",
+      "candidate2_name": "TBD — R Primary: June 30, 2026",
+      "status": "Scheduled",
+      "primary_date": "Jun 30, 2026",
+      "rating": "Solid D"
+    },
+    {
+      "state_name": "Maine",
+      "state_code": "ME",
+      "incumbent": "Susan Collins",
+      "candidate1_name": "Graham Platner",
+      "candidate2_name": "Susan Collins",
+      "status": "Scheduled",
+      "primary_date": "June 9, 2026",
+      "rating": "Lean R"
+    },
+    {
+      "state_name": "South Carolina",
+      "state_code": "SC",
+      "incumbent": "Lindsey Graham",
+      "candidate1_name": "TBD — Democratic Primary",
+      "candidate2_name": "Lindsey Graham",
+      "status": "Scheduled",
+      "primary_date": "Jun 9, 2026",
+      "rating": "Solid R"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_name\tstate_code\tincumbent\tcandidate1_name\tcandidate2_name\tstatus\tprimary_date\trating\nColorado\tCO\tJohn Hickenlooper\tJohn Hickenlooper\tTBD — R Primary: June 30, 2026\tScheduled\tJun 30, 2026\tSolid D\nMaine\tME\tSusan Collins\tGraham Platner\tSusan Collins\tScheduled\tJune 9, 2026\tLean R\nSouth Carolina\tSC\tLindsey Graham\tTBD — Democratic Primary\tLindsey Graham\tScheduled\tJun 9, 2026\tSolid R\n",
+  "stderr": "",
+  "execution_time_ms": 271
+}

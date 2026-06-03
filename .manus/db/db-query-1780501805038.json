@@ -1,0 +1,306 @@
+{
+  "query": "DESCRIBE senate_races;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute DESCRIBE senate_races;",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "int",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "state_code",
+      "Type": "varchar(2)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "state_name",
+      "Type": "varchar(64)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "is_special",
+      "Type": "tinyint(1)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "special_note",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "incumbent",
+      "Type": "varchar(128)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "incumbent_party",
+      "Type": "enum('D','R','I')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "incumbent_retiring",
+      "Type": "tinyint(1)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "candidate1_name",
+      "Type": "varchar(128)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "candidate1_party",
+      "Type": "enum('D','R','I','L','G')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "candidate1_vote_pct",
+      "Type": "decimal(5,2)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "candidate2_name",
+      "Type": "varchar(128)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "candidate2_party",
+      "Type": "enum('D','R','I','L','G')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "candidate2_vote_pct",
+      "Type": "decimal(5,2)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "called_winner",
+      "Type": "varchar(128)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "called_party",
+      "Type": "enum('D','R','I')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "rating",
+      "Type": "enum('Solid D','Likely D','Lean D','Toss-up','Lean R','Likely R','Solid R','Safe D','Safe R')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "status",
+      "Type": "enum('Scheduled','Primary','Primary Runoff','General','Called','Certified')",
+      "Null": "NO",
+      "Key": "",
+      "Default": "Scheduled",
+      "Extra": ""
+    },
+    {
+      "Field": "primary_date",
+      "Type": "varchar(32)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "primary_runoff_date",
+      "Type": "varchar(32)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "general_date",
+      "Type": "varchar(32)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "November 3, 2026",
+      "Extra": ""
+    },
+    {
+      "Field": "pct_reporting",
+      "Type": "decimal(5,2)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "notes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "created_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": ""
+    },
+    {
+      "Field": "updated_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+    },
+    {
+      "Field": "previous_party",
+      "Type": "enum('D','R','I')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "candidate1_votes",
+      "Type": "bigint",
+      "Null": "YES",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "candidate2_votes",
+      "Type": "bigint",
+      "Null": "YES",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "called_at",
+      "Type": "bigint",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "other_candidate_name",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "other_candidate_party",
+      "Type": "enum('D','R','I','L','G')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "other_votes",
+      "Type": "bigint",
+      "Null": "YES",
+      "Key": "",
+      "Default": "0",
+      "Extra": ""
+    },
+    {
+      "Field": "other_vote_pct",
+      "Type": "decimal(5,2)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "primary_winner",
+      "Type": "varchar(128)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "primary_party",
+      "Type": "enum('D','R','I')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "candidate1_bio",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "candidate2_bio",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tint\tNO\tPRI\tNULL\tauto_increment\nstate_code\tvarchar(2)\tNO\t\tNULL\t\nstate_name\tvarchar(64)\tNO\t\tNULL\t\nis_special\ttinyint(1)\tNO\t\t0\t\nspecial_note\ttext\tYES\t\tNULL\t\nincumbent\tvarchar(128)\tYES\t\tNULL\t\nincumbent_party\tenum('D','R','I')\tYES\t\tNULL\t\nincumbent_retiring\ttinyint(1)\tNO\t\t0\t\ncandidate1_name\tvarchar(128)\tYES\t\tNULL\t\ncandidate1_party\tenum('D','R','I','L','G')\tYES\t\tNULL\t\ncandidate1_vote_pct\tdecimal(5,2)\tYES\t\tNULL\t\ncandidate2_name\tvarchar(128)\tYES\t\tNULL\t\ncandidate2_party\tenum('D','R','I','L','G')\tYES\t\tNULL\t\ncandidate2_vote_pct\tdecimal(5,2)\tYES\t\tNULL\t\ncalled_winner\tvarchar(128)\tYES\t\tNULL\t\ncalled_party\tenum('D','R','I')\tYES\t\tNULL\t\nrating\tenum('Solid D','Likely D','Lean D','Toss-up','Lean R','Likely R','Solid R','Safe D','Safe R')\tYES\t\tNULL\t\nstatus\tenum('Scheduled','Primary','Primary Runoff','General','Called','Certified')\tNO\t\tScheduled\t\nprimary_date\tvarchar(32)\tYES\t\tNULL\t\nprimary_runoff_date\tvarchar(32)\tYES\t\tNULL\t\ngeneral_date\tvarchar(32)\tYES\t\tNovember 3, 2026\t\npct_reporting\tdecimal(5,2)\tYES\t\t0\t\nnotes\ttext\tYES\t\tNULL\t\ncreated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t\nupdated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP\nprevious_party\tenum('D','R','I')\tYES\t\tNULL\t\ncandidate1_votes\tbigint\tYES\t\t0\t\ncandidate2_votes\tbigint\tYES\t\t0\t\ncalled_at\tbigint\tYES\t\tNULL\t\nother_candidate_name\ttext\tYES\t\tNULL\t\nother_candidate_party\tenum('D','R','I','L','G')\tYES\t\tNULL\t\nother_votes\tbigint\tYES\t\t0\t\nother_vote_pct\tdecimal(5,2)\tYES\t\tNULL\t\nprimary_winner\tvarchar(128)\tYES\t\tNULL\t\nprimary_party\tenum('D','R','I')\tYES\t\tNULL\t\ncandidate1_bio\ttext\tYES\t\tNULL\t\ncandidate2_bio\ttext\tYES\t\tNULL\t\n",
+  "stderr": "",
+  "execution_time_ms": 265
+}

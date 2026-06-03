@@ -1,0 +1,78 @@
+{
+  "query": "SELECT COLUMN_NAME, COLUMN_TYPE \nFROM INFORMATION_SCHEMA.COLUMNS \nWHERE TABLE_NAME = 'senate_races' \nAND ORDINAL_POSITION > 20\nORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT COLUMN_NAME, COLUMN_TYPE \nFROM INFORMATION_SCHEMA.COLUMNS \nWHERE TABLE_NAME = 'senate_races' \nAND ORDINAL_POSITION > 20\nORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "general_date",
+      "COLUMN_TYPE": "varchar(32)"
+    },
+    {
+      "COLUMN_NAME": "pct_reporting",
+      "COLUMN_TYPE": "decimal(5,2)"
+    },
+    {
+      "COLUMN_NAME": "notes",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "created_at",
+      "COLUMN_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "updated_at",
+      "COLUMN_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "previous_party",
+      "COLUMN_TYPE": "enum('D','R','I')"
+    },
+    {
+      "COLUMN_NAME": "candidate1_votes",
+      "COLUMN_TYPE": "bigint"
+    },
+    {
+      "COLUMN_NAME": "candidate2_votes",
+      "COLUMN_TYPE": "bigint"
+    },
+    {
+      "COLUMN_NAME": "called_at",
+      "COLUMN_TYPE": "bigint"
+    },
+    {
+      "COLUMN_NAME": "other_candidate_name",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "other_candidate_party",
+      "COLUMN_TYPE": "enum('D','R','I','L','G')"
+    },
+    {
+      "COLUMN_NAME": "other_votes",
+      "COLUMN_TYPE": "bigint"
+    },
+    {
+      "COLUMN_NAME": "other_vote_pct",
+      "COLUMN_TYPE": "decimal(5,2)"
+    },
+    {
+      "COLUMN_NAME": "primary_winner",
+      "COLUMN_TYPE": "varchar(128)"
+    },
+    {
+      "COLUMN_NAME": "primary_party",
+      "COLUMN_TYPE": "enum('D','R','I')"
+    },
+    {
+      "COLUMN_NAME": "candidate1_bio",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "candidate2_bio",
+      "COLUMN_TYPE": "text"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tCOLUMN_TYPE\ngeneral_date\tvarchar(32)\npct_reporting\tdecimal(5,2)\nnotes\ttext\ncreated_at\ttimestamp\nupdated_at\ttimestamp\nprevious_party\tenum('D','R','I')\ncandidate1_votes\tbigint\ncandidate2_votes\tbigint\ncalled_at\tbigint\nother_candidate_name\ttext\nother_candidate_party\tenum('D','R','I','L','G')\nother_votes\tbigint\nother_vote_pct\tdecimal(5,2)\nprimary_winner\tvarchar(128)\nprimary_party\tenum('D','R','I')\ncandidate1_bio\ttext\ncandidate2_bio\ttext\n",
+  "stderr": "",
+  "execution_time_ms": 277
+}
