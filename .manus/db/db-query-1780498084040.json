@@ -1,0 +1,60 @@
+{
+  "query": "SELECT \n  state_code,\n  status,\n  candidate1_name,\n  candidate2_name,\n  primary_winner,\n  called_winner,\n  primary_party,\n  pct_reporting\nFROM senate_races\nWHERE state_code IN ('NJ', 'IA', 'SD', 'NM', 'MT')\nORDER BY state_code;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT \n  state_code,\n  status,\n  candidate1_name,\n  candidate2_name,\n  primary_winner,\n  called_winner,\n  primary_party,\n  pct_reporting\nFROM senate_races\nWHERE state_code IN ('NJ', 'IA', 'SD', 'NM', 'MT')\nORDER BY state_code;",
+  "rows": [
+    {
+      "state_code": "IA",
+      "status": "General",
+      "candidate1_name": "Josh Turek",
+      "candidate2_name": "Ashley Hinson",
+      "primary_winner": "Ashley Hinson",
+      "called_winner": "Ashley Hinson",
+      "primary_party": "R",
+      "pct_reporting": "99.00"
+    },
+    {
+      "state_code": "MT",
+      "status": "General",
+      "candidate1_name": "Alani Bankhead",
+      "candidate2_name": "Kurt Alme",
+      "primary_winner": "Alani Bankhead",
+      "called_winner": "Kurt Alme",
+      "primary_party": "R",
+      "pct_reporting": "75.00"
+    },
+    {
+      "state_code": "NJ",
+      "status": "General",
+      "candidate1_name": "Cory Booker",
+      "candidate2_name": "Justin Murphy",
+      "primary_winner": "Justin Murphy",
+      "called_winner": "Justin Murphy",
+      "primary_party": "R",
+      "pct_reporting": "93.00"
+    },
+    {
+      "state_code": "NM",
+      "status": "General",
+      "candidate1_name": "Ben Ray Luján",
+      "candidate2_name": "No R nominee on ballot (write-in only)",
+      "primary_winner": "Ben Ray Luján",
+      "called_winner": "Ben Ray Luján",
+      "primary_party": "D",
+      "pct_reporting": "95.00"
+    },
+    {
+      "state_code": "SD",
+      "status": "General",
+      "candidate1_name": "Julian Beaudion",
+      "candidate2_name": "Mike Rounds",
+      "primary_winner": "Mike Rounds",
+      "called_winner": "Mike Rounds",
+      "primary_party": "R",
+      "pct_reporting": "95.00"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstatus\tcandidate1_name\tcandidate2_name\tprimary_winner\tcalled_winner\tprimary_party\tpct_reporting\nIA\tGeneral\tJosh Turek\tAshley Hinson\tAshley Hinson\tAshley Hinson\tR\t99.00\nMT\tGeneral\tAlani Bankhead\tKurt Alme\tAlani Bankhead\tKurt Alme\tR\t75.00\nNJ\tGeneral\tCory Booker\tJustin Murphy\tJustin Murphy\tJustin Murphy\tR\t93.00\nNM\tGeneral\tBen Ray Luján\tNo R nominee on ballot (write-in only)\tBen Ray Luján\tBen Ray Luján\tD\t95.00\nSD\tGeneral\tJulian Beaudion\tMike Rounds\tMike Rounds\tMike Rounds\tR\t95.00\n",
+  "stderr": "",
+  "execution_time_ms": 263
+}

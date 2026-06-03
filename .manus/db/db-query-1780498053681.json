@@ -1,0 +1,9 @@
+{
+  "query": "-- Iowa: set status to General, update pct_reporting\nUPDATE senate_races SET\n  status = 'General',\n  pct_reporting = 99.00\nWHERE state_code = 'IA';\n\n-- New Mexico: clarify R nominee situation, update pct_reporting\nUPDATE senate_races SET\n  candidate2_name = 'No R nominee on ballot (write-in only)',\n  pct_reporting = 95.00\nWHERE state_code = 'NM';\n\n-- New Jersey: update pct_reporting\nUPDATE senate_races SET\n  pct_reporting = 93.00\nWHERE state_code = 'NJ';\n\n-- South Dakota: update pct_reporting\nUPDATE senate_races SET\n  pct_reporting = 95.00\nWHERE state_code = 'SD';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute -- Iowa: set status to General, update pct_reporting\nUPDATE senate_races SET\n  status = 'General',\n  pct_reporting = 99.00\nWHERE state_code = 'IA';\n\n-- New Mexico: clarify R nominee situation, update pct_reporting\nUPDATE senate_races SET\n  candidate2_name = 'No R nominee on ballot (write-in only)',\n  pct_reporting = 95.00\nWHERE state_code = 'NM';\n\n-- New Jersey: update pct_reporting\nUPDATE senate_races SET\n  pct_reporting = 93.00\nWHERE state_code = 'NJ';\n\n-- South Dakota: update pct_reporting\nUPDATE senate_races SET\n  pct_reporting = 95.00\nWHERE state_code = 'SD';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 296
+}

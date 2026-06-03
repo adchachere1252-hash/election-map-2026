@@ -1,0 +1,78 @@
+{
+  "query": "SELECT COLUMN_NAME, DATA_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME = 'senate_races' AND ORDINAL_POSITION > 20 ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT COLUMN_NAME, DATA_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME = 'senate_races' AND ORDINAL_POSITION > 20 ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "general_date",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "pct_reporting",
+      "DATA_TYPE": "decimal"
+    },
+    {
+      "COLUMN_NAME": "notes",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "created_at",
+      "DATA_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "updated_at",
+      "DATA_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "previous_party",
+      "DATA_TYPE": "enum"
+    },
+    {
+      "COLUMN_NAME": "candidate1_votes",
+      "DATA_TYPE": "bigint"
+    },
+    {
+      "COLUMN_NAME": "candidate2_votes",
+      "DATA_TYPE": "bigint"
+    },
+    {
+      "COLUMN_NAME": "called_at",
+      "DATA_TYPE": "bigint"
+    },
+    {
+      "COLUMN_NAME": "other_candidate_name",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "other_candidate_party",
+      "DATA_TYPE": "enum"
+    },
+    {
+      "COLUMN_NAME": "other_votes",
+      "DATA_TYPE": "bigint"
+    },
+    {
+      "COLUMN_NAME": "other_vote_pct",
+      "DATA_TYPE": "decimal"
+    },
+    {
+      "COLUMN_NAME": "primary_winner",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "primary_party",
+      "DATA_TYPE": "enum"
+    },
+    {
+      "COLUMN_NAME": "candidate1_bio",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "candidate2_bio",
+      "DATA_TYPE": "text"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tDATA_TYPE\ngeneral_date\tvarchar\npct_reporting\tdecimal\nnotes\ttext\ncreated_at\ttimestamp\nupdated_at\ttimestamp\nprevious_party\tenum\ncandidate1_votes\tbigint\ncandidate2_votes\tbigint\ncalled_at\tbigint\nother_candidate_name\ttext\nother_candidate_party\tenum\nother_votes\tbigint\nother_vote_pct\tdecimal\nprimary_winner\tvarchar\nprimary_party\tenum\ncandidate1_bio\ttext\ncandidate2_bio\ttext\n",
+  "stderr": "",
+  "execution_time_ms": 268
+}

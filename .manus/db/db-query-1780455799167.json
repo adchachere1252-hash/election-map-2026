@@ -1,9 +1,0 @@
-{
-  "query": "UPDATE senate_races SET candidate2_name = 'Kurt Alme (R nominee)', candidate1_name = 'TBD — D Primary: Bankhead leading (June 2, Too Early to Call)' WHERE state_code = 'MT';",
-  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE senate_races SET candidate2_name = 'Kurt Alme (R nominee)', candidate1_name = 'TBD — D Primary: Bankhead leading (June 2, Too Early to Call)' WHERE state_code = 'MT';",
-  "rows": [],
-  "messages": [],
-  "stdout": "",
-  "stderr": "",
-  "execution_time_ms": 262
-}

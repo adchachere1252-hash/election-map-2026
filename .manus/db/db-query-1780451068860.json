@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE senate_races SET status = 'General', candidate1_name = 'Julian Beaudion (D nominee)', candidate2_name = 'Mike Rounds (R nominee, incumbent)' WHERE state_code = 'SD';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE senate_races SET status = 'General', candidate1_name = 'Julian Beaudion (D nominee)', candidate2_name = 'Mike Rounds (R nominee, incumbent)' WHERE state_code = 'SD';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 285
+}
