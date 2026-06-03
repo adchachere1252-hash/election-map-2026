@@ -411,6 +411,10 @@ const ElectionMap = forwardRef(function ElectionMap({
             } else {
               if (race.rating) content += `\n${race.rating}`;
               if (race.incumbent) content += `\n${race.incumbent} (${race.incumbentParty})`;
+              // Show counting indicator for races with uncalled ballots
+              if (race.status === "Primary" && race.notes && race.notes.toLowerCase().includes("counting")) {
+                content += `\n⏳ Votes still counting`;
+              }
             }
           }
           const rect = svgRef.current!.getBoundingClientRect();
