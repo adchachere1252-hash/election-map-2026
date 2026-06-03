@@ -701,6 +701,22 @@ const CDN_PHOTOS: Record<string, string> = {
   "scott wiener":              `${CDN_BASE}/scott_wiener_61873c20.jpg`,             // CA-11 D (CA State Senator, official Senate portrait)
   "connie chan":               `${CDN_BASE}/connie_chan_11dcae1f.jpg`,              // CA-11 D (SF Supervisor, campaign photo — Source: conniechansf.com)
   "jamie joyce":               `${CDN_BASE}/jamie_joyce_e5b8b63a.jpg`,             // CA-12 D (Ballotpedia portrait)
+  // June 3 2026 — full photo audit batch
+  "mike mcguire":              `${CDN_BASE}/mike_mcguire_b4d06a7e.jpg`,            // CA-1 D (CA State Senator, Healdsburg Tribune portrait)
+  "james gallagher":           `${CDN_BASE}/james_gallagher_0e653239.jpg`,         // CA-1 R (CA Assembly Speaker, official portrait)
+  "kevin lincoln":             `${CDN_BASE}/kevin_lincoln_0994a1ab.jpg`,           // CA-13 R (Stockton Mayor, press portrait)
+  "larry thompson":            `${CDN_BASE}/larry_thompson_5197132c.jpg`,          // CA-32 R (BallotReady official headshot)
+  // jim desmond already in CDN_PHOTOS at line 561 (kept original)
+  "joe mitchell":              `${CDN_BASE}/joe_mitchell_643e31b1.jpg`,            // IA-2 R (Ballotpedia official portrait)
+  "sarah trone garriott":      `${CDN_BASE}/sarah_trone_garriott_0f2f52c7.jpg`,   // IA-3 D (JStreetPAC campaign headshot)
+  "dave dawson":               `${CDN_BASE}/dave_dawson_a73bfbbc.jpg`,             // IA-4 D (Iowa Capital Dispatch headshot)
+  "chris mcgowan":             `${CDN_BASE}/chris_mcgowan_5eebb45c.jpg`,           // IA-4 R (KCCI headshot)
+  "sam forstag":               `${CDN_BASE}/sam_forstag_8a25a32b.jpg`,             // MT-1 D (Ballotpedia portrait)
+  "aaron flint":               `${CDN_BASE}/aaron_flint_d5400e39.jpg`,             // MT-1 R (Montana Election Guide official portrait)
+  "deb haaland":               `${CDN_BASE}/deb_haaland_70d42c34.jpg`,             // NM Governor D (MVSKOKE Media outdoor portrait)
+  "gregg hull":                `${CDN_BASE}/gregg_hull_52308593.jpg`,              // NM Governor R (Ballotpedia official headshot)
+  // rob sand already in CDN_PHOTOS at line 553 (kept original)
+  "zach lahn":                 `${CDN_BASE}/zach_lahn_a30bee0e.jpg`,               // IA Governor R (Iowa Public Radio outdoor portrait)
 };
 
 /**

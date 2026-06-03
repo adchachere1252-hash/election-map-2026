@@ -119,6 +119,20 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "scott wiener":          `${BASE}/scott_wiener_61873c20.jpg`,            // CA-11 D (CA State Senator)
   "connie chan":           `${BASE}/connie_chan_11dcae1f.jpg`,             // CA-11 D (SF Supervisor)
   "jamie joyce":           `${BASE}/jamie_joyce_e5b8b63a.jpg`,            // CA-12 D
+  // June 3 2026 — full photo audit batch
+  "mike mcguire":          `${BASE}/mike_mcguire_b4d06a7e.jpg`,           // CA-1 D (CA State Senator)
+  "james gallagher":       `${BASE}/james_gallagher_0e653239.jpg`,        // CA-1 R (CA Assembly Speaker)
+  "kevin lincoln":         `${BASE}/kevin_lincoln_0994a1ab.jpg`,          // CA-13 R (Stockton Mayor)
+  "larry thompson":        `${BASE}/larry_thompson_5197132c.jpg`,         // CA-32 R
+  "joe mitchell":          `${BASE}/joe_mitchell_643e31b1.jpg`,           // IA-2 R
+  "sarah trone garriott":  `${BASE}/sarah_trone_garriott_0f2f52c7.jpg`,  // IA-3 D
+  "dave dawson":           `${BASE}/dave_dawson_a73bfbbc.jpg`,            // IA-4 D
+  "chris mcgowan":         `${BASE}/chris_mcgowan_5eebb45c.jpg`,          // IA-4 R
+  "sam forstag":           `${BASE}/sam_forstag_8a25a32b.jpg`,            // MT-1 D
+  "aaron flint":           `${BASE}/aaron_flint_d5400e39.jpg`,            // MT-1 R
+  "deb haaland":           `${BASE}/deb_haaland_70d42c34.jpg`,            // NM Governor D
+  "gregg hull":            `${BASE}/gregg_hull_52308593.jpg`,             // NM Governor R
+  "zach lahn":             `${BASE}/zach_lahn_a30bee0e.jpg`,              // IA Governor R
 };
 
 export const PARTY_LOGOS = {

@@ -47,6 +47,20 @@ const CANDIDATE_PHOTOS: Record<string, string> = {
   "jamie joyce":           `${CDN_BASE}/jamie_joyce_e5b8b63a.jpg`,
   // CA-12 incumbent — bioguide S001226
   "lateefah simon":        "https://bioguide.congress.gov/bioguide/photo/S/S001226.jpg",
+  // June 3 2026 — full photo audit batch
+  "mike mcguire":          `${CDN_BASE}/mike_mcguire_b4d06a7e.jpg`,
+  "james gallagher":       `${CDN_BASE}/james_gallagher_0e653239.jpg`,
+  "kevin lincoln":         `${CDN_BASE}/kevin_lincoln_0994a1ab.jpg`,
+  "larry thompson":        `${CDN_BASE}/larry_thompson_5197132c.jpg`,
+  "joe mitchell":          `${CDN_BASE}/joe_mitchell_643e31b1.jpg`,
+  "sarah trone garriott":  `${CDN_BASE}/sarah_trone_garriott_0f2f52c7.jpg`,
+  "dave dawson":           `${CDN_BASE}/dave_dawson_a73bfbbc.jpg`,
+  "chris mcgowan":         `${CDN_BASE}/chris_mcgowan_5eebb45c.jpg`,
+  "sam forstag":           `${CDN_BASE}/sam_forstag_8a25a32b.jpg`,
+  "aaron flint":           `${CDN_BASE}/aaron_flint_d5400e39.jpg`,
+  "deb haaland":           `${CDN_BASE}/deb_haaland_70d42c34.jpg`,
+  "gregg hull":            `${CDN_BASE}/gregg_hull_52308593.jpg`,
+  "zach lahn":             `${CDN_BASE}/zach_lahn_a30bee0e.jpg`,
 };
 
 function getCandidatePhoto(name: string | null | undefined): string | null {
