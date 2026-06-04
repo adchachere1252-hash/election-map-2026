@@ -76,6 +76,8 @@ const CANDIDATE_PHOTOS: Record<string, string> = {
   "julia letlow":          `${CDN_BASE}/julia_letlow_30aa46b4.jpg`,
   "john fleming":          `${CDN_BASE}/john-fleming_363529aa.jpg`,
   "jamie davis":           `${CDN_BASE}/jamie_davis_la_867d6b8d.jpg`,
+  // Louisiana Senate runoff — Gary Crockett (added June 4 2026)
+  "gary crockett":         `${CDN_BASE}/gary_crockett_dee51265.jpg`,
 };
 
 function getCandidatePhoto(name: string | null | undefined): string | null {

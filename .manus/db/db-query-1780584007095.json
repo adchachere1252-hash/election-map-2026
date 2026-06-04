@@ -1,0 +1,70 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'senate_races' ORDER BY ORDINAL_POSITION LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'senate_races' ORDER BY ORDINAL_POSITION LIMIT 20;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "state_code"
+    },
+    {
+      "COLUMN_NAME": "state_name"
+    },
+    {
+      "COLUMN_NAME": "is_special"
+    },
+    {
+      "COLUMN_NAME": "special_note"
+    },
+    {
+      "COLUMN_NAME": "incumbent"
+    },
+    {
+      "COLUMN_NAME": "incumbent_party"
+    },
+    {
+      "COLUMN_NAME": "incumbent_retiring"
+    },
+    {
+      "COLUMN_NAME": "candidate1_name"
+    },
+    {
+      "COLUMN_NAME": "candidate1_party"
+    },
+    {
+      "COLUMN_NAME": "candidate1_vote_pct"
+    },
+    {
+      "COLUMN_NAME": "candidate2_name"
+    },
+    {
+      "COLUMN_NAME": "candidate2_party"
+    },
+    {
+      "COLUMN_NAME": "candidate2_vote_pct"
+    },
+    {
+      "COLUMN_NAME": "called_winner"
+    },
+    {
+      "COLUMN_NAME": "called_party"
+    },
+    {
+      "COLUMN_NAME": "rating"
+    },
+    {
+      "COLUMN_NAME": "status"
+    },
+    {
+      "COLUMN_NAME": "primary_date"
+    },
+    {
+      "COLUMN_NAME": "primary_runoff_date"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\nstate_code\nstate_name\nis_special\nspecial_note\nincumbent\nincumbent_party\nincumbent_retiring\ncandidate1_name\ncandidate1_party\ncandidate1_vote_pct\ncandidate2_name\ncandidate2_party\ncandidate2_vote_pct\ncalled_winner\ncalled_party\nrating\nstatus\nprimary_date\nprimary_runoff_date\n",
+  "stderr": "",
+  "execution_time_ms": 267
+}

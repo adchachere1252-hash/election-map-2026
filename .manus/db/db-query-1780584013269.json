@@ -1,0 +1,21 @@
+{
+  "query": "SELECT state_code, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, primary_runoff_date, notes FROM senate_races WHERE state_name = 'Louisiana';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, state_name, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, primary_runoff_date, notes FROM senate_races WHERE state_name = 'Louisiana';",
+  "rows": [
+    {
+      "state_code": "LA",
+      "state_name": "Louisiana",
+      "candidate1_name": "Jamie Davis",
+      "candidate1_party": "D",
+      "candidate2_name": "Julia Letlow",
+      "candidate2_party": "R",
+      "status": "Primary Runoff",
+      "primary_runoff_date": "June 27, 2026",
+      "notes": "Open seat — Bill Cassidy (R) eliminated in primary (24.8%). D primary runoff June 27: Jamie Davis (47.4%) vs Gary Crockett (26.3%). R primary runoff June 27: Julia Letlow (44.8%) vs John Fleming (28.3%). General election November 3, 2026. Rating: Likely Republican."
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tstate_name\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tprimary_runoff_date\tnotes\nLA\tLouisiana\tJamie Davis\tD\tJulia Letlow\tR\tPrimary Runoff\tJune 27, 2026\tOpen seat — Bill Cassidy (R) eliminated in primary (24.8%). D primary runoff June 27: Jamie Davis (47.4%) vs Gary Crockett (26.3%). R primary runoff June 27: Julia Letlow (44.8%) vs John Fleming (28.3%). General election November 3, 2026. Rating: Likely Republican.\n",
+  "stderr": "",
+  "execution_time_ms": 264
+}

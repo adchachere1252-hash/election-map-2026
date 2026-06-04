@@ -728,6 +728,8 @@ const CDN_PHOTOS: Record<string, string> = {
   "rosie pino":                `${CDN_BASE}/rosie_pino_233de605.jpg`,              // NJ-9 R (NJ Globe campaign photo)
   "carmen bucco":              `${CDN_BASE}/carmen_bucco_3e3f9d95.jpg`,            // NJ-10 R (BallotReady portrait)
   "damon galdo":               `${CDN_BASE}/damon_galdo_6d559bce.jpg`,             // NJ-1 R (NJ Globe flag background portrait)
+  // Louisiana Senate runoff — Gary Crockett (added June 4 2026)
+  "gary crockett":             `${CDN_BASE}/gary_crockett_dee51265.jpg`,            // LA D Senate runoff candidate (Ballotpedia portrait)
 };
 
 /**
