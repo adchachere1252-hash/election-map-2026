@@ -1,0 +1,266 @@
+{
+  "query": "SELECT district_label, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status FROM house_races WHERE state_code = 'CA' AND district >= 21 ORDER BY district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT district_label, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status FROM house_races WHERE state_code = 'CA' AND district >= 21 ORDER BY district;",
+  "rows": [
+    {
+      "district_label": "21",
+      "candidate1_name": "Jim Costa",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "district_label": "22",
+      "candidate1_name": "TBD — Villegas (D) 29.8% vs Bains (D) 25.7%",
+      "candidate1_party": "D",
+      "candidate2_name": "David G. Valadao",
+      "candidate2_party": "R",
+      "status": "Primary"
+    },
+    {
+      "district_label": "23",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Jay Obernolte",
+      "candidate2_party": "R",
+      "status": "Primary"
+    },
+    {
+      "district_label": "24",
+      "candidate1_name": "Salud O. Carbajal",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "25",
+      "candidate1_name": "Raul Ruiz",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "26",
+      "candidate1_name": "Julia Brownley",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "27",
+      "candidate1_name": "George Whitesides",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "28",
+      "candidate1_name": "Judy Chu",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "29",
+      "candidate1_name": "Luz M. Rivas",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "30",
+      "candidate1_name": "Laura Friedman",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "31",
+      "candidate1_name": "Gil Cisneros",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "32",
+      "candidate1_name": "Brad Sherman",
+      "candidate1_party": "D",
+      "candidate2_name": "Larry Thompson",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "district_label": "33",
+      "candidate1_name": "Pete Aguilar",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "34",
+      "candidate1_name": "Jimmy Gomez",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "35",
+      "candidate1_name": "Norma J. Torres",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "36",
+      "candidate1_name": "Ted Lieu",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "37",
+      "candidate1_name": "Sydney Kamlager-Dove",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "38",
+      "candidate1_name": "Linda T. Sanchez",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "39",
+      "candidate1_name": "Mark Takano",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "40",
+      "candidate1_name": "Ken Calvert",
+      "candidate1_party": "R",
+      "candidate2_name": "Young Kim",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "district_label": "41",
+      "candidate1_name": "Linda Sánchez",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Primary: Jun 2, 2026",
+      "candidate2_party": "R",
+      "status": "Primary"
+    },
+    {
+      "district_label": "42",
+      "candidate1_name": "Robert Garcia",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "43",
+      "candidate1_name": "Maxine Waters",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "44",
+      "candidate1_name": "Nanette Diaz Barragan",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "45",
+      "candidate1_name": "Derek Tran",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "district_label": "46",
+      "candidate1_name": "Lou Correa",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "47",
+      "candidate1_name": "Dave Min",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "48",
+      "candidate1_name": "Marni von Wilpert",
+      "candidate1_party": "D",
+      "candidate2_name": "Jim Desmond",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "district_label": "49",
+      "candidate1_name": "Mike Levin",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "50",
+      "candidate1_name": "Scott H. Peters",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "51",
+      "candidate1_name": "Sara Jacobs",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "52",
+      "candidate1_name": "Juan Vargas",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    }
+  ],
+  "messages": [],
+  "stdout": "district_label\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\n21\tJim Costa\tD\tR Primary TBD\tR\tGeneral\n22\tTBD — Villegas (D) 29.8% vs Bains (D) 25.7%\tD\tDavid G. Valadao\tR\tPrimary\n23\tNULL\tD\tJay Obernolte\tR\tPrimary\n24\tSalud O. Carbajal\tD\tNULL\tNULL\tPrimary\n25\tRaul Ruiz\tD\tNULL\tNULL\tPrimary\n26\tJulia Brownley\tD\tNULL\tNULL\tPrimary\n27\tGeorge Whitesides\tD\tNULL\tNULL\tPrimary\n28\tJudy Chu\tD\tNULL\tNULL\tPrimary\n29\tLuz M. Rivas\tD\tNULL\tNULL\tPrimary\n30\tLaura Friedman\tD\tNULL\tNULL\tPrimary\n31\tGil Cisneros\tD\tNULL\tNULL\tPrimary\n32\tBrad Sherman\tD\tLarry Thompson\tR\tGeneral\n33\tPete Aguilar\tD\tNULL\tNULL\tPrimary\n34\tJimmy Gomez\tD\tNULL\tNULL\tPrimary\n35\tNorma J. Torres\tD\tNULL\tNULL\tPrimary\n36\tTed Lieu\tD\tNULL\tNULL\tPrimary\n37\tSydney Kamlager-Dove\tD\tNULL\tNULL\tPrimary\n38\tLinda T. Sanchez\tD\tNULL\tNULL\tPrimary\n39\tMark Takano\tD\tNULL\tNULL\tPrimary\n40\tKen Calvert\tR\tYoung Kim\tR\tGeneral\n41\tLinda Sánchez\tD\tTBD — Primary: Jun 2, 2026\tR\tPrimary\n42\tRobert Garcia\tD\tNULL\tNULL\tPrimary\n43\tMaxine Waters\tD\tNULL\tNULL\tPrimary\n44\tNanette Diaz Barragan\tD\tNULL\tNULL\tPrimary\n45\tDerek Tran\tD\tR Primary TBD\tR\tGeneral\n46\tLou Correa\tD\tNULL\tNULL\tPrimary\n47\tDave Min\tD\tNULL\tNULL\tPrimary\n48\tMarni von Wilpert\tD\tJim Desmond\tR\tGeneral\n49\tMike Levin\tD\tNULL\tNULL\tPrimary\n50\tScott H. Peters\tD\tNULL\tNULL\tPrimary\n51\tSara Jacobs\tD\tNULL\tNULL\tPrimary\n52\tJuan Vargas\tD\tNULL\tNULL\tPrimary\n",
+  "stderr": "",
+  "execution_time_ms": 265
+}

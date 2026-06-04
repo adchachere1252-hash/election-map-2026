@@ -1603,3 +1603,14 @@
 - [x] Thread photo props through GeneralMatchupSection (Senate/House popups)
 - [x] Thread photo props through BioCandidateCard (Senate/House popups)
 - [x] Thread photo props through GovernorRacePopup GeneralMatchupCard and CandidateCard
+
+## CA House Photo Audit Completions (June 4, 2026)
+- [x] Full CA House photo audit: 49/52 districts covered, identified 3 missing (CA-16, CA-31, CA-48)
+- [x] Source and process Sam Liccardo photo (CA-16 D) — House.gov official portrait
+- [x] Source and process Gil Cisneros photo (CA-31 D) — House.gov official portrait
+- [x] Source and process Marni von Wilpert photo (CA-48 D) — Ballotpedia headshot
+- [x] Upload all 3 photos to CDN
+- [x] Add all 3 CDN URLs to server/candidatePhotos.ts
+- [x] Add all 3 CDN URLs to client/src/lib/candidatePhotos.ts CDN_PHOTOS
+- [x] Add all 3 CDN URLs to client/src/components/GlobalSearch.tsx CANDIDATE_PHOTOS
+- [x] All three photo registries in sync — CA House photo audit 100% complete (52/52 districts)

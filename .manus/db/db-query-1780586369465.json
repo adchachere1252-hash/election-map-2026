@@ -1,0 +1,106 @@
+{
+  "query": "SELECT district_label, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status FROM house_races WHERE state_code = 'CA' AND district >= 41 ORDER BY district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT district_label, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status FROM house_races WHERE state_code = 'CA' AND district >= 41 ORDER BY district;",
+  "rows": [
+    {
+      "district_label": "41",
+      "candidate1_name": "Linda Sánchez",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Primary: Jun 2, 2026",
+      "candidate2_party": "R",
+      "status": "Primary"
+    },
+    {
+      "district_label": "42",
+      "candidate1_name": "Robert Garcia",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "43",
+      "candidate1_name": "Maxine Waters",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "44",
+      "candidate1_name": "Nanette Diaz Barragan",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "45",
+      "candidate1_name": "Derek Tran",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "district_label": "46",
+      "candidate1_name": "Lou Correa",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "47",
+      "candidate1_name": "Dave Min",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "48",
+      "candidate1_name": "Marni von Wilpert",
+      "candidate1_party": "D",
+      "candidate2_name": "Jim Desmond",
+      "candidate2_party": "R",
+      "status": "General"
+    },
+    {
+      "district_label": "49",
+      "candidate1_name": "Mike Levin",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "50",
+      "candidate1_name": "Scott H. Peters",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "51",
+      "candidate1_name": "Sara Jacobs",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    },
+    {
+      "district_label": "52",
+      "candidate1_name": "Juan Vargas",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary"
+    }
+  ],
+  "messages": [],
+  "stdout": "district_label\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\n41\tLinda Sánchez\tD\tTBD — Primary: Jun 2, 2026\tR\tPrimary\n42\tRobert Garcia\tD\tNULL\tNULL\tPrimary\n43\tMaxine Waters\tD\tNULL\tNULL\tPrimary\n44\tNanette Diaz Barragan\tD\tNULL\tNULL\tPrimary\n45\tDerek Tran\tD\tR Primary TBD\tR\tGeneral\n46\tLou Correa\tD\tNULL\tNULL\tPrimary\n47\tDave Min\tD\tNULL\tNULL\tPrimary\n48\tMarni von Wilpert\tD\tJim Desmond\tR\tGeneral\n49\tMike Levin\tD\tNULL\tNULL\tPrimary\n50\tScott H. Peters\tD\tNULL\tNULL\tPrimary\n51\tSara Jacobs\tD\tNULL\tNULL\tPrimary\n52\tJuan Vargas\tD\tNULL\tNULL\tPrimary\n",
+  "stderr": "",
+  "execution_time_ms": 259
+}

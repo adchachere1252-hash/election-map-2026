@@ -730,6 +730,10 @@ const CDN_PHOTOS: Record<string, string> = {
   "damon galdo":               `${CDN_BASE}/damon_galdo_6d559bce.jpg`,             // NJ-1 R (NJ Globe flag background portrait)
   // Louisiana Senate runoff — Gary Crockett (added June 4 2026)
   "gary crockett":             `${CDN_BASE}/gary_crockett_dee51265.jpg`,            // LA D Senate runoff candidate (Ballotpedia portrait)
+  // CA photo audit completions (June 4 2026)
+  "sam liccardo":              `${CDN_BASE}/sam_liccardo_e0db628c.jpg`,              // CA-16 D (former San Jose Mayor, House.gov portrait)
+  "gil cisneros":              `${CDN_BASE}/gil_cisneros_e29e0c3b.jpg`,              // CA-31 D (returning challenger, House.gov portrait)
+  "marni von wilpert":         `${CDN_BASE}/marni_von_wilpert_c2df38d6.jpg`,         // CA-48 D (Ballotpedia headshot)
 };
 
 /**
