@@ -1,0 +1,32 @@
+{
+  "query": "SELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, notes, candidate1_photo, candidate2_photo FROM senate_races WHERE state_code IN ('GA', 'LA');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT state_code, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, notes, candidate1_photo, candidate2_photo FROM senate_races WHERE state_code IN ('GA', 'LA');",
+  "rows": [
+    {
+      "state_code": "GA",
+      "candidate1_name": "Jon Ossoff (D, uncontested)",
+      "candidate1_party": "D",
+      "candidate2_name": "Collins or Dooley (R runoff June 16)",
+      "candidate2_party": "NULL",
+      "status": "Primary Runoff",
+      "notes": "Jon Ossoff (D) uncontested in D primary. R primary May 20: Collins 40.5%, Dooley 30.2%, Carter 25.1%. Collins and Dooley advance to R runoff on June 16. Cook/IE/Sabato: Lean Democrat.",
+      "candidate1_photo": "NULL",
+      "candidate2_photo": "NULL"
+    },
+    {
+      "state_code": "LA",
+      "candidate1_name": "Shawn Davis",
+      "candidate1_party": "D",
+      "candidate2_name": "Julia Letlow",
+      "candidate2_party": "R",
+      "status": "Primary Runoff",
+      "notes": "R Runoff Jun 27: Julia Letlow (~44.8%) vs John Fleming (~28.3%). D Runoff Jun 27: Shawn Davis (~47.4%) vs Karla Crockett (~26.3%). Open seat — Cassidy eliminated in primary.",
+      "candidate1_photo": "NULL",
+      "candidate2_photo": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "state_code\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tnotes\tcandidate1_photo\tcandidate2_photo\nGA\tJon Ossoff (D, uncontested)\tD\tCollins or Dooley (R runoff June 16)\tNULL\tPrimary Runoff\tJon Ossoff (D) uncontested in D primary. R primary May 20: Collins 40.5%, Dooley 30.2%, Carter 25.1%. Collins and Dooley advance to R runoff on June 16. Cook/IE/Sabato: Lean Democrat.\tNULL\tNULL\nLA\tShawn Davis\tD\tJulia Letlow\tR\tPrimary Runoff\tR Runoff Jun 27: Julia Letlow (~44.8%) vs John Fleming (~28.3%). D Runoff Jun 27: Shawn Davis (~47.4%) vs Karla Crockett (~26.3%). Open seat — Cassidy eliminated in primary.\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 288
+}

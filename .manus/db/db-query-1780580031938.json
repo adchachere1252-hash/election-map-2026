@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE senate_races SET \n  candidate1_name = 'Jamie Davis',\n  candidate1_party = 'D',\n  candidate2_name = 'Julia Letlow',\n  candidate2_party = 'R',\n  status = 'Primary Runoff',\n  notes = 'Open seat — Bill Cassidy (R) eliminated in primary (24.8%). D primary runoff June 27: Jamie Davis (47.4%) vs Gary Crockett (26.3%). R primary runoff June 27: Julia Letlow (44.8%) vs John Fleming (28.3%). General election November 3, 2026. Rating: Likely Republican.'\nWHERE state_code = 'LA';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE senate_races SET \n  candidate1_name = 'Jamie Davis',\n  candidate1_party = 'D',\n  candidate2_name = 'Julia Letlow',\n  candidate2_party = 'R',\n  status = 'Primary Runoff',\n  notes = 'Open seat — Bill Cassidy (R) eliminated in primary (24.8%). D primary runoff June 27: Jamie Davis (47.4%) vs Gary Crockett (26.3%). R primary runoff June 27: Julia Letlow (44.8%) vs John Fleming (28.3%). General election November 3, 2026. Rating: Likely Republican.'\nWHERE state_code = 'LA';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 274
+}

@@ -72,6 +72,10 @@ const CANDIDATE_PHOTOS: Record<string, string> = {
   "rosie pino":            `${CDN_BASE}/rosie_pino_233de605.jpg`,
   "carmen bucco":          `${CDN_BASE}/carmen_bucco_3e3f9d95.jpg`,
   "damon galdo":           `${CDN_BASE}/damon_galdo_6d559bce.jpg`,
+  // Louisiana Senate runoff candidates
+  "julia letlow":          `${CDN_BASE}/julia_letlow_30aa46b4.jpg`,
+  "john fleming":          `${CDN_BASE}/john-fleming_363529aa.jpg`,
+  "jamie davis":           `${CDN_BASE}/jamie_davis_la_867d6b8d.jpg`,
 };
 
 function getCandidatePhoto(name: string | null | undefined): string | null {

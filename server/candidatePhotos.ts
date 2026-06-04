@@ -109,6 +109,7 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   // Louisiana Senate runoff candidates (May 2026)
   "julia letlow":          `${BASE}/julia-letlow_42d7ee9c.jpg`,
   "john fleming":          `${BASE}/john-fleming_363529aa.jpg`,
+  "jamie davis":           `${BASE}/jamie_davis_la_867d6b8d.jpg`,  // LA D Senate runoff candidate
   // June 2 2026 primary nominees (added June 3 2026)
   "alani bankhead":        `${BASE}/alani_bankhead_64fa939f.jpg`,           // MT-D Senate nominee
   "justin murphy":         `${BASE}/justin_murphy_b4a44b43.jpg`,           // NJ-R Senate nominee

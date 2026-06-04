@@ -664,7 +664,7 @@ const CDN_PHOTOS: Record<string, string> = {
   "julian beaudion":        `${CDN_BASE}/julian-beaudion_d87af6af.jpg`,  // SD D challenger
   "dave mccormick":         `${CDN_BASE}/dave-mccormick_5fb329d8.jpg`,  // PA R Senator
   // LA Senate runoff candidates
-  "jamie davis":             `${CDN_BASE}/jamie-davis-sharp_1f4b2478.jpg`,  // LA D Senate runoff candidate
+  "jamie davis":             `${CDN_BASE}/jamie_davis_la_867d6b8d.jpg`,  // LA D Senate runoff candidate (farmer, Ballotpedia portrait)
   "ken paxton":              `${CDN_BASE}/ken-paxton-tx-senate_07ee6c8a.jpg`,  // TX R Senate nominee (won May 26 runoff)
   "kevin burge":             `${CDN_BASE}/kevin_burge_v4_ff96832d.jpg`,           // TX-24 D primary winner (May 26 runoff) — face-centered crop
   "casey shepard":           `${CDN_BASE}/casey_shepard_v5_67c25d2f.jpg`,           // TX-17 D primary winner (May 26 runoff) — head+shoulders padded square
