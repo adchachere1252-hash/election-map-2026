@@ -253,6 +253,7 @@ export const BIOGUIDE_MAP: Record<string, string> = {
   "Kathy Castor": "C001066",
   "Keith Self": "S001224",
   "Kelly Morrison": "M001234",
+  "Ken Calvert": "C000059",
   "Kevin Hern": "H001082",
   "Kevin Kiley": "K000395",
   "Kevin Mullin": "M001225",
@@ -730,6 +731,9 @@ const CDN_PHOTOS: Record<string, string> = {
   "damon galdo":               `${CDN_BASE}/damon_galdo_6d559bce.jpg`,             // NJ-1 R (NJ Globe flag background portrait)
   // Louisiana Senate runoff — Gary Crockett (added June 4 2026)
   "gary crockett":             `${CDN_BASE}/gary_crockett_dee51265.jpg`,            // LA D Senate runoff candidate (Ballotpedia portrait)
+  // CA-14 D vs D general election candidates (June 4 2026)
+  "aisha wahab":               `${CDN_BASE}/aisha_wahab_a9faf4ce.jpg`,              // CA-14 D (CA State Senator SD-10)
+  "melissa hernandez":         `${CDN_BASE}/melissa_hernandez_0309c12d.jpg`,        // CA-14 D (challenger)
   // CA photo audit completions (June 4 2026)
   "sam liccardo":              `${CDN_BASE}/sam_liccardo_e0db628c.jpg`,              // CA-16 D (former San Jose Mayor, House.gov portrait)
   "gil cisneros":              `${CDN_BASE}/gil_cisneros_e29e0c3b.jpg`,              // CA-31 D (returning challenger, House.gov portrait)

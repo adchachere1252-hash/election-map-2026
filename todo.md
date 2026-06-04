@@ -1614,3 +1614,11 @@
 - [x] Add all 3 CDN URLs to client/src/lib/candidatePhotos.ts CDN_PHOTOS
 - [x] Add all 3 CDN URLs to client/src/components/GlobalSearch.tsx CANDIDATE_PHOTOS
 - [x] All three photo registries in sync — CA House photo audit 100% complete (52/52 districts)
+
+## CA Photo Fixes (June 4, 2026 — Round 2)
+- [x] Add Ken Calvert bioguide ID C000059 to BIOGUIDE_MAP in client/src/lib/candidatePhotos.ts
+- [x] Add Ken Calvert to server/candidatePhotos.ts and GlobalSearch.tsx (bioguide URL)
+- [x] Enter CA-14 candidates: Aisha Wahab (D) vs Melissa Hernandez (D) in DB (corrected names from primary results)
+- [x] Source and upload photos for Aisha Wahab and Melissa Hernandez
+- [x] Add CA-14 photos to all three photo registries
+- [x] Add D vs D badge logic for CA-14 (same as CA-11, CA-12 — handled by existing notes field logic)

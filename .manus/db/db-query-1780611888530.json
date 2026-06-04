@@ -1,0 +1,19 @@
+{
+  "query": "SELECT district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, notes FROM house_races WHERE state_code = 'CA' AND district = 14;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, notes FROM house_races WHERE state_code = 'CA' AND district = 14;",
+  "rows": [
+    {
+      "district": "14",
+      "candidate1_name": "Aisha Wahab",
+      "candidate1_party": "D",
+      "candidate2_name": "Melissa Hernandez",
+      "candidate2_party": "D",
+      "status": "General",
+      "notes": "D vs D — No Republican. Wahab (D) 34.3%, Hernandez (D) 16.1%, Huang (R) 16.0%. AP called June 3, 2026."
+    }
+  ],
+  "messages": [],
+  "stdout": "district\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\tnotes\n14\tAisha Wahab\tD\tMelissa Hernandez\tD\tGeneral\tD vs D — No Republican. Wahab (D) 34.3%, Hernandez (D) 16.1%, Huang (R) 16.0%. AP called June 3, 2026.\n",
+  "stderr": "",
+  "execution_time_ms": 263
+}

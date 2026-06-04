@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE house_races SET candidate1_name = 'Aisha Wahab', candidate1_party = 'D', candidate2_name = 'Melissa Hernandez', candidate2_party = 'D', status = 'General', notes = 'D vs D — No Republican. Wahab (D) 34.3%, Hernandez (D) 16.1%, Huang (R) 16.0%. AP called June 3, 2026.' WHERE state_code = 'CA' AND district = 14;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute UPDATE house_races SET candidate1_name = 'Aisha Wahab', candidate1_party = 'D', candidate2_name = 'Melissa Hernandez', candidate2_party = 'D', status = 'General', notes = 'D vs D — No Republican. Wahab (D) 34.3%, Hernandez (D) 16.1%, Huang (R) 16.0%. AP called June 3, 2026.' WHERE state_code = 'CA' AND district = 14;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 276
+}

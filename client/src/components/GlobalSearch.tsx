@@ -78,6 +78,11 @@ const CANDIDATE_PHOTOS: Record<string, string> = {
   "jamie davis":           `${CDN_BASE}/jamie_davis_la_867d6b8d.jpg`,
   // Louisiana Senate runoff — Gary Crockett (added June 4 2026)
   "gary crockett":         `${CDN_BASE}/gary_crockett_dee51265.jpg`,
+  // CA-40 incumbent fix — Ken Calvert (bioguide C000059)
+  "ken calvert":           `https://unitedstates.github.io/images/congress/225x275/C000059.jpg`,
+  // CA-14 D vs D general election candidates (June 4 2026)
+  "aisha wahab":           `${CDN_BASE}/aisha_wahab_a9faf4ce.jpg`,
+  "melissa hernandez":     `${CDN_BASE}/melissa_hernandez_0309c12d.jpg`,
   // CA photo audit completions (June 4 2026)
   "sam liccardo":          `${CDN_BASE}/sam_liccardo_e0db628c.jpg`,
   "gil cisneros":          `${CDN_BASE}/gil_cisneros_e29e0c3b.jpg`,

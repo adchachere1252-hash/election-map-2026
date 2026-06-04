@@ -146,6 +146,11 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "rosie pino":            `${BASE}/rosie_pino_233de605.jpg`,             // NJ-9 R
   "carmen bucco":          `${BASE}/carmen_bucco_3e3f9d95.jpg`,           // NJ-10 R
   "damon galdo":           `${BASE}/damon_galdo_6d559bce.jpg`,            // NJ-1 R
+  // CA-40 incumbent fix — Ken Calvert (bioguide C000059)
+  "ken calvert":           `https://unitedstates.github.io/images/congress/225x275/C000059.jpg`,
+  // CA-14 D vs D general election candidates (June 4 2026)
+  "aisha wahab":           `${BASE}/aisha_wahab_a9faf4ce.jpg`,              // CA-14 D (CA State Senator SD-10)
+  "melissa hernandez":     `${BASE}/melissa_hernandez_0309c12d.jpg`,        // CA-14 D (challenger)
   // CA photo audit completions (June 4 2026)
   "sam liccardo":          `${BASE}/sam_liccardo_e0db628c.jpg`,            // CA-16 D (former San Jose Mayor)
   "gil cisneros":          `${BASE}/gil_cisneros_e29e0c3b.jpg`,            // CA-31 D (returning challenger)

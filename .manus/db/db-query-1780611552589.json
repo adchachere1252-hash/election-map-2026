@@ -1,0 +1,478 @@
+{
+  "query": "SELECT district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating FROM house_races WHERE state_code = 'CA' ORDER BY district;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user YngfJMu2WmuzoDE.ecba372003d8 --database Duqshn4D3kdv9jkbtBdj4X --execute SELECT district, candidate1_name, candidate1_party, candidate2_name, candidate2_party, status, rating FROM house_races WHERE state_code = 'CA' ORDER BY district;",
+  "rows": [
+    {
+      "district": "1",
+      "candidate1_name": "Mike McGuire",
+      "candidate1_party": "D",
+      "candidate2_name": "James Gallagher",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Solid R"
+    },
+    {
+      "district": "2",
+      "candidate1_name": "Jared Huffman",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "3",
+      "candidate1_name": "TBD — Primary: Jun 2, 2026",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid R"
+    },
+    {
+      "district": "4",
+      "candidate1_name": "Mike Thompson",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "5",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Tom McClintock",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Solid R"
+    },
+    {
+      "district": "6",
+      "candidate1_name": "Kevin Kiley (Ind., leading 26.8%)",
+      "candidate1_party": "I",
+      "candidate2_name": "TBD — Stansfield (R) 22.2% vs Pan (D) 21.2%",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "7",
+      "candidate1_name": "Doris O. Matsui",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Vang (D) 24.9% vs Wooden (R) 24.1%",
+      "candidate2_party": "D",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "8",
+      "candidate1_name": "John Garamendi",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "9",
+      "candidate1_name": "Josh Harder",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "10",
+      "candidate1_name": "Mark DeSaulnier",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "11",
+      "candidate1_name": "Scott Wiener",
+      "candidate1_party": "D",
+      "candidate2_name": "Connie Chan",
+      "candidate2_party": "D",
+      "status": "General",
+      "rating": "Solid D"
+    },
+    {
+      "district": "12",
+      "candidate1_name": "Lateefah Simon",
+      "candidate1_party": "D",
+      "candidate2_name": "Jamie Joyce",
+      "candidate2_party": "D",
+      "status": "General",
+      "rating": "Solid D"
+    },
+    {
+      "district": "13",
+      "candidate1_name": "Adam Gray",
+      "candidate1_party": "D",
+      "candidate2_name": "Kevin Lincoln",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Lean D"
+    },
+    {
+      "district": "14",
+      "candidate1_name": "NULL",
+      "candidate1_party": "NULL",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "15",
+      "candidate1_name": "Kevin Mullin",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "16",
+      "candidate1_name": "Sam T. Liccardo",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "17",
+      "candidate1_name": "Ro Khanna",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "18",
+      "candidate1_name": "Zoe Lofgren",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "19",
+      "candidate1_name": "Jimmy Panetta",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "20",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Vince Fong",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Solid R"
+    },
+    {
+      "district": "21",
+      "candidate1_name": "Jim Costa",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Likely D"
+    },
+    {
+      "district": "22",
+      "candidate1_name": "TBD — Villegas (D) 29.8% vs Bains (D) 25.7%",
+      "candidate1_party": "D",
+      "candidate2_name": "David G. Valadao",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Toss-up"
+    },
+    {
+      "district": "23",
+      "candidate1_name": "NULL",
+      "candidate1_party": "D",
+      "candidate2_name": "Jay Obernolte",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Solid R"
+    },
+    {
+      "district": "24",
+      "candidate1_name": "Salud O. Carbajal",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "25",
+      "candidate1_name": "Raul Ruiz",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "26",
+      "candidate1_name": "Julia Brownley",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "27",
+      "candidate1_name": "George Whitesides",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "28",
+      "candidate1_name": "Judy Chu",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "29",
+      "candidate1_name": "Luz M. Rivas",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "30",
+      "candidate1_name": "Laura Friedman",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "31",
+      "candidate1_name": "Gil Cisneros",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "32",
+      "candidate1_name": "Brad Sherman",
+      "candidate1_party": "D",
+      "candidate2_name": "Larry Thompson",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Solid D"
+    },
+    {
+      "district": "33",
+      "candidate1_name": "Pete Aguilar",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "34",
+      "candidate1_name": "Jimmy Gomez",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "35",
+      "candidate1_name": "Norma J. Torres",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "36",
+      "candidate1_name": "Ted Lieu",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "37",
+      "candidate1_name": "Sydney Kamlager-Dove",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "38",
+      "candidate1_name": "Linda T. Sanchez",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "39",
+      "candidate1_name": "Mark Takano",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "40",
+      "candidate1_name": "Ken Calvert",
+      "candidate1_party": "R",
+      "candidate2_name": "Young Kim",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Solid R"
+    },
+    {
+      "district": "41",
+      "candidate1_name": "Linda Sánchez",
+      "candidate1_party": "D",
+      "candidate2_name": "TBD — Primary: Jun 2, 2026",
+      "candidate2_party": "R",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "42",
+      "candidate1_name": "Robert Garcia",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "43",
+      "candidate1_name": "Maxine Waters",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "44",
+      "candidate1_name": "Nanette Diaz Barragan",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "45",
+      "candidate1_name": "Derek Tran",
+      "candidate1_party": "D",
+      "candidate2_name": "R Primary TBD",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Lean D"
+    },
+    {
+      "district": "46",
+      "candidate1_name": "Lou Correa",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "47",
+      "candidate1_name": "Dave Min",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "48",
+      "candidate1_name": "Marni von Wilpert",
+      "candidate1_party": "D",
+      "candidate2_name": "Jim Desmond",
+      "candidate2_party": "R",
+      "status": "General",
+      "rating": "Lean D"
+    },
+    {
+      "district": "49",
+      "candidate1_name": "Mike Levin",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "50",
+      "candidate1_name": "Scott H. Peters",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "51",
+      "candidate1_name": "Sara Jacobs",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    },
+    {
+      "district": "52",
+      "candidate1_name": "Juan Vargas",
+      "candidate1_party": "D",
+      "candidate2_name": "NULL",
+      "candidate2_party": "NULL",
+      "status": "Primary",
+      "rating": "Solid D"
+    }
+  ],
+  "messages": [],
+  "stdout": "district\tcandidate1_name\tcandidate1_party\tcandidate2_name\tcandidate2_party\tstatus\trating\n1\tMike McGuire\tD\tJames Gallagher\tR\tGeneral\tSolid R\n2\tJared Huffman\tD\tNULL\tNULL\tPrimary\tSolid D\n3\tTBD — Primary: Jun 2, 2026\tD\tNULL\tNULL\tPrimary\tSolid R\n4\tMike Thompson\tD\tNULL\tNULL\tPrimary\tSolid D\n5\tNULL\tD\tTom McClintock\tR\tPrimary\tSolid R\n6\tKevin Kiley (Ind., leading 26.8%)\tI\tTBD — Stansfield (R) 22.2% vs Pan (D) 21.2%\tR\tPrimary\tSolid D\n7\tDoris O. Matsui\tD\tTBD — Vang (D) 24.9% vs Wooden (R) 24.1%\tD\tPrimary\tSolid D\n8\tJohn Garamendi\tD\tNULL\tNULL\tPrimary\tSolid D\n9\tJosh Harder\tD\tNULL\tNULL\tPrimary\tSolid D\n10\tMark DeSaulnier\tD\tNULL\tNULL\tPrimary\tSolid D\n11\tScott Wiener\tD\tConnie Chan\tD\tGeneral\tSolid D\n12\tLateefah Simon\tD\tJamie Joyce\tD\tGeneral\tSolid D\n13\tAdam Gray\tD\tKevin Lincoln\tR\tGeneral\tLean D\n14\tNULL\tNULL\tNULL\tNULL\tPrimary\tSolid D\n15\tKevin Mullin\tD\tNULL\tNULL\tPrimary\tSolid D\n16\tSam T. Liccardo\tD\tNULL\tNULL\tPrimary\tSolid D\n17\tRo Khanna\tD\tNULL\tNULL\tPrimary\tSolid D\n18\tZoe Lofgren\tD\tNULL\tNULL\tPrimary\tSolid D\n19\tJimmy Panetta\tD\tNULL\tNULL\tPrimary\tSolid D\n20\tNULL\tD\tVince Fong\tR\tPrimary\tSolid R\n21\tJim Costa\tD\tR Primary TBD\tR\tGeneral\tLikely D\n22\tTBD — Villegas (D) 29.8% vs Bains (D) 25.7%\tD\tDavid G. Valadao\tR\tPrimary\tToss-up\n23\tNULL\tD\tJay Obernolte\tR\tPrimary\tSolid R\n24\tSalud O. Carbajal\tD\tNULL\tNULL\tPrimary\tSolid D\n25\tRaul Ruiz\tD\tNULL\tNULL\tPrimary\tSolid D\n26\tJulia Brownley\tD\tNULL\tNULL\tPrimary\tSolid D\n27\tGeorge Whitesides\tD\tNULL\tNULL\tPrimary\tSolid D\n28\tJudy Chu\tD\tNULL\tNULL\tPrimary\tSolid D\n29\tLuz M. Rivas\tD\tNULL\tNULL\tPrimary\tSolid D\n30\tLaura Friedman\tD\tNULL\tNULL\tPrimary\tSolid D\n31\tGil Cisneros\tD\tNULL\tNULL\tPrimary\tSolid D\n32\tBrad Sherman\tD\tLarry Thompson\tR\tGeneral\tSolid D\n33\tPete Aguilar\tD\tNULL\tNULL\tPrimary\tSolid D\n34\tJimmy Gomez\tD\tNULL\tNULL\tPrimary\tSolid D\n35\tNorma J. Torres\tD\tNULL\tNULL\tPrimary\tSolid D\n36\tTed Lieu\tD\tNULL\tNULL\tPrimary\tSolid D\n37\tSydney Kamlager-Dove\tD\tNULL\tNULL\tPrimary\tSolid D\n38\tLinda T. Sanchez\tD\tNULL\tNULL\tPrimary\tSolid D\n39\tMark Takano\tD\tNULL\tNULL\tPrimary\tSolid D\n40\tKen Calvert\tR\tYoung Kim\tR\tGeneral\tSolid R\n41\tLinda Sánchez\tD\tTBD — Primary: Jun 2, 2026\tR\tPrimary\tSolid D\n42\tRobert Garcia\tD\tNULL\tNULL\tPrimary\tSolid D\n43\tMaxine Waters\tD\tNULL\tNULL\tPrimary\tSolid D\n44\tNanette Diaz Barragan\tD\tNULL\tNULL\tPrimary\tSolid D\n45\tDerek Tran\tD\tR Primary TBD\tR\tGeneral\tLean D\n46\tLou Correa\tD\tNULL\tNULL\tPrimary\tSolid D\n47\tDave Min\tD\tNULL\tNULL\tPrimary\tSolid D\n48\tMarni von Wilpert\tD\tJim Desmond\tR\tGeneral\tLean D\n49\tMike Levin\tD\tNULL\tNULL\tPrimary\tSolid D\n50\tScott H. Peters\tD\tNULL\tNULL\tPrimary\tSolid D\n51\tSara Jacobs\tD\tNULL\tNULL\tPrimary\tSolid D\n52\tJuan Vargas\tD\tNULL\tNULL\tPrimary\tSolid D\n",
+  "stderr": "",
+  "execution_time_ms": 263
+}
