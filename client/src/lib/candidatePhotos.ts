@@ -741,6 +741,8 @@ const CDN_PHOTOS: Record<string, string> = {
   // CA Governor candidates (June 5 2026 — DDHQ projection)
   "xavier becerra":            `${CDN_BASE}/xavier_becerra_d2b12c57.jpg`,              // CA Gov D (fmr HHS Secretary)
   "steve hilton":              `${CDN_BASE}/steve_hilton_dc6ad31b.jpg`,                // CA Gov R (fmr Fox News host)
+  // CA-6 incumbent (June 5 2026)
+  "kevin kiley":               `${CDN_BASE}/kevin_kiley_5f0c3d28.jpg`,                 // CA-6 I (fmr R, now Independent — bioguide portrait)
 };
 
 /**

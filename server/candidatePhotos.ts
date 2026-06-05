@@ -158,6 +158,7 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   // CA Governor candidates (June 5 2026 — DDHQ projection)
   "xavier becerra":        `${BASE}/xavier_becerra_d2b12c57.jpg`,          // CA Gov D (fmr HHS Secretary)
   "steve hilton":          `${BASE}/steve_hilton_dc6ad31b.jpg`,            // CA Gov R (fmr Fox News host)
+  "kevin kiley":           `${BASE}/kevin_kiley_5f0c3d28.jpg`,             // CA-6 I (bioguide portrait)
 };
 
 export const PARTY_LOGOS = {

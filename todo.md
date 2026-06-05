@@ -1633,3 +1633,14 @@
 - [x] Add Becerra and Hilton to server/candidatePhotos.ts
 - [x] Add Becerra and Hilton to client/src/lib/candidatePhotos.ts CDN_PHOTOS
 - [x] Add Becerra and Hilton to GlobalSearch.tsx CANDIDATE_PHOTOS
+
+## CA-6, CA-7, CA-22 Monitoring (June 5, 2026)
+- [x] Research latest ballot counts for CA-6, CA-7, CA-22 (NBC News / AP, June 5 10:23 AM ET)
+- [x] Update CA-6 notes with latest percentages (53% in, Stansfield 22.2% vs Pan 21.2%)
+- [x] Update CA-7 notes with latest percentages (51.7% in, Wooden 24.7% vs Vang 24.5%)
+- [x] Update CA-22 notes with latest percentages (56.8% in, Villegas 30.2% vs Bains 25.8%)
+- [x] Source and upload Kevin Kiley (CA-6 incumbent) photo from bioguide
+- [x] Add Kevin Kiley to all three photo registries
+- [ ] CA-6 2nd spot: Await AP call (Stansfield R vs Pan D — 1pt gap, 94K remaining)
+- [ ] CA-7 2nd spot: Await AP call (Wooden R vs Vang D — 0.2pt gap, 104K remaining)
+- [ ] CA-22 2nd spot: Await AP call (Villegas D vs Bains D — 4.4pt gap, 35K remaining)
