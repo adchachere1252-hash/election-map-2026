@@ -155,6 +155,9 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "sam liccardo":          `${BASE}/sam_liccardo_e0db628c.jpg`,            // CA-16 D (former San Jose Mayor)
   "gil cisneros":          `${BASE}/gil_cisneros_e29e0c3b.jpg`,            // CA-31 D (returning challenger)
   "marni von wilpert":     `${BASE}/marni_von_wilpert_c2df38d6.jpg`,       // CA-48 D
+  // CA Governor candidates (June 5 2026 — DDHQ projection)
+  "xavier becerra":        `${BASE}/xavier_becerra_d2b12c57.jpg`,          // CA Gov D (fmr HHS Secretary)
+  "steve hilton":          `${BASE}/steve_hilton_dc6ad31b.jpg`,            // CA Gov R (fmr Fox News host)
 };
 
 export const PARTY_LOGOS = {

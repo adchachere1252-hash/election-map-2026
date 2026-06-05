@@ -1622,3 +1622,14 @@
 - [x] Source and upload photos for Aisha Wahab and Melissa Hernandez
 - [x] Add CA-14 photos to all three photo registries
 - [x] Add D vs D badge logic for CA-14 (same as CA-11, CA-12 — handled by existing notes field logic)
+
+## CA Governor Race Correction (June 5, 2026)
+- [x] Update CA Governor DB: dem_candidate from Kounalakis to Xavier Becerra
+- [x] Update CA Governor DB: rep_candidate from Chad Bianco to Steve Hilton
+- [x] Update CA Governor notes with DDHQ projection details (58% counted, Steyer fighting for 2nd)
+- [x] Update CA Governor rating from Solid D to Lean D
+- [x] Source and upload Xavier Becerra official portrait (HHS Secretary photo)
+- [x] Source and upload Steve Hilton portrait (NYT campaign photo)
+- [x] Add Becerra and Hilton to server/candidatePhotos.ts
+- [x] Add Becerra and Hilton to client/src/lib/candidatePhotos.ts CDN_PHOTOS
+- [x] Add Becerra and Hilton to GlobalSearch.tsx CANDIDATE_PHOTOS

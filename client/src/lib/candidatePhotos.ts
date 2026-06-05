@@ -738,6 +738,9 @@ const CDN_PHOTOS: Record<string, string> = {
   "sam liccardo":              `${CDN_BASE}/sam_liccardo_e0db628c.jpg`,              // CA-16 D (former San Jose Mayor, House.gov portrait)
   "gil cisneros":              `${CDN_BASE}/gil_cisneros_e29e0c3b.jpg`,              // CA-31 D (returning challenger, House.gov portrait)
   "marni von wilpert":         `${CDN_BASE}/marni_von_wilpert_c2df38d6.jpg`,         // CA-48 D (Ballotpedia headshot)
+  // CA Governor candidates (June 5 2026 — DDHQ projection)
+  "xavier becerra":            `${CDN_BASE}/xavier_becerra_d2b12c57.jpg`,              // CA Gov D (fmr HHS Secretary)
+  "steve hilton":              `${CDN_BASE}/steve_hilton_dc6ad31b.jpg`,                // CA Gov R (fmr Fox News host)
 };
 
 /**
