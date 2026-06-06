@@ -104,6 +104,11 @@ const CANDIDATE_PHOTOS: Record<string, string> = {
   "pedro casas":            `${CDN_BASE}/pedro_casas_f79cf321.jpg`,
   "mitch clemmons":         `${CDN_BASE}/mitch_clemmons_8f836571.jpg`,
   "chuong vo":              `${CDN_BASE}/chuong_vo_ed3ee136.jpg`,
+  // NM & SD candidates (June 6 2026)
+  "ndidiamaka okpareke":    `/manus-storage/ndidiamaka_okpareke_1aa8335e.jpg`,
+  "greg cunningham":        `/manus-storage/greg_cunningham_0127643c.jpg`,
+  "martin ruben zamora":    `/manus-storage/martin_zamora_a2e1a9a3.jpg`,
+  "nicole gronli":          `/manus-storage/nicole_gronli_9108f631.jpg`,
 };
 
 function getCandidatePhoto(name: string | null | undefined): string | null {

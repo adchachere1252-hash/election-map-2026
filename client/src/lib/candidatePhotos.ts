@@ -759,6 +759,12 @@ const CDN_PHOTOS: Record<string, string> = {
   "pedro casas":               `${CDN_BASE}/pedro_casas_f79cf321.jpg`,                  // CA-38 R
   "mitch clemmons":            `${CDN_BASE}/mitch_clemmons_8f836571.jpg`,               // CA-41 R
   "chuong vo":                 `${CDN_BASE}/chuong_vo_ed3ee136.jpg`,                    // CA-45 R
+
+  // NM & SD candidates (June 6 2026 — verification round 2)
+  "ndidiamaka okpareke":       `/manus-storage/ndidiamaka_okpareke_1aa8335e.jpg`,        // NM-1 R
+  "greg cunningham":           `/manus-storage/greg_cunningham_0127643c.jpg`,            // NM-2 R
+  "martin ruben zamora":       `/manus-storage/martin_zamora_a2e1a9a3.jpg`,              // NM-3 R
+  "nicole gronli":             `/manus-storage/nicole_gronli_9108f631.jpg`,              // SD-AL D
 };
 
 /**

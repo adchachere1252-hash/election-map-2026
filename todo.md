@@ -1666,3 +1666,17 @@
 - [x] Fix CA-45: Update R candidate from "R Primary TBD" to Vo
 - [x] Source photos for all new candidates
 - [x] Add all new photos to three registries
+
+## Verification Round 2 Fixes — June 6, 2026
+
+- [x] CA-6: Fix candidate2_party from R to D (Richard Pan is a Democrat)
+- [x] CA-6: Clean candidate1_name (remove embedded ballot info) to just 'Kevin Kiley'
+- [x] CA-6: Clean candidate2_name (remove embedded ballot info) to just 'Richard Pan'
+- [x] CA-7: Clean candidate2_name (remove embedded ballot info) to just 'Mai Vang'
+- [x] CA-22: Clean candidate1_name (remove embedded ballot info) to just 'Randy Villegas'
+- [x] CA-6, CA-7, CA-22: Move ballot count info to notes field
+- [x] NM-1: Add Ndidiamaka Okpareke (R) as candidate2, set status to General
+- [x] NM-2: Replace 'R Primary TBD' with Greg Cunningham (R), set status to General
+- [x] NM-3: Add Martin Ruben Zamora (R) as candidate2, set status to General
+- [x] SD-AL: Add Nicole Gronli (D) as candidate1
+- [x] Source photos for Ndidiamaka Okpareke, Greg Cunningham, Martin Ruben Zamora, Nicole Gronli
