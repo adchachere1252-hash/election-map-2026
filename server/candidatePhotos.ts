@@ -163,6 +163,18 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "richard pan":           `${BASE}/richard_pan_fafb55ad.jpg`,             // CA-6 D (fmr state senator)
   "mai vang":              `${BASE}/mai_vang_ed78789a.jpg`,               // CA-7 D (Sacramento City Council)
   "randy villegas":        `${BASE}/randy_villegas_e1035444.jpg`,         // CA-22 D (Visalia school board)
+
+  // CA House candidates (June 6 2026 — 8-district fix batch)
+  "robb tucker":            `${BASE}/robb_tucker_7873c0dd.jpg`,             // CA-3 R (Placer County Supervisor)
+  "kyle kirkland":          `${BASE}/kyle_kirkland_6ea5e784.jpg`,           // CA-21 R (business leader)
+  "jacqui irwin":           `${BASE}/jacqui_irwin_82b58144.jpg`,            // CA-26 D (CA Assemblywoman)
+  "sam gallucci":           `${BASE}/sam_gallucci_e81fb820.jpg`,            // CA-26 R (businessman)
+  "jason gibbs":            `${BASE}/jason_gibbs_40a4aad5.jpg`,             // CA-27 R (Santa Clarita Mayor)
+  "angela gonzales-torres": `${BASE}/angela_gonzales_torres_69628858.jpg`,  // CA-34 D (Justice Democrats)
+  "hilda solis":            `${BASE}/hilda_solis_669cb34d.jpg`,             // CA-38 D (fmr Labor Sec/LA County Supervisor)
+  "pedro casas":            `${BASE}/pedro_casas_f79cf321.jpg`,             // CA-38 R (Army veteran)
+  "mitch clemmons":         `${BASE}/mitch_clemmons_8f836571.jpg`,          // CA-41 R (businessman)
+  "chuong vo":              `${BASE}/chuong_vo_ed3ee136.jpg`,               // CA-45 R (fmr Mayor of Fountain Valley)
 };
 
 export const PARTY_LOGOS = {

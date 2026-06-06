@@ -747,6 +747,18 @@ const CDN_PHOTOS: Record<string, string> = {
   "richard pan":               `${CDN_BASE}/richard_pan_fafb55ad.jpg`,                 // CA-6 D (fmr state senator)
   "mai vang":                  `${CDN_BASE}/mai_vang_ed78789a.jpg`,                    // CA-7 D (Sacramento City Council)
   "randy villegas":            `${CDN_BASE}/randy_villegas_e1035444.jpg`,              // CA-22 D (Visalia school board)
+
+  // CA House candidates (June 6 2026 — 8-district fix batch)
+  "robb tucker":               `${CDN_BASE}/robb_tucker_7873c0dd.jpg`,                  // CA-3 R
+  "kyle kirkland":             `${CDN_BASE}/kyle_kirkland_6ea5e784.jpg`,                // CA-21 R
+  "jacqui irwin":              `${CDN_BASE}/jacqui_irwin_82b58144.jpg`,                 // CA-26 D
+  "sam gallucci":              `${CDN_BASE}/sam_gallucci_e81fb820.jpg`,                 // CA-26 R
+  "jason gibbs":               `${CDN_BASE}/jason_gibbs_40a4aad5.jpg`,                  // CA-27 R
+  "angela gonzales-torres":    `${CDN_BASE}/angela_gonzales_torres_69628858.jpg`,       // CA-34 D
+  "hilda solis":               `${CDN_BASE}/hilda_solis_669cb34d.jpg`,                  // CA-38 D
+  "pedro casas":               `${CDN_BASE}/pedro_casas_f79cf321.jpg`,                  // CA-38 R
+  "mitch clemmons":            `${CDN_BASE}/mitch_clemmons_8f836571.jpg`,               // CA-41 R
+  "chuong vo":                 `${CDN_BASE}/chuong_vo_ed3ee136.jpg`,                    // CA-45 R
 };
 
 /**

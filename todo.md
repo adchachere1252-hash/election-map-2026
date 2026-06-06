@@ -1654,3 +1654,15 @@
 - [x] Source and upload photo for Mai Vang (CA-7 D)
 - [x] Source and upload photo for Randy Villegas (CA-22 D)
 - [x] Add Pan, Vang, Villegas to all three photo registries
+
+## CA House Critical Fixes — Full Verification (June 6, 2026)
+- [x] Fix CA-3: Update from TBD to Bera (D) vs Tucker (R) — research full names
+- [x] Fix CA-21: Update R candidate from "R Primary TBD" to Kirkland
+- [x] Fix CA-26: Replace "Julia Brownley" with correct candidate (Irwin)
+- [x] Fix CA-27: Correct candidate order — Gibbs leading, Whitesides 2nd
+- [x] Fix CA-34: Add Gonzales-Torres as 2nd candidate (D vs D race)
+- [x] Fix CA-38: Replace "Linda T. Sanchez" with correct candidate (Solis)
+- [x] Fix CA-41: Correct candidate order — Clemmons leading, Sánchez 2nd
+- [x] Fix CA-45: Update R candidate from "R Primary TBD" to Vo
+- [x] Source photos for all new candidates
+- [x] Add all new photos to three registries

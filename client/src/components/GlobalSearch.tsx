@@ -93,6 +93,17 @@ const CANDIDATE_PHOTOS: Record<string, string> = {
   "richard pan":           `${CDN_BASE}/richard_pan_fafb55ad.jpg`,
   "mai vang":              `${CDN_BASE}/mai_vang_ed78789a.jpg`,
   "randy villegas":        `${CDN_BASE}/randy_villegas_e1035444.jpg`,
+  // 8-district fix batch (June 6)
+  "robb tucker":            `${CDN_BASE}/robb_tucker_7873c0dd.jpg`,
+  "kyle kirkland":          `${CDN_BASE}/kyle_kirkland_6ea5e784.jpg`,
+  "jacqui irwin":           `${CDN_BASE}/jacqui_irwin_82b58144.jpg`,
+  "sam gallucci":           `${CDN_BASE}/sam_gallucci_e81fb820.jpg`,
+  "jason gibbs":            `${CDN_BASE}/jason_gibbs_40a4aad5.jpg`,
+  "angela gonzales-torres": `${CDN_BASE}/angela_gonzales_torres_69628858.jpg`,
+  "hilda solis":            `${CDN_BASE}/hilda_solis_669cb34d.jpg`,
+  "pedro casas":            `${CDN_BASE}/pedro_casas_f79cf321.jpg`,
+  "mitch clemmons":         `${CDN_BASE}/mitch_clemmons_8f836571.jpg`,
+  "chuong vo":              `${CDN_BASE}/chuong_vo_ed3ee136.jpg`,
 };
 
 function getCandidatePhoto(name: string | null | undefined): string | null {
