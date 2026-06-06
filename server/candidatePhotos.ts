@@ -159,6 +159,10 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "xavier becerra":        `${BASE}/xavier_becerra_d2b12c57.jpg`,          // CA Gov D (fmr HHS Secretary)
   "steve hilton":          `${BASE}/steve_hilton_dc6ad31b.jpg`,            // CA Gov R (fmr Fox News host)
   "kevin kiley":           `${BASE}/kevin_kiley_5f0c3d28.jpg`,             // CA-6 I (bioguide portrait)
+  // CA House candidates (June 6 2026 — Friday ballot drop update)
+  "richard pan":           `${BASE}/richard_pan_fafb55ad.jpg`,             // CA-6 D (fmr state senator)
+  "mai vang":              `${BASE}/mai_vang_ed78789a.jpg`,               // CA-7 D (Sacramento City Council)
+  "randy villegas":        `${BASE}/randy_villegas_e1035444.jpg`,         // CA-22 D (Visalia school board)
 };
 
 export const PARTY_LOGOS = {

@@ -1644,3 +1644,13 @@
 - [ ] CA-6 2nd spot: Await AP call (Stansfield R vs Pan D — 1pt gap, 94K remaining)
 - [ ] CA-7 2nd spot: Await AP call (Wooden R vs Vang D — 0.2pt gap, 104K remaining)
 - [ ] CA-22 2nd spot: Await AP call (Villegas D vs Bains D — 4.4pt gap, 35K remaining)
+
+## CA Races Update — Friday Ballot Drop (June 6, 2026)
+- [x] Update CA-6 notes: Pan regained 2nd (23% vs Stansfield 21.2%, 66% counted)
+- [x] Update CA-7 notes: Vang reclaimed 2nd (28.5% vs Wooden 22.6%, 65% counted)
+- [x] Update CA-22 notes: Villegas lead holding (~57% counted)
+- [x] Update CA Governor notes: AP called Becerra advancing, Hilton vs Steyer for 2nd still uncalled
+- [x] Source and upload photo for Richard Pan (CA-6 D)
+- [x] Source and upload photo for Mai Vang (CA-7 D)
+- [x] Source and upload photo for Randy Villegas (CA-22 D)
+- [x] Add Pan, Vang, Villegas to all three photo registries

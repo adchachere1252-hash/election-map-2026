@@ -90,6 +90,9 @@ const CANDIDATE_PHOTOS: Record<string, string> = {
   "xavier becerra":        `${CDN_BASE}/xavier_becerra_d2b12c57.jpg`,
   "steve hilton":          `${CDN_BASE}/steve_hilton_dc6ad31b.jpg`,
   "kevin kiley":           `${CDN_BASE}/kevin_kiley_5f0c3d28.jpg`,
+  "richard pan":           `${CDN_BASE}/richard_pan_fafb55ad.jpg`,
+  "mai vang":              `${CDN_BASE}/mai_vang_ed78789a.jpg`,
+  "randy villegas":        `${CDN_BASE}/randy_villegas_e1035444.jpg`,
 };
 
 function getCandidatePhoto(name: string | null | undefined): string | null {

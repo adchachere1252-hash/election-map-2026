@@ -743,6 +743,10 @@ const CDN_PHOTOS: Record<string, string> = {
   "steve hilton":              `${CDN_BASE}/steve_hilton_dc6ad31b.jpg`,                // CA Gov R (fmr Fox News host)
   // CA-6 incumbent (June 5 2026)
   "kevin kiley":               `${CDN_BASE}/kevin_kiley_5f0c3d28.jpg`,                 // CA-6 I (fmr R, now Independent — bioguide portrait)
+  // CA House candidates (June 6 2026 — Friday ballot drop update)
+  "richard pan":               `${CDN_BASE}/richard_pan_fafb55ad.jpg`,                 // CA-6 D (fmr state senator)
+  "mai vang":                  `${CDN_BASE}/mai_vang_ed78789a.jpg`,                    // CA-7 D (Sacramento City Council)
+  "randy villegas":            `${CDN_BASE}/randy_villegas_e1035444.jpg`,              // CA-22 D (Visalia school board)
 };
 
 /**
