@@ -357,55 +357,11 @@ async function startServer() {
     console.log(`Server running on http://localhost:${port}/`);
   });
 
-  // ── Auto AP update: pull fresh results every 1 minute ───────────────────────
-  // This runs server-side so results flow in automatically without needing
-  // an external heartbeat. Only runs when there are active election dates.
-  const { scrapeAndPushResults } = await import("../scheduledApUpdate");
-  const AUTO_UPDATE_INTERVAL_MS = 1 * 60 * 1000; // 1 minute (election night speed)
-  setInterval(async () => {
-    try {
-      const result = await scrapeAndPushResults();
-      const okCount = result.updates.filter(u => u.status === "ok").length;
-      const skipCount = result.updates.filter(u => u.status === "skip").length;
-      const errCount = result.updates.filter(u => u.status === "error").length;
-      console.log(`[AutoUpdate] Done — Updated: ${okCount} | Skipped: ${skipCount} | Errors: ${errCount}`);
-    } catch (err) {
-      console.error("[AutoUpdate] Error:", err instanceof Error ? err.message : String(err));
-    }
-  }, AUTO_UPDATE_INTERVAL_MS);
-  console.log(`[AutoUpdate] AP results auto-update scheduled every ${AUTO_UPDATE_INTERVAL_MS / 1000}s`);
-
-  // ── Primary-to-General Promotion: check every 30 minutes ────────────────────
-  // After a primary date passes and primaryWinner is set, automatically promotes
-  // races from Primary → General status and populates the matchup card candidates.
-  const { runPrimaryToGeneralPromotion } = await import("../primaryToGeneralPromotion");
-  const PROMOTION_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes (election night speed)
-  // Run once immediately on startup to catch any races that should already be promoted
-  (async () => {
-    try {
-      const r = await runPrimaryToGeneralPromotion();
-      if (r.promoted > 0 || r.errors > 0) {
-        console.log(`[Promotion] Startup run — Promoted: ${r.promoted} | Skipped: ${r.skipped} | Errors: ${r.errors}`);
-        r.log.forEach(line => console.log(`[Promotion] ${line}`));
-      } else {
-        console.log(`[Promotion] Startup run — No races to promote (${r.skipped} checked)`);
-      }
-    } catch (err) {
-      console.error("[Promotion] Startup error:", err instanceof Error ? err.message : String(err));
-    }
-  })();
-  setInterval(async () => {
-    try {
-      const r = await runPrimaryToGeneralPromotion();
-      if (r.promoted > 0 || r.errors > 0) {
-        console.log(`[Promotion] Done — Promoted: ${r.promoted} | Skipped: ${r.skipped} | Errors: ${r.errors}`);
-        r.log.forEach(line => console.log(`[Promotion] ${line}`));
-      }
-    } catch (err) {
-      console.error("[Promotion] Error:", err instanceof Error ? err.message : String(err));
-    }
-  }, PROMOTION_INTERVAL_MS);
-  console.log(`[Promotion] Primary-to-General promotion scheduled every ${PROMOTION_INTERVAL_MS / 60000} minutes`);
+  // ── Election-aware scheduler ─────────────────────────────────────────────────
+  // Smart scheduler that only polls AP and runs promotions during election windows
+  // (7 PM – 7 AM ET on configured election dates). Idle otherwise.
+  const { initElectionScheduler } = await import("../electionScheduler");
+  await initElectionScheduler();
 }
 
 startServer().catch(console.error);

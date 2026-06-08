@@ -1680,3 +1680,14 @@
 - [x] NM-3: Add Martin Ruben Zamora (R) as candidate2, set status to General
 - [x] SD-AL: Add Nicole Gronli (D) as candidate1
 - [x] Source photos for Ndidiamaka Okpareke, Greg Cunningham, Martin Ruben Zamora, Nicole Gronli
+
+## Election Scheduler Overhaul (June 8, 2026)
+
+- [x] Disable external Manus scheduled task (was spawning new task every 5 min)
+- [x] Create server/electionDates.ts with all 2026 + 2028 election dates
+- [x] Create server/electionScheduler.ts — smart in-process scheduler with idle/approaching/active states
+- [x] Replace old setInterval blocks in server/_core/index.ts with election-aware scheduler
+- [x] Verify scheduler initializes correctly and logs IDLE/APPROACHING/ACTIVE state transitions
+- [x] Confirm no more AP Engine spam during non-election hours (0 AP Engine logs after restart)
+- [x] Fix stale hardcoded ELECTION_DATES in scheduledApUpdate.ts — now imports from canonical electionDates.ts
+- [x] All 58 tests passing, zero TypeScript errors

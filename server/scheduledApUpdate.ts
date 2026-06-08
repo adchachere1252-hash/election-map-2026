@@ -20,6 +20,7 @@ import {
 import { broadcastElectionEvent } from "./ws";
 import { broadcastLog } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
+import { ELECTION_DATES as CANONICAL_ELECTION_DATES } from "./electionDates";
 
 // ── Broadcast deduplication (DB-backed, survives server restarts) ───────────────────────────────
 // Key format: "<electionDate>:<stateCode>:<chamber>:<district|0>"
@@ -51,16 +52,9 @@ async function markBroadcasted(key: string, electionDate: string, stateCode: str
 // ── AP Elections data API ──────────────────────────────────────────────────────
 const AP_DATA_BASE = "https://interactives.apelections.org/election-results/data-live";
 
-// Known election dates to try (most recent first)
-// On election night, AP activates the date-specific feed automatically
-const ELECTION_DATES = [
-  "2026-05-26", // May 26 — Texas runoff (TX-19, TX-32, TX-33, TX-35, TX-38) — checked first
-  "2026-05-19", // May 19 primaries (GA, KY, OR, etc.)
-  "2026-05-12", // May 12 primaries (NE, WV)
-  "2026-05-05", // May 5 primaries (OH, IN)
-  "2026-07-15", // July 15 — Louisiana U.S. House primaries
-  "2026-11-03", // November 3, 2026 — General Election (checked last as fallback)
-];
+// Election dates to try — imported from the canonical electionDates.ts
+// Sorted most-recent-first so AP feed lookup finds the active date quickly
+const ELECTION_DATES = [...CANONICAL_ELECTION_DATES].sort((a, b) => b.localeCompare(a));
 
 const AP_HEADERS = {
   "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
