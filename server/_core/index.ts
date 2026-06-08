@@ -9,7 +9,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { attachWebSocketServer } from "../ws";
-import { handleScheduledApUpdate } from "../scheduledApUpdate";
+import { handleScheduledApUpdate, handleScheduledApUpdateTrusted } from "../scheduledApUpdate";
 import { registerScheduledRoutes } from "../scheduledRoutes";
 
 function isPortAvailable(port: number): Promise<boolean> {
@@ -43,7 +43,8 @@ async function startServer() {
   // Scheduled task: AP election results auto-update (accessible by cron cookie)
   // NOTE: The Manus proxy blocks /api/scheduled/* but passes /api/scheduled-task/* through
   // Register multiple path variants to handle proxy routing
-  app.post("/api/scheduled-task/ap-update", handleScheduledApUpdate);
+  // Proxy-trusted path: Manus proxy has already authenticated the cron cookie
+  app.post("/api/scheduled-task/ap-update", handleScheduledApUpdateTrusted);
   app.post("/ap-update", handleScheduledApUpdate);
   app.post("/scheduled/ap-update", handleScheduledApUpdate);
   // Password-based scheduled routes (includes /api/scheduled/ap-update with body password)
