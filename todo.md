@@ -1691,3 +1691,10 @@
 - [x] Confirm no more AP Engine spam during non-election hours (0 AP Engine logs after restart)
 - [x] Fix stale hardcoded ELECTION_DATES in scheduledApUpdate.ts — now imports from canonical electionDates.ts
 - [x] All 58 tests passing, zero TypeScript errors
+
+## Composition Fix (Jun 9, 2026)
+- [x] Clear stale calledWinner from GA-14, TX-18 (House) — leftover special election/primary data
+- [x] Clear stale calledWinner from 5 Senate races (IA, MT, NJ, NM, SD) — AP Engine primary bug
+- [x] Update BASE_COMPOSITION to match House Press Gallery official numbers (D=212, R=217, I=1, vacancies=5)
+- [x] Remove isVacancy from NJ-11, GA-14, TX-18 (already seated, counted in base)
+- [x] Verify scoreboard matches pressgallery.house.gov exactly

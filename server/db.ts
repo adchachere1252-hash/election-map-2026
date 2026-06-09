@@ -142,15 +142,20 @@ export async function updateReferendum(id: number, data: Partial<typeof referend
 
 // ─── Scoreboard ───────────────────────────────────────────────────────────────
 // ─── 119th Congress base composition (start of Congress, Jan 2025) ───────────
-// Source: senate.gov (Party Division) + pressgallery.house.gov (Apr 2026)
+// Source: senate.gov (Party Division) + pressgallery.house.gov (Jun 9, 2026)
 // These are the pre-election baselines. Called races in 2026 will adjust them.
+// The base represents CURRENT seated members. Called vacancy-fill races (isVacancy=true)
+// will decrement vacancies and add to the winning party's count.
 const BASE_COMPOSITION = {
   senate: { D: 45, R: 53, I: 2, total: 100, vacancies: 0 },
-  // House: 217R / 214D / 1I / 2 vacancies as of Apr 8, 2026 (CNN, Apr 8 2026)
-  // GA-14 filled Apr 7 by Clay Fuller (R) - special election won
-  // NJ-11 called D on Apr 16, 2026 → D 214→215, R 217→218, vacancies 2→1 (only CA-01)
-  // FL-20 vacant Apr 21, 2026 (Cherfilus-McCormick resigned) → D 215→214, vacancies 1→2 (CA-01 + FL-20)
-  house: { D: 214, R: 218, I: 1, total: 435, vacancies: 2 },
+  // House Press Gallery Party Breakdown (pressgallery.house.gov, Jun 9, 2026):
+  //   217 Republicans, 212 Democrats, 1 Independent, 5 Vacancies = 435
+  // Vacancies: CA-01 (LaMalfa R, died 1/6/26), CA-14 (Swalwell D, resigned 4/14/26),
+  //   TX-23 (Gonzales R, resigned 4/14/26), FL-20 (Cherfilus-McCormick D, resigned 4/21/26),
+  //   GA-13 (David Scott D, died 4/22/26)
+  // All completed special elections (AZ-7, FL-1, FL-6, NJ-11, TN-7, VA-11, GA-14)
+  // are already seated and included in the 217R/212D counts.
+  house: { D: 212, R: 217, I: 1, total: 435, vacancies: 5 },
 } as const;
 
 export async function getScoreboard() {
