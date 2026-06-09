@@ -26,16 +26,26 @@ function CompositionBar({
   i,
   total,
   majority,
+  vacancies = 0,
 }: {
   d: number;
   r: number;
   i: number;
   total: number;
   majority: number;
+  vacancies?: number;
 }) {
-  const dPct = (d / total) * 100;
-  const rPct = (r / total) * 100;
-  const iPct = (i / total) * 100;
+  // Give Independent and Vacancies a minimum visible width so they're distinguishable
+  const rawDPct = (d / total) * 100;
+  const rawRPct = (r / total) * 100;
+  const rawIPct = (i / total) * 100;
+  const rawVPct = (vacancies / total) * 100;
+  const minIPct = i > 0 ? Math.max(rawIPct, 3) : 0;
+  const minVPct = vacancies > 0 ? Math.max(rawVPct, 3) : 0;
+  // Proportionally reduce D and R to make room
+  const extraNeeded = (minIPct - rawIPct) + (minVPct - rawVPct);
+  const dPct = rawDPct - (extraNeeded * rawDPct / (rawDPct + rawRPct));
+  const rPct = rawRPct - (extraNeeded * rawRPct / (rawDPct + rawRPct));
   const majorityPct = (majority / total) * 100;
 
   return (
@@ -49,10 +59,20 @@ function CompositionBar({
         </div>
         {i > 0 && (
           <div
-            className="h-full flex items-center justify-center"
-            style={{ width: `${iPct}%`, background: "#4a5568" }}
+            className="h-full flex items-center justify-center border-x border-white/30"
+            style={{ width: `${minIPct}%`, background: "#6b7280" }}
+            title={`${i} Independent`}
           >
             <span className="text-white text-[10px] font-bold leading-none">{i}</span>
+          </div>
+        )}
+        {vacancies > 0 && (
+          <div
+            className="h-full flex items-center justify-center"
+            style={{ width: `${minVPct}%`, background: "repeating-linear-gradient(45deg, #374151, #374151 2px, #1f2937 2px, #1f2937 4px)" }}
+            title={`${vacancies} Vacant`}
+          >
+            <span className="text-gray-300 text-[10px] font-bold leading-none">{vacancies}</span>
           </div>
         )}
         <div
@@ -116,19 +136,19 @@ function CurrentComposition({ composition }: { composition: { senate: Compositio
           <span className="text-xs font-semibold text-foreground">U.S. Senate (100 seats)</span>
           <span className="text-[10px] text-muted-foreground">{senateMajority} to control</span>
         </div>
-        <CompositionBar d={senate.D} r={senate.R} i={senate.I} total={senate.total} majority={senateMajority} />
-        <div className="grid grid-cols-3 text-[10px] mt-1">
+        <CompositionBar d={senate.D} r={senate.R} i={senate.I} total={senate.total} majority={senateMajority} vacancies={senate.vacancies} />
+        <div className="flex items-center justify-between text-[10px] mt-1">
           <div className="flex items-center gap-1">
             <div className="w-2 h-2 rounded-sm flex-shrink-0" style={{ background: "#1a4fa0" }} />
             <span className="font-bold text-blue-400">{senate.D}</span>
             <span className="text-muted-foreground">D</span>
           </div>
-          <div className="flex items-center justify-center gap-1">
-            <div className="w-2 h-2 rounded-sm flex-shrink-0" style={{ background: "#4a5568" }} />
+          <div className="flex items-center gap-1">
+            <div className="w-2 h-2 rounded-sm flex-shrink-0" style={{ background: "#6b7280" }} />
             <span className="font-semibold text-gray-400">{senate.I}</span>
             <span className="text-muted-foreground">Ind.</span>
           </div>
-          <div className="flex items-center justify-end gap-1">
+          <div className="flex items-center gap-1">
             <span className="text-muted-foreground">R</span>
             <span className="font-bold text-red-400">{senate.R}</span>
             <div className="w-2 h-2 rounded-sm flex-shrink-0" style={{ background: "#b22222" }} />
@@ -145,26 +165,28 @@ function CurrentComposition({ composition }: { composition: { senate: Compositio
           <span className="text-xs font-semibold text-foreground">U.S. House (435 seats)</span>
           <span className="text-[10px] text-muted-foreground">{houseMajority} to control</span>
         </div>
-        <CompositionBar d={house.D} r={house.R} i={house.I} total={house.total} majority={houseMajority} />
-        <div className="grid grid-cols-3 text-[10px] mt-1">
+        <CompositionBar d={house.D} r={house.R} i={house.I} total={house.total} majority={houseMajority} vacancies={house.vacancies} />
+        <div className="flex items-center justify-between text-[10px] mt-1">
           <div className="flex items-center gap-1">
             <div className="w-2 h-2 rounded-sm flex-shrink-0" style={{ background: "#1a4fa0" }} />
             <span className="font-bold text-blue-400">{house.D}</span>
             <span className="text-muted-foreground">D</span>
           </div>
-          <div className="flex items-center justify-center gap-1">
-            {house.I > 0 && (
-              <>
-                <div className="w-2 h-2 rounded-sm flex-shrink-0" style={{ background: "#4a5568" }} />
-                <span className="font-semibold text-gray-400">{house.I}</span>
-                <span className="text-muted-foreground">Ind.</span>
-              </>
-            )}
-            {house.vacancies > 0 && (
-              <span className="text-muted-foreground/60">{house.vacancies} vacant</span>
-            )}
-          </div>
-          <div className="flex items-center justify-end gap-1">
+          {house.I > 0 && (
+            <div className="flex items-center gap-1">
+              <div className="w-2 h-2 rounded-sm flex-shrink-0" style={{ background: "#6b7280" }} />
+              <span className="font-semibold text-gray-400">{house.I}</span>
+              <span className="text-muted-foreground">Ind.</span>
+            </div>
+          )}
+          {house.vacancies > 0 && (
+            <div className="flex items-center gap-1">
+              <div className="w-2 h-2 rounded-sm flex-shrink-0" style={{ background: "#374151", backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 1px, rgba(255,255,255,0.2) 1px, rgba(255,255,255,0.2) 2px)" }} />
+              <span className="font-semibold text-gray-500">{house.vacancies}</span>
+              <span className="text-muted-foreground">vacant</span>
+            </div>
+          )}
+          <div className="flex items-center gap-1">
             <span className="text-muted-foreground">R</span>
             <span className="font-bold text-red-400">{house.R}</span>
             <div className="w-2 h-2 rounded-sm flex-shrink-0" style={{ background: "#b22222" }} />
