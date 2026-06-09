@@ -166,7 +166,7 @@ function CurrentComposition({ composition }: { composition: { senate: Compositio
           <span className="text-[10px] text-muted-foreground">{houseMajority} to control</span>
         </div>
         <CompositionBar d={house.D} r={house.R} i={house.I} total={house.total} majority={houseMajority} vacancies={house.vacancies} />
-        <div className="flex items-center justify-between text-[10px] mt-1">
+        <div className="flex items-center flex-wrap gap-x-3 gap-y-0.5 text-[10px] mt-1">
           <div className="flex items-center gap-1">
             <div className="w-2 h-2 rounded-sm flex-shrink-0" style={{ background: "#1a4fa0" }} />
             <span className="font-bold text-blue-400">{house.D}</span>
@@ -186,7 +186,7 @@ function CurrentComposition({ composition }: { composition: { senate: Compositio
               <span className="text-muted-foreground">vacant</span>
             </div>
           )}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 ml-auto">
             <span className="text-muted-foreground">R</span>
             <span className="font-bold text-red-400">{house.R}</span>
             <div className="w-2 h-2 rounded-sm flex-shrink-0" style={{ background: "#b22222" }} />
