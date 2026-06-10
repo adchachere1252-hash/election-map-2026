@@ -5,6 +5,7 @@ import net from "net";
 import compression from "compression";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./oauth";
+import { registerStorageProxy } from "./storageProxy";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
@@ -49,6 +50,9 @@ async function startServer() {
   app.post("/scheduled/ap-update", handleScheduledApUpdate);
   // Password-based scheduled routes (includes /api/scheduled/ap-update with body password)
   registerScheduledRoutes(app);
+
+  // Storage proxy for uploaded candidate photos
+  registerStorageProxy(app);
 
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
