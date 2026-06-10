@@ -74,7 +74,7 @@ export function CandidateAvatar({
           src={photoUrl}
           alt={name ?? ""}
           onError={() => setImgError(true)}
-          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }}
+          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center" }}
           loading="eager"
         />
       </span>

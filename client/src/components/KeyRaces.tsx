@@ -65,7 +65,7 @@ function CandidateAvatar({
       <img
         src={photo}
         alt={name ?? "candidate"}
-        className={`${dim} rounded-full object-cover object-top flex-shrink-0 border-2 ${
+        className={`${dim} rounded-full object-cover object-center flex-shrink-0 border-2 ${
           party === "D" ? "border-blue-500/60" : party === "R" ? "border-red-500/60" : "border-gray-500/60"
         }`}
         onError={(e) => {
