@@ -447,8 +447,14 @@ export async function scrapeAndPushResults(): Promise<{
         fn: (id: number, d: Record<string, unknown>) => Promise<void>,
         raceType: 'senate' | 'house' | 'governor' = 'senate',
         currentStatus?: string | null,
-        raceStateName?: string
+        raceStateName?: string,
+        raceNotes?: string | null
       ) => {
+        // [AP_LOCK] — if notes contain this tag, AP Engine will never overwrite this race
+        if (raceNotes && raceNotes.includes('[AP_LOCK]')) {
+          updates.push({ race: label, id, status: "skip", detail: "[AP_LOCK] — manually locked, skipping" });
+          return;
+        }
         // Never let AP Engine touch manually-curated Primary Runoff races
         if (currentStatus === 'Primary Runoff') {
           updates.push({ race: label, id, status: "skip", detail: "Primary Runoff — manually curated" });
@@ -526,7 +532,7 @@ export async function scrapeAndPushResults(): Promise<{
         const isSpecial = dbRace.isSpecial ?? false;
         const key = isSpecial ? "senate-special" : "senate";
         const apRace = senate[key] ?? senate["senate"] ?? null;
-        await doUpdate(`${stateCode} Senate${isSpecial ? " (Special)" : ""}`, dbRace.id, apRace, updateSenateRace, 'senate', dbRace.status, dbRace.stateName);
+        await doUpdate(`${stateCode} Senate${isSpecial ? " (Special)" : ""}`, dbRace.id, apRace, updateSenateRace, 'senate', dbRace.status, dbRace.stateName, dbRace.notes);
       }
 
       // House races for this state
@@ -534,7 +540,7 @@ export async function scrapeAndPushResults(): Promise<{
       for (const dbRace of stateHouseRaces) {
         const district = dbRace.district ?? 1;
         const apRace = house[district] ?? null;
-        await doUpdate(`${stateCode}-${district}`, dbRace.id, apRace, updateHouseRace, 'house', dbRace.status, dbRace.stateName);
+        await doUpdate(`${stateCode}-${district}`, dbRace.id, apRace, updateHouseRace, 'house', dbRace.status, dbRace.stateName, dbRace.notes);
       }
 
       // Governor race for this state
@@ -544,7 +550,7 @@ export async function scrapeAndPushResults(): Promise<{
         const isTBD = (n: unknown) => !n || String(n).startsWith('TBD') || String(n) === 'NULL';
         governor.lockedDem = isTBD(stateGovRace.demCandidate) ? undefined : stateGovRace.demCandidate;
         governor.lockedRep = isTBD(stateGovRace.repCandidate) ? undefined : stateGovRace.repCandidate;
-        await doUpdate(`${stateCode} Governor`, stateGovRace.id, governor, updateGovernorRace, 'governor', stateGovRace.status, stateGovRace.stateName);
+        await doUpdate(`${stateCode} Governor`, stateGovRace.id, governor, updateGovernorRace, 'governor', stateGovRace.status, stateGovRace.stateName, stateGovRace.notes);
       }
 
     } catch (err) {

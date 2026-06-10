@@ -105,6 +105,11 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
       );
 
     for (const race of senateEligible) {
+      // [AP_LOCK] — skip manually locked races
+      if (race.notes && race.notes.includes('[AP_LOCK]')) {
+        result.skipped++;
+        continue;
+      }
       if (!primaryDateHasPassed(race.primaryDate)) {
         result.skipped++;
         continue;
@@ -176,6 +181,11 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
       );
 
     for (const race of houseEligible) {
+      // [AP_LOCK] — skip manually locked races
+      if (race.notes && race.notes.includes('[AP_LOCK]')) {
+        result.skipped++;
+        continue;
+      }
       if (!primaryDateHasPassed(race.primaryDate)) {
         result.skipped++;
         continue;
@@ -260,6 +270,11 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
       );
 
     for (const race of govEligible) {
+      // [AP_LOCK] — skip manually locked races
+      if (race.notes && race.notes.includes('[AP_LOCK]')) {
+        result.skipped++;
+        continue;
+      }
       if (!primaryDateHasPassed(race.primaryDate)) {
         result.skipped++;
         continue;
@@ -319,6 +334,8 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
 
     const lastNameOf = (name: string) => name.trim().split(/\s+/).pop()?.toLowerCase() ?? "";
     for (const race of senateGeneral) {
+      // [AP_LOCK] — skip manually locked races
+      if (race.notes && race.notes.includes('[AP_LOCK]')) continue;
       const update: Partial<typeof senateRaces.$inferInsert> = {};
 
       // Fill empty D slot from incumbent if incumbent is D and not retiring
@@ -363,6 +380,8 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
       .where(eq(houseRaces.status, "General"));
 
     for (const race of houseGeneral) {
+      // [AP_LOCK] — skip manually locked races
+      if (race.notes && race.notes.includes('[AP_LOCK]')) continue;
       const update: Partial<typeof houseRaces.$inferInsert> = {};
 
       if (!race.candidate1Name && race.incumbent && race.incumbentParty === "D" && !race.incumbentRetiring) {

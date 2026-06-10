@@ -1698,3 +1698,20 @@
 - [x] Update BASE_COMPOSITION to match House Press Gallery official numbers (D=212, R=217, I=1, vacancies=5)
 - [x] Remove isVacancy from NJ-11, GA-14, TX-18 (already seated, counted in base)
 - [x] Verify scoreboard matches pressgallery.house.gov exactly
+
+## AP Engine Manual Lock Mechanism (Jun 10, 2026)
+- [ ] Add notes-based lock system to prevent AP Engine from overwriting manually confirmed races
+- [ ] Fix ME-1 R candidate (race uncalled, Russell leading but not confirmed — set to TBD)
+- [ ] Fix NV Governor D lock (Aaron Ford confirmed by NBC, prevent AP overwrite)
+- [ ] Fix ME Governor lock (both heading to RCV tabulation, prevent AP overwrite)
+- [ ] Verify NV-2 status (AP may have correctly called both primaries)
+- [ ] Deliver full status report for June 9 primaries
+- [x] Implement [AP_LOCK] mechanism in AP Engine doUpdate function
+- [x] Implement [AP_LOCK] mechanism in primaryToGeneralPromotion.ts (all 5 loops)
+- [x] Lock ME-1 (R primary uncalled — Russell leading, awaiting official call)
+- [x] Lock NV Governor (confirmed Aaron Ford vs Joe Lombardo)
+- [x] Lock ME Governor (both D and R primaries heading to RCV tabulation)
+- [x] Fix NV Governor D candidate from "None of These Candidates" to Aaron Ford
+- [x] Fix ME Senate D nominee from David Costello to Graham Platner
+- [x] Set SC Governor to Primary Runoff (Evette vs Wilson, June 23)
+- [x] Clear stale calledWinner from GA-14, TX-18 (House) and 5 Senate races
