@@ -1721,3 +1721,4 @@
 - [x] Fix ME-2: Change status from "General" to "Primary" (D nominee pending RCV tabulation)
 - [x] Fix NV Governor: Change status from "Scheduled" to "Voting" (both nominees confirmed June 9; enum uses "Voting" for confirmed matchups)
 - [x] Fix GA-14: Update candidate2 from Colton Moore to Clay Fuller (incumbent who won special)
+- [x] Add photos for 42 governor candidates (AL, AR, AZ, CA, CO, CT, GA, HI, IA, ID, IL, MA, MD, MN, NE, NH, NM, NY, OH, OK, OR, PA, SD, TX, VT)
