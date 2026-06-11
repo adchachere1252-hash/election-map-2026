@@ -1729,12 +1729,21 @@
 - [x] Check for overnight AP calls on pending races (NV-2 R confirmed Flippo, ME-1 R confirmed Russell)
 - [x] Run full photo verification check (centering, broken images, wrong candidates) across Senate, House, Governor
 - [x] Fix any photo issues found (12 broken/corrupt photos replaced with fresh downloads and re-uploaded)
-- [ ] Deliver comprehensive June 9 election night status report
+- [x] Deliver comprehensive June 9 election night status report
 
 ## Complete Photo Coverage (Jun 10 - Strict Rules)
-- [ ] Audit all races: categorize by primary completed vs upcoming
-- [ ] Fix DB: set non-confirmed candidates to TBD where primary hasn't happened
-- [ ] Add primary date notes for races where primary is upcoming
-- [ ] Add both photos for all races where primary completed and both candidates confirmed
-- [ ] Add incumbent-only photos for races where primary hasn't happened yet
-- [ ] Visual verification of all photos for centering/accuracy
+- [x] Audit all races: categorize by primary completed vs upcoming
+- [x] Fix DB: set non-confirmed candidates to TBD where primary hasn't happened
+- [x] Add primary date notes for races where primary is upcoming
+- [x] Add both photos for all races where primary completed and both candidates confirmed
+- [x] Add incumbent-only photos for races where primary hasn't happened yet (198 via bioguide)
+- [x] Visual verification of all photos for centering/accuracy
+
+## Full Platform Verification (Jun 11, 2026)
+- [x] Audit all 35 Senate races: verify candidate names, party, TBD status, photos
+- [x] Audit all 36 Governor races: verify candidate names, party, TBD status, photos
+- [x] Audit all House races in General status: verify both candidates confirmed and have photos (100% coverage)
+- [x] Audit all House races in Scheduled/Primary: verify TBD status and incumbent data correct
+- [x] Research and fix any candidate inaccuracies found (AL, LA Senate; CA, NV Gov; WI-7, GA-12, IN-3/4/7 House)
+- [x] Upload missing incumbent photos for scheduled races (198 official Congressional portraits added)
+- [x] Deliver full verification report
