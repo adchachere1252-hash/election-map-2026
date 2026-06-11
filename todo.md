@@ -1724,3 +1724,17 @@
 - [x] Add photos for 42 governor candidates (AL, AR, AZ, CA, CO, CT, GA, HI, IA, ID, IL, MA, MD, MN, NE, NH, NM, NY, OH, OK, OR, PA, SD, TX, VT)
 - [x] Add photos for 31 Senate candidates (16 confirmed matchups: AR, IA, ID, IL, KY, MS, MT, NC, NE, NJ, NM, OH, OR, SD, TX, WV)
 - [x] Add photos for 97 competitive House candidates (Toss-up, Lean D, Lean R, Likely D, Likely R ratings)
+
+## Post-Election Night Updates (Jun 10, 2026 - Morning After)
+- [x] Check for overnight AP calls on pending races (NV-2 R confirmed Flippo, ME-1 R confirmed Russell)
+- [x] Run full photo verification check (centering, broken images, wrong candidates) across Senate, House, Governor
+- [x] Fix any photo issues found (12 broken/corrupt photos replaced with fresh downloads and re-uploaded)
+- [ ] Deliver comprehensive June 9 election night status report
+
+## Complete Photo Coverage (Jun 10 - Strict Rules)
+- [ ] Audit all races: categorize by primary completed vs upcoming
+- [ ] Fix DB: set non-confirmed candidates to TBD where primary hasn't happened
+- [ ] Add primary date notes for races where primary is upcoming
+- [ ] Add both photos for all races where primary completed and both candidates confirmed
+- [ ] Add incumbent-only photos for races where primary hasn't happened yet
+- [ ] Visual verification of all photos for centering/accuracy
