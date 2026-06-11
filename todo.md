@@ -1747,3 +1747,6 @@
 - [x] Research and fix any candidate inaccuracies found (AL, LA Senate; CA, NV Gov; WI-7, GA-12, IN-3/4/7 House)
 - [x] Upload missing incumbent photos for scheduled races (198 official Congressional portraits added)
 - [x] Deliver full verification report
+
+## UI Improvements (Jun 11, 2026)
+- [x] Add "Data Sources" footer crediting Congress.gov, AP, and Ballotpedia

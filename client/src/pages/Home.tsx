@@ -1111,6 +1111,20 @@ export default function Home() {
           Races
         </button>
       )}
+
+      {/* ── Data Sources Footer ──────────────────────────────────── */}
+      <footer className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-slate-900/90 backdrop-blur-sm border border-slate-700/50 rounded-full px-5 py-1.5 hidden md:block shadow-lg shadow-black/30">
+        <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-400">
+          <span className="font-medium text-slate-300">Data Sources:</span>
+          <a href="https://www.congress.gov" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors underline decoration-dotted underline-offset-2">Congress.gov</a>
+          <span className="text-slate-600">·</span>
+          <a href="https://www.ap.org/elections" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors underline decoration-dotted underline-offset-2">Associated Press</a>
+          <span className="text-slate-600">·</span>
+          <a href="https://ballotpedia.org" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors underline decoration-dotted underline-offset-2">Ballotpedia</a>
+          <span className="text-slate-600">·</span>
+          <span className="text-slate-500">Photos via U.S. Congress Bioguide</span>
+        </div>
+      </footer>
     </div>
   );
 }
