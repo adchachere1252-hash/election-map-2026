@@ -1750,3 +1750,16 @@
 
 ## UI Improvements (Jun 11, 2026)
 - [x] Add "Data Sources" footer crediting Congress.gov, AP, and Ballotpedia
+
+## Full Photo Centering Campaign (Jun 11, 2026)
+- [x] Fix AR Senate: Hallie Shoffner photo not centered properly
+- [x] Fix IA Senate: Josh Turek photo not centered properly
+- [x] Fix SD Senate: Julian Beaudion needs a better photo
+- [x] Fix ID Senate: Davis Roth needs a better photo
+- [x] Fix TX Senate: Ken Paxton needs a better photo
+- [x] Audit all Senate race photos for centering/quality (10 replaced)
+- [x] Audit all Governor race photos for centering/quality (11 replaced)
+- [x] Audit all House General race photos for centering/quality (8 replaced)
+- [x] Source and upload replacement photos for all flagged candidates (29 total)
+- [x] Visual verification of all fixed photos
+- [x] Fix CA-27 data accuracy: Whitesides is the incumbent (D), Gibbs is challenger (R)
