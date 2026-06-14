@@ -1763,3 +1763,9 @@
 - [x] Source and upload replacement photos for all flagged candidates (29 total)
 - [x] Visual verification of all fixed photos
 - [x] Fix CA-27 data accuracy: Whitesides is the incumbent (D), Gibbs is challenger (R)
+
+## Historical Map Atlas Performance Fix (Jun 14, 2026)
+- [x] Diagnose loading bottleneck (currently takes 2+ min to load all 31 congresses upfront)
+- [x] Implement lazy/on-demand loading — only fetch current congress GeoJSON when needed
+- [x] Prefetch adjacent congresses in background for smooth slider scrubbing
+- [x] Verify atlas loads quickly and is fully operational (5-8 sec initial load, play/slider/compare all working)

@@ -211,7 +211,7 @@ async function fetchStateGeoJson(stateName: string, congress: number): Promise<G
   return data;
 }
 
-// ─── Full eager cache — all 31 Congresses kept in memory (~15 MB) ─────────────
+// ─── Lazy cache with background prefetch (~15 MB when fully loaded) ──────────
 // Pre-computed color arrays avoid per-frame property lookups during playback.
 type LayerData = {
   features: GeoJSON.Feature[];
@@ -222,9 +222,9 @@ type LayerData = {
 const layerDataCache = new Map<number, LayerData>();
 const warmupInFlight = new Map<number, Promise<void>>();
 
-type WarmupState = { done: number; total: number; ready: boolean };
+type WarmupState = { done: number; total: number; ready: boolean; initialReady: boolean };
 const TOTAL_CONGRESSES = CONGRESS_END - CONGRESS_START + 1; // 31
-let warmupState: WarmupState = { done: 0, total: TOTAL_CONGRESSES, ready: false };
+let warmupState: WarmupState = { done: 0, total: TOTAL_CONGRESSES, ready: false, initialReady: false };
 const warmupListeners = new Set<() => void>();
 function notifyWarmup() { warmupListeners.forEach(fn => fn()); }
 
@@ -306,54 +306,81 @@ async function _doWarmupCongress(congress: number): Promise<void> {
     done: layerDataCache.size,
     total: TOTAL_CONGRESSES,
     ready: layerDataCache.size >= TOTAL_CONGRESSES,
+    initialReady: warmupState.initialReady,
   };
   notifyWarmup();
 }
 
-// Concurrency-limited queue: load all 31 Congresses in the background.
-// Priority order: start from the current congress, expand outward so nearby
-// Congresses are ready first, enabling play to start quickly.
+// ─── Lazy loading strategy ───────────────────────────────────────────────────
+// Phase 1: Load the initial congress immediately (user sees map in ~3-5s)
+// Phase 2: Prefetch adjacent ±3 congresses in background
+// Phase 3: Load remaining congresses in background with lower priority
 let fullWarmupStarted = false;
-async function startFullWarmup(startFrom: number = CONGRESS_START) {
+let backgroundLoadingActive = false;
+
+async function startAtlasWarmup(startFrom: number = CONGRESS_END) {
   // Restart if cache was cleared (e.g., after hot-reload or component remount)
   if (fullWarmupStarted && layerDataCache.size > 0) return;
-  // Reset progress state so the UI shows accurate progress on restart
   if (layerDataCache.size === 0) {
     fullWarmupStarted = false;
+    backgroundLoadingActive = false;
     warmupInFlight.clear();
-    warmupState = { done: 0, total: TOTAL_CONGRESSES, ready: false };
+    warmupState = { done: 0, total: TOTAL_CONGRESSES, ready: false, initialReady: false };
     notifyWarmup();
   }
   if (fullWarmupStarted) return;
   fullWarmupStarted = true;
 
-  // Build priority-ordered list: startFrom, startFrom-1, startFrom+1, ...
-  const all: number[] = [];
   const center = Math.max(CONGRESS_START, Math.min(CONGRESS_END, startFrom));
-  all.push(center);
-  for (let d = 1; d <= TOTAL_CONGRESSES; d++) {
-    if (center - d >= CONGRESS_START) all.push(center - d);
-    if (center + d <= CONGRESS_END) all.push(center + d);
-  }
 
-  // Run up to 2 concurrent warmups — each warmup fires up to 50 state fetches,
-  // but the global semaphore (GEO_CONCURRENCY=6) caps total HTTP requests.
-  const CONCURRENCY = 2;
-  let idx = 0;
-  async function worker() {
-    while (idx < all.length) {
-      const c = all[idx++];
-      await warmupCongress(c);
-    }
-  }
-  await Promise.all(Array.from({ length: CONCURRENCY }, worker));
-  warmupState = { done: TOTAL_CONGRESSES, total: TOTAL_CONGRESSES, ready: true };
+  // Phase 1: Load the initial congress ASAP
+  await warmupCongress(center);
+  warmupState = { ...warmupState, done: layerDataCache.size, initialReady: true };
   notifyWarmup();
+
+  // Phase 2: Prefetch adjacent ±3 congresses (enables smooth slider interaction)
+  const adjacent: number[] = [];
+  for (let d = 1; d <= 3; d++) {
+    if (center - d >= CONGRESS_START) adjacent.push(center - d);
+    if (center + d <= CONGRESS_END) adjacent.push(center + d);
+  }
+  for (const c of adjacent) {
+    await warmupCongress(c);
+  }
+  warmupState = { ...warmupState, done: layerDataCache.size };
+  notifyWarmup();
+
+  // Phase 3: Load remaining congresses in background (non-blocking)
+  startBackgroundLoading(center);
 }
 
-// Kept for backward compat — just delegates to startFullWarmup
-function startAtlasWarmup(center: number = CONGRESS_START) {
-  startFullWarmup(center);
+async function startBackgroundLoading(center: number) {
+  if (backgroundLoadingActive) return;
+  backgroundLoadingActive = true;
+
+  // Build priority-ordered list expanding outward from center
+  const all: number[] = [];
+  for (let d = 0; d <= TOTAL_CONGRESSES; d++) {
+    if (center - d >= CONGRESS_START && !layerDataCache.has(center - d)) all.push(center - d);
+    if (d > 0 && center + d <= CONGRESS_END && !layerDataCache.has(center + d)) all.push(center + d);
+  }
+
+  // Load one at a time in background to avoid overwhelming the network
+  for (const c of all) {
+    if (layerDataCache.has(c)) continue;
+    await warmupCongress(c);
+    warmupState = {
+      done: layerDataCache.size,
+      total: TOTAL_CONGRESSES,
+      ready: layerDataCache.size >= TOTAL_CONGRESSES,
+      initialReady: true,
+    };
+    notifyWarmup();
+    // Small delay between background loads to keep UI responsive
+    await new Promise(r => setTimeout(r, 100));
+  }
+  warmupState = { done: TOTAL_CONGRESSES, total: TOTAL_CONGRESSES, ready: true, initialReady: true };
+  notifyWarmup();
 }
 
 // ─── D3 Map Panel ─────────────────────────────────────────────────────────────
@@ -842,12 +869,12 @@ export default function MapComparison() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Play is ready as soon as the current congress + next 4 are cached.
-  // warmup.done is included so this re-evaluates on every cache update.
-  const canPlayA = warmup.done > 0 && layerDataCache.has(congressA) &&
-    [1,2,3,4].every(d => congressA + d > CONGRESS_END || layerDataCache.has(congressA + d));
-  const canPlayB = warmup.done > 0 && layerDataCache.has(congressB) &&
-    [1,2,3,4].every(d => congressB + d > CONGRESS_END || layerDataCache.has(congressB + d));
+  // Play is ready as soon as the current congress + next 2 are cached.
+  // Much less restrictive than before — enables play quickly after initial load.
+  const canPlayA = warmup.initialReady && layerDataCache.has(congressA) &&
+    [1,2].every(d => congressA + d > CONGRESS_END || layerDataCache.has(congressA + d));
+  const canPlayB = warmup.initialReady && layerDataCache.has(congressB) &&
+    [1,2].every(d => congressB + d > CONGRESS_END || layerDataCache.has(congressB + d));
 
   // Clock
   const [clock, setClock] = useState(() => new Date().toLocaleTimeString());
@@ -1037,19 +1064,26 @@ export default function MapComparison() {
       {/* ── Timeline / Slider ── */}
       <div className="relative shrink-0 px-5 pt-5 pb-2 border-t border-white/10"
         style={{ zIndex: 10, background: "rgba(0,0,0,0.55)", backdropFilter: "blur(8px)" }}>
-        {!warmup.ready && (
+        {!warmup.initialReady && (
           <div className="mb-2">
             <div className="flex items-center justify-between mb-1">
               <span className="text-[10px] text-amber-300/70 font-mono uppercase tracking-widest">
-                Loading atlas… {warmup.done}/{warmup.total} congresses
-              </span>
-              <span className="text-[10px] text-white/30 font-mono">
-                {Math.round((warmup.done / warmup.total) * 100)}%
+                Loading initial map data…
               </span>
             </div>
             <div className="h-1 rounded-full bg-white/10 overflow-hidden">
-              <div className="h-full rounded-full transition-all duration-300"
-                style={{ width: `${(warmup.done / warmup.total) * 100}%`, background: "linear-gradient(to right, #F59E0B, #EF4444)" }} />
+              <div className="h-full rounded-full animate-pulse" style={{ width: '60%', background: "linear-gradient(to right, #F59E0B, #EF4444)" }} />
+            </div>
+          </div>
+        )}
+        {warmup.initialReady && !warmup.ready && (
+          <div className="mb-2 flex items-center gap-2">
+            <span className="text-[9px] text-white/40 font-mono">
+              Caching history: {warmup.done}/{warmup.total}
+            </span>
+            <div className="flex-1 h-0.5 rounded-full bg-white/10 overflow-hidden">
+              <div className="h-full rounded-full transition-all duration-500"
+                style={{ width: `${(warmup.done / warmup.total) * 100}%`, background: "rgba(245,158,11,0.4)" }} />
             </div>
           </div>
         )}
