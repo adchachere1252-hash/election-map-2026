@@ -19,6 +19,8 @@ import { nanoid } from "nanoid";
 import { ENV } from "./_core/env";
 import { broadcastElectionEvent, getConnectedClientCount } from "./ws";
 import { getCandidatePhoto, PARTY_LOGOS } from "./candidatePhotos";
+import { smartCenterCrop } from "./smartCrop";
+import { storagePut } from "./storage";
 
 // ─── Admin password (must be set via ADMIN_PASSWORD environment variable) ────────
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "";
@@ -99,6 +101,56 @@ export const appRouter = router({
           connectedClients: getConnectedClientCount(),
           timestamp: new Date().toISOString(),
         };
+      }),
+
+    // Smart-crop and upload a candidate photo
+    processPhoto: publicProcedure
+      .input(z.object({
+        adminToken: z.string(),
+        photoUrl: z.string().url(),
+        candidateName: z.string(),
+        chamber: z.enum(["senate", "house", "governor"]),
+        raceId: z.number(),
+        slot: z.enum(["candidate1", "candidate2", "dem", "rep"]),
+      }))
+      .mutation(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+
+        // Smart crop the photo (face-centered, 400x400)
+        const { buffer } = await smartCenterCrop(input.photoUrl, { size: 400, quality: 85 });
+
+        // Generate a unique storage key
+        const safeName = input.candidateName.toLowerCase().replace(/[^a-z0-9]/g, "_").slice(0, 40);
+        const suffix = Math.random().toString(36).slice(2, 10);
+        const storageKey = `candidates/${safeName}_${suffix}.jpg`;
+
+        // Upload to S3
+        const { url } = await storagePut(storageKey, buffer, "image/jpeg");
+        const photoPath = `/manus-storage/${storageKey}`;
+
+        // Update the database
+        const { getDb } = await import("./db");
+        const db = await getDb();
+        if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
+
+        if (input.chamber === "senate") {
+          const { senateRaces } = await import("../drizzle/schema");
+          const { eq } = await import("drizzle-orm");
+          const field = input.slot === "candidate1" ? { candidate1Photo: photoPath } : { candidate2Photo: photoPath };
+          await db.update(senateRaces).set(field).where(eq(senateRaces.id, input.raceId));
+        } else if (input.chamber === "house") {
+          const { houseRaces } = await import("../drizzle/schema");
+          const { eq } = await import("drizzle-orm");
+          const field = input.slot === "candidate1" ? { candidate1Photo: photoPath } : { candidate2Photo: photoPath };
+          await db.update(houseRaces).set(field).where(eq(houseRaces.id, input.raceId));
+        } else if (input.chamber === "governor") {
+          const { governorRaces } = await import("../drizzle/schema");
+          const { eq } = await import("drizzle-orm");
+          const field = input.slot === "dem" ? { demPhoto: photoPath } : { repPhoto: photoPath };
+          await db.update(governorRaces).set(field).where(eq(governorRaces.id, input.raceId));
+        }
+
+        return { success: true, photoPath, storageUrl: url };
       }),
   }),
 

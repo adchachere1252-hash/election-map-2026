@@ -1802,3 +1802,7 @@
 - [x] Clean up OK Senate D candidate name from verbose runoff text to simple "TBD"
 - [x] Clean up OK-1 R candidate name from verbose runoff text to simple "TBD"
 - [x] Run full verification check on all 16 newly added candidate photos — fixed 4 issues (Barry Moore, Mike Collins, Kevin Hern re-uploaded; John Croisant re-cropped)
+- [x] Full photo centering verification: audit ALL candidate photos across Senate, House, and Governor for proper circular avatar display
+- [x] Fix all photos with centering issues — 103 auto-fixed via face detection, 23 no-face manually reviewed, 9 replaced with new sources
+- [x] Add smart center-crop utility to server (server/smartCrop.ts) using sharp attention strategy
+- [x] Integrate smart crop into admin.processPhoto tRPC procedure for future photo additions
