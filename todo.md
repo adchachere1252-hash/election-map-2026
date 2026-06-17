@@ -1798,3 +1798,7 @@
 - [x] Fix cross-link pass to use isEffectivelyEmpty for Senate and House candidate slots
 - [x] Update OK Senate, OK-1, OK Governor notes with accurate runoff info
 - [x] Verify all 58 tests pass with promotion engine changes (0 errors)
+- [x] Fix Everett Wess (AL Senate) photo — cropped to proper headshot, re-uploaded
+- [x] Clean up OK Senate D candidate name from verbose runoff text to simple "TBD"
+- [x] Clean up OK-1 R candidate name from verbose runoff text to simple "TBD"
+- [x] Run full verification check on all 16 newly added candidate photos — fixed 4 issues (Barry Moore, Mike Collins, Kevin Hern re-uploaded; John Croisant re-cropped)
