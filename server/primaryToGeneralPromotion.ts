@@ -99,7 +99,7 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
       .from(senateRaces)
       .where(
         and(
-          inArray(senateRaces.status, ["Scheduled", "Primary"]),
+          inArray(senateRaces.status, ["Scheduled", "Primary", "Primary Runoff"]),
           isNotNull(senateRaces.primaryWinner)
         )
       );
@@ -175,7 +175,7 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
       .from(houseRaces)
       .where(
         and(
-          inArray(houseRaces.status, ["Scheduled", "Primary"]),
+          inArray(houseRaces.status, ["Scheduled", "Primary", "Primary Runoff"]),
           isNotNull(houseRaces.primaryWinner)
         )
       );
@@ -264,7 +264,7 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
       .from(governorRaces)
       .where(
         and(
-          inArray(governorRaces.status, ["Scheduled"]),
+          inArray(governorRaces.status, ["Scheduled", "Primary Runoff"]),
           isNotNull(governorRaces.primaryWinner)
         )
       );

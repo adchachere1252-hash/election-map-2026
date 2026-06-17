@@ -1769,3 +1769,28 @@
 - [x] Implement lazy/on-demand loading — only fetch current congress GeoJSON when needed
 - [x] Prefetch adjacent congresses in background for smooth slider scrubbing
 - [x] Verify atlas loads quickly and is fully operational (5-8 sec initial load, play/slider/compare all working)
+
+## Election Night June 16, 2026 — Post-Night Updates
+- [x] Fix AP Engine timezone bug: use ET election window date instead of UTC for findActiveDate and Primary Runoff guard
+- [x] Fix AP Engine findActiveDate to prioritize today's date first before iterating sorted dates
+- [x] Fix promotion engine to include "Primary Runoff" in status filter (was only checking Scheduled/Primary)
+- [x] Promote GA Senate: Jon Ossoff (D) vs Mike Collins (R) → General
+- [x] Promote AL Senate: Everett Wess (D) vs Barry Moore (R) → General
+- [x] Promote OK Senate: TBD D Runoff vs Kevin Hern (R) → General
+- [x] Promote GA-1: Amanda Hollowell (D) vs Jim Kingston (R) → General
+- [x] Promote GA-7: Tony Kozycki (D) vs Rich McCormick (R) → General
+- [x] Promote GA-12: Ceretta Smith (D) vs Rick Allen (R) → General
+- [x] Promote AL-5: Andrew Sneed (D) vs Dale Strong (R) → General
+- [x] Promote OK-1: John Croisant (D) vs TBD R Runoff → General
+- [x] Promote OK-2: Brandon Wade (D) vs Josh Brecheen (R) → General
+- [x] Promote OK-3: Suzie Byrd (D) vs Frank Lucas (R) → General
+- [x] Promote OK-4: Mitchell Jacob (D) vs Tom Cole (R) → General
+- [x] Promote OK-5: Jena Nelson (D) vs Stephanie Bice (R) → General
+- [x] Promote GA Governor: Keisha Lance Bottoms (D) vs Rick Jackson (R) → Voting
+- [x] Update OK Governor: Cyndi Munson (D) confirmed, R going to runoff
+- [x] Correct GA-1 winner: Amanda Hollowell (not Joyce Griggs) per AP official call
+- [x] Source and upload 16 candidate photos for all newly promoted races
+- [x] Update database with all 16 photo URLs
+- [ ] OK Governor R Runoff: Drummond vs Mazzei — needs future resolution
+- [ ] OK Senate D Runoff: N'Kiyla Thomas vs Jim Priest — needs future resolution
+- [ ] OK-1 R Runoff: Tedford vs Lahmeyer — needs future resolution

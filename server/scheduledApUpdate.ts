@@ -20,7 +20,7 @@ import {
 import { broadcastElectionEvent } from "./ws";
 import { broadcastLog } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
-import { ELECTION_DATES as CANONICAL_ELECTION_DATES } from "./electionDates";
+import { ELECTION_DATES as CANONICAL_ELECTION_DATES, getElectionWindowStatus } from "./electionDates";
 
 // ── Broadcast deduplication (DB-backed, survives server restarts) ───────────────────────────────
 // Key format: "<electionDate>:<stateCode>:<chamber>:<district|0>"
@@ -128,7 +128,19 @@ async function fetchStateData(
 
 // ── Find the active election date for a state ─────────────────────────────────
 async function findActiveDate(stateCode: string): Promise<string | null> {
+  // PRIORITY: Check the active election window date first — this handles the case
+  // where UTC has rolled past midnight but we're still in the ET election window
+  const windowStatus = getElectionWindowStatus();
+  const activeWindowDate = windowStatus.currentDate; // e.g. "2026-06-16" even after midnight UTC
+  if (activeWindowDate) {
+    const windowData = await fetchStateData(activeWindowDate, stateCode);
+    if (windowData && Object.keys(windowData.metadata).length > 0) {
+      return activeWindowDate;
+    }
+  }
+  // Fallback: iterate through sorted dates (most recent first)
   for (const date of ELECTION_DATES) {
+    if (date === activeWindowDate) continue; // Already checked
     const data = await fetchStateData(date, stateCode);
     if (data && Object.keys(data.metadata).length > 0) {
       return date;
@@ -456,8 +468,11 @@ export async function scrapeAndPushResults(): Promise<{
           return;
         }
         // Never let AP Engine touch manually-curated Primary Runoff races
-        if (currentStatus === 'Primary Runoff') {
-          updates.push({ race: label, id, status: "skip", detail: "Primary Runoff — manually curated" });
+        // EXCEPTION: If the AP feed date matches the active election window, the runoff is live — allow updates
+        const windowInfo = getElectionWindowStatus();
+        const activeWindowDate = windowInfo.currentDate;
+        if (currentStatus === 'Primary Runoff' && activeDate !== activeWindowDate) {
+          updates.push({ race: label, id, status: "skip", detail: "Primary Runoff — manually curated (not tonight's runoff)" });
           return;
         }
         // For governor races: skip entirely if both candidates are already confirmed (non-TBD)
