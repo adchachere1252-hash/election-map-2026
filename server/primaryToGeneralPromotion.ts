@@ -77,6 +77,18 @@ function primaryDateHasPassed(dateStr: string | null | undefined): boolean {
   return d < todayMidnight;
 }
 
+// ─── Helper: treat TBD-prefixed names as empty ─────────────────────────────────
+
+/**
+ * Returns true if a candidate name is effectively empty (null, undefined, or
+ * starts with "TBD"). TBD-prefixed names are placeholders for pending runoffs
+ * and should be overwritten when the actual winner is known.
+ */
+function isEffectivelyEmpty(name: string | null | undefined): boolean {
+  if (!name) return true;
+  return name.trim().startsWith("TBD");
+}
+
 // ─── Promotion Logic ──────────────────────────────────────────────────────────
 
 export interface PromotionResult {
@@ -129,25 +141,25 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
       if (party === "D") {
         update.candidate1Name = winner;
         update.candidate1Party = "D";
-        // Preserve candidate2 if already set by admin
-        if (!race.candidate2Name) {
+        // Preserve candidate2 if already set by admin (not TBD)
+        if (isEffectivelyEmpty(race.candidate2Name)) {
           update.candidate2Name = null;
           update.candidate2Party = null;
         }
       } else if (party === "R") {
         update.candidate2Name = winner;
         update.candidate2Party = "R";
-        // Preserve candidate1 if already set by admin
-        if (!race.candidate1Name) {
+        // Preserve candidate1 if already set by admin (not TBD)
+        if (isEffectivelyEmpty(race.candidate1Name)) {
           update.candidate1Name = null;
           update.candidate1Party = null;
         }
       } else if (party === "I") {
         // Independent winner — put in candidate1 slot if empty, else candidate2
-        if (!race.candidate1Name) {
+        if (isEffectivelyEmpty(race.candidate1Name)) {
           update.candidate1Name = winner;
           update.candidate1Party = "I";
-        } else if (!race.candidate2Name) {
+        } else if (isEffectivelyEmpty(race.candidate2Name)) {
           update.candidate2Name = winner;
           update.candidate2Party = "I";
         }
@@ -204,18 +216,17 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
       if (party === "D") {
         update.candidate1Name = winner;
         update.candidate1Party = "D";
-        // Clear candidate2 if it's the same person (uncontested primary)
-        if (!race.candidate2Name || race.candidate2Name === winner) {
+        // Clear candidate2 if it's the same person (uncontested primary) or TBD
+        if (isEffectivelyEmpty(race.candidate2Name) || race.candidate2Name === winner) {
           update.candidate2Name = null;
           update.candidate2Party = null;
         }
       } else if (party === "R") {
-        // Only set candidate2 to R winner if candidate1 is a different person (D nominee)
-        // If candidate1 is the same person or empty, put winner in candidate1 slot instead
-        if (race.candidate1Name && race.candidate1Name !== winner) {
+        // Only set candidate2 to R winner if candidate1 is a different real person (D nominee)
+        if (race.candidate1Name && !isEffectivelyEmpty(race.candidate1Name) && race.candidate1Name !== winner) {
           update.candidate2Name = winner;
           update.candidate2Party = "R";
-        } else if (!race.candidate1Name) {
+        } else if (isEffectivelyEmpty(race.candidate1Name)) {
           // No D nominee yet — put R winner in candidate2 slot, leave candidate1 for D
           update.candidate2Name = winner;
           update.candidate2Party = "R";
@@ -229,10 +240,10 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
           update.candidate1Party = null;
         }
       } else if (party === "I") {
-        if (!race.candidate1Name) {
+        if (isEffectivelyEmpty(race.candidate1Name)) {
           update.candidate1Name = winner;
           update.candidate1Party = "I";
-        } else if (!race.candidate2Name || race.candidate2Name === winner) {
+        } else if (isEffectivelyEmpty(race.candidate2Name) || race.candidate2Name === winner) {
           update.candidate2Name = winner;
           update.candidate2Party = "I";
         }
@@ -285,9 +296,9 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
 
       const update: Partial<typeof governorRaces.$inferInsert> = {};
 
-      if (party === "D" && !race.demCandidate) {
+      if (party === "D" && isEffectivelyEmpty(race.demCandidate)) {
         update.demCandidate = winner;
-      } else if (party === "R" && !race.repCandidate) {
+      } else if (party === "R" && isEffectivelyEmpty(race.repCandidate)) {
         update.repCandidate = winner;
       }
       // If no field changed, skip
@@ -342,14 +353,14 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
       const c2Last = race.candidate2Name ? lastNameOf(race.candidate2Name) : "";
       const incLastS = race.incumbent ? lastNameOf(race.incumbent) : "";
       const sameAsC2 = c2Last.length >= 3 && incLastS.length >= 3 && c2Last === incLastS;
-      if (!race.candidate1Name && race.incumbent && race.incumbentParty === "D" && !race.incumbentRetiring && !sameAsC2) {
+      if (isEffectivelyEmpty(race.candidate1Name) && race.incumbent && race.incumbentParty === "D" && !race.incumbentRetiring && !sameAsC2) {
         update.candidate1Name = race.incumbent;
         update.candidate1Party = "D";
       }
       // Fill empty R slot from incumbent if incumbent is R and not retiring
       const c1Last = race.candidate1Name ? lastNameOf(race.candidate1Name) : "";
       const sameAsC1 = c1Last.length >= 3 && incLastS.length >= 3 && c1Last === incLastS;
-      if (!race.candidate2Name && race.incumbent && race.incumbentParty === "R" && !race.incumbentRetiring && !sameAsC1) {
+      if (isEffectivelyEmpty(race.candidate2Name) && race.incumbent && race.incumbentParty === "R" && !race.incumbentRetiring && !sameAsC1) {
         update.candidate2Name = race.incumbent;
         update.candidate2Party = "R";
       }
@@ -384,7 +395,7 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
       if (race.notes && race.notes.includes('[AP_LOCK]')) continue;
       const update: Partial<typeof houseRaces.$inferInsert> = {};
 
-      if (!race.candidate1Name && race.incumbent && race.incumbentParty === "D" && !race.incumbentRetiring) {
+      if (isEffectivelyEmpty(race.candidate1Name) && race.incumbent && race.incumbentParty === "D" && !race.incumbentRetiring) {
         update.candidate1Name = race.incumbent;
         update.candidate1Party = "D";
       }
@@ -392,7 +403,7 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
       const c1Last = race.candidate1Name ? lastNameOf(race.candidate1Name) : "";
       const incLast = race.incumbent ? lastNameOf(race.incumbent) : "";
       const samePersonAsC1 = c1Last.length >= 3 && incLast.length >= 3 && c1Last === incLast;
-      if (!race.candidate2Name && race.incumbent && race.incumbentParty === "R" && !race.incumbentRetiring && !samePersonAsC1) {
+      if (isEffectivelyEmpty(race.candidate2Name) && race.incumbent && race.incumbentParty === "R" && !race.incumbentRetiring && !samePersonAsC1) {
         update.candidate2Name = race.incumbent;
         update.candidate2Party = "R";
       }

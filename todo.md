@@ -1794,3 +1794,7 @@
 - [ ] OK Governor R Runoff: Drummond vs Mazzei — needs future resolution
 - [ ] OK Senate D Runoff: N'Kiyla Thomas vs Jim Priest — needs future resolution
 - [ ] OK-1 R Runoff: Tedford vs Lahmeyer — needs future resolution
+- [x] Fix promotion engine: add isEffectivelyEmpty() helper to treat TBD-prefixed names as overwritable
+- [x] Fix cross-link pass to use isEffectivelyEmpty for Senate and House candidate slots
+- [x] Update OK Senate, OK-1, OK Governor notes with accurate runoff info
+- [x] Verify all 58 tests pass with promotion engine changes (0 errors)
