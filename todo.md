@@ -1806,3 +1806,22 @@
 - [x] Fix all photos with centering issues — 103 auto-fixed via face detection, 23 no-face manually reviewed, 9 replaced with new sources
 - [x] Add smart center-crop utility to server (server/smartCrop.ts) using sharp attention strategy
 - [x] Integrate smart crop into admin.processPhoto tRPC procedure for future photo additions
+
+## Data Fixes (Post June 16 Verification)
+- [x] Fix GA Governor status from "Voting" to proper post-runoff state (Rick Jackson R won runoff)
+- [x] Fix GA Governor otherVotePct artifact (302.30)
+- [x] Fix OK Governor primaryDate from "June 23" to "June 16, 2026" and add runoffDate "August 25, 2026"
+- [x] Fix OK Governor status to "Primary Runoff" with Drummond vs Mazzei noted
+- [x] Update OK-1 to reflect Lahmeyer suspension (Tedford likely nominee)
+- [x] Fix OK Senate D runoff date to August 25, 2026
+- [x] Fix AP Engine electionDates.ts comments (OK primary was June 16, not June 30; Aug 25 details added)
+
+## Historical Atlas Improvements
+- [x] Add D3 zoom + pan (scroll wheel + drag + zoom controls UI)
+- [x] Add hover tooltips (district name, member, party with highlight)
+- [x] Synchronized zoom in compare mode (bidirectional)
+- [x] Bundle GeoJSON in S3 (write-through cache with S3 fallback on GitHub failure)
+- [x] Add keyboard shortcuts (Space=play/pause, ←/→=step, C=compare, R=reset zoom, Esc=close)
+- [x] URL state persistence (?congress=&b=&compare=&state= shareable links)
+- [x] Mobile responsive layout (single-panel with dropdown selectors)
+- [x] Expand test coverage (40 tests: manifest integrity, URL state, party matching, seat data)

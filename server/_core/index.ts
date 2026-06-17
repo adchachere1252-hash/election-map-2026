@@ -60,8 +60,44 @@ async function startServer() {
   // GeoJSON proxy: fetch Lewis congressional district boundaries from GitHub
   // This bypasses CORS restrictions in the browser sandbox
   // Server-side in-memory cache: avoids re-fetching large files (e.g. NC 4.5MB) on every request
+  // S3 write-through cache: files are uploaded to S3 after first GitHub fetch for reliability
   const geoJsonServerCache = new Map<string, string>();
   const geoJsonFetchInFlight = new Map<string, Promise<string | null>>();
+  const geoJsonS3Uploaded = new Set<string>();
+
+  // Background upload to S3 (fire-and-forget)
+  async function uploadGeoJsonToS3(filename: string, data: string): Promise<void> {
+    if (geoJsonS3Uploaded.has(filename)) return;
+    try {
+      const { storagePut } = await import("../storage");
+      await storagePut(`atlas-geojson/${filename}`, data, "application/json");
+      geoJsonS3Uploaded.add(filename);
+    } catch (err) {
+      // Non-critical: S3 upload failure doesn't affect functionality
+    }
+  }
+
+  // Try fetching from S3 as fallback when GitHub is unavailable
+  async function fetchGeoJsonFromS3(filename: string): Promise<string | null> {
+    try {
+      const { storageGet } = await import("../storage");
+      const { url } = await storageGet(`atlas-geojson/${filename}`);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
+      const response = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeoutId);
+      if (!response.ok) return null;
+      const data = await response.text();
+      if (data.length > 0 && data.startsWith('{')) {
+        geoJsonServerCache.set(filename, data);
+        geoJsonS3Uploaded.add(filename);
+        return data;
+      }
+      return null;
+    } catch {
+      return null;
+    }
+  }
 
   async function fetchGeoJsonFromGitHub(filename: string): Promise<string | null> {
     // Deduplicate concurrent requests for the same file
@@ -79,10 +115,18 @@ async function startServer() {
           if (!response.ok) continue; // Retry on 5xx
           const data = await response.text();
           geoJsonServerCache.set(filename, data);
+          // Write-through: upload to S3 in background for future reliability
+          uploadGeoJsonToS3(filename, data);
           return data;
         } catch (err) {
           console.error(`[GeoJSON proxy] Attempt ${attempt + 1} failed for ${filename}:`, err);
         }
+      }
+      // GitHub failed after 3 attempts — try S3 fallback
+      const s3Data = await fetchGeoJsonFromS3(filename);
+      if (s3Data) {
+        console.log(`[GeoJSON proxy] Served ${filename} from S3 fallback`);
+        return s3Data;
       }
       return null;
     })();

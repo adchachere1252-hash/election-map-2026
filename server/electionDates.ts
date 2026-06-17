@@ -17,15 +17,15 @@ export const ELECTION_DATES: string[] = [
   "2026-05-19", // Georgia, Kentucky, Oregon primaries
   "2026-06-02", // California, Iowa, Montana, New Jersey, New Mexico, South Dakota primaries
   "2026-06-09", // Maine, Nevada, North Dakota, South Carolina primaries
-  "2026-06-16", // Georgia runoff, DC, Virginia primaries
+  "2026-06-16", // Georgia runoff, Oklahoma primary, DC, Virginia primaries
   "2026-06-23", // South Carolina runoff (if needed), New York, Utah primaries
   "2026-06-27", // Louisiana runoffs
-  "2026-06-30", // Colorado, Mississippi, Oklahoma primaries
+  "2026-06-30", // Colorado, Mississippi primaries
   "2026-07-07", // Alabama runoff
   "2026-08-04", // Arizona, Kansas, Michigan, Missouri, Tennessee, Washington primaries
   "2026-08-11", // Connecticut, Minnesota, Vermont, Wisconsin primaries
   "2026-08-18", // Alaska, Florida, Wyoming primaries
-  "2026-08-25", // Oklahoma runoff
+  "2026-08-25", // Oklahoma runoffs (Governor R: Drummond vs Mazzei, Senate D: Thomas vs Priest, CD-1 R: Tedford)
   "2026-09-08", // Delaware, New Hampshire, Rhode Island primaries
   "2026-09-15", // Massachusetts primary
   "2026-10-01", // Louisiana primary (jungle)

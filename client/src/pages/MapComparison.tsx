@@ -6,12 +6,22 @@
  * the main House/Senate election map. No Leaflet, no tile layers.
  * Party data: Voteview / Clerk of the House
  * District boundaries: Jeffrey B. Lewis et al. (cdmaps.polisci.ucla.edu)
+ *
+ * Features:
+ * - D3 zoom/pan (scroll wheel + drag)
+ * - Hover tooltips (district, member, party)
+ * - Synchronized zoom in compare mode
+ * - Keyboard shortcuts (Space=play/pause, ←/→=step, C=compare)
+ * - URL state persistence (shareable links)
+ * - Mobile responsive layout
+ * - Zoom controls UI
  */
 import { useState, useEffect, useRef, useCallback, useImperativeHandle, forwardRef } from "react";
 import { Link } from "wouter";
 import * as d3 from "d3";
 import { LEWIS_MANIFEST } from "@shared/lewisManifest";
 import { STATE_CODES } from "@/lib/electionUtils";
+import { useIsMobile } from "@/hooks/useMobile";
 
 // ─── Party colors matching the main election map ──────────────────────────────
 const PARTY_FILL: Record<string, string> = {
@@ -143,11 +153,8 @@ const US_STATES = [
 
 // ─── GeoJSON cache ────────────────────────────────────────────────────────────
 const geoCache = new Map<string, GeoJSON.FeatureCollection>();
-// Pending fetches by file name — deduplicate concurrent requests for the same file
 const geoFetchInFlight = new Map<string, Promise<GeoJSON.FeatureCollection | null>>();
 
-// Global semaphore: cap total concurrent GeoJSON HTTP requests to avoid
-// overwhelming the proxy (which forwards to GitHub CDN with rate limits).
 const GEO_CONCURRENCY = 20;
 let geoActiveCount = 0;
 const geoQueue: Array<() => void> = [];
@@ -162,18 +169,11 @@ function geoRelease() {
 }
 
 async function fetchGeoJsonFile(fileName: string): Promise<GeoJSON.FeatureCollection | null> {
-  // Deduplicate: if the same file is already being fetched, wait for that promise
   if (geoFetchInFlight.has(fileName)) return geoFetchInFlight.get(fileName)!;
   const promise = (async () => {
-    // Wait for a semaphore slot FIRST — then create the AbortSignal.
-    // CRITICAL: the signal must be created AFTER acquiring the semaphore, not before.
-    // If created before, states queued at positions 13-50 can wait >30s in the queue
-    // and the signal expires while still waiting — causing immediate AbortError on fetch.
     await geoAcquire();
-    // Create a fresh 30s timeout signal only after we have the semaphore permit
     const timeoutSignal = AbortSignal.timeout ? AbortSignal.timeout(30000) : undefined;
     try {
-      // Retry up to 3 times with exponential backoff for transient failures
       for (let attempt = 0; attempt < 3; attempt++) {
         try {
           const res = await fetch(`/api/geojson/${encodeURIComponent(fileName)}`, { signal: timeoutSignal });
@@ -181,10 +181,9 @@ async function fetchGeoJsonFile(fileName: string): Promise<GeoJSON.FeatureCollec
             const data = await res.json() as GeoJSON.FeatureCollection;
             return data;
           }
-          if (res.status === 404) return null; // File genuinely missing — don't retry
+          if (res.status === 404) return null;
         } catch (e) {
-          if (e instanceof DOMException && e.name === 'AbortError') return null; // timeout
-          /* network error — retry */
+          if (e instanceof DOMException && e.name === 'AbortError') return null;
         }
         if (attempt < 2) await new Promise(r => setTimeout(r, 300 * (attempt + 1)));
       }
@@ -203,7 +202,6 @@ async function fetchStateGeoJson(stateName: string, congress: number): Promise<G
   if (!manifest) return null;
   const entry = manifest.find(e => congress >= e.start && congress <= e.end);
   if (!entry) return null;
-  // Cache by file name (not state+congress) since many congresses share the same file
   const cacheKey = entry.name;
   if (geoCache.has(cacheKey)) return geoCache.get(cacheKey)!;
   const data = await fetchGeoJsonFile(entry.name);
@@ -211,19 +209,18 @@ async function fetchStateGeoJson(stateName: string, congress: number): Promise<G
   return data;
 }
 
-// ─── Lazy cache with background prefetch (~15 MB when fully loaded) ──────────
-// Pre-computed color arrays avoid per-frame property lookups during playback.
+// ─── Lazy cache with background prefetch ──────────────────────────────────────
 type LayerData = {
   features: GeoJSON.Feature[];
-  fills: string[];        // pre-computed fill color per feature
-  fillOpacities: string[]; // pre-computed fill-opacity per feature
-  strokes: string[];      // pre-computed stroke color per feature
+  fills: string[];
+  fillOpacities: string[];
+  strokes: string[];
 };
 const layerDataCache = new Map<number, LayerData>();
 const warmupInFlight = new Map<number, Promise<void>>();
 
 type WarmupState = { done: number; total: number; ready: boolean; initialReady: boolean };
-const TOTAL_CONGRESSES = CONGRESS_END - CONGRESS_START + 1; // 31
+const TOTAL_CONGRESSES = CONGRESS_END - CONGRESS_START + 1;
 let warmupState: WarmupState = { done: 0, total: TOTAL_CONGRESSES, ready: false, initialReady: false };
 const warmupListeners = new Set<() => void>();
 function notifyWarmup() { warmupListeners.forEach(fn => fn()); }
@@ -246,7 +243,6 @@ async function _doWarmupCongress(congress: number): Promise<void> {
   const partyData = results[0] as Record<string, string>;
   const geoResults = results.slice(2) as (GeoJSON.FeatureCollection | null)[];
 
-  // Count how many states loaded successfully vs. failed
   const failedStates: string[] = [];
   const features: GeoJSON.Feature[] = [];
   for (let si = 0; si < geoResults.length; si++) {
@@ -267,15 +263,13 @@ async function _doWarmupCongress(congress: number): Promise<void> {
     }
   }
 
-  // If any states failed to load, retry them once before caching
-  // This prevents permanently poisoning the cache with partial data
   if (failedStates.length > 0) {
     const retryResults = await Promise.all(
       failedStates.map(s => fetchStateGeoJson(s, congress))
     );
     for (let ri = 0; ri < retryResults.length; ri++) {
       const fc = retryResults[ri];
-      if (!fc) continue; // still failed — skip but don't poison cache
+      if (!fc) continue;
       for (const f of fc.features) {
         const p = (f.properties ?? {}) as Record<string, unknown>;
         const dist = Number(p?.district ?? p?.DISTRICT ?? 0);
@@ -289,7 +283,6 @@ async function _doWarmupCongress(congress: number): Promise<void> {
     }
   }
 
-  // Pre-compute color arrays so jumpTo() never needs to touch feature.properties
   const fills: string[] = new Array(features.length);
   const fillOpacities: string[] = new Array(features.length);
   const strokes: string[] = new Array(features.length);
@@ -301,7 +294,6 @@ async function _doWarmupCongress(congress: number): Promise<void> {
     strokes[i] = PARTY_STROKE[party] ?? PARTY_STROKE.unknown;
   }
   layerDataCache.set(congress, { features, fills, fillOpacities, strokes });
-  // Update global warmup progress
   warmupState = {
     done: layerDataCache.size,
     total: TOTAL_CONGRESSES,
@@ -312,14 +304,10 @@ async function _doWarmupCongress(congress: number): Promise<void> {
 }
 
 // ─── Lazy loading strategy ───────────────────────────────────────────────────
-// Phase 1: Load the initial congress immediately (user sees map in ~3-5s)
-// Phase 2: Prefetch adjacent ±3 congresses in background
-// Phase 3: Load remaining congresses in background with lower priority
 let fullWarmupStarted = false;
 let backgroundLoadingActive = false;
 
 async function startAtlasWarmup(startFrom: number = CONGRESS_END) {
-  // Restart if cache was cleared (e.g., after hot-reload or component remount)
   if (fullWarmupStarted && layerDataCache.size > 0) return;
   if (layerDataCache.size === 0) {
     fullWarmupStarted = false;
@@ -333,12 +321,10 @@ async function startAtlasWarmup(startFrom: number = CONGRESS_END) {
 
   const center = Math.max(CONGRESS_START, Math.min(CONGRESS_END, startFrom));
 
-  // Phase 1: Load the initial congress ASAP
   await warmupCongress(center);
   warmupState = { ...warmupState, done: layerDataCache.size, initialReady: true };
   notifyWarmup();
 
-  // Phase 2: Prefetch adjacent ±3 congresses (enables smooth slider interaction)
   const adjacent: number[] = [];
   for (let d = 1; d <= 3; d++) {
     if (center - d >= CONGRESS_START) adjacent.push(center - d);
@@ -350,7 +336,6 @@ async function startAtlasWarmup(startFrom: number = CONGRESS_END) {
   warmupState = { ...warmupState, done: layerDataCache.size };
   notifyWarmup();
 
-  // Phase 3: Load remaining congresses in background (non-blocking)
   startBackgroundLoading(center);
 }
 
@@ -358,14 +343,12 @@ async function startBackgroundLoading(center: number) {
   if (backgroundLoadingActive) return;
   backgroundLoadingActive = true;
 
-  // Build priority-ordered list expanding outward from center
   const all: number[] = [];
   for (let d = 0; d <= TOTAL_CONGRESSES; d++) {
     if (center - d >= CONGRESS_START && !layerDataCache.has(center - d)) all.push(center - d);
     if (d > 0 && center + d <= CONGRESS_END && !layerDataCache.has(center + d)) all.push(center + d);
   }
 
-  // Load one at a time in background to avoid overwhelming the network
   for (const c of all) {
     if (layerDataCache.has(c)) continue;
     await warmupCongress(c);
@@ -376,95 +359,89 @@ async function startBackgroundLoading(center: number) {
       initialReady: true,
     };
     notifyWarmup();
-    // Small delay between background loads to keep UI responsive
     await new Promise(r => setTimeout(r, 100));
   }
   warmupState = { done: TOTAL_CONGRESSES, total: TOTAL_CONGRESSES, ready: true, initialReady: true };
   notifyWarmup();
 }
 
+// ─── URL state helpers ────────────────────────────────────────────────────────
+function getUrlState(): { congressA: number; congressB: number; compare: boolean; state: string } {
+  const p = new URLSearchParams(window.location.search);
+  const a = Number(p.get('congress') || p.get('a'));
+  const b = Number(p.get('b'));
+  const compare = p.get('compare') === '1' || p.get('compare') === 'true';
+  const state = p.get('state') || '';
+  return {
+    congressA: a >= CONGRESS_START && a <= CONGRESS_END ? a : CONGRESS_END,
+    congressB: b >= CONGRESS_START && b <= CONGRESS_END ? b : CONGRESS_START,
+    compare,
+    state,
+  };
+}
+
+function setUrlState(params: { congressA: number; congressB?: number; compare?: boolean; state?: string }) {
+  const url = new URL(window.location.href);
+  url.searchParams.set('congress', String(params.congressA));
+  if (params.compare) {
+    url.searchParams.set('b', String(params.congressB ?? CONGRESS_START));
+    url.searchParams.set('compare', '1');
+  } else {
+    url.searchParams.delete('b');
+    url.searchParams.delete('compare');
+  }
+  if (params.state) {
+    url.searchParams.set('state', params.state);
+  } else {
+    url.searchParams.delete('state');
+  }
+  window.history.replaceState(null, '', url.toString());
+}
+
 // ─── D3 Map Panel ─────────────────────────────────────────────────────────────
-// Uses d3.geoAlbersUsa() — Alaska & Hawaii appear as insets, matching the
-// main House/Senate election map. No Leaflet, no tiles, no zoom instability.
 interface D3MapPanelProps {
   congress: number;
   panelId: "A" | "B";
   compareMode: boolean;
   onDistrictClick?: (props: Record<string, unknown>) => void;
-  selectedState?: string; // full state name e.g. "Texas" — zooms map to that state's bounding box
+  onHover?: (info: { x: number; y: number; content: string } | null) => void;
+  selectedState?: string;
+  syncZoom?: d3.ZoomTransform | null;
+  onZoomChange?: (transform: d3.ZoomTransform) => void;
 }
 
 export interface D3MapPanelHandle {
-  /** Imperatively jump to a congress — updates D3 immediately, bypassing React scheduling */
   jumpTo: (congress: number) => void;
+  resetZoom: () => void;
+  getZoom: () => d3.ZoomTransform | null;
 }
 
-const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMode, onDistrictClick, selectedState }: D3MapPanelProps, ref: React.Ref<D3MapPanelHandle>) {
+const D3MapPanel = forwardRef(function D3MapPanel(
+  { congress, panelId, compareMode, onDistrictClick, onHover, selectedState, syncZoom, onZoomChange }: D3MapPanelProps,
+  ref: React.Ref<D3MapPanelHandle>
+) {
   const svgRef = useRef<SVGSVGElement>(null);
   const gRef = useRef<SVGGElement>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [districtCount, setDistrictCount] = useState(0);
+  const [isZoomed, setIsZoomed] = useState(false);
 
-  // Refs to avoid stale closures in ResizeObserver / click handlers
   const congressRef = useRef(congress);
   const onDistrictClickRef = useRef(onDistrictClick);
+  const onHoverRef = useRef(onHover);
+  const onZoomChangeRef = useRef(onZoomChange);
   useEffect(() => { congressRef.current = congress; }, [congress]);
   useEffect(() => { onDistrictClickRef.current = onDistrictClick; }, [onDistrictClick]);
+  useEffect(() => { onHoverRef.current = onHover; }, [onHover]);
+  useEffect(() => { onZoomChangeRef.current = onZoomChange; }, [onZoomChange]);
 
-  // ── Zoom transform state for Jump to State ─────────────────────────────────
-  const [zoomTransform, setZoomTransform] = useState<string | null>(null);
+  // Zoom behavior ref
+  const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
+  const savedTransformRef = useRef<d3.ZoomTransform>(d3.zoomIdentity);
+  const isSyncingRef = useRef(false);
 
-  // Compute zoom transform whenever selectedState or congress changes
-  useEffect(() => {
-    if (!selectedState) { setZoomTransform(null); return; }
-    const svg = svgRef.current;
-    if (!svg) return;
-    const cached = layerDataCache.get(congressRef.current);
-    if (!cached) return;
-    const stateAbbrev = STATE_CODES[selectedState] ?? "";
-    if (!stateAbbrev) { setZoomTransform(null); return; }
-
-    // Filter features belonging to the selected state
-    const stateFeatures = cached.features.filter(f => {
-      const p = (f.properties ?? {}) as Record<string, unknown>;
-      return String(p._stateAbbrev ?? "") === stateAbbrev;
-    });
-    if (stateFeatures.length === 0) { setZoomTransform(null); return; }
-
-    const rect = svg.getBoundingClientRect();
-    const W = rect.width || 960;
-    const H = rect.height || 600;
-    const projection = buildProjection(W, H);
-    const pathGen = d3.geoPath().projection(projection);
-
-    // Compute bounding box of all state features in screen space
-    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-    for (const f of stateFeatures) {
-      const b = pathGen.bounds(f);
-      if (b[0][0] < minX) minX = b[0][0];
-      if (b[0][1] < minY) minY = b[0][1];
-      if (b[1][0] > maxX) maxX = b[1][0];
-      if (b[1][1] > maxY) maxY = b[1][1];
-    }
-    if (!isFinite(minX)) { setZoomTransform(null); return; }
-
-    // Add padding (10% of each dimension)
-    const padX = (maxX - minX) * 0.12;
-    const padY = (maxY - minY) * 0.12;
-    minX -= padX; maxX += padX;
-    minY -= padY; maxY += padY;
-
-    const bW = maxX - minX;
-    const bH = maxY - minY;
-    const scale = Math.min(W / bW, H / bH) * 0.92;
-    const cx = (minX + maxX) / 2;
-    const cy = (minY + maxY) / 2;
-    // CSS transform: scale around center of SVG, then translate bounding box center to SVG center
-    const tx = W / 2 - cx * scale;
-    const ty = H / 2 - cy * scale;
-    setZoomTransform(`translate(${tx}px, ${ty}px) scale(${scale})`);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedState, congress]);
+  // Pointer tracking for click-vs-drag detection
+  const pointerDownRef = useRef<{ x: number; y: number } | null>(null);
 
   // ── Shared projection builder ──────────────────────────────────────────────
   function buildProjection(W: number, H: number) {
@@ -472,14 +449,7 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
     return d3.geoAlbersUsa().scale(mapScale).translate([W / 2, H / 2 - H * 0.04]);
   }
 
-  // Strip D3 AlbersUSA axis-aligned clip rectangles from SVG path strings.
-  // D3 AlbersUSA prepends a clip-rect subpath to every feature path for each of its
-  // three sub-projections (lower-48, AK inset, HI inset). These are perfect
-  // axis-aligned rectangles with areas of ~394k, ~22k, and ~6k sq pixels.
-  // We detect them precisely: a subpath is a clip rect if and only if it has
-  // exactly 3 L commands, ends in Z, forms a perfect axis-aligned rectangle
-  // (x1==x4, y1==y2, x2==x3, y3==y4 within 0.1px), AND has area > 1000 sq px.
-  // Real district polygons are never perfect rectangles, so this is safe.
+  // Strip D3 AlbersUSA clip rectangles
   function removeClipRects(pathD: string | null): string {
     if (!pathD) return "";
     const subPaths = pathD.match(/M[^M]*/g) ?? [];
@@ -489,26 +459,26 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
       const nums = sp.match(/-?\d+\.?\d*/g) ?? [];
       if (nums.length < 8) return true;
       const [x1, y1, x2, y2, x3, y3, x4, y4] = nums.map(Number);
-      // Check axis-aligned rectangle: corners must be (x1,y1),(x2,y1),(x2,y2),(x1,y2)
       const EPS = 0.1;
       const isRect = Math.abs(x1 - x4) < EPS && Math.abs(y1 - y2) < EPS &&
                      Math.abs(x2 - x3) < EPS && Math.abs(y3 - y4) < EPS;
-      if (!isRect) return true; // not a rectangle — keep it
+      if (!isRect) return true;
       const area = Math.abs(x2 - x1) * Math.abs(y3 - y2);
-      return area < 1000; // keep small rectangles (real district polygons), strip large clip rects
+      return area < 1000;
     }).join("");
   }
 
-  // ── Full redraw: create/replace all SVG paths ──────────────────────────────
-  // Called on first render and on SVG resize. Expensive but infrequent.
-  // After drawing, captures pathElementsRef for O(1) per-frame color swaps.
+  // Direct DOM element array for fast updates
+  const pathElementsRef = useRef<SVGPathElement[]>([]);
+  const drawnCongressRef = useRef<number | null>(null);
+
+  // ── Full redraw ──────────────────────────────────────────────────────────────
   const fullRedraw = useCallback((features: GeoJSON.Feature[], W: number, H: number, cachedColors?: LayerData) => {
     const g = gRef.current;
     if (!g) return;
     const projection = buildProjection(W, H);
     const pathGen = d3.geoPath().projection(projection);
 
-    // Use pre-computed colors if available, otherwise fall back to property lookup
     const fills = cachedColors?.fills;
     const fillOpacities = cachedColors?.fillOpacities;
     const strokes = cachedColors?.strokes;
@@ -525,7 +495,79 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
       .attr("stroke-width", 0.5)
       .attr("stroke-opacity", 0.7)
       .style("cursor", "pointer")
-      .on("click", (_event, d) => {
+      .on("mouseenter", function(_event, d) {
+        // Highlight on hover
+        d3.select(this).attr("stroke-width", 1.5).attr("stroke-opacity", 1).attr("fill-opacity", 0.9);
+        // Build tooltip content
+        const p = d.properties as Record<string, unknown>;
+        const stateAbbrev = String(p._stateAbbrev ?? "");
+        const dist = Number(p?.district ?? p?.DISTRICT ?? 0);
+        const stateName = String(p?.statename ?? p?.STATENAME ?? "");
+        const party = String(p._party ?? "unknown");
+        const partyLabel = party === "D" ? "Democrat" : party === "R" ? "Republican" : party === "I" ? "Independent" : "Unknown";
+        const key = `${stateAbbrev}-${dist}`;
+        const c = congressRef.current;
+        const membersData = membersCache.get(c) ?? {};
+        let member = membersData[key];
+        if (!member && dist === 0) member = membersData[`${stateAbbrev}-1`];
+        const distLabel = dist === 0 ? "At-Large" : `District ${dist}`;
+        let content = `${stateName} ${distLabel}\n${partyLabel}`;
+        if (member) content += `\n${member.name}`;
+        const rect = svgRef.current?.getBoundingClientRect();
+        if (rect) {
+          const mouseEvent = _event as MouseEvent;
+          onHoverRef.current?.({
+            x: mouseEvent.clientX - rect.left,
+            y: mouseEvent.clientY - rect.top,
+            content,
+          });
+        }
+      })
+      .on("mousemove", function(_event) {
+        const rect = svgRef.current?.getBoundingClientRect();
+        if (!rect) return;
+        const mouseEvent = _event as MouseEvent;
+        // Update tooltip position only (content stays the same until mouseenter fires on new element)
+        const tipEl = document.querySelector(`[data-tooltip-panel="${panelId}"]`) as HTMLElement;
+        if (tipEl) {
+          const x = mouseEvent.clientX - rect.left;
+          const y = mouseEvent.clientY - rect.top;
+          tipEl.style.left = `${x + 14}px`;
+          tipEl.style.top = `${y - 36}px`;
+        }
+      })
+      .on("mouseleave", function(_event, d) {
+        // Restore original style
+        const idx = pathElementsRef.current.indexOf(this as SVGPathElement);
+        const cached = layerDataCache.get(congressRef.current);
+        if (cached && idx >= 0) {
+          d3.select(this)
+            .attr("stroke-width", 0.5)
+            .attr("stroke-opacity", 0.7)
+            .attr("fill-opacity", cached.fillOpacities[idx]);
+        } else {
+          const p = d.properties as Record<string, unknown>;
+          const party = String(p._party ?? "unknown");
+          d3.select(this)
+            .attr("stroke-width", 0.5)
+            .attr("stroke-opacity", 0.7)
+            .attr("fill-opacity", String(PARTY_FILL_OPACITY[party] ?? 0.18));
+        }
+        onHoverRef.current?.(null);
+      })
+      .on("pointerdown", function(_event) {
+        const e = _event as PointerEvent;
+        pointerDownRef.current = { x: e.clientX, y: e.clientY };
+      })
+      .on("pointerup", function(_event, d) {
+        const e = _event as PointerEvent;
+        const pd = pointerDownRef.current;
+        pointerDownRef.current = null;
+        if (!pd) return;
+        const dx = e.clientX - pd.x;
+        const dy = e.clientY - pd.y;
+        if (dx * dx + dy * dy > 25) return; // drag threshold
+        // It's a click
         const c = congressRef.current;
         const p = d.properties as Record<string, unknown>;
         const dist = Number(p?.district ?? p?.DISTRICT ?? 0);
@@ -543,16 +585,15 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
           _congress: c,
         });
       });
-    // Capture direct DOM references for ultra-fast per-frame color swaps
+
     pathElementsRef.current = selection.nodes();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [panelId]);
 
-  // ── Color-only update: direct DOM array writes with pre-computed colors ─────────
-  // Zero allocations, zero property lookups — just a tight loop over DOM elements.
+  // ── Color-only update ──────────────────────────────────────────────────────
   const recolor = useCallback((cached: LayerData): boolean => {
     const els = pathElementsRef.current;
-    if (els.length !== cached.features.length) return false; // need full redraw
+    if (els.length !== cached.features.length) return false;
     const { fills, fillOpacities, strokes } = cached;
     for (let i = 0; i < els.length; i++) {
       const s = els[i].style;
@@ -561,32 +602,23 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
       s.stroke = strokes[i];
     }
     return true;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Direct DOM element array — avoids D3 .selectAll() on every frame
-  const pathElementsRef = useRef<SVGPathElement[]>([]);
-
-  // Track the congress that the current paths were drawn for
-  const drawnCongressRef = useRef<number | null>(null);
-
-  // Refs so jumpTo can call the latest versions without stale closures
   const fullRedrawRef = useRef(fullRedraw);
   useEffect(() => { fullRedrawRef.current = fullRedraw; }, [fullRedraw]);
 
-  // Expose jumpTo for imperative use by the play loop (bypasses React scheduling)
+  // ── Imperative handle ──────────────────────────────────────────────────────
   useImperativeHandle(ref, () => ({
     jumpTo(targetCongress: number) {
       const svg = svgRef.current;
       if (!svg) return;
       const cached = layerDataCache.get(targetCongress);
-      if (!cached) return; // data not ready yet
+      if (!cached) return;
 
       const els = pathElementsRef.current;
       const { fills, fillOpacities, strokes, features } = cached;
 
       if (els.length === features.length) {
-        // ⚡ Ultra-fast path: direct typed array writes, zero allocations
         for (let i = 0; i < els.length; i++) {
           const s = els[i].style;
           s.fill = fills[i];
@@ -597,14 +629,131 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
         return;
       }
 
-      // District count changed — full redraw (pass cachedColors for pre-computed fills)
       const rect = svg.getBoundingClientRect();
       fullRedrawRef.current(cached.features, rect.width || 960, rect.height || 600, cached);
       drawnCongressRef.current = targetCongress;
     },
+    resetZoom() {
+      const svg = svgRef.current;
+      if (!svg || !zoomRef.current) return;
+      d3.select(svg).transition().duration(400)
+        .call(zoomRef.current.transform, d3.zoomIdentity);
+    },
+    getZoom() {
+      return savedTransformRef.current;
+    },
   }), []);
 
-  // ── Main effect: runs on congress change ───────────────────────────────────────────
+  // ── D3 Zoom setup ──────────────────────────────────────────────────────────
+  useEffect(() => {
+    const svg = svgRef.current;
+    const g = gRef.current;
+    if (!svg || !g) return;
+
+    const rect = svg.getBoundingClientRect();
+    const width = rect.width || 960;
+    const height = rect.height || 600;
+
+    const zoom = d3.zoom<SVGSVGElement, unknown>()
+      .scaleExtent([1, 12])
+      .extent([[0, 0], [width, height]])
+      .translateExtent([[-width * 2, -height * 2], [width * 3, height * 3]])
+      .on("zoom", (event) => {
+        d3.select(g).attr("transform", event.transform.toString());
+        savedTransformRef.current = event.transform;
+        setIsZoomed(event.transform.k > 1.05);
+        if (!isSyncingRef.current) {
+          onZoomChangeRef.current?.(event.transform);
+        }
+      });
+
+    zoomRef.current = zoom;
+    d3.select(svg).call(zoom);
+
+    // Restore saved transform
+    if (savedTransformRef.current.k > 1.01) {
+      d3.select(svg).call(zoom.transform, savedTransformRef.current);
+      d3.select(g).attr("transform", savedTransformRef.current.toString());
+    }
+
+    return () => {
+      d3.select(svg).on(".zoom", null);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ── Sync zoom from other panel ─────────────────────────────────────────────
+  useEffect(() => {
+    if (!syncZoom || !zoomRef.current || !svgRef.current) return;
+    // Avoid feedback loop
+    if (savedTransformRef.current.k === syncZoom.k &&
+        savedTransformRef.current.x === syncZoom.x &&
+        savedTransformRef.current.y === syncZoom.y) return;
+    isSyncingRef.current = true;
+    d3.select(svgRef.current).call(zoomRef.current.transform, syncZoom);
+    isSyncingRef.current = false;
+  }, [syncZoom]);
+
+  // ── State zoom ─────────────────────────────────────────────────────────────
+  useEffect(() => {
+    if (!selectedState || !svgRef.current || !zoomRef.current) return;
+    const svg = svgRef.current;
+    const cached = layerDataCache.get(congressRef.current);
+    if (!cached) return;
+    const stateAbbrev = STATE_CODES[selectedState] ?? "";
+    if (!stateAbbrev) return;
+
+    const stateFeatures = cached.features.filter(f => {
+      const p = (f.properties ?? {}) as Record<string, unknown>;
+      return String(p._stateAbbrev ?? "") === stateAbbrev;
+    });
+    if (stateFeatures.length === 0) return;
+
+    const rect = svg.getBoundingClientRect();
+    const W = rect.width || 960;
+    const H = rect.height || 600;
+    const projection = buildProjection(W, H);
+    const pathGen = d3.geoPath().projection(projection);
+
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    for (const f of stateFeatures) {
+      const b = pathGen.bounds(f);
+      if (b[0][0] < minX) minX = b[0][0];
+      if (b[0][1] < minY) minY = b[0][1];
+      if (b[1][0] > maxX) maxX = b[1][0];
+      if (b[1][1] > maxY) maxY = b[1][1];
+    }
+    if (!isFinite(minX)) return;
+
+    const padX = (maxX - minX) * 0.12;
+    const padY = (maxY - minY) * 0.12;
+    minX -= padX; maxX += padX;
+    minY -= padY; maxY += padY;
+
+    const bW = maxX - minX;
+    const bH = maxY - minY;
+    const scale = Math.min(W / bW, H / bH) * 0.92;
+    const cx = (minX + maxX) / 2;
+    const cy = (minY + maxY) / 2;
+    const tx = W / 2 - cx * scale;
+    const ty = H / 2 - cy * scale;
+    const targetTransform = d3.zoomIdentity.translate(tx, ty).scale(scale);
+
+    d3.select(svg).transition().duration(650)
+      .call(zoomRef.current.transform, targetTransform);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedState, congress]);
+
+  // ── Clear state zoom when deselected ───────────────────────────────────────
+  useEffect(() => {
+    if (selectedState === "" && svgRef.current && zoomRef.current && savedTransformRef.current.k > 1.05) {
+      d3.select(svgRef.current).transition().duration(400)
+        .call(zoomRef.current.transform, d3.zoomIdentity);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedState]);
+
+  // ── Main effect: runs on congress change ───────────────────────────────────
   useEffect(() => {
     const svg = svgRef.current;
     if (!svg) return;
@@ -628,7 +777,6 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
       const prevCached = prevCongress !== null ? layerDataCache.get(prevCongress) : null;
 
       if (prevCached && prevCached.features.length === cached.features.length) {
-        // Same district count → fast color-only update (direct DOM writes)
         const ok = recolor(cached);
         if (ok) {
           drawnCongressRef.current = congress;
@@ -637,7 +785,6 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
         }
       }
 
-      // Different district count or first render → full redraw
       setIsLoading(true);
       fullRedraw(cached.features, W, H, cached);
       drawnCongressRef.current = congress;
@@ -647,7 +794,7 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
     return () => { cancelled = true; };
   }, [congress, fullRedraw, recolor]);
 
-  // ── ResizeObserver: re-project paths when SVG dimensions change ────────────
+  // ── ResizeObserver ─────────────────────────────────────────────────────────
   useEffect(() => {
     const svg = svgRef.current;
     if (!svg) return;
@@ -678,9 +825,9 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
       <svg
         ref={svgRef}
         className="w-full h-full"
-        style={{ background: "transparent" }}
+        style={{ background: "transparent", cursor: isZoomed ? "grab" : "default" }}
       >
-        <g ref={gRef} style={zoomTransform ? { transform: zoomTransform, transformOrigin: "0 0", transition: "transform 0.6s cubic-bezier(0.4,0,0.2,1)" } : { transition: "transform 0.6s cubic-bezier(0.4,0,0.2,1)" }} />
+        <g ref={gRef} />
       </svg>
 
       {/* Loading indicator */}
@@ -698,6 +845,43 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
           {districtCount} districts
         </div>
       )}
+
+      {/* Zoom controls */}
+      <div className="absolute bottom-12 left-3 flex flex-col gap-1" style={{ zIndex: 15 }}>
+        <button
+          onClick={() => {
+            if (!svgRef.current || !zoomRef.current) return;
+            d3.select(svgRef.current).transition().duration(300)
+              .call(zoomRef.current.scaleBy, 1.5);
+          }}
+          className="w-7 h-7 flex items-center justify-center bg-black/60 backdrop-blur border border-white/20 rounded text-white/80 hover:bg-black/80 hover:text-white transition-colors text-sm font-bold"
+          title="Zoom in"
+        >+</button>
+        <button
+          onClick={() => {
+            if (!svgRef.current || !zoomRef.current) return;
+            d3.select(svgRef.current).transition().duration(300)
+              .call(zoomRef.current.scaleBy, 0.67);
+          }}
+          className="w-7 h-7 flex items-center justify-center bg-black/60 backdrop-blur border border-white/20 rounded text-white/80 hover:bg-black/80 hover:text-white transition-colors text-sm font-bold"
+          title="Zoom out"
+        >−</button>
+        {isZoomed && (
+          <button
+            onClick={() => {
+              if (!svgRef.current || !zoomRef.current) return;
+              d3.select(svgRef.current).transition().duration(400)
+                .call(zoomRef.current.transform, d3.zoomIdentity);
+            }}
+            className="w-7 h-7 flex items-center justify-center bg-black/60 backdrop-blur border border-white/20 rounded text-white/80 hover:bg-black/80 hover:text-white transition-colors"
+            title="Reset zoom"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 3h6M3 3v6M21 3h-6M21 3v6M3 21h6M3 21v-6M21 21h-6M21 21v-6"/>
+            </svg>
+          </button>
+        )}
+      </div>
 
       {/* Party seats legend — single panel mode */}
       {!compareMode && (
@@ -764,6 +948,20 @@ const D3MapPanel = forwardRef(function D3MapPanel({ congress, panelId, compareMo
   );
 });
 
+// ─── Tooltip Component ────────────────────────────────────────────────────────
+function MapTooltip({ info, panelId }: { info: { x: number; y: number; content: string } | null; panelId: string }) {
+  if (!info) return null;
+  return (
+    <div
+      data-tooltip-panel={panelId}
+      className="absolute pointer-events-none bg-black/85 backdrop-blur-md border border-white/20 rounded-lg px-3 py-2 text-xs text-white shadow-xl whitespace-pre-line"
+      style={{ left: info.x + 14, top: info.y - 36, zIndex: 25, maxWidth: 220 }}
+    >
+      {info.content}
+    </div>
+  );
+}
+
 // ─── Timeline Slider ──────────────────────────────────────────────────────────
 interface TimelineSliderProps {
   congress: number;
@@ -792,7 +990,8 @@ function TimelineSlider({ congress, onChange, isPlaying, onPlayToggle, speedIdx,
     <div className="flex items-center gap-3">
       <button
         onClick={atlasReady ? onPlayToggle : undefined}
-        disabled={!atlasReady}
+        disabled
+={!atlasReady}
         className={`w-7 h-7 flex items-center justify-center rounded-full border transition-colors shrink-0 ${atlasReady ? playBtnClass : "bg-white/5 border-white/10 text-white/20 cursor-not-allowed"}`}
         title={!atlasReady ? "Loading atlas…" : isPlaying ? "Pause" : "Play animation"}
       >
@@ -841,20 +1040,21 @@ function TimelineSlider({ congress, onChange, isPlaying, onPlayToggle, speedIdx,
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function MapComparison() {
-  const initCongress = (() => {
-    const p = new URLSearchParams(window.location.search);
-    const n = Number(p.get('congress'));
-    return n >= CONGRESS_START && n <= CONGRESS_END ? n : CONGRESS_END;
-  })();
-  const [congressA, setCongressA] = useState(initCongress);
-  const [congressB, setCongressB] = useState(initCongress);
-  const [compareMode, setCompareMode] = useState(false);
-  const [selectedState, setSelectedState] = useState("");
+  const isMobile = useIsMobile();
+  const urlState = getUrlState();
+  const [congressA, setCongressA] = useState(urlState.congressA);
+  const [congressB, setCongressB] = useState(urlState.congressB);
+  const [compareMode, setCompareMode] = useState(urlState.compare);
+  const [selectedState, setSelectedState] = useState(urlState.state);
   const [districtPopup, setDistrictPopup] = useState<Record<string, unknown> | null>(null);
   const [isPlayingA, setIsPlayingA] = useState(false);
   const [isPlayingB, setIsPlayingB] = useState(false);
-  const [speedIdxA, setSpeedIdxA] = useState(1); // default: Normal (1000ms)
-  const [speedIdxB, setSpeedIdxB] = useState(1); // default: Normal (1000ms)
+  const [speedIdxA, setSpeedIdxA] = useState(1);
+  const [speedIdxB, setSpeedIdxB] = useState(1);
+  const [tooltipA, setTooltipA] = useState<{ x: number; y: number; content: string } | null>(null);
+  const [tooltipB, setTooltipB] = useState<{ x: number; y: number; content: string } | null>(null);
+  const [syncZoomB, setSyncZoomB] = useState<d3.ZoomTransform | null>(null);
+  const [syncZoomA, setSyncZoomA] = useState<d3.ZoomTransform | null>(null);
   const panelARef = useRef<D3MapPanelHandle>(null);
   const panelBRef = useRef<D3MapPanelHandle>(null);
   const sky = getSkyVideo();
@@ -869,8 +1069,6 @@ export default function MapComparison() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Play is ready as soon as the current congress + next 2 are cached.
-  // Much less restrictive than before — enables play quickly after initial load.
   const canPlayA = warmup.initialReady && layerDataCache.has(congressA) &&
     [1,2].every(d => congressA + d > CONGRESS_END || layerDataCache.has(congressA + d));
   const canPlayB = warmup.initialReady && layerDataCache.has(congressB) &&
@@ -883,13 +1081,26 @@ export default function MapComparison() {
     return () => clearInterval(t);
   }, []);
 
-  // Stable refs so setInterval callbacks always see latest congress without re-creating
+  // ── URL state persistence ──────────────────────────────────────────────────
+  useEffect(() => {
+    setUrlState({ congressA, congressB, compare: compareMode, state: selectedState });
+  }, [congressA, congressB, compareMode, selectedState]);
+
+  // ── Synchronized zoom in compare mode ──────────────────────────────────────
+  const handleZoomChangeA = useCallback((transform: d3.ZoomTransform) => {
+    if (compareMode) setSyncZoomB(transform);
+  }, [compareMode]);
+  const handleZoomChangeB = useCallback((transform: d3.ZoomTransform) => {
+    if (compareMode) setSyncZoomA(transform);
+  }, [compareMode]);
+
+  // Stable refs for animation
   const congressARef = useRef(congressA);
   const congressBRef = useRef(congressB);
   useEffect(() => { congressARef.current = congressA; }, [congressA]);
   useEffect(() => { congressBRef.current = congressB; }, [congressB]);
 
-  // Animation playback A — rAF ticker for frame-perfect timing
+  // ── Animation playback A ───────────────────────────────────────────────────
   useEffect(() => {
     if (!isPlayingA) return;
     const ms = PLAY_SPEEDS[speedIdxA].ms;
@@ -901,22 +1112,21 @@ export default function MapComparison() {
         const c = congressARef.current;
         if (c >= CONGRESS_END) { setIsPlayingA(false); return; }
         const next = c + 1;
-        // Only advance if the next congress is already cached — never skip or freeze
         if (!layerDataCache.has(next)) {
-          // Data not ready yet — reset timer and wait for next tick
           lastTime = now;
           rafId = requestAnimationFrame(tick);
           return;
         }
-        panelARef.current?.jumpTo(next); // D3 update: synchronous, zero React overhead
-        setCongressA(next);              // UI update: slider, seat counts
+        panelARef.current?.jumpTo(next);
+        setCongressA(next);
       }
       rafId = requestAnimationFrame(tick);
     }
     rafId = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafId);
   }, [isPlayingA, speedIdxA]);
-  // Animation playback B — rAF ticker
+
+  // ── Animation playback B ───────────────────────────────────────────────────
   useEffect(() => {
     if (!isPlayingB) return;
     const ms = PLAY_SPEEDS[speedIdxB].ms;
@@ -928,7 +1138,6 @@ export default function MapComparison() {
         const c = congressBRef.current;
         if (c >= CONGRESS_END) { setIsPlayingB(false); return; }
         const next = c + 1;
-        // Only advance if the next congress is already cached
         if (!layerDataCache.has(next)) {
           lastTime = now;
           rafId = requestAnimationFrame(tick);
@@ -952,6 +1161,153 @@ export default function MapComparison() {
     if (congressB >= CONGRESS_END) setCongressB(CONGRESS_START);
   }, [congressB]);
 
+  // ── Keyboard shortcuts ─────────────────────────────────────────────────────
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      // Don't capture when typing in inputs
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement || e.target instanceof HTMLTextAreaElement) return;
+
+      switch (e.key) {
+        case " ": // Space = play/pause
+          e.preventDefault();
+          if (compareMode) {
+            handlePlayToggleA();
+            handlePlayToggleB();
+          } else {
+            handlePlayToggleA();
+          }
+          break;
+        case "ArrowLeft": // Step backward
+          e.preventDefault();
+          if (congressA > CONGRESS_START) {
+            setCongressA(c => Math.max(CONGRESS_START, c - 1));
+            setIsPlayingA(false);
+          }
+          if (compareMode && congressB > CONGRESS_START) {
+            setCongressB(c => Math.max(CONGRESS_START, c - 1));
+            setIsPlayingB(false);
+          }
+          break;
+        case "ArrowRight": // Step forward
+          e.preventDefault();
+          if (congressA < CONGRESS_END) {
+            setCongressA(c => Math.min(CONGRESS_END, c + 1));
+            setIsPlayingA(false);
+          }
+          if (compareMode && congressB < CONGRESS_END) {
+            setCongressB(c => Math.min(CONGRESS_END, c + 1));
+            setIsPlayingB(false);
+          }
+          break;
+        case "c": // Toggle compare mode
+        case "C":
+          if (!e.ctrlKey && !e.metaKey) {
+            setCompareMode(m => !m);
+          }
+          break;
+        case "r": // Reset zoom
+        case "R":
+          if (!e.ctrlKey && !e.metaKey) {
+            panelARef.current?.resetZoom();
+            panelBRef.current?.resetZoom();
+          }
+          break;
+        case "Escape": // Close popup
+          setDistrictPopup(null);
+          break;
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [compareMode, congressA, congressB, handlePlayToggleA, handlePlayToggleB]);
+
+  // ── Mobile layout ──────────────────────────────────────────────────────────
+  if (isMobile) {
+    return (
+      <div className="relative w-screen h-screen overflow-hidden flex flex-col">
+        {/* Sky video background */}
+        <video key={sky.url} autoPlay muted loop playsInline
+          className="absolute inset-0 w-full h-full object-cover" style={{ zIndex: 0 }}>
+          <source src={sky.url} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0" style={{ zIndex: 1, background: 'rgba(0,0,0,0.15)' }} />
+
+        {/* Mobile header */}
+        <header className="relative flex items-center gap-2 px-3 h-10 shrink-0 border-b border-white/10"
+          style={{ zIndex: 10, background: "rgba(0,0,0,0.55)", backdropFilter: "blur(8px)" }}>
+          <svg className="w-4 h-4 text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.966 8.966 0 00-6 2.292m0-14.25v14.25" />
+          </svg>
+          <span className="text-white font-semibold text-xs tracking-tight">Historical Atlas</span>
+          <div className="flex-1" />
+          <span className="text-amber-400 font-bold text-sm">{ordinal(congressA)}</span>
+          <span className="text-white/40 text-[10px]">({congressYears(congressA)[0]})</span>
+          <Link href="/" className="text-white/40 hover:text-white/80 text-xs ml-2">←</Link>
+        </header>
+
+        {/* Mobile congress selector */}
+        <div className="relative shrink-0 flex items-center px-3 h-9 gap-2 border-b border-white/10"
+          style={{ zIndex: 10, background: "rgba(0,0,0,0.45)", backdropFilter: "blur(6px)" }}>
+          <select value={congressA} onChange={e => { setCongressA(Number(e.target.value)); setIsPlayingA(false); }}
+            className="bg-white/10 border border-white/20 rounded text-white text-xs px-2 py-0.5 focus:outline-none flex-1">
+            {Array.from({ length: CONGRESS_END - CONGRESS_START + 1 }, (_, i) => CONGRESS_START + i).map(n => {
+              const [y] = congressYears(n);
+              return <option key={n} value={n}>{ordinal(n)} ({y})</option>;
+            })}
+          </select>
+          <select value={selectedState} onChange={e => setSelectedState(e.target.value)}
+            className="bg-white/10 border border-white/20 rounded text-white text-xs px-2 py-0.5 focus:outline-none">
+            <option value="">All states</option>
+            {US_STATES.map(s => <option key={s} value={s}>{s}</option>)}
+          </select>
+        </div>
+
+        {/* Mobile map panel */}
+        <div className="relative flex-1 min-h-0" style={{ zIndex: 5 }}>
+          <D3MapPanel
+            ref={panelARef}
+            congress={congressA}
+            panelId="A"
+            compareMode={false}
+            onDistrictClick={setDistrictPopup}
+            onHover={setTooltipA}
+            selectedState={selectedState || undefined}
+          />
+          <MapTooltip info={tooltipA} panelId="A" />
+        </div>
+
+        {/* Mobile timeline */}
+        <div className="relative shrink-0 px-3 pt-3 pb-2 border-t border-white/10"
+          style={{ zIndex: 10, background: "rgba(0,0,0,0.55)", backdropFilter: "blur(8px)" }}>
+          {!warmup.initialReady && (
+            <div className="mb-2">
+              <div className="h-1 rounded-full bg-white/10 overflow-hidden">
+                <div className="h-full rounded-full animate-pulse" style={{ width: '60%', background: "linear-gradient(to right, #F59E0B, #EF4444)" }} />
+              </div>
+            </div>
+          )}
+          <TimelineSlider
+            congress={congressA}
+            onChange={c => { setCongressA(c); setIsPlayingA(false); }}
+            isPlaying={isPlayingA}
+            onPlayToggle={handlePlayToggleA}
+            speedIdx={speedIdxA}
+            onSpeedChange={setSpeedIdxA}
+            color="amber"
+            atlasReady={canPlayA}
+          />
+          <div className="mt-1 text-[9px] text-white/30 text-center">
+            Pinch to zoom · Tap district for details
+          </div>
+        </div>
+
+        {/* Mobile district popup */}
+        {districtPopup && <MobileDistrictPopup popup={districtPopup} onClose={() => setDistrictPopup(null)} />}
+      </div>
+    );
+  }
+
+  // ── Desktop layout ─────────────────────────────────────────────────────────
   return (
     <div className="relative w-screen h-screen overflow-hidden flex flex-col">
       {/* Sky video background */}
@@ -1036,7 +1392,7 @@ export default function MapComparison() {
         )}
       </div>
 
-      {/* ── Map panels — flex-1 fills all remaining space ── */}
+      {/* ── Map panels ── */}
       <div className="relative flex flex-1 min-h-0" style={{ zIndex: 5 }}>
         <D3MapPanel
           ref={panelARef}
@@ -1044,8 +1400,12 @@ export default function MapComparison() {
           panelId="A"
           compareMode={compareMode}
           onDistrictClick={setDistrictPopup}
+          onHover={setTooltipA}
           selectedState={selectedState || undefined}
+          syncZoom={syncZoomA}
+          onZoomChange={handleZoomChangeA}
         />
+        <MapTooltip info={tooltipA} panelId="A" />
         {compareMode && (
           <>
             <div className="w-px bg-white/20 shrink-0" />
@@ -1055,8 +1415,12 @@ export default function MapComparison() {
               panelId="B"
               compareMode={compareMode}
               onDistrictClick={setDistrictPopup}
+              onHover={setTooltipB}
               selectedState={selectedState || undefined}
+              syncZoom={syncZoomB}
+              onZoomChange={handleZoomChangeB}
             />
+            <MapTooltip info={tooltipB} panelId="B" />
           </>
         )}
       </div>
@@ -1113,8 +1477,13 @@ export default function MapComparison() {
             />
           </div>
         )}
-        <div className="mt-2 text-[10px] text-white/30 text-center">
-          District boundaries: Jeffrey B. Lewis, Brandon DeVine, Lincoln Pitcher &amp; Kenneth C. Martis · cdmaps.polisci.ucla.edu · Party data: Voteview / UCLA
+        <div className="mt-2 flex items-center justify-between">
+          <div className="text-[10px] text-white/30">
+            District boundaries: Jeffrey B. Lewis, Brandon DeVine, Lincoln Pitcher &amp; Kenneth C. Martis · cdmaps.polisci.ucla.edu · Party data: Voteview / UCLA
+          </div>
+          <div className="text-[9px] text-white/20 font-mono ml-4 shrink-0">
+            Space: play · ←/→: step · C: compare · R: reset zoom
+          </div>
         </div>
       </div>
 
@@ -1125,11 +1494,11 @@ export default function MapComparison() {
         const partyLabel = party === "D" ? "Democrat" : party === "R" ? "Republican" : party === "I" ? "Independent" : "Unknown";
         const memberName = districtPopup._memberName as string | null;
         const bioguide = districtPopup._memberBioguide as string | null;
-        const congress = districtPopup._congress as number | null;
+        const popupCongress = districtPopup._congress as number | null;
         const stateName = String(districtPopup.statename ?? districtPopup.STATENAME ?? "Unknown State");
         const distNum = Number(districtPopup.district ?? districtPopup.DISTRICT ?? 0);
         const distLabel = distNum === 0 ? "At-Large" : String(distNum);
-        const [yearsStart] = congress ? congressYears(congress) : [null];
+        const [yearsStart] = popupCongress ? congressYears(popupCongress) : [null];
         return (
           <div className="absolute bottom-28 left-1/2 -translate-x-1/2 bg-black/85 backdrop-blur-md border border-white/20 rounded-xl px-5 py-4 text-white text-sm shadow-2xl"
             style={{ zIndex: 20, minWidth: 280 }}>
@@ -1161,9 +1530,9 @@ export default function MapComparison() {
                 <span className="text-xs font-semibold" style={{ color: partyColor }}>{partyLabel}</span>
               </div>
             )}
-            {congress && (
+            {popupCongress && (
               <div className="text-white/50 text-xs border-t border-white/10 pt-2 mt-1">
-                {ordinal(congress)} Congress
+                {ordinal(popupCongress)} Congress
                 {yearsStart && <span className="text-white/30 ml-1">({yearsStart}–{yearsStart + 1})</span>}
               </div>
             )}
@@ -1176,6 +1545,58 @@ export default function MapComparison() {
           </div>
         );
       })()}
+    </div>
+  );
+}
+
+// ─── Mobile District Popup ────────────────────────────────────────────────────
+function MobileDistrictPopup({ popup, onClose }: { popup: Record<string, unknown>; onClose: () => void }) {
+  const party = popup._party as string | null;
+  const partyColor = party === "D" ? "#5b8fd4" : party === "R" ? "#e06060" : party === "I" ? "#a78bfa" : "#888";
+  const partyLabel = party === "D" ? "Democrat" : party === "R" ? "Republican" : party === "I" ? "Independent" : "Unknown";
+  const memberName = popup._memberName as string | null;
+  const bioguide = popup._memberBioguide as string | null;
+  const popupCongress = popup._congress as number | null;
+  const stateName = String(popup.statename ?? popup.STATENAME ?? "Unknown State");
+  const distNum = Number(popup.district ?? popup.DISTRICT ?? 0);
+  const distLabel = distNum === 0 ? "At-Large" : String(distNum);
+  const [yearsStart] = popupCongress ? congressYears(popupCongress) : [null];
+
+  return (
+    <div className="absolute bottom-20 left-3 right-3 bg-black/90 backdrop-blur-md border border-white/20 rounded-xl px-4 py-3 text-white text-sm shadow-2xl"
+      style={{ zIndex: 20 }}>
+      <button onClick={onClose}
+        className="absolute top-2 right-3 text-white/40 hover:text-white text-lg leading-none">×</button>
+      <div className="font-bold text-sm mb-1">
+        {stateName} — {distLabel === "At-Large" ? "At-Large" : `District ${distLabel}`}
+      </div>
+      {memberName && (
+        <div className="flex items-center gap-2 mb-1">
+          {bioguide && (
+            <img src={`https://bioguide.congress.gov/bioguide/photo/${bioguide[0]}/${bioguide}.jpg`}
+              alt={memberName} className="w-7 h-7 rounded-full object-cover border border-white/20"
+              onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
+          )}
+          <div>
+            <div className="text-white font-semibold text-xs">{memberName}</div>
+            <div className="flex items-center gap-1 mt-0.5">
+              <div className="w-2 h-2 rounded-full" style={{ background: partyColor }} />
+              <span className="text-[10px] font-semibold" style={{ color: partyColor }}>{partyLabel}</span>
+            </div>
+          </div>
+        </div>
+      )}
+      {!memberName && party && (
+        <div className="flex items-center gap-1.5 mb-1">
+          <div className="w-2 h-2 rounded-full" style={{ background: partyColor }} />
+          <span className="text-xs font-semibold" style={{ color: partyColor }}>{partyLabel}</span>
+        </div>
+      )}
+      {popupCongress && (
+        <div className="text-white/50 text-[10px]">
+          {ordinal(popupCongress)} Congress{yearsStart && ` (${yearsStart}–${yearsStart + 1})`}
+        </div>
+      )}
     </div>
   );
 }
