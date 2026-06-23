@@ -403,9 +403,9 @@ function Legend() {
       <h4 className="text-[10px] font-medium text-slate-500 uppercase tracking-wider mb-2">Legend</h4>
       <div className="space-y-1.5">
         {[
-          { color: "bg-amber-500", label: "Upcoming" },
-          { color: "bg-yellow-400 animate-pulse", label: "Voting Today" },
-          { color: "bg-green-500", label: "Completed" },
+          { color: "bg-amber-400", label: "Upcoming" },
+          { color: "bg-yellow-300 animate-pulse", label: "Voting Today" },
+          { color: "bg-green-400", label: "Completed" },
           { color: "bg-slate-600", label: "No Election Tracked" },
         ].map((item) => (
           <div key={item.label} className="flex items-center gap-2">
@@ -424,7 +424,7 @@ export default function WorldElections() {
   const [selectedCountry, setSelectedCountry] = useState<{ code: string; name: string } | null>(null);
   const [hoveredCountry, setHoveredCountry] = useState<{ code: string; name: string } | null>(null);
   const [filter, setFilter] = useState("all");
-  const [showMobileTimeline, setShowMobileTimeline] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
 
   const electionData = useMemo(
     () =>
@@ -450,7 +450,7 @@ export default function WorldElections() {
 
   const handleTimelineElectionClick = useCallback((code: string, name: string) => {
     setSelectedCountry({ code, name });
-    setShowMobileTimeline(false);
+    setShowSidebar(false);
   }, []);
 
   if (isLoading) {
@@ -475,24 +475,27 @@ export default function WorldElections() {
         <span className="hidden sm:inline">U.S. Map</span>
       </Link>
 
-      {/* Mobile toggle */}
+      {/* Sidebar toggle button */}
       <button
-        onClick={() => setShowMobileTimeline(!showMobileTimeline)}
-        className="lg:hidden absolute top-3 left-3 z-50 bg-slate-800/90 backdrop-blur-sm border border-slate-700/50 rounded-lg px-3 py-2 text-sm text-slate-200 flex items-center gap-2"
+        onClick={() => setShowSidebar(!showSidebar)}
+        className="absolute top-3 left-3 z-50 bg-slate-800/90 backdrop-blur-sm border border-slate-700/50 rounded-lg px-3 py-2 text-sm text-slate-200 flex items-center gap-2 hover:bg-slate-700/90 transition-colors"
       >
         <Calendar className="w-4 h-4" />
         <span>Elections ({elections.length})</span>
+        {showSidebar && <X className="w-4 h-4 ml-1" />}
       </button>
 
-      {/* Timeline Sidebar (desktop always visible, mobile toggle) */}
-      <div className={`${showMobileTimeline ? "block" : "hidden"} lg:block absolute lg:relative z-40 h-full`}>
-        <TimelineSidebar
-          elections={elections}
-          onElectionClick={handleTimelineElectionClick}
-          filter={filter}
-          onFilterChange={setFilter}
-        />
-      </div>
+      {/* Timeline Sidebar (collapsible) */}
+      {showSidebar && (
+        <div className="absolute left-0 top-14 z-40 h-[calc(100%-3.5rem)] animate-in slide-in-from-left duration-200">
+          <TimelineSidebar
+            elections={elections}
+            onElectionClick={handleTimelineElectionClick}
+            filter={filter}
+            onFilterChange={setFilter}
+          />
+        </div>
+      )}
 
       {/* Globe area */}
       <div className="flex-1 relative">

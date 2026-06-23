@@ -1890,3 +1890,7 @@
 - [x] Fix SC primary dates: House SC-1, SC-2 and Governor runoff dates should be "June 23, 2026" (not June 9)
 - [x] Update status to "Primary" for all NY/MD/UT races voting tonight
 - [x] Update status to "Primary Runoff" / "Voting" for SC/NY/MD races voting tonight
+
+## Globe UX (Round 8)
+- [x] Make Elections sidebar collapsible/closeable so full globe is visible
+- [x] Make election country colors pop more (brighter fills, more vivid borders)

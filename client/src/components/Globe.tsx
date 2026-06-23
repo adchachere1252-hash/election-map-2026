@@ -24,11 +24,11 @@ const GLOBE_RADIUS = 2;
 const TOPO_URL = "/manus-storage/countries-110m_b4a7267c.json";
 
 const STATUS_COLORS: Record<string, number> = {
-  "Upcoming": 0xf59e0b,
-  "Voting Today": 0xeab308,
-  "Completed": 0x22c55e,
-  "Postponed": 0x6b7280,
-  "Cancelled": 0xef4444,
+  "Upcoming": 0xfbbf24,    // Brighter amber-400
+  "Voting Today": 0xfde047, // Vivid yellow-300
+  "Completed": 0x4ade80,   // Brighter green-400
+  "Postponed": 0x9ca3af,   // Lighter gray
+  "Cancelled": 0xf87171,   // Brighter red-400
 };
 const DEFAULT_COLOR = 0x0a1628;
 const HOVER_COLOR = 0x60a5fa;
@@ -500,7 +500,7 @@ export default function Globe({
           const mesh = buildCountryMesh(feature, GLOBE_RADIUS * 1.002, color);
           if (mesh) {
             const mat = mesh.material as THREE.MeshBasicMaterial;
-            mat.opacity = election ? 0.35 : 0.08;
+            mat.opacity = election ? 0.55 : 0.08;
             mesh.userData = { countryCode: alpha2, countryName: feature.properties?.name || "" };
             globeGroup.add(mesh);
             if (alpha2) countryMeshesRef.current.set(alpha2, mesh);
@@ -512,7 +512,7 @@ export default function Globe({
             if (glowBorder) {
               const borderMat = glowBorder.material as THREE.LineBasicMaterial;
               borderMat.color.setHex(STATUS_COLORS[election.status] ?? 0xf59e0b);
-              borderMat.opacity = 0.9;
+              borderMat.opacity = 1.0;
               borderMat.linewidth = 2;
               glowBorder.userData = { countryCode: alpha2, isGlowBorder: true };
               globeGroup.add(glowBorder);
@@ -523,7 +523,7 @@ export default function Globe({
             if (outerGlow) {
               const outerMat = outerGlow.material as THREE.LineBasicMaterial;
               outerMat.color.setHex(STATUS_COLORS[election.status] ?? 0xf59e0b);
-              outerMat.opacity = 0.4;
+              outerMat.opacity = 0.6;
               outerMat.linewidth = 1;
               outerGlow.userData = { isOuterGlow: true, countryCode: alpha2 };
               globeGroup.add(outerGlow);
@@ -699,7 +699,7 @@ export default function Globe({
       } else {
         const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
         mat.color.setHex(color);
-        mat.opacity = election ? 0.35 : 0.08;
+        mat.opacity = election ? 0.55 : 0.08;
       }
     });
     // Also brighten the selected country's border
@@ -785,7 +785,7 @@ export default function Globe({
             const election = electionMapRef.current.get(code);
             const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
             mat.color.setHex(color);
-            mat.opacity = election ? 0.35 : 0.08;
+            mat.opacity = election ? 0.55 : 0.08;
           }
         });
         // Reset border glow colors
