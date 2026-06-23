@@ -1850,3 +1850,8 @@
 - [x] Add ocean name labels (5 oceans, always visible, subtle blue-gray italic)
 - [x] Add election country name labels (30 tracked countries, white bold, always visible)
 - [x] Update OG meta tags to reflect new site name
+
+## Globe Polish (Round 2)
+- [x] Shrink country labels to fit within country outlines (scale by country size)
+- [x] Change ocean color to solid navy blue (remove photo texture for water)
+- [x] Fix European label clustering (spread centroids, reduce scales for CZ/HU/SK/BA/BG/LV)

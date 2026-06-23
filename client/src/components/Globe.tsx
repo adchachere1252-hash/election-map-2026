@@ -74,7 +74,7 @@ const COUNTRY_CENTROIDS: Record<string, { lon: number; lat: number }> = {
   MY: { lon: 110, lat: 4 },
   SG: { lon: 104, lat: 1 },
   NO: { lon: 10, lat: 62 },
-  SE: { lon: 16, lat: 62 },
+  SE: { lon: 16, lat: 64 },
   DK: { lon: 10, lat: 56 },
   FI: { lon: 26, lat: 64 },
   PT: { lon: -8, lat: 40 },
@@ -82,21 +82,21 @@ const COUNTRY_CENTROIDS: Record<string, { lon: number; lat: number }> = {
   IT: { lon: 12, lat: 43 },
   GR: { lon: 22, lat: 39 },
   RO: { lon: 25, lat: 46 },
-  CZ: { lon: 15, lat: 50 },
+  CZ: { lon: 15, lat: 51 },
   AT: { lon: 14, lat: 47 },
   CH: { lon: 8, lat: 47 },
   BE: { lon: 4, lat: 51 },
   IE: { lon: -8, lat: 53 },
   NZ: { lon: 172, lat: -41 },
-  HU: { lon: 19, lat: 47 },
-  SK: { lon: 19, lat: 49 },
+  HU: { lon: 20, lat: 46 },
+  SK: { lon: 21, lat: 49 },
   ST: { lon: 7, lat: 1 },
   CK: { lon: -160, lat: -21 },
-  IS: { lon: -19, lat: 65 },
-  LV: { lon: 25, lat: 57 },
-  BA: { lon: 18, lat: 44 },
+  IS: { lon: -19, lat: 66 },
+  LV: { lon: 25, lat: 58 },
+  BA: { lon: 17, lat: 43 },
   CV: { lon: -24, lat: 16 },
-  BG: { lon: 25, lat: 43 },
+  BG: { lon: 26, lat: 42 },
   GM: { lon: -16, lat: 13 },
   SS: { lon: 30, lat: 7 },
   AM: { lon: 45, lat: 40 },
@@ -215,8 +215,7 @@ function createTextSprite(
   });
   const sprite = new THREE.Sprite(spriteMat);
   const aspect = canvas.width / canvas.height;
-  const scale = 0.3;
-  sprite.scale.set(scale * aspect, scale, 1);
+  sprite.scale.set(aspect, 1, 1); // Base scale, will be overridden per-label
   return sprite;
 }
 
@@ -425,12 +424,9 @@ export default function Globe({
     scene.add(globeGroup);
     globeGroupRef.current = globeGroup;
 
-    // Earth sphere with physical texture (base layer)
+    // Ocean sphere — solid navy blue
     const earthGeo = new THREE.SphereGeometry(GLOBE_RADIUS, 64, 64);
-    const textureLoader = new THREE.TextureLoader();
-    const earthTexture = textureLoader.load("/manus-storage/earth-texture_74117f24.jpg");
-    earthTexture.colorSpace = THREE.SRGBColorSpace;
-    const earthMat = new THREE.MeshBasicMaterial({ map: earthTexture });
+    const earthMat = new THREE.MeshBasicMaterial({ color: 0x0a1a3a });
     globeGroup.add(new THREE.Mesh(earthGeo, earthMat));
 
     // Atmosphere glow (back-side additive)
@@ -474,7 +470,7 @@ export default function Globe({
           const mesh = buildCountryMesh(feature, GLOBE_RADIUS * 1.002, color);
           if (mesh) {
             const mat = mesh.material as THREE.MeshBasicMaterial;
-            mat.opacity = election ? 0.6 : 0.08;
+            mat.opacity = election ? 0.75 : 0.25;
             mesh.userData = { countryCode: alpha2, countryName: feature.properties?.name || "" };
             globeGroup.add(mesh);
             if (alpha2) countryMeshesRef.current.set(alpha2, mesh);
@@ -487,34 +483,50 @@ export default function Globe({
       })
       .catch(err => console.error("Failed to load globe data:", err));
 
-    // ─── Add ocean labels ──────────────────────────────────────────────────────
+    // ─── Add ocean labels (small, subtle) ─────────────────────────────────────
     for (const ocean of OCEAN_LABELS) {
       const sprite = createTextSprite(ocean.name, {
-        fontSize: 36,
-        color: "#64748b",
+        fontSize: 28,
+        color: "#475569",
         fontStyle: "italic",
-        opacity: 0.7,
+        opacity: 0.5,
       });
       const pos = latLonToVec3(ocean.lon, ocean.lat, GLOBE_RADIUS * 1.01);
       sprite.position.copy(pos);
+      // Scale ocean labels small
+      const aspect = sprite.scale.x / sprite.scale.y;
+      const oceanScale = 0.18;
+      sprite.scale.set(oceanScale * aspect, oceanScale, 1);
       sprite.userData = { isLabel: true };
       globeGroup.add(sprite);
     }
 
-    // ─── Add election country labels ───────────────────────────────────────────
+    // ─── Add election country labels (scaled to fit country size) ──────────────
+    // Approximate country "size" for label scaling
+    const COUNTRY_SCALE: Record<string, number> = {
+      US: 0.16, RU: 0.18, BR: 0.14, KZ: 0.12, DZ: 0.10, ET: 0.09,
+      CO: 0.08, SE: 0.07, NZ: 0.07, SO: 0.07, ZM: 0.07, MA: 0.07,
+      HU: 0.04, CZ: 0.04, BG: 0.04, SK: 0.03, BA: 0.03, LV: 0.03,
+      IS: 0.04, GB: 0.06, IL: 0.03, BD: 0.05, AM: 0.04, SS: 0.06,
+      GM: 0.03, HT: 0.04, BH: 0.03, CV: 0.03, ST: 0.03, CK: 0.03,
+    };
     const addCountryLabels = () => {
       const map = electionMapRef.current;
       map.forEach((election, code) => {
         const centroid = COUNTRY_CENTROIDS[code];
         if (!centroid) return;
+        const labelScale = COUNTRY_SCALE[code] || 0.06;
         const sprite = createTextSprite(election.country, {
-          fontSize: 32,
+          fontSize: 28,
           color: "#e2e8f0",
           fontStyle: "600",
-          opacity: 0.85,
+          opacity: 0.8,
         });
-        const pos = latLonToVec3(centroid.lon, centroid.lat, GLOBE_RADIUS * 1.04);
+        const pos = latLonToVec3(centroid.lon, centroid.lat, GLOBE_RADIUS * 1.02);
         sprite.position.copy(pos);
+        // Scale label to fit within country outline
+        const aspect = sprite.scale.x / sprite.scale.y;
+        sprite.scale.set(labelScale * aspect, labelScale, 1);
         sprite.userData = { isLabel: true, countryLabel: code };
         globeGroup.add(sprite);
       });
@@ -589,7 +601,7 @@ export default function Globe({
       } else {
         const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
         mat.color.setHex(color);
-        mat.opacity = election ? 0.6 : 0.08;
+        mat.opacity = election ? 0.75 : 0.25;
       }
     });
   }, [elections, selectedCountry]);
@@ -661,7 +673,7 @@ export default function Globe({
             const election = electionMapRef.current.get(code);
             const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
             mat.color.setHex(color);
-            mat.opacity = election ? 0.6 : 0.08;
+            mat.opacity = election ? 0.75 : 0.25;
           }
         });
       }
