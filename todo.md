@@ -1825,3 +1825,18 @@
 - [x] URL state persistence (?congress=&b=&compare=&state= shareable links)
 - [x] Mobile responsive layout (single-panel with dropdown selectors)
 - [x] Expand test coverage (40 tests: manifest integrity, URL state, party matching, seat data)
+
+## World Elections Globe Feature
+
+- [x] Rename site from "2026 U.S. Election Center" to "The Election Center"
+- [x] Create world_elections database schema and run migration
+- [x] Seed world elections data (30 elections: upcoming + recently completed)
+- [x] Install Three.js and build 3D globe component with country polygons (pure Three.js, no React Three Fiber)
+- [x] Implement globe interaction: rotate, zoom, click country to select (hover-based click)
+- [x] Color countries by election status (amber=upcoming, yellow=voting today, green=completed)
+- [x] Build election detail panel (slide-out on country click): date, type, candidates, vote count, incumbent, term info, system type
+- [x] Build timeline sidebar showing upcoming elections sorted by date with countdown badges
+- [x] Add "World" tab to main navigation (next to Governor/Redistricting)
+- [x] Add World Elections admin panel tab for CRUD operations
+- [x] Add tRPC procedures for world elections (list, getByCountry, create, update, delete)
+- [x] Write tests for world elections procedures (23 tests passing)

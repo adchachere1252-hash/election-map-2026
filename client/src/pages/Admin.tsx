@@ -39,7 +39,7 @@ function LoginScreen({ onLogin }: { onLogin: (token: string) => void }) {
             <Lock className="w-6 h-6 text-white" />
           </div>
           <h1 className="text-xl font-bold text-foreground">Admin Panel</h1>
-          <p className="text-sm text-muted-foreground mt-1">2026 U.S. Election Center</p>
+          <p className="text-sm text-muted-foreground mt-1">The Election Center</p>
         </div>
 
         <form onSubmit={handleSubmit} className="bg-card border border-border rounded-xl p-6 space-y-4">
@@ -1295,8 +1295,255 @@ function LiveMonitorPanel({ token }: { token: string }) {
   );
 }
 
+// ─── World Election Editor ──────────────────────────────────────────────────
+function WorldElectionEditor({ election, token, onUpdated }: { election: any; token: string; onUpdated: () => void }) {
+  const [form, setForm] = useState({
+    country: election.country ?? "",
+    countryCode: election.countryCode ?? "",
+    electionType: election.electionType ?? "Presidential",
+    electionName: election.electionName ?? "",
+    electionDate: election.electionDate ?? "",
+    endDate: election.endDate ?? "",
+    status: election.status ?? "Upcoming",
+    isDateConfirmed: election.isDateConfirmed ?? true,
+    isSnap: election.isSnap ?? false,
+    incumbent: election.incumbent ?? "",
+    incumbentParty: election.incumbentParty ?? "",
+    systemType: election.systemType ?? "",
+    termLength: election.termLength ?? "",
+    candidates: election.candidates ?? "",
+    winner: election.winner ?? "",
+    winnerParty: election.winnerParty ?? "",
+    totalVotes: election.totalVotes ? String(election.totalVotes) : "",
+    turnoutPct: election.turnoutPct ? String(election.turnoutPct) : "",
+    notes: election.notes ?? "",
+    sources: election.sources ?? "",
+  });
+
+  const utils = trpc.useUtils();
+  const updateMutation = trpc.worldElections.update.useMutation({
+    onSuccess: () => {
+      toast.success(`${form.country} election updated`);
+      utils.worldElections.getAll.invalidate();
+      onUpdated();
+    },
+    onError: (err: any) => toast.error(err.message),
+  });
+
+  const deleteMutation = trpc.worldElections.delete.useMutation({
+    onSuccess: () => {
+      toast.success(`Election deleted`);
+      utils.worldElections.getAll.invalidate();
+      onUpdated();
+    },
+    onError: (err: any) => toast.error(err.message),
+  });
+
+  const handleSave = () => {
+    updateMutation.mutate({
+      id: election.id,
+      adminToken: token,
+      country: form.country,
+      countryCode: form.countryCode,
+      electionType: form.electionType as any,
+      electionName: form.electionName,
+      electionDate: form.electionDate,
+      endDate: form.endDate || null,
+      status: form.status as any,
+      isDateConfirmed: form.isDateConfirmed,
+      isSnap: form.isSnap,
+      incumbent: form.incumbent || null,
+      incumbentParty: form.incumbentParty || null,
+      systemType: form.systemType || null,
+      termLength: form.termLength || null,
+      candidates: form.candidates || null,
+      winner: form.winner || null,
+      winnerParty: form.winnerParty || null,
+      totalVotes: form.totalVotes ? parseInt(form.totalVotes) : null,
+      turnoutPct: form.turnoutPct ? parseFloat(form.turnoutPct) : null,
+      notes: form.notes || null,
+      sources: form.sources || null,
+    });
+  };
+
+  const set = (key: string, val: any) => setForm(prev => ({ ...prev, [key]: val }));
+
+  return (
+    <div className="space-y-4">
+      {/* Status & Type */}
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <label className="block text-xs text-muted-foreground mb-1">Status</label>
+          <select className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+            value={form.status} onChange={e => set("status", e.target.value)}>
+            {["Upcoming", "Voting Today", "Completed", "Postponed", "Cancelled"].map(s => (
+              <option key={s} value={s}>{s}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="block text-xs text-muted-foreground mb-1">Election Type</label>
+          <select className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+            value={form.electionType} onChange={e => set("electionType", e.target.value)}>
+            {["Presidential", "Parliamentary", "Referendum", "Legislative", "Local"].map(t => (
+              <option key={t} value={t}>{t}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      {/* Country & Code */}
+      <div className="grid grid-cols-3 gap-3">
+        <div className="col-span-2">
+          <label className="block text-xs text-muted-foreground mb-1">Country</label>
+          <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+            value={form.country} onChange={e => set("country", e.target.value)} />
+        </div>
+        <div>
+          <label className="block text-xs text-muted-foreground mb-1">Code (ISO)</label>
+          <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+            value={form.countryCode} onChange={e => set("countryCode", e.target.value.toUpperCase())} maxLength={2} />
+        </div>
+      </div>
+
+      {/* Election Name */}
+      <div>
+        <label className="block text-xs text-muted-foreground mb-1">Election Name</label>
+        <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+          value={form.electionName} onChange={e => set("electionName", e.target.value)} />
+      </div>
+
+      {/* Dates */}
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <label className="block text-xs text-muted-foreground mb-1">Election Date</label>
+          <input type="date" className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+            value={form.electionDate} onChange={e => set("electionDate", e.target.value)} />
+        </div>
+        <div>
+          <label className="block text-xs text-muted-foreground mb-1">End Date (multi-day)</label>
+          <input type="date" className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+            value={form.endDate} onChange={e => set("endDate", e.target.value)} />
+        </div>
+      </div>
+
+      {/* Flags */}
+      <div className="flex items-center gap-4">
+        <label className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer">
+          <input type="checkbox" checked={form.isDateConfirmed} onChange={e => set("isDateConfirmed", e.target.checked)} className="rounded" />
+          Date confirmed
+        </label>
+        <label className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer">
+          <input type="checkbox" checked={form.isSnap} onChange={e => set("isSnap", e.target.checked)} className="rounded" />
+          Snap election
+        </label>
+      </div>
+
+      {/* System info */}
+      <div className="border-t border-border pt-3">
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">System & Incumbent</p>
+        <div className="grid grid-cols-2 gap-3 mb-2">
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">System Type</label>
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              placeholder="e.g. Presidential Republic" value={form.systemType} onChange={e => set("systemType", e.target.value)} />
+          </div>
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Term Length</label>
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              placeholder="e.g. 5 years" value={form.termLength} onChange={e => set("termLength", e.target.value)} />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Incumbent</label>
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              value={form.incumbent} onChange={e => set("incumbent", e.target.value)} />
+          </div>
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Incumbent Party</label>
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              value={form.incumbentParty} onChange={e => set("incumbentParty", e.target.value)} />
+          </div>
+        </div>
+      </div>
+
+      {/* Results */}
+      <div className="border-t border-border pt-3">
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Results</p>
+        <div className="grid grid-cols-2 gap-3 mb-2">
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Winner</label>
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              value={form.winner} onChange={e => set("winner", e.target.value)} />
+          </div>
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Winner Party</label>
+            <input className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              value={form.winnerParty} onChange={e => set("winnerParty", e.target.value)} />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Total Votes</label>
+            <input type="number" className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              value={form.totalVotes} onChange={e => set("totalVotes", e.target.value)} />
+          </div>
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Turnout %</label>
+            <input type="number" step="0.01" className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none"
+              value={form.turnoutPct} onChange={e => set("turnoutPct", e.target.value)} />
+          </div>
+        </div>
+      </div>
+
+      {/* Candidates JSON */}
+      <div className="border-t border-border pt-3">
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Candidates (JSON)</p>
+        <textarea className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none font-mono h-24 resize-y"
+          placeholder='[{"name":"...","party":"...","votes":0,"pct":"0.0"}]'
+          value={form.candidates} onChange={e => set("candidates", e.target.value)} />
+      </div>
+
+      {/* Notes */}
+      <div>
+        <label className="block text-xs text-muted-foreground mb-1">Notes</label>
+        <textarea className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none h-16 resize-y"
+          value={form.notes} onChange={e => set("notes", e.target.value)} />
+      </div>
+
+      {/* Sources */}
+      <div>
+        <label className="block text-xs text-muted-foreground mb-1">Sources (JSON array of URLs)</label>
+        <textarea className="w-full bg-muted border border-border rounded px-2 py-1.5 text-sm text-foreground focus:outline-none h-12 resize-y font-mono"
+          placeholder='["https://..."]'
+          value={form.sources} onChange={e => set("sources", e.target.value)} />
+      </div>
+
+      {/* Actions */}
+      <div className="flex items-center gap-3 pt-2">
+        <button
+          onClick={handleSave}
+          disabled={updateMutation.isPending}
+          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+        >
+          <Save className="w-4 h-4" />
+          {updateMutation.isPending ? "Saving..." : "Save Changes"}
+        </button>
+        <button
+          onClick={() => { if (confirm(`Delete ${form.country} - ${form.electionName}?`)) deleteMutation.mutate({ adminToken: token, id: election.id }); }}
+          disabled={deleteMutation.isPending}
+          className="flex items-center gap-2 bg-red-900/50 hover:bg-red-800/50 text-red-300 text-sm font-semibold px-4 py-2 rounded-lg border border-red-700/40 transition-colors disabled:opacity-50"
+        >
+          {deleteMutation.isPending ? "Deleting..." : "Delete"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ─── Main Admin Panel ─────────────────────────────────────────────────
-type AdminTab = "senate" | "house" | "redistricting" | "referendums" | "primary" | "election-night" | "key-races" | "governors" | "live-monitor";
+type AdminTab = "senate" | "house" | "redistricting" | "referendums" | "primary" | "election-night" | "key-races" | "governors" | "live-monitor" | "world";
 
 function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }) {
   const [tab, setTab] = useState<AdminTab>("senate");
@@ -1308,16 +1555,18 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
   const [selectedReferendum, setSelectedReferendum] = useState<Referendum | null>(null);
   const [selectedGovernor, setSelectedGovernor] = useState<GovernorRace | null>(null);
   const [govSearch, setGovSearch] = useState("");
+  const [selectedWorldElection, setSelectedWorldElection] = useState<any | null>(null);
+  const [worldSearch, setWorldSearch] = useState("");
 
   // Derived: is any editor open?
-  const isDrawerOpen = !!(selectedSenate || selectedHouse || selectedGovernor || selectedRedistricting || selectedReferendum);
+  const isDrawerOpen = !!(selectedSenate || selectedHouse || selectedGovernor || selectedRedistricting || selectedReferendum || selectedWorldElection);
 
   // Close drawer on Escape
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setSelectedSenate(null); setSelectedHouse(null); setSelectedGovernor(null);
-        setSelectedRedistricting(null); setSelectedReferendum(null);
+        setSelectedRedistricting(null); setSelectedReferendum(null); setSelectedWorldElection(null);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -1335,13 +1584,14 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
   const { data: referendums = [], refetch: refetchReferendums } = trpc.referendum.list.useQuery();
   const { data: pinnedRaces = [], refetch: refetchPinned } = trpc.keyRaces.listPinned.useQuery();
   const { data: governorRaces = [], refetch: refetchGovernors } = trpc.governor.list.useQuery();
+  const { data: worldElectionsData = [], refetch: refetchWorldElections } = trpc.worldElections.getAll.useQuery();
 
   const pinMutation = trpc.keyRaces.pin.useMutation({ onSuccess: () => { refetchPinned(); toast.success("Race pinned to Key Races sidebar"); } });
   const unpinMutation = trpc.keyRaces.unpin.useMutation({ onSuccess: () => { refetchPinned(); toast.success("Race unpinned"); } });
   const clearAllMutation = trpc.keyRaces.clearAll.useMutation({ onSuccess: (d) => { refetchPinned(); toast.success(`Cleared ${d.cleared} pinned races — sidebar reverts to auto-computed`); } });
 
   const handleRefresh = () => {
-    refetchSenate(); refetchHouse(); refetchRedistricting(); refetchReferendums(); refetchPinned(); refetchGovernors();
+    refetchSenate(); refetchHouse(); refetchRedistricting(); refetchReferendums(); refetchPinned(); refetchGovernors(); refetchWorldElections();
     toast.success("Data refreshed");
   };
 
@@ -1408,7 +1658,7 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
         <div className={`border-r border-border flex flex-col overflow-hidden transition-all ${tab === "election-night" ? "w-0 overflow-hidden border-0" : "w-72"}`}>
           {/* Tabs */}
           <div className="flex flex-wrap border-b border-border">
-            {(["senate", "house", "redistricting", "referendums", "governors", "primary", "key-races", "election-night", "live-monitor"] as AdminTab[]).map(t => (
+            {(["senate", "house", "redistricting", "referendums", "governors", "world", "primary", "key-races", "election-night", "live-monitor"] as AdminTab[]).map(t => (
               <button
                 key={t}
                 onClick={() => { setTab(t); setSearch(""); }}
@@ -1422,6 +1672,7 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
               >
                 {t === "redistricting" ? "Redistrict"
                   : t === "governors" ? "Govs"
+                  : t === "world" ? "🌍 World"
                   : t === "primary" ? "Primaries"
                   : t === "election-night" ? <span className="flex items-center justify-center gap-0.5"><Zap className="w-3 h-3" />Night</span>
                   : t === "key-races" ? <span className="flex items-center justify-center gap-0.5"><Star className="w-3 h-3" />Key Races</span>
@@ -1432,15 +1683,15 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
           </div>
 
           {/* Search */}
-          {(tab === "senate" || tab === "house" || tab === "governors") && (
+          {(tab === "senate" || tab === "house" || tab === "governors" || tab === "world") && (
             <div className="p-2 border-b border-border">
               <div className="relative">
                 <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
                 <input
                   className="w-full bg-muted border border-border rounded pl-8 pr-3 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
                   placeholder="Search..."
-                  value={tab === "governors" ? govSearch : search}
-                  onChange={e => tab === "governors" ? setGovSearch(e.target.value) : setSearch(e.target.value)}
+                  value={tab === "governors" ? govSearch : tab === "world" ? worldSearch : search}
+                  onChange={e => tab === "governors" ? setGovSearch(e.target.value) : tab === "world" ? setWorldSearch(e.target.value) : setSearch(e.target.value)}
                 />
               </div>
             </div>
@@ -1538,6 +1789,28 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
                 <p className="text-xs text-muted-foreground mt-0.5 truncate">{ref.electionDate}</p>
               </button>
             ))}
+
+            {tab === "world" && worldElectionsData
+              .filter(e => !worldSearch || e.country.toLowerCase().includes(worldSearch.toLowerCase()) || e.electionName.toLowerCase().includes(worldSearch.toLowerCase()))
+              .map(election => (
+              <button
+                key={election.id}
+                onClick={() => setSelectedWorldElection(election)}
+                className={`w-full text-left px-3 py-2.5 border-b border-border/50 hover:bg-accent transition-colors ${selectedWorldElection?.id === election.id ? "bg-accent" : ""}`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">{election.country}</span>
+                  <span className={`text-xs px-1.5 py-0.5 rounded font-semibold ${
+                    election.status === "Completed" ? "bg-green-900/50 text-green-300" :
+                    election.status === "Voting Today" ? "bg-yellow-900/50 text-yellow-300" :
+                    election.status === "Upcoming" ? "bg-amber-900/50 text-amber-300" :
+                    "bg-gray-700 text-gray-300"
+                  }`}>{election.status}</span>
+                </div>
+                <p className="text-xs text-muted-foreground mt-0.5 truncate">{election.electionName}</p>
+                <p className="text-xs text-muted-foreground/60 truncate">{election.electionDate} · {election.electionType}</p>
+              </button>
+            ))}
           </div>
 
           <div className="p-2 border-t border-border text-xs text-muted-foreground text-center">
@@ -1546,6 +1819,7 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
             {tab === "redistricting" && `${redistrictingStates.length} states`}
             {tab === "referendums" && `${referendums.length} referendums`}
             {tab === "governors" && `${filteredGovernors.length} races`}
+            {tab === "world" && `${worldElectionsData.length} elections`}
             {tab === "key-races" && `${pinnedRaces.length} pinned`}
           </div>
         </div>
@@ -1555,7 +1829,7 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
         {isDrawerOpen && tab !== "primary" && tab !== "election-night" && tab !== "key-races" && (
           <div
             className="fixed inset-0 z-40 bg-black/40"
-            onClick={() => { setSelectedSenate(null); setSelectedHouse(null); setSelectedGovernor(null); setSelectedRedistricting(null); setSelectedReferendum(null); }}
+            onClick={() => { setSelectedSenate(null); setSelectedHouse(null); setSelectedGovernor(null); setSelectedRedistricting(null); setSelectedReferendum(null); setSelectedWorldElection(null); }}
           />
         )}
         <div
@@ -1578,9 +1852,10 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
                 {tab === "governors" && selectedGovernor && `${selectedGovernor.stateName} — Governor`}
                 {tab === "redistricting" && selectedRedistricting && `${selectedRedistricting.stateName} — Redistricting`}
                 {tab === "referendums" && selectedReferendum && `${selectedReferendum.stateName} — Referendum`}
+                {tab === "world" && selectedWorldElection && `${selectedWorldElection.country} — ${selectedWorldElection.electionType}`}
               </span>
               <button
-                onClick={() => { setSelectedSenate(null); setSelectedHouse(null); setSelectedGovernor(null); setSelectedRedistricting(null); setSelectedReferendum(null); }}
+                onClick={() => { setSelectedSenate(null); setSelectedHouse(null); setSelectedGovernor(null); setSelectedRedistricting(null); setSelectedReferendum(null); setSelectedWorldElection(null); }}
                 className="p-1.5 rounded hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
                 aria-label="Close editor"
               >
@@ -1635,6 +1910,15 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
               <h2 className="text-lg font-bold text-foreground mb-1">{selectedReferendum.stateName} Referendum</h2>
               <div className="max-w-lg">
                 <ReferendumEditor referendum={selectedReferendum} token={token} onUpdated={() => refetchReferendums()} />
+              </div>
+            </div>
+          )}
+
+          {tab === "world" && selectedWorldElection && (
+            <div>
+              <h2 className="text-lg font-bold text-foreground mb-1">{selectedWorldElection.country} — {selectedWorldElection.electionName}</h2>
+              <div className="max-w-lg">
+                <WorldElectionEditor election={selectedWorldElection} token={token} onUpdated={() => { refetchWorldElections(); setSelectedWorldElection(null); }} />
               </div>
             </div>
           )}
@@ -1793,7 +2077,8 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
             (tab === "house" && !selectedHouse) ||
             (tab === "redistricting" && !selectedRedistricting) ||
             (tab === "referendums" && !selectedReferendum) ||
-            (tab === "governors" && !selectedGovernor)) && (
+            (tab === "governors" && !selectedGovernor) ||
+            (tab === "world" && !selectedWorldElection)) && (
             <div className="flex flex-col items-center justify-center h-full text-center">
               <Lock className="w-12 h-12 text-muted-foreground/30 mb-4" />
               <p className="text-muted-foreground font-medium">Select a race from the left panel to edit</p>

@@ -14,6 +14,7 @@ import {
   getAllSenators, getSenatorsByState, searchSenators, getSenatorById,
   getPinnedKeyRaces, pinKeyRace, unpinKeyRaceByRace,
   getAllGovernorRaces, getGovernorRaceById, getGovernorRaceByState, updateGovernorRace,
+  getAllWorldElections, getWorldElectionById, getWorldElectionsByCountry, createWorldElection, updateWorldElection, deleteWorldElection,
 } from "./db";
 import { nanoid } from "nanoid";
 import { ENV } from "./_core/env";
@@ -898,6 +899,95 @@ export const appRouter = router({
           updateData.calledAt = input.calledWinner ? Date.now() : null;
         }
         await updateGovernorRace(id, updateData as Parameters<typeof updateGovernorRace>[1]);
+        return { success: true };
+      }),
+  }),
+
+  // ─── World Elections ─────────────────────────────────────────────────────────
+  worldElections: router({
+    getAll: publicProcedure.query(async () => {
+      return getAllWorldElections();
+    }),
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return getWorldElectionById(input.id);
+      }),
+    getByCountry: publicProcedure
+      .input(z.object({ countryCode: z.string() }))
+      .query(async ({ input }) => {
+        return getWorldElectionsByCountry(input.countryCode);
+      }),
+    create: publicProcedure
+      .input(z.object({
+        adminToken: z.string(),
+        country: z.string(),
+        countryCode: z.string().length(2),
+        electionType: z.enum(["Presidential", "Parliamentary", "Referendum", "Legislative", "Local"]),
+        electionName: z.string(),
+        electionDate: z.string(),
+        endDate: z.string().nullable().optional(),
+        status: z.enum(["Upcoming", "Voting Today", "Completed", "Postponed", "Cancelled"]).optional(),
+        isDateConfirmed: z.boolean().optional(),
+        isSnap: z.boolean().optional(),
+        incumbent: z.string().nullable().optional(),
+        incumbentParty: z.string().nullable().optional(),
+        systemType: z.string().nullable().optional(),
+        termLength: z.string().nullable().optional(),
+        candidates: z.string().nullable().optional(),
+        winner: z.string().nullable().optional(),
+        winnerParty: z.string().nullable().optional(),
+        totalVotes: z.number().nullable().optional(),
+        turnoutPct: z.number().nullable().optional(),
+        notes: z.string().nullable().optional(),
+        sources: z.string().nullable().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        const { adminToken: _t, ...data } = input;
+        const id = await createWorldElection(data as any);
+        return { success: true, id };
+      }),
+    update: publicProcedure
+      .input(z.object({
+        adminToken: z.string(),
+        id: z.number(),
+        country: z.string().optional(),
+        countryCode: z.string().length(2).optional(),
+        electionType: z.enum(["Presidential", "Parliamentary", "Referendum", "Legislative", "Local"]).optional(),
+        electionName: z.string().optional(),
+        electionDate: z.string().optional(),
+        endDate: z.string().nullable().optional(),
+        status: z.enum(["Upcoming", "Voting Today", "Completed", "Postponed", "Cancelled"]).optional(),
+        isDateConfirmed: z.boolean().optional(),
+        isSnap: z.boolean().optional(),
+        incumbent: z.string().nullable().optional(),
+        incumbentParty: z.string().nullable().optional(),
+        systemType: z.string().nullable().optional(),
+        termLength: z.string().nullable().optional(),
+        candidates: z.string().nullable().optional(),
+        winner: z.string().nullable().optional(),
+        winnerParty: z.string().nullable().optional(),
+        totalVotes: z.number().nullable().optional(),
+        turnoutPct: z.number().nullable().optional(),
+        notes: z.string().nullable().optional(),
+        sources: z.string().nullable().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        const { id, adminToken: _t, ...data } = input;
+        const updateData: Record<string, unknown> = {};
+        for (const [k, v] of Object.entries(data)) {
+          if (v !== undefined) updateData[k] = v;
+        }
+        await updateWorldElection(id, updateData as any);
+        return { success: true };
+      }),
+    delete: publicProcedure
+      .input(z.object({ adminToken: z.string(), id: z.number() }))
+      .mutation(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        await deleteWorldElection(input.id);
         return { success: true };
       }),
   }),

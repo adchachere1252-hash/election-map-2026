@@ -282,3 +282,58 @@ export const broadcastLog = mysqlTable("broadcast_log", {
   district: varchar("district", { length: 8 }).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
+
+// ─── World Elections ──────────────────────────────────────────────────────────
+export const worldElectionStatusEnum = mysqlEnum("world_election_status", [
+  "Upcoming",
+  "Voting Today",
+  "Completed",
+  "Postponed",
+  "Cancelled",
+]);
+
+export const worldElectionTypeEnum = mysqlEnum("world_election_type", [
+  "Presidential",
+  "Parliamentary",
+  "Referendum",
+  "Legislative",
+  "Local",
+]);
+
+export const worldElections = mysqlTable("world_elections", {
+  id: int("id").autoincrement().primaryKey(),
+  country: varchar("country", { length: 128 }).notNull(),
+  countryCode: varchar("country_code", { length: 3 }).notNull(), // ISO 3166-1 alpha-2
+  electionType: mysqlEnum("election_type", [
+    "Presidential", "Parliamentary", "Referendum", "Legislative", "Local"
+  ]).notNull(),
+  electionName: varchar("election_name", { length: 256 }).notNull(),
+  electionDate: varchar("election_date", { length: 16 }).notNull(), // YYYY-MM-DD
+  endDate: varchar("end_date", { length: 16 }), // for multi-day elections
+  status: mysqlEnum("status", [
+    "Upcoming", "Voting Today", "Completed", "Postponed", "Cancelled"
+  ]).notNull().default("Upcoming"),
+  isDateConfirmed: boolean("is_date_confirmed").default(true).notNull(),
+  isSnap: boolean("is_snap").default(false).notNull(),
+  // Incumbent & system info
+  incumbent: varchar("incumbent", { length: 256 }),
+  incumbentParty: varchar("incumbent_party", { length: 128 }),
+  systemType: varchar("system_type", { length: 128 }), // e.g. "Parliamentary Republic", "Presidential Republic"
+  termLength: varchar("term_length", { length: 64 }), // e.g. "4 years", "5 years"
+  // Candidates (JSON array: [{name, party, photo?, votes?, pct?}])
+  candidates: text("candidates"), // JSON string
+  // Results (set after election)
+  winner: varchar("winner", { length: 256 }),
+  winnerParty: varchar("winner_party", { length: 128 }),
+  totalVotes: bigint("total_votes", { mode: "number" }),
+  turnoutPct: decimal("turnout_pct", { precision: 5, scale: 2 }),
+  // Context
+  notes: text("notes"),
+  sources: text("sources"), // JSON array of source URLs
+  // Metadata
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type WorldElection = typeof worldElections.$inferSelect;
+export type InsertWorldElection = typeof worldElections.$inferInsert;

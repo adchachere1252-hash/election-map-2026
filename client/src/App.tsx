@@ -7,6 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 import MapComparison from "./pages/MapComparison";
+import WorldElections from "./pages/WorldElections";
 
 function Router() {
   return (
@@ -14,6 +15,7 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/admin"} component={Admin} />
       <Route path={"/map-comparison"} component={MapComparison} />
+      <Route path={"/world"} component={WorldElections} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

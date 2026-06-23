@@ -468,8 +468,8 @@ export default function Home() {
               <Map className="w-4 h-4 text-white" />
             </div>
             <div className="hidden sm:block">
-              <h1 className="text-sm font-bold text-foreground leading-tight">2026 U.S. Election Center</h1>
-              <p className="text-xs text-muted-foreground leading-tight hidden md:block">Interactive Congressional Tracker</p>
+              <h1 className="text-sm font-bold text-foreground leading-tight">The Election Center</h1>
+              <p className="text-xs text-muted-foreground leading-tight hidden md:block">Global & U.S. Election Tracker</p>
             </div>
           </div>
 
@@ -503,10 +503,19 @@ export default function Home() {
             <Link
               to="/map-comparison"
               className="px-2 sm:px-3 py-1.5 rounded-md text-xs font-semibold transition-all whitespace-nowrap text-muted-foreground hover:text-foreground"
-              title="Congressional Historical Map Atlas (89th\u2013119th Congress)"
+              title="Congressional Historical Map Atlas (89th–119th Congress)"
             >
               <span className="hidden sm:inline">Historical Atlas</span>
               <span className="sm:hidden">Atlas</span>
+            </Link>
+            {/* World Elections link */}
+            <Link
+              to="/world"
+              className="px-2 sm:px-3 py-1.5 rounded-md text-xs font-semibold transition-all whitespace-nowrap text-muted-foreground hover:text-foreground"
+              title="World Elections Globe"
+            >
+              <span className="hidden sm:inline">World</span>
+              <span className="sm:hidden">🌍</span>
             </Link>
           </div>
 
@@ -693,6 +702,12 @@ export default function Home() {
                 <button className="flex items-center gap-1.5 text-xs bg-violet-900/40 hover:bg-violet-800/60 border border-violet-600/40 text-violet-300 hover:text-violet-100 px-2.5 py-1 rounded-full transition-all font-semibold">
                   <Map className="w-3 h-3" />
                   Historical Map Atlas →
+                </button>
+              </Link>
+              <Link href="/world">
+                <button className="flex items-center gap-1.5 text-xs bg-emerald-900/40 hover:bg-emerald-800/60 border border-emerald-600/40 text-emerald-300 hover:text-emerald-100 px-2.5 py-1 rounded-full transition-all font-semibold">
+                  <Map className="w-3 h-3" />
+                  World Elections →
                 </button>
               </Link>
             </div>

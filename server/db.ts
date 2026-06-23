@@ -1,7 +1,7 @@
 import { eq, and, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { createRequire } from "module";
-import { InsertUser, users, senateRaces, houseRaces, redistrictingStates, referendums, adminSessions, senators, pinnedKeyRaces, governorRaces } from "../drizzle/schema";
+import { InsertUser, users, senateRaces, houseRaces, redistrictingStates, referendums, adminSessions, senators, pinnedKeyRaces, governorRaces, worldElections } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 const _require = createRequire(import.meta.url);
@@ -497,4 +497,40 @@ export async function updateGovernorRace(id: number, data: Partial<typeof govern
   const db = await getDb();
   if (!db) throw new Error("DB not available");
   await db.update(governorRaces).set(data).where(eq(governorRaces.id, id));
+}
+
+// ─── World Elections ──────────────────────────────────────────────────────────
+export async function getAllWorldElections() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(worldElections).orderBy(worldElections.electionDate);
+}
+export async function getWorldElectionById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  const result = await db.select().from(worldElections).where(eq(worldElections.id, id)).limit(1);
+  return result[0] ?? null;
+}
+export async function getWorldElectionsByCountry(countryCode: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(worldElections)
+    .where(eq(worldElections.countryCode, countryCode))
+    .orderBy(worldElections.electionDate);
+}
+export async function createWorldElection(data: typeof worldElections.$inferInsert) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  const result = await db.insert(worldElections).values(data);
+  return result[0].insertId;
+}
+export async function updateWorldElection(id: number, data: Partial<typeof worldElections.$inferInsert>) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.update(worldElections).set(data).where(eq(worldElections.id, id));
+}
+export async function deleteWorldElection(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.delete(worldElections).where(eq(worldElections.id, id));
 }
