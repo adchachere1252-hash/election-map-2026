@@ -10,6 +10,7 @@ const Globe = lazy(() => import("@/components/Globe"));
 interface Candidate {
   name: string;
   party: string;
+  description?: string | null;
   votes?: number | null;
   pct?: string | null;
   photo?: string | null;
@@ -180,24 +181,105 @@ function DetailPanel({
                   </div>
                 )}
 
-                {/* Candidates */}
+                {/* Candidates - VS Matchup Format */}
                 {candidates.length > 0 && (
                   <div>
-                    <h4 className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">
-                      {election.status === "Completed" ? "Results" : "Candidates"}
+                    <h4 className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-3">
+                      {election.status === "Completed" ? "Results" : election.electionType === "Referendum" ? "Positions" : "Key Candidates"}
                     </h4>
-                    <div className="space-y-2">
-                      {candidates.map((c, i) => (
-                        <div key={i} className="flex items-center justify-between bg-slate-700/20 rounded-lg px-3 py-2">
-                          <div>
-                            <span className="text-sm text-slate-200">{c.name}</span>
-                            <span className="text-xs text-slate-500 ml-2">{c.party}</span>
+                    <div className="space-y-3">
+                      {candidates.length >= 2 && election.electionType !== "Referendum" ? (
+                        <>
+                          {/* Main matchup: Candidate 1 vs Candidate 2 */}
+                          <div className="bg-gradient-to-r from-slate-800/80 via-slate-700/40 to-slate-800/80 rounded-xl border border-slate-600/30 p-4">
+                            <div className="flex items-center justify-between gap-3">
+                              {/* Candidate 1 */}
+                              <div className="flex-1 text-center">
+                                <div className="w-12 h-12 mx-auto rounded-full bg-blue-500/20 border-2 border-blue-400/50 flex items-center justify-center text-lg font-bold text-blue-300 mb-2">
+                                  {candidates[0].name.charAt(0)}
+                                </div>
+                                <p className="text-sm font-semibold text-white leading-tight">{candidates[0].name}</p>
+                                <p className="text-xs text-blue-400 mt-0.5">{candidates[0].party}</p>
+                                {candidates[0].pct && (
+                                  <p className="text-sm font-mono text-blue-300 mt-1">{candidates[0].pct}%</p>
+                                )}
+                              </div>
+                              {/* VS divider */}
+                              <div className="flex-shrink-0">
+                                <div className="w-10 h-10 rounded-full bg-amber-500/20 border border-amber-400/40 flex items-center justify-center">
+                                  <span className="text-xs font-bold text-amber-300">VS</span>
+                                </div>
+                              </div>
+                              {/* Candidate 2 */}
+                              <div className="flex-1 text-center">
+                                <div className="w-12 h-12 mx-auto rounded-full bg-red-500/20 border-2 border-red-400/50 flex items-center justify-center text-lg font-bold text-red-300 mb-2">
+                                  {candidates[1].name.charAt(0)}
+                                </div>
+                                <p className="text-sm font-semibold text-white leading-tight">{candidates[1].name}</p>
+                                <p className="text-xs text-red-400 mt-0.5">{candidates[1].party}</p>
+                                {candidates[1].pct && (
+                                  <p className="text-sm font-mono text-red-300 mt-1">{candidates[1].pct}%</p>
+                                )}
+                              </div>
+                            </div>
+                            {/* Descriptions */}
+                            <div className="mt-3 pt-3 border-t border-slate-600/30 space-y-2">
+                              {candidates[0].description && (
+                                <p className="text-xs text-slate-400"><span className="text-blue-400 font-medium">{candidates[0].name}:</span> {candidates[0].description}</p>
+                              )}
+                              {candidates[1].description && (
+                                <p className="text-xs text-slate-400"><span className="text-red-400 font-medium">{candidates[1].name}:</span> {candidates[1].description}</p>
+                              )}
+                            </div>
                           </div>
-                          {c.pct && (
-                            <span className="text-sm font-mono text-slate-300">{c.pct}%</span>
+                          {/* Additional candidates */}
+                          {candidates.length > 2 && (
+                            <div className="space-y-2">
+                              <p className="text-xs text-slate-500 font-medium">Other candidates:</p>
+                              {candidates.slice(2).map((c, i) => (
+                                <div key={i} className="bg-slate-700/30 rounded-lg px-3 py-2.5 border border-slate-600/20">
+                                  <div className="flex items-center gap-2">
+                                    <div className="w-7 h-7 rounded-full bg-slate-600/50 flex items-center justify-center text-xs font-bold text-slate-300">
+                                      {c.name.charAt(0)}
+                                    </div>
+                                    <div className="flex-1">
+                                      <span className="text-sm text-slate-200 font-medium">{c.name}</span>
+                                      <span className="text-xs text-slate-500 ml-2">{c.party}</span>
+                                    </div>
+                                    {c.pct && <span className="text-sm font-mono text-slate-300">{c.pct}%</span>}
+                                  </div>
+                                  {c.description && (
+                                    <p className="text-xs text-slate-400 mt-1 ml-9">{c.description}</p>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
                           )}
+                        </>
+                      ) : (
+                        /* Referendum or single candidate - simple list */
+                        <div className="space-y-2">
+                          {candidates.map((c, i) => (
+                            <div key={i} className={`rounded-lg px-4 py-3 border ${
+                              c.name === "Yes" ? "bg-green-500/10 border-green-500/30" :
+                              c.name === "No" ? "bg-red-500/10 border-red-500/30" :
+                              "bg-slate-700/30 border-slate-600/20"
+                            }`}>
+                              <div className="flex items-center gap-2">
+                                <span className={`text-sm font-bold ${
+                                  c.name === "Yes" ? "text-green-300" :
+                                  c.name === "No" ? "text-red-300" :
+                                  "text-slate-200"
+                                }`}>{c.name}</span>
+                              </div>
+                              <p className="text-xs text-slate-400 mt-1">{c.party}</p>
+                              {c.description && (
+                                <p className="text-xs text-slate-500 mt-1 italic">{c.description}</p>
+                              )}
+                            </div>
+                          ))}
                         </div>
-                      ))}
+                      )}
                     </div>
                   </div>
                 )}
@@ -209,8 +291,18 @@ function DetailPanel({
                   </div>
                 )}
 
-                {/* Notes */}
-                {election.notes && (
+                {/* Sources - extracted from notes */}
+                {election.notes && election.notes.includes("Sources:") && (
+                  <div className="bg-slate-800/50 rounded-lg px-3 py-2.5 border border-slate-600/20">
+                    <p className="text-xs text-slate-500 font-medium mb-1">Data Sources</p>
+                    <p className="text-xs text-blue-400/80">
+                      {election.notes.split("Sources:").pop()?.trim()}
+                    </p>
+                  </div>
+                )}
+
+                {/* Notes (non-source content) */}
+                {election.notes && !election.notes.includes("Sources:") && (
                   <p className="text-xs text-slate-400 leading-relaxed border-t border-slate-700/30 pt-3">
                     {election.notes}
                   </p>

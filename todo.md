@@ -1897,3 +1897,9 @@
 
 ## Globe Color Fix (Round 9 - Publish Ready)
 - [x] Make country fills much more opaque/vivid so they unmistakably match the legend colors
+
+## World Election Candidates (Full Research)
+- [x] Research and add candidates for all 25 upcoming world elections
+- [x] Format as candidate vs candidate matchups with party affiliations
+- [x] Add sourcing/citations for each election's candidate data
+- [x] Update detail panel UI to show candidate vs candidate format with sources
