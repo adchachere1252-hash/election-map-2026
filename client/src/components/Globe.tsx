@@ -233,6 +233,13 @@ function latLonToVec3(lon: number, lat: number, radius: number): THREE.Vector3 {
 // ─── Build country mesh from GeoJSON feature (earcut triangulation) ──────────
 // Subdivide a triangle in lon/lat space into smaller triangles to approximate sphere curvature.
 // Uses an iterative stack to avoid stack overflow for large polygons.
+// Normalize longitude to [-180, 180] range (handles shifted antimeridian coords)
+function normLon(lon: number): number {
+  while (lon > 180) lon -= 360;
+  while (lon < -180) lon += 360;
+  return lon;
+}
+
 function subdivideTri(
   lon0: number, lat0: number,
   lon1: number, lat1: number,
@@ -242,11 +249,6 @@ function subdivideTri(
   outIndices: number[],
   radius: number
 ) {
-  // Skip triangles that cross the antimeridian (lon span > 180°)
-  const lonMin = Math.min(lon0, lon1, lon2);
-  const lonMax = Math.max(lon0, lon1, lon2);
-  if (lonMax - lonMin > 180) return;
-
   // Use iterative stack instead of recursion
   const stack: [number, number, number, number, number, number][] = [[lon0, lat0, lon1, lat1, lon2, lat2]];
 
@@ -258,11 +260,11 @@ function subdivideTri(
     const maxEdge = Math.max(d01, d12, d20);
 
     if (maxEdge <= maxDeg) {
-      // Small enough — emit triangle directly
+      // Small enough — emit triangle directly (normalize lon before projecting)
       const baseIdx = outVerts.length / 3;
-      const v0 = latLonToVec3(a0, b0, radius);
-      const v1 = latLonToVec3(a1, b1, radius);
-      const v2 = latLonToVec3(a2, b2, radius);
+      const v0 = latLonToVec3(normLon(a0), b0, radius);
+      const v1 = latLonToVec3(normLon(a1), b1, radius);
+      const v2 = latLonToVec3(normLon(a2), b2, radius);
       outVerts.push(v0.x, v0.y, v0.z);
       outVerts.push(v1.x, v1.y, v1.z);
       outVerts.push(v2.x, v2.y, v2.z);
@@ -299,6 +301,14 @@ function buildCountryMesh(feature: any, radius: number, color: number): THREE.Me
     const outerRing = polygon[0];
     if (!outerRing || outerRing.length < 3) continue;
 
+    // Detect antimeridian-crossing polygon (has points both > 160 and < -160)
+    let hasEast = false, hasWest = false;
+    for (const [lon] of outerRing) {
+      if (lon > 160) hasEast = true;
+      if (lon < -160) hasWest = true;
+    }
+    const crossesAntimeridian = hasEast && hasWest;
+
     // Flatten 2D coordinates for earcut
     const flatCoords: number[] = [];
     const holeIndices: number[] = [];
@@ -309,7 +319,9 @@ function buildCountryMesh(feature: any, radius: number, color: number): THREE.Me
       outerRing[0][1] === outerRing[outerRing.length - 1][1])
       ? outerRing.slice(0, -1) : outerRing;
     for (const [lon, lat] of outer) {
-      flatCoords.push(lon, lat);
+      // Shift negative longitudes by +360 for antimeridian-crossing polygons
+      const adjustedLon = (crossesAntimeridian && lon < 0) ? lon + 360 : lon;
+      flatCoords.push(adjustedLon, lat);
     }
 
     // Holes (inner rings)
@@ -321,7 +333,8 @@ function buildCountryMesh(feature: any, radius: number, color: number): THREE.Me
         hole[0][1] === hole[hole.length - 1][1])
         ? hole.slice(0, -1) : hole;
       for (const [lon, lat] of holeRing) {
-        flatCoords.push(lon, lat);
+        const adjustedLon = (crossesAntimeridian && lon < 0) ? lon + 360 : lon;
+        flatCoords.push(adjustedLon, lat);
       }
     }
 
@@ -374,8 +387,11 @@ function buildCountryBorders(feature: any, radius: number): THREE.LineSegments |
   for (const polygon of coords) {
     for (const ring of polygon) {
       for (let i = 0; i < ring.length - 1; i++) {
-        points.push(latLonToVec3(ring[i][0], ring[i][1], radius));
-        points.push(latLonToVec3(ring[i + 1][0], ring[i + 1][1], radius));
+        // Skip line segments that cross the antimeridian (creates visual artifacts)
+        const lon0 = ring[i][0], lon1 = ring[i + 1][0];
+        if (Math.abs(lon1 - lon0) > 180) continue;
+        points.push(latLonToVec3(lon0, ring[i][1], radius));
+        points.push(latLonToVec3(lon1, ring[i + 1][1], radius));
       }
     }
   }
@@ -529,9 +545,11 @@ export default function Globe({
         for (const feature of features) {
                     const alpha2 = numericToAlpha2[String(feature.id)] || "";
           const election = electionMapRef.current.get(alpha2);
-          const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
-          // Filled mesh — election countries get vivid solid fill, non-election get dark solid fill
-          const solidColor = election ? color : 0x1a2744;
+          // Skip fill for Postponed/Cancelled elections (tiny countries like Bahrain render as squares)
+          const isActiveElection = election && election.status !== "Postponed" && election.status !== "Cancelled";
+          const color = isActiveElection ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
+          // Filled mesh — active election countries get vivid solid fill, others get dark solid fill
+          const solidColor = isActiveElection ? color : 0x1a2744;
           const mesh = buildCountryMesh(feature, GLOBE_RADIUS * 1.002, solidColor);
           if (mesh) {
             const mat = mesh.material as THREE.MeshBasicMaterial;
@@ -542,8 +560,8 @@ export default function Globe({
             console.warn(`[Globe] FAILED to build mesh for ${alpha2} (feature.id=${feature.id})`);
           }
 
-          // Border lines — election countries get thick glowing borders in their status color
-          if (election) {
+          // Border lines — active election countries get thick glowing borders in their status color
+          if (isActiveElection) {
             const glowBorder = buildCountryBorders(feature, GLOBE_RADIUS * 1.004);
             if (glowBorder) {
               const borderMat = glowBorder.material as THREE.LineBasicMaterial;
@@ -630,6 +648,8 @@ export default function Globe({
     const addCountryLabels = () => {
       const map = electionMapRef.current;
       map.forEach((election, code) => {
+        // Skip labels for Postponed/Cancelled elections
+        if (election.status === "Postponed" || election.status === "Cancelled") return;
         const centroid = COUNTRY_CENTROIDS[code];
         if (!centroid) return;
         const labelScale = COUNTRY_SCALE[code] || 0.06;

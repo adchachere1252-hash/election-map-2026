@@ -1926,3 +1926,8 @@
 - [x] Run full verification check on all 30 world election candidate data for accuracy
 - [x] Fix US election information displayed on the globe (incorrect data)
 - [x] Ensure globe is publication-ready with no visual or data issues
+
+## Globe Fix (Round 13 - Square Artifact & Final Verification)
+- [x] Fix the square artifact in the middle of the globe (was Bahrain Postponed status rendering as gray square - removed fills/borders/labels for Postponed/Cancelled elections)
+- [x] Run full accuracy verification on all globe data and display (Russia antimeridian fix, all 28 active elections rendering correctly)
+- [x] Check tonight's primary election results (NY/MD/UT/SC) - AP engine running every 60s, SC governor called for Alan Wilson (R), NY/MD/UT polls still open
