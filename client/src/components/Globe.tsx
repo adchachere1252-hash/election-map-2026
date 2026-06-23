@@ -48,7 +48,7 @@ const OCEAN_LABELS: { name: string; lon: number; lat: number }[] = [
 // ─── Country centroid positions for labels (lon, lat) ────────────────────────
 const COUNTRY_CENTROIDS: Record<string, { lon: number; lat: number }> = {
   CO: { lon: -74, lat: 4 },
-  GB: { lon: -2, lat: 54 },
+  GB: { lon: -3, lat: 54 },
   DE: { lon: 10, lat: 51 },
   FR: { lon: 2, lat: 47 },
   BR: { lon: -53, lat: -10 },
@@ -74,7 +74,7 @@ const COUNTRY_CENTROIDS: Record<string, { lon: number; lat: number }> = {
   MY: { lon: 110, lat: 4 },
   SG: { lon: 104, lat: 1 },
   NO: { lon: 10, lat: 62 },
-  SE: { lon: 16, lat: 64 },
+  SE: { lon: 17, lat: 63 },
   DK: { lon: 10, lat: 56 },
   FI: { lon: 26, lat: 64 },
   PT: { lon: -8, lat: 40 },
@@ -82,30 +82,30 @@ const COUNTRY_CENTROIDS: Record<string, { lon: number; lat: number }> = {
   IT: { lon: 12, lat: 43 },
   GR: { lon: 22, lat: 39 },
   RO: { lon: 25, lat: 46 },
-  CZ: { lon: 15, lat: 51 },
+  CZ: { lon: 16, lat: 50 },
   AT: { lon: 14, lat: 47 },
   CH: { lon: 8, lat: 47 },
   BE: { lon: 4, lat: 51 },
   IE: { lon: -8, lat: 53 },
   NZ: { lon: 172, lat: -41 },
-  HU: { lon: 20, lat: 46 },
-  SK: { lon: 21, lat: 49 },
+  HU: { lon: 19, lat: 47 },
+  SK: { lon: 19, lat: 49 },
   ST: { lon: 7, lat: 1 },
   CK: { lon: -160, lat: -21 },
-  IS: { lon: -19, lat: 66 },
-  LV: { lon: 25, lat: 58 },
-  BA: { lon: 17, lat: 43 },
+  IS: { lon: -19, lat: 65 },
+  LV: { lon: 25, lat: 57 },
+  BA: { lon: 18, lat: 44 },
   CV: { lon: -24, lat: 16 },
-  BG: { lon: 26, lat: 42 },
-  GM: { lon: -16, lat: 13 },
-  SS: { lon: 30, lat: 7 },
+  BG: { lon: 25, lat: 43 },
+  GM: { lon: -15, lat: 14 },
+  SS: { lon: 30, lat: 8 },
   AM: { lon: 45, lat: 40 },
   KE: { lon: 38, lat: 1 },
   GH: { lon: -2, lat: 8 },
   TZ: { lon: 35, lat: -6 },
   ET: { lon: 39, lat: 9 },
   UG: { lon: 32, lat: 1 },
-  ZM: { lon: 28, lat: -15 },
+  ZM: { lon: 28, lat: -13 },
   MW: { lon: 34, lat: -14 },
   HT: { lon: -72, lat: 19 },
   DO: { lon: -70, lat: 19 },
@@ -158,8 +158,8 @@ const COUNTRY_CENTROIDS: Record<string, { lon: number; lat: number }> = {
   AZ: { lon: 48, lat: 41 },
   LY: { lon: 17, lat: 27 },
   TN: { lon: 9, lat: 34 },
-  DZ: { lon: 3, lat: 28 },
-  MA: { lon: -6, lat: 32 },
+  DZ: { lon: 3, lat: 30 },
+  MA: { lon: -7, lat: 31 },
   SD: { lon: 30, lat: 15 },
   CD: { lon: 24, lat: -3 },
   AO: { lon: 18, lat: -12 },
@@ -179,7 +179,7 @@ const COUNTRY_CENTROIDS: Record<string, { lon: number; lat: number }> = {
   BI: { lon: 30, lat: -3 },
   TW: { lon: 121, lat: 24 },
   HK: { lon: 114, lat: 22 },
-  US: { lon: -97, lat: 38 },
+  US: { lon: -97, lat: 39 },
 };
 
 // ─── Create text sprite for labels ──────────────────────────────────────────
@@ -470,7 +470,7 @@ export default function Globe({
           const mesh = buildCountryMesh(feature, GLOBE_RADIUS * 1.002, color);
           if (mesh) {
             const mat = mesh.material as THREE.MeshBasicMaterial;
-            mat.opacity = election ? 0.75 : 0.25;
+            mat.opacity = election ? 0.85 : 0.2;
             mesh.userData = { countryCode: alpha2, countryName: feature.properties?.name || "" };
             globeGroup.add(mesh);
             if (alpha2) countryMeshesRef.current.set(alpha2, mesh);
@@ -626,7 +626,7 @@ export default function Globe({
       } else {
         const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
         mat.color.setHex(color);
-        mat.opacity = election ? 0.75 : 0.25;
+        mat.opacity = election ? 0.85 : 0.2;
       }
     });
   }, [elections, selectedCountry]);
@@ -698,7 +698,7 @@ export default function Globe({
             const election = electionMapRef.current.get(code);
             const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
             mat.color.setHex(color);
-            mat.opacity = election ? 0.75 : 0.25;
+            mat.opacity = election ? 0.85 : 0.2;
           }
         });
       }

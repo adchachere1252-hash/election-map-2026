@@ -1859,3 +1859,8 @@
 ## Globe Labels (Round 3)
 - [x] Shorten long country names on globe labels (United States → U.S., United Kingdom → U.K., etc.)
 - [x] Color country labels by election status (amber=upcoming, yellow=voting today, green=completed)
+
+## Globe Labels (Round 4)
+- [x] Center all country name labels within their country outlines (audit all 30 centroids)
+- [x] Verify all election countries are filled with correct legend color (amber/yellow/green)
+- [x] Full verification check for globe errors
