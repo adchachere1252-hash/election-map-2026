@@ -1919,3 +1919,10 @@
 - [x] Rename usePSTClock → useETClock, update label from "PST" to "ET"
 - [x] Fix Scoreboard "Last updated" to force America/New_York timezone display (shows EDT/EST)
 - [x] All 116 tests passing, 0 TypeScript errors
+
+## Globe Fix (Round 12 - Comprehensive)
+- [x] Fix globe country fills to properly display for ALL 30 election countries (not just some)
+- [x] Verify all country fills are vivid and clearly distinguishable from non-election countries
+- [x] Run full verification check on all 30 world election candidate data for accuracy
+- [x] Fix US election information displayed on the globe (incorrect data)
+- [x] Ensure globe is publication-ready with no visual or data issues

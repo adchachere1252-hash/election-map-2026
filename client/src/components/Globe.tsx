@@ -231,6 +231,55 @@ function latLonToVec3(lon: number, lat: number, radius: number): THREE.Vector3 {
 }
 
 // ─── Build country mesh from GeoJSON feature (earcut triangulation) ──────────
+// Subdivide a triangle in lon/lat space into smaller triangles to approximate sphere curvature.
+// Uses an iterative stack to avoid stack overflow for large polygons.
+function subdivideTri(
+  lon0: number, lat0: number,
+  lon1: number, lat1: number,
+  lon2: number, lat2: number,
+  maxDeg: number,
+  outVerts: number[],
+  outIndices: number[],
+  radius: number
+) {
+  // Skip triangles that cross the antimeridian (lon span > 180°)
+  const lonMin = Math.min(lon0, lon1, lon2);
+  const lonMax = Math.max(lon0, lon1, lon2);
+  if (lonMax - lonMin > 180) return;
+
+  // Use iterative stack instead of recursion
+  const stack: [number, number, number, number, number, number][] = [[lon0, lat0, lon1, lat1, lon2, lat2]];
+
+  while (stack.length > 0) {
+    const [a0, b0, a1, b1, a2, b2] = stack.pop()!;
+    const d01 = Math.max(Math.abs(a1 - a0), Math.abs(b1 - b0));
+    const d12 = Math.max(Math.abs(a2 - a1), Math.abs(b2 - b1));
+    const d20 = Math.max(Math.abs(a0 - a2), Math.abs(b0 - b2));
+    const maxEdge = Math.max(d01, d12, d20);
+
+    if (maxEdge <= maxDeg) {
+      // Small enough — emit triangle directly
+      const baseIdx = outVerts.length / 3;
+      const v0 = latLonToVec3(a0, b0, radius);
+      const v1 = latLonToVec3(a1, b1, radius);
+      const v2 = latLonToVec3(a2, b2, radius);
+      outVerts.push(v0.x, v0.y, v0.z);
+      outVerts.push(v1.x, v1.y, v1.z);
+      outVerts.push(v2.x, v2.y, v2.z);
+      outIndices.push(baseIdx, baseIdx + 1, baseIdx + 2);
+    } else {
+      // Subdivide by splitting each edge at midpoint
+      const m01a = (a0 + a1) / 2, m01b = (b0 + b1) / 2;
+      const m12a = (a1 + a2) / 2, m12b = (b1 + b2) / 2;
+      const m20a = (a2 + a0) / 2, m20b = (b2 + b0) / 2;
+      stack.push([a0, b0, m01a, m01b, m20a, m20b]);
+      stack.push([m01a, m01b, a1, b1, m12a, m12b]);
+      stack.push([m20a, m20b, m12a, m12b, a2, b2]);
+      stack.push([m01a, m01b, m12a, m12b, m20a, m20b]);
+    }
+  }
+}
+
 function buildCountryMesh(feature: any, radius: number, color: number): THREE.Mesh | null {
   const coords: number[][][][] = [];
   if (feature.geometry.type === "Polygon") {
@@ -243,6 +292,8 @@ function buildCountryMesh(feature: any, radius: number, color: number): THREE.Me
 
   const allVertices: number[] = [];
   const allIndices: number[] = [];
+  // Max triangle edge in degrees before subdivision (5° keeps triangles small enough to follow sphere)
+  const MAX_DEG = 5;
 
   for (const polygon of coords) {
     const outerRing = polygon[0];
@@ -278,17 +329,13 @@ function buildCountryMesh(feature: any, radius: number, color: number): THREE.Me
     const triangles = earcut(flatCoords, holeIndices.length > 0 ? holeIndices : undefined, 2);
     if (triangles.length === 0) continue;
 
-    // Convert 2D triangulated points to 3D sphere positions
-    const baseIdx = allVertices.length / 3;
-    const numPoints = flatCoords.length / 2;
-    for (let i = 0; i < numPoints; i++) {
-      const lon = flatCoords[i * 2];
-      const lat = flatCoords[i * 2 + 1];
-      const v = latLonToVec3(lon, lat, radius * 1.001);
-      allVertices.push(v.x, v.y, v.z);
-    }
-    for (const idx of triangles) {
-      allIndices.push(baseIdx + idx);
+    // For each triangle, subdivide if too large, then project onto sphere
+    for (let t = 0; t < triangles.length; t += 3) {
+      const i0 = triangles[t], i1 = triangles[t + 1], i2 = triangles[t + 2];
+      const lon0 = flatCoords[i0 * 2], lat0 = flatCoords[i0 * 2 + 1];
+      const lon1 = flatCoords[i1 * 2], lat1 = flatCoords[i1 * 2 + 1];
+      const lon2 = flatCoords[i2 * 2], lat2 = flatCoords[i2 * 2 + 1];
+      subdivideTri(lon0, lat0, lon1, lat1, lon2, lat2, MAX_DEG, allVertices, allIndices, radius * 1.001);
     }
   }
 
@@ -480,10 +527,9 @@ export default function Globe({
         const features = geo.features;
 
         for (const feature of features) {
-          const alpha2 = numericToAlpha2[String(feature.id)] || "";
+                    const alpha2 = numericToAlpha2[String(feature.id)] || "";
           const election = electionMapRef.current.get(alpha2);
           const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
-
           // Filled mesh — election countries get vivid solid fill, non-election get dark solid fill
           const solidColor = election ? color : 0x1a2744;
           const mesh = buildCountryMesh(feature, GLOBE_RADIUS * 1.002, solidColor);
@@ -492,6 +538,8 @@ export default function Globe({
             mesh.userData = { countryCode: alpha2, countryName: feature.properties?.name || "" };
             globeGroup.add(mesh);
             if (alpha2) countryMeshesRef.current.set(alpha2, mesh);
+          } else if (election) {
+            console.warn(`[Globe] FAILED to build mesh for ${alpha2} (feature.id=${feature.id})`);
           }
 
           // Border lines — election countries get thick glowing borders in their status color
