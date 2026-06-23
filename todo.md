@@ -1840,3 +1840,8 @@
 - [x] Add World Elections admin panel tab for CRUD operations
 - [x] Add tRPC procedures for world elections (list, getByCountry, create, update, delete)
 - [x] Write tests for world elections procedures (23 tests passing)
+
+## Globe Polish
+- [x] Move "World" tab before "Governor" in navigation order
+- [x] Add physical Earth texture to globe (realistic land/ocean appearance)
+- [x] Slow down globe rotation to feel like a real planet

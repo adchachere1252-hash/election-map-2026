@@ -486,6 +486,15 @@ export default function Home() {
 
           {/* View Toggle */}
           <div className="flex items-center gap-0.5 bg-muted rounded-lg p-1 flex-shrink-0">
+            {/* World Elections link — first position */}
+            <Link
+              to="/world"
+              className="px-2 sm:px-3 py-1.5 rounded-md text-xs font-semibold transition-all whitespace-nowrap text-muted-foreground hover:text-foreground"
+              title="World Elections Globe"
+            >
+              <span className="hidden sm:inline">World</span>
+              <span className="sm:hidden">🌍</span>
+            </Link>
             {(["governor", "house", "redistricting", "senate"] as MapView[]).map(v => (
               <button
                 key={v}
@@ -507,15 +516,6 @@ export default function Home() {
             >
               <span className="hidden sm:inline">Historical Atlas</span>
               <span className="sm:hidden">Atlas</span>
-            </Link>
-            {/* World Elections link */}
-            <Link
-              to="/world"
-              className="px-2 sm:px-3 py-1.5 rounded-md text-xs font-semibold transition-all whitespace-nowrap text-muted-foreground hover:text-foreground"
-              title="World Elections Globe"
-            >
-              <span className="hidden sm:inline">World</span>
-              <span className="sm:hidden">🌍</span>
             </Link>
           </div>
 

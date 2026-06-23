@@ -30,7 +30,7 @@ const STATUS_COLORS: Record<string, number> = {
   "Postponed": 0x6b7280,
   "Cancelled": 0xef4444,
 };
-const DEFAULT_COLOR = 0x1e293b;
+const DEFAULT_COLOR = 0x0a1628;
 const HOVER_COLOR = 0x60a5fa;
 const SELECTED_COLOR = 0x3b82f6;
 const OCEAN_COLOR = 0x0c1222;
@@ -121,8 +121,9 @@ function buildCountryMesh(feature: any, radius: number, color: number): THREE.Me
   const material = new THREE.MeshBasicMaterial({
     color,
     transparent: true,
-    opacity: 0.85,
+    opacity: 0.55,
     side: THREE.DoubleSide,
+    depthWrite: false,
   });
 
   return new THREE.Mesh(geometry, material);
@@ -221,9 +222,9 @@ export default function Globe({
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // Lighting
-    scene.add(new THREE.AmbientLight(0xffffff, 0.3));
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    // Lighting (brighter for texture visibility)
+    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.7);
     dirLight.position.set(5, 3, 5);
     scene.add(dirLight);
 
@@ -240,10 +241,13 @@ export default function Globe({
     scene.add(globeGroup);
     globeGroupRef.current = globeGroup;
 
-    // Ocean sphere
-    const oceanGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 0.999, 64, 64);
-    const oceanMat = new THREE.MeshBasicMaterial({ color: OCEAN_COLOR });
-    globeGroup.add(new THREE.Mesh(oceanGeo, oceanMat));
+    // Earth sphere with physical texture (base layer)
+    const earthGeo = new THREE.SphereGeometry(GLOBE_RADIUS, 64, 64);
+    const textureLoader = new THREE.TextureLoader();
+    const earthTexture = textureLoader.load("/manus-storage/earth-texture_74117f24.jpg");
+    earthTexture.colorSpace = THREE.SRGBColorSpace;
+    const earthMat = new THREE.MeshBasicMaterial({ map: earthTexture });
+    globeGroup.add(new THREE.Mesh(earthGeo, earthMat));
 
     // Atmosphere glow (back-side additive)
     const atmosVert = `
@@ -282,16 +286,18 @@ export default function Globe({
           const election = electionMapRef.current.get(alpha2);
           const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
 
-          // Filled mesh
-          const mesh = buildCountryMesh(feature, GLOBE_RADIUS, color);
+          // Filled mesh — countries without elections are nearly invisible to show texture
+          const mesh = buildCountryMesh(feature, GLOBE_RADIUS * 1.002, color);
           if (mesh) {
+            const mat = mesh.material as THREE.MeshBasicMaterial;
+            mat.opacity = election ? 0.6 : 0.08;
             mesh.userData = { countryCode: alpha2, countryName: feature.properties?.name || "" };
             globeGroup.add(mesh);
             if (alpha2) countryMeshesRef.current.set(alpha2, mesh);
           }
 
           // Border lines
-          const borders = buildCountryBorders(feature, GLOBE_RADIUS);
+          const borders = buildCountryBorders(feature, GLOBE_RADIUS * 1.003);
           if (borders) globeGroup.add(borders);
         }
       })
@@ -303,7 +309,7 @@ export default function Globe({
 
       // Auto-rotate
       if (!userInteracted.current && autoRotate) {
-        globeGroup.rotation.y += 0.002;
+        globeGroup.rotation.y += 0.0003; // Slow, realistic planetary rotation
       }
 
       // Momentum
@@ -357,14 +363,14 @@ export default function Globe({
   useEffect(() => {
     countryMeshesRef.current.forEach((mesh, code) => {
       const mat = mesh.material as THREE.MeshBasicMaterial;
+      const election = electionMapRef.current.get(code);
       if (code === selectedCountry) {
         mat.color.setHex(SELECTED_COLOR);
-        mat.opacity = 1;
+        mat.opacity = 0.85;
       } else {
-        const election = electionMapRef.current.get(code);
         const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
         mat.color.setHex(color);
-        mat.opacity = 0.85;
+        mat.opacity = election ? 0.6 : 0.08;
       }
     });
   }, [elections, selectedCountry]);
@@ -436,7 +442,7 @@ export default function Globe({
             const election = electionMapRef.current.get(code);
             const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
             mat.color.setHex(color);
-            mat.opacity = 0.85;
+            mat.opacity = election ? 0.6 : 0.08;
           }
         });
       }
