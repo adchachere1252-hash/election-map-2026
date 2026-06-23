@@ -304,7 +304,7 @@ function buildCountryMesh(feature: any, radius: number, color: number): THREE.Me
   const material = new THREE.MeshBasicMaterial({
     color,
     transparent: true,
-    opacity: 0.55,
+    opacity: 0.9,
     side: THREE.DoubleSide,
     depthWrite: false,
   });
@@ -411,18 +411,20 @@ export default function Globe({
     dirLight.position.set(5, 3, 5);
     scene.add(dirLight);
 
-    // Stars — rich multi-layer starfield for space feel
-    const addStarLayer = (count: number, size: number, opacity: number, spread: number) => {
+    // Stars — rich multi-layer starfield with twinkling
+    const starLayers: { mat: THREE.PointsMaterial; baseOpacity: number; speed: number }[] = [];
+    const addStarLayer = (count: number, size: number, opacity: number, spread: number, twinkleSpeed: number) => {
       const positions = new Float32Array(count * 3);
       for (let i = 0; i < count * 3; i++) positions[i] = (Math.random() - 0.5) * spread;
       const geo = new THREE.BufferGeometry();
       geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
       const mat = new THREE.PointsMaterial({ size, color: 0xffffff, transparent: true, opacity });
       scene.add(new THREE.Points(geo, mat));
+      starLayers.push({ mat, baseOpacity: opacity, speed: twinkleSpeed });
     };
-    addStarLayer(4000, 0.03, 0.6, 120);  // distant dim stars
-    addStarLayer(2000, 0.06, 0.85, 80);  // mid stars
-    addStarLayer(500, 0.12, 1.0, 60);    // bright nearby stars
+    addStarLayer(4000, 0.03, 0.6, 120, 0.8);   // distant dim stars
+    addStarLayer(2000, 0.06, 0.85, 80, 1.2);   // mid stars
+    addStarLayer(500, 0.12, 1.0, 60, 1.8);     // bright nearby stars (twinkle most)
     // A few colored stars for depth
     const colorStarPositions = new Float32Array(200 * 3);
     for (let i = 0; i < 200 * 3; i++) colorStarPositions[i] = (Math.random() - 0.5) * 100;
@@ -430,6 +432,7 @@ export default function Globe({
     colorStarGeo.setAttribute("position", new THREE.BufferAttribute(colorStarPositions, 3));
     const colorStarMat = new THREE.PointsMaterial({ size: 0.08, color: 0xaaccff, transparent: true, opacity: 0.5 });
     scene.add(new THREE.Points(colorStarGeo, colorStarMat));
+    starLayers.push({ mat: colorStarMat, baseOpacity: 0.5, speed: 1.5 });
 
     // Globe group (rotatable)
     const globeGroup = new THREE.Group();
@@ -441,16 +444,17 @@ export default function Globe({
     const earthMat = new THREE.MeshBasicMaterial({ color: 0x0a1a3a });
     globeGroup.add(new THREE.Mesh(earthGeo, earthMat));
 
-    // Physical Earth texture overlay (land realism) — blended on top of navy ocean
+    // Physical Earth texture overlay (land realism) — subtle hint beneath country fills
     const textureLoader = new THREE.TextureLoader();
     const earthTexture = textureLoader.load("/manus-storage/earth-texture_c6f4e34f.jpg");
     earthTexture.colorSpace = THREE.SRGBColorSpace;
-    const landOverlayGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 1.001, 64, 64);
+    const landOverlayGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 1.0005, 64, 64);
     const landOverlayMat = new THREE.MeshBasicMaterial({
       map: earthTexture,
       transparent: true,
-      opacity: 0.35,
-      blending: THREE.AdditiveBlending,
+      opacity: 0.2,
+      blending: THREE.NormalBlending,
+      depthWrite: false,
     });
     globeGroup.add(new THREE.Mesh(landOverlayGeo, landOverlayMat));
 
@@ -495,7 +499,7 @@ export default function Globe({
           const mesh = buildCountryMesh(feature, GLOBE_RADIUS * 1.002, color);
           if (mesh) {
             const mat = mesh.material as THREE.MeshBasicMaterial;
-            mat.opacity = election ? 0.85 : 0.2;
+            mat.opacity = election ? 0.9 : 0.15;
             mesh.userData = { countryCode: alpha2, countryName: feature.properties?.name || "" };
             globeGroup.add(mesh);
             if (alpha2) countryMeshesRef.current.set(alpha2, mesh);
@@ -606,13 +610,21 @@ export default function Globe({
       // Clamp vertical
       globeGroup.rotation.x = Math.max(-Math.PI / 2.5, Math.min(Math.PI / 2.5, globeGroup.rotation.x));
 
+      // Twinkle stars
+      const time = Date.now() * 0.001;
+      starLayers.forEach((layer, i) => {
+        const phase = i * 1.7; // offset each layer
+        const twinkle = 0.7 + 0.3 * Math.sin(time * layer.speed + phase);
+        layer.mat.opacity = layer.baseOpacity * twinkle;
+      });
+
       // Pulse "Voting Today" countries
-      const time = Date.now() * 0.003;
+      const pulseTime = Date.now() * 0.003;
       countryMeshesRef.current.forEach((mesh, code) => {
         const election = electionMapRef.current.get(code);
         if (election?.status === "Voting Today") {
           const mat = mesh.material as THREE.MeshBasicMaterial;
-          mat.opacity = 0.6 + 0.4 * Math.sin(time);
+          mat.opacity = 0.6 + 0.4 * Math.sin(pulseTime);
         }
       });
 
@@ -653,7 +665,7 @@ export default function Globe({
       } else {
         const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
         mat.color.setHex(color);
-        mat.opacity = election ? 0.85 : 0.2;
+        mat.opacity = election ? 0.9 : 0.15;
       }
     });
   }, [elections, selectedCountry]);
@@ -725,7 +737,7 @@ export default function Globe({
             const election = electionMapRef.current.get(code);
             const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
             mat.color.setHex(color);
-            mat.opacity = election ? 0.85 : 0.2;
+            mat.opacity = election ? 0.9 : 0.15;
           }
         });
       }

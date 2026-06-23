@@ -1876,3 +1876,8 @@
 - [x] Make globe smaller (more breathing room, centered in viewport)
 - [x] Add rich space/starfield background with depth and light feel
 - [x] Restore physical Earth texture (NASA Blue Marble) for realistic land appearance
+
+## Globe Visual (Round 7)
+- [x] Make stars twinkle/shine with animation
+- [x] Fix country fills to clearly show legend colors (amber=upcoming, green=completed)
+- [x] Verification check on color fill logic
