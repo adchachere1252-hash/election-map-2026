@@ -424,12 +424,9 @@ export default function Globe({
     scene.add(globeGroup);
     globeGroupRef.current = globeGroup;
 
-    // Earth sphere with physical texture (base layer)
+    // Ocean sphere — solid navy blue
     const earthGeo = new THREE.SphereGeometry(GLOBE_RADIUS, 64, 64);
-    const textureLoader = new THREE.TextureLoader();
-    const earthTexture = textureLoader.load("/manus-storage/earth-texture_c6f4e34f.jpg");
-    earthTexture.colorSpace = THREE.SRGBColorSpace;
-    const earthMat = new THREE.MeshBasicMaterial({ map: earthTexture });
+    const earthMat = new THREE.MeshBasicMaterial({ color: 0x0a1a3a });
     globeGroup.add(new THREE.Mesh(earthGeo, earthMat));
 
     // Atmosphere glow (back-side additive)
@@ -624,8 +621,10 @@ export default function Globe({
       const mat = mesh.material as THREE.MeshBasicMaterial;
       const election = electionMapRef.current.get(code);
       if (code === selectedCountry) {
-        mat.color.setHex(SELECTED_COLOR);
-        mat.opacity = 0.85;
+        // Selected country uses its legend color at full opacity (brighter)
+        const color = election ? (STATUS_COLORS[election.status] ?? SELECTED_COLOR) : SELECTED_COLOR;
+        mat.color.setHex(color);
+        mat.opacity = 1.0;
       } else {
         const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
         mat.color.setHex(color);

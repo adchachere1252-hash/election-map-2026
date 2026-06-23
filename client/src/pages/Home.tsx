@@ -486,29 +486,17 @@ export default function Home() {
 
           {/* View Toggle */}
           <div className="flex items-center gap-0.5 bg-muted rounded-lg p-1 flex-shrink-0">
-            {/* World Elections link — first position */}
-            <Link
-              to="/world"
-              className="px-2 sm:px-3 py-1.5 rounded-md text-xs font-semibold transition-all whitespace-nowrap text-muted-foreground hover:text-foreground"
-              title="World Elections Globe"
+            {/* Alphabetical order: Governor, Historical Atlas, House, Redistricting, Senate, World */}
+            <button
+              onClick={() => { setView("governor"); closePopup(); }}
+              className={`px-2 sm:px-3 py-1.5 rounded-md text-xs font-semibold transition-all whitespace-nowrap ${
+                view === "governor"
+                  ? "bg-card text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
             >
-              <span className="hidden sm:inline">World</span>
-              <span className="sm:hidden">🌍</span>
-            </Link>
-            {(["governor", "house", "redistricting", "senate"] as MapView[]).map(v => (
-              <button
-                key={v}
-                onClick={() => { setView(v); closePopup(); }}
-                className={`px-2 sm:px-3 py-1.5 rounded-md text-xs font-semibold transition-all whitespace-nowrap ${
-                  view === v
-                    ? "bg-card text-foreground shadow-sm"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {VIEW_LABELS[v]}
-              </button>
-            ))}
-            {/* Historical Atlas link */}
+              Governor
+            </button>
             <Link
               to="/map-comparison"
               className="px-2 sm:px-3 py-1.5 rounded-md text-xs font-semibold transition-all whitespace-nowrap text-muted-foreground hover:text-foreground"
@@ -516,6 +504,44 @@ export default function Home() {
             >
               <span className="hidden sm:inline">Historical Atlas</span>
               <span className="sm:hidden">Atlas</span>
+            </Link>
+            <button
+              onClick={() => { setView("house"); closePopup(); }}
+              className={`px-2 sm:px-3 py-1.5 rounded-md text-xs font-semibold transition-all whitespace-nowrap ${
+                view === "house"
+                  ? "bg-card text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              House
+            </button>
+            <button
+              onClick={() => { setView("redistricting"); closePopup(); }}
+              className={`px-2 sm:px-3 py-1.5 rounded-md text-xs font-semibold transition-all whitespace-nowrap ${
+                view === "redistricting"
+                  ? "bg-card text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Redistricting
+            </button>
+            <button
+              onClick={() => { setView("senate"); closePopup(); }}
+              className={`px-2 sm:px-3 py-1.5 rounded-md text-xs font-semibold transition-all whitespace-nowrap ${
+                view === "senate"
+                  ? "bg-card text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Senate
+            </button>
+            <Link
+              to="/world"
+              className="px-2 sm:px-3 py-1.5 rounded-md text-xs font-semibold transition-all whitespace-nowrap text-muted-foreground hover:text-foreground"
+              title="World Elections Globe"
+            >
+              <span className="hidden sm:inline">World</span>
+              <span className="sm:hidden">🌍</span>
             </Link>
           </div>
 

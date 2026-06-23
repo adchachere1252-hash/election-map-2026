@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback, Suspense, lazy } from "react";
 import { trpc } from "@/lib/trpc";
-import { Calendar, Globe2, Users, Clock, ChevronRight, X, MapPin, Vote, Award } from "lucide-react";
+import { Calendar, Globe2, Users, Clock, ChevronRight, X, MapPin, Vote, Award, ArrowLeft } from "lucide-react";
+import { Link } from "wouter";
 
 // Lazy load the 3D globe to keep initial bundle small
 const Globe = lazy(() => import("@/components/Globe"));
@@ -454,7 +455,7 @@ export default function WorldElections() {
 
   if (isLoading) {
     return (
-      <div className="w-full h-[calc(100vh-64px)] flex items-center justify-center bg-slate-950">
+      <div className="w-full h-screen flex items-center justify-center bg-slate-950">
         <div className="text-center">
           <div className="w-16 h-16 border-2 border-blue-500/30 border-t-blue-500 rounded-full animate-spin mx-auto mb-4" />
           <p className="text-slate-400">Loading world elections...</p>
@@ -464,7 +465,16 @@ export default function WorldElections() {
   }
 
   return (
-    <div className="w-full h-[calc(100vh-64px)] flex flex-col lg:flex-row bg-slate-950 relative overflow-hidden">
+    <div className="w-full h-screen flex flex-col lg:flex-row bg-slate-950 relative overflow-hidden">
+      {/* Back to U.S. Map button */}
+      <Link
+        to="/"
+        className="absolute top-3 right-3 z-50 bg-slate-800/90 backdrop-blur-sm border border-slate-700/50 rounded-lg px-3 py-2 text-sm text-slate-200 flex items-center gap-2 hover:bg-slate-700/90 transition-colors"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        <span className="hidden sm:inline">U.S. Map</span>
+      </Link>
+
       {/* Mobile toggle */}
       <button
         onClick={() => setShowMobileTimeline(!showMobileTimeline)}

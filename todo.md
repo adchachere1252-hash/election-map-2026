@@ -1864,3 +1864,10 @@
 - [x] Center all country name labels within their country outlines (audit all 30 centroids)
 - [x] Verify all election countries are filled with correct legend color (amber/yellow/green)
 - [x] Full verification check for globe errors
+
+## Globe Fixes (Round 5)
+- [x] Make globe fit the page correctly (no overflow/gaps)
+- [x] Add navigation back to U.S. map from World view
+- [x] Restore navy blue ocean (solid color, not photo texture for water)
+- [x] Ensure selected countries stay filled with their legend color
+- [x] Alphabetize navigation tabs (Governor, Historical Atlas, House, Redistricting, Senate, World)
