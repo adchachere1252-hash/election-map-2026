@@ -1894,3 +1894,6 @@
 ## Globe UX (Round 8)
 - [x] Make Elections sidebar collapsible/closeable so full globe is visible
 - [x] Make election country colors pop more (brighter fills, more vivid borders)
+
+## Globe Color Fix (Round 9 - Publish Ready)
+- [x] Make country fills much more opaque/vivid so they unmistakably match the legend colors

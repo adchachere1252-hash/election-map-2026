@@ -453,7 +453,7 @@ export default function Globe({
     const landOverlayMat = new THREE.MeshBasicMaterial({
       map: earthTexture,
       transparent: true,
-      opacity: 0.55,
+      opacity: 0.25,
       blending: THREE.NormalBlending,
       depthWrite: false,
     });
@@ -500,7 +500,7 @@ export default function Globe({
           const mesh = buildCountryMesh(feature, GLOBE_RADIUS * 1.002, color);
           if (mesh) {
             const mat = mesh.material as THREE.MeshBasicMaterial;
-            mat.opacity = election ? 0.55 : 0.08;
+            mat.opacity = election ? 0.85 : 0.1;
             mesh.userData = { countryCode: alpha2, countryName: feature.properties?.name || "" };
             globeGroup.add(mesh);
             if (alpha2) countryMeshesRef.current.set(alpha2, mesh);
@@ -699,7 +699,7 @@ export default function Globe({
       } else {
         const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
         mat.color.setHex(color);
-        mat.opacity = election ? 0.55 : 0.08;
+        mat.opacity = election ? 0.85 : 0.1;
       }
     });
     // Also brighten the selected country's border
@@ -785,7 +785,7 @@ export default function Globe({
             const election = electionMapRef.current.get(code);
             const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
             mat.color.setHex(color);
-            mat.opacity = election ? 0.55 : 0.08;
+            mat.opacity = election ? 0.85 : 0.1;
           }
         });
         // Reset border glow colors
