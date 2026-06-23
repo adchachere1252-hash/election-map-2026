@@ -96,6 +96,7 @@ function formatLastUpdated(iso: string): string {
   try {
     const d = new Date(iso);
     return d.toLocaleDateString("en-US", {
+      timeZone: "America/New_York",
       month: "short",
       day: "numeric",
       year: "numeric",

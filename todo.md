@@ -1909,3 +1909,13 @@
 - [x] Fix legend colors to properly show on the map (colors must be unmistakable)
 - [x] Verify tonight's primary readiness (NY/MD/UT/SC/CO statuses correct)
 - [x] Fixed governor statuses: only tonight's races (NY/MD/SC/CO) show Voting, past primaries reset to Scheduled
+
+## Globe Fill Fix (Round 11 - DoubleSide)
+- [x] Fix globe country fills not showing (changed THREE.FrontSide to THREE.DoubleSide in mesh material)
+- [x] Root cause: earcut triangulation produces inconsistent winding order on sphere surface, causing face culling
+
+## Timezone Fix (PST → ET)
+- [x] Change live clock from PST (America/Los_Angeles) to ET (America/New_York)
+- [x] Rename usePSTClock → useETClock, update label from "PST" to "ET"
+- [x] Fix Scoreboard "Last updated" to force America/New_York timezone display (shows EDT/EST)
+- [x] All 116 tests passing, 0 TypeScript errors

@@ -305,7 +305,7 @@ function buildCountryMesh(feature: any, radius: number, color: number): THREE.Me
     color,
     transparent: false,
     opacity: 1.0,
-    side: THREE.FrontSide,
+    side: THREE.DoubleSide,
     depthWrite: true,
   });
 

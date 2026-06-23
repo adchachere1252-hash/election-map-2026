@@ -73,14 +73,14 @@ function useDaysUntilElection() {
 }
 
 // Live clock hook — ticks every second
-function usePSTClock() {
+function useETClock() {
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(id);
   }, []);
-  const pst = now.toLocaleString("en-US", {
-    timeZone: "America/Los_Angeles",
+  const et = now.toLocaleString("en-US", {
+    timeZone: "America/New_York",
     weekday: "short",
     month: "short",
     day: "numeric",
@@ -90,11 +90,11 @@ function usePSTClock() {
     second: "2-digit",
     hour12: true,
   });
-  return pst;
+  return et;
 }
 
 export default function Home() {
-  const pstClock = usePSTClock();
+  const etClock = useETClock();
   const daysUntilElection = useDaysUntilElection();
   // handleRefresh is defined below — we use a ref so countdown can call it before it's defined
   const handleRefreshRef = useRef<() => void>(() => {});
@@ -473,12 +473,12 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Live PST clock */}
+          {/* Live ET clock */}
           <div className="hidden xl:flex flex-col items-end flex-shrink-0 ml-1 mr-1">
-            <span className="text-xs font-mono text-muted-foreground leading-tight" title="Pacific Standard Time">
-              {pstClock}
+            <span className="text-xs font-mono text-muted-foreground leading-tight" title="Eastern Time">
+              {etClock}
             </span>
-            <span className="text-xs text-muted-foreground/50 leading-tight">PST</span>
+            <span className="text-xs text-muted-foreground/50 leading-tight">ET</span>
           </div>
 
           {/* Spacer — pushes tabs and actions to the right */}
