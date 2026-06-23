@@ -1903,3 +1903,9 @@
 - [x] Format as candidate vs candidate matchups with party affiliations
 - [x] Add sourcing/citations for each election's candidate data
 - [x] Update detail panel UI to show candidate vs candidate format with sources
+
+## Globe Fix (Round 10 - Critical)
+- [x] Fix globe see-through issue (make countries fully opaque/solid - can't see Russia through U.S.)
+- [x] Fix legend colors to properly show on the map (colors must be unmistakable)
+- [x] Verify tonight's primary readiness (NY/MD/UT/SC/CO statuses correct)
+- [x] Fixed governor statuses: only tonight's races (NY/MD/SC/CO) show Voting, past primaries reset to Scheduled

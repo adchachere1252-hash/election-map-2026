@@ -303,10 +303,10 @@ function buildCountryMesh(feature: any, radius: number, color: number): THREE.Me
 
   const material = new THREE.MeshBasicMaterial({
     color,
-    transparent: true,
-    opacity: 0.9,
-    side: THREE.DoubleSide,
-    depthWrite: false,
+    transparent: false,
+    opacity: 1.0,
+    side: THREE.FrontSide,
+    depthWrite: true,
   });
 
   return new THREE.Mesh(geometry, material);
@@ -442,22 +442,10 @@ export default function Globe({
 
     // Ocean sphere — solid navy blue (base layer)
     const earthGeo = new THREE.SphereGeometry(GLOBE_RADIUS, 64, 64);
-    const earthMat = new THREE.MeshBasicMaterial({ color: 0x0a1a3a });
+    const earthMat = new THREE.MeshBasicMaterial({ color: OCEAN_COLOR });
     globeGroup.add(new THREE.Mesh(earthGeo, earthMat));
 
-    // Physical Earth texture overlay (land realism) — clearly visible since fills are now subtle
-    const textureLoader = new THREE.TextureLoader();
-    const earthTexture = textureLoader.load("/manus-storage/earth-texture_c6f4e34f.jpg");
-    earthTexture.colorSpace = THREE.SRGBColorSpace;
-    const landOverlayGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 1.0005, 64, 64);
-    const landOverlayMat = new THREE.MeshBasicMaterial({
-      map: earthTexture,
-      transparent: true,
-      opacity: 0.25,
-      blending: THREE.NormalBlending,
-      depthWrite: false,
-    });
-    globeGroup.add(new THREE.Mesh(landOverlayGeo, landOverlayMat));
+    // No texture overlay needed - countries are fully opaque solid fills on top of the ocean sphere
 
     // Atmosphere glow (back-side additive)
     const atmosVert = `
@@ -496,11 +484,11 @@ export default function Globe({
           const election = electionMapRef.current.get(alpha2);
           const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
 
-          // Filled mesh — election countries get a subtle tinted fill, non-election nearly invisible
-          const mesh = buildCountryMesh(feature, GLOBE_RADIUS * 1.002, color);
+          // Filled mesh — election countries get vivid solid fill, non-election get dark solid fill
+          const solidColor = election ? color : 0x1a2744;
+          const mesh = buildCountryMesh(feature, GLOBE_RADIUS * 1.002, solidColor);
           if (mesh) {
             const mat = mesh.material as THREE.MeshBasicMaterial;
-            mat.opacity = election ? 0.85 : 0.1;
             mesh.userData = { countryCode: alpha2, countryName: feature.properties?.name || "" };
             globeGroup.add(mesh);
             if (alpha2) countryMeshesRef.current.set(alpha2, mesh);
@@ -695,11 +683,9 @@ export default function Globe({
         // Selected country: brighter fill to highlight
         const color = election ? (STATUS_COLORS[election.status] ?? SELECTED_COLOR) : SELECTED_COLOR;
         mat.color.setHex(color);
-        mat.opacity = 0.7;
       } else {
-        const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
-        mat.color.setHex(color);
-        mat.opacity = election ? 0.85 : 0.1;
+        const solidColor = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : 0x1a2744;
+        mat.color.setHex(solidColor);
       }
     });
     // Also brighten the selected country's border
@@ -762,7 +748,6 @@ export default function Globe({
           const mat = (hit.object as THREE.Mesh).material as THREE.MeshBasicMaterial;
           if (countryCode !== selectedCountry) {
             mat.color.setHex(HOVER_COLOR);
-            mat.opacity = 0.5;
           }
           // Also brighten the border glow on hover
           const hoveredBorder = countryBordersRef.current.get(countryCode);
@@ -783,9 +768,8 @@ export default function Globe({
           if (code !== selectedCountry) {
             const mat = mesh.material as THREE.MeshBasicMaterial;
             const election = electionMapRef.current.get(code);
-            const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
-            mat.color.setHex(color);
-            mat.opacity = election ? 0.85 : 0.1;
+            const solidColor = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : 0x1a2744;
+            mat.color.setHex(solidColor);
           }
         });
         // Reset border glow colors
