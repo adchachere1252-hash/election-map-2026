@@ -392,9 +392,9 @@ export default function Globe({
     const scene = new THREE.Scene();
     sceneRef.current = scene;
 
-    // Camera
+    // Camera — pulled back for a smaller globe with breathing room
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    camera.position.z = 5;
+    camera.position.z = 6.5;
     cameraRef.current = camera;
 
     // Renderer
@@ -411,23 +411,48 @@ export default function Globe({
     dirLight.position.set(5, 3, 5);
     scene.add(dirLight);
 
-    // Stars
-    const starPositions = new Float32Array(3000);
-    for (let i = 0; i < 3000; i++) starPositions[i] = (Math.random() - 0.5) * 100;
-    const starGeo = new THREE.BufferGeometry();
-    starGeo.setAttribute("position", new THREE.BufferAttribute(starPositions, 3));
-    const starMat = new THREE.PointsMaterial({ size: 0.05, color: 0xffffff, transparent: true, opacity: 0.8 });
-    scene.add(new THREE.Points(starGeo, starMat));
+    // Stars — rich multi-layer starfield for space feel
+    const addStarLayer = (count: number, size: number, opacity: number, spread: number) => {
+      const positions = new Float32Array(count * 3);
+      for (let i = 0; i < count * 3; i++) positions[i] = (Math.random() - 0.5) * spread;
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+      const mat = new THREE.PointsMaterial({ size, color: 0xffffff, transparent: true, opacity });
+      scene.add(new THREE.Points(geo, mat));
+    };
+    addStarLayer(4000, 0.03, 0.6, 120);  // distant dim stars
+    addStarLayer(2000, 0.06, 0.85, 80);  // mid stars
+    addStarLayer(500, 0.12, 1.0, 60);    // bright nearby stars
+    // A few colored stars for depth
+    const colorStarPositions = new Float32Array(200 * 3);
+    for (let i = 0; i < 200 * 3; i++) colorStarPositions[i] = (Math.random() - 0.5) * 100;
+    const colorStarGeo = new THREE.BufferGeometry();
+    colorStarGeo.setAttribute("position", new THREE.BufferAttribute(colorStarPositions, 3));
+    const colorStarMat = new THREE.PointsMaterial({ size: 0.08, color: 0xaaccff, transparent: true, opacity: 0.5 });
+    scene.add(new THREE.Points(colorStarGeo, colorStarMat));
 
     // Globe group (rotatable)
     const globeGroup = new THREE.Group();
     scene.add(globeGroup);
     globeGroupRef.current = globeGroup;
 
-    // Ocean sphere — solid navy blue
+    // Ocean sphere — solid navy blue (base layer)
     const earthGeo = new THREE.SphereGeometry(GLOBE_RADIUS, 64, 64);
     const earthMat = new THREE.MeshBasicMaterial({ color: 0x0a1a3a });
     globeGroup.add(new THREE.Mesh(earthGeo, earthMat));
+
+    // Physical Earth texture overlay (land realism) — blended on top of navy ocean
+    const textureLoader = new THREE.TextureLoader();
+    const earthTexture = textureLoader.load("/manus-storage/earth-texture_c6f4e34f.jpg");
+    earthTexture.colorSpace = THREE.SRGBColorSpace;
+    const landOverlayGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 1.001, 64, 64);
+    const landOverlayMat = new THREE.MeshBasicMaterial({
+      map: earthTexture,
+      transparent: true,
+      opacity: 0.35,
+      blending: THREE.AdditiveBlending,
+    });
+    globeGroup.add(new THREE.Mesh(landOverlayGeo, landOverlayMat));
 
     // Atmosphere glow (back-side additive)
     const atmosVert = `
@@ -726,7 +751,7 @@ export default function Globe({
     if (!cameraRef.current) return;
     e.preventDefault();
     const z = cameraRef.current.position.z + e.deltaY * 0.003;
-    cameraRef.current.position.z = Math.max(2.8, Math.min(8, z));
+    cameraRef.current.position.z = Math.max(3.5, Math.min(10, z));
   }, []);
 
   return (

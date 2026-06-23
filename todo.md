@@ -1871,3 +1871,8 @@
 - [x] Restore navy blue ocean (solid color, not photo texture for water)
 - [x] Ensure selected countries stay filled with their legend color
 - [x] Alphabetize navigation tabs (Governor, Historical Atlas, House, Redistricting, Senate, World)
+
+## Globe Visual (Round 6)
+- [x] Make globe smaller (more breathing room, centered in viewport)
+- [x] Add rich space/starfield background with depth and light feel
+- [x] Restore physical Earth texture (NASA Blue Marble) for realistic land appearance
