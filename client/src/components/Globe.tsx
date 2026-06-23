@@ -354,6 +354,7 @@ export default function Globe({
   const globeGroupRef = useRef<THREE.Group | null>(null);
   const frameRef = useRef<number>(0);
   const countryMeshesRef = useRef<Map<string, THREE.Mesh>>(new Map());
+  const countryBordersRef = useRef<Map<string, THREE.LineSegments>>(new Map());
   const electionMapRef = useRef<Map<string, ElectionData>>(new Map());
   const raycaster = useRef(new THREE.Raycaster());
   const mouseVec = useRef(new THREE.Vector2());
@@ -444,7 +445,7 @@ export default function Globe({
     const earthMat = new THREE.MeshBasicMaterial({ color: 0x0a1a3a });
     globeGroup.add(new THREE.Mesh(earthGeo, earthMat));
 
-    // Physical Earth texture overlay (land realism) — subtle hint beneath country fills
+    // Physical Earth texture overlay (land realism) — clearly visible since fills are now subtle
     const textureLoader = new THREE.TextureLoader();
     const earthTexture = textureLoader.load("/manus-storage/earth-texture_c6f4e34f.jpg");
     earthTexture.colorSpace = THREE.SRGBColorSpace;
@@ -452,7 +453,7 @@ export default function Globe({
     const landOverlayMat = new THREE.MeshBasicMaterial({
       map: earthTexture,
       transparent: true,
-      opacity: 0.2,
+      opacity: 0.55,
       blending: THREE.NormalBlending,
       depthWrite: false,
     });
@@ -495,19 +496,47 @@ export default function Globe({
           const election = electionMapRef.current.get(alpha2);
           const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
 
-          // Filled mesh — countries without elections are nearly invisible to show texture
+          // Filled mesh — election countries get a subtle tinted fill, non-election nearly invisible
           const mesh = buildCountryMesh(feature, GLOBE_RADIUS * 1.002, color);
           if (mesh) {
             const mat = mesh.material as THREE.MeshBasicMaterial;
-            mat.opacity = election ? 0.9 : 0.15;
+            mat.opacity = election ? 0.35 : 0.08;
             mesh.userData = { countryCode: alpha2, countryName: feature.properties?.name || "" };
             globeGroup.add(mesh);
             if (alpha2) countryMeshesRef.current.set(alpha2, mesh);
           }
 
-          // Border lines
-          const borders = buildCountryBorders(feature, GLOBE_RADIUS * 1.003);
-          if (borders) globeGroup.add(borders);
+          // Border lines — election countries get thick glowing borders in their status color
+          if (election) {
+            const glowBorder = buildCountryBorders(feature, GLOBE_RADIUS * 1.004);
+            if (glowBorder) {
+              const borderMat = glowBorder.material as THREE.LineBasicMaterial;
+              borderMat.color.setHex(STATUS_COLORS[election.status] ?? 0xf59e0b);
+              borderMat.opacity = 0.9;
+              borderMat.linewidth = 2;
+              glowBorder.userData = { countryCode: alpha2, isGlowBorder: true };
+              globeGroup.add(glowBorder);
+              if (alpha2) countryBordersRef.current.set(alpha2, glowBorder);
+            }
+            // Second glow layer (slightly larger, more transparent) for bloom effect
+            const outerGlow = buildCountryBorders(feature, GLOBE_RADIUS * 1.006);
+            if (outerGlow) {
+              const outerMat = outerGlow.material as THREE.LineBasicMaterial;
+              outerMat.color.setHex(STATUS_COLORS[election.status] ?? 0xf59e0b);
+              outerMat.opacity = 0.4;
+              outerMat.linewidth = 1;
+              outerGlow.userData = { isOuterGlow: true, countryCode: alpha2 };
+              globeGroup.add(outerGlow);
+            }
+          } else {
+            // Non-election countries: subtle thin borders
+            const borders = buildCountryBorders(feature, GLOBE_RADIUS * 1.003);
+            if (borders) {
+              const bMat = borders.material as THREE.LineBasicMaterial;
+              bMat.opacity = 0.25;
+              globeGroup.add(borders);
+            }
+          }
         }
       })
       .catch(err => console.error("Failed to load globe data:", err));
@@ -618,13 +647,18 @@ export default function Globe({
         layer.mat.opacity = layer.baseOpacity * twinkle;
       });
 
-      // Pulse "Voting Today" countries
-      const pulseTime = Date.now() * 0.003;
-      countryMeshesRef.current.forEach((mesh, code) => {
+      // Pulse glowing borders for election countries
+      const pulseTime = Date.now() * 0.001;
+      countryBordersRef.current.forEach((border, code) => {
         const election = electionMapRef.current.get(code);
-        if (election?.status === "Voting Today") {
-          const mat = mesh.material as THREE.MeshBasicMaterial;
-          mat.opacity = 0.6 + 0.4 * Math.sin(pulseTime);
+        if (!election) return;
+        const mat = border.material as THREE.LineBasicMaterial;
+        if (election.status === "Voting Today") {
+          // Fast bright pulse for active voting
+          mat.opacity = 0.6 + 0.4 * Math.sin(pulseTime * 4);
+        } else if (election.status === "Upcoming") {
+          // Gentle slow pulse for upcoming
+          mat.opacity = 0.5 + 0.4 * Math.sin(pulseTime * 1.5);
         }
       });
 
@@ -658,14 +692,21 @@ export default function Globe({
       const mat = mesh.material as THREE.MeshBasicMaterial;
       const election = electionMapRef.current.get(code);
       if (code === selectedCountry) {
-        // Selected country uses its legend color at full opacity (brighter)
+        // Selected country: brighter fill to highlight
         const color = election ? (STATUS_COLORS[election.status] ?? SELECTED_COLOR) : SELECTED_COLOR;
         mat.color.setHex(color);
-        mat.opacity = 1.0;
+        mat.opacity = 0.7;
       } else {
         const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
         mat.color.setHex(color);
-        mat.opacity = election ? 0.9 : 0.15;
+        mat.opacity = election ? 0.35 : 0.08;
+      }
+    });
+    // Also brighten the selected country's border
+    countryBordersRef.current.forEach((border, code) => {
+      const mat = border.material as THREE.LineBasicMaterial;
+      if (code === selectedCountry) {
+        mat.opacity = 1.0;
       }
     });
   }, [elections, selectedCountry]);
@@ -717,11 +758,18 @@ export default function Globe({
             name: election?.country || countryName || countryCode,
             status: election?.status || "No Election Tracked",
           });
-          // Highlight
+          // Highlight fill on hover
           const mat = (hit.object as THREE.Mesh).material as THREE.MeshBasicMaterial;
           if (countryCode !== selectedCountry) {
             mat.color.setHex(HOVER_COLOR);
-            mat.opacity = 1;
+            mat.opacity = 0.5;
+          }
+          // Also brighten the border glow on hover
+          const hoveredBorder = countryBordersRef.current.get(countryCode);
+          if (hoveredBorder && countryCode !== selectedCountry) {
+            const bMat = hoveredBorder.material as THREE.LineBasicMaterial;
+            bMat.color.setHex(0xffffff);
+            bMat.opacity = 1.0;
           }
           break;
         }
@@ -737,7 +785,15 @@ export default function Globe({
             const election = electionMapRef.current.get(code);
             const color = election ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
             mat.color.setHex(color);
-            mat.opacity = election ? 0.9 : 0.15;
+            mat.opacity = election ? 0.35 : 0.08;
+          }
+        });
+        // Reset border glow colors
+        countryBordersRef.current.forEach((border, code) => {
+          if (code !== selectedCountry) {
+            const mat = border.material as THREE.LineBasicMaterial;
+            const election = electionMapRef.current.get(code);
+            mat.color.setHex(election ? (STATUS_COLORS[election.status] ?? 0xf59e0b) : BORDER_COLOR);
           }
         });
       }

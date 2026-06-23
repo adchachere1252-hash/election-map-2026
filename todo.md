@@ -1881,3 +1881,12 @@
 - [x] Make stars twinkle/shine with animation
 - [x] Fix country fills to clearly show legend colors (amber=upcoming, green=completed)
 - [x] Verification check on color fill logic
+- [x] Implement glowing borders instead of solid fills for election countries
+- [x] Add pulsing glow effect for Upcoming (slow) and Voting Today (fast) countries
+- [x] Increase physical Earth texture visibility (55% opacity) since fills are now subtle
+
+## Primary Night Verification (June 23, 2026)
+- [x] Fix MD Governor primary_date from "June 2, 2026" to "June 23, 2026"
+- [x] Fix SC primary dates: House SC-1, SC-2 and Governor runoff dates should be "June 23, 2026" (not June 9)
+- [x] Update status to "Primary" for all NY/MD/UT races voting tonight
+- [x] Update status to "Primary Runoff" / "Voting" for SC/NY/MD races voting tonight
