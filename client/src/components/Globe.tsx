@@ -424,9 +424,12 @@ export default function Globe({
     scene.add(globeGroup);
     globeGroupRef.current = globeGroup;
 
-    // Ocean sphere — solid navy blue
+    // Earth sphere with physical texture (base layer)
     const earthGeo = new THREE.SphereGeometry(GLOBE_RADIUS, 64, 64);
-    const earthMat = new THREE.MeshBasicMaterial({ color: 0x0a1a3a });
+    const textureLoader = new THREE.TextureLoader();
+    const earthTexture = textureLoader.load("/manus-storage/earth-texture_c6f4e34f.jpg");
+    earthTexture.colorSpace = THREE.SRGBColorSpace;
+    const earthMat = new THREE.MeshBasicMaterial({ map: earthTexture });
     globeGroup.add(new THREE.Mesh(earthGeo, earthMat));
 
     // Atmosphere glow (back-side additive)
