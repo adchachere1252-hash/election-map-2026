@@ -1855,3 +1855,7 @@
 - [x] Shrink country labels to fit within country outlines (scale by country size)
 - [x] Change ocean color to solid navy blue (remove photo texture for water)
 - [x] Fix European label clustering (spread centroids, reduce scales for CZ/HU/SK/BA/BG/LV)
+
+## Globe Labels (Round 3)
+- [x] Shorten long country names on globe labels (United States → U.S., United Kingdom → U.K., etc.)
+- [x] Color country labels by election status (amber=upcoming, yellow=voting today, green=completed)

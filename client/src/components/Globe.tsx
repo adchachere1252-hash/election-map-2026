@@ -510,17 +510,42 @@ export default function Globe({
       IS: 0.04, GB: 0.06, IL: 0.03, BD: 0.05, AM: 0.04, SS: 0.06,
       GM: 0.03, HT: 0.04, BH: 0.03, CV: 0.03, ST: 0.03, CK: 0.03,
     };
+    // Short display names for long country names
+    const SHORT_NAMES: Record<string, string> = {
+      US: "U.S.",
+      GB: "U.K.",
+      NZ: "N.Z.",
+      BA: "Bosnia",
+      CZ: "Czechia",
+      SA: "S. Arabia",
+      ZA: "S. Africa",
+      SS: "S. Sudan",
+      BD: "Bangladesh",
+      KZ: "Kazakhstan",
+      DZ: "Algeria",
+      ET: "Ethiopia",
+    };
+    // Status → label color (matches legend)
+    const STATUS_LABEL_COLORS: Record<string, string> = {
+      "Upcoming": "#f59e0b",
+      "Voting Today": "#eab308",
+      "Completed": "#22c55e",
+      "Postponed": "#6b7280",
+      "Cancelled": "#ef4444",
+    };
     const addCountryLabels = () => {
       const map = electionMapRef.current;
       map.forEach((election, code) => {
         const centroid = COUNTRY_CENTROIDS[code];
         if (!centroid) return;
         const labelScale = COUNTRY_SCALE[code] || 0.06;
-        const sprite = createTextSprite(election.country, {
+        const displayName = SHORT_NAMES[code] || election.country;
+        const labelColor = STATUS_LABEL_COLORS[election.status] || "#e2e8f0";
+        const sprite = createTextSprite(displayName, {
           fontSize: 28,
-          color: "#e2e8f0",
+          color: labelColor,
           fontStyle: "600",
-          opacity: 0.8,
+          opacity: 0.9,
         });
         const pos = latLonToVec3(centroid.lon, centroid.lat, GLOBE_RADIUS * 1.02);
         sprite.position.copy(pos);
