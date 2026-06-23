@@ -10,16 +10,16 @@ const OG_META = `
     <!-- Open Graph / Facebook / LinkedIn -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://electionmap-duqshn4d.manus.space" />
-    <meta property="og:title" content="2026 U.S. Election Center \u2014 Live Congressional Tracker" />
-    <meta property="og:description" content="Real-time 2026 U.S. congressional election tracker \u2014 Senate, House, Governor, and ballot referendums with live results and interactive maps." />
+    <meta property="og:title" content="The Election Center \u2014 Live Global & U.S. Election Tracker" />
+    <meta property="og:description" content="Real-time global and U.S. election tracker \u2014 3D world globe, Senate, House, Governor races with live results and interactive maps." />
     <meta property="og:image" content="https://d2xsxph8kpxj0f.cloudfront.net/310519663521029713/Duqshn4D3kdv9jkbtBdj4X/og-image-1200x630_b394dbdf.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="2026 U.S. Election Center \u2014 Real-Time Congressional Tracker with interactive map" />
+    <meta property="og:image:alt" content="The Election Center \u2014 Real-Time Global & U.S. Election Tracker with interactive 3D globe" />
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="2026 U.S. Election Center \u2014 Live Congressional Tracker" />
-    <meta name="twitter:description" content="Real-time 2026 U.S. congressional election tracker \u2014 Senate, House, Governor, and ballot referendums with live results and interactive maps." />
+    <meta name="twitter:title" content="The Election Center \u2014 Live Global & U.S. Election Tracker" />
+    <meta name="twitter:description" content="Real-time global and U.S. election tracker \u2014 3D world globe, Senate, House, Governor races with live results and interactive maps." />
     <meta name="twitter:image" content="https://d2xsxph8kpxj0f.cloudfront.net/310519663521029713/Duqshn4D3kdv9jkbtBdj4X/og-image-1200x630_b394dbdf.png" />`;
 
 function injectOgMeta(html: string): string {

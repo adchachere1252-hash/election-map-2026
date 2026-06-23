@@ -36,6 +36,190 @@ const SELECTED_COLOR = 0x3b82f6;
 const OCEAN_COLOR = 0x0c1222;
 const BORDER_COLOR = 0x334155;
 
+// ─── Ocean label positions (lon, lat) ────────────────────────────────────────
+const OCEAN_LABELS: { name: string; lon: number; lat: number }[] = [
+  { name: "Pacific Ocean", lon: -160, lat: 0 },
+  { name: "Atlantic Ocean", lon: -35, lat: 15 },
+  { name: "Indian Ocean", lon: 75, lat: -20 },
+  { name: "Arctic Ocean", lon: 0, lat: 80 },
+  { name: "Southern Ocean", lon: 0, lat: -65 },
+];
+
+// ─── Country centroid positions for labels (lon, lat) ────────────────────────
+const COUNTRY_CENTROIDS: Record<string, { lon: number; lat: number }> = {
+  CO: { lon: -74, lat: 4 },
+  GB: { lon: -2, lat: 54 },
+  DE: { lon: 10, lat: 51 },
+  FR: { lon: 2, lat: 47 },
+  BR: { lon: -53, lat: -10 },
+  AU: { lon: 134, lat: -25 },
+  IN: { lon: 79, lat: 22 },
+  JP: { lon: 138, lat: 36 },
+  KR: { lon: 128, lat: 36 },
+  MX: { lon: -102, lat: 23 },
+  CA: { lon: -106, lat: 56 },
+  NG: { lon: 8, lat: 10 },
+  ZA: { lon: 25, lat: -29 },
+  EG: { lon: 30, lat: 27 },
+  SA: { lon: 45, lat: 24 },
+  TR: { lon: 35, lat: 39 },
+  PL: { lon: 20, lat: 52 },
+  NL: { lon: 5, lat: 52 },
+  CL: { lon: -71, lat: -35 },
+  AR: { lon: -64, lat: -34 },
+  PH: { lon: 122, lat: 12 },
+  ID: { lon: 118, lat: -2 },
+  TH: { lon: 101, lat: 15 },
+  VN: { lon: 106, lat: 16 },
+  MY: { lon: 110, lat: 4 },
+  SG: { lon: 104, lat: 1 },
+  NO: { lon: 10, lat: 62 },
+  SE: { lon: 16, lat: 62 },
+  DK: { lon: 10, lat: 56 },
+  FI: { lon: 26, lat: 64 },
+  PT: { lon: -8, lat: 40 },
+  ES: { lon: -4, lat: 40 },
+  IT: { lon: 12, lat: 43 },
+  GR: { lon: 22, lat: 39 },
+  RO: { lon: 25, lat: 46 },
+  CZ: { lon: 15, lat: 50 },
+  AT: { lon: 14, lat: 47 },
+  CH: { lon: 8, lat: 47 },
+  BE: { lon: 4, lat: 51 },
+  IE: { lon: -8, lat: 53 },
+  NZ: { lon: 172, lat: -41 },
+  HU: { lon: 19, lat: 47 },
+  SK: { lon: 19, lat: 49 },
+  ST: { lon: 7, lat: 1 },
+  CK: { lon: -160, lat: -21 },
+  IS: { lon: -19, lat: 65 },
+  LV: { lon: 25, lat: 57 },
+  BA: { lon: 18, lat: 44 },
+  CV: { lon: -24, lat: 16 },
+  BG: { lon: 25, lat: 43 },
+  GM: { lon: -16, lat: 13 },
+  SS: { lon: 30, lat: 7 },
+  AM: { lon: 45, lat: 40 },
+  KE: { lon: 38, lat: 1 },
+  GH: { lon: -2, lat: 8 },
+  TZ: { lon: 35, lat: -6 },
+  ET: { lon: 39, lat: 9 },
+  UG: { lon: 32, lat: 1 },
+  ZM: { lon: 28, lat: -15 },
+  MW: { lon: 34, lat: -14 },
+  HT: { lon: -72, lat: 19 },
+  DO: { lon: -70, lat: 19 },
+  JM: { lon: -77, lat: 18 },
+  TT: { lon: -61, lat: 10 },
+  PE: { lon: -76, lat: -10 },
+  EC: { lon: -78, lat: -2 },
+  BO: { lon: -65, lat: -17 },
+  PY: { lon: -58, lat: -23 },
+  UY: { lon: -56, lat: -33 },
+  VE: { lon: -66, lat: 8 },
+  CU: { lon: -79, lat: 22 },
+  PA: { lon: -80, lat: 9 },
+  CR: { lon: -84, lat: 10 },
+  GT: { lon: -90, lat: 15 },
+  HN: { lon: -87, lat: 15 },
+  SV: { lon: -89, lat: 14 },
+  NI: { lon: -85, lat: 13 },
+  BZ: { lon: -89, lat: 17 },
+  PK: { lon: 69, lat: 30 },
+  BD: { lon: 90, lat: 24 },
+  LK: { lon: 81, lat: 8 },
+  MM: { lon: 96, lat: 20 },
+  KH: { lon: 105, lat: 13 },
+  LA: { lon: 103, lat: 18 },
+  NP: { lon: 84, lat: 28 },
+  AF: { lon: 67, lat: 33 },
+  IQ: { lon: 44, lat: 33 },
+  IR: { lon: 53, lat: 32 },
+  SY: { lon: 38, lat: 35 },
+  JO: { lon: 36, lat: 31 },
+  LB: { lon: 36, lat: 34 },
+  IL: { lon: 35, lat: 31 },
+  AE: { lon: 54, lat: 24 },
+  QA: { lon: 51, lat: 25 },
+  KW: { lon: 48, lat: 29 },
+  BH: { lon: 51, lat: 26 },
+  OM: { lon: 57, lat: 21 },
+  YE: { lon: 48, lat: 15 },
+  UA: { lon: 32, lat: 49 },
+  RU: { lon: 100, lat: 60 },
+  CN: { lon: 105, lat: 35 },
+  MN: { lon: 104, lat: 47 },
+  KZ: { lon: 67, lat: 48 },
+  UZ: { lon: 64, lat: 41 },
+  TM: { lon: 59, lat: 39 },
+  KG: { lon: 75, lat: 41 },
+  TJ: { lon: 69, lat: 39 },
+  GE: { lon: 44, lat: 42 },
+  AZ: { lon: 48, lat: 41 },
+  LY: { lon: 17, lat: 27 },
+  TN: { lon: 9, lat: 34 },
+  DZ: { lon: 3, lat: 28 },
+  MA: { lon: -6, lat: 32 },
+  SD: { lon: 30, lat: 15 },
+  CD: { lon: 24, lat: -3 },
+  AO: { lon: 18, lat: -12 },
+  MZ: { lon: 35, lat: -18 },
+  MG: { lon: 47, lat: -19 },
+  CM: { lon: 12, lat: 6 },
+  CI: { lon: -5, lat: 7 },
+  SN: { lon: -14, lat: 14 },
+  ML: { lon: -4, lat: 17 },
+  BF: { lon: -2, lat: 12 },
+  NE: { lon: 8, lat: 17 },
+  TD: { lon: 19, lat: 15 },
+  SO: { lon: 46, lat: 6 },
+  ER: { lon: 39, lat: 15 },
+  DJ: { lon: 43, lat: 12 },
+  RW: { lon: 30, lat: -2 },
+  BI: { lon: 30, lat: -3 },
+  TW: { lon: 121, lat: 24 },
+  HK: { lon: 114, lat: 22 },
+  US: { lon: -97, lat: 38 },
+};
+
+// ─── Create text sprite for labels ──────────────────────────────────────────
+function createTextSprite(
+  text: string,
+  options: { fontSize?: number; color?: string; fontStyle?: string; opacity?: number } = {}
+): THREE.Sprite {
+  const { fontSize = 48, color = "#ffffff", fontStyle = "bold", opacity = 0.9 } = options;
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d")!;
+  const font = `${fontStyle} ${fontSize}px 'Inter', 'Segoe UI', sans-serif`;
+  ctx.font = font;
+  const metrics = ctx.measureText(text);
+  const textWidth = metrics.width;
+  const padding = 20;
+  canvas.width = textWidth + padding * 2;
+  canvas.height = fontSize * 1.4 + padding;
+
+  ctx.font = font;
+  ctx.fillStyle = color;
+  ctx.globalAlpha = opacity;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.needsUpdate = true;
+  const spriteMat = new THREE.SpriteMaterial({
+    map: texture,
+    transparent: true,
+    depthTest: false,
+    depthWrite: false,
+  });
+  const sprite = new THREE.Sprite(spriteMat);
+  const aspect = canvas.width / canvas.height;
+  const scale = 0.3;
+  sprite.scale.set(scale * aspect, scale, 1);
+  return sprite;
+}
+
 // ─── Utility: Convert lat/lon to 3D ──────────────────────────────────────────
 function latLonToVec3(lon: number, lat: number, radius: number): THREE.Vector3 {
   const phi = (90 - lat) * (Math.PI / 180);
@@ -302,6 +486,41 @@ export default function Globe({
         }
       })
       .catch(err => console.error("Failed to load globe data:", err));
+
+    // ─── Add ocean labels ──────────────────────────────────────────────────────
+    for (const ocean of OCEAN_LABELS) {
+      const sprite = createTextSprite(ocean.name, {
+        fontSize: 36,
+        color: "#64748b",
+        fontStyle: "italic",
+        opacity: 0.7,
+      });
+      const pos = latLonToVec3(ocean.lon, ocean.lat, GLOBE_RADIUS * 1.01);
+      sprite.position.copy(pos);
+      sprite.userData = { isLabel: true };
+      globeGroup.add(sprite);
+    }
+
+    // ─── Add election country labels ───────────────────────────────────────────
+    const addCountryLabels = () => {
+      const map = electionMapRef.current;
+      map.forEach((election, code) => {
+        const centroid = COUNTRY_CENTROIDS[code];
+        if (!centroid) return;
+        const sprite = createTextSprite(election.country, {
+          fontSize: 32,
+          color: "#e2e8f0",
+          fontStyle: "600",
+          opacity: 0.85,
+        });
+        const pos = latLonToVec3(centroid.lon, centroid.lat, GLOBE_RADIUS * 1.04);
+        sprite.position.copy(pos);
+        sprite.userData = { isLabel: true, countryLabel: code };
+        globeGroup.add(sprite);
+      });
+    };
+    // Delay slightly to ensure elections data is populated
+    setTimeout(addCountryLabels, 100);
 
     // Animation loop
     const animate = () => {

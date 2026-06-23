@@ -1845,3 +1845,8 @@
 - [x] Move "World" tab before "Governor" in navigation order
 - [x] Add physical Earth texture to globe (realistic land/ocean appearance)
 - [x] Slow down globe rotation to feel like a real planet
+
+## Globe Labels
+- [x] Add ocean name labels (5 oceans, always visible, subtle blue-gray italic)
+- [x] Add election country name labels (30 tracked countries, white bold, always visible)
+- [x] Update OG meta tags to reflect new site name
