@@ -2001,3 +2001,9 @@
 **Senate (3 rating fixes per Cook June 2):** IA, NE, TX: Likely R -> Lean R
 **House (14 fixes):** UT-1 candidate (Ben McAdams), ME-2 candidate (Matt Dunlap), CA-6 party fix, + 11 Cook June 18 rating updates
 **Governor (4 fixes):** ME candidates (Pingree/Charles), MI rating (Lean D), CA rating (Solid D), OK R candidate (runoff TBD)
+
+## New Candidate Photos (Jun 24, 2026 - Round 2 Audit Additions)
+- [x] Upload photo for Ben McAdams (UT-1, D)
+- [x] Upload photo for Matt Dunlap (ME-2, D)
+- [x] Upload photo for Hannah Pingree (ME Gov, D)
+- [x] Upload photo for Bobby Charles (ME Gov, R)
