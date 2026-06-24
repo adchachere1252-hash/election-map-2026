@@ -1935,3 +1935,8 @@
 ## Governor Race Display Fix (Round 14)
 - [x] Show candidates as "TBD" when primary hasn't been called yet (status = Voting or Primary)
 - [x] Once primary is called by AP, show confirmed nominees
+
+## Candidate Photos & Bios (Round 15)
+- [ ] Add Wes Moore photo and bio (MD Governor incumbent)
+- [ ] Add Jamie Raskin photo and bio (MD-8 incumbent)
+- [ ] Audit all races for missing incumbent/candidate photos
