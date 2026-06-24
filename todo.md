@@ -2033,3 +2033,27 @@
 - [x] Re-crop and re-upload 231 poorly centered photos (228 auto + 3 manual fix for special chars)
 - [x] Update database with corrected photo URLs — 231 updates (167 House, 19 Senate, 18 Governor races)
 - [x] Verify all corrected photos display correctly — 10/10 random sample serving correctly
+
+## Deep Investigative Verification (Jun 24, 2026)
+- [x] Structural integrity: 0 duplicates, 0 same-candidate-both-sides, 0 placeholders in General, 5 party ordering violations fixed
+- [x] Cross-verify all Toss-up/Lean/Likely race candidates against Ballotpedia/Cook/270toWin — Found MI-4 wrong candidate, KY-6 wrong name
+- [x] Spot-check candidate photos against known appearances — 10/10 verified correct person
+- [x] Verify latest Cook Political Report ratings (June 18 update) — Fixed 24 rating mismatches
+- [x] Check for duplicate photos, swapped D/R photos, and data anomalies — Fixed CA-41 photo swap, recovered 5 corrupted races
+- [x] Fix all issues found: MI-4 candidate, KY-6 name, 24 ratings, 5 party ordering, CA-41 photo swap, Bill Huizenga photo added
+
+### Summary of All Fixes:
+- MI-4: Curtis Hertel (wrong) -> TBD (D primary Aug 4); added Bill Huizenga (R) photo
+- KY-6: Robert -> Ralph Alvarado; Lean R -> Solid R
+- OR-5: Toss-up -> Likely D
+- CA-27: Toss-up -> Solid D
+- CA-41: Toss-up -> Solid D; fixed photo swap (Linda Sánchez had Mitch Clemmons' photo)
+- AK-0: Solid R -> Likely R
+- FL-25: Solid R -> Toss-up (new competitive district)
+- FL-14/22: Solid R -> Lean R
+- FL-9, MN-1, OH-7, TX-23: Solid R -> Likely R
+- AL-2: Likely D -> Likely R (CRITICAL — was showing wrong party lean)
+- VA-7: Lean D -> Likely D
+- 14 safe seats downgraded from competitive to Solid D/R
+- 5 races: Fixed D=c1/R=c2 party ordering convention
+- All photo URLs verified accessible (794 unique, 10/10 sample passed)
