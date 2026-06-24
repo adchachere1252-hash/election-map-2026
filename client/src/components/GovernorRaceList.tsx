@@ -196,6 +196,10 @@ export default function GovernorRaceList({
                         <span className="text-[10px] text-muted-foreground truncate">{race.incumbentName}</span>
                         <span className="text-[10px] text-muted-foreground">· Incumbent</span>
                       </div>
+                    ) : (race.status === "Voting" || race.status === "Primary") ? (
+                      <div className="flex items-center gap-1 mt-0.5">
+                        <span className="text-[10px] text-amber-400 italic">Primary in progress — nominees TBD</span>
+                      </div>
                     ) : (race.demCandidate || race.repCandidate) ? (
                       <div className="flex items-center gap-1 mt-0.5 flex-wrap">
                         {race.demCandidate && (

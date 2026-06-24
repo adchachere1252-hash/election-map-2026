@@ -34,6 +34,7 @@ interface GovernorRace {
   id: number;
   stateCode: string;
   stateName: string;
+  status: string;
   rating: string | null;
   incumbentName: string | null;
   incumbentParty: string | null;
@@ -241,8 +242,14 @@ const GovernorMap = forwardRef(function GovernorMap({
           } else if (race.incumbentName) {
             content += `\n${race.incumbentName} (${race.incumbentParty}) — Incumbent`;
           }
-          if (race.demCandidate) content += `\nDem: ${race.demCandidate}`;
-          if (race.repCandidate) content += `\nRep: ${race.repCandidate}`;
+          if (race.calledParty) {
+            content += `\nCalled: ${race.calledParty === "D" ? "Democrat" : "Republican"}`;
+          } else if (race.status === "Voting" || race.status === "Primary") {
+            content += `\nPrimary in progress — nominees TBD`;
+          } else if (race.demCandidate) {
+            content += `\nDem: ${race.demCandidate}`;
+            if (race.repCandidate) content += `\nRep: ${race.repCandidate}`;
+          }
         } else {
           content = `${code} — No 2026 Governor Race`;
         }

@@ -325,10 +325,11 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
   const hasDemCandidate = !!(race.demCandidate && !race.demCandidate.startsWith("TBD"));
   const hasRepCandidate = !!(race.repCandidate && !race.repCandidate.startsWith("TBD"));
   const hasBothCandidates = hasDemCandidate && hasRepCandidate;
-  // Show general matchup card for: confirmed matchups (including Voting status), or Primary Runoff with at least D confirmed
-  const isGeneral = (race.status === "General" || hasBothCandidates ||
-    (race.status === "Primary Runoff" && hasDemCandidate)) &&
-    race.status !== "Primary";
+  // Show general matchup card for: confirmed matchups, or Primary Runoff with at least D confirmed
+  // Do NOT show general matchup when primary is still in progress (Voting/Primary status)
+  const isPrimaryInProgress = race.status === "Voting" || race.status === "Primary";
+  const isGeneral = !isPrimaryInProgress && (race.status === "General" || hasBothCandidates ||
+    (race.status === "Primary Runoff" && hasDemCandidate));
 
   // Determine if incumbent is running (not open seat)
   const incumbentIsRunning = !isOpenSeat && !!race.incumbentName;
@@ -473,8 +474,39 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
             generalDate={race.generalDate}
             contextLines={contextLines}
           />
+        ) : isPrimaryInProgress ? (
+          /* === PRIMARY IN PROGRESS: Show TBD nominees === */
+          <div className="space-y-3">
+            <div className="flex items-start gap-2 p-3 rounded-lg bg-amber-900/25 border border-amber-700/40">
+              <span className="text-amber-400 text-sm">🗳️</span>
+              <div>
+                <p className="text-xs font-semibold text-amber-200">Primary Election In Progress</p>
+                <p className="text-[11px] text-amber-300/80 mt-0.5">
+                  Voters are choosing party nominees today. The general election matchup will be confirmed once primary results are called.
+                </p>
+              </div>
+            </div>
+            <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">November General Election</p>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="rounded-lg border p-3 bg-blue-950/20 border-blue-800/30 text-center">
+                <span className="text-xs font-bold text-blue-400">Democratic Nominee</span>
+                <p className="text-sm font-semibold text-muted-foreground italic mt-1">TBD</p>
+                <p className="text-[10px] text-muted-foreground mt-0.5">Primary in progress</p>
+              </div>
+              <div className="rounded-lg border p-3 bg-red-950/20 border-red-800/30 text-center">
+                <span className="text-xs font-bold text-red-400">Republican Nominee</span>
+                <p className="text-sm font-semibold text-muted-foreground italic mt-1">TBD</p>
+                <p className="text-[10px] text-muted-foreground mt-0.5">Primary in progress</p>
+              </div>
+            </div>
+            {race.incumbentName && (
+              <p className="text-[11px] text-muted-foreground">
+                <span className="font-medium text-foreground">{race.incumbentName}</span> ({race.incumbentParty}) is the incumbent{!race.isOpen ? " and is expected to win the " + (race.incumbentParty === "D" ? "Democratic" : "Republican") + " primary" : ""}.
+              </p>
+            )}
+          </div>
         ) : (
-          /* === NON-GENERAL: Stacked CandidateCard layout === */
+          /* === NON-GENERAL / NON-PRIMARY: Stacked CandidateCard layout === */
           <div className="space-y-2">
             <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
               {isOpenSeat ? "Candidates" : "Race Matchup"}
@@ -499,8 +531,6 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
               photo={race.repPhoto}
               isIncumbent={incumbentIsRunning && incumbentParty === "R"}
             />
-
-
           </div>
         )}
 
