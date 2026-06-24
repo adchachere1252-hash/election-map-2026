@@ -1956,7 +1956,7 @@
 - [x] Upload photos batch 4 (8 remaining): Nanette Barragan, Genevieve Angel, Steve Cohen, Jeff Belle, Armen Kurdian, Jay Obernolte, Antonio Reynoso, Joel Azumah
 - [x] Update database with all uploaded photo URLs (62 total photos added)
 - [x] Final audit: 268/281 General races now have complete photos (95% coverage)
-- [ ] Remaining 13 races still missing photos (CA-4, CA-10, CA-20, CA-51, MD-2 c2, MD-3 c2, NJ-8, NY-8, NY-10, OK-1, PA-3, TX-26, UT-4) — mostly null/TBD candidates or rate-limited sources
+- [x] Remaining photos resolved: CA-4 (Eric Jones), CA-10 (Jeff Frese), CA-20 (Vince Fong), CA-51 (Ricardo Cabrera), MD-3 (Berney Flowers), OK-1 (Mark Tedford) uploaded. Final 6 races (NJ-8, NY-8, NY-10, PA-3, TX-26, UT-4) have NULL/TBD candidates or zero online presence — cannot add photos until candidates are named. Coverage: 98% (275/281)
 
 ## Full Verification Audit (Jun 24, 2026)
 - [x] Verify SC-1, SC-2 runoff results match official sources
