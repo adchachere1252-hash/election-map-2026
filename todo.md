@@ -2057,3 +2057,33 @@
 - 14 safe seats downgraded from competitive to Solid D/R
 - 5 races: Fixed D=c1/R=c2 party ordering convention
 - All photo URLs verified accessible (794 unique, 10/10 sample passed)
+
+## World Elections Verification Audit (Jun 24, 2026)
+- [x] Export all world elections from database and review data structure (32 elections)
+- [x] Cross-verify each election: dates, candidates, incumbents, election type, status
+- [x] Verify already-called results match actual outcomes (Bangladesh, Hungary, Ethiopia, Armenia, Nepal, Peru, Colombia)
+- [x] Check for missing elections that should be tracked in 2026 — Added Nepal, Peru (completed); removed 7 duplicates
+- [x] Fix all data errors found — 25+ corrections applied
+- [ ] Save checkpoint with all corrections
+
+### Errors Found & Fixed:
+**Critical corrections:**
+- Armenia (ID 5): Changed from Constitutional Referendum to Parliamentary Election (completed June 7, Pashinyan won)
+- Colombia: Updated with de la Espriella win (June 22 runoff, margin <1%), full sources
+- Hungary: Added Péter Magyar / TISZA as winner (Orbán's 16-year rule ended)
+- Ethiopia: Added Abiy Ahmed / Prosperity Party landslide win (results June 21)
+- UK: Updated — Starmer resigned June 22, Burnham frontrunner, NO snap election expected (next GE by 2029)
+
+**New elections added (3):**
+- Nepal (completed Mar 5, 2026 — Balen Shah / RSP won)
+- Peru (completed Jun 7, 2026 — Keiko Fujimori won runoff)
+
+**Duplicate entries removed (7):**
+- IDs 30003-30009 (Kazakhstan, Russia, Bosnia, Haiti, Cabo Verde, Bulgaria, Bahrain duplicated existing entries)
+
+**Data enrichment (20+ elections updated with):**
+- Verified candidate lists from Reuters, BBC, Al Jazeera, IFES
+- Current polling data (Sweden, Brazil, New Zealand, Israel)
+- Accurate incumbent names (Latvia: Kulbergs, Bulgaria: Radev)
+- Source citations for every election
+- Contextual notes (Kazakhstan constitutional reform, Russia wartime elections, Somalia political stalemate, South Sudan first-ever election)
