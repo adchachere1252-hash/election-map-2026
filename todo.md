@@ -2026,3 +2026,10 @@
   - Added photos for all 8 CO House districts + CO Senate (Mark Baisley) + NM Senate (Larry Marker)
 - [x] Fix any issues found — 6 data fixes + 12 new photos uploaded
 - [x] Save checkpoint and deliver report
+
+## Photo Face-Centering Audit (Jun 24, 2026)
+- [x] Audit all candidate photos for proper face centering — 566 well-centered, 224 poorly centered, 7 no face detected
+- [x] Build face-detection centering script using OpenCV (haarcascade + smart crop with face at 38% from top)
+- [x] Re-crop and re-upload 231 poorly centered photos (228 auto + 3 manual fix for special chars)
+- [x] Update database with corrected photo URLs — 231 updates (167 House, 19 Senate, 18 Governor races)
+- [x] Verify all corrected photos display correctly — 10/10 random sample serving correctly
