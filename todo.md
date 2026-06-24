@@ -1791,9 +1791,9 @@
 - [x] Correct GA-1 winner: Amanda Hollowell (not Joyce Griggs) per AP official call
 - [x] Source and upload 16 candidate photos for all newly promoted races
 - [x] Update database with all 16 photo URLs
-- [ ] OK Governor R Runoff: Drummond vs Mazzei — needs future resolution
-- [ ] OK Senate D Runoff: N'Kiyla Thomas vs Jim Priest — needs future resolution
-- [ ] OK-1 R Runoff: Tedford vs Lahmeyer — needs future resolution
+- [x] OK Governor R Runoff: Drummond vs Mazzei — August 25, 2026 runoff. Race correctly in "Voting" status. AP Engine will auto-update when results come in.
+- [x] OK Senate D Runoff: N'Kiyla Thomas vs Jim Priest — August 25, 2026 runoff. Race in General with TBD (D) placeholder. AP Engine will resolve.
+- [x] OK-1 R Runoff: Tedford vs Lahmeyer — RESOLVED: Lahmeyer suspended campaign June 17. Tedford set as R nominee, race promoted to General.
 - [x] Fix promotion engine: add isEffectivelyEmpty() helper to treat TBD-prefixed names as overwritable
 - [x] Fix cross-link pass to use isEffectivelyEmpty for Senate and House candidate slots
 - [x] Update OK Senate, OK-1, OK Governor notes with accurate runoff info
