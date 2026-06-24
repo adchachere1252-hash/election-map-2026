@@ -1957,3 +1957,33 @@
 - [x] Update database with all uploaded photo URLs (62 total photos added)
 - [x] Final audit: 268/281 General races now have complete photos (95% coverage)
 - [ ] Remaining 13 races still missing photos (CA-4, CA-10, CA-20, CA-51, MD-2 c2, MD-3 c2, NJ-8, NY-8, NY-10, OK-1, PA-3, TX-26, UT-4) — mostly null/TBD candidates or rate-limited sources
+
+## Full Verification Audit (Jun 24, 2026)
+- [x] Verify SC-1, SC-2 runoff results match official sources
+- [x] Verify MD/NY/SC Governor promotions are correct
+- [x] Verify all competitive House races have correct candidates and photos
+- [x] Cross-check newly promoted candidates against Ballotpedia/AP — FOUND 13 MAJOR ERRORS
+- [x] Verify all uploaded photos are loading (not broken/404) — 20/20 sample passed HTTP HEAD check
+- [x] Check for AP Engine data corruption or overwrites — safe (General races protected from primary overwrites)
+- [x] Deliver comprehensive verification report
+
+### Errors Found & Fixed During Verification:
+- [x] MD Governor: Shannon Wright (R) -> Dan Cox (R) per AP/WUSA9/Fox Baltimore
+- [x] NY-7: candidate1 -> Claire Valdez (D)
+- [x] NY-10: Dan Goldman (D) -> Brad Lander (D) per Politico/NY1/CBS/NBC
+- [x] NY-12: null (D) -> Micah Lasher (D) per NY1/NBC/Politico
+- [x] NY-13: Adriano Espaillat (D) -> Darializa Avila Chevalier (D) per NY1/CNN/The Hill
+- [x] NY-15: -> Ritchie Torres (D)
+- [x] UT-2: Karianne Lisonbee (R) -> Blake Moore (R) per SL Tribune/Deseret News (58.3%)
+- [x] TX-32: Patrick Gillespie (R) -> Jace Yarbrough (R) per Ballotpedia/NYT
+- [x] NJ-11: Donald Cresitello (D) -> Joe Hathaway (R) per Ballotpedia
+- [x] OK-1: TBD (R) -> Mark Tedford (R) per AP
+- [x] MD-2: null (R) -> Dave Wallace (R) per Ballotpedia
+- [x] CA-22: null (D) -> Randy Villegas (D) per AP
+- [x] TX-35/TX-37: Corrected primary_winner fields (candidate names were already correct)
+- [x] Uploaded new photos: Brad Lander, Micah Lasher, Darializa Chevalier, Ritchie Torres, Claire Valdez, Dave Wallace, Dan Cox, Randy Villegas
+
+### Remaining Minor Name Formatting (18 races) — NOT errors:
+- These are AP abbreviation differences (e.g. "J. French Hill" vs "French Hill", "Glenn F. Ivey" vs "Glenn Ivey")
+- The candidate_name fields display the correct full names; primary_winner field uses AP's abbreviated format
+- No action needed — cosmetic only
