@@ -1987,3 +1987,17 @@
 - These are AP abbreviation differences (e.g. "J. French Hill" vs "French Hill", "Glenn F. Ivey" vs "Glenn Ivey")
 - The candidate_name fields display the correct full names; primary_winner field uses AP's abbreviated format
 - No action needed — cosmetic only
+
+## Full Verification Audit Round 2 (Jun 24, 2026)
+- [x] Export all race data from database for comprehensive audit
+- [x] Verify all 35 Senate races: candidates, parties, statuses, ratings — Fixed: IA/NE/TX ratings Likely R -> Lean R (Cook June 2)
+- [x] Verify all competitive House races (Toss-up, Lean, Likely): candidates correct — Fixed 14 issues (UT-1, ME-2, CA-6 + 11 rating updates)
+- [x] Verify all 36 Governor races: candidates, parties, statuses — Fixed 4 issues (ME candidates, MI/CA ratings, OK R candidate)
+- [x] Check all photo URLs are loading (HTTP HEAD check on full set) — 791 URLs all serving correctly (307 -> S3)
+- [x] Fix any errors found during audit — 21 total fixes applied
+- [x] Deliver comprehensive verification report
+
+### Round 2 Errors Found & Fixed:
+**Senate (3 rating fixes per Cook June 2):** IA, NE, TX: Likely R -> Lean R
+**House (14 fixes):** UT-1 candidate (Ben McAdams), ME-2 candidate (Matt Dunlap), CA-6 party fix, + 11 Cook June 18 rating updates
+**Governor (4 fixes):** ME candidates (Pingree/Charles), MI rating (Lean D), CA rating (Solid D), OK R candidate (runoff TBD)
