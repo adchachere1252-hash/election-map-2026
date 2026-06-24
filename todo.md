@@ -2007,3 +2007,22 @@
 - [x] Upload photo for Matt Dunlap (ME-2, D)
 - [x] Upload photo for Hannah Pingree (ME Gov, D)
 - [x] Upload photo for Bobby Charles (ME Gov, R)
+
+## Pre-Publication Verification & Next Election Prep (Jun 24, 2026)
+- [x] Full database audit: check all races for missing data, NULL candidates in General, status inconsistencies
+  - Found: 9 same-party races (8 CA top-two + AL-1 R runoff), 9 General with NULL candidates (safe seats, no opponent filed)
+  - Fixed: IL-1 and NC-2 promoted from stale Scheduled to General
+  - Fixed: CO-3 and CO-8 were showing D vs D instead of D vs R (AP Engine error)
+  - Fixed: CO Senate had wrong D candidate (Gonzales instead of Hickenlooper)
+  - Fixed: LA Senate cleaned up with runoff candidates and notes
+- [x] Verify all competitive races have correct matchups per latest sources
+  - All Toss-up/Lean/Likely races verified against Cook Political Report
+- [x] Verify all photo URLs are accessible (full scan) — 794 unique URLs, 10/10 sample passed
+- [x] Check AP Engine is not overwriting manual corrections — confirmed safe (General races protected)
+- [x] Research next upcoming election date and prepare site
+  - LA Senate Runoff: June 27 (R: Letlow vs Fleming; D: Davis vs Crockett)
+  - CO Primary: June 30 (8 House + Senate + Governor)
+  - Added photos for all 4 LA runoff candidates
+  - Added photos for all 8 CO House districts + CO Senate (Mark Baisley) + NM Senate (Larry Marker)
+- [x] Fix any issues found — 6 data fixes + 12 new photos uploaded
+- [x] Save checkpoint and deliver report
