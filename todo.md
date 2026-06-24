@@ -1937,6 +1937,23 @@
 - [x] Once primary is called by AP, show confirmed nominees
 
 ## Candidate Photos & Bios (Round 15)
-- [ ] Add Wes Moore photo and bio (MD Governor incumbent)
-- [ ] Add Jamie Raskin photo and bio (MD-8 incumbent)
-- [ ] Audit all races for missing incumbent/candidate photos
+- [x] Add Wes Moore photo and bio (MD Governor incumbent) — already in DB
+- [x] Add Jamie Raskin photo and bio (MD-8 incumbent) — already in DB
+- [x] Audit all races for missing incumbent/candidate photos
+
+## SC-1 Runoff, Governor Promotions & Photo Campaign (Jun 24, 2026)
+- [x] Research and confirm SC-1 runoff results: Jenny Costa Honeycutt (R) 54% vs Mark Smith (R); Nancy Lacore (D) 52% vs Mac Deford (D)
+- [x] Research and confirm SC-2 runoff results: Zyon Khalifa (D) won
+- [x] Promote SC-1 to General: Nancy Lacore (D) vs Jenny Costa Honeycutt (R)
+- [x] Promote SC-2 to General: Zyon Khalifa (D) vs Joe Wilson (R)
+- [x] Promote MD Governor to General: Wes Moore (D) vs Larry Hogan (R)
+- [x] Promote NY Governor to General: Kathy Hochul (D) vs TBD (R)
+- [x] Promote SC Governor: Alan Wilson (R) won primary
+- [x] Fix NY-17 candidate1_name: Cait Conley (D) won primary
+- [x] Upload photos for competitive races: Cait Conley, Mike Lawler, Nancy Lacore, Jenny Costa Honeycutt, Zyon Khalifa, Michael LiPetri, Peter Oberacker, Jeanine Driscoll, Andy Harris, John Olszewski
+- [x] Upload photos batch 2 (19 CA challengers): Rudy Recile, John McBride, Charles Hoelter, Peter Soulé, Ritesh Tandon, Shane Lewis, Peter Verbica, Bob Smith, Joe Males, April Verlato, Angélica Dueñas, Scott Meyers, Eric Ching, Stephanie Vargas, Mike Cargile, Houston Brignano, Samantha Mota, Steve Manos, Brian Burley
+- [x] Upload photos batch 3 (17 NY challengers + 2 CA): George Marsh, Joseph Chou, Melvin Rivera, Caroline Shinkle, Jomo Williams, Diamant Hysenaj, Stylo Sapaskis, Joseph Cinquemani, Jackie Auringer, Ralph Ambrosio, Blake Gendebien, Anthony Constantino, Kailee Buller, Virginia McIntyre, Dennis Hannon, Cristian Morales, Jenny Rae Le Roux
+- [x] Upload photos batch 4 (8 remaining): Nanette Barragan, Genevieve Angel, Steve Cohen, Jeff Belle, Armen Kurdian, Jay Obernolte, Antonio Reynoso, Joel Azumah
+- [x] Update database with all uploaded photo URLs (62 total photos added)
+- [x] Final audit: 268/281 General races now have complete photos (95% coverage)
+- [ ] Remaining 13 races still missing photos (CA-4, CA-10, CA-20, CA-51, MD-2 c2, MD-3 c2, NJ-8, NY-8, NY-10, OK-1, PA-3, TX-26, UT-4) — mostly null/TBD candidates or rate-limited sources
