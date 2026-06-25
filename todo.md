@@ -2112,3 +2112,23 @@
 - [x] 24h Cache-Control headers on bundle endpoint
 - [x] Backward compatible — individual /api/geojson/:file endpoint still works as fallback
 - [x] 130 tests passing (14 new worldCalendar tests), zero TypeScript errors
+
+## World Election Auto-Tracker (Jun 25, 2026)
+- [x] Build worldElectionTracker.ts — RSS polling service for international election results
+- [x] Poll Reuters, BBC, Al Jazeera RSS feeds for election result keywords
+- [x] Match RSS entries to tracked world elections by country name and date proximity
+- [x] LLM-based extraction of winner/party with confidence scoring (high/medium/low)
+- [x] Auto-update status (Upcoming → Completed) and winner fields when results confirmed (high confidence only)
+- [x] Integrate into electionScheduler.ts with 6-hour interval (runs regardless of U.S. election state)
+- [x] Add source attribution for each auto-update in notes field
+- [x] Logging and error handling for failed feeds
+
+## Historical Atlas State-Detail Panel (Jun 25, 2026)
+- [x] Build StateDetailPanel component — slide-out panel (380px right side)
+- [x] Show redistricting history timeline (clickable to jump to that era)
+- [x] Show seat count bar chart with apportionment change annotations
+- [x] Stacked area chart of party control (D/R/I) across all 31 congresses
+- [x] Current representatives list with Bioguide photos for selected congress
+- [x] Integrate into MapComparison.tsx — district popup "View History →" button + header "▣ Detail" button
+- [x] Mobile support (full-screen overlay on small screens)
+- [x] Keyboard shortcut: S key opens state detail for selected state, Escape closes

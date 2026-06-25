@@ -11,12 +11,14 @@
  */
 
 import { getElectionWindowStatus, isApproachingElectionWindow } from "./electionDates";
+import { runWorldElectionTracker } from "./worldElectionTracker";
 
 // Intervals
 const ACTIVE_AP_INTERVAL_MS = 1 * 60 * 1000;       // 1 minute during election window
 const ACTIVE_PROMOTION_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes during election window
 const APPROACHING_CHECK_MS = 5 * 60 * 1000;         // 5 minutes when approaching window
 const IDLE_CHECK_MS = 60 * 60 * 1000;               // 1 hour when no election is near
+const WORLD_TRACKER_INTERVAL_MS = 6 * 60 * 60 * 1000; // 6 hours for world election checks
 
 type SchedulerState = "idle" | "approaching" | "active";
 
@@ -24,8 +26,10 @@ let currentState: SchedulerState | null = null; // null = uninitialized, forces 
 let apTimer: ReturnType<typeof setInterval> | null = null;
 let promotionTimer: ReturnType<typeof setInterval> | null = null;
 let stateCheckTimer: ReturnType<typeof setTimeout> | null = null;
+let worldTrackerTimer: ReturnType<typeof setInterval> | null = null;
 let lastApRun = 0;
 let lastPromotionRun = 0;
+let lastWorldTrackerRun = 0;
 
 /**
  * Initialize the election scheduler. Call once at server startup.
@@ -66,11 +70,28 @@ export async function initElectionScheduler(): Promise<void> {
     }
   }
 
+  // Run world election tracker
+  async function runWorldTracker() {
+    try {
+      const result = await runWorldElectionTracker();
+      if (result.updated > 0) {
+        log(`World Tracker — Updated: ${result.updated} elections with results`);
+        result.results.forEach(r => log(`  ${r.country}: ${r.winner} (${r.party}) [${r.confidence}]`));
+      } else if (result.checked > 0) {
+        log(`World Tracker — Checked ${result.checked} elections, no new results.`);
+      }
+      lastWorldTrackerRun = Date.now();
+    } catch (err) {
+      log(`World Tracker Error: ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
+
   // Clear all active timers
   function clearTimers() {
     if (apTimer) { clearInterval(apTimer); apTimer = null; }
     if (promotionTimer) { clearInterval(promotionTimer); promotionTimer = null; }
     if (stateCheckTimer) { clearTimeout(stateCheckTimer); stateCheckTimer = null; }
+    if (worldTrackerTimer) { clearInterval(worldTrackerTimer); worldTrackerTimer = null; }
   }
 
   // Transition to a new state
@@ -133,6 +154,11 @@ export async function initElectionScheduler(): Promise<void> {
 
   // Run promotion once on startup to catch any pending promotions
   await runPromotion();
+
+  // Start world election tracker (runs every 6 hours regardless of U.S. election state)
+  worldTrackerTimer = setInterval(runWorldTracker, WORLD_TRACKER_INTERVAL_MS);
+  // Run once on startup (delayed 30s to let server fully initialize)
+  setTimeout(runWorldTracker, 30000);
 
   log("Initialized. Checking election window status...");
 

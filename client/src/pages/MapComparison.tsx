@@ -22,6 +22,7 @@ import * as d3 from "d3";
 import { LEWIS_MANIFEST } from "@shared/lewisManifest";
 import { STATE_CODES } from "@/lib/electionUtils";
 import { useIsMobile } from "@/hooks/useMobile";
+import StateDetailPanel from "@/components/StateDetailPanel";
 
 // ─── Party colors matching the main election map ──────────────────────────────
 const PARTY_FILL: Record<string, string> = {
@@ -1075,6 +1076,7 @@ export default function MapComparison() {
   const [compareMode, setCompareMode] = useState(urlState.compare);
   const [selectedState, setSelectedState] = useState(urlState.state);
   const [districtPopup, setDistrictPopup] = useState<Record<string, unknown> | null>(null);
+  const [stateDetailOpen, setStateDetailOpen] = useState<string | null>(null);
   const [isPlayingA, setIsPlayingA] = useState(false);
   const [isPlayingB, setIsPlayingB] = useState(false);
   const [speedIdxA, setSpeedIdxA] = useState(1);
@@ -1240,8 +1242,15 @@ export default function MapComparison() {
             panelBRef.current?.resetZoom();
           }
           break;
-        case "Escape": // Close popup
-          setDistrictPopup(null);
+        case "Escape": // Close popup/panel
+          if (stateDetailOpen) { setStateDetailOpen(null); }
+          else { setDistrictPopup(null); }
+          break;
+        case "s": // Open state detail for selected state
+        case "S":
+          if (!e.ctrlKey && !e.metaKey && selectedState) {
+            setStateDetailOpen(selectedState);
+          }
           break;
       }
     }
@@ -1331,6 +1340,20 @@ export default function MapComparison() {
 
         {/* Mobile district popup */}
         {districtPopup && <MobileDistrictPopup popup={districtPopup} onClose={() => setDistrictPopup(null)} />}
+
+        {/* Mobile state detail panel (full-screen overlay) */}
+        {stateDetailOpen && (
+          <div className="absolute inset-0" style={{ zIndex: 30 }}>
+            <StateDetailPanel
+              stateName={stateDetailOpen}
+              currentCongress={congressA}
+              onClose={() => setStateDetailOpen(null)}
+              onCongressSelect={(c) => { setCongressA(c); setIsPlayingA(false); setStateDetailOpen(null); }}
+              partyCache={partyCache}
+              membersCache={membersCache}
+            />
+          </div>
+        )}
       </div>
     );
   }
@@ -1366,6 +1389,13 @@ export default function MapComparison() {
           </select>
           {selectedState && (
             <button onClick={() => setSelectedState("")} className="text-white/40 hover:text-white text-xs" title="Clear state filter">✕</button>
+          )}
+          {selectedState && (
+            <button onClick={() => setStateDetailOpen(selectedState)}
+              className="text-amber-400/70 hover:text-amber-300 text-xs border border-amber-400/30 rounded px-2 py-0.5 transition-colors"
+              title="View state history">
+              ▣ Detail
+            </button>
           )}
         </div>
         {/* Compare toggle */}
@@ -1570,9 +1600,31 @@ export default function MapComparison() {
                 {ordinal(Number(districtPopup.endcong ?? districtPopup.ENDCONG ?? districtPopup.startcong ?? districtPopup.STARTCONG))} Congress
               </div>
             )}
+            {/* State detail button */}
+            <button
+              onClick={() => {
+                const sn = String(districtPopup.statename ?? districtPopup.STATENAME ?? "");
+                if (sn) { setStateDetailOpen(sn); setDistrictPopup(null); }
+              }}
+              className="mt-2 w-full text-center text-xs bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/30 text-amber-300 rounded-lg py-1.5 transition-colors"
+            >
+              View {String(districtPopup.statename ?? districtPopup.STATENAME ?? "State")} History →
+            </button>
           </div>
         );
       })()}
+
+      {/* State Detail Panel */}
+      {stateDetailOpen && (
+        <StateDetailPanel
+          stateName={stateDetailOpen}
+          currentCongress={congressA}
+          onClose={() => setStateDetailOpen(null)}
+          onCongressSelect={(c) => { setCongressA(c); setIsPlayingA(false); }}
+          partyCache={partyCache}
+          membersCache={membersCache}
+        />
+      )}
     </div>
   );
 }
