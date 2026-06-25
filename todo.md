@@ -2205,3 +2205,9 @@
 ## Improvements (Round 24)
 - [x] Add global election calendar to World Elections page — WorldElectionTimeline component with date-grouped timeline, type filters, countdown badges, country flags
 - [x] Run Senate photo audit — 50/50 confirmed candidates have photos (100% coverage), fixed 1 TBD photo violation (LA)
+
+## Improvements (Round 25)
+- [x] Full Senate race verification — fixed CO (Baisley confirmed), VA (primary date Aug 4), OK (D runoff Aug 25), MA (D primary Sep 1), DE (R challenger Katz), RI (R challenger McKay), + Baisley photo
+- [x] Research and add world elections — added India (State Assembly), South Korea (Local), Japan (HoR), Thailand (HoR), Taiwan (Local), Palestine (Legislative), Guinea-Bissau (Presidential+Parliamentary)
+- [x] Identify and fill gaps — added Taiwan candidates (DPP/KMT/TPP), US sources (CNN/AP/Ballotpedia), Ethiopia candidates (PP/NaMA/OLF)
+- [x] Globe LOD optimization — 3-tier quality system (high/medium/low) with adaptive sphere segments, star counts, subdivision detail, pixel ratio, outer glow, twinkling, antialiasing

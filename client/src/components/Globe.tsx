@@ -4,6 +4,23 @@ import * as topojson from "topojson-client";
 import earcut from "earcut";
 import { numericToAlpha2 } from "@/lib/countryCodeMap";
 
+// ─── LOD Quality Detection ───────────────────────────────────────────────────
+function detectQuality(): "high" | "medium" | "low" {
+  const isMobile = window.innerWidth < 768;
+  const cores = navigator.hardwareConcurrency || 2;
+  const isLowEnd = cores <= 4;
+  const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+  if (isMobile || (isLowEnd && isTouchDevice)) return "low";
+  if (isLowEnd || isTouchDevice) return "medium";
+  return "high";
+}
+
+const LOD_CONFIG = {
+  high: { sphereSegments: 64, starCounts: [4000, 2000, 500, 200], maxDeg: 5, pixelRatio: 2, outerGlow: true, twinkle: true, colorStars: true },
+  medium: { sphereSegments: 48, starCounts: [2500, 1200, 300, 100], maxDeg: 7, pixelRatio: 1.5, outerGlow: true, twinkle: true, colorStars: true },
+  low: { sphereSegments: 32, starCounts: [1500, 600, 150, 60], maxDeg: 10, pixelRatio: 1.5, outerGlow: false, twinkle: false, colorStars: false },
+} as const;
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface ElectionData {
   countryCode: string;
@@ -294,8 +311,8 @@ function buildCountryMesh(feature: any, radius: number, color: number): THREE.Me
 
   const allVertices: number[] = [];
   const allIndices: number[] = [];
-  // Max triangle edge in degrees before subdivision (5° keeps triangles small enough to follow sphere)
-  const MAX_DEG = 5;
+  // Max triangle edge in degrees before subdivision — LOD-dependent
+  const MAX_DEG = (window as any).__globeMaxDeg ?? 5;
 
   for (const polygon of coords) {
     const outerRing = polygon[0];
@@ -461,10 +478,15 @@ export default function Globe({
     camera.position.z = 6.5;
     cameraRef.current = camera;
 
+    // LOD quality detection
+    const quality = detectQuality();
+    const lod = LOD_CONFIG[quality];
+    (window as any).__globeMaxDeg = lod.maxDeg;
+
     // Renderer
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: quality !== "low", alpha: true });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, lod.pixelRatio));
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
@@ -501,13 +523,14 @@ export default function Globe({
       scene.add(new THREE.Points(geo, mat));
       starLayers.push({ mat, baseOpacity: opacity, speed: twinkleSpeed });
     };
-    addStarLayer(4000, 0.03, 0.6, 120, 0.8);   // distant dim stars
-    addStarLayer(2000, 0.06, 0.85, 80, 1.2);   // mid stars
-    addStarLayer(500, 0.12, 1.0, 60, 1.8);     // bright nearby stars (twinkle most)
+    addStarLayer(lod.starCounts[0], 0.03, 0.6, 120, 0.8);   // distant dim stars
+    addStarLayer(lod.starCounts[1], 0.06, 0.85, 80, 1.2);   // mid stars
+    addStarLayer(lod.starCounts[2], 0.12, 1.0, 60, 1.8);     // bright nearby stars (twinkle most)
     // A few colored stars for depth
-    const colorStarPositions = new Float32Array(200 * 3);
+    const colorStarCount = lod.colorStars ? lod.starCounts[3] : 0;
+    const colorStarPositions = new Float32Array(Math.max(colorStarCount, 1) * 3);
     let colorPlaced = 0;
-    while (colorPlaced < 200) {
+    while (colorPlaced < colorStarCount) {
       const x = (Math.random() - 0.5) * 100;
       const y = (Math.random() - 0.5) * 100;
       const z = (Math.random() - 0.5) * 100;
@@ -519,11 +542,13 @@ export default function Globe({
         colorPlaced++;
       }
     }
-    const colorStarGeo = new THREE.BufferGeometry();
-    colorStarGeo.setAttribute("position", new THREE.BufferAttribute(colorStarPositions, 3));
-    const colorStarMat = new THREE.PointsMaterial({ size: 0.08, color: 0xaaccff, transparent: true, opacity: 0.5 });
-    scene.add(new THREE.Points(colorStarGeo, colorStarMat));
-    starLayers.push({ mat: colorStarMat, baseOpacity: 0.5, speed: 1.5 });
+    if (colorStarCount > 0) {
+      const colorStarGeo = new THREE.BufferGeometry();
+      colorStarGeo.setAttribute("position", new THREE.BufferAttribute(colorStarPositions, 3));
+      const colorStarMat = new THREE.PointsMaterial({ size: 0.08, color: 0xaaccff, transparent: true, opacity: 0.5 });
+      scene.add(new THREE.Points(colorStarGeo, colorStarMat));
+      starLayers.push({ mat: colorStarMat, baseOpacity: 0.5, speed: 1.5 });
+    }
 
     // Globe group (rotatable)
     const globeGroup = new THREE.Group();
@@ -531,7 +556,7 @@ export default function Globe({
     globeGroupRef.current = globeGroup;
 
     // Ocean sphere — solid navy blue (base layer)
-    const earthGeo = new THREE.SphereGeometry(GLOBE_RADIUS, 64, 64);
+    const earthGeo = new THREE.SphereGeometry(GLOBE_RADIUS, lod.sphereSegments, lod.sphereSegments);
     const earthMat = new THREE.MeshBasicMaterial({ color: OCEAN_COLOR });
     globeGroup.add(new THREE.Mesh(earthGeo, earthMat));
 
@@ -552,7 +577,7 @@ export default function Globe({
         gl_FragColor = vec4(0.3, 0.6, 1.0, 1.0) * intensity;
       }
     `;
-    const atmosGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 1.15, 64, 64);
+    const atmosGeo = new THREE.SphereGeometry(GLOBE_RADIUS * 1.15, lod.sphereSegments, lod.sphereSegments);
     const atmosMat = new THREE.ShaderMaterial({
       vertexShader: atmosVert,
       fragmentShader: atmosFrag,
@@ -599,15 +624,17 @@ export default function Globe({
               globeGroup.add(glowBorder);
               if (alpha2) countryBordersRef.current.set(alpha2, glowBorder);
             }
-            // Second glow layer (slightly larger, more transparent) for bloom effect
-            const outerGlow = buildCountryBorders(feature, GLOBE_RADIUS * 1.006);
-            if (outerGlow) {
-              const outerMat = outerGlow.material as THREE.LineBasicMaterial;
-              outerMat.color.setHex(STATUS_COLORS[election.status] ?? 0xf59e0b);
-              outerMat.opacity = 0.6;
-              outerMat.linewidth = 1;
-              outerGlow.userData = { isOuterGlow: true, countryCode: alpha2 };
-              globeGroup.add(outerGlow);
+            // Second glow layer (slightly larger, more transparent) for bloom effect — skip on low quality
+            if (lod.outerGlow) {
+              const outerGlow = buildCountryBorders(feature, GLOBE_RADIUS * 1.006);
+              if (outerGlow) {
+                const outerMat = outerGlow.material as THREE.LineBasicMaterial;
+                outerMat.color.setHex(STATUS_COLORS[election.status] ?? 0xf59e0b);
+                outerMat.opacity = 0.6;
+                outerMat.linewidth = 1;
+                outerGlow.userData = { isOuterGlow: true, countryCode: alpha2 };
+                globeGroup.add(outerGlow);
+              }
             }
           } else {
             // Non-election countries: subtle thin borders
@@ -722,13 +749,15 @@ export default function Globe({
       // Clamp vertical
       globeGroup.rotation.x = Math.max(-Math.PI / 2.5, Math.min(Math.PI / 2.5, globeGroup.rotation.x));
 
-      // Twinkle stars
-      const time = Date.now() * 0.001;
-      starLayers.forEach((layer, i) => {
-        const phase = i * 1.7; // offset each layer
-        const twinkle = 0.7 + 0.3 * Math.sin(time * layer.speed + phase);
-        layer.mat.opacity = layer.baseOpacity * twinkle;
-      });
+      // Twinkle stars (skip on low quality for performance)
+      if (lod.twinkle) {
+        const time = Date.now() * 0.001;
+        starLayers.forEach((layer, i) => {
+          const phase = i * 1.7; // offset each layer
+          const twinkle = 0.7 + 0.3 * Math.sin(time * layer.speed + phase);
+          layer.mat.opacity = layer.baseOpacity * twinkle;
+        });
+      }
 
       // Pulse glowing borders for election countries
       const pulseTime = Date.now() * 0.001;
