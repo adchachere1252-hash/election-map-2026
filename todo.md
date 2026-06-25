@@ -2095,7 +2095,7 @@
 - [x] Color-code cells by status (amber=upcoming, green=completed, yellow=voting today)
 - [x] Show multiple elections on same date stacked with mini flags
 - [x] Integrate into World Elections page (toggle between Globe view and Calendar view)
-- [ ] Mobile responsive (smaller grid, scrollable)
+- [x] Mobile responsive (smaller grid, touch-pan-y, compact flags, shorter day names)
 
 ## Richer International Detail Panels (Jun 25, 2026)
 - [x] Add candidate photos to world elections (research and source headshots for major candidates)
