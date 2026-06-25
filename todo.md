@@ -2211,3 +2211,9 @@
 - [x] Research and add world elections — added India (State Assembly), South Korea (Local), Japan (HoR), Thailand (HoR), Taiwan (Local), Palestine (Legislative), Guinea-Bissau (Presidential+Parliamentary)
 - [x] Identify and fill gaps — added Taiwan candidates (DPP/KMT/TPP), US sources (CNN/AP/Ballotpedia), Ethiopia candidates (PP/NaMA/OLF)
 - [x] Globe LOD optimization — 3-tier quality system (high/medium/low) with adaptive sphere segments, star counts, subdivision detail, pixel ratio, outer glow, twinkling, antialiasing
+
+## Photo & Data Audit (Round 26)
+- [x] Governor photo audit — all confirmed candidates have photos (100% coverage), removed 2 stale CO TBD photos
+- [x] Governor full verification — all 36 races verified against news sources (GA, NV, IA, OH, AL, CA, NM, NE, PA, NY, OR, TX, IL, ID confirmed correct)
+- [x] World Elections audit — 39 total elections, fixed UK incumbent (Starmer resigned → Burnham incoming PM), added Palestine candidates (Fatah/Hamas/PNI/PFLP), added Guinea-Bissau candidates (Embaló/Pereira/Nabiam/Gomes Júnior)
+- [x] All 130 tests passing, 0 TypeScript errors
