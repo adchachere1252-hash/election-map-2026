@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback, Suspense, lazy } from "react";
+import WorldCalendar from "@/components/WorldCalendar";
 import { trpc } from "@/lib/trpc";
-import { Calendar, Globe2, Users, Clock, ChevronRight, X, MapPin, Vote, Award, ArrowLeft } from "lucide-react";
+import { Calendar, CalendarDays, Globe2, Users, Clock, ChevronRight, X, MapPin, Vote, Award, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 
 // Lazy load the 3D globe to keep initial bundle small
@@ -109,6 +110,7 @@ function DetailPanel({
         {elections?.map((election) => {
           const days = daysUntil(election.electionDate);
           const candidates: Candidate[] = election.candidates ? JSON.parse(election.candidates) : [];
+          const pollingData = election.pollingData ? JSON.parse(election.pollingData as string) : null;
 
           return (
             <div
@@ -195,9 +197,13 @@ function DetailPanel({
                             <div className="flex items-center justify-between gap-3">
                               {/* Candidate 1 */}
                               <div className="flex-1 text-center">
-                                <div className="w-12 h-12 mx-auto rounded-full bg-blue-500/20 border-2 border-blue-400/50 flex items-center justify-center text-lg font-bold text-blue-300 mb-2">
-                                  {candidates[0].name.charAt(0)}
-                                </div>
+                                {candidates[0].photo ? (
+                                  <img src={candidates[0].photo} alt={candidates[0].name} className="w-14 h-14 mx-auto rounded-full border-2 border-blue-400/50 object-cover mb-2" />
+                                ) : (
+                                  <div className="w-14 h-14 mx-auto rounded-full bg-blue-500/20 border-2 border-blue-400/50 flex items-center justify-center text-lg font-bold text-blue-300 mb-2">
+                                    {candidates[0].name.charAt(0)}
+                                  </div>
+                                )}
                                 <p className="text-sm font-semibold text-white leading-tight">{candidates[0].name}</p>
                                 <p className="text-xs text-blue-400 mt-0.5">{candidates[0].party}</p>
                                 {candidates[0].pct && (
@@ -212,9 +218,13 @@ function DetailPanel({
                               </div>
                               {/* Candidate 2 */}
                               <div className="flex-1 text-center">
-                                <div className="w-12 h-12 mx-auto rounded-full bg-red-500/20 border-2 border-red-400/50 flex items-center justify-center text-lg font-bold text-red-300 mb-2">
-                                  {candidates[1].name.charAt(0)}
-                                </div>
+                                {candidates[1].photo ? (
+                                  <img src={candidates[1].photo} alt={candidates[1].name} className="w-14 h-14 mx-auto rounded-full border-2 border-red-400/50 object-cover mb-2" />
+                                ) : (
+                                  <div className="w-14 h-14 mx-auto rounded-full bg-red-500/20 border-2 border-red-400/50 flex items-center justify-center text-lg font-bold text-red-300 mb-2">
+                                    {candidates[1].name.charAt(0)}
+                                  </div>
+                                )}
                                 <p className="text-sm font-semibold text-white leading-tight">{candidates[1].name}</p>
                                 <p className="text-xs text-red-400 mt-0.5">{candidates[1].party}</p>
                                 {candidates[1].pct && (
@@ -281,6 +291,39 @@ function DetailPanel({
                         </div>
                       )}
                     </div>
+                  </div>
+                )}
+
+                {/* Polling Data */}
+                {pollingData && election.status === "Upcoming" && (
+                  <div className="bg-indigo-500/10 border border-indigo-500/30 rounded-lg p-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="text-xs font-medium text-indigo-300 uppercase tracking-wider">Latest Polls</h4>
+                      {pollingData.polls?.[0]?.source && (
+                        <span className="text-[10px] text-slate-500">{pollingData.polls[0].source}</span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-semibold text-indigo-200">{pollingData.leader}</span>
+                      <span className="text-xs text-indigo-400">+{pollingData.margin}pts</span>
+                    </div>
+                    {pollingData.polls?.[0] && (
+                      <div className="mt-2 space-y-1">
+                        {Object.entries(pollingData.polls[0])
+                          .filter(([k]) => !['source', 'date'].includes(k))
+                          .sort(([,a], [,b]) => (b as number) - (a as number))
+                          .slice(0, 4)
+                          .map(([key, val]) => (
+                            <div key={key} className="flex items-center gap-2">
+                              <span className="text-[10px] text-slate-400 w-24 truncate capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                              <div className="flex-1 h-2 bg-slate-700/50 rounded-full overflow-hidden">
+                                <div className="h-full bg-indigo-500/60 rounded-full" style={{ width: `${val}%` }} />
+                              </div>
+                              <span className="text-[10px] font-mono text-slate-300 w-8 text-right">{val as number}%</span>
+                            </div>
+                          ))}
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -517,6 +560,7 @@ export default function WorldElections() {
   const [hoveredCountry, setHoveredCountry] = useState<{ code: string; name: string } | null>(null);
   const [filter, setFilter] = useState("all");
   const [showSidebar, setShowSidebar] = useState(false);
+  const [viewMode, setViewMode] = useState<"globe" | "calendar">("globe");
 
   const electionData = useMemo(
     () =>
@@ -558,14 +602,38 @@ export default function WorldElections() {
 
   return (
     <div className="w-full h-screen flex flex-col lg:flex-row bg-slate-950 relative overflow-hidden">
-      {/* Back to U.S. Map button */}
-      <Link
-        to="/"
-        className="absolute top-3 right-3 z-50 bg-slate-800/90 backdrop-blur-sm border border-slate-700/50 rounded-lg px-3 py-2 text-sm text-slate-200 flex items-center gap-2 hover:bg-slate-700/90 transition-colors"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        <span className="hidden sm:inline">U.S. Map</span>
-      </Link>
+      {/* Top-right controls */}
+      <div className="absolute top-3 right-3 z-50 flex items-center gap-2">
+        {/* View toggle: Globe / Calendar */}
+        <div className="bg-slate-800/90 backdrop-blur-sm border border-slate-700/50 rounded-lg flex overflow-hidden">
+          <button
+            onClick={() => setViewMode("globe")}
+            className={`px-3 py-2 text-sm flex items-center gap-1.5 transition-colors ${
+              viewMode === "globe" ? "bg-blue-500/20 text-blue-300" : "text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            <Globe2 className="w-4 h-4" />
+            <span className="hidden sm:inline">Globe</span>
+          </button>
+          <button
+            onClick={() => setViewMode("calendar")}
+            className={`px-3 py-2 text-sm flex items-center gap-1.5 transition-colors ${
+              viewMode === "calendar" ? "bg-blue-500/20 text-blue-300" : "text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            <CalendarDays className="w-4 h-4" />
+            <span className="hidden sm:inline">Calendar</span>
+          </button>
+        </div>
+        {/* Back to U.S. Map */}
+        <Link
+          to="/"
+          className="bg-slate-800/90 backdrop-blur-sm border border-slate-700/50 rounded-lg px-3 py-2 text-sm text-slate-200 flex items-center gap-2 hover:bg-slate-700/90 transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span className="hidden sm:inline">U.S. Map</span>
+        </Link>
+      </div>
 
       {/* Sidebar toggle button */}
       <button
@@ -589,27 +657,38 @@ export default function WorldElections() {
         </div>
       )}
 
-      {/* Globe area */}
+      {/* Main content area */}
       <div className="flex-1 relative">
-        <Suspense fallback={<GlobeLoader />}>
-          <Globe
-            elections={electionData}
-            onCountryClick={handleCountryClick}
-            onCountryHover={handleCountryHover}
-            selectedCountry={selectedCountry?.code || null}
-            autoRotate={!selectedCountry}
-          />
-        </Suspense>
+        {viewMode === "globe" ? (
+          <>
+            <Suspense fallback={<GlobeLoader />}>
+              <Globe
+                elections={electionData}
+                onCountryClick={handleCountryClick}
+                onCountryHover={handleCountryHover}
+                selectedCountry={selectedCountry?.code || null}
+                autoRotate={!selectedCountry}
+              />
+            </Suspense>
 
-        {/* Hover tooltip */}
-        {hoveredCountry && !selectedCountry && (
-          <HoverTooltip name={hoveredCountry.name} elections={elections} />
+            {/* Hover tooltip */}
+            {hoveredCountry && !selectedCountry && (
+              <HoverTooltip name={hoveredCountry.name} elections={elections} />
+            )}
+
+            {/* Legend */}
+            <Legend />
+          </>
+        ) : (
+          <div className="w-full h-full p-4 lg:p-6">
+            <WorldCalendar
+              elections={elections}
+              onElectionClick={handleCountryClick}
+            />
+          </div>
         )}
 
-        {/* Legend */}
-        <Legend />
-
-        {/* Detail Panel */}
+        {/* Detail Panel (shared between views) */}
         {selectedCountry && (
           <DetailPanel
             countryCode={selectedCountry.code}

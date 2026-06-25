@@ -322,6 +322,7 @@ export const worldElections = mysqlTable("world_elections", {
   termLength: varchar("term_length", { length: 64 }), // e.g. "4 years", "5 years"
   // Candidates (JSON array: [{name, party, photo?, votes?, pct?}])
   candidates: text("candidates"), // JSON string
+  pollingData: text("polling_data"), // JSON: {polls: [...], leader, margin}
   // Results (set after election)
   winner: varchar("winner", { length: 256 }),
   winnerParty: varchar("winner_party", { length: 128 }),

@@ -2064,7 +2064,7 @@
 - [x] Verify already-called results match actual outcomes (Bangladesh, Hungary, Ethiopia, Armenia, Nepal, Peru, Colombia)
 - [x] Check for missing elections that should be tracked in 2026 — Added Nepal, Peru (completed); removed 7 duplicates
 - [x] Fix all data errors found — 25+ corrections applied
-- [ ] Save checkpoint with all corrections
+- [x] Save checkpoint with all corrections (version 5f6fd35d)
 
 ### Errors Found & Fixed:
 **Critical corrections:**
@@ -2087,3 +2087,28 @@
 - Accurate incumbent names (Latvia: Kulbergs, Bulgaria: Radev)
 - Source citations for every election
 - Contextual notes (Kazakhstan constitutional reform, Russia wartime elections, Somalia political stalemate, South Sudan first-ever election)
+
+## World Election Calendar — Month Grid with Flags (Jun 25, 2026)
+- [x] Build WorldCalendar component: month-grid layout showing election dates with country flags
+- [x] Month navigation (prev/next arrows, month/year header)
+- [x] Click election date cell to open detail panel for that country
+- [x] Color-code cells by status (amber=upcoming, green=completed, yellow=voting today)
+- [x] Show multiple elections on same date stacked with mini flags
+- [x] Integrate into World Elections page (toggle between Globe view and Calendar view)
+- [ ] Mobile responsive (smaller grid, scrollable)
+
+## Richer International Detail Panels (Jun 25, 2026)
+- [x] Add candidate photos to world elections (research and source headshots for major candidates)
+- [x] Add polling_data JSON column to world_elections schema
+- [x] Build matchup-card style display for world elections (candidate photos, party colors, vs layout)
+- [x] Add polling data for 6 major elections (Brazil, Sweden, Israel, UK, New Zealand, Czech Republic)
+- [x] Show polling bars with source/date/leader/margin in detail panel
+- [x] Add election context section (system type, term length, significance notes)
+
+## Historical Atlas Performance Optimization (Jun 25, 2026)
+- [x] Implement bundled congress endpoint (/api/atlas/bundle/:congress) — returns all 50 states in one response
+- [x] Server-side bundle cache (in-memory, built from existing geoJsonServerCache)
+- [x] Client-side: fetchCongressBundle() fetches bundle first, populates geoCache, falls back to individual
+- [x] 24h Cache-Control headers on bundle endpoint
+- [x] Backward compatible — individual /api/geojson/:file endpoint still works as fallback
+- [x] 130 tests passing (14 new worldCalendar tests), zero TypeScript errors

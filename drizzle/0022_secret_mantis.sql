@@ -1,0 +1,1 @@
+ALTER TABLE `world_elections` ADD `polling_data` text;

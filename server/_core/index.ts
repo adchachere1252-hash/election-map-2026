@@ -156,6 +156,73 @@ async function startServer() {
     res.setHeader("Cache-Control", "public, max-age=86400"); // cache 24h
     return res.send(data);
   });
+  // ─── Bundled congress endpoint: returns all states' GeoJSON + party data in one response ───
+  // This eliminates 50+ round-trips per congress on the client side
+  const bundleCache = new Map<string, string>(); // congress -> compressed JSON
+  const bundleBuildInFlight = new Map<number, Promise<string | null>>();
+
+  async function buildCongressBundle(congress: number): Promise<string | null> {
+    const cacheKey = String(congress);
+    if (bundleCache.has(cacheKey)) return bundleCache.get(cacheKey)!;
+    if (bundleBuildInFlight.has(congress)) return bundleBuildInFlight.get(congress)!;
+    const promise = (async () => {
+      try {
+        const { LEWIS_MANIFEST } = await import("../../shared/lewisManifest");
+        const US_STATES = Object.keys(LEWIS_MANIFEST);
+        // Determine which files are needed for this congress
+        const filesToFetch = new Map<string, string[]>(); // filename -> [states]
+        for (const state of US_STATES) {
+          const entries = LEWIS_MANIFEST[state];
+          const entry = entries.find((e: {start: number; end: number}) => congress >= e.start && congress <= e.end);
+          if (entry) {
+            if (!filesToFetch.has(entry.name)) filesToFetch.set(entry.name, []);
+            filesToFetch.get(entry.name)!.push(state);
+          }
+        }
+        // Fetch all unique files (many states share the same file)
+        const fileNames = Array.from(filesToFetch.keys());
+        const fileDataArr = await Promise.all(
+          fileNames.map(async (fn) => {
+            if (geoJsonServerCache.has(fn)) return geoJsonServerCache.get(fn)!;
+            const data = await fetchGeoJsonFromGitHub(fn);
+            return data;
+          })
+        );
+        // Build the bundle: { features: [...all features with state/party metadata] }
+        const bundle: Record<string, unknown> = {};
+        for (let i = 0; i < fileNames.length; i++) {
+          const raw = fileDataArr[i];
+          if (!raw) continue;
+          bundle[fileNames[i]] = raw; // Store raw JSON string to avoid double-parse
+        }
+        const result = JSON.stringify(bundle);
+        bundleCache.set(cacheKey, result);
+        return result;
+      } catch (err) {
+        console.error(`[Atlas] Bundle build failed for congress ${congress}:`, err);
+        return null;
+      } finally {
+        bundleBuildInFlight.delete(congress);
+      }
+    })();
+    bundleBuildInFlight.set(congress, promise);
+    return promise;
+  }
+
+  app.get("/api/atlas/bundle/:congress", async (req, res) => {
+    const congress = parseInt(req.params.congress);
+    if (isNaN(congress) || congress < 89 || congress > 119) {
+      return res.status(400).json({ error: "Invalid congress number (89-119)" });
+    }
+    const bundle = await buildCongressBundle(congress);
+    if (!bundle) {
+      return res.status(503).json({ error: "Bundle unavailable" });
+    }
+    res.setHeader("Content-Type", "application/json");
+    res.setHeader("Cache-Control", "public, max-age=86400");
+    return res.send(bundle);
+  });
+
   // Voteview party data proxy: fetch per-district party data for a given Congress
   // Returns { "AL-3": "R", "AL-7": "D", ... } keyed by stateAbbrev-districtCode
   const voteviewCache = new Map<string, Record<string, string>>();

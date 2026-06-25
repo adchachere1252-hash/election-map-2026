@@ -169,6 +169,7 @@ function geoRelease() {
 }
 
 async function fetchGeoJsonFile(fileName: string): Promise<GeoJSON.FeatureCollection | null> {
+  if (geoCache.has(fileName)) return geoCache.get(fileName)!;
   if (geoFetchInFlight.has(fileName)) return geoFetchInFlight.get(fileName)!;
   const promise = (async () => {
     await geoAcquire();
@@ -179,6 +180,7 @@ async function fetchGeoJsonFile(fileName: string): Promise<GeoJSON.FeatureCollec
           const res = await fetch(`/api/geojson/${encodeURIComponent(fileName)}`, { signal: timeoutSignal });
           if (res.ok) {
             const data = await res.json() as GeoJSON.FeatureCollection;
+            geoCache.set(fileName, data);
             return data;
           }
           if (res.status === 404) return null;
@@ -194,6 +196,30 @@ async function fetchGeoJsonFile(fileName: string): Promise<GeoJSON.FeatureCollec
     }
   })();
   geoFetchInFlight.set(fileName, promise);
+  return promise;
+}
+
+// Bundled fetch: get all GeoJSON files for a congress in one request
+const bundleFetchInFlight = new Map<number, Promise<void>>();
+async function fetchCongressBundle(congress: number): Promise<void> {
+  if (bundleFetchInFlight.has(congress)) return bundleFetchInFlight.get(congress)!;
+  const promise = (async () => {
+    try {
+      const res = await fetch(`/api/atlas/bundle/${congress}`);
+      if (!res.ok) return;
+      const bundle = await res.json() as Record<string, string>;
+      // Parse each file and populate geoCache
+      for (const [fileName, rawJson] of Object.entries(bundle)) {
+        if (geoCache.has(fileName)) continue;
+        try {
+          const parsed = typeof rawJson === 'string' ? JSON.parse(rawJson) : rawJson;
+          geoCache.set(fileName, parsed as GeoJSON.FeatureCollection);
+        } catch { /* skip malformed */ }
+      }
+    } catch { /* fallback to individual fetches */ }
+  })();
+  bundleFetchInFlight.set(congress, promise);
+  promise.finally(() => bundleFetchInFlight.delete(congress));
   return promise;
 }
 
@@ -235,6 +261,8 @@ async function warmupCongress(congress: number): Promise<void> {
 
 async function _doWarmupCongress(congress: number): Promise<void> {
   if (layerDataCache.has(congress)) return;
+  // Try bundled fetch first (single request for all 50 states)
+  await fetchCongressBundle(congress);
   const results = await Promise.all([
     fetchPartyData(congress),
     fetchMembersData(congress),
