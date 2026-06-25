@@ -2298,3 +2298,12 @@
 - [x] Re-source corrupted photo: PA-6 Chrissy Houlahan (re-cropped 400x400, uploaded to S3)
 - [x] Run comprehensive site-wide data quality audit
 - [x] Compile strengths/weaknesses report (audit-report.md)
+
+## Source Missing Photos & Colorado Primaries (Round 31)
+- [x] Verified: All 14 Senate races with missing photos are TBD candidates (primaries not yet held) — no action needed
+- [x] Verified: All 18 Governor races with missing photos are TBD candidates (primaries not yet held) — no action needed
+- [x] Confirmed: Every confirmed candidate across all chambers has a properly centered photo
+- [ ] Process Colorado primary results (Jun 30) for CO-1 through CO-8 — PENDING (primary is June 30)
+- [ ] Update CO Senate and Governor nominees — PENDING (primary is June 30)
+- [x] Run full site-wide audit — comprehensive report generated (full-site-audit-jun25.md)
+- [x] All 130 tests passing, 0 TypeScript errors, 0 console errors in production
