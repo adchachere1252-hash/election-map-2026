@@ -1,0 +1,86 @@
+═══ HOUSE RACES AUDIT ═══
+Total House races: 435
+  Candidate 1 filled: 430/435
+  Candidate 2 filled: 311/435
+  TBD Candidate 1: 0
+  TBD Candidate 2: 0
+  Candidate 1 photos: 397/435
+  Candidate 2 photos: 293/435
+  Named candidates missing photo (slot 1): 33
+  Named candidates missing photo (slot 2): 19
+  Candidate 1 bios: 5/435
+  Candidate 2 bios: 5/435
+  Races with ratings: 435/435
+  Races with incumbent info: 430/435
+  Rating breakdown:
+    Solid D: 184
+    Solid R: 184
+    Likely R: 18
+    Toss-up: 18
+    Lean D: 12
+    Likely D: 11
+    Lean R: 8
+
+═══ SENATE RACES AUDIT ═══
+Total Senate races: 35
+  Candidate 1 filled: 35/35
+  Candidate 2 filled: 35/35
+  TBD Candidate 1: 0
+  TBD Candidate 2: 0
+  Candidate 1 photos: 25/35
+  Candidate 2 photos: 26/35
+  Named candidates missing photo (slot 1): 10
+  Named candidates missing photo (slot 2): 9
+  Candidate 1 bios: 8/35
+  Candidate 2 bios: 8/35
+  Races with ratings: 35/35
+  Rating breakdown:
+    Solid R: 15
+    Solid D: 9
+    Lean R: 4
+    Toss-up: 3
+    Lean D: 3
+    Likely D: 1
+
+═══ GOVERNOR RACES AUDIT ═══
+Total Governor races: 36
+  Dem candidates filled: 36/36
+  Rep candidates filled: 36/36
+  TBD Dem: 0
+  TBD Rep: 0
+  Dem photos: 25/36
+  Rep photos: 20/36
+  Named Dem missing photo: 11
+  Named Rep missing photo: 16
+  Races with ratings: 36/36
+  Rating breakdown:
+    Solid R: 13
+    Solid D: 12
+    Toss-up: 5
+    Lean R: 2
+    Likely D: 2
+    Lean D: 1
+    Likely R: 1
+
+═══ WORLD ELECTIONS AUDIT ═══
+Total World elections: 39
+  Upcoming: 28
+  Completed: 11
+  With polling data: 28/39
+  With key issues: 28/39
+  With candidates: 39/39
+  Upcoming missing polling: 0
+  Upcoming missing key issues: 0
+  Upcoming missing candidates: 0
+
+═══ REDISTRICTING AUDIT ═══
+Error: Unknown column 'map_url' in 'where clause'
+    at PromiseConnection.execute (/home/ubuntu/election-map-2026/node_modules/.pnpm/mysql2@3.15.1/node_modules/mysql2/lib/promise/connection.js:47:22)
+    at main (file:///home/ubuntu/election-map-2026/scripts/site-audit.mjs:197:38)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  code: 'ER_BAD_FIELD_ERROR',
+  errno: 1054,
+  sql: "SELECT COUNT(*) as cnt FROM redistricting_states WHERE map_url IS NOT NULL AND map_url != ''",
+  sqlState: '42S22',
+  sqlMessage: "Unknown column 'map_url' in 'where clause'"
+}

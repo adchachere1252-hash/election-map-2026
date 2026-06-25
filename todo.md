@@ -2289,3 +2289,12 @@
   - Guinea-Bissau (PAIGC 35%)
 - [x] All 28 upcoming elections now have polling data populated
 - [x] All 130 tests passing, 0 TypeScript errors
+
+## Re-source Corrupted Photos & Site-Wide Audit (Round 30)
+- [x] Re-source corrupted photo: ID-2 Mike Simpson (re-cropped 400x400, uploaded to S3)
+- [x] Re-source corrupted photo: IL-14 Lauren Underwood (re-cropped 400x400, uploaded to S3)
+- [x] Re-source corrupted photo: NC-4 Valerie Foushee (re-cropped 400x400, uploaded to S3)
+- [x] Re-source corrupted photo: OH-5 Brian Shaver (re-cropped 400x400, uploaded to S3)
+- [x] Re-source corrupted photo: PA-6 Chrissy Houlahan (re-cropped 400x400, uploaded to S3)
+- [x] Run comprehensive site-wide data quality audit
+- [x] Compile strengths/weaknesses report (audit-report.md)
