@@ -2161,3 +2161,20 @@
 - [x] Verify all 35 Senate races: Added AK (Peltola D), FL (Vindman D), MI (Rogers R + D primary), LA (Letlow runoff), CO (D primary Jun 30), WY (Hageman R), NH (Pappas D vs Sununu R)
 - [x] Verify competitive House races have correct 2026 nominees — all 65 open seats properly marked
 - [x] Save checkpoint with all corrections
+
+## TBD Enforcement Audit (Jun 25, 2026)
+**Rule:** Only show confirmed candidates (post-primary winners) or verified incumbents running for re-election. All pre-primary races must show TBD. No "frontrunners" or speculative nominees.
+- [x] Research all 2026 primary dates — which have already been held vs still pending
+- [x] Audit all 35 Senate races — enforce TBD for any candidate whose primary hasn't happened
+  - Fixed AK (Peltola→TBD), CO (Baisley→TBD, Hickenlooper restored), FL (Vindman→TBD), LA (Letlow→TBD), MI (Rogers→TBD)
+- [x] Audit all 36 Governor races — enforce TBD for any candidate whose primary hasn't happened
+  - Fixed FL (Donalds→TBD), MN (Klobuchar→TBD), SD (runoff→TBD), CO (Bottoms→TBD), RI (McKee restored)
+- [x] Audit all 435 House races — enforce TBD for any candidate whose primary hasn't happened
+  - Fixed FL-19, TN-6, IA-4, SC-1, SC-5 (open seats), CO challengers→TBD, MI-4, WI-6, WI-8 duplicates
+  - Fixed 10 open-seat races in pending-primary states
+  - Fixed TX-26 data ordering (Gill from c2→c1)
+  - Fixed LA-6 (added Cleo Fields incumbent), LA-5 (both TBD jungle primary)
+  - Fixed WI-1 format inconsistency
+- [x] Verified: 25 TBD House races all in correct pending-primary states, 0 violations remaining
+- [x] Photos for unconfirmed candidates already removed (TBD entries have no photos)
+- [x] Save checkpoint with all corrections
