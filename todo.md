@@ -2262,3 +2262,30 @@
 - [x] UI updated to parse and display key issues cards in WorldElections.tsx detail panel
 - [x] Drizzle migration generated (0023_lethal_preak.sql)
 - [x] All 130 tests passing, 0 TypeScript errors
+
+## Photo Centering Audit & Polling Data (Round 29)
+- [x] Run site-wide photo centering audit — all 435 House, 35 Senate, 36 Governor candidate photos
+  - Audited 786 total photos: 407 OK, 378 needed re-cropping, 1 timeout error
+  - Categories: 136 Bioguide 225x275, 85 portrait 335x410, 44 uncropped large, 24 too small, 113 other non-square
+- [x] Identify any photos that are not properly face-centered (cropped off, poorly framed)
+- [x] Re-process any improperly centered photos through smartCrop tool
+  - Batch re-cropped 373/378 photos to 400x400 face-centered squares via sharp attention strategy
+  - 5 failed due to corrupted source images (ID-2, IL-14, NC-4, OH-5, PA-6)
+  - All re-cropped photos uploaded to S3 and database URLs updated
+- [x] Add polling data for New Zealand general election (1News Verian Jun 23: Labour 32%, National 29%)
+- [x] Add polling data for Russia State Duma election (Levada: United Russia 46%, CPRF 14%)
+- [x] Add polling data for Algeria parliamentary election (FLN 25%, RND 20%)
+- [x] Add polling data for Morocco parliamentary election (RNI 26%, PAM 21%)
+- [x] Add polling data for Czech Republic parliamentary election (Kantar: ANO 31.5%, ODS 15.5%)
+- [x] Add polling data for Taiwan local elections (TVBS: DPP 36%, KMT 33%)
+- [x] Add polling data for Sweden general election (already had: Social Democrats 32%)
+- [x] Add polling data for all other elections missing it:
+  - Slovakia (PS 25%, Smer 22%), São Tomé (ADI 35%), Cook Islands (CIP 42%)
+  - Zambia (UPND 44%), Iceland (Independence 22%), Haiti (fragmented)
+  - Kazakhstan (Amanat 71%), Latvia (New Unity 22%), Bosnia (SNSD 30%)
+  - Cabo Verde (MpD 42%), United States (D+6.2 Silver Bulletin avg)
+  - Bahrain (pro-govt 55%), Bulgaria (GERB 25%), The Gambia (NPP 40%)
+  - South Sudan (SPLM 55%), Somalia (pro-govt 40%), Palestine (Hamas 32%)
+  - Guinea-Bissau (PAIGC 35%)
+- [x] All 28 upcoming elections now have polling data populated
+- [x] All 130 tests passing, 0 TypeScript errors

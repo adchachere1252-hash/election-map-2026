@@ -1,0 +1,3044 @@
+{
+  "timestamp": "2026-06-25T20:02:37.732Z",
+  "summary": {
+    "total": 786,
+    "ok": 407,
+    "needsRecrop": 378,
+    "errors": 1,
+    "skipped": 0
+  },
+  "needsRecrop": [
+    {
+      "label": "House AL-3 Mike Rogers",
+      "url": "/manus-storage/mike_rogers_b663e05e_abf3c989.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x419, ratio=0.80)",
+      "width": 335,
+      "height": 419
+    },
+    {
+      "label": "House AL-5 Dale Strong",
+      "url": "/manus-storage/dale_strong_f8a59cb0.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (480x600, ratio=0.80)",
+      "width": 480,
+      "height": 600
+    },
+    {
+      "label": "House AL-6 Keith Pilkington",
+      "url": "/manus-storage/keith_pilkington_94bcbbc2_a3c107ae.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (604x453, ratio=1.33), uncropped-large (604x453)",
+      "width": 604,
+      "height": 453
+    },
+    {
+      "label": "House AL-6 Gary Palmer",
+      "url": "/manus-storage/gary_palmer_a16c2b47_b948281e.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House AL-7 Terri Sewell",
+      "url": "/manus-storage/terri_sewell_f2238f9f_a5a80a84.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House AZ-2 Elijah Crane",
+      "url": "/manus-storage/az-2-C001132_5a11c8f1.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House AZ-3 Yassamin Ansari",
+      "url": "/manus-storage/az-3-A000381_0930a071.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House AZ-4 Greg Stanton",
+      "url": "/manus-storage/az-4-S001211_f0bd4fd2.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House AZ-6 Juan Ciscomani",
+      "url": "/manus-storage/az-6-C001133_9448b241.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House AZ-8 Abraham J. Hamadeh",
+      "url": "/manus-storage/az-8-H001098_5606bce4.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House AZ-9 Paul A. Gosar",
+      "url": "/manus-storage/az-9-G000565_698fb343.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House AR-1 Rick Crawford",
+      "url": "/manus-storage/rick_crawford_dfd33672_e2654061.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House AR-3 Steve Womack",
+      "url": "/manus-storage/steve_womack_cd4d3a69_d2d395ef.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House AR-4 James Russell",
+      "url": "/manus-storage/james_russell_65f40756_71adc3c1.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House AR-4 Bruce Westerman",
+      "url": "/manus-storage/bruce_westerman_51c7d029_d57dea64.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House CA-1 Mike McGuire",
+      "url": "/manus-storage/mike_mcguire_6e420291_9ee4b25b.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (450x600, ratio=0.75)",
+      "width": 450,
+      "height": 600
+    },
+    {
+      "label": "House CA-1 James Gallagher",
+      "url": "/manus-storage/james_gallagher_d4f4aaee_a3db7bc3.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House CA-2 Jared Huffman",
+      "url": "/manus-storage/ca-2-H001068_fd683d5c.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-3 Ami Bera",
+      "url": "/manus-storage/ami_bera_8396cbaa_6bdeb10a.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House CA-4 Mike Thompson",
+      "url": "/manus-storage/ca-4-T000460_82ec6e90.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-5 Tom McClintock",
+      "url": "/manus-storage/ca-5-M001177_3f6f34ac.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-6 Richard Pan",
+      "url": "/manus-storage/richard_pan_94120634_1f61622b.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House CA-7 Mai Vang",
+      "url": "/manus-storage/doris_o__matsui_f4fa9b04_c07c5fa9.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (2832x4256, ratio=0.67), uncropped-large (2832x4256)",
+      "width": 2832,
+      "height": 4256
+    },
+    {
+      "label": "House CA-8 John Garamendi",
+      "url": "/manus-storage/ca-8-G000559_124af660.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-9 Josh Harder",
+      "url": "/manus-storage/ca-9-H001090_acf500b6.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-10 Mark DeSaulnier",
+      "url": "/manus-storage/ca-10-D000623_39be0068.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-11 Scott Wiener",
+      "url": "/manus-storage/scott_wiener_54f491c9_0fd6c49a.png",
+      "status": "needs-recrop",
+      "reason": "non-square (738x902, ratio=0.82)",
+      "width": 738,
+      "height": 902
+    },
+    {
+      "label": "House CA-12 Lateefah Simon",
+      "url": "/manus-storage/lateefah_simon_c6c3ba49_d3512ce9.webp",
+      "status": "needs-recrop",
+      "reason": "non-square (384x480, ratio=0.80)",
+      "width": 384,
+      "height": 480
+    },
+    {
+      "label": "House CA-12 Jamie Joyce",
+      "url": "/manus-storage/jamie_joyce_27520f30_24091fa3.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House CA-13 Adam Gray",
+      "url": "/manus-storage/adam_gray_c3772398_c93abc8e.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1000x1250, ratio=0.80), uncropped-large (1000x1250)",
+      "width": 1000,
+      "height": 1250
+    },
+    {
+      "label": "House CA-13 Kevin Lincoln",
+      "url": "/manus-storage/kevin_lincoln_a00af76e_a601ab77.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House CA-15 Kevin Mullin",
+      "url": "/manus-storage/ca-15-M001225_9fff490b.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-16 Sam Liccardo",
+      "url": "/manus-storage/ca-16-L000607_76db04d8.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-17 Ro Khanna",
+      "url": "/manus-storage/ca-17-K000389_704e593e.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-19 Jimmy Panetta",
+      "url": "/manus-storage/ca-19-P000613_d2e9cc03.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-20 Vince Fong",
+      "url": "/manus-storage/ca-20-F000480_6ef3ec65.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-22 David Valadao",
+      "url": "/manus-storage/david_g_valadao_a600cd9f_ddc6b2c2.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House CA-24 Salud Carbajal",
+      "url": "/manus-storage/ca-24-C001112_518506b4.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-25 Raul Ruiz",
+      "url": "/manus-storage/ca-25-R000599_3044b808.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-27 George Whitesides",
+      "url": "/manus-storage/george_whitesides_5aada1b0.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (400x500, ratio=0.80)",
+      "width": 400,
+      "height": 500
+    },
+    {
+      "label": "House CA-27 Jason Gibbs",
+      "url": "/manus-storage/jason_gibbs_078526d0_19ce14d4.png",
+      "status": "needs-recrop",
+      "reason": "non-square (395x500, ratio=0.79)",
+      "width": 395,
+      "height": 500
+    },
+    {
+      "label": "House CA-28 Judy Chu",
+      "url": "/manus-storage/ca-28-C001080_28000491.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-29 Luz Rivas",
+      "url": "/manus-storage/ca-29-R000620_74c2485d.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-30 Laura Friedman",
+      "url": "/manus-storage/ca-30-F000483_6953379d.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-32 Brad Sherman",
+      "url": "/manus-storage/brad_sherman_d7468ac4_ba9841cc.png",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House CA-32 Larry Thompson",
+      "url": "/manus-storage/larry_thompson_735275cd_9f7afa9b.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (550x367, ratio=1.50), uncropped-large (550x367)",
+      "width": 550,
+      "height": 367
+    },
+    {
+      "label": "House CA-33 Pete Aguilar",
+      "url": "/manus-storage/ca-33-A000371_a8b495bb.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-34 Jimmy Gomez",
+      "url": "/manus-storage/jimmy_gomez_379e5a20_eecc35fd.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House CA-35 Norma Torres",
+      "url": "/manus-storage/ca-35-T000474_9c872382.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-36 Ted Lieu",
+      "url": "/manus-storage/ca-36-L000582_14ff04e6.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-37 Sydney Kamlager-Dove",
+      "url": "/manus-storage/ca-37-K000400_8d18ab96.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-39 Mark Takano",
+      "url": "/manus-storage/ca-39-T000472_324bc1b4.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-40 Ken Calvert",
+      "url": "/manus-storage/ken_calvert_0c09a9c3_9fd631f0.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House CA-40 Young Kim",
+      "url": "/manus-storage/young_kim_8e93d706_6e4099d6.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House CA-41 Linda Sánchez",
+      "url": "/manus-storage/linda_sanchez_04a2ae86_dd8110c2.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (175x263, ratio=0.67), too-small (175x263)",
+      "width": 175,
+      "height": 263
+    },
+    {
+      "label": "House CA-42 Robert Garcia",
+      "url": "/manus-storage/ca-42-G000598_4600b057.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-43 Maxine Waters",
+      "url": "/manus-storage/ca-43-W000187_f37e3cfb.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-45 Derek Tran",
+      "url": "/manus-storage/derek_tran_e697a0c8_51305ef3.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1536x1920, ratio=0.80), uncropped-large (1536x1920)",
+      "width": 1536,
+      "height": 1920
+    },
+    {
+      "label": "House CA-45 Chuong Vo",
+      "url": "/manus-storage/chuong_vo_34629a70_9abb92d9.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (2800x3500, ratio=0.80), uncropped-large (2800x3500)",
+      "width": 2800,
+      "height": 3500
+    },
+    {
+      "label": "House CA-46 Lou Correa",
+      "url": "/manus-storage/ca-46-C001110_3cc8444d.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-47 Dave Min",
+      "url": "/manus-storage/ca-47-M001241_61b75521.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-48 Jim Desmond",
+      "url": "/manus-storage/jim_desmond_d8f54d39_59383f39.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1200x1800, ratio=0.67), uncropped-large (1200x1800)",
+      "width": 1200,
+      "height": 1800
+    },
+    {
+      "label": "House CA-50 Scott Peters",
+      "url": "/manus-storage/ca-50-P000608_a448bccf.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CA-51 Sara Jacobs",
+      "url": "/manus-storage/ca-51-J000305_63dd27e4.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x266, ratio=0.85)",
+      "width": 225,
+      "height": 266
+    },
+    {
+      "label": "House CA-52 Juan Vargas",
+      "url": "/manus-storage/ca-52-V000130_aecb44e1.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CO-1 Diana DeGette",
+      "url": "/manus-storage/co-1-D000197_da620423.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CO-5 Jeff Crank",
+      "url": "/manus-storage/co-5-C001137_b72598ba.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CO-7 Brittany Pettersen",
+      "url": "/manus-storage/co-7-P000620_dd446945.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CT-1 John B. Larson",
+      "url": "/manus-storage/ct-1-L000557_49ff08f4.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CT-2 Joe Courtney",
+      "url": "/manus-storage/ct-2-C001069_6ef65cad.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CT-3 Rosa L. DeLauro",
+      "url": "/manus-storage/ct-3-D000216_f000eacb.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CT-4 James A. Himes",
+      "url": "/manus-storage/ct-4-H001047_26e2a6c8.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House CT-5 Jahana Hayes",
+      "url": "/manus-storage/ct5_hayes_fed24534.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (175x219, ratio=0.80), too-small (175x219)",
+      "width": 175,
+      "height": 219
+    },
+    {
+      "label": "House DE-AL Sarah McBride",
+      "url": "/manus-storage/de-0-M001238_9d96e1e8.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House FL-3 Kat Cammack",
+      "url": "/manus-storage/fl-3-C001039_7c14f064.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (220x275, ratio=0.80)",
+      "width": 220,
+      "height": 275
+    },
+    {
+      "label": "House FL-4 Aaron Bean",
+      "url": "/manus-storage/fl-4-B001314_6cc1370d.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House FL-7 Cory Mills",
+      "url": "/manus-storage/fl-7-M001216_267d4005.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House FL-8 Mike Haridopolos",
+      "url": "/manus-storage/fl-8-H001099_1a6c725e.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House FL-10 Maxwell Frost",
+      "url": "/manus-storage/fl-10-F000476_c4c24f11.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House FL-12 Gus M. Bilirakis",
+      "url": "/manus-storage/fl-12-B001257_90704324.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House FL-13 Anna Paulina Luna",
+      "url": "/manus-storage/fl-13-L000596_da2d56b3.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House FL-14 Kathy Castor",
+      "url": "/manus-storage/fl-14-C001066_fec40e90.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House FL-15 Laurel Lee",
+      "url": "/manus-storage/fl-15-L000597_5dfc5527.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House FL-21 Brian Mast",
+      "url": "/manus-storage/fl-21-M001199_b691410e.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House FL-22 Lois Frankel",
+      "url": "/manus-storage/fl-22-F000462_758952b0.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House FL-23 Jared Moskowitz",
+      "url": "/manus-storage/fl-23-M001217_59d7e770.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House FL-24 Frederica S. Wilson",
+      "url": "/manus-storage/fl-24-W000808_4dc2c7a6.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House FL-25 Mario Diaz-Balart",
+      "url": "/manus-storage/fl-25-D000600_1a06c65c.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House FL-26 Carlos A. Gimenez",
+      "url": "/manus-storage/fl-26-G000593_f3ae5ff1.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (220x275, ratio=0.80)",
+      "width": 220,
+      "height": 275
+    },
+    {
+      "label": "House FL-27 Maria Elvira Salazar",
+      "url": "/manus-storage/fl-27-S000168_ebe37122.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (220x275, ratio=0.80)",
+      "width": 220,
+      "height": 275
+    },
+    {
+      "label": "House FL-28 Debbie Wasserman Schultz",
+      "url": "/manus-storage/fl-28-W000797_1b32e244.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House GA-2 Sanford Bishop",
+      "url": "/manus-storage/sanford_bishop_a813c8d5_310f81b2.png",
+      "status": "needs-recrop",
+      "reason": "non-square (1024x681, ratio=1.50), uncropped-large (1024x681)",
+      "width": 1024,
+      "height": 681
+    },
+    {
+      "label": "House GA-3 Brian Jack",
+      "url": "/manus-storage/brian_jack_17d588a1_b0521be1.webp",
+      "status": "needs-recrop",
+      "reason": "non-square (384x480, ratio=0.80)",
+      "width": 384,
+      "height": 480
+    },
+    {
+      "label": "House GA-4 Henry Johnson",
+      "url": "/manus-storage/henry_johnson_0470bde2_51737b8b.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House GA-6 Lucy McBath",
+      "url": "/manus-storage/lucy_mcbath_0ee6fb6f_45a51215.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House GA-8 Austin Scott",
+      "url": "/manus-storage/austin_scott_afc6fc6f_ff9fc9f6.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House GA-9 Andrew Clyde",
+      "url": "/manus-storage/andrew_clyde_64c8538a.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (400x500, ratio=0.80)",
+      "width": 400,
+      "height": 500
+    },
+    {
+      "label": "House GA-10 Houston Gaines",
+      "url": "/manus-storage/houston_gaines_4804025d_eb391af3.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (2529x3799, ratio=0.67), uncropped-large (2529x3799)",
+      "width": 2529,
+      "height": 3799
+    },
+    {
+      "label": "House HI-1 Ed Case",
+      "url": "/manus-storage/hi-1-C001055_a4f866f8.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (183x275, ratio=0.67), too-small (183x275)",
+      "width": 183,
+      "height": 275
+    },
+    {
+      "label": "House HI-2 Jill Tokuda",
+      "url": "/manus-storage/hi-2-T000487_53eb6012.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House ID-1 Russ Fulcher",
+      "url": "/manus-storage/russ_fulcher_f06cf11c_0167866c.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House ID-2 Mike Simpson",
+      "url": "/manus-storage/mike_simpson_a3f9bae8_8f663435.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (2795x4200, ratio=0.67), uncropped-large (2795x4200)",
+      "width": 2795,
+      "height": 4200
+    },
+    {
+      "label": "House IL-1 Jonathan L. Jackson",
+      "url": "/manus-storage/jonathan_l__jackson_66ae0ea0_7797a66a.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House IL-1 Christian Maxwell",
+      "url": "/manus-storage/christian_maxwell_942c221d_a0598afe.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House IL-3 Delia Ramirez",
+      "url": "/manus-storage/delia_ramirez_e8c91fb9_61f9fc53.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House IL-3 Angel Oakley",
+      "url": "/manus-storage/angel_oakley_7820688f_5ee22f2a.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House IL-5 Mike Quigley",
+      "url": "/manus-storage/mike_quigley_06f83727_e30bd7b4.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House IL-6 Sean Casten",
+      "url": "/manus-storage/sean_casten_bdb5b3bd_9f40e587.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House IL-7 Chad Koppie",
+      "url": "/manus-storage/chad_koppie_3696b654.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (400x500, ratio=0.80)",
+      "width": 400,
+      "height": 500
+    },
+    {
+      "label": "House IL-8 Melissa Bean",
+      "url": "/manus-storage/melissa_bean_2eb058a1_bfb5ef21.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (175x246, ratio=0.71), too-small (175x246)",
+      "width": 175,
+      "height": 246
+    },
+    {
+      "label": "House IL-9 Daniel K. Biss",
+      "url": "/manus-storage/daniel_k__biss_48cf2ab1_476c433c.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1920x2400, ratio=0.80), uncropped-large (1920x2400)",
+      "width": 1920,
+      "height": 2400
+    },
+    {
+      "label": "House IL-9 John Elleson",
+      "url": "/manus-storage/john_elleson_6d0df60e_a7c65139.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House IL-10 Bradley Schneider",
+      "url": "/manus-storage/bradley_schneider_264fa9c1_3ef244b7.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (175x263, ratio=0.67), too-small (175x263)",
+      "width": 175,
+      "height": 263
+    },
+    {
+      "label": "House IL-10 Carl Lambrecht",
+      "url": "/manus-storage/carl_lambrecht_961f873a_8260c14f.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (300x226, ratio=1.33), uncropped-large (300x226)",
+      "width": 300,
+      "height": 226
+    },
+    {
+      "label": "House IL-11 Bill Foster",
+      "url": "/manus-storage/bill_foster_696d1b6a_36a81e10.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House IL-12 Mike Bost",
+      "url": "/manus-storage/mike_bost_124b7b60_5a137445.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House IL-13 Nikki Budzinski",
+      "url": "/manus-storage/nikki_budzinski_0ed23c89_a252da06.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House IL-14 Lauren Underwood",
+      "url": "/manus-storage/lauren_underwood_c3c21090_6696d790.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (2803x3504, ratio=0.80), uncropped-large (2803x3504)",
+      "width": 2803,
+      "height": 3504
+    },
+    {
+      "label": "House IL-14 James Marter",
+      "url": "/manus-storage/james_marter_de18a79f_445ff301.png",
+      "status": "needs-recrop",
+      "reason": "non-square (355x443, ratio=0.80)",
+      "width": 355,
+      "height": 443
+    },
+    {
+      "label": "House IL-15 Mary Miller",
+      "url": "/manus-storage/mary_miller_6acc6244_267c6118.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House IL-16 Paul Nolley",
+      "url": "/manus-storage/paul_nolley_3650efca_fa2f318d.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House IL-16 Darin LaHood",
+      "url": "/manus-storage/darin_lahood_c290d028_38a12130.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House IL-17 Eric Sorensen",
+      "url": "/manus-storage/eric_sorensen_cff61e77_459f6770.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House IN-1 Frank Mrvan",
+      "url": "/manus-storage/frank_mrvan_9e21b841_725fd8cb.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (175x219, ratio=0.80), too-small (175x219)",
+      "width": 175,
+      "height": 219
+    },
+    {
+      "label": "House IN-1 Barb Regnitz",
+      "url": "/manus-storage/barb_regnitz_0b53e57a_0a898ddc.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House IN-3 Marlin Stutzman",
+      "url": "/manus-storage/marlin-stutzman-in3_801bb1f4.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (480x600, ratio=0.80)",
+      "width": 480,
+      "height": 600
+    },
+    {
+      "label": "House IN-4 Jim Baird",
+      "url": "/manus-storage/jim-baird-in4_507686f7.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1333x2000, ratio=0.67), uncropped-large (1333x2000)",
+      "width": 1333,
+      "height": 2000
+    },
+    {
+      "label": "House IN-5 Victoria Spartz",
+      "url": "/manus-storage/victoria_spartz_5fb5c612_298c2927.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House IN-7 André Carson",
+      "url": "/manus-storage/andre-carson-in7_d8da93e0.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (797x1200, ratio=0.66)",
+      "width": 797,
+      "height": 1200
+    },
+    {
+      "label": "House IN-8 Mark Messmer",
+      "url": "/manus-storage/mark_messmer_6e4f5803_af74421f.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House IA-1 Christina Bohannan",
+      "url": "/manus-storage/christina_bohannan_243025d4_65565526.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (137x192, ratio=0.71), too-small (137x192)",
+      "width": 137,
+      "height": 192
+    },
+    {
+      "label": "House IA-1 Mariannette Miller-Meeks",
+      "url": "/manus-storage/mariannette_miller_meeks_312ff14d_784be24d.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (175x219, ratio=0.80), too-small (175x219)",
+      "width": 175,
+      "height": 219
+    },
+    {
+      "label": "House IA-2 Lindsay James",
+      "url": "/manus-storage/lindsay_james_facbcd7e_ca6636e5.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1500x2100, ratio=0.71), uncropped-large (1500x2100)",
+      "width": 1500,
+      "height": 2100
+    },
+    {
+      "label": "House IA-2 Joe Mitchell",
+      "url": "/manus-storage/joe_mitchell_dd49f2cc_fd208313.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (137x192, ratio=0.71), too-small (137x192)",
+      "width": 137,
+      "height": 192
+    },
+    {
+      "label": "House IA-3 Zach Nunn",
+      "url": "/manus-storage/zach_nunn_1399f92a_3797733b.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (175x219, ratio=0.80), too-small (175x219)",
+      "width": 175,
+      "height": 219
+    },
+    {
+      "label": "House KS-1 Tracey Mann",
+      "url": "/manus-storage/ks-1-M000871_abe61dcc.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (183x275, ratio=0.67), too-small (183x275)",
+      "width": 183,
+      "height": 275
+    },
+    {
+      "label": "House KS-4 Ron Estes",
+      "url": "/manus-storage/ks-4-E000298_9dc92f29.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House KY-1 James Comer",
+      "url": "/manus-storage/james_comer_c18ae320_c673e1db.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (300x375, ratio=0.80)",
+      "width": 300,
+      "height": 375
+    },
+    {
+      "label": "House KY-2 Brett Guthrie",
+      "url": "/manus-storage/brett_guthrie_544d5763_84b29e8a.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House KY-3 Morgan McGarvey",
+      "url": "/manus-storage/morgan_mcgarvey_72bae4ae_4f533153.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (250x350, ratio=0.71)",
+      "width": 250,
+      "height": 350
+    },
+    {
+      "label": "House KY-5 Harold Rogers",
+      "url": "/manus-storage/harold_rogers_5b2332df_b24b3947.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House LA-1 Steve Scalise",
+      "url": "/manus-storage/la-1-S001176_c7d76cf7.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House LA-2 Troy Carter",
+      "url": "/manus-storage/la-2-C001125_768520c7.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (220x275, ratio=0.80)",
+      "width": 220,
+      "height": 275
+    },
+    {
+      "label": "House LA-4 Mike Johnson",
+      "url": "/manus-storage/la-4-J000299_5474b660.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House ME-1 Chellie Pingree",
+      "url": "/manus-storage/chellie_pingree_705112b4.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (175x231, ratio=0.76), too-small (175x231)",
+      "width": 175,
+      "height": 231
+    },
+    {
+      "label": "House ME-1 Ron Russell",
+      "url": "/manus-storage/ron_russell_74cea9fc_73cf1fa3.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (640x892, ratio=0.72)",
+      "width": 640,
+      "height": 892
+    },
+    {
+      "label": "House MD-3 Sarah Elfreth",
+      "url": "/manus-storage/md-3-E000301_94fda4ef.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MD-4 Glenn F. Ivey",
+      "url": "/manus-storage/md-4-I000058_30329079.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MD-5 Adrian Boafo",
+      "url": "/manus-storage/md-5-H000874_f505f183.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MD-6 April McClain Delaney",
+      "url": "/manus-storage/md6_delaney_4ccd3b48.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (175x244, ratio=0.72), too-small (175x244)",
+      "width": 175,
+      "height": 244
+    },
+    {
+      "label": "House MD-7 Kweisi Mfume",
+      "url": "/manus-storage/md-7-M000687_eb29f52b.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MD-8 Jamie Raskin",
+      "url": "/manus-storage/md-8-R000606_ad9c40be.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MA-1 Richard E. Neal",
+      "url": "/manus-storage/ma-1-N000015_646631d2.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MA-2 James P. McGovern",
+      "url": "/manus-storage/ma-2-M000312_ce6c0404.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MA-3 Lori Trahan",
+      "url": "/manus-storage/ma-3-T000482_6a9cd1fa.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MA-4 Jake Auchincloss",
+      "url": "/manus-storage/ma-4-A000148_a1a9a233.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (220x275, ratio=0.80)",
+      "width": 220,
+      "height": 275
+    },
+    {
+      "label": "House MA-5 Katherine M. Clark",
+      "url": "/manus-storage/ma-5-C001101_f57c0a2a.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MA-7 Ayanna Pressley",
+      "url": "/manus-storage/ma-7-P000617_0d36f466.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MA-8 Stephen F. Lynch",
+      "url": "/manus-storage/ma-8-L000562_42e063ba.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MA-9 William R. Keating",
+      "url": "/manus-storage/ma-9-K000375_c7b0828f.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MI-2 John Moolenaar",
+      "url": "/manus-storage/mi-2-M001194_1766aa7a.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MI-3 Hillary J. Scholten",
+      "url": "/manus-storage/mi-3-S001221_1f86c8a3.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MI-5 Tim Walberg",
+      "url": "/manus-storage/mi-5-W000798_4f2274a5.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MI-6 Debbie Dingell",
+      "url": "/manus-storage/mi-6-D000624_6eb9ce76.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MI-8 Kristen McDonald Rivet",
+      "url": "/manus-storage/mi-8-M001237_5285a20b.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MI-12 Rashida Tlaib",
+      "url": "/manus-storage/mi-12-T000481_fe3f8200.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MI-13 Shri Thanedar",
+      "url": "/manus-storage/mi-13-T000488_aa586d55.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MN-1 Brad Finstad",
+      "url": "/manus-storage/mn-1-F000475_5a9f8184.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MN-3 Kelly Morrison",
+      "url": "/manus-storage/mn-3-M001234_4ef1942a.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MN-4 Betty McCollum",
+      "url": "/manus-storage/mn-4-M001143_36837236.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MN-6 Tom Emmer",
+      "url": "/manus-storage/mn-6-E000294_90fbcd1d.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MN-7 Michelle Fischbach",
+      "url": "/manus-storage/mn-7-F000470_ef323fbb.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (220x275, ratio=0.80)",
+      "width": 220,
+      "height": 275
+    },
+    {
+      "label": "House MS-1 Cliff Johnson",
+      "url": "/manus-storage/cliff_johnson_e6fa2a01_abcc6bb7.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1200x1500, ratio=0.80), uncropped-large (1200x1500)",
+      "width": 1200,
+      "height": 1500
+    },
+    {
+      "label": "House MS-1 Trent Kelly",
+      "url": "/manus-storage/trent_kelly_76e41ab4_0acd74ac.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House MS-2 Bennie Thompson",
+      "url": "/manus-storage/bennie_thompson_28b1fe73_e9080da1.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1000x1250, ratio=0.80), uncropped-large (1000x1250)",
+      "width": 1000,
+      "height": 1250
+    },
+    {
+      "label": "House MS-3 Michael Guest",
+      "url": "/manus-storage/michael_guest_56a143ef_39aec3b3.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House MS-4 Mike Ezell",
+      "url": "/manus-storage/mike_ezell_f5cacde8_b2c3e7da.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (700x875, ratio=0.80)",
+      "width": 700,
+      "height": 875
+    },
+    {
+      "label": "House MO-2 Ann Wagner",
+      "url": "/manus-storage/mo-2-W000812_ceb718f4.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MO-4 Mark E. Alford",
+      "url": "/manus-storage/mo-4-A000379_07d2579d.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MO-5 Emanuel Cleaver II",
+      "url": "/manus-storage/mo-5-C001061_e83e14ca.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MO-7 Eric Burlison",
+      "url": "/manus-storage/mo-7-B001316_c7ce34b1.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MO-8 Jason T. Smith",
+      "url": "/manus-storage/mo-8-S001195_6713376e.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House MT-2 Troy Downing",
+      "url": "/manus-storage/troy_downing_2aa779e0_a0087292.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House NE-1 Mike Flood",
+      "url": "/manus-storage/mike_flood_12fb11a4_88c04aac.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (819x1024, ratio=0.80), uncropped-large (819x1024)",
+      "width": 819,
+      "height": 1024
+    },
+    {
+      "label": "House NE-3 Adrian Smith",
+      "url": "/manus-storage/adrian_smith_5d8bbd78_2795e0bc.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House NV-1 Carrie Buck",
+      "url": "/manus-storage/carrie_buck_e8800e34.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (960x768, ratio=1.25), uncropped-large (960x768)",
+      "width": 960,
+      "height": 768
+    },
+    {
+      "label": "House NV-2 Teresa Benitez-Thompson",
+      "url": "/manus-storage/teresa_benitez_thompson_134689ff.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House NV-2 David Flippo",
+      "url": "/manus-storage/david_flippo_4eb41902_27844c86.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House NV-4 Steven Horsford",
+      "url": "/manus-storage/steven_horsford_048a88d4.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (384x480, ratio=0.80)",
+      "width": 384,
+      "height": 480
+    },
+    {
+      "label": "House NH-2 Maggie Goodlander",
+      "url": "/manus-storage/nh-2-G000604_682d4636.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House NJ-2 Jeff Van Drew",
+      "url": "/manus-storage/jeff_van_drew_ed3f580f_afc1eaf7.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House NJ-3 Michael McGuire",
+      "url": "/manus-storage/michael-mcguire-nj3_cfc61bc0.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (470x401, ratio=1.17), uncropped-large (470x401)",
+      "width": 470,
+      "height": 401
+    },
+    {
+      "label": "House NJ-4 Christopher H. Smith",
+      "url": "/manus-storage/christopher_h__smith_01ccdb3b_3482aad3.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House NJ-5 Josh Gottheimer",
+      "url": "/manus-storage/josh_gottheimer_36a5c1c0_91991a8e.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House NJ-6 Frank Pallone Jr.",
+      "url": "/manus-storage/frank_pallone_jr__11b77d25_ff5f69c1.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House NJ-6 Hillary Herzig",
+      "url": "/manus-storage/hillary_herzig_30b7e4cf_abcccb91.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (233x316, ratio=0.74)",
+      "width": 233,
+      "height": 316
+    },
+    {
+      "label": "House NJ-7 Rebecca Bennett",
+      "url": "/manus-storage/rebecca_bennett_9d511283_4ef0fca3.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House NJ-7 Thomas Kean Jr.",
+      "url": "/manus-storage/thomas_kean_jr_72af5234_4417e390.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (175x219, ratio=0.80), too-small (175x219)",
+      "width": 175,
+      "height": 219
+    },
+    {
+      "label": "House NJ-8 Rob Menendez",
+      "url": "/manus-storage/rob-menendez-nj8_cbfc906c.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House NJ-9 Nellie Pou",
+      "url": "/manus-storage/nellie_pou_a032279d_c6859ce7.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House NJ-10 LaMonica McIver",
+      "url": "/manus-storage/lamonica_mciver_e9c641a9_a521141d.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (716x900, ratio=0.80)",
+      "width": 716,
+      "height": 900
+    },
+    {
+      "label": "House NM-1 Melanie A. Stansbury",
+      "url": "/manus-storage/melanie_a__stansbury_b740ba42_fix_f0d34047.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1638x2048, ratio=0.80), uncropped-large (1638x2048)",
+      "width": 1638,
+      "height": 2048
+    },
+    {
+      "label": "House NM-2 Gabe Vasquez",
+      "url": "/manus-storage/gabe_vasquez_f3ee5315_1746dbc8.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House NM-3 Teresa Leger Fernandez",
+      "url": "/manus-storage/teresa_leger_fernandez_4e3af322_eab7b6b0.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House NY-1 Christopher Gallant",
+      "url": "/manus-storage/ny-1-L000598_e38addbb.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House NY-3 Thomas Suozzi",
+      "url": "/manus-storage/ny-3-S001201_a2de3d06.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House NY-4 Laura Gillen",
+      "url": "/manus-storage/ny-4-G000602_98abee79.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House NY-5 Gregory Meeks",
+      "url": "/manus-storage/ny5_meeks_19cf4b55.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (175x236, ratio=0.74), too-small (175x236)",
+      "width": 175,
+      "height": 236
+    },
+    {
+      "label": "House NY-6 Grace Meng",
+      "url": "/manus-storage/ny-6-M001188_8bf048c2.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House NY-8 Hakeem Jeffries",
+      "url": "/manus-storage/ny-8-J000294_c933e8aa.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House NY-9 Yvette Clarke",
+      "url": "/manus-storage/ny-9-C001067_0fd556ca.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House NY-14 Alexandria Ocasio-Cortez",
+      "url": "/manus-storage/ny-14-O000172_ae97d38a.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House NY-16 George Latimer",
+      "url": "/manus-storage/ny-16-L000606_7464ce48.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House NY-18 Pat Ryan",
+      "url": "/manus-storage/ny-18-R000579_1bff94d7.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House NY-19 Josh Riley",
+      "url": "/manus-storage/ny-19-R000622_0c3b2d03.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House NY-20 Paul Tonko",
+      "url": "/manus-storage/ny-20-T000469_ea020691.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House NY-22 John Mannion",
+      "url": "/manus-storage/ny-22-M001231_c233a41b.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House NY-23 Kevin Stocker",
+      "url": "/manus-storage/ny-23-L000600_adcfe660.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House NY-26 Timothy Kennedy",
+      "url": "/manus-storage/ny-26-K000402_5c9fca48.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House NC-1 Donald Davis",
+      "url": "/manus-storage/donald_davis_0a058c99_94aa8f2d.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (175x219, ratio=0.80), too-small (175x219)",
+      "width": 175,
+      "height": 219
+    },
+    {
+      "label": "House NC-1 Laurie Buckhout",
+      "url": "/manus-storage/laurie_buckhout_62434a98_c8fd2369.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1280x954, ratio=1.34), uncropped-large (1280x954)",
+      "width": 1280,
+      "height": 954
+    },
+    {
+      "label": "House NC-2 Deborah K. Ross",
+      "url": "/manus-storage/nc-2-R000305_a42ebf8c.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (220x275, ratio=0.80)",
+      "width": 220,
+      "height": 275
+    },
+    {
+      "label": "House NC-4 Valerie Foushee",
+      "url": "/manus-storage/valerie_foushee_2c74edbb_a617daa2.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (3360x4200, ratio=0.80), uncropped-large (3360x4200)",
+      "width": 3360,
+      "height": 4200
+    },
+    {
+      "label": "House NC-5 Virginia Foxx",
+      "url": "/manus-storage/virginia_foxx_aeef2e1e_d9469f9e.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House NC-6 Addison P. McDowell",
+      "url": "/manus-storage/addison_p__mcdowell_2d8c2209_ae709a0e.png",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House NC-7 Kimberly Hardy",
+      "url": "/manus-storage/kimberly_hardy_549c319d_c578b187.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1348x929, ratio=1.45), uncropped-large (1348x929)",
+      "width": 1348,
+      "height": 929
+    },
+    {
+      "label": "House NC-7 David Rouzer",
+      "url": "/manus-storage/david_rouzer_0dc912e4_8a265c82.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House NC-8 Mark Harris",
+      "url": "/manus-storage/mark_harris_1dd55f5f_51bf7fad.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House NC-9 Richard Ojeda",
+      "url": "/manus-storage/richard_ojeda_11a8e5e2_119f3350.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House NC-9 Richard Hudson",
+      "url": "/manus-storage/richard_hudson_d7822ab4_e5aaad08.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (2266x3019, ratio=0.75), uncropped-large (2266x3019)",
+      "width": 2266,
+      "height": 3019
+    },
+    {
+      "label": "House NC-10 Pat Harrigan",
+      "url": "/manus-storage/pat_harrigan_92d2f70e_44286c77.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1000x1250, ratio=0.80), uncropped-large (1000x1250)",
+      "width": 1000,
+      "height": 1250
+    },
+    {
+      "label": "House NC-11 Chuck Edwards",
+      "url": "/manus-storage/chuck_edwards_6c39d4c7_066957b1.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (175x219, ratio=0.80), too-small (175x219)",
+      "width": 175,
+      "height": 219
+    },
+    {
+      "label": "House NC-12 Alma S. Adams",
+      "url": "/manus-storage/alma_s__adams_030feff5_7fa54e89.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House NC-13 Brad Knott",
+      "url": "/manus-storage/brad_knott_d6c1c502_ab17d699.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House NC-14 Lakesha Womack",
+      "url": "/manus-storage/lakesha_womack_e9dcbc37_9e5ef980.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House NC-14 Tim Moore",
+      "url": "/manus-storage/tim_moore_18e49d4e_700231c9.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1536x1920, ratio=0.80), uncropped-large (1536x1920)",
+      "width": 1536,
+      "height": 1920
+    },
+    {
+      "label": "House ND-AL Trygve Hammer",
+      "url": "/manus-storage/trygve_hammer_3b335a6d.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House ND-AL Julie Fedorchak",
+      "url": "/manus-storage/julie_fedorchak_29930b6c.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House OH-1 Greg Landsman",
+      "url": "/manus-storage/greg_landsman_f2bf29fa_3b148100.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House OH-2 Jen Mazzuckelli",
+      "url": "/manus-storage/jen_mazzuckelli_80072758_a189a26a.png",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House OH-3 Joyce Beatty",
+      "url": "/manus-storage/joyce_beatty_bde69e47_57ed23b2.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House OH-4 Jim Jordan",
+      "url": "/manus-storage/jim_jordan_a7f08a4a_cfd30f12.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House OH-5 Brian Shaver",
+      "url": "/manus-storage/brian_shaver_cf6d413f_6b9e94da.png",
+      "status": "needs-recrop",
+      "reason": "non-square (1429x2000, ratio=0.71), uncropped-large (1429x2000)",
+      "width": 1429,
+      "height": 2000
+    },
+    {
+      "label": "House OH-5 Bob Latta",
+      "url": "/manus-storage/bob_latta_7a163344_96daa142.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House OH-6 Elizabeth Kirtley",
+      "url": "/manus-storage/elizabeth_kirtley_48b0ed17_f26713b4.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House OH-8 Warren Davidson",
+      "url": "/manus-storage/warren_davidson_c6a0e959_216749fe.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House OH-9 Marcy Kaptur",
+      "url": "/manus-storage/marcy_kaptur_e107f1fb_3a5fa685.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House OH-10 Mike Turner",
+      "url": "/manus-storage/mike_turner_76071850_49ed59d1.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House OH-12 Troy Balderson",
+      "url": "/manus-storage/troy_balderson_00e5d461_01695c8c.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House OH-14 Maria Jukic",
+      "url": "/manus-storage/maria_jukic_51a51f0e_2b9529eb.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House OH-14 David P. Joyce",
+      "url": "/manus-storage/david_p__joyce_7ed30607_47718b85.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House OH-15 Don Leonard",
+      "url": "/manus-storage/don_leonard_997fc9be_1e8df815.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House OH-15 Mike Carey",
+      "url": "/manus-storage/mike_carey_3e317a61_fec64efa.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House OK-2 Brandon Wade",
+      "url": "/manus-storage/ok-2-B001317_4da879c1.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House OK-3 Suzie Byrd",
+      "url": "/manus-storage/ok-3-L000491_44de2204.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House OK-3 Frank Lucas",
+      "url": "/manus-storage/frank_lucas_6cf1506f.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House OK-4 Mitchell Jacob",
+      "url": "/manus-storage/ok-4-C001053_87ed5798.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House OK-4 Tom Cole",
+      "url": "/manus-storage/tom_cole_b2f57b18.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (2500x3125, ratio=0.80), uncropped-large (2500x3125)",
+      "width": 2500,
+      "height": 3125
+    },
+    {
+      "label": "House OK-5 Stephanie Bice",
+      "url": "/manus-storage/stephanie_bice_c462aa6e.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1360x1700, ratio=0.80), uncropped-large (1360x1700)",
+      "width": 1360,
+      "height": 1700
+    },
+    {
+      "label": "House OR-1 Suzanne Bonamici",
+      "url": "/manus-storage/suzanne_bonamici_cb336aff_ea480319.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House OR-2 Cliff Bentz",
+      "url": "/manus-storage/cliff_bentz_d56fee3c_835fc5f8.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House OR-3 Maxine Dexter",
+      "url": "/manus-storage/maxine_dexter_90e4930b_16a0b74c.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (480x600, ratio=0.80)",
+      "width": 480,
+      "height": 600
+    },
+    {
+      "label": "House OR-3 Loran Ayles",
+      "url": "/manus-storage/loran_ayles_9ed7a008_fc2c939d.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1400x1655, ratio=0.85), uncropped-large (1400x1655)",
+      "width": 1400,
+      "height": 1655
+    },
+    {
+      "label": "House OR-4 Val Hoyle",
+      "url": "/manus-storage/val_hoyle_ee0d5a14_38f336ac.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House OR-4 M. DeSpain",
+      "url": "/manus-storage/monique_despain_16c54864_8bc68ac4.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House OR-5 Janelle Bynum",
+      "url": "/manus-storage/janelle_bynum_9cd257dc_7ffc9441.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House OR-6 Andrea Salinas",
+      "url": "/manus-storage/andrea_salinas_0cb01a63_6d1c3ea5.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House OR-6 David Russ",
+      "url": "/manus-storage/david_russ_bedec672_32a45f74.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House PA-1 Bob Harvie",
+      "url": "/manus-storage/bob_harvie_c01a7587_0eb81f3f.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1366x1822, ratio=0.75), uncropped-large (1366x1822)",
+      "width": 1366,
+      "height": 1822
+    },
+    {
+      "label": "House PA-4 Madeleine Dean",
+      "url": "/manus-storage/madeleine_dean_15de4ce9_31cf2b74.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House PA-5 Mary Gay Scanlon",
+      "url": "/manus-storage/mary_gay_scanlon_c4277f4b_29ae2596.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House PA-6 Chrissy Houlahan",
+      "url": "/manus-storage/chrissy_houlahan_5eef8c72_18f90061.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (3360x4200, ratio=0.80), uncropped-large (3360x4200)",
+      "width": 3360,
+      "height": 4200
+    },
+    {
+      "label": "House PA-7 Bob Brooks",
+      "url": "/manus-storage/bob_brooks_8f764d55.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House PA-7 Ryan Mackenzie",
+      "url": "/manus-storage/ryan_mackenzie_95bd6b3b_db812838.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House PA-8 Robert P. Bresnahan",
+      "url": "/manus-storage/robert_p_bresnahan_04d89a12_ec869bc0.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House PA-9 Daniel Meuser",
+      "url": "/manus-storage/daniel_meuser_175aef4a_a4961064.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House PA-10 Scott Perry",
+      "url": "/manus-storage/scott_perry_cdeb9c64_4fdc40d0.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House PA-11 Lloyd Smucker",
+      "url": "/manus-storage/lloyd_smucker_ef971737_8aa33153.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House PA-13 Beth Farnham",
+      "url": "/manus-storage/beth_farnham_2eacc95d_08c0853b.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House PA-13 John Joyce",
+      "url": "/manus-storage/john_joyce_7d95febd_3500026f.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House PA-14 Alan Bradstock",
+      "url": "/manus-storage/alan_bradstock_16d33443_29b18fa7.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House PA-14 Guy Reschenthaler",
+      "url": "/manus-storage/guy_reschenthaler_91541d67_a6b7b34e.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House PA-15 Ray Bilger",
+      "url": "/manus-storage/ray_bilger_1e1e1e74_ffbe8150.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1200x1500, ratio=0.80), uncropped-large (1200x1500)",
+      "width": 1200,
+      "height": 1500
+    },
+    {
+      "label": "House PA-16 Mike Kelly",
+      "url": "/manus-storage/mike_kelly_88a1f676_8e2014ad.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House PA-17 Chris Deluzio",
+      "url": "/manus-storage/chris_deluzio_c2bda85b_76542c4c.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House RI-1 Gabe Amo",
+      "url": "/manus-storage/ri-1-A000380_a934e215.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House RI-2 Seth Magaziner",
+      "url": "/manus-storage/ri-2-M001223_4d5f2aec.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House SC-2 Joe Wilson",
+      "url": "/manus-storage/joe_wilson_669f1845.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x244, ratio=0.82)",
+      "width": 200,
+      "height": 244
+    },
+    {
+      "label": "House SC-4 William Timmons",
+      "url": "/manus-storage/william_timmons_6523ad53.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (640x800, ratio=0.80)",
+      "width": 640,
+      "height": 800
+    },
+    {
+      "label": "House SC-5 Wes Climer",
+      "url": "/manus-storage/wes_climer_afde22be.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House SD-AL Marty Jackley",
+      "url": "/manus-storage/marty_jackley_bb05ad4a_1145977d.png",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House TN-1 Diana Harshbarger",
+      "url": "/manus-storage/tn-1-H001086_7cabd57b.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x150, ratio=1.50), too-small (225x150), uncropped-large (225x150)",
+      "width": 225,
+      "height": 150
+    },
+    {
+      "label": "House TN-3 Chuck Fleischmann",
+      "url": "/manus-storage/tn-3-F000459_35923b85.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House TN-4 Scott DesJarlais",
+      "url": "/manus-storage/tn-4-D000616_9c298f4d.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House TN-5 Andy Ogles",
+      "url": "/manus-storage/tn-5-O000175_0705255c.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House TX-1 Yolanda Prince",
+      "url": "/manus-storage/yolanda_prince_e13da3b8_05a1f4bf.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House TX-3 Keith Self",
+      "url": "/manus-storage/keith_self_8dac61d5_9bc5347c.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (480x600, ratio=0.80)",
+      "width": 480,
+      "height": 600
+    },
+    {
+      "label": "House TX-4 Pat Fallon",
+      "url": "/manus-storage/pat_fallon_3a9ad24b_475e3ac6.png",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House TX-5 Chelsey Hockett",
+      "url": "/manus-storage/chelsey_hockett_c51cac00_3081538b.png",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House TX-5 Lance Gooden",
+      "url": "/manus-storage/lance_gooden_4629ebf8_c93caa09.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House TX-6 Jake Ellzey",
+      "url": "/manus-storage/jake_ellzey_24e0c92c_4db98838.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House TX-7 Lizzie Fletcher",
+      "url": "/manus-storage/lizzie_fletcher_df313298_fd5381e6.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House TX-10 Chris Gober",
+      "url": "/manus-storage/chris_gober_clerk_bc8c48af.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House TX-11 Claire Reynolds",
+      "url": "/manus-storage/claire_reynolds_a0b14553_10c94700.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (2048x1365, ratio=1.50), uncropped-large (2048x1365)",
+      "width": 2048,
+      "height": 1365
+    },
+    {
+      "label": "House TX-11 August Pfluger",
+      "url": "/manus-storage/august_pfluger_5194d677_3629ab5f.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House TX-12 Angel Rodrigues-Prillman",
+      "url": "/manus-storage/angel_rodrigues_prillman_0966f1a2_2fd6b9bf.png",
+      "status": "needs-recrop",
+      "reason": "non-square (750x946, ratio=0.79)",
+      "width": 750,
+      "height": 946
+    },
+    {
+      "label": "House TX-13 Ronny Jackson",
+      "url": "/manus-storage/ronny_jackson_b27a537d_34be69da.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House TX-14 Randy Weber",
+      "url": "/manus-storage/randy_weber_f59883cb_064c4a5b.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House TX-15 Bobby Pulido",
+      "url": "/manus-storage/bobby_pulido_387f1bc7_aab57062.png",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House TX-15 Monica De La Cruz",
+      "url": "/manus-storage/monica_de_la_cruz_e3e07d5c_f0611768.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House TX-16 Veronica Escobar",
+      "url": "/manus-storage/veronica_escobar_67990663_577461a5.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (3360x4200, ratio=0.80), uncropped-large (3360x4200)",
+      "width": 3360,
+      "height": 4200
+    },
+    {
+      "label": "House TX-17 Casey Shepard",
+      "url": "/manus-storage/casey_shepard_167858d7_b47f7ede.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House TX-17 Pete Sessions",
+      "url": "/manus-storage/pete_sessions_7077a6fd_c4089a1d.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House TX-18 Christian Menefee",
+      "url": "/manus-storage/christian_menefee_2b610caa_0334a19a.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (600x750, ratio=0.80)",
+      "width": 600,
+      "height": 750
+    },
+    {
+      "label": "House TX-18 Ronald Whitfield",
+      "url": "/manus-storage/ronald_whitfield_7621f973_f383173d.jpg",
+      "status": "needs-recrop",
+      "reason": "too-small (198x200)",
+      "width": 198,
+      "height": 200
+    },
+    {
+      "label": "House TX-19 Tom Sell",
+      "url": "/manus-storage/tom_sell_379459cd_8fd257b9.png",
+      "status": "needs-recrop",
+      "reason": "non-square (848x944, ratio=0.90)",
+      "width": 848,
+      "height": 944
+    },
+    {
+      "label": "House TX-20 Joaquin Castro",
+      "url": "/manus-storage/joaquin_castro_a22de6a2_6c1fe1d3.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House TX-23 Brandon Herrera",
+      "url": "/manus-storage/brandon_herrera_e70e934a_18a4ca1d.png",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House TX-25 Dione Sims",
+      "url": "/manus-storage/dione_sims_c5c1201a_ad244ea1.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House TX-25 Roger Williams",
+      "url": "/manus-storage/roger_williams_64f42eb7_4092015c.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House TX-28 Henry Cuellar",
+      "url": "/manus-storage/henry_cuellar_9738036c_0811e330.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House TX-28 Tano Tijerina",
+      "url": "/manus-storage/tano_tijerina_d9af132a_5cc39336.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House TX-29 Sylvia Garcia",
+      "url": "/manus-storage/sylvia_garcia_fc10c572_9c754746.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House TX-29 Martha Fierro",
+      "url": "/manus-storage/martha_fierro_79d3b38f.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (400x500, ratio=0.80)",
+      "width": 400,
+      "height": 500
+    },
+    {
+      "label": "House TX-31 John R. Carter",
+      "url": "/manus-storage/john_r__carter_44e5f3a6_ad8c801d.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House TX-33 Colin Allred",
+      "url": "/manus-storage/colin_allred_18eac20a_764a0189.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (3350x4185, ratio=0.80), uncropped-large (3350x4185)",
+      "width": 3350,
+      "height": 4185
+    },
+    {
+      "label": "House TX-36 Brian Babin",
+      "url": "/manus-storage/brian_babin_0fce7662_05403248.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House TX-37 Greg Casar",
+      "url": "/manus-storage/greg_casar_f17b7c74_18695a10.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House TX-37 Lauren Peña",
+      "url": "/manus-storage/lauren_pe_a_79da28da_6c490fe4.png",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "House TX-38 Melissa McDonough",
+      "url": "/manus-storage/melissa_mcdonough_6868e8cc_02861785.png",
+      "status": "needs-recrop",
+      "reason": "non-square (720x502, ratio=1.43), uncropped-large (720x502)",
+      "width": 720,
+      "height": 502
+    },
+    {
+      "label": "House VT-AL Becca Balint",
+      "url": "/manus-storage/vt-0-B001318_2f7f47db.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House VA-1 Rob Wittman",
+      "url": "/manus-storage/va-1-W000804_77740ea3.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House VA-2 Jen Kiggans",
+      "url": "/manus-storage/va-2-K000399_b1ca7d9f.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House VA-3 Bobby Scott",
+      "url": "/manus-storage/va-3-S000185_8c5fb332.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House VA-4 Jennifer McClellan",
+      "url": "/manus-storage/va-4-M001227_7cca1c4d.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House VA-5 John J. McGuire",
+      "url": "/manus-storage/va-5-M001239_cea8e848.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House VA-7 Eugene Vindman",
+      "url": "/manus-storage/va-7-V000138_5c20c508.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House VA-8 Don Beyer",
+      "url": "/manus-storage/va-8-B001292_0057dfc0.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House VA-9 Morgan Griffith",
+      "url": "/manus-storage/va-9-G000568_d9f7a849.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House VA-10 Suhas Subramanyam",
+      "url": "/manus-storage/va-10-S001230_e21f0aa9.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House WA-1 Suzan K. DelBene",
+      "url": "/manus-storage/wa-1-D000617_ab573e65.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House WA-2 Rick Larsen",
+      "url": "/manus-storage/wa-2-L000560_38829ef8.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House WA-3 Marie Gluesenkamp Perez",
+      "url": "/manus-storage/wa-3-G000600_39d7314c.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House WA-5 Michael Baumgartner",
+      "url": "/manus-storage/wa-5-B001322_665f4e7c.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House WA-6 Emily Randall",
+      "url": "/manus-storage/wa-6-R000621_a4236972.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House WA-9 Adam Smith",
+      "url": "/manus-storage/wa-9-S000510_4fd716c7.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House WA-10 Marilyn Strickland",
+      "url": "/manus-storage/wa-10-S001159_d1957483.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (220x275, ratio=0.80)",
+      "width": 220,
+      "height": 275
+    },
+    {
+      "label": "House WI-1 Bryan Steil",
+      "url": "/manus-storage/bryan_steil_96a5d062_2d2ded6d.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "House WI-2 Mark Pocan",
+      "url": "/manus-storage/wi-2-P000607_cc320f3b.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "House WI-4 Gwen Moore",
+      "url": "/manus-storage/wi-4-M001160_2a2e9c8b.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (225x275, ratio=0.82)",
+      "width": 225,
+      "height": 275
+    },
+    {
+      "label": "Senate IL Juliana Stratton",
+      "url": "/manus-storage/juliana_stratton_35afe92c.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (400x500, ratio=0.80)",
+      "width": 400,
+      "height": 500
+    },
+    {
+      "label": "Senate IA Josh Turek",
+      "url": "/manus-storage/josh_turek_3f0ffb45.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (400x500, ratio=0.80)",
+      "width": 400,
+      "height": 500
+    },
+    {
+      "label": "Senate IA Ashley Hinson",
+      "url": "/manus-storage/ashley_hinson_802f8e6a.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (335x410, ratio=0.82)",
+      "width": 335,
+      "height": 410
+    },
+    {
+      "label": "Senate ME Graham Platner",
+      "url": "/manus-storage/graham_platner_c2dfdccb.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (400x500, ratio=0.80)",
+      "width": 400,
+      "height": 500
+    },
+    {
+      "label": "Senate MA TBD — D Primary: Sep 1 (Markey vs Moulton)",
+      "url": "/manus-storage/ed_markey_633aa349.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (180x225, ratio=0.80), too-small (180x225)",
+      "width": 180,
+      "height": 225
+    },
+    {
+      "label": "Senate MS Cindy Hyde-Smith",
+      "url": "/manus-storage/cindy_hyde_smith_816d3125_dfbae5e8.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1024x1280, ratio=0.80), uncropped-large (1024x1280)",
+      "width": 1024,
+      "height": 1280
+    },
+    {
+      "label": "Senate NC Roy Cooper",
+      "url": "/manus-storage/roy_cooper_b2ad503d_805f6427.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (478x634, ratio=0.75)",
+      "width": 478,
+      "height": 634
+    },
+    {
+      "label": "Senate OR David Smith",
+      "url": "/manus-storage/david_brock_smith_451250fd_868e5f1c.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (115x130, ratio=0.88), too-small (115x130)",
+      "width": 115,
+      "height": 130
+    },
+    {
+      "label": "Senate RI Jack Reed",
+      "url": "/manus-storage/jack_reed_f0c9dffe.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (180x225, ratio=0.80), too-small (180x225)",
+      "width": 180,
+      "height": 225
+    },
+    {
+      "label": "Senate SC Annie Andrews",
+      "url": "/manus-storage/annie_andrews_c8736b9d.png",
+      "status": "needs-recrop",
+      "reason": "non-square (960x1200, ratio=0.80), uncropped-large (960x1200)",
+      "width": 960,
+      "height": 1200
+    },
+    {
+      "label": "Senate TX James Talarico",
+      "url": "/manus-storage/james_talarico_c2ab39f3_177eea8b.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (125x175, ratio=0.71), too-small (125x175)",
+      "width": 125,
+      "height": 175
+    },
+    {
+      "label": "Senate TX Ken Paxton",
+      "url": "/manus-storage/ken_paxton_4de76a29.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (400x500, ratio=0.80)",
+      "width": 400,
+      "height": 500
+    },
+    {
+      "label": "Governor CA Xavier Becerra",
+      "url": "/manus-storage/xavier_becerra_gov_c16f3a52.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (800x1200, ratio=0.67)",
+      "width": 800,
+      "height": 1200
+    },
+    {
+      "label": "Governor MA Maura Healey (incumbent)",
+      "url": "/manus-storage/maura_healey_gov_fix_5db51b5c.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (643x900, ratio=0.71)",
+      "width": 643,
+      "height": 900
+    },
+    {
+      "label": "Governor NY Bruce Blakeman",
+      "url": "/manus-storage/bruce_blakeman_gov_156d60f5.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (675x780, ratio=0.87)",
+      "width": 675,
+      "height": 780
+    },
+    {
+      "label": "Governor AZ Katie Hobbs (incumbent)",
+      "url": "/manus-storage/katie_hobbs_gov_0f3e0798.png",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "Governor IA Rob Sand",
+      "url": "/manus-storage/rob_sand_gov_3892c959.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (534x401, ratio=1.33), uncropped-large (534x401)",
+      "width": 534,
+      "height": 401
+    },
+    {
+      "label": "Governor IA Zach Lahn",
+      "url": "/manus-storage/zach_lahn_gov_e95f305c.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "Governor NV Aaron Ford",
+      "url": "/manus-storage/aaron_ford_d9f9cc55.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (400x500, ratio=0.80)",
+      "width": 400,
+      "height": 500
+    },
+    {
+      "label": "Governor GA Keisha Lance Bottoms",
+      "url": "/manus-storage/keisha_lance_bottoms_gov_87c3ea20.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1500x1877, ratio=0.80), uncropped-large (1500x1877)",
+      "width": 1500,
+      "height": 1877
+    },
+    {
+      "label": "Governor GA Rick Jackson",
+      "url": "/manus-storage/rick_jackson_1cb787f2.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "Governor AL Tommy Tuberville",
+      "url": "/manus-storage/tommy_tuberville_28ec7d0e.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (400x500, ratio=0.80)",
+      "width": 400,
+      "height": 500
+    },
+    {
+      "label": "Governor ID Terri Pickens",
+      "url": "/manus-storage/terri_pickens_gov_31e88bc1.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (200x300, ratio=0.67)",
+      "width": 200,
+      "height": 300
+    },
+    {
+      "label": "Governor ID Brad Little",
+      "url": "/manus-storage/brad_little_gov_01dfe487.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (767x1024, ratio=0.75)",
+      "width": 767,
+      "height": 1024
+    },
+    {
+      "label": "Governor NE Lynne Walz",
+      "url": "/manus-storage/lynne_walz_gov_8a58fc5b.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (1661x1937, ratio=0.86)",
+      "width": 1661,
+      "height": 1937
+    },
+    {
+      "label": "Governor NE Jim Pillen",
+      "url": "/manus-storage/jim_pillen_gov_1110b138.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (502x628, ratio=0.80)",
+      "width": 502,
+      "height": 628
+    },
+    {
+      "label": "Governor OK Cyndi Munson",
+      "url": "/manus-storage/cyndi_munson_gov_52815d41.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (3914x4892, ratio=0.80), uncropped-large (3914x4892)",
+      "width": 3914,
+      "height": 4892
+    },
+    {
+      "label": "Governor TX Gina Hinojosa",
+      "url": "/manus-storage/gina_hinojosa_gov_74cc14f2.jpg",
+      "status": "needs-recrop",
+      "reason": "non-square (125x175, ratio=0.71), too-small (125x175)",
+      "width": 125,
+      "height": 175
+    }
+  ],
+  "errors": [
+    {
+      "label": "Governor PA Josh Shapiro (incumbent)",
+      "url": "/manus-storage/josh_shapiro_gov_2d4c7250.jpg",
+      "status": "error",
+      "reason": "The operation was aborted due to timeout"
+    }
+  ]
+}
