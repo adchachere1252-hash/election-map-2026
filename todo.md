@@ -2201,3 +2201,7 @@
 - [x] World elections: 32 records, all pass date/status consistency
 - [x] Cross-reference: 0 duplicate districts, all 50 states have correct district counts, 0 TBD candidates with photos
 - [x] All 130 tests passing, 0 TypeScript errors
+
+## Improvements (Round 24)
+- [x] Add global election calendar to World Elections page — WorldElectionTimeline component with date-grouped timeline, type filters, countdown badges, country flags
+- [x] Run Senate photo audit — 50/50 confirmed candidates have photos (100% coverage), fixed 1 TBD photo violation (LA)
