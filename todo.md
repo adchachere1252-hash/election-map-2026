@@ -2217,3 +2217,9 @@
 - [x] Governor full verification — all 36 races verified against news sources (GA, NV, IA, OH, AL, CA, NM, NE, PA, NY, OR, TX, IL, ID confirmed correct)
 - [x] World Elections audit — 39 total elections, fixed UK incumbent (Starmer resigned → Burnham incoming PM), added Palestine candidates (Fatah/Hamas/PNI/PFLP), added Guinea-Bissau candidates (Embaló/Pereira/Nabiam/Gomes Júnior)
 - [x] All 130 tests passing, 0 TypeScript errors
+
+## World Elections UX (Round 27)
+- [x] Fix timeline scroll bug — added overflow-y-auto flex-1 min-h-0, fixed parent container with overflow-hidden + flex flex-col
+- [x] Remove redundant Calendar view — deleted WorldCalendar.tsx, simplified to Globe/Timeline toggle only
+- [x] Add interactive filters — Region (Americas/Europe/Asia-Pacific/Africa/Middle East/Oceania) + Election Type (Presidential/Parliamentary/Referendum/Regional) with counts, color badges, sort toggle, clear all button
+- [x] 130 tests passing, 0 TypeScript errors
