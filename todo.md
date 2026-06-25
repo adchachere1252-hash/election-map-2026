@@ -2223,3 +2223,42 @@
 - [x] Remove redundant Calendar view — deleted WorldCalendar.tsx, simplified to Globe/Timeline toggle only
 - [x] Add interactive filters — Region (Americas/Europe/Asia-Pacific/Africa/Middle East/Oceania) + Election Type (Presidential/Parliamentary/Referendum/Regional) with counts, color badges, sort toggle, clear all button
 - [x] 130 tests passing, 0 TypeScript errors
+
+## House Audit & World Panel (Round 28)
+- [x] Verify photo centering tool is being used for all candidate photos
+- [x] Run comprehensive House race audit — all 435 races (candidates, photos, incumbents, TBD compliance)
+- [x] Fix any House race issues found
+- [x] Enhance World Elections detail panel with candidate photos, polling data, key issues
+- [x] Add key_issues column to world_elections table (ALTER TABLE + schema.ts + Drizzle migration)
+- [x] Populate key issues for all 28 upcoming elections (4 issues each with descriptions)
+  - Brazil: Economy, Amazon, Polarization, Public Security
+  - United Kingdom: NHS/Cost of Living, Immigration, Leadership Crisis, Economy
+  - Israel: Gaza War, Judicial Reform, Coalition Politics, Cost of Living
+  - Sweden: Immigration, Gang Crime, NATO, Housing
+  - New Zealand: Cost of Living, Treaty of Waitangi, Crime, Healthcare/Housing
+  - Russia: Ukraine War, Sanctions, Opposition Suppression, Economic Resilience
+  - Algeria: Youth Unemployment, Economic Diversification, Political Freedoms, Housing
+  - Morocco: Economic Development, Western Sahara, Water Scarcity, Social Inequality
+  - United States: Congressional Balance, Economy/Inflation, Immigration, Democracy
+  - Czech Republic: Cost of Living, EU Integration, Security/Defense, Healthcare
+  - Zambia: Copper Economy, Term Limits, Youth Employment, Food Security
+  - Iceland: Tourism/Environment, Housing, Fisheries, EU Debate
+  - Kazakhstan: Post-Nazarbayev, Russia-China Balance, Oil Revenue, Democratic Reform
+  - Latvia: Russia/Security, Demographics, Energy Independence, Competitiveness
+  - Taiwan: Cross-Strait, Economic Ties, Energy/Environment, Housing/Wages
+  - Slovakia: Rule of Law, Ukraine Stance, Healthcare, Cost of Living
+  - Bosnia: Ethnic Power-Sharing, EU Accession, Separatism, Youth Emigration
+  - Bulgaria: Political Instability, Corruption, Russian Influence, Demographics
+  - The Gambia: Democratic Transition, Economic Development, Climate, Security Reform
+  - Haiti: Gang Violence, Political Legitimacy, International Intervention, Economic Collapse
+  - Palestine: Statehood, Internal Unity, Economic Dependency, Youth Frustration
+  - Bahrain: Political Reform, Economic Diversification, Sectarian Tensions, Regional Security
+  - Cabo Verde: Economic Recovery, Water Scarcity, Youth Migration, Renewable Energy
+  - Guinea-Bissau: Political Stability, Drug Trafficking, Poverty, ECOWAS Relations
+  - South Sudan: Civil War/Peace, Humanitarian Crisis, Oil Revenue, State Building
+  - São Tomé: Cocoa Economy, Oil/Gas, Political Stability, Climate Vulnerability
+  - Cook Islands: Self-Governance, Climate Change, Economic Sustainability, Population Decline
+  - Somalia: Al-Shabaab, Clan Politics, Humanitarian Crisis, State Building
+- [x] UI updated to parse and display key issues cards in WorldElections.tsx detail panel
+- [x] Drizzle migration generated (0023_lethal_preak.sql)
+- [x] All 130 tests passing, 0 TypeScript errors

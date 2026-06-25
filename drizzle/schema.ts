@@ -323,6 +323,7 @@ export const worldElections = mysqlTable("world_elections", {
   // Candidates (JSON array: [{name, party, photo?, votes?, pct?}])
   candidates: text("candidates"), // JSON string
   pollingData: text("polling_data"), // JSON: {polls: [...], leader, margin}
+  keyIssues: text("key_issues"), // JSON array: [{issue, description}]
   // Results (set after election)
   winner: varchar("winner", { length: 256 }),
   winnerParty: varchar("winner_party", { length: 128 }),

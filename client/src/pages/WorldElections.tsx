@@ -111,6 +111,7 @@ function DetailPanel({
           const days = daysUntil(election.electionDate);
           const candidates: Candidate[] = election.candidates ? JSON.parse(election.candidates) : [];
           const pollingData = election.pollingData ? JSON.parse(election.pollingData as string) : null;
+          const keyIssues: {issue: string; description: string}[] = (election as any).keyIssues ? JSON.parse((election as any).keyIssues) : [];
 
           return (
             <div
@@ -324,6 +325,21 @@ function DetailPanel({
                           ))}
                       </div>
                     )}
+                  </div>
+                )}
+
+                {/* Key Issues */}
+                {keyIssues.length > 0 && (
+                  <div>
+                    <h4 className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Key Issues</h4>
+                    <div className="space-y-2">
+                      {keyIssues.map((ki, i) => (
+                        <div key={i} className="bg-slate-700/30 rounded-lg px-3 py-2.5 border border-slate-600/20">
+                          <p className="text-sm font-medium text-slate-200">{ki.issue}</p>
+                          <p className="text-xs text-slate-400 mt-1 leading-relaxed">{ki.description}</p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
 

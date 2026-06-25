@@ -1,0 +1,1 @@
+ALTER TABLE `world_elections` ADD `key_issues` text;

@@ -162,6 +162,13 @@
       "when": 1782389941518,
       "tag": "0022_secret_mantis",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "5",
+      "when": 1782416971538,
+      "tag": "0023_lethal_preak",
+      "breakpoints": true
     }
   ]
 }
