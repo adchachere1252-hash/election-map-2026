@@ -476,10 +476,25 @@ export default function Globe({
     scene.add(dirLight);
 
     // Stars — rich multi-layer starfield with twinkling
+    // Stars are placed ONLY in space (minimum distance from center > globe radius + atmosphere)
+    const MIN_STAR_DISTANCE = GLOBE_RADIUS * 1.8; // Stars must be outside the atmosphere glow
     const starLayers: { mat: THREE.PointsMaterial; baseOpacity: number; speed: number }[] = [];
     const addStarLayer = (count: number, size: number, opacity: number, spread: number, twinkleSpeed: number) => {
       const positions = new Float32Array(count * 3);
-      for (let i = 0; i < count * 3; i++) positions[i] = (Math.random() - 0.5) * spread;
+      let placed = 0;
+      while (placed < count) {
+        const x = (Math.random() - 0.5) * spread;
+        const y = (Math.random() - 0.5) * spread;
+        const z = (Math.random() - 0.5) * spread;
+        // Only place star if it's far enough from center (outside globe + atmosphere)
+        const dist = Math.sqrt(x * x + y * y + z * z);
+        if (dist > MIN_STAR_DISTANCE) {
+          positions[placed * 3] = x;
+          positions[placed * 3 + 1] = y;
+          positions[placed * 3 + 2] = z;
+          placed++;
+        }
+      }
       const geo = new THREE.BufferGeometry();
       geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
       const mat = new THREE.PointsMaterial({ size, color: 0xffffff, transparent: true, opacity });
@@ -491,7 +506,19 @@ export default function Globe({
     addStarLayer(500, 0.12, 1.0, 60, 1.8);     // bright nearby stars (twinkle most)
     // A few colored stars for depth
     const colorStarPositions = new Float32Array(200 * 3);
-    for (let i = 0; i < 200 * 3; i++) colorStarPositions[i] = (Math.random() - 0.5) * 100;
+    let colorPlaced = 0;
+    while (colorPlaced < 200) {
+      const x = (Math.random() - 0.5) * 100;
+      const y = (Math.random() - 0.5) * 100;
+      const z = (Math.random() - 0.5) * 100;
+      const dist = Math.sqrt(x * x + y * y + z * z);
+      if (dist > MIN_STAR_DISTANCE) {
+        colorStarPositions[colorPlaced * 3] = x;
+        colorStarPositions[colorPlaced * 3 + 1] = y;
+        colorStarPositions[colorPlaced * 3 + 2] = z;
+        colorPlaced++;
+      }
+    }
     const colorStarGeo = new THREE.BufferGeometry();
     colorStarGeo.setAttribute("position", new THREE.BufferAttribute(colorStarPositions, 3));
     const colorStarMat = new THREE.PointsMaterial({ size: 0.08, color: 0xaaccff, transparent: true, opacity: 0.5 });

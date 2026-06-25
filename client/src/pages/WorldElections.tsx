@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, Suspense, lazy } from "react";
+import { useState, useMemo, useCallback, memo, Suspense, lazy } from "react";
 import WorldCalendar from "@/components/WorldCalendar";
 import { trpc } from "@/lib/trpc";
 import { Calendar, CalendarDays, Globe2, Users, Clock, ChevronRight, X, MapPin, Vote, Award, ArrowLeft } from "lucide-react";
@@ -510,9 +510,10 @@ function GlobeLoader() {
 }
 
 // ─── Hover Tooltip ────────────────────────────────────────────────────────────
-function HoverTooltip({ name, elections }: { name: string; elections: any[] }) {
-  const countryElections = elections.filter(
-    (e) => e.country === name || e.countryCode === name
+const HoverTooltip = memo(function HoverTooltip({ name, elections }: { name: string; elections: any[] }) {
+  const countryElections = useMemo(
+    () => elections.filter((e) => e.country === name || e.countryCode === name),
+    [elections, name]
   );
   const nextElection = countryElections.find((e) => e.status === "Upcoming");
 
@@ -529,7 +530,7 @@ function HoverTooltip({ name, elections }: { name: string; elections: any[] }) {
       )}
     </div>
   );
-}
+});
 
 // ─── Legend ────────────────────────────────────────────────────────────────────
 function Legend() {

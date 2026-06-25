@@ -2178,3 +2178,10 @@
 - [x] Verified: 25 TBD House races all in correct pending-primary states, 0 violations remaining
 - [x] Photos for unconfirmed candidates already removed (TBD entries have no photos)
 - [x] Save checkpoint with all corrections
+
+## Improvements (Round 22)
+- [x] Source and upload 15 missing House candidate photos (CA-5, CA-20, CA-23, LA-6, MD-1, NY-10, TX-26, UT-1x2, UT-2x2, UT-3x2, WI-6, WI-8)
+- [x] Add AL-1 redistricting note explaining voided primary and new Aug 11 date
+- [x] Fix stars rendering on globe — MIN_STAR_DISTANCE = GLOBE_RADIUS * 1.8 ensures stars only in space
+- [x] Improve global map efficiency (memoized HoverTooltip with useMemo filter)
+- [x] Set up LA Senate runoff tracking for June 27 (status → Primary Runoff, scheduler already has Jun 27)
