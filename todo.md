@@ -2144,3 +2144,20 @@
 - [x] Check for duplicate photo URLs — 0 duplicates found (all unique)
 - [x] Governor photos: 48/48 accessible and correctly assigned
 - [x] Report findings and save checkpoint
+
+## Cross-Race Candidate Accuracy Audit (Jun 25, 2026)
+- [x] Research all House members running for Governor/Senate in 2026 (58 departing per official House Press Gallery list)
+- [x] Research all Senators running for Governor (Tuberville AL, Blackburn TN, Klobuchar MN)
+- [x] Audit database for cross-race conflicts — found 5 House members still listed as incumbents who left for Governor + 2 for Senate
+- [x] Fix all cross-race conflicts:
+  - FL-19: Donalds → Open Seat (now FL Gov R frontrunner) ✓
+  - TN-6: Rose → Open Seat (now TN Gov R primary) ✓
+  - IA-4: Feenstra → Open Seat (ran for IA Gov, lost) ✓
+  - SC-1: Mace → Open Seat (ran for SC Gov, lost to Wilson) ✓
+  - SC-5: Norman → Open Seat (ran for SC Gov, lost) ✓
+  - GA-10: Collins → marked retiring (running for GA Senate) ✓
+  - LA-5: Letlow → marked retiring (running for LA Senate runoff Jun 27) ✓
+- [x] Verify all 36 governor races: FL (Donalds R), AL (Tuberville R), MN (Klobuchar D), TN (Blackburn/Rose R primary), SC (Wilson R), GA (Jackson R), all correct
+- [x] Verify all 35 Senate races: Added AK (Peltola D), FL (Vindman D), MI (Rogers R + D primary), LA (Letlow runoff), CO (D primary Jun 30), WY (Hageman R), NH (Pappas D vs Sununu R)
+- [x] Verify competitive House races have correct 2026 nominees — all 65 open seats properly marked
+- [x] Save checkpoint with all corrections
