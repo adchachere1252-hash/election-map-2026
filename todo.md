@@ -2185,3 +2185,19 @@
 - [x] Fix stars rendering on globe — MIN_STAR_DISTANCE = GLOBE_RADIUS * 1.8 ensures stars only in space
 - [x] Improve global map efficiency (memoized HoverTooltip with useMemo filter)
 - [x] Set up LA Senate runoff tracking for June 27 (status → Primary Runoff, scheduler already has Jun 27)
+
+## Full Verification Audit (Round 23)
+- [x] Fixed AZ primary date: Aug 4 → Jul 21 (per AZ SoS signed legislation)
+- [x] Fixed TX Senate: Cornyn lost primary runoff to Ken Paxton (May 26) — incumbent field updated
+- [x] Fixed 24 House incumbent fields: marked retirements, primary losses, running-for-other-office
+  - CA-1, CA-11, CA-48, GA-1, GA-10, GA-11, IL-7, IL-8, IL-9, MD-2, MD-5, ME-2, MT-1, NJ-12, NV-2, NY-7, NY-12, SD-0 (retirements)
+  - GA-13, KY-4, NY-10, NY-13, TX-2, TX-18 (lost primary)
+- [x] Fixed 13 NULL-candidate House races → proper TBD format with primary dates
+  - AK-0, AZ-1, AZ-5, FL-20, KS-2, MI-7, MI-10, MO-1, MO-3, NH-1, TN-9, WI-7, WY-0
+- [x] Fixed 4 incorrect incumbents: KS-2 (Schmidt not LaTurner), MO-3 (Onder not Luetkemeyer), MO-1 (Bell not Bush), WY-0 (open seat, Hageman running for Senate)
+- [x] Removed stale photos from TBD candidates: LA-5, WI-3
+- [x] Sourced and uploaded 4 missing incumbent photos: AK-0 (Begich), KS-2 (Schmidt), MI-7 (Barrett), MO-3 (Onder)
+- [x] Governor races: 0 issues found (36/36 pass all checks)
+- [x] World elections: 32 records, all pass date/status consistency
+- [x] Cross-reference: 0 duplicate districts, all 50 states have correct district counts, 0 TBD candidates with photos
+- [x] All 130 tests passing, 0 TypeScript errors
