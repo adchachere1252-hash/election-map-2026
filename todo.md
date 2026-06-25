@@ -2132,3 +2132,15 @@
 - [x] Integrate into MapComparison.tsx — district popup "View History →" button + header "▣ Detail" button
 - [x] Mobile support (full-screen overlay on small screens)
 - [x] Keyboard shortcut: S key opens state detail for selected state, Escape closes
+
+## Full Photo Verification Audit (Jun 25, 2026)
+- [x] Export all photo URLs from Senate, House, Governor, and World Elections tables (821 total)
+- [x] HTTP HEAD check every photo URL for accessibility — 821/821 = 100% accessible
+- [x] Spot-check 6 high-profile candidates visually — all correct (Omar, Davids, Jayapal, Donalds, Stevens, Schrier)
+- [x] Verify face centering on candidate photos — all 400x400 crops properly centered
+- [x] Fix 4 broken URLs (CT-5, MD-6, NY-5, WI-8) — re-uploaded via manus-upload-file, confirmed 200
+- [x] Fix 119 NULL candidate names with photos — bulk-updated from incumbent field
+- [x] Fix 3 additional NULL names (CT-5: Jahana Hayes, WI-8: Glenn Grothman, WA-8: Kim Schrier)
+- [x] Check for duplicate photo URLs — 0 duplicates found (all unique)
+- [x] Governor photos: 48/48 accessible and correctly assigned
+- [x] Report findings and save checkpoint
