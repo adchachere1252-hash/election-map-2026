@@ -712,11 +712,13 @@ export default function WorldElections() {
             <Legend />
           </>
         ) : viewMode === "timeline" ? (
-          <div className="w-full h-full overflow-hidden p-4 lg:p-6 flex flex-col">
-            <WorldElectionTimeline
-              elections={elections}
-              onElectionClick={handleCountryClick}
-            />
+          <div className="w-full h-full overflow-hidden p-4 lg:p-6 flex items-start justify-center">
+            <div className="w-full max-w-5xl max-h-[70vh] flex flex-col">
+              <WorldElectionTimeline
+                elections={elections}
+                onElectionClick={handleCountryClick}
+              />
+            </div>
           </div>
         ) : (
           <div className="w-full h-full overflow-hidden">

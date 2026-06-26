@@ -236,6 +236,81 @@ function createTextSprite(
   return sprite;
 }
 
+// ─── Create text mesh that lies tangent to globe surface (flows with rotation) ─
+function createTextMesh(
+  text: string,
+  lon: number,
+  lat: number,
+  radius: number,
+  options: { fontSize?: number; color?: string; fontStyle?: string; opacity?: number; scale?: number } = {}
+): THREE.Mesh {
+  const { fontSize = 48, color = "#ffffff", fontStyle = "bold", opacity = 0.9, scale = 0.5 } = options;
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d")!;
+  const font = `${fontStyle} ${fontSize}px 'Inter', 'Segoe UI', sans-serif`;
+  ctx.font = font;
+  const metrics = ctx.measureText(text);
+  const textWidth = metrics.width;
+  const padding = 20;
+  canvas.width = textWidth + padding * 2;
+  canvas.height = fontSize * 1.4 + padding;
+
+  ctx.font = font;
+  ctx.fillStyle = color;
+  ctx.globalAlpha = opacity;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.needsUpdate = true;
+
+  const aspect = canvas.width / canvas.height;
+  const geo = new THREE.PlaneGeometry(scale * aspect, scale);
+  const mat = new THREE.MeshBasicMaterial({
+    map: texture,
+    transparent: true,
+    depthTest: false,
+    depthWrite: false,
+    side: THREE.DoubleSide,
+  });
+  const mesh = new THREE.Mesh(geo, mat);
+
+  // Position on globe surface
+  const pos = latLonToVec3Internal(lon, lat, radius);
+  mesh.position.copy(pos);
+
+  // Orient tangent to globe surface: normal points outward from center
+  const normal = pos.clone().normalize();
+  // For poles, use a different reference vector to avoid degenerate cross product
+  const ref = Math.abs(lat) > 70
+    ? new THREE.Vector3(0, 0, 1)  // Use Z-axis for polar regions
+    : new THREE.Vector3(0, 1, 0); // Use Y-axis (up) for equatorial regions
+  // Tangent (east direction)
+  const east = new THREE.Vector3().crossVectors(ref, normal).normalize();
+  // Corrected up (north on surface)
+  const north = new THREE.Vector3().crossVectors(normal, east).normalize();
+
+  // Build rotation matrix: mesh faces outward, text reads left-to-right along east
+  const rotMatrix = new THREE.Matrix4();
+  rotMatrix.makeBasis(east, north, normal);
+  mesh.setRotationFromMatrix(rotMatrix);
+
+  mesh.userData = { isLabel: true, baseMat: mat };
+  return mesh;
+}
+
+// Internal helper for latLonToVec3 (used before the main function is defined)
+function latLonToVec3Internal(lon: number, lat: number, radius: number): THREE.Vector3 {
+  const phi = (90 - lat) * (Math.PI / 180);
+  const theta = (lon + 180) * (Math.PI / 180);
+  return new THREE.Vector3(
+    -radius * Math.sin(phi) * Math.cos(theta),
+    radius * Math.cos(phi),
+    radius * Math.sin(phi) * Math.sin(theta)
+  );
+}
+
 // ─── Utility: Convert lat/lon to 3D ──────────────────────────────────────────
 function latLonToVec3(lon: number, lat: number, radius: number): THREE.Vector3 {
   const phi = (90 - lat) * (Math.PI / 180);
@@ -722,22 +797,16 @@ export default function Globe({
       })
       .catch(err => console.error("Failed to load globe data:", err));
 
-    // ─── Add ocean labels (small, subtle) ─────────────────────────────────────
+    // ─── Add ocean labels (tangent to globe surface, flow with rotation) ────────
     for (const ocean of OCEAN_LABELS) {
-      const sprite = createTextSprite(ocean.name, {
+      const mesh = createTextMesh(ocean.name, ocean.lon, ocean.lat, GLOBE_RADIUS * 1.01, {
         fontSize: 28,
         color: "#475569",
         fontStyle: "italic",
         opacity: 0.5,
+        scale: 0.45,
       });
-      const pos = latLonToVec3(ocean.lon, ocean.lat, GLOBE_RADIUS * 1.01);
-      sprite.position.copy(pos);
-      // Scale ocean labels small
-      const aspect = sprite.scale.x / sprite.scale.y;
-      const oceanScale = 0.18;
-      sprite.scale.set(oceanScale * aspect, oceanScale, 1);
-      sprite.userData = { isLabel: true };
-      globeGroup.add(sprite);
+      globeGroup.add(mesh);
     }
 
     // ─── Add election country labels (scaled to fit country size) ──────────────
@@ -782,19 +851,15 @@ export default function Globe({
         const labelScale = COUNTRY_SCALE[code] || 0.06;
         const displayName = SHORT_NAMES[code] || election.country;
         const labelColor = STATUS_LABEL_COLORS[election.status] || "#e2e8f0";
-        const sprite = createTextSprite(displayName, {
+        const mesh = createTextMesh(displayName, centroid.lon, centroid.lat, GLOBE_RADIUS * 1.02, {
           fontSize: 28,
           color: labelColor,
           fontStyle: "600",
           opacity: 0.9,
+          scale: labelScale * 3,
         });
-        const pos = latLonToVec3(centroid.lon, centroid.lat, GLOBE_RADIUS * 1.02);
-        sprite.position.copy(pos);
-        // Scale label to fit within country outline
-        const aspect = sprite.scale.x / sprite.scale.y;
-        sprite.scale.set(labelScale * aspect, labelScale, 1);
-        sprite.userData = { isLabel: true, countryLabel: code };
-        globeGroup.add(sprite);
+        mesh.userData = { isLabel: true, countryLabel: code };
+        globeGroup.add(mesh);
       });
     };
     // Delay slightly to ensure elections data is populated
@@ -872,6 +937,36 @@ export default function Globe({
               ud.active = false;
               ud.startDelay = 5 + Math.random() * 10; // Wait before next one
               (streak.material as THREE.MeshBasicMaterial).opacity = 0;
+            }
+          }
+        });
+      }
+
+      // ─── Label visibility: hide labels on the back of the globe ──────────────
+      if (globeGroup) {
+        const cameraWorldPos = new THREE.Vector3();
+        camera.getWorldPosition(cameraWorldPos);
+        const globeCenter = new THREE.Vector3();
+        globeGroup.getWorldPosition(globeCenter);
+        const camDir = cameraWorldPos.clone().sub(globeCenter).normalize();
+
+        globeGroup.children.forEach((child) => {
+          if (child.userData && child.userData.isLabel) {
+            // Get label's world position
+            const labelWorldPos = new THREE.Vector3();
+            child.getWorldPosition(labelWorldPos);
+            // Vector from globe center to label
+            const labelDir = labelWorldPos.clone().sub(globeCenter).normalize();
+            // Dot product: 1 = facing camera, -1 = facing away
+            const dot = labelDir.dot(camDir);
+            // Fade labels based on angle: fully visible > 0.3, fade between 0.0 and 0.3, hidden < 0.0
+            const mat = (child as THREE.Mesh).material as THREE.MeshBasicMaterial;
+            if (dot < 0.0) {
+              mat.opacity = 0;
+            } else if (dot < 0.3) {
+              mat.opacity = dot / 0.3;
+            } else {
+              mat.opacity = 1;
             }
           }
         });
