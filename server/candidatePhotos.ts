@@ -181,6 +181,23 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "greg cunningham":        `/manus-storage/greg_cunningham_0127643c.jpg`,     // NM-2 R (Ballotpedia)
   "martin ruben zamora":    `/manus-storage/martin_zamora_a2e1a9a3.jpg`,       // NM-3 R (Ballotpedia)
   "nicole gronli":          `/manus-storage/nicole_gronli_9108f631.jpg`,       // SD-AL D (Ballotpedia)
+
+  // Round 37 — Called special election candidates + missing House photos (June 26 2026)
+  "matt van epps":           `/manus-storage/matt_van_epps_1e22fd67.jpg`,       // TN-7 R (house.gov official)
+  "jimmy patronis":          `/manus-storage/jimmy_patronis_9af71d8a.jpg`,      // FL-1 R (house.gov official)
+  "randy fine":              `/manus-storage/randy_fine_9762365f.jpg`,           // FL-6 R (congress.gov)
+  "james r. walkinshaw":     `/manus-storage/james_walkinshaw_f846871d.jpg`,    // VA-11 D (house.gov official)
+  "james walkinshaw":        `/manus-storage/james_walkinshaw_f846871d.jpg`,    // VA-11 D (alias)
+  "adelita s. grijalva":     `/manus-storage/adelita_grijalva_75765725.jpg`,    // AZ-7 D (house.gov official)
+  "adelita grijalva":        `/manus-storage/adelita_grijalva_75765725.jpg`,    // AZ-7 D (alias)
+  "aftyn behn":              `/manus-storage/aftyn_behn_dd788aad.jpg`,          // TN-7 D (Ballotpedia)
+  "gay valimont":            `/manus-storage/gay_valimont_c26a8156.jpg`,        // FL-1 D (Ballotpedia)
+  "josh weil":               `/manus-storage/josh_weil_efc19a96.jpg`,           // FL-6 D (Ballotpedia)
+  "joshua weil":             `/manus-storage/josh_weil_efc19a96.jpg`,           // FL-6 D (alias)
+  "daniel butierez":         `/manus-storage/daniel_butierez_9027eac7.jpg`,     // AZ-7 R (Ballotpedia)
+  "arthur purves":           `/manus-storage/arthur_purves_c9aa41b6.jpg`,       // VA-11 R (Ballotpedia)
+  "eugene douglass":         `/manus-storage/eugene_douglass_dc7c2086.jpg`,     // NC-2 R (Ballotpedia)
+  "mike kennedy":            `/manus-storage/mike_kennedy_de9e233b.jpg`,        // UT-4 R (congress.gov)
 };
 
 export const PARTY_LOGOS = {

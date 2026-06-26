@@ -485,7 +485,7 @@ export default function Home() {
           <div className="flex-1" />
 
           {/* View Toggle */}
-          <div className="flex items-center gap-0.5 bg-muted rounded-lg p-1 flex-shrink-0">
+          <div className="flex items-center gap-0.5 bg-muted rounded-lg p-1 flex-shrink-0 overflow-x-auto max-w-[calc(100vw-160px)] sm:max-w-none scrollbar-hide" role="tablist" aria-label="Map view selector">
             {/* Alphabetical order: Governor, Historical Atlas, House, Redistricting, Senate, World */}
             <button
               onClick={() => { setView("governor"); closePopup(); }}
@@ -494,6 +494,8 @@ export default function Home() {
                   ? "bg-card text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
               }`}
+              role="tab"
+              aria-selected={view === "governor"}
             >
               Governor
             </button>
@@ -512,6 +514,8 @@ export default function Home() {
                   ? "bg-card text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
               }`}
+              role="tab"
+              aria-selected={view === "house"}
             >
               House
             </button>
@@ -522,6 +526,8 @@ export default function Home() {
                   ? "bg-card text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
               }`}
+              role="tab"
+              aria-selected={view === "redistricting"}
             >
               Redistricting
             </button>
@@ -532,6 +538,8 @@ export default function Home() {
                   ? "bg-card text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
               }`}
+              role="tab"
+              aria-selected={view === "senate"}
             >
               Senate
             </button>
@@ -578,6 +586,8 @@ export default function Home() {
                   : "border-border text-muted-foreground hover:text-foreground"
               }`}
               title={resultsMode ? "Switch to Ratings view" : "Switch to Election Night Results view"}
+              aria-label={resultsMode ? "Switch to Ratings view" : "Switch to Election Night Results view"}
+              aria-pressed={resultsMode}
             >
               <Zap className="w-3.5 h-3.5" />
               <span className="hidden lg:inline">{resultsMode ? "Results" : "Ratings"}</span>
@@ -590,6 +600,8 @@ export default function Home() {
                 calendarOpen ? "border-blue-600 text-blue-400 bg-blue-900/20" : "border-border text-muted-foreground hover:text-foreground"
               }`}
               title="Election Calendar"
+              aria-label="Election Calendar"
+              aria-expanded={calendarOpen}
             >
               <Calendar className="w-3.5 h-3.5" />
               <span className="hidden lg:inline">Calendar</span>
@@ -604,6 +616,7 @@ export default function Home() {
               onClick={handleRefresh}
               className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground px-2 py-1.5 rounded hover:bg-muted transition-colors"
               title="Refresh data"
+              aria-label="Refresh data"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${refreshCountdown === 10 ? 'animate-spin' : ''}`} style={{ animationDuration: '0.5s', animationIterationCount: 1 }} />
               <span className="hidden lg:inline">Refresh</span>
@@ -619,6 +632,8 @@ export default function Home() {
                   : "border-border text-muted-foreground hover:text-foreground hover:bg-muted"
               }`}
               title={soundEnabled ? "Sound ON — click to mute election chime" : "Sound OFF — click to enable election chime"}
+              aria-label={soundEnabled ? "Mute election chime" : "Enable election chime"}
+              aria-pressed={soundEnabled}
             >
               {soundEnabled ? (
                 <Volume2 className="w-3.5 h-3.5" />
@@ -911,7 +926,7 @@ export default function Home() {
         </button>
 
         {/* ── Map area ── */}
-        <main className="flex-1 relative overflow-hidden" style={{ background: "#080b14 url('https://d2xsxph8kpxj0f.cloudfront.net/310519663521029713/Duqshn4D3kdv9jkbtBdj4X/bg-starfield-mockup-JqYe2bKJ8FLDDszMe8FmV9.webp') center/cover no-repeat" }}>
+        <main id="main-content" className="flex-1 relative overflow-hidden" style={{ background: "#080b14 url('https://d2xsxph8kpxj0f.cloudfront.net/310519663521029713/Duqshn4D3kdv9jkbtBdj4X/bg-starfield-mockup-JqYe2bKJ8FLDDszMe8FmV9.webp') center/cover no-repeat" }}>
           <TwinklingStars />
           <ShootingStar />
           {view === "governor" ? (

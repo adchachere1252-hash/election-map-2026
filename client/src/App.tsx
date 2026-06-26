@@ -28,6 +28,7 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider defaultTheme="dark">
         <TooltipProvider>
+          <a href="#main-content" className="skip-to-content">Skip to main content</a>
           <Toaster theme="dark" richColors position="bottom-right" />
           <Router />
         </TooltipProvider>

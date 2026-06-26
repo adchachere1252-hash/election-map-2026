@@ -620,7 +620,7 @@ export default function WorldElections() {
   }
 
   return (
-    <div className="w-full h-screen flex flex-col bg-slate-950 relative overflow-hidden">
+    <div id="main-content" className="w-full h-screen flex flex-col bg-slate-950 relative overflow-hidden">
       {/* World Results Banner */}
       <WorldResultsTicker />
 

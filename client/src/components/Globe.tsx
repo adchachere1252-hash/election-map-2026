@@ -16,9 +16,9 @@ function detectQuality(): "high" | "medium" | "low" {
 }
 
 const LOD_CONFIG = {
-  high: { sphereSegments: 64, starCounts: [4000, 2000, 500, 200], maxDeg: 5, pixelRatio: 2, outerGlow: true, twinkle: true, colorStars: true },
-  medium: { sphereSegments: 48, starCounts: [2500, 1200, 300, 100], maxDeg: 7, pixelRatio: 1.5, outerGlow: true, twinkle: true, colorStars: true },
-  low: { sphereSegments: 32, starCounts: [1500, 600, 150, 60], maxDeg: 10, pixelRatio: 1.5, outerGlow: false, twinkle: false, colorStars: false },
+  high: { sphereSegments: 64, starCounts: [6000, 3000, 800, 400], maxDeg: 5, pixelRatio: 2, outerGlow: true, twinkle: true, colorStars: true, shootingStars: true, nebula: true },
+  medium: { sphereSegments: 48, starCounts: [4000, 2000, 500, 200], maxDeg: 7, pixelRatio: 1.5, outerGlow: true, twinkle: true, colorStars: true, shootingStars: true, nebula: false },
+  low: { sphereSegments: 32, starCounts: [2000, 800, 200, 80], maxDeg: 10, pixelRatio: 1.5, outerGlow: false, twinkle: false, colorStars: false, shootingStars: false, nebula: false },
 } as const;
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -550,6 +550,79 @@ export default function Globe({
       starLayers.push({ mat: colorStarMat, baseOpacity: 0.5, speed: 1.5 });
     }
 
+    // Warm-toned stars (gold/amber) for visual variety
+    if (lod.colorStars) {
+      const warmCount = Math.floor(lod.starCounts[3] * 0.5);
+      const warmPositions = new Float32Array(warmCount * 3);
+      let warmPlaced = 0;
+      while (warmPlaced < warmCount) {
+        const x = (Math.random() - 0.5) * 90;
+        const y = (Math.random() - 0.5) * 90;
+        const z = (Math.random() - 0.5) * 90;
+        const dist = Math.sqrt(x * x + y * y + z * z);
+        if (dist > MIN_STAR_DISTANCE) {
+          warmPositions[warmPlaced * 3] = x;
+          warmPositions[warmPlaced * 3 + 1] = y;
+          warmPositions[warmPlaced * 3 + 2] = z;
+          warmPlaced++;
+        }
+      }
+      const warmGeo = new THREE.BufferGeometry();
+      warmGeo.setAttribute("position", new THREE.BufferAttribute(warmPositions, 3));
+      const warmMat = new THREE.PointsMaterial({ size: 0.07, color: 0xffd699, transparent: true, opacity: 0.4 });
+      scene.add(new THREE.Points(warmGeo, warmMat));
+      starLayers.push({ mat: warmMat, baseOpacity: 0.4, speed: 0.9 });
+    }
+
+    // Shooting stars (animated streaks) — only on high/medium
+    const shootingStarMeshes: THREE.Mesh[] = [];
+    if ((lod as any).shootingStars) {
+      for (let i = 0; i < 3; i++) {
+        const streakGeo = new THREE.CylinderGeometry(0.005, 0.001, 1.5, 4);
+        streakGeo.rotateZ(Math.PI / 2);
+        const streakMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0 });
+        const streak = new THREE.Mesh(streakGeo, streakMat);
+        streak.userData = {
+          active: false,
+          progress: 0,
+          speed: 0.8 + Math.random() * 1.2,
+          startDelay: i * 4 + Math.random() * 6,
+          startPos: new THREE.Vector3(),
+          direction: new THREE.Vector3(),
+        };
+        scene.add(streak);
+        shootingStarMeshes.push(streak);
+      }
+    }
+
+    // Nebula dust clouds (subtle colored point clusters) — high quality only
+    if ((lod as any).nebula) {
+      const nebulaColors = [0x4466aa, 0x6633aa, 0x2244aa];
+      nebulaColors.forEach((color, idx) => {
+        const count = 300;
+        const positions = new Float32Array(count * 3);
+        // Cluster center
+        const cx = (Math.random() - 0.5) * 60;
+        const cy = (Math.random() - 0.5) * 40;
+        const cz = -30 - Math.random() * 40;
+        for (let i = 0; i < count; i++) {
+          positions[i * 3] = cx + (Math.random() - 0.5) * 20;
+          positions[i * 3 + 1] = cy + (Math.random() - 0.5) * 15;
+          positions[i * 3 + 2] = cz + (Math.random() - 0.5) * 15;
+        }
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+        const mat = new THREE.PointsMaterial({
+          size: 0.15 + idx * 0.05,
+          color,
+          transparent: true,
+          opacity: 0.12 + idx * 0.03,
+          blending: THREE.AdditiveBlending,
+        });
+        scene.add(new THREE.Points(geo, mat));
+      });
+    }
+
     // Globe group (rotatable)
     const globeGroup = new THREE.Group();
     scene.add(globeGroup);
@@ -756,6 +829,51 @@ export default function Globe({
           const phase = i * 1.7; // offset each layer
           const twinkle = 0.7 + 0.3 * Math.sin(time * layer.speed + phase);
           layer.mat.opacity = layer.baseOpacity * twinkle;
+        });
+      }
+
+      // Animate shooting stars
+      if (shootingStarMeshes.length > 0) {
+        const dt = 0.016; // ~60fps
+        shootingStarMeshes.forEach((streak) => {
+          const ud = streak.userData;
+          if (!ud.active) {
+            ud.startDelay -= dt;
+            if (ud.startDelay <= 0) {
+              ud.active = true;
+              ud.progress = 0;
+              // Random start position in the sky
+              ud.startPos.set(
+                (Math.random() - 0.5) * 40,
+                15 + Math.random() * 20,
+                -20 - Math.random() * 30
+              );
+              // Random downward direction
+              ud.direction.set(
+                (Math.random() - 0.5) * 0.6,
+                -0.7 - Math.random() * 0.3,
+                (Math.random() - 0.5) * 0.3
+              ).normalize();
+              // Orient streak along direction
+              streak.lookAt(
+                streak.position.x + ud.direction.x,
+                streak.position.y + ud.direction.y,
+                streak.position.z + ud.direction.z
+              );
+            }
+          } else {
+            ud.progress += dt * ud.speed;
+            const t = ud.progress;
+            streak.position.copy(ud.startPos).addScaledVector(ud.direction, t * 30);
+            // Fade in then out
+            const fade = t < 0.2 ? t / 0.2 : Math.max(0, 1 - (t - 0.2) / 0.8);
+            (streak.material as THREE.MeshBasicMaterial).opacity = fade * 0.7;
+            if (t >= 1) {
+              ud.active = false;
+              ud.startDelay = 5 + Math.random() * 10; // Wait before next one
+              (streak.material as THREE.MeshBasicMaterial).opacity = 0;
+            }
+          }
         });
       }
 

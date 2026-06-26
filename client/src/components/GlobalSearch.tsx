@@ -109,6 +109,22 @@ const CANDIDATE_PHOTOS: Record<string, string> = {
   "greg cunningham":        `/manus-storage/greg_cunningham_0127643c.jpg`,
   "martin ruben zamora":    `/manus-storage/martin_zamora_a2e1a9a3.jpg`,
   "nicole gronli":          `/manus-storage/nicole_gronli_9108f631.jpg`,
+  // Round 37 — Called special election + missing House photos (June 26 2026)
+  "matt van epps":           `/manus-storage/matt_van_epps_1e22fd67.jpg`,
+  "jimmy patronis":          `/manus-storage/jimmy_patronis_9af71d8a.jpg`,
+  "randy fine":              `/manus-storage/randy_fine_9762365f.jpg`,
+  "james r. walkinshaw":     `/manus-storage/james_walkinshaw_f846871d.jpg`,
+  "james walkinshaw":        `/manus-storage/james_walkinshaw_f846871d.jpg`,
+  "adelita s. grijalva":     `/manus-storage/adelita_grijalva_75765725.jpg`,
+  "adelita grijalva":        `/manus-storage/adelita_grijalva_75765725.jpg`,
+  "aftyn behn":              `/manus-storage/aftyn_behn_dd788aad.jpg`,
+  "gay valimont":            `/manus-storage/gay_valimont_c26a8156.jpg`,
+  "josh weil":               `/manus-storage/josh_weil_efc19a96.jpg`,
+  "joshua weil":             `/manus-storage/josh_weil_efc19a96.jpg`,
+  "daniel butierez":         `/manus-storage/daniel_butierez_9027eac7.jpg`,
+  "arthur purves":           `/manus-storage/arthur_purves_c9aa41b6.jpg`,
+  "eugene douglass":         `/manus-storage/eugene_douglass_dc7c2086.jpg`,
+  "mike kennedy":            `/manus-storage/mike_kennedy_de9e233b.jpg`,
 };
 
 function getCandidatePhoto(name: string | null | undefined): string | null {
@@ -151,7 +167,37 @@ function scoreMatch(haystack: string, needle: string): number {
   if (parts.some(p => p === n)) return 80;
   if (parts.some(p => p.startsWith(n))) return 70;
   if (h.includes(n)) return 60;
+  // Fuzzy: allow 1 character difference for strings >= 4 chars
+  if (n.length >= 4) {
+    for (const p of parts) {
+      if (p.length >= n.length - 1 && levenshtein(p, n) <= 1) return 45;
+    }
+    if (levenshtein(h, n) <= 2) return 40;
+  }
+  // Multi-word query: check if all words appear somewhere
+  const words = n.split(/\s+/);
+  if (words.length > 1 && words.every(w => h.includes(w))) return 55;
   return 0;
+}
+
+/** Simple Levenshtein distance for fuzzy matching */
+function levenshtein(a: string, b: string): number {
+  if (a.length === 0) return b.length;
+  if (b.length === 0) return a.length;
+  const matrix: number[][] = [];
+  for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+  for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
+      const cost = b[i - 1] === a[j - 1] ? 0 : 1;
+      matrix[i][j] = Math.min(
+        matrix[i - 1][j] + 1,
+        matrix[i][j - 1] + 1,
+        matrix[i - 1][j - 1] + cost
+      );
+    }
+  }
+  return matrix[b.length][a.length];
 }
 
 /** Score a race against a query, returning best score and which field matched */
@@ -241,12 +287,31 @@ export default function GlobalSearch({
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Detect chamber keyword shortcuts in query
+  // Detect chamber keyword shortcuts and smart queries
   const chamberKeyword = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (q === "senate" || q === "sen") return "senate";
     if (q === "house" || q === "hor" || q === "representative" || q === "representatives") return "house";
     if (q === "governor" || q === "gov" || q === "governors") return "governor";
+    if (q === "redistricting" || q === "redistrict" || q === "maps") return "redistricting";
+    if (q === "referendum" || q === "referendums" || q === "ballot measures" || q === "ballot") return "referendum";
+    return null;
+  }, [query]);
+
+  // Smart rating-based queries
+  const ratingFilter = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (q === "toss-up" || q === "tossup" || q === "toss up" || q === "competitive") return "Toss-Up";
+    if (q === "lean d" || q === "lean dem" || q === "lean democrat") return "Lean D";
+    if (q === "lean r" || q === "lean rep" || q === "lean republican") return "Lean R";
+    if (q === "likely d" || q === "likely dem") return "Likely D";
+    if (q === "likely r" || q === "likely rep") return "Likely R";
+    if (q === "safe d" || q === "safe dem") return "Safe D";
+    if (q === "safe r" || q === "safe rep") return "Safe R";
+    if (q === "solid d" || q === "solid dem") return "Solid D";
+    if (q === "solid r" || q === "solid rep") return "Solid R";
+    if (q === "runoff" || q === "runoffs") return "__runoff__";
+    if (q === "called" || q === "decided" || q === "winners") return "__called__";
     return null;
   }, [query]);
 
@@ -268,8 +333,51 @@ export default function GlobalSearch({
         for (const race of governorRaces) {
           all.push({ kind: "governor", data: race, score: 50, matchedField: "chamber" });
         }
+      } else if (chamberKeyword === "redistricting") {
+        for (const state of redistrictingStates) {
+          all.push({ kind: "redistricting", data: state, score: 50, matchedField: "category" });
+        }
+      } else if (chamberKeyword === "referendum") {
+        for (const ref of referendums) {
+          all.push({ kind: "referendum", data: ref, score: 50, matchedField: "category" });
+        }
       }
       return all.slice(0, 50);
+    }
+
+    // Smart rating/status filter queries
+    if (ratingFilter) {
+      const all: SearchResult[] = [];
+      if (ratingFilter === "__runoff__") {
+        for (const race of senateRaces) {
+          if (race.status === "Primary Runoff") all.push({ kind: "senate", data: race, score: 80, matchedField: "status" });
+        }
+        for (const race of houseRaces) {
+          if (race.status === "Primary Runoff") all.push({ kind: "house", data: race, score: 80, matchedField: "status" });
+        }
+      } else if (ratingFilter === "__called__") {
+        for (const race of senateRaces) {
+          if (race.calledWinner) all.push({ kind: "senate", data: race, score: 80, matchedField: "winner" });
+        }
+        for (const race of houseRaces) {
+          if (race.calledWinner) all.push({ kind: "house", data: race, score: 80, matchedField: "winner" });
+        }
+        for (const race of governorRaces) {
+          if (race.calledWinner) all.push({ kind: "governor", data: race, score: 80, matchedField: "winner" });
+        }
+      } else {
+        // Rating filter (Toss-Up, Lean D, etc.)
+        for (const race of senateRaces) {
+          if (race.rating === ratingFilter) all.push({ kind: "senate", data: race, score: 80, matchedField: "rating" });
+        }
+        for (const race of houseRaces) {
+          if (race.rating === ratingFilter) all.push({ kind: "house", data: race, score: 80, matchedField: "rating" });
+        }
+        for (const race of governorRaces) {
+          if (race.rating === ratingFilter) all.push({ kind: "governor", data: race, score: 80, matchedField: "rating" });
+        }
+      }
+      return all.slice(0, 60);
     }
 
     if (!q) return [];
@@ -355,7 +463,7 @@ export default function GlobalSearch({
     }
 
     return all.sort((a, b) => b.score - a.score).slice(0, 50);
-  }, [query, chamberKeyword, senateRaces, houseRaces, redistrictingStates, referendums, governorRaces]);
+  }, [query, chamberKeyword, ratingFilter, senateRaces, houseRaces, redistrictingStates, referendums, governorRaces]);
 
   // Senator search — separate query to the senators endpoint
   const debouncedQuery = query.trim();

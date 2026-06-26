@@ -293,17 +293,17 @@ export default function WorldElectionTimeline({ elections, onElectionClick }: Wo
     <div className="w-full h-full flex flex-col bg-slate-900/80 backdrop-blur-sm border border-slate-700/50 rounded-xl overflow-hidden">
       {/* Header */}
       <div className="px-4 py-3 border-b border-slate-700/50 flex-shrink-0">
-        <div className="flex items-center justify-between mb-2">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
           <div className="flex items-center gap-2">
             <Globe2 className="w-4 h-4 text-blue-400" />
             <span className="text-sm font-semibold text-white">
               Global Election Timeline
             </span>
             <span className="text-xs text-slate-400">
-              {stats.filtered} of {stats.total} election{stats.total !== 1 ? "s" : ""}
+              {stats.filtered}/{stats.total}
             </span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             {/* Sort toggle */}
             <button
               onClick={() => setSortOrder((o) => o === "asc" ? "desc" : "asc")}
@@ -567,8 +567,8 @@ export default function WorldElectionTimeline({ elections, onElectionClick }: Wo
       </div>
 
       {/* Footer */}
-      <div className="px-4 py-2.5 border-t border-slate-700/50 bg-slate-900/50 flex items-center justify-between flex-shrink-0">
-        <div className="flex items-center gap-3">
+      <div className="px-4 py-2.5 border-t border-slate-700/50 bg-slate-900/50 flex flex-wrap items-center justify-between gap-2 flex-shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
           {Object.entries(REGION_COLORS).slice(1, 5).map(([region, color]) => (
             <div key={region} className="flex items-center gap-1">
               <div className="w-2 h-2 rounded-full" style={{ background: color }} />

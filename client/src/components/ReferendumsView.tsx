@@ -202,7 +202,7 @@ export default function ReferendumsView() {
       <div className={`flex-1 flex flex-col overflow-hidden ${selectedItem ? "hidden lg:flex" : ""}`}>
         {/* Stats header */}
         <div className="p-4 border-b border-slate-700/50 bg-slate-900/50">
-          <div className="grid grid-cols-5 gap-3 mb-4">
+          <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 mb-4">
             <div className="text-center">
               <div className="text-xl font-bold text-white">{stats.total}</div>
               <div className="text-[10px] text-slate-500 uppercase">Total</div>

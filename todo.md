@@ -2343,3 +2343,40 @@
 - [x] Audit World Results Ticker — add referendum descriptions and richer context for all 15 entries
 - [x] Update WorldResultsTicker component to display enhanced information (referendum topic, etc.)
 - [x] CRITICAL FIX: Italy referendum corrected from YES/Approved to NO/Rejected (BBC confirms Meloni lost 54% to 46%)
+
+## Platform Improvements (Round 37)
+
+### Photo Coverage
+- [x] Upload photos for Called special election candidates (Van Epps, Patronis, Fine, Walkinshaw, Grijalva, Behn, Valimont, Weil, Butierez, Purves) — 12 photos added
+- [ ] Generate photos for remaining candidates (Lewis Mizrahi NY-8 — very low-profile, no photo found)
+
+### Global Map Visual Enhancement
+- [x] Add more stars/particles to the globe background (increased counts, added warm-colored stars, nebula dust clouds)
+- [x] Add shooting star animations to the globe scene
+- [x] Enhanced star variety (gold, blue-white, amber stars mixed with white)
+
+### Mobile Responsiveness
+- [x] Make view toggle tabs horizontally scrollable on mobile to prevent overflow
+- [x] Make ReferendumsView stats grid responsive (3 cols mobile, 5 cols desktop)
+- [x] Make WorldElectionTimeline header/footer wrap on mobile
+- [ ] Further mobile polish: hamburger menu, touch-friendly map interactions
+
+### World Elections Depth
+- [x] Verified: all 32 upcoming world elections have candidates + key issues populated (2-5 candidates each)
+- [x] Verified: all 15 completed world elections have winner data
+
+### Search Enhancement
+- [x] Add fuzzy matching to search (Levenshtein distance-based scoring)
+- [x] Support natural language queries ("toss-up races", "runoffs", "safe seats", "flipped", etc.)
+- [x] Add rating filter keywords (toss-up, lean, likely, safe)
+
+### Accessibility
+- [x] Add ARIA labels to action buttons and view toggles
+- [x] Add role=tablist with aria-selected to view navigation
+- [x] Add skip-to-content link with keyboard-visible styling
+- [x] Add focus-visible ring styling for all interactive elements
+- [ ] Add color-blind friendly alternatives/patterns for rating colors (future)
+
+### Testing
+- [x] Add integration tests for AP pipeline end-to-end flow (9 tests: parsing, safety guards, runoff protection, broadcast, response format)
+- [ ] Add tests for WorldResultsTicker component data handling (future)
