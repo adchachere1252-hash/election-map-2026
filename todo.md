@@ -2348,7 +2348,7 @@
 
 ### Photo Coverage
 - [x] Upload photos for Called special election candidates (Van Epps, Patronis, Fine, Walkinshaw, Grijalva, Behn, Valimont, Weil, Butierez, Purves) — 12 photos added
-- [ ] Generate photos for remaining candidates (Lewis Mizrahi NY-8 — very low-profile, no photo found)
+- [x] Lewis Mizrahi NY-8 — party letter placeholder (R) generated and uploaded (no public photo exists)
 
 ### Global Map Visual Enhancement
 - [x] Add more stars/particles to the globe background (increased counts, added warm-colored stars, nebula dust clouds)
@@ -2359,7 +2359,8 @@
 - [x] Make view toggle tabs horizontally scrollable on mobile to prevent overflow
 - [x] Make ReferendumsView stats grid responsive (3 cols mobile, 5 cols desktop)
 - [x] Make WorldElectionTimeline header/footer wrap on mobile
-- [ ] Further mobile polish: hamburger menu, touch-friendly map interactions
+- [x] Mobile hamburger menu already implemented (bottom sheet with scoreboard + race list)
+- [x] Added touch-action:none to both map SVGs for proper pinch-to-zoom on mobile
 
 ### World Elections Depth
 - [x] Verified: all 32 upcoming world elections have candidates + key issues populated (2-5 candidates each)
@@ -2375,8 +2376,10 @@
 - [x] Add role=tablist with aria-selected to view navigation
 - [x] Add skip-to-content link with keyboard-visible styling
 - [x] Add focus-visible ring styling for all interactive elements
-- [ ] Add color-blind friendly alternatives/patterns for rating colors (future)
+- [x] Add color-blind friendly SVG patterns (diagonal lines, dots, crosshatch) to ElectionMap and GovernorMap
+- [x] Add color-blind mode toggle button in header
+- [x] Legend shows pattern indicators when color-blind mode is active
 
 ### Testing
 - [x] Add integration tests for AP pipeline end-to-end flow (9 tests: parsing, safety guards, runoff protection, broadcast, response format)
-- [ ] Add tests for WorldResultsTicker component data handling (future)
+- [x] Add WorldResultsTicker component tests (33 tests: countryFlag, typeTag, getResultColor, getRefLabel, filter logic, animation speed)

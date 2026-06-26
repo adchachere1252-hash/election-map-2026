@@ -56,6 +56,8 @@ interface GovernorMapProps {
   selectedStateCode?: string | null;
   /** Whether to render state abbreviation labels on the map */
   showLabels?: boolean;
+  /** Color-blind mode: adds patterns to distinguish ratings */
+  colorBlindMode?: boolean;
 }
 
 const GovernorMap = forwardRef(function GovernorMap({
@@ -63,6 +65,7 @@ const GovernorMap = forwardRef(function GovernorMap({
   onStateClick,
   selectedStateCode,
   showLabels = true,
+  colorBlindMode = false,
 }: GovernorMapProps, ref: React.ForwardedRef<GovernorMapHandle>) {
   const svgRef = useRef<SVGSVGElement>(null);
   const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
@@ -156,8 +159,15 @@ const GovernorMap = forwardRef(function GovernorMap({
     if (!race) return NO_RACE_COLOR;
     if (race.calledParty === "D") return "#1a4fa0";
     if (race.calledParty === "R") return "#b22222";
+    if (colorBlindMode && race.rating) {
+      const cbMap: Record<string, string> = {
+        "Likely D": "url(#cb-likely-d)", "Lean D": "url(#cb-lean-d)",
+        "Toss-up": "url(#cb-toss-up)", "Lean R": "url(#cb-lean-r)", "Likely R": "url(#cb-likely-r)",
+      };
+      if (cbMap[race.rating]) return cbMap[race.rating];
+    }
     return getRatingColor(race.rating as any);
-  }, [raceByState]);
+  }, [raceByState, colorBlindMode]);
 
   // Main D3 render
   useEffect(() => {
@@ -210,6 +220,39 @@ const GovernorMap = forwardRef(function GovernorMap({
       .attr("width", 3).attr("height", 10)
       .attr("fill", "#c04040")
       .attr("opacity", "0.55");
+
+    // ── Color-blind accessible patterns ──
+    if (colorBlindMode) {
+      const likelyD = defs.append("pattern").attr("id", "cb-likely-d")
+        .attr("patternUnits", "userSpaceOnUse").attr("width", 6).attr("height", 6);
+      likelyD.append("rect").attr("width", 6).attr("height", 6).attr("fill", "#3a6fc0");
+      likelyD.append("line").attr("x1", 0).attr("y1", 3).attr("x2", 6).attr("y2", 3)
+        .attr("stroke", "#fff").attr("stroke-width", 1.2).attr("opacity", 0.6);
+      const leanD = defs.append("pattern").attr("id", "cb-lean-d")
+        .attr("patternUnits", "userSpaceOnUse").attr("width", 6).attr("height", 6)
+        .attr("patternTransform", "rotate(45)");
+      leanD.append("rect").attr("width", 6).attr("height", 6).attr("fill", "#5b8fd4");
+      leanD.append("line").attr("x1", 0).attr("y1", 0).attr("x2", 0).attr("y2", 6)
+        .attr("stroke", "#fff").attr("stroke-width", 1.5).attr("opacity", 0.6);
+      const tossUp = defs.append("pattern").attr("id", "cb-toss-up")
+        .attr("patternUnits", "userSpaceOnUse").attr("width", 6).attr("height", 6);
+      tossUp.append("rect").attr("width", 6).attr("height", 6).attr("fill", "#7c3aed");
+      tossUp.append("line").attr("x1", 0).attr("y1", 3).attr("x2", 6).attr("y2", 3)
+        .attr("stroke", "#fff").attr("stroke-width", 1).attr("opacity", 0.7);
+      tossUp.append("line").attr("x1", 3).attr("y1", 0).attr("x2", 3).attr("y2", 6)
+        .attr("stroke", "#fff").attr("stroke-width", 1).attr("opacity", 0.7);
+      const leanR = defs.append("pattern").attr("id", "cb-lean-r")
+        .attr("patternUnits", "userSpaceOnUse").attr("width", 6).attr("height", 6)
+        .attr("patternTransform", "rotate(-45)");
+      leanR.append("rect").attr("width", 6).attr("height", 6).attr("fill", "#d96b4a");
+      leanR.append("line").attr("x1", 0).attr("y1", 0).attr("x2", 0).attr("y2", 6)
+        .attr("stroke", "#fff").attr("stroke-width", 1.5).attr("opacity", 0.6);
+      const likelyR = defs.append("pattern").attr("id", "cb-likely-r")
+        .attr("patternUnits", "userSpaceOnUse").attr("width", 6).attr("height", 6);
+      likelyR.append("rect").attr("width", 6).attr("height", 6).attr("fill", "#c04040");
+      likelyR.append("line").attr("x1", 0).attr("y1", 3).attr("x2", 6).attr("y2", 3)
+        .attr("stroke", "#fff").attr("stroke-width", 1.2).attr("opacity", 0.6);
+    }
 
     const g = svg.append("g");
 
@@ -405,7 +448,7 @@ const GovernorMap = forwardRef(function GovernorMap({
       setIsZoomed(false);
     }
 
-  }, [statesData, governorRaces, selectedStateCode, getStateColor, racingStates, raceByState, showLabels]);
+  }, [statesData, governorRaces, selectedStateCode, getStateColor, racingStates, raceByState, showLabels, colorBlindMode]);
 
   if (loading) {
     return (
@@ -423,7 +466,7 @@ const GovernorMap = forwardRef(function GovernorMap({
       <svg
         ref={svgRef}
         className="w-full h-full"
-        style={{ background: "transparent" }}
+        style={{ background: "transparent", touchAction: "none" }}
       />
       {/* Zoom controls */}
       <div className="absolute bottom-4 left-4 z-20 flex flex-col gap-1">

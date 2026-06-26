@@ -198,6 +198,7 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "arthur purves":           `/manus-storage/arthur_purves_c9aa41b6.jpg`,       // VA-11 R (Ballotpedia)
   "eugene douglass":         `/manus-storage/eugene_douglass_dc7c2086.jpg`,     // NC-2 R (Ballotpedia)
   "mike kennedy":            `/manus-storage/mike_kennedy_de9e233b.jpg`,        // UT-4 R (congress.gov)
+  "lewis mizrahi":           `/manus-storage/mizrahi-placeholder_fd2814f1.png`, // NY-8 R (party letter placeholder — no public photo available)
 };
 
 export const PARTY_LOGOS = {

@@ -125,6 +125,7 @@ const CANDIDATE_PHOTOS: Record<string, string> = {
   "arthur purves":           `/manus-storage/arthur_purves_c9aa41b6.jpg`,
   "eugene douglass":         `/manus-storage/eugene_douglass_dc7c2086.jpg`,
   "mike kennedy":            `/manus-storage/mike_kennedy_de9e233b.jpg`,
+  "lewis mizrahi":           `/manus-storage/mizrahi-placeholder_fd2814f1.png`,
 };
 
 function getCandidatePhoto(name: string | null | undefined): string | null {

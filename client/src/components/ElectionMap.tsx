@@ -29,6 +29,8 @@ interface ElectionMapProps {
   searchHighlight?: Set<string> | null;
   /** Whether to render state abbreviation labels on the map */
   showLabels?: boolean;
+  /** Color-blind mode: adds patterns to distinguish ratings without relying on color alone */
+  colorBlindMode?: boolean;
 }
 
 // Smart tooltip that clamps itself within the SVG container so it's always readable
@@ -110,6 +112,7 @@ const ElectionMap = forwardRef(function ElectionMap({
   resultsMode = false,
   searchHighlight = null,
   showLabels = true,
+  colorBlindMode = false,
 }: ElectionMapProps, ref: React.ForwardedRef<ElectionMapHandle>) {
   const svgRef = useRef<SVGSVGElement>(null);
   const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
@@ -268,6 +271,19 @@ const ElectionMap = forwardRef(function ElectionMap({
     return { split: unique.length > 1, parties };
   }, [senatorsByState]);
 
+  // Color-blind pattern helper: returns pattern URL for non-solid ratings
+  const getCBFill = useCallback((rating: string | null | undefined): string => {
+    if (!colorBlindMode || !rating) return getRatingColor(rating as any);
+    const patternMap: Record<string, string> = {
+      "Likely D": "url(#cb-likely-d)",
+      "Lean D": "url(#cb-lean-d)",
+      "Toss-up": "url(#cb-toss-up)",
+      "Lean R": "url(#cb-lean-r)",
+      "Likely R": "url(#cb-likely-r)",
+    };
+    return patternMap[rating] ?? getRatingColor(rating as any);
+  }, [colorBlindMode]);
+
   const getDistrictColor = useCallback((stateCode: string, district: number): string => {
     const key = `${stateCode}-${district}`;
     const race = houseByStateDistrict[key];
@@ -278,8 +294,8 @@ const ElectionMap = forwardRef(function ElectionMap({
       return UNCALLED_COLOR;
     }
     if (race.calledParty) return getPartyColor(race.calledParty as any);
-    return getRatingColor(race.rating as any);
-  }, [houseByStateDistrict, resultsMode]);
+    return getCBFill(race.rating);
+  }, [houseByStateDistrict, resultsMode, getCBFill]);
 
   const getStateColor = useCallback((stateCode: string): string => {
     if (view === "senate") {
@@ -291,7 +307,7 @@ const ElectionMap = forwardRef(function ElectionMap({
         return UNCALLED_COLOR;
       }
       if (race.calledParty) return getPartyColor(race.calledParty as any);
-      return getRatingColor(race.rating as any);
+      return getCBFill(race.rating);
     }
     if (view === "governor") {
       const race = govByState[stateCode];
@@ -302,7 +318,7 @@ const ElectionMap = forwardRef(function ElectionMap({
         return UNCALLED_COLOR;
       }
       if (race.calledWinner) return getPartyColor(race.calledWinner === race.demCandidate ? "D" : "R" as any);
-      return getRatingColor(race.rating as any);
+      return getCBFill(race.rating);
     }
     if (view === "redistricting") {
       const state = redistrictingByState[stateCode];
@@ -311,7 +327,7 @@ const ElectionMap = forwardRef(function ElectionMap({
       return state.enacted ? "#4a7c59" : "#8b6914";
     }
     return "url(#no-race-stripe)";
-  }, [view, senateByState, redistrictingByState, govByState, resultsMode]);
+  }, [view, senateByState, redistrictingByState, govByState, resultsMode, getCBFill]);
 
   // Main D3 render effect
   useEffect(() => {
@@ -368,6 +384,46 @@ const ElectionMap = forwardRef(function ElectionMap({
       .attr("width", 3).attr("height", 10)
       .attr("fill", "#c04040")
       .attr("opacity", "0.55");
+
+    // ── Color-blind accessible patterns ──────────────────────────────────────
+    if (colorBlindMode) {
+      // Solid D: solid fill (no pattern overlay)
+      // Likely D: horizontal lines
+      const likelyD = defs.append("pattern").attr("id", "cb-likely-d")
+        .attr("patternUnits", "userSpaceOnUse").attr("width", 6).attr("height", 6);
+      likelyD.append("rect").attr("width", 6).attr("height", 6).attr("fill", "#3a6fc0");
+      likelyD.append("line").attr("x1", 0).attr("y1", 3).attr("x2", 6).attr("y2", 3)
+        .attr("stroke", "#fff").attr("stroke-width", 1.2).attr("opacity", 0.6);
+      // Lean D: diagonal lines (\\)
+      const leanD = defs.append("pattern").attr("id", "cb-lean-d")
+        .attr("patternUnits", "userSpaceOnUse").attr("width", 6).attr("height", 6)
+        .attr("patternTransform", "rotate(45)");
+      leanD.append("rect").attr("width", 6).attr("height", 6).attr("fill", "#5b8fd4");
+      leanD.append("line").attr("x1", 0).attr("y1", 0).attr("x2", 0).attr("y2", 6)
+        .attr("stroke", "#fff").attr("stroke-width", 1.5).attr("opacity", 0.6);
+      // Toss-up: crosshatch
+      const tossUp = defs.append("pattern").attr("id", "cb-toss-up")
+        .attr("patternUnits", "userSpaceOnUse").attr("width", 6).attr("height", 6);
+      tossUp.append("rect").attr("width", 6).attr("height", 6).attr("fill", "#7c3aed");
+      tossUp.append("line").attr("x1", 0).attr("y1", 3).attr("x2", 6).attr("y2", 3)
+        .attr("stroke", "#fff").attr("stroke-width", 1).attr("opacity", 0.7);
+      tossUp.append("line").attr("x1", 3).attr("y1", 0).attr("x2", 3).attr("y2", 6)
+        .attr("stroke", "#fff").attr("stroke-width", 1).attr("opacity", 0.7);
+      // Lean R: diagonal lines (//)
+      const leanR = defs.append("pattern").attr("id", "cb-lean-r")
+        .attr("patternUnits", "userSpaceOnUse").attr("width", 6).attr("height", 6)
+        .attr("patternTransform", "rotate(-45)");
+      leanR.append("rect").attr("width", 6).attr("height", 6).attr("fill", "#d96b4a");
+      leanR.append("line").attr("x1", 0).attr("y1", 0).attr("x2", 0).attr("y2", 6)
+        .attr("stroke", "#fff").attr("stroke-width", 1.5).attr("opacity", 0.6);
+      // Likely R: horizontal lines (thicker)
+      const likelyR = defs.append("pattern").attr("id", "cb-likely-r")
+        .attr("patternUnits", "userSpaceOnUse").attr("width", 6).attr("height", 6);
+      likelyR.append("rect").attr("width", 6).attr("height", 6).attr("fill", "#c04040");
+      likelyR.append("line").attr("x1", 0).attr("y1", 3).attr("x2", 6).attr("y2", 3)
+        .attr("stroke", "#fff").attr("stroke-width", 1.2).attr("opacity", 0.6);
+      // Solid R: solid fill (no pattern overlay)
+    }
 
     const g = svg.append("g");
     if (view === "house" && districtsData) {
@@ -804,7 +860,7 @@ const ElectionMap = forwardRef(function ElectionMap({
       svg.call(zoom.transform, d3.zoomIdentity);
     }
 
-  }, [statesData, districtsData, view, senateRaces, houseRaces, redistrictingStates, senators, selectedStateCode, selectedDistrictId, getStateColor, getDistrictColor, getStateSplitInfo, houseByStateDistrict, searchHighlight, showLabels]);
+  }, [statesData, districtsData, view, senateRaces, houseRaces, redistrictingStates, senators, selectedStateCode, selectedDistrictId, getStateColor, getDistrictColor, getStateSplitInfo, houseByStateDistrict, searchHighlight, showLabels, colorBlindMode]);
 
   if (loading) {
     return (
@@ -826,6 +882,7 @@ const ElectionMap = forwardRef(function ElectionMap({
           background: "transparent",
           filter: "drop-shadow(0 0 18px rgba(100,160,255,0.28)) drop-shadow(0 0 48px rgba(80,120,220,0.14)) drop-shadow(0 0 90px rgba(60,90,200,0.08))",
           cursor: isPanning ? "grabbing" : isZoomed ? "grab" : "default",
+          touchAction: "none", // Prevent browser gestures so D3 zoom handles pinch/pan
         }}
       />
       {/* Zoom controls — always visible in bottom-left */}

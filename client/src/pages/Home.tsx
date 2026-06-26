@@ -160,6 +160,7 @@ export default function Home() {
   const [selectedSenatorId, setSelectedSenatorId] = useState<number | null>(null);
   // Show/hide state abbreviation labels on the map
   const [showLabels, setShowLabels] = useState(true);
+  const [colorBlindMode, setColorBlindMode] = useState(false);
 
   // WebSocket live push — invalidates caches instantly when a race is called
   const { isConnected, lastEvent } = useElectionSocket();
@@ -577,6 +578,19 @@ export default function Home() {
               <Label htmlFor="labels-toggle" className="text-xs cursor-pointer select-none">Labels</Label>
             </div>
 
+            {/* Color-blind mode toggle */}
+            {(view === "senate" || view === "house" || view === "governor") && !resultsMode && (
+              <div className="hidden lg:flex items-center gap-1.5 px-2 py-1.5 rounded border border-border text-xs text-muted-foreground">
+                <Switch
+                  id="cb-toggle"
+                  checked={colorBlindMode}
+                  onCheckedChange={setColorBlindMode}
+                  className="scale-75 origin-left"
+                />
+                <Label htmlFor="cb-toggle" className="text-xs cursor-pointer select-none" title="Adds patterns to map colors for color-blind accessibility">A11y</Label>
+              </div>
+            )}
+
             {/* Election Night Mode toggle */}
             <button
               onClick={() => setResultsMode(o => !o)}
@@ -753,19 +767,23 @@ export default function Home() {
               </Link>
             </div>
           )}
-          {(view === "senate" || view === "house") && !resultsMode && (
+          {(view === "senate" || view === "house" || view === "governor") && !resultsMode && (
             <div className="flex items-center gap-2 ml-2 flex-wrap">
               {[
-                { label: "Solid D", color: "#1a4fa0" },
-                { label: "Likely D", color: "#3a6fc0" },
-                { label: "Lean D", color: "#5b8fd4" },
-                { label: "Toss-up", color: "#7c3aed" },
-                { label: "Lean R", color: "#d96b4a" },
-                { label: "Likely R", color: "#c04040" },
-                { label: "Solid R", color: "#b22222" },
+                { label: "Solid D", color: "#1a4fa0", pattern: "" },
+                { label: "Likely D", color: "#3a6fc0", pattern: "═" },
+                { label: "Lean D", color: "#5b8fd4", pattern: "╲" },
+                { label: "Toss-up", color: "#7c3aed", pattern: "+" },
+                { label: "Lean R", color: "#d96b4a", pattern: "╱" },
+                { label: "Likely R", color: "#c04040", pattern: "═" },
+                { label: "Solid R", color: "#b22222", pattern: "" },
               ].map(item => (
                 <span key={item.label} className="flex items-center gap-1 text-xs">
-                  <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{ background: item.color }} />
+                  <span className="w-2.5 h-2.5 rounded-sm inline-block relative overflow-hidden" style={{ background: item.color }}>
+                    {colorBlindMode && item.pattern && (
+                      <span className="absolute inset-0 flex items-center justify-center text-white/70 text-[8px] font-bold leading-none">{item.pattern}</span>
+                    )}
+                  </span>
                   <span className="text-muted-foreground">{item.label}</span>
                 </span>
               ))}
@@ -936,6 +954,7 @@ export default function Home() {
               onStateClick={handleStateClick}
               selectedStateCode={selectedStateCode}
               showLabels={showLabels}
+              colorBlindMode={colorBlindMode}
             />
           ) : (
             <ElectionMap
@@ -952,6 +971,7 @@ export default function Home() {
               resultsMode={resultsMode}
               searchHighlight={searchHighlight}
               showLabels={showLabels}
+              colorBlindMode={colorBlindMode}
             />
           )}
 
