@@ -856,7 +856,7 @@ export default function Globe({
           color: labelColor,
           fontStyle: "600",
           opacity: 0.9,
-          scale: labelScale * 3,
+          scale: labelScale * 1.5,
         });
         mesh.userData = { isLabel: true, countryLabel: code };
         globeGroup.add(mesh);
