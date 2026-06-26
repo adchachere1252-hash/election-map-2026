@@ -51,7 +51,7 @@ const DEFAULT_COLOR = 0x0a1628;
 const HOVER_COLOR = 0x60a5fa;
 const SELECTED_COLOR = 0x3b82f6;
 const OCEAN_COLOR = 0x0c1222;
-const BORDER_COLOR = 0x334155;
+const BORDER_COLOR = 0x64748b;
 
 // ─── Ocean label positions (lon, lat) ────────────────────────────────────────
 const OCEAN_LABELS: { name: string; lon: number; lat: number }[] = [
@@ -490,7 +490,7 @@ function buildCountryBorders(feature: any, radius: number): THREE.LineSegments |
 
   if (points.length === 0) return null;
   const geometry = new THREE.BufferGeometry().setFromPoints(points);
-  const material = new THREE.LineBasicMaterial({ color: BORDER_COLOR, transparent: true, opacity: 0.5 });
+  const material = new THREE.LineBasicMaterial({ color: BORDER_COLOR, transparent: true, opacity: 0.7 });
   return new THREE.LineSegments(geometry, material);
 }
 
@@ -750,7 +750,7 @@ export default function Globe({
           const isActiveElection = election && election.status !== "Postponed" && election.status !== "Cancelled";
           const color = isActiveElection ? (STATUS_COLORS[election.status] ?? DEFAULT_COLOR) : DEFAULT_COLOR;
           // Filled mesh — active election countries get vivid solid fill, others get dark solid fill
-          const solidColor = isActiveElection ? color : 0x1a2744;
+          const solidColor = isActiveElection ? color : 0x162040;
           const mesh = buildCountryMesh(feature, GLOBE_RADIUS * 1.002, solidColor);
           if (mesh) {
             const mat = mesh.material as THREE.MeshBasicMaterial;
@@ -768,7 +768,7 @@ export default function Globe({
               const borderMat = glowBorder.material as THREE.LineBasicMaterial;
               borderMat.color.setHex(STATUS_COLORS[election.status] ?? 0xf59e0b);
               borderMat.opacity = 1.0;
-              borderMat.linewidth = 2;
+              borderMat.linewidth = 3;
               glowBorder.userData = { countryCode: alpha2, isGlowBorder: true };
               globeGroup.add(glowBorder);
               if (alpha2) countryBordersRef.current.set(alpha2, glowBorder);
@@ -779,18 +779,28 @@ export default function Globe({
               if (outerGlow) {
                 const outerMat = outerGlow.material as THREE.LineBasicMaterial;
                 outerMat.color.setHex(STATUS_COLORS[election.status] ?? 0xf59e0b);
-                outerMat.opacity = 0.6;
-                outerMat.linewidth = 1;
+                outerMat.opacity = 0.8;
+                outerMat.linewidth = 2;
                 outerGlow.userData = { isOuterGlow: true, countryCode: alpha2 };
                 globeGroup.add(outerGlow);
               }
             }
+            // Third ultra-glow layer for maximum visibility
+            const ultraGlow = buildCountryBorders(feature, GLOBE_RADIUS * 1.008);
+            if (ultraGlow) {
+              const ultraMat = ultraGlow.material as THREE.LineBasicMaterial;
+              ultraMat.color.setHex(STATUS_COLORS[election.status] ?? 0xf59e0b);
+              ultraMat.opacity = 0.4;
+              ultraMat.linewidth = 1;
+              ultraGlow.userData = { isUltraGlow: true, countryCode: alpha2 };
+              globeGroup.add(ultraGlow);
+            }
           } else {
-            // Non-election countries: subtle thin borders
+            // Non-election countries: visible thin borders
             const borders = buildCountryBorders(feature, GLOBE_RADIUS * 1.003);
             if (borders) {
               const bMat = borders.material as THREE.LineBasicMaterial;
-              bMat.opacity = 0.25;
+              bMat.opacity = 0.45;
               globeGroup.add(borders);
             }
           }
