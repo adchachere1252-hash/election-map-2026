@@ -23,15 +23,21 @@ function typeTag(type: string): string {
 }
 
 // Party/winner color mapping for global elections
-function getResultColor(winnerParty: string | null): { dot: string; text: string; bg: string } {
+function getResultColor(winnerParty: string | null, winner: string | null): { dot: string; text: string; bg: string } {
   if (!winnerParty) return { dot: "bg-gray-400", text: "text-gray-300", bg: "bg-gray-700 text-gray-300" };
   
   const lower = winnerParty.toLowerCase();
+  // Referendum results
+  if (lower.includes("approved") || (winner?.toUpperCase() === "YES"))
+    return { dot: "bg-green-400", text: "text-green-300", bg: "bg-green-900/60 text-green-300" };
+  if (lower.includes("rejected") || (winner?.toUpperCase() === "NO"))
+    return { dot: "bg-red-400", text: "text-red-300", bg: "bg-red-900/60 text-red-300" };
+  // Political parties
   if (lower.includes("left") || lower.includes("labour") || lower.includes("socialist") || lower.includes("democrat") || lower.includes("dpk"))
     return { dot: "bg-rose-400", text: "text-rose-300", bg: "bg-rose-900/60 text-rose-300" };
   if (lower.includes("right") || lower.includes("conservative") || lower.includes("bjp") || lower.includes("fuerza"))
     return { dot: "bg-blue-400", text: "text-blue-300", bg: "bg-blue-900/60 text-blue-300" };
-  if (lower.includes("green") || lower.includes("yes"))
+  if (lower.includes("green"))
     return { dot: "bg-green-400", text: "text-green-300", bg: "bg-green-900/60 text-green-300" };
   
   return { dot: "bg-amber-400", text: "text-amber-300", bg: "bg-amber-900/60 text-amber-300" };
@@ -49,10 +55,21 @@ type WorldElection = {
   winnerParty: string | null;
 };
 
+// For referendums, show the topic name instead of generic "Referendum"
+function getRefLabel(election: WorldElection): string | null {
+  if (election.electionType !== "Referendum") return null;
+  // Use election_name if available (e.g. "Constitutional Rewrite Referendum")
+  if (election.electionName && election.electionName !== "Referendum") {
+    return election.electionName;
+  }
+  return null;
+}
+
 function WorldTickerItem({ election }: { election: WorldElection }) {
-  const colors = getResultColor(election.winnerParty);
+  const colors = getResultColor(election.winnerParty, election.winner);
   const flag = countryFlag(election.countryCode);
   const tag = typeTag(election.electionType);
+  const refLabel = getRefLabel(election);
   
   const dateLabel = new Date(election.electionDate + "T00:00:00").toLocaleDateString("en-US", {
     month: "short",
@@ -67,6 +84,11 @@ function WorldTickerItem({ election }: { election: WorldElection }) {
         {tag}
       </span>
       <span className="text-xs font-semibold text-foreground">{election.country}</span>
+      {refLabel && (
+        <span className="text-[10px] text-muted-foreground italic">
+          {refLabel}
+        </span>
+      )}
       {election.winner && (
         <span className={`text-xs font-bold ${colors.text}`}>
           {election.winner}

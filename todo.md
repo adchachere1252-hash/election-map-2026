@@ -2337,3 +2337,9 @@
 ## Data Fixes (Round 35)
 - [x] Populate winner field for 4 completed referendums (Thailand YES, Bangladesh YES, Italy YES, Switzerland NO)
 - [x] Set TBD with primary date for 7 House races missing opponent (NJ-8, NY-8, NC-2, PA-3, UT-4, TX-26)
+
+## Data Enrichment (Round 36)
+- [x] Research and fill candidate1/candidate2 for 5 Called House races (AZ-7, FL-1, FL-6, TN-7, VA-11)
+- [x] Audit World Results Ticker — add referendum descriptions and richer context for all 15 entries
+- [x] Update WorldResultsTicker component to display enhanced information (referendum topic, etc.)
+- [x] CRITICAL FIX: Italy referendum corrected from YES/Approved to NO/Rejected (BBC confirms Meloni lost 54% to 46%)
