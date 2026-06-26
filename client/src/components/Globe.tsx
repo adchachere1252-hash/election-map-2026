@@ -827,53 +827,105 @@ export default function Globe({
       globeGroup.add(mesh);
     }
 
-    // ─── Add election country labels (scaled to fit country size) ──────────────
+    // ─── Add ALL country labels (scaled to fit country size) ──────────────────
     // Approximate country "size" for label scaling
     const COUNTRY_SCALE: Record<string, number> = {
-      US: 0.16, RU: 0.18, BR: 0.14, KZ: 0.12, DZ: 0.10, ET: 0.09,
+      US: 0.16, RU: 0.18, BR: 0.14, CA: 0.16, CN: 0.14, AU: 0.14,
+      KZ: 0.12, DZ: 0.10, ET: 0.09, IN: 0.12, AR: 0.10,
       CO: 0.08, SE: 0.07, NZ: 0.07, SO: 0.07, ZM: 0.07, MA: 0.07,
-      HU: 0.04, CZ: 0.04, BG: 0.04, SK: 0.03, BA: 0.03, LV: 0.03,
-      IS: 0.04, GB: 0.06, IL: 0.03, BD: 0.05, AM: 0.04, SS: 0.06,
+      MX: 0.09, ID: 0.10, SA: 0.08, IR: 0.08, MN: 0.08,
+      LY: 0.08, SD: 0.07, CD: 0.08, AO: 0.07, ML: 0.07,
+      NE: 0.07, TD: 0.07, EG: 0.07, NG: 0.07, ZA: 0.07,
+      TR: 0.06, PK: 0.06, AF: 0.06, UA: 0.07, FR: 0.06,
+      ES: 0.06, DE: 0.05, PL: 0.05, IT: 0.05, GB: 0.05,
+      JP: 0.05, PH: 0.05, VN: 0.05, TH: 0.05, MM: 0.05,
+      PE: 0.06, VE: 0.06, CL: 0.05, BO: 0.06, PY: 0.05,
+      EC: 0.04, UY: 0.04, GY: 0.04, SR: 0.03,
+      KE: 0.05, TZ: 0.05, MZ: 0.05, MG: 0.05, CM: 0.05,
+      CI: 0.04, GH: 0.04, SN: 0.04, BF: 0.04, GN: 0.04,
+      UG: 0.04, MW: 0.04, RW: 0.03, BI: 0.03,
+      NO: 0.06, FI: 0.06, DK: 0.04, IE: 0.04,
+      NL: 0.03, BE: 0.03, CH: 0.03, AT: 0.04, PT: 0.04,
+      GR: 0.04, RO: 0.05, HU: 0.04, CZ: 0.04, BG: 0.04,
+      SK: 0.03, BA: 0.03, LV: 0.03, HR: 0.03, RS: 0.04,
+      IS: 0.04, IL: 0.03, BD: 0.05, AM: 0.03, SS: 0.06,
       GM: 0.03, HT: 0.04, BH: 0.03, CV: 0.03, ST: 0.03, CK: 0.03,
+      IQ: 0.05, SY: 0.04, JO: 0.03, LB: 0.03, AE: 0.04,
+      OM: 0.04, YE: 0.05, KW: 0.03, QA: 0.03,
+      GE: 0.03, AZ: 0.03, UZ: 0.05, TM: 0.05, KG: 0.04, TJ: 0.03,
+      NP: 0.04, LK: 0.03, KH: 0.04, LA: 0.04, MY: 0.05,
+      CU: 0.05, DO: 0.03, JM: 0.03, TT: 0.03,
+      PA: 0.03, CR: 0.03, GT: 0.04, HN: 0.04, NI: 0.04, SV: 0.03, BZ: 0.03,
+      KR: 0.04, TW: 0.03, BY: 0.05, LT: 0.03, EE: 0.03,
+      AL: 0.03, MK: 0.03, ME: 0.03, SI: 0.03, XK: 0.03,
     };
     // Short display names for long country names
     const SHORT_NAMES: Record<string, string> = {
-      US: "U.S.",
-      GB: "U.K.",
-      NZ: "N.Z.",
-      BA: "Bosnia",
-      CZ: "Czechia",
-      SA: "S. Arabia",
-      ZA: "S. Africa",
-      SS: "S. Sudan",
-      BD: "Bangladesh",
-      KZ: "Kazakhstan",
-      DZ: "Algeria",
-      ET: "Ethiopia",
+      US: "U.S.", GB: "U.K.", NZ: "N.Z.", BA: "Bosnia", CZ: "Czechia",
+      SA: "S. Arabia", ZA: "S. Africa", SS: "S. Sudan", BD: "Bangladesh",
+      KZ: "Kazakhstan", DZ: "Algeria", ET: "Ethiopia", AE: "U.A.E.",
+      CD: "D.R. Congo", CG: "Congo", CF: "C.A.R.", GQ: "Eq. Guinea",
+      MK: "N. Macedonia", KP: "N. Korea", KR: "S. Korea", TW: "Taiwan",
+      DO: "Dom. Rep.", TT: "Trinidad", MG: "Madagascar", MZ: "Mozambique",
+      PH: "Philippines", ID: "Indonesia", MY: "Malaysia", MM: "Myanmar",
+      AF: "Afghanistan", PK: "Pakistan", UZ: "Uzbekistan", TM: "Turkmenistan",
+      KG: "Kyrgyzstan", TJ: "Tajikistan", BY: "Belarus", UA: "Ukraine",
+      AU: "Australia", VN: "Vietnam", TH: "Thailand", KH: "Cambodia",
+      LA: "Laos", NP: "Nepal", LK: "Sri Lanka",
+      GT: "Guatemala", HN: "Honduras", NI: "Nicaragua", SV: "El Salvador",
+      CR: "Costa Rica", PA: "Panama", VE: "Venezuela", EC: "Ecuador",
+      PY: "Paraguay", UY: "Uruguay", SR: "Suriname", GY: "Guyana",
+      SN: "Senegal", CI: "Ivory Coast", BF: "Burkina Faso",
+      CM: "Cameroon", TD: "Chad", NE: "Niger", ML: "Mali",
+      GN: "Guinea", MW: "Malawi", RW: "Rwanda", BI: "Burundi",
+      UG: "Uganda", KE: "Kenya", TZ: "Tanzania", ZM: "Zambia",
+      AO: "Angola", SD: "Sudan", LY: "Libya", TN: "Tunisia",
+      MA: "Morocco", EG: "Egypt", NG: "Nigeria", GH: "Ghana",
+      SO: "Somalia", ER: "Eritrea", DJ: "Djibouti",
+      NO: "Norway", SE: "Sweden", FI: "Finland", DK: "Denmark",
+      IE: "Ireland", NL: "Netherlands", BE: "Belgium", CH: "Switzerland",
+      AT: "Austria", PT: "Portugal", ES: "Spain", IT: "Italy",
+      GR: "Greece", RO: "Romania", HU: "Hungary", BG: "Bulgaria",
+      SK: "Slovakia", HR: "Croatia", RS: "Serbia", AL: "Albania",
+      ME: "Montenegro", SI: "Slovenia", XK: "Kosovo", LV: "Latvia",
+      LT: "Lithuania", EE: "Estonia", IS: "Iceland",
+      PL: "Poland", DE: "Germany", FR: "France",
+      RU: "Russia", CN: "China", IN: "India", JP: "Japan",
+      MN: "Mongolia", IR: "Iran", IQ: "Iraq", SY: "Syria",
+      JO: "Jordan", LB: "Lebanon", IL: "Israel", KW: "Kuwait",
+      QA: "Qatar", BH: "Bahrain", OM: "Oman", YE: "Yemen",
+      GE: "Georgia", AZ: "Azerbaijan", AM: "Armenia",
+      TR: "Turkey", CU: "Cuba", JM: "Jamaica", HT: "Haiti",
+      MX: "Mexico", CA: "Canada", BR: "Brazil", AR: "Argentina",
+      CL: "Chile", CO: "Colombia", PE: "Peru", BO: "Bolivia",
     };
     // Status → label color (matches legend)
     const STATUS_LABEL_COLORS: Record<string, string> = {
-      "Upcoming": "#f59e0b",
-      "Voting Today": "#eab308",
-      "Completed": "#22c55e",
+      "Upcoming": "#fbbf24",
+      "Voting Today": "#fde047",
+      "Completed": "#4ade80",
       "Postponed": "#6b7280",
       "Cancelled": "#ef4444",
     };
     const addCountryLabels = () => {
       const map = electionMapRef.current;
-      map.forEach((election, code) => {
-        // Skip labels for Postponed/Cancelled elections
-        if (election.status === "Postponed" || election.status === "Cancelled") return;
-        const centroid = COUNTRY_CENTROIDS[code];
-        if (!centroid) return;
-        const labelScale = COUNTRY_SCALE[code] || 0.06;
-        const displayName = SHORT_NAMES[code] || election.country;
-        const labelColor = STATUS_LABEL_COLORS[election.status] || "#e2e8f0";
+      // Add labels for ALL countries that have centroids
+      Object.entries(COUNTRY_CENTROIDS).forEach(([code, centroid]) => {
+        const election = map.get(code);
+        const labelScale = COUNTRY_SCALE[code] || 0.05;
+        const displayName = SHORT_NAMES[code] || (election?.country) || code;
+        // Election countries get their status color; others get white
+        let labelColor: string;
+        if (election && election.status !== "Postponed" && election.status !== "Cancelled") {
+          labelColor = STATUS_LABEL_COLORS[election.status] || "#e2e8f0";
+        } else {
+          labelColor = "#e2e8f0"; // White/light for all non-election countries
+        }
         const mesh = createTextMesh(displayName, centroid.lon, centroid.lat, GLOBE_RADIUS * 1.02, {
           fontSize: 28,
           color: labelColor,
-          fontStyle: "600",
-          opacity: 0.9,
+          fontStyle: election ? "700" : "500",
+          opacity: election ? 0.95 : 0.75,
           scale: labelScale * 1.5,
         });
         mesh.userData = { isLabel: true, countryLabel: code };
