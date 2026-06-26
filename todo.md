@@ -2333,3 +2333,7 @@
 - [x] Remove global election results from U.S. banner (U.S. banner = decided U.S. races only)
 - [x] Build World Elections results banner showing decided global elections/referendums with country flags
 - [x] All tests passing, 0 TypeScript errors
+
+## Data Fixes (Round 35)
+- [x] Populate winner field for 4 completed referendums (Thailand YES, Bangladesh YES, Italy YES, Switzerland NO)
+- [x] Set TBD with primary date for 7 House races missing opponent (NJ-8, NY-8, NC-2, PA-3, UT-4, TX-26)
