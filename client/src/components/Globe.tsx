@@ -550,7 +550,8 @@ export default function Globe({
 
     // Camera — pulled back for a smaller globe with breathing room
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    camera.position.z = 6.5;
+    camera.position.set(0, -0.4, 7.2);
+    camera.lookAt(0, 0, 0);
     cameraRef.current = camera;
 
     // LOD quality detection
@@ -804,7 +805,7 @@ export default function Globe({
         color: "#475569",
         fontStyle: "italic",
         opacity: 0.5,
-        scale: 0.45,
+        scale: 0.25,
       });
       globeGroup.add(mesh);
     }

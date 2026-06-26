@@ -765,6 +765,16 @@ const CDN_PHOTOS: Record<string, string> = {
   "greg cunningham":           `/manus-storage/greg_cunningham_0127643c.jpg`,            // NM-2 R
   "martin ruben zamora":       `/manus-storage/martin_zamora_a2e1a9a3.jpg`,              // NM-3 R
   "nicole gronli":             `/manus-storage/nicole_gronli_9108f631.jpg`,              // SD-AL D
+
+  // Called special election challengers (Round 37)
+  "gay valimont":            `/manus-storage/gay_valimont_c26a8156.jpg`,        // FL-1 D (Ballotpedia)
+  "josh weil":               `/manus-storage/josh_weil_efc19a96.jpg`,           // FL-6 D (Ballotpedia)
+  "joshua weil":             `/manus-storage/josh_weil_efc19a96.jpg`,           // FL-6 D (alias)
+  "daniel butierez":         `/manus-storage/daniel_butierez_9027eac7.jpg`,     // AZ-7 R (Ballotpedia)
+  "arthur purves":           `/manus-storage/arthur_purves_c9aa41b6.jpg`,       // VA-11 R (Ballotpedia)
+  "eugene douglass":         `/manus-storage/eugene_douglass_dc7c2086.jpg`,     // NC-2 R (Ballotpedia)
+  "aftyn behn":              `/manus-storage/aftyn_behn_5b1a8e7c.jpg`,          // TN-7 D (Ballotpedia)
+  "lewis mizrahi":           `/manus-storage/mizrahi-placeholder_fd2814f1.png`, // NY-8 R (party letter placeholder)
 };
 
 /**

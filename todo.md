@@ -2383,3 +2383,15 @@
 ### Testing
 - [x] Add integration tests for AP pipeline end-to-end flow (9 tests: parsing, safety guards, runoff protection, broadcast, response format)
 - [x] Add WorldResultsTicker component tests (33 tests: countryFlag, typeTag, getResultColor, getRefLabel, filter logic, animation speed)
+
+## World Elections Verification Audit (Round 38)
+- [x] Fix Switzerland duplicates: deleted ID 90008 (Nov 29 duplicate), renamed ID 90007 to "Inheritance Tax Initiative" (Nov 30), renamed ID 90005 to "Neutrality & Food Initiatives" (Sep 27)
+- [x] Fix UK General Election: updated to "No Date Set" with note about Starmer resignation (Oct 22 date was from fictional Reddit post)
+- [x] Fix Cook Islands: corrected date from Aug 2 to Aug 12 (per King's Representative announcement June 25)
+- [x] Fix Iceland: renamed to "EU Membership Talks Referendum" for clarity
+- [x] Fix Armenia: updated to "No Date Set" — Pashinyan fell short of constitutional majority needed to call referendum
+- [x] Updated notes for South Sudan (NEC confirmed Dec 22), Bosnia (IFES Oct 4 expected), Palestine (Abbas decree June 15)
+- [x] Verified 31 upcoming elections against reliable sources (IFES, government sites, Reuters, BBC, official commissions)
+- [x] Globe enhancements: ocean labels reduced to 0.25 scale, camera repositioned for full northern hemisphere visibility
+- [x] Client-side CDN_PHOTOS map updated with 8 new challenger photos
+- [x] All 172 tests passing, 0 TypeScript errors
