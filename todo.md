@@ -2307,3 +2307,12 @@
 - [ ] Update CO Senate and Governor nominees — PENDING (primary is June 30)
 - [x] Run full site-wide audit — comprehensive report generated (full-site-audit-jun25.md)
 - [x] All 130 tests passing, 0 TypeScript errors, 0 console errors in production
+
+## Candidate Bios Population (Round 32)
+- [x] Populate bios for 27 Senate candidates missing C1 bios (36 total generated via LLM)
+- [x] Populate bios for 27 Senate candidates missing C2 bios (included in 36 total)
+- [x] Populate 1 missing Governor Rep bio (Rick Jackson, GA)
+- [x] Populate bios for 425 House C1 candidates missing bios (679 total House bios generated in 34 batches)
+- [x] Populate bios for 306 House C2 candidates missing bios (included in 679 total)
+- [x] All 130 tests passing, 0 TypeScript errors
+- [x] Final coverage: Senate 100%, Governor 100%, House 100% (0 confirmed candidates without bios)
