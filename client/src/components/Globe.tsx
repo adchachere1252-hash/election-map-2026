@@ -86,7 +86,7 @@ const COUNTRY_CENTROIDS: Record<string, { lon: number; lat: number }> = {
   CL: { lon: -71, lat: -30 },
   AR: { lon: -64, lat: -34 },
   PH: { lon: 122, lat: 12 },
-  ID: { lon: 118, lat: -2 },
+  ID: { lon: 113, lat: -2 },
   TH: { lon: 101, lat: 15 },
   VN: { lon: 106, lat: 16 },
   MY: { lon: 110, lat: 4 },
@@ -305,10 +305,16 @@ function createTextMesh(
   canvas.height = fontSize * 1.4 + padding;
 
   ctx.font = font;
-  ctx.fillStyle = color;
   ctx.globalAlpha = opacity;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
+  // Draw dark outline/stroke for contrast against any background
+  ctx.strokeStyle = "#000000";
+  ctx.lineWidth = 4;
+  ctx.lineJoin = "round";
+  ctx.strokeText(text, canvas.width / 2, canvas.height / 2);
+  // Fill with the label color on top
+  ctx.fillStyle = color;
   ctx.fillText(text, canvas.width / 2, canvas.height / 2);
 
   const texture = new THREE.CanvasTexture(canvas);
@@ -922,7 +928,7 @@ export default function Globe({
       AU: "Australia", IN: "India", KZ: "Kazakhstan", DZ: "Algeria",
       GL: "Greenland", AQ: "Antarctica",
       // Large countries (scale 0.08-0.11): short names
-      AR: "Argentina", MX: "Mexico", ID: "Indonesia", SA: "S. Arabia",
+      AR: "Argentina", MX: "Mexico", ID: "ID", SA: "S. Arabia",
       IR: "Iran", MN: "Mongolia", LY: "Libya", SD: "Sudan",
       CD: "DRC", CO: "Colombia", ET: "Ethiopia",
       // Medium countries (scale 0.06-0.07): abbreviated
@@ -979,13 +985,13 @@ export default function Globe({
         const election = map.get(code);
         const labelScale = COUNTRY_SCALE[code] || 0.04;
         const displayName = SHORT_NAMES[code] || code;
-        // Election countries with legend coloring get BLACK text for contrast
-        // Non-election countries get white text
+        // Election countries get BRIGHT WHITE (pops with dark outline against colored fills)
+        // Non-election countries get a softer slate color
         let labelColor: string;
         if (election && election.status !== "Postponed" && election.status !== "Cancelled") {
-          labelColor = "#111111"; // Black for election countries (readable against colored fill)
+          labelColor = "#ffffff"; // Bright white for election countries
         } else {
-          labelColor = "#ffffff"; // White for non-election countries
+          labelColor = "#94a3b8"; // Slate-400 for non-election (visible but subdued)
         }
         const mesh = createTextMesh(displayName, centroid.lon, centroid.lat, GLOBE_RADIUS * 1.02, {
           fontSize: 32,
