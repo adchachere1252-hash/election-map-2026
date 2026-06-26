@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback, memo, Suspense, lazy } from "react";
 import WorldElectionTimeline from "@/components/WorldElectionTimeline";
 import ReferendumsView from "@/components/ReferendumsView";
+import WorldResultsTicker from "@/components/WorldResultsTicker";
 import { trpc } from "@/lib/trpc";
 import { Calendar, List, Globe2, Users, Clock, ChevronRight, X, MapPin, Vote, Award, ArrowLeft, ScrollText } from "lucide-react";
 import { Link } from "wouter";
@@ -619,7 +620,11 @@ export default function WorldElections() {
   }
 
   return (
-    <div className="w-full h-screen flex flex-col lg:flex-row bg-slate-950 relative overflow-hidden">
+    <div className="w-full h-screen flex flex-col bg-slate-950 relative overflow-hidden">
+      {/* World Results Banner */}
+      <WorldResultsTicker />
+
+      <div className="flex-1 flex flex-col lg:flex-row relative overflow-hidden">
       {/* Top-right controls */}
       <div className="absolute top-3 right-3 z-50 flex items-center gap-2">
         {/* View toggle: Globe / Timeline */}
@@ -727,6 +732,7 @@ export default function WorldElections() {
             onClose={() => setSelectedCountry(null)}
           />
         )}
+      </div>
       </div>
     </div>
   );

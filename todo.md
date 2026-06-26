@@ -2328,3 +2328,8 @@
 - [x] Build admin-only fundraising panel (full-width FEC tab with CRUD, filters, search, summary stats)
 - [x] Brainstorm and document Election Night live data architecture (docs/election-night-architecture.md)
 - [x] All 130 tests passing, 0 TypeScript errors
+
+## World Elections Banner & U.S. Banner Fix (Round 34)
+- [x] Remove global election results from U.S. banner (U.S. banner = decided U.S. races only)
+- [x] Build World Elections results banner showing decided global elections/referendums with country flags
+- [x] All tests passing, 0 TypeScript errors

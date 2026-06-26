@@ -789,7 +789,7 @@ export const appRouter = router({
             isSpecial: r.isSpecial ?? false,
           })),
         ...allReferendums
-          .filter(r => r.status === 'Called' && r.calledResult)
+          .filter(r => r.status === 'Called' && r.calledResult && r.scope !== 'global')
           .map(r => ({
             id: `referendum-${r.id}`,
             chamber: 'referendum' as const,
