@@ -3,7 +3,9 @@ import WorldElectionTimeline from "@/components/WorldElectionTimeline";
 import ReferendumsView from "@/components/ReferendumsView";
 import WorldResultsTicker from "@/components/WorldResultsTicker";
 import { trpc } from "@/lib/trpc";
-import { Calendar, List, Globe2, Users, Clock, ChevronRight, X, MapPin, Vote, Award, ArrowLeft, ScrollText } from "lucide-react";
+import { Calendar, List, Globe2, Users, Clock, ChevronRight, X, MapPin, Vote, Award, ArrowLeft, ScrollText, Tag } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Label as UILabel } from "@/components/ui/label";
 import { Link } from "wouter";
 
 // Lazy load the 3D globe to keep initial bundle small
@@ -580,6 +582,7 @@ export default function WorldElections() {
   const [filter, setFilter] = useState("all");
   const [showSidebar, setShowSidebar] = useState(false);
   const [viewMode, setViewMode] = useState<"globe" | "timeline" | "referendums">("globe");
+  const [showLabels, setShowLabels] = useState(true);
 
   const electionData = useMemo(
     () =>
@@ -657,6 +660,20 @@ export default function WorldElections() {
             <span className="hidden sm:inline">Referendums</span>
           </button>
         </div>
+        {/* Labels toggle */}
+        {viewMode === "globe" && (
+          <div className="bg-slate-800/90 backdrop-blur-sm border border-slate-700/50 rounded-lg px-3 py-2 flex items-center gap-2">
+            <Switch
+              id="world-labels-toggle"
+              checked={showLabels}
+              onCheckedChange={setShowLabels}
+              className="scale-75 origin-left"
+            />
+            <UILabel htmlFor="world-labels-toggle" className="text-xs text-slate-200 cursor-pointer select-none">
+              Labels
+            </UILabel>
+          </div>
+        )}
         {/* Back to U.S. Map */}
         <Link
           to="/"
@@ -700,6 +717,7 @@ export default function WorldElections() {
                 onCountryHover={handleCountryHover}
                 selectedCountry={selectedCountry?.code || null}
                 autoRotate={!selectedCountry}
+                showLabels={showLabels}
               />
             </Suspense>
 

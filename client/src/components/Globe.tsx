@@ -34,6 +34,7 @@ interface GlobeProps {
   onCountryHover: (countryCode: string | null, countryName: string | null) => void;
   selectedCountry: string | null;
   autoRotate?: boolean;
+  showLabels?: boolean;
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -501,6 +502,7 @@ export default function Globe({
   onCountryHover,
   selectedCountry,
   autoRotate = true,
+  showLabels = true,
 }: GlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -516,6 +518,10 @@ export default function Globe({
 
   // Hover tracking for click
   const hoveredCountryRef = useRef<{ code: string; name: string } | null>(null);
+
+  // Labels visibility ref (used in animation loop)
+  const showLabelsRef = useRef(showLabels);
+  showLabelsRef.current = showLabels;
 
   // Drag state
   const isDragging = useRef(false);
@@ -954,7 +960,7 @@ export default function Globe({
         });
       }
 
-      // ─── Label visibility: hide labels on the back of the globe ──────────────
+      // ─── Label visibility: hide labels on the back of the globe (or all if toggled off) ──
       if (globeGroup) {
         const cameraWorldPos = new THREE.Vector3();
         camera.getWorldPosition(cameraWorldPos);
@@ -964,6 +970,12 @@ export default function Globe({
 
         globeGroup.children.forEach((child) => {
           if (child.userData && child.userData.isLabel) {
+            const mat = (child as THREE.Mesh).material as THREE.MeshBasicMaterial;
+            // If labels are toggled off, hide all
+            if (!showLabelsRef.current) {
+              mat.opacity = 0;
+              return;
+            }
             // Get label's world position
             const labelWorldPos = new THREE.Vector3();
             child.getWorldPosition(labelWorldPos);
@@ -972,7 +984,6 @@ export default function Globe({
             // Dot product: 1 = facing camera, -1 = facing away
             const dot = labelDir.dot(camDir);
             // Fade labels based on angle: fully visible > 0.3, fade between 0.0 and 0.3, hidden < 0.0
-            const mat = (child as THREE.Mesh).material as THREE.MeshBasicMaterial;
             if (dot < 0.0) {
               mat.opacity = 0;
             } else if (dot < 0.3) {
