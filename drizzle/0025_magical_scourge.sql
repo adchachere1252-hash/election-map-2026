@@ -1,0 +1,21 @@
+CREATE TABLE `fec_fundraising` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`chamber` enum('senate','house','governor') NOT NULL,
+	`race_id` int NOT NULL,
+	`candidate_name` varchar(256) NOT NULL,
+	`party` enum('D','R','I','L','G') NOT NULL,
+	`fec_id` varchar(16),
+	`total_raised` bigint DEFAULT 0,
+	`total_spent` bigint DEFAULT 0,
+	`cash_on_hand` bigint DEFAULT 0,
+	`total_debt` bigint DEFAULT 0,
+	`individual_contributions` bigint DEFAULT 0,
+	`pac_contributions` bigint DEFAULT 0,
+	`self_funding` bigint DEFAULT 0,
+	`small_dollar` bigint DEFAULT 0,
+	`reporting_period_start` varchar(16),
+	`reporting_period_end` varchar(16),
+	`last_filing_date` varchar(16),
+	`updated_at` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `fec_fundraising_id` PRIMARY KEY(`id`)
+);

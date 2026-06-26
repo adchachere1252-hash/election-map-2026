@@ -163,6 +163,12 @@ export const referendums = mysqlTable("referendums", {
   stateName: varchar("state_name", { length: 64 }).notNull(),
   name: varchar("name", { length: 256 }).notNull(),
   description: text("description"),
+  category: varchar("category", { length: 128 }), // e.g. "Healthcare", "Education", "Taxes", "Civil Rights"
+  measureType: varchar("measure_type", { length: 64 }), // e.g. "CICA", "LR", "CI", "LA"
+  measureTypeFull: varchar("measure_type_full", { length: 256 }), // e.g. "Citizen-Initiated Constitutional Amendment"
+  scope: varchar("scope", { length: 16 }).default("state"), // "state", "federal", "global"
+  country: varchar("country", { length: 128 }).default("United States"),
+  countryCode: varchar("country_code", { length: 3 }).default("US"),
   yesLabel: varchar("yes_label", { length: 128 }).default("Yes"),
   noLabel: varchar("no_label", { length: 128 }).default("No"),
   yesVotes: bigint("yes_votes", { mode: "number" }).default(0),
@@ -339,3 +345,31 @@ export const worldElections = mysqlTable("world_elections", {
 
 export type WorldElection = typeof worldElections.$inferSelect;
 export type InsertWorldElection = typeof worldElections.$inferInsert;
+
+// ─── FEC Fundraising Data (Admin-Only) ──────────────────────────────────────
+export const fecFundraising = mysqlTable("fec_fundraising", {
+  id: int("id").autoincrement().primaryKey(),
+  chamber: mysqlEnum("chamber", ["senate", "house", "governor"]).notNull(),
+  raceId: int("race_id").notNull(), // FK to senate_races.id, house_races.id, or governor_races.id
+  candidateName: varchar("candidate_name", { length: 256 }).notNull(),
+  party: mysqlEnum("party", ["D", "R", "I", "L", "G"]).notNull(),
+  fecId: varchar("fec_id", { length: 16 }), // FEC committee ID (e.g. H6CA45123)
+  // Financial data (in cents to avoid floating point)
+  totalRaised: bigint("total_raised", { mode: "number" }).default(0), // total receipts
+  totalSpent: bigint("total_spent", { mode: "number" }).default(0), // total disbursements
+  cashOnHand: bigint("cash_on_hand", { mode: "number" }).default(0), // cash on hand
+  totalDebt: bigint("total_debt", { mode: "number" }).default(0), // debts owed
+  individualContributions: bigint("individual_contributions", { mode: "number" }).default(0),
+  pacContributions: bigint("pac_contributions", { mode: "number" }).default(0),
+  selfFunding: bigint("self_funding", { mode: "number" }).default(0),
+  smallDollar: bigint("small_dollar", { mode: "number" }).default(0), // contributions < $200
+  // Reporting period
+  reportingPeriodStart: varchar("reporting_period_start", { length: 16 }), // YYYY-MM-DD
+  reportingPeriodEnd: varchar("reporting_period_end", { length: 16 }), // YYYY-MM-DD
+  lastFilingDate: varchar("last_filing_date", { length: 16 }), // when the report was filed
+  // Metadata
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type FecFundraising = typeof fecFundraising.$inferSelect;
+export type InsertFecFundraising = typeof fecFundraising.$inferInsert;

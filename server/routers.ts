@@ -15,6 +15,7 @@ import {
   getPinnedKeyRaces, pinKeyRace, unpinKeyRaceByRace,
   getAllGovernorRaces, getGovernorRaceById, getGovernorRaceByState, updateGovernorRace,
   getAllWorldElections, getWorldElectionById, getWorldElectionsByCountry, createWorldElection, updateWorldElection, deleteWorldElection,
+  getAllFecFundraising, getFecByRace, upsertFecFundraising, deleteFecFundraising,
 } from "./db";
 import { nanoid } from "nanoid";
 import { ENV } from "./_core/env";
@@ -990,7 +991,54 @@ export const appRouter = router({
         await deleteWorldElection(input.id);
         return { success: true };
       }),
+    }),
+  // ─── FEC Fundraising (Admin-Only) ──────────────────────────────────────────
+  fec: router({
+    getAll: publicProcedure
+      .input(z.object({ adminToken: z.string() }))
+      .query(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        return getAllFecFundraising();
+      }),
+    getByRace: publicProcedure
+      .input(z.object({ adminToken: z.string(), chamber: z.string(), raceId: z.number() }))
+      .query(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        return getFecByRace(input.chamber, input.raceId);
+      }),
+    upsert: publicProcedure
+      .input(z.object({
+        adminToken: z.string(),
+        chamber: z.enum(["senate", "house", "governor"]),
+        raceId: z.number(),
+        candidateName: z.string(),
+        party: z.enum(["D", "R", "I", "L", "G"]),
+        fecId: z.string().nullable().optional(),
+        totalRaised: z.number().nullable().optional(),
+        totalSpent: z.number().nullable().optional(),
+        cashOnHand: z.number().nullable().optional(),
+        totalDebt: z.number().nullable().optional(),
+        individualContributions: z.number().nullable().optional(),
+        pacContributions: z.number().nullable().optional(),
+        selfFunding: z.number().nullable().optional(),
+        smallDollar: z.number().nullable().optional(),
+        reportingPeriodStart: z.string().nullable().optional(),
+        reportingPeriodEnd: z.string().nullable().optional(),
+        lastFilingDate: z.string().nullable().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        const { adminToken: _t, ...data } = input;
+        const id = await upsertFecFundraising(data as any);
+        return { success: true, id };
+      }),
+    delete: publicProcedure
+      .input(z.object({ adminToken: z.string(), id: z.number() }))
+      .mutation(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        await deleteFecFundraising(input.id);
+        return { success: true };
+      }),
   }),
 });
-
 export type AppRouter = typeof appRouter;

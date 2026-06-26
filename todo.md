@@ -2316,3 +2316,15 @@
 - [x] Populate bios for 306 House C2 candidates missing bios (included in 679 total)
 - [x] All 130 tests passing, 0 TypeScript errors
 - [x] Final coverage: Senate 100%, Governor 100%, House 100% (0 confirmed candidates without bios)
+
+## Referendums, FEC Data & Election Night Planning (Round 33)
+- [x] Extract all 138 U.S. state ballot measures from Ballotpedia (39 states)
+- [x] Research global referendums scheduled for 2026 worldwide (Thailand, Bangladesh, Italy, Switzerland x4, Slovakia, Iceland, Armenia)
+- [x] Design unified referendums schema (added category/type columns + global entries in world_elections)
+- [x] Populate all U.S. ballot measures into database (138 entries)
+- [x] Populate all global referendums into database (10 entries in world_elections table)
+- [x] Build referendums UI integrated into World Elections globe/timeline (new Referendums tab with filters, search, detail panels)
+- [x] Add FEC/fundraising data schema (fec_fundraising table with full financial fields)
+- [x] Build admin-only fundraising panel (full-width FEC tab with CRUD, filters, search, summary stats)
+- [x] Brainstorm and document Election Night live data architecture (docs/election-night-architecture.md)
+- [x] All 130 tests passing, 0 TypeScript errors

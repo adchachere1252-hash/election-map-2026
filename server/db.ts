@@ -1,7 +1,7 @@
 import { eq, and, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { createRequire } from "module";
-import { InsertUser, users, senateRaces, houseRaces, redistrictingStates, referendums, adminSessions, senators, pinnedKeyRaces, governorRaces, worldElections } from "../drizzle/schema";
+import { InsertUser, users, senateRaces, houseRaces, redistrictingStates, referendums, adminSessions, senators, pinnedKeyRaces, governorRaces, worldElections, fecFundraising } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 const _require = createRequire(import.meta.url);
@@ -533,4 +533,45 @@ export async function deleteWorldElection(id: number) {
   const db = await getDb();
   if (!db) throw new Error("DB not available");
   await db.delete(worldElections).where(eq(worldElections.id, id));
+}
+
+
+// ─── FEC Fundraising ─────────────────────────────────────────────────────────
+export async function getAllFecFundraising() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(fecFundraising).orderBy(fecFundraising.chamber, fecFundraising.candidateName);
+}
+
+export async function getFecByRace(chamber: string, raceId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(fecFundraising)
+    .where(and(eq(fecFundraising.chamber, chamber as any), eq(fecFundraising.raceId, raceId)));
+}
+
+export async function upsertFecFundraising(data: typeof fecFundraising.$inferInsert) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  // Check if entry exists for this candidate + race
+  const existing = await db.select().from(fecFundraising)
+    .where(and(
+      eq(fecFundraising.chamber, data.chamber),
+      eq(fecFundraising.raceId, data.raceId),
+      eq(fecFundraising.candidateName, data.candidateName)
+    )).limit(1);
+  
+  if (existing.length > 0) {
+    await db.update(fecFundraising).set(data).where(eq(fecFundraising.id, existing[0].id));
+    return existing[0].id;
+  } else {
+    const result = await db.insert(fecFundraising).values(data);
+    return result[0].insertId;
+  }
+}
+
+export async function deleteFecFundraising(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.delete(fecFundraising).where(eq(fecFundraising.id, id));
 }

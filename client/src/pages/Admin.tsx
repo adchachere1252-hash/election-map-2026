@@ -1542,8 +1542,183 @@ function WorldElectionEditor({ election, token, onUpdated }: { election: any; to
   );
 }
 
+// ─── FEC Fundraising Panel ─────────────────────────────────────────────────
+function FecFundraisingPanel({ token }: { token: string }) {
+  const { data: fecData = [], refetch } = trpc.fec.getAll.useQuery({ adminToken: token });
+  const [chamber, setChamber] = useState<"all" | "senate" | "house" | "governor">("all");
+  const [searchFec, setSearchFec] = useState("");
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [form, setForm] = useState({ candidateName: "", chamber: "senate" as string, raceId: 0, party: "D" as string, totalRaised: 0, totalSpent: 0, cashOnHand: 0, reportingPeriodEnd: "", stateCode: "", district: "" });
+
+  const upsertMutation = trpc.fec.upsert.useMutation({
+    onSuccess: () => { refetch(); toast.success(editingId ? "Updated" : "Added"); setEditingId(null); resetForm(); },
+    onError: (err) => toast.error(err.message),
+  });
+  const deleteMutation = trpc.fec.delete.useMutation({
+    onSuccess: () => { refetch(); toast.success("Deleted"); },
+    onError: (err) => toast.error(err.message),
+  });
+
+  const resetForm = () => setForm({ candidateName: "", chamber: "senate", raceId: 0, party: "D", totalRaised: 0, totalSpent: 0, cashOnHand: 0, reportingPeriodEnd: "", stateCode: "", district: "" });
+
+  const startEdit = (row: any) => {
+    setEditingId(row.id);
+    setForm({ candidateName: row.candidateName, chamber: row.chamber, raceId: row.raceId, party: row.party, totalRaised: row.totalRaised ?? 0, totalSpent: row.totalSpent ?? 0, cashOnHand: row.cashOnHand ?? 0, reportingPeriodEnd: row.reportingPeriodEnd || "", stateCode: row.stateCode || "", district: row.district || "" });
+  };
+
+  const handleSave = () => {
+    const { stateCode: _s, district: _d, ...rest } = form;
+    upsertMutation.mutate({ adminToken: token, ...rest, raceId: rest.raceId || 0, chamber: rest.chamber as "senate" | "house" | "governor", party: rest.party as "D" | "R" | "I" | "L" | "G" });
+  };
+
+  const filtered = fecData.filter(r => {
+    if (chamber !== "all" && r.chamber !== chamber) return false;
+    if (searchFec && !r.candidateName.toLowerCase().includes(searchFec.toLowerCase())) return false;
+    return true;
+  }).sort((a, b) => (b.totalRaised ?? 0) - (a.totalRaised ?? 0));
+
+  const formatMoney = (n: number) => n >= 1_000_000 ? `$${(n / 1_000_000).toFixed(1)}M` : n >= 1_000 ? `$${(n / 1_000).toFixed(0)}K` : `$${n}`;
+
+  return (
+    <div className="h-full overflow-y-auto p-5 space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <h2 className="text-lg font-bold text-foreground">FEC Fundraising Data</h2>
+          <span className="text-xs bg-green-900/50 text-green-300 border border-green-700/40 px-2 py-0.5 rounded">Admin Only</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-muted-foreground">{filtered.length} records</span>
+          <button onClick={() => { resetForm(); setEditingId(-1); }} className="text-xs bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded font-medium transition-colors">+ Add Record</button>
+        </div>
+      </div>
+
+      {/* Filters */}
+      <div className="flex items-center gap-3">
+        <div className="flex gap-1 bg-muted rounded-lg p-0.5">
+          {(["all", "senate", "house", "governor"] as const).map(c => (
+            <button key={c} onClick={() => setChamber(c)} className={`px-3 py-1 text-xs font-medium rounded-md transition-colors capitalize ${chamber === c ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}>{c}</button>
+          ))}
+        </div>
+        <div className="relative flex-1 max-w-xs">
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+          <input className="w-full bg-muted border border-border rounded pl-8 pr-3 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none" placeholder="Search candidate or state..." value={searchFec} onChange={e => setSearchFec(e.target.value)} />
+        </div>
+      </div>
+
+      {/* Add/Edit Form */}
+      {editingId !== null && (
+        <div className="bg-card border border-border rounded-xl p-4 space-y-3">
+          <h3 className="text-sm font-semibold text-foreground">{editingId === -1 ? "Add New Record" : "Edit Record"}</h3>
+          <div className="grid grid-cols-4 gap-3">
+            <input className="col-span-2 bg-muted border border-border rounded px-3 py-1.5 text-sm" placeholder="Candidate Name" value={form.candidateName} onChange={e => setForm(f => ({ ...f, candidateName: e.target.value }))} />
+            <select className="bg-muted border border-border rounded px-3 py-1.5 text-sm" value={form.chamber} onChange={e => setForm(f => ({ ...f, chamber: e.target.value }))}>
+              <option value="senate">Senate</option>
+              <option value="house">House</option>
+              <option value="governor">Governor</option>
+            </select>
+            <select className="bg-muted border border-border rounded px-3 py-1.5 text-sm" value={form.party} onChange={e => setForm(f => ({ ...f, party: e.target.value }))}>
+              <option value="D">Democrat</option>
+              <option value="R">Republican</option>
+              <option value="I">Independent</option>
+            </select>
+            <input type="number" className="bg-muted border border-border rounded px-3 py-1.5 text-sm" placeholder="Race ID" value={form.raceId || ""} onChange={e => setForm(f => ({ ...f, raceId: Number(e.target.value) }))} />
+            <input className="bg-muted border border-border rounded px-3 py-1.5 text-sm" placeholder="Reporting Period End (YYYY-MM-DD)" value={form.reportingPeriodEnd} onChange={e => setForm(f => ({ ...f, reportingPeriodEnd: e.target.value }))} />
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            <div>
+              <label className="text-xs text-muted-foreground">Total Raised ($)</label>
+              <input type="number" className="w-full bg-muted border border-border rounded px-3 py-1.5 text-sm mt-1" value={form.totalRaised} onChange={e => setForm(f => ({ ...f, totalRaised: Number(e.target.value) }))} />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground">Total Spent ($)</label>
+              <input type="number" className="w-full bg-muted border border-border rounded px-3 py-1.5 text-sm mt-1" value={form.totalSpent} onChange={e => setForm(f => ({ ...f, totalSpent: Number(e.target.value) }))} />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground">Cash on Hand ($)</label>
+              <input type="number" className="w-full bg-muted border border-border rounded px-3 py-1.5 text-sm mt-1" value={form.cashOnHand} onChange={e => setForm(f => ({ ...f, cashOnHand: Number(e.target.value) }))} />
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <button onClick={handleSave} disabled={upsertMutation.isPending || !form.candidateName || !form.stateCode} className="text-xs bg-blue-600 hover:bg-blue-500 text-white px-4 py-1.5 rounded font-medium transition-colors disabled:opacity-50">
+              {upsertMutation.isPending ? "Saving..." : "Save"}
+            </button>
+            <button onClick={() => { setEditingId(null); resetForm(); }} className="text-xs text-muted-foreground hover:text-foreground px-3 py-1.5 rounded hover:bg-muted transition-colors">Cancel</button>
+          </div>
+        </div>
+      )}
+
+      {/* Data Table */}
+      <div className="bg-card border border-border rounded-xl overflow-hidden">
+        <table className="w-full text-sm">
+          <thead className="bg-muted/50 border-b border-border">
+            <tr>
+              <th className="text-left px-4 py-2.5 text-xs font-semibold text-muted-foreground uppercase">Candidate</th>
+              <th className="text-left px-4 py-2.5 text-xs font-semibold text-muted-foreground uppercase">Race</th>
+              <th className="text-right px-4 py-2.5 text-xs font-semibold text-muted-foreground uppercase">Raised</th>
+              <th className="text-right px-4 py-2.5 text-xs font-semibold text-muted-foreground uppercase">Spent</th>
+              <th className="text-right px-4 py-2.5 text-xs font-semibold text-muted-foreground uppercase">Cash on Hand</th>
+              <th className="text-left px-4 py-2.5 text-xs font-semibold text-muted-foreground uppercase">Period</th>
+              <th className="text-center px-4 py-2.5 text-xs font-semibold text-muted-foreground uppercase">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-border">
+            {filtered.length === 0 && (
+              <tr><td colSpan={7} className="text-center py-8 text-muted-foreground">No FEC records yet. Click "+ Add Record" to start tracking fundraising data.</td></tr>
+            )}
+            {filtered.map(row => (
+              <tr key={row.id} className="hover:bg-muted/30 transition-colors">
+                <td className="px-4 py-2.5">
+                  <div className="flex items-center gap-2">
+                    <span className={`w-2 h-2 rounded-full ${row.party === "D" ? "bg-blue-500" : row.party === "R" ? "bg-red-500" : "bg-gray-400"}`} />
+                    <span className="font-medium">{row.candidateName}</span>
+                  </div>
+                </td>
+                <td className="px-4 py-2.5 text-muted-foreground">
+                  Race #{row.raceId} · <span className="capitalize">{row.chamber}</span>
+                </td>
+                <td className="px-4 py-2.5 text-right font-mono text-green-400">{formatMoney(row.totalRaised ?? 0)}</td>
+                <td className="px-4 py-2.5 text-right font-mono text-red-400">{formatMoney(row.totalSpent ?? 0)}</td>
+                <td className="px-4 py-2.5 text-right font-mono font-semibold">{formatMoney(row.cashOnHand ?? 0)}</td>
+                <td className="px-4 py-2.5 text-muted-foreground text-xs">{row.reportingPeriodEnd || "—"}</td>
+                <td className="px-4 py-2.5 text-center">
+                  <div className="flex items-center justify-center gap-1">
+                    <button onClick={() => startEdit(row)} className="text-xs text-blue-400 hover:text-blue-300 px-2 py-1 rounded hover:bg-muted transition-colors">Edit</button>
+                    <button onClick={() => { if (confirm("Delete this record?")) deleteMutation.mutate({ adminToken: token, id: row.id }); }} className="text-xs text-red-400 hover:text-red-300 px-2 py-1 rounded hover:bg-muted transition-colors">Del</button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Summary Stats */}
+      {filtered.length > 0 && (
+        <div className="grid grid-cols-4 gap-3">
+          <div className="bg-card border border-border rounded-xl p-3">
+            <p className="text-xs text-muted-foreground">Total Records</p>
+            <p className="text-xl font-bold">{filtered.length}</p>
+          </div>
+          <div className="bg-card border border-border rounded-xl p-3">
+            <p className="text-xs text-muted-foreground">Total Raised</p>
+            <p className="text-xl font-bold text-green-400">{formatMoney(filtered.reduce((s, r) => s + (r.totalRaised ?? 0), 0))}</p>
+          </div>
+          <div className="bg-card border border-border rounded-xl p-3">
+            <p className="text-xs text-muted-foreground">Total Spent</p>
+            <p className="text-xl font-bold text-red-400">{formatMoney(filtered.reduce((s, r) => s + (r.totalSpent ?? 0), 0))}</p>
+          </div>
+          <div className="bg-card border border-border rounded-xl p-3">
+            <p className="text-xs text-muted-foreground">Total Cash on Hand</p>
+            <p className="text-xl font-bold">{formatMoney(filtered.reduce((s, r) => s + (r.cashOnHand ?? 0), 0))}</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Main Admin Panel ─────────────────────────────────────────────────
-type AdminTab = "senate" | "house" | "redistricting" | "referendums" | "primary" | "election-night" | "key-races" | "governors" | "live-monitor" | "world";
+type AdminTab = "senate" | "house" | "redistricting" | "referendums" | "primary" | "election-night" | "key-races" | "governors" | "live-monitor" | "world" | "fec";
 
 function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }) {
   const [tab, setTab] = useState<AdminTab>("senate");
@@ -1655,10 +1830,10 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
 
       <div className="flex-1 flex overflow-hidden" style={{ height: "calc(100vh - 57px)" }}>
         {/* Left: Race list — hidden in Election Night mode (full-width layout) */}
-        <div className={`border-r border-border flex flex-col overflow-hidden transition-all ${tab === "election-night" ? "w-0 overflow-hidden border-0" : "w-72"}`}>
+        <div className={`border-r border-border flex flex-col overflow-hidden transition-all ${(tab === "election-night" || tab === "fec") ? "w-0 overflow-hidden border-0" : "w-72"}`}>
           {/* Tabs */}
           <div className="flex flex-wrap border-b border-border">
-            {(["senate", "house", "redistricting", "referendums", "governors", "world", "primary", "key-races", "election-night", "live-monitor"] as AdminTab[]).map(t => (
+            {(["senate", "house", "redistricting", "referendums", "governors", "world", "fec", "primary", "key-races", "election-night", "live-monitor"] as AdminTab[]).map(t => (
               <button
                 key={t}
                 onClick={() => { setTab(t); setSearch(""); }}
@@ -1677,6 +1852,7 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
                   : t === "election-night" ? <span className="flex items-center justify-center gap-0.5"><Zap className="w-3 h-3" />Night</span>
                   : t === "key-races" ? <span className="flex items-center justify-center gap-0.5"><Star className="w-3 h-3" />Key Races</span>
                   : t === "live-monitor" ? <span className="flex items-center justify-center gap-0.5"><Zap className="w-3 h-3 text-green-400" />Monitor</span>
+                  : t === "fec" ? "FEC $"
                   : t.charAt(0).toUpperCase() + t.slice(1)}
               </button>
             ))}
@@ -1836,7 +2012,7 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
           ref={editorPanelRef}
           className={`fixed top-0 right-0 h-full z-50 bg-background border-l border-border shadow-2xl flex flex-col transition-transform duration-300 ease-in-out
             ${
-              (tab === "primary" || tab === "election-night" || tab === "key-races")
+              (tab === "primary" || tab === "election-night" || tab === "key-races" || tab === "fec")
                 ? "relative translate-x-0 flex-1 shadow-none border-0 overflow-hidden"
                 : isDrawerOpen
                   ? "w-[480px] translate-x-0 overflow-y-auto"
@@ -1844,7 +2020,7 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
             }`}
         >
           {/* Drawer close button */}
-          {isDrawerOpen && tab !== "primary" && tab !== "election-night" && tab !== "key-races" && (
+          {isDrawerOpen && tab !== "primary" && tab !== "election-night" && tab !== "key-races" && tab !== "fec" && (
             <div className="sticky top-0 z-10 flex items-center justify-between px-5 py-3 border-b border-border bg-background/95 backdrop-blur-sm">
               <span className="text-sm font-semibold text-foreground">
                 {tab === "senate" && selectedSenate && `${selectedSenate.stateName} — Senate`}
@@ -1863,7 +2039,7 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
               </button>
             </div>
           )}
-          <div className={`${tab === "primary" || tab === "election-night" || tab === "key-races" ? "" : "p-6 flex-1"}`}>
+          <div className={`${tab === "primary" || tab === "election-night" || tab === "key-races" || tab === "fec" ? "" : "p-6 flex-1"}`}>
           {tab === "senate" && selectedSenate && (
             <div>
               <h2 className="text-lg font-bold text-foreground mb-1">{selectedSenate.stateName} Senate Race</h2>
@@ -2071,8 +2247,13 @@ function AdminPanel({ token, onLogout }: { token: string; onLogout: () => void }
             <LiveMonitorPanel token={token} />
           )}
 
+          {/* FEC Fundraising Panel */}
+          {tab === "fec" && (
+            <FecFundraisingPanel token={token} />
+          )}
+
           {/* Empty state */}
-          {tab !== "election-night" && tab !== "primary" && tab !== "key-races" && tab !== "live-monitor" &&
+          {tab !== "election-night" && tab !== "primary" && tab !== "key-races" && tab !== "live-monitor" && tab !== "fec" &&
             ((tab === "senate" && !selectedSenate) ||
             (tab === "house" && !selectedHouse) ||
             (tab === "redistricting" && !selectedRedistricting) ||

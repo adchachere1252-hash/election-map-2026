@@ -1,7 +1,8 @@
 import { useState, useMemo, useCallback, memo, Suspense, lazy } from "react";
 import WorldElectionTimeline from "@/components/WorldElectionTimeline";
+import ReferendumsView from "@/components/ReferendumsView";
 import { trpc } from "@/lib/trpc";
-import { Calendar, List, Globe2, Users, Clock, ChevronRight, X, MapPin, Vote, Award, ArrowLeft } from "lucide-react";
+import { Calendar, List, Globe2, Users, Clock, ChevronRight, X, MapPin, Vote, Award, ArrowLeft, ScrollText } from "lucide-react";
 import { Link } from "wouter";
 
 // Lazy load the 3D globe to keep initial bundle small
@@ -577,7 +578,7 @@ export default function WorldElections() {
   const [hoveredCountry, setHoveredCountry] = useState<{ code: string; name: string } | null>(null);
   const [filter, setFilter] = useState("all");
   const [showSidebar, setShowSidebar] = useState(false);
-  const [viewMode, setViewMode] = useState<"globe" | "timeline">("globe");
+  const [viewMode, setViewMode] = useState<"globe" | "timeline" | "referendums">("globe");
 
   const electionData = useMemo(
     () =>
@@ -641,6 +642,15 @@ export default function WorldElections() {
             <List className="w-4 h-4" />
             <span className="hidden sm:inline">Timeline</span>
           </button>
+          <button
+            onClick={() => setViewMode("referendums")}
+            className={`px-3 py-2 text-sm flex items-center gap-1.5 transition-colors ${
+              viewMode === "referendums" ? "bg-blue-500/20 text-blue-300" : "text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            <ScrollText className="w-4 h-4" />
+            <span className="hidden sm:inline">Referendums</span>
+          </button>
         </div>
         {/* Back to U.S. Map */}
         <Link
@@ -696,12 +706,16 @@ export default function WorldElections() {
             {/* Legend */}
             <Legend />
           </>
-        ) : (
+        ) : viewMode === "timeline" ? (
           <div className="w-full h-full overflow-hidden p-4 lg:p-6 flex flex-col">
             <WorldElectionTimeline
               elections={elections}
               onElectionClick={handleCountryClick}
             />
+          </div>
+        ) : (
+          <div className="w-full h-full overflow-hidden">
+            <ReferendumsView />
           </div>
         )}
 

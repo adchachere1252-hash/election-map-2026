@@ -169,6 +169,20 @@
       "when": 1782416971538,
       "tag": "0023_lethal_preak",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "5",
+      "when": 1782487214870,
+      "tag": "0024_sweet_quicksilver",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "5",
+      "when": 1782488140564,
+      "tag": "0025_magical_scourge",
+      "breakpoints": true
     }
   ]
 }
