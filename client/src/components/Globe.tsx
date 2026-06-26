@@ -198,6 +198,54 @@ const COUNTRY_CENTROIDS: Record<string, { lon: number; lat: number }> = {
   TW: { lon: 121, lat: 24 },
   HK: { lon: 114, lat: 22 },
   US: { lon: -97, lat: 39 },
+  // Added to cover ALL TopoJSON countries
+  AL: { lon: 20, lat: 41 },
+  AQ: { lon: 0, lat: -82 },
+  BJ: { lon: 2, lat: 10 },
+  BN: { lon: 115, lat: 5 },
+  BS: { lon: -77, lat: 25 },
+  BT: { lon: 90, lat: 27 },
+  BW: { lon: 24, lat: -22 },
+  BY: { lon: 28, lat: 53 },
+  CF: { lon: 21, lat: 7 },
+  CG: { lon: 16, lat: -1 },
+  CY: { lon: 33, lat: 35 },
+  EE: { lon: 26, lat: 59 },
+  EH: { lon: -13, lat: 24 },
+  FJ: { lon: 178, lat: -18 },
+  FK: { lon: -59, lat: -52 },
+  GA: { lon: 12, lat: -1 },
+  GL: { lon: -42, lat: 72 },
+  GN: { lon: -10, lat: 10 },
+  GQ: { lon: 10, lat: 2 },
+  GW: { lon: -15, lat: 12 },
+  GY: { lon: -59, lat: 5 },
+  HR: { lon: 16, lat: 45 },
+  KP: { lon: 127, lat: 40 },
+  LR: { lon: -10, lat: 6 },
+  LS: { lon: 29, lat: -30 },
+  LT: { lon: 24, lat: 56 },
+  LU: { lon: 6, lat: 50 },
+  MD: { lon: 29, lat: 47 },
+  ME: { lon: 19, lat: 43 },
+  MK: { lon: 22, lat: 41 },
+  MR: { lon: -11, lat: 20 },
+  NA: { lon: 17, lat: -22 },
+  NC: { lon: 165, lat: -22 },
+  PG: { lon: 147, lat: -6 },
+  PR: { lon: -66, lat: 18 },
+  PS: { lon: 35, lat: 32 },
+  RS: { lon: 21, lat: 44 },
+  SB: { lon: 160, lat: -9 },
+  SI: { lon: 15, lat: 46 },
+  SL: { lon: -12, lat: 9 },
+  SR: { lon: -56, lat: 4 },
+  SZ: { lon: 31, lat: -27 },
+  TF: { lon: 69, lat: -49 },
+  TG: { lon: 1, lat: 8 },
+  TL: { lon: 126, lat: -9 },
+  VU: { lon: 167, lat: -16 },
+  ZW: { lon: 30, lat: -20 },
 };
 
 // ─── Create text sprite for labels ──────────────────────────────────────────
@@ -858,46 +906,67 @@ export default function Globe({
       PA: 0.03, CR: 0.03, GT: 0.04, HN: 0.04, NI: 0.04, SV: 0.03, BZ: 0.03,
       KR: 0.04, TW: 0.03, BY: 0.05, LT: 0.03, EE: 0.03,
       AL: 0.03, MK: 0.03, ME: 0.03, SI: 0.03, XK: 0.03,
+      // Newly added countries
+      AQ: 0.14, GL: 0.12, PG: 0.06, NC: 0.03, FJ: 0.03,
+      NA: 0.07, BW: 0.06, ZW: 0.05, MR: 0.07, GA: 0.04,
+      CG: 0.04, CF: 0.05, GQ: 0.03, GW: 0.03, SL: 0.03,
+      LR: 0.03, TG: 0.03, BJ: 0.03, SZ: 0.03, LS: 0.03,
+      MD: 0.03, LU: 0.03, CY: 0.03, PS: 0.03, BN: 0.03,
+      BT: 0.03, BS: 0.03, FK: 0.03, TF: 0.03, EH: 0.05,
+      TL: 0.03, VU: 0.03, SB: 0.03, PR: 0.03, KP: 0.04,
     };
-    // Short display names for long country names
+    // Short display names — use abbreviations/initials for smaller countries
     const SHORT_NAMES: Record<string, string> = {
-      US: "U.S.", GB: "U.K.", NZ: "N.Z.", BA: "Bosnia", CZ: "Czechia",
-      SA: "S. Arabia", ZA: "S. Africa", SS: "S. Sudan", BD: "Bangladesh",
-      KZ: "Kazakhstan", DZ: "Algeria", ET: "Ethiopia", AE: "U.A.E.",
-      CD: "D.R. Congo", CG: "Congo", CF: "C.A.R.", GQ: "Eq. Guinea",
-      MK: "N. Macedonia", KP: "N. Korea", KR: "S. Korea", TW: "Taiwan",
-      DO: "Dom. Rep.", TT: "Trinidad", MG: "Madagascar", MZ: "Mozambique",
-      PH: "Philippines", ID: "Indonesia", MY: "Malaysia", MM: "Myanmar",
-      AF: "Afghanistan", PK: "Pakistan", UZ: "Uzbekistan", TM: "Turkmenistan",
-      KG: "Kyrgyzstan", TJ: "Tajikistan", BY: "Belarus", UA: "Ukraine",
-      AU: "Australia", VN: "Vietnam", TH: "Thailand", KH: "Cambodia",
-      LA: "Laos", NP: "Nepal", LK: "Sri Lanka",
-      GT: "Guatemala", HN: "Honduras", NI: "Nicaragua", SV: "El Salvador",
-      CR: "Costa Rica", PA: "Panama", VE: "Venezuela", EC: "Ecuador",
-      PY: "Paraguay", UY: "Uruguay", SR: "Suriname", GY: "Guyana",
-      SN: "Senegal", CI: "Ivory Coast", BF: "Burkina Faso",
-      CM: "Cameroon", TD: "Chad", NE: "Niger", ML: "Mali",
-      GN: "Guinea", MW: "Malawi", RW: "Rwanda", BI: "Burundi",
-      UG: "Uganda", KE: "Kenya", TZ: "Tanzania", ZM: "Zambia",
-      AO: "Angola", SD: "Sudan", LY: "Libya", TN: "Tunisia",
-      MA: "Morocco", EG: "Egypt", NG: "Nigeria", GH: "Ghana",
-      SO: "Somalia", ER: "Eritrea", DJ: "Djibouti",
-      NO: "Norway", SE: "Sweden", FI: "Finland", DK: "Denmark",
-      IE: "Ireland", NL: "Netherlands", BE: "Belgium", CH: "Switzerland",
-      AT: "Austria", PT: "Portugal", ES: "Spain", IT: "Italy",
-      GR: "Greece", RO: "Romania", HU: "Hungary", BG: "Bulgaria",
-      SK: "Slovakia", HR: "Croatia", RS: "Serbia", AL: "Albania",
-      ME: "Montenegro", SI: "Slovenia", XK: "Kosovo", LV: "Latvia",
-      LT: "Lithuania", EE: "Estonia", IS: "Iceland",
-      PL: "Poland", DE: "Germany", FR: "France",
-      RU: "Russia", CN: "China", IN: "India", JP: "Japan",
-      MN: "Mongolia", IR: "Iran", IQ: "Iraq", SY: "Syria",
-      JO: "Jordan", LB: "Lebanon", IL: "Israel", KW: "Kuwait",
-      QA: "Qatar", BH: "Bahrain", OM: "Oman", YE: "Yemen",
-      GE: "Georgia", AZ: "Azerbaijan", AM: "Armenia",
-      TR: "Turkey", CU: "Cuba", JM: "Jamaica", HT: "Haiti",
-      MX: "Mexico", CA: "Canada", BR: "Brazil", AR: "Argentina",
-      CL: "Chile", CO: "Colombia", PE: "Peru", BO: "Bolivia",
+      // Large countries: full or short names
+      US: "U.S.", RU: "Russia", CN: "China", CA: "Canada", BR: "Brazil",
+      AU: "Australia", IN: "India", KZ: "Kazakhstan", DZ: "Algeria",
+      AR: "Argentina", MX: "Mexico", ID: "Indonesia", SA: "S. Arabia",
+      IR: "Iran", MN: "Mongolia", LY: "Libya", SD: "Sudan",
+      CD: "D.R.C.", AO: "Angola", ML: "Mali", NE: "Niger", TD: "Chad",
+      EG: "Egypt", NG: "Nigeria", ZA: "S. Africa", ET: "Ethiopia",
+      CO: "Colombia", PE: "Peru", VE: "Venezuela", CL: "Chile",
+      BO: "Bolivia", PY: "Paraguay", UY: "Uruguay",
+      TR: "Turkey", PK: "Pakistan", AF: "Afghanistan", UA: "Ukraine",
+      FR: "France", ES: "Spain", DE: "Germany", PL: "Poland",
+      IT: "Italy", GB: "U.K.", JP: "Japan", PH: "Philippines",
+      VN: "Vietnam", TH: "Thailand", MM: "Myanmar",
+      SE: "Sweden", NO: "Norway", FI: "Finland",
+      KE: "Kenya", TZ: "Tanzania", MZ: "Mozambique", MG: "Madagascar",
+      CM: "Cameroon", ZM: "Zambia", MA: "Morocco", SO: "Somalia",
+      SS: "S. Sudan", IQ: "Iraq", YE: "Yemen",
+      MY: "Malaysia", BD: "Bangladesh", NP: "Nepal",
+      GL: "Greenland", AQ: "Antarctica", PG: "P.N.G.",
+      NA: "Namibia", BW: "Botswana", ZW: "Zimbabwe", MR: "Mauritania",
+      BY: "Belarus", RO: "Romania", UZ: "Uzbekistan", TM: "Turkmenistan",
+      // Medium countries: abbreviated
+      NZ: "N.Z.", CZ: "CZ", HU: "HU", BG: "BG", SK: "SK",
+      HR: "HR", RS: "RS", BA: "BA", IS: "IS", IE: "IE",
+      DK: "DK", AT: "AT", CH: "CH", BE: "BE", NL: "NL",
+      PT: "PT", GR: "GR", LV: "LV", LT: "LT", EE: "EE",
+      AL: "AL", MK: "MK", ME: "ME", SI: "SI", XK: "XK",
+      MD: "MD", LU: "LU", CY: "CY",
+      // Small countries: use 2-letter code
+      GE: "GE", AZ: "AZ", AM: "AM", KG: "KG", TJ: "TJ",
+      JO: "JO", LB: "LB", IL: "IL", KW: "KW", QA: "QA",
+      BH: "BH", OM: "OM", AE: "UAE", PS: "PS",
+      KH: "KH", LA: "LA", LK: "LK", BN: "BN", BT: "BT",
+      // Americas small
+      CU: "Cuba", DO: "DO", JM: "JM", HT: "Haiti", TT: "TT",
+      PA: "PA", CR: "CR", GT: "GT", HN: "HN", NI: "NI",
+      SV: "SV", BZ: "BZ", EC: "EC", GY: "GY", SR: "SR",
+      PR: "PR", BS: "BS", FK: "FK",
+      // Africa small
+      SN: "SN", CI: "CI", BF: "BF", GN: "GN", GH: "Ghana",
+      UG: "UG", MW: "MW", RW: "RW", BI: "BI",
+      GA: "GA", CG: "CG", CF: "CF", GQ: "GQ", GW: "GW",
+      SL: "SL", LR: "LR", TG: "TG", BJ: "BJ", GM: "GM",
+      ER: "ER", DJ: "DJ", SZ: "SZ", LS: "LS",
+      EH: "W. Sahara",
+      // Asia-Pacific small
+      KR: "S. Korea", KP: "N. Korea", TW: "Taiwan", HK: "HK",
+      SG: "SG", NC: "NC", FJ: "FJ", VU: "VU", SB: "SB", TL: "TL",
+      // Misc
+      CV: "CV", ST: "ST", CK: "CK", TF: "TF",
     };
     // Status → label color (matches legend)
     const STATUS_LABEL_COLORS: Record<string, string> = {
@@ -912,7 +981,7 @@ export default function Globe({
       // Add labels for ALL countries that have centroids
       Object.entries(COUNTRY_CENTROIDS).forEach(([code, centroid]) => {
         const election = map.get(code);
-        const labelScale = COUNTRY_SCALE[code] || 0.05;
+        const labelScale = COUNTRY_SCALE[code] || 0.04;
         const displayName = SHORT_NAMES[code] || (election?.country) || code;
         // Election countries get their status color; others get white
         let labelColor: string;
@@ -922,10 +991,10 @@ export default function Globe({
           labelColor = "#e2e8f0"; // White/light for all non-election countries
         }
         const mesh = createTextMesh(displayName, centroid.lon, centroid.lat, GLOBE_RADIUS * 1.02, {
-          fontSize: 28,
+          fontSize: 32,
           color: labelColor,
-          fontStyle: election ? "700" : "500",
-          opacity: election ? 0.95 : 0.75,
+          fontStyle: "bold",
+          opacity: election ? 1.0 : 0.85,
           scale: labelScale * 1.5,
         });
         mesh.userData = { isLabel: true, countryLabel: code };

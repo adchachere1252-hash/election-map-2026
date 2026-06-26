@@ -2395,3 +2395,12 @@
 - [x] Globe enhancements: ocean labels reduced to 0.25 scale, camera repositioned for full northern hemisphere visibility
 - [x] Client-side CDN_PHOTOS map updated with 8 new challenger photos
 - [x] All 172 tests passing, 0 TypeScript errors
+
+## Globe Labels Enhancement (Round 39)
+- [x] Globe labels: bold font weight for ALL labels (fontSize 32, fontStyle "bold")
+- [x] Globe labels: abbreviations/initials for small countries (2-letter codes like UK→U.K., small nations→AL, HR, etc.)
+- [x] Globe labels: added centroids for ALL 47 missing countries (now 174/174 TopoJSON countries covered)
+- [x] Globe labels: verification script confirmed 0 missing countries
+- [x] Globe labels: proper COUNTRY_SCALE entries for all new countries
+- [x] Globe labels: higher opacity for all labels (election=1.0, non-election=0.85)
+- [x] TypeScript: 0 errors
