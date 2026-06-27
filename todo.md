@@ -2410,3 +2410,7 @@
 - [x] Globe labels: Russia centroid corrected to (100, 60)
 - [x] Globe labels: all centroids verified within 5° of known geographic centers
 - [x] World search bar: search/filter countries on the globe view with autocomplete, flags, election status badges, and smooth globe rotation
+- [x] Add photos for Louisiana Senate candidates (Julia Letlow, John Fleming) — cleared until runoff winner known tonight
+- [x] Full photo verification check across all Senate races — fixed CO photo swap, MA TBD photo removed
+- [x] Photo centering verification check — all photos acceptably centered for circular avatar crop
+- [x] Full site-wide verification: 0 TS errors, 172 tests passing, 35 Senate + 36 Governor photos verified
