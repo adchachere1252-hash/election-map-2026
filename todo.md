@@ -2404,3 +2404,8 @@
 - [x] Globe labels: proper COUNTRY_SCALE entries for all new countries
 - [x] Globe labels: higher opacity for all labels (election=1.0, non-election=0.85)
 - [x] TypeScript: 0 errors
+- [x] Globe labels: country flags (emoji) added to ALL country labels
+- [x] Globe labels: bright white text with dark outline for election countries (replaces black)
+- [x] Globe labels: Indonesia fixed to "ID" with corrected centroid (lon:113)
+- [x] Globe labels: Russia centroid corrected to (100, 60)
+- [x] Globe labels: all centroids verified within 5° of known geographic centers

@@ -164,7 +164,7 @@ const COUNTRY_CENTROIDS: Record<string, { lon: number; lat: number }> = {
   OM: { lon: 57, lat: 21 },
   YE: { lon: 48, lat: 15 },
   UA: { lon: 32, lat: 49 },
-  RU: { lon: 90, lat: 62 },
+  RU: { lon: 100, lat: 60 },
   CN: { lon: 105, lat: 35 },
   MN: { lon: 104, lat: 47 },
   KZ: { lon: 67, lat: 48 },
@@ -286,24 +286,56 @@ function createTextSprite(
 }
 
 // ─── Create text mesh that lies tangent to globe surface (flows with rotation) ─
+// Convert ISO 3166-1 alpha-2 code to flag emoji
+function countryCodeToFlag(code: string): string {
+  if (code === "XK") return "\uD83C\uDDFD\uD83C\uDDF0"; // Kosovo
+  const upper = code.toUpperCase();
+  const cp1 = 0x1F1E6 + (upper.charCodeAt(0) - 65);
+  const cp2 = 0x1F1E6 + (upper.charCodeAt(1) - 65);
+  return String.fromCodePoint(cp1, cp2);
+}
+
 function createTextMesh(
   text: string,
   lon: number,
   lat: number,
   radius: number,
-  options: { fontSize?: number; color?: string; fontStyle?: string; opacity?: number; scale?: number } = {}
+  options: { fontSize?: number; color?: string; fontStyle?: string; opacity?: number; scale?: number; flag?: string } = {}
 ): THREE.Mesh {
-  const { fontSize = 48, color = "#ffffff", fontStyle = "bold", opacity = 0.9, scale = 0.5 } = options;
+  const { fontSize = 48, color = "#ffffff", fontStyle = "bold", opacity = 0.9, scale = 0.5, flag } = options;
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d")!;
   const font = `${fontStyle} ${fontSize}px 'Inter', 'Segoe UI', sans-serif`;
+  const flagFont = `${fontSize}px 'Segoe UI Emoji', 'Noto Color Emoji', 'Apple Color Emoji', sans-serif`;
   ctx.font = font;
-  const metrics = ctx.measureText(text);
-  const textWidth = metrics.width;
+  const textMetrics = ctx.measureText(text);
+  const textWidth = textMetrics.width;
+  // Measure flag width if present
+  let flagWidth = 0;
+  const flagGap = flag ? 6 : 0;
+  if (flag) {
+    ctx.font = flagFont;
+    flagWidth = ctx.measureText(flag).width;
+  }
+  const totalWidth = flagWidth + flagGap + textWidth;
   const padding = 20;
-  canvas.width = textWidth + padding * 2;
+  canvas.width = totalWidth + padding * 2;
   canvas.height = fontSize * 1.4 + padding;
 
+  const centerY = canvas.height / 2;
+  const startX = padding + flagWidth + flagGap;
+  const textCenterX = startX + textWidth / 2;
+
+  // Draw flag emoji first (no stroke needed)
+  if (flag) {
+    ctx.font = flagFont;
+    ctx.globalAlpha = opacity;
+    ctx.textAlign = "left";
+    ctx.textBaseline = "middle";
+    ctx.fillText(flag, padding, centerY);
+  }
+
+  // Draw text with outline
   ctx.font = font;
   ctx.globalAlpha = opacity;
   ctx.textAlign = "center";
@@ -312,10 +344,10 @@ function createTextMesh(
   ctx.strokeStyle = "#000000";
   ctx.lineWidth = 4;
   ctx.lineJoin = "round";
-  ctx.strokeText(text, canvas.width / 2, canvas.height / 2);
+  ctx.strokeText(text, textCenterX, centerY);
   // Fill with the label color on top
   ctx.fillStyle = color;
-  ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+  ctx.fillText(text, textCenterX, centerY);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.needsUpdate = true;
@@ -993,12 +1025,15 @@ export default function Globe({
         } else {
           labelColor = "#94a3b8"; // Slate-400 for non-election (visible but subdued)
         }
+        // Generate flag emoji for this country
+        const flagEmoji = countryCodeToFlag(code);
         const mesh = createTextMesh(displayName, centroid.lon, centroid.lat, GLOBE_RADIUS * 1.02, {
           fontSize: 32,
           color: labelColor,
           fontStyle: "bold",
           opacity: 1.0,
           scale: labelScale * 1.5,
+          flag: flagEmoji,
         });
         mesh.userData = { isLabel: true, countryLabel: code };
         globeGroup.add(mesh);
