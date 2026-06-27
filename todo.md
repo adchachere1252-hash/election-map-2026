@@ -2414,3 +2414,5 @@
 - [x] Full photo verification check across all Senate races — fixed CO photo swap, MA TBD photo removed
 - [x] Photo centering verification check — all photos acceptably centered for circular avatar crop
 - [x] Full site-wide verification: 0 TS errors, 172 tests passing, 35 Senate + 36 Governor photos verified
+- [x] Add photos for 13 confirmed House candidates (AZ-7, FL-1, FL-6, TN-7, VA-11 special winners + NY-8, NC-2, UT-4 primary winners)
+- [x] Update stale notes for House races where primary already occurred
