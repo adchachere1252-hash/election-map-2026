@@ -35,6 +35,7 @@ interface GlobeProps {
   selectedCountry: string | null;
   autoRotate?: boolean;
   showLabels?: boolean;
+  focusCountry?: string | null;
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -64,7 +65,7 @@ const OCEAN_LABELS: { name: string; lon: number; lat: number }[] = [
 ];
 
 // ─── Country centroid positions for labels (lon, lat) ────────────────────────
-const COUNTRY_CENTROIDS: Record<string, { lon: number; lat: number }> = {
+export const COUNTRY_CENTROIDS: Record<string, { lon: number; lat: number }> = {
   CO: { lon: -74, lat: 4 },
   GB: { lon: -2, lat: 54 },
   DE: { lon: 10, lat: 51 },
@@ -589,6 +590,7 @@ export default function Globe({
   selectedCountry,
   autoRotate = true,
   showLabels = true,
+  focusCountry = null,
 }: GlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -608,6 +610,9 @@ export default function Globe({
   // Labels visibility ref (used in animation loop)
   const showLabelsRef = useRef(showLabels);
   showLabelsRef.current = showLabels;
+
+  // Focus country rotation target
+  const focusTargetRef = useRef<{ y: number; x: number } | null>(null);
 
   // Drag state
   const isDragging = useRef(false);
@@ -1051,8 +1056,26 @@ export default function Globe({
         globeGroup.rotation.y += 0.0003; // Slow, realistic planetary rotation
       }
 
+      // Smooth rotation to focused country
+      if (focusTargetRef.current) {
+        const target = focusTargetRef.current;
+        const dy = target.y - globeGroup.rotation.y;
+        const dx = target.x - globeGroup.rotation.x;
+        // Normalize dy to shortest rotation path
+        const normalizedDy = ((dy + Math.PI) % (2 * Math.PI)) - Math.PI;
+        globeGroup.rotation.y += normalizedDy * 0.06;
+        globeGroup.rotation.x += dx * 0.06;
+        // Stop when close enough
+        if (Math.abs(normalizedDy) < 0.005 && Math.abs(dx) < 0.005) {
+          globeGroup.rotation.y = target.y;
+          globeGroup.rotation.x = target.x;
+          focusTargetRef.current = null;
+        }
+        velocity.current = { x: 0, y: 0 }; // Kill momentum during focus
+      }
+
       // Momentum
-      if (!isDragging.current) {
+      if (!isDragging.current && !focusTargetRef.current) {
         if (Math.abs(velocity.current.x) > 0.0001 || Math.abs(velocity.current.y) > 0.0001) {
           globeGroup.rotation.y += velocity.current.x;
           globeGroup.rotation.x += velocity.current.y;
@@ -1192,6 +1215,23 @@ export default function Globe({
       }
     };
   }, []);
+
+  // Rotate globe to focus on a specific country
+  useEffect(() => {
+    if (!focusCountry || !globeGroupRef.current) {
+      focusTargetRef.current = null;
+      return;
+    }
+    const centroid = COUNTRY_CENTROIDS[focusCountry];
+    if (!centroid) return;
+    // Convert lon/lat to globe rotation angles
+    // Globe rotation.y = -longitude in radians (negative because globe rotates opposite)
+    // Globe rotation.x = latitude in radians (negative for north)
+    const targetY = -centroid.lon * (Math.PI / 180);
+    const targetX = centroid.lat * (Math.PI / 180);
+    focusTargetRef.current = { y: targetY, x: targetX };
+    userInteracted.current = true; // Stop auto-rotate during focus
+  }, [focusCountry]);
 
   // Update colors when elections or selectedCountry changes
   useEffect(() => {

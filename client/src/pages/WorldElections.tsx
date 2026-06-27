@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback, memo, Suspense, lazy } from "react";
 import WorldElectionTimeline from "@/components/WorldElectionTimeline";
 import ReferendumsView from "@/components/ReferendumsView";
 import WorldResultsTicker from "@/components/WorldResultsTicker";
+import WorldSearchBar from "@/components/WorldSearchBar";
 import { trpc } from "@/lib/trpc";
 import { Calendar, List, Globe2, Users, Clock, ChevronRight, X, MapPin, Vote, Award, ArrowLeft, ScrollText, Tag } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
@@ -583,6 +584,7 @@ export default function WorldElections() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [viewMode, setViewMode] = useState<"globe" | "timeline" | "referendums">("globe");
   const [showLabels, setShowLabels] = useState(true);
+  const [focusCountry, setFocusCountry] = useState<string | null>(null);
 
   const electionData = useMemo(
     () =>
@@ -596,6 +598,13 @@ export default function WorldElections() {
 
   const handleCountryClick = useCallback((code: string, name: string) => {
     setSelectedCountry({ code, name });
+    setFocusCountry(code);
+  }, []);
+
+  const handleSearchSelect = useCallback((code: string, name: string) => {
+    setSelectedCountry({ code, name });
+    setFocusCountry(code);
+    setViewMode("globe"); // Switch to globe view if not already
   }, []);
 
   const handleCountryHover = useCallback((code: string | null, name: string | null) => {
@@ -630,6 +639,8 @@ export default function WorldElections() {
       <div className="flex-1 flex flex-col lg:flex-row relative overflow-hidden">
       {/* Top-right controls */}
       <div className="absolute top-3 right-3 z-50 flex items-center gap-2">
+        {/* World Search Bar */}
+        <WorldSearchBar onSelect={handleSearchSelect} elections={electionData} />
         {/* View toggle: Globe / Timeline */}
         <div className="bg-slate-800/90 backdrop-blur-sm border border-slate-700/50 rounded-lg flex overflow-hidden">
           <button
@@ -718,6 +729,7 @@ export default function WorldElections() {
                 selectedCountry={selectedCountry?.code || null}
                 autoRotate={!selectedCountry}
                 showLabels={showLabels}
+                focusCountry={focusCountry}
               />
             </Suspense>
 

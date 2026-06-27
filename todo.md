@@ -2409,3 +2409,4 @@
 - [x] Globe labels: Indonesia fixed to "ID" with corrected centroid (lon:113)
 - [x] Globe labels: Russia centroid corrected to (100, 60)
 - [x] Globe labels: all centroids verified within 5° of known geographic centers
+- [x] World search bar: search/filter countries on the globe view with autocomplete, flags, election status badges, and smooth globe rotation
