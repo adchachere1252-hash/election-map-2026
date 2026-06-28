@@ -1026,6 +1026,10 @@ export default function Globe({
       "LT", "EE", "MD",
       // Other small non-election European countries
       "CY", "GE", "AZ",
+      // Central America non-election small countries (too clustered near Mexico)
+      "GT", "HN", "SV", "BZ", "NI", "CR", "PA",
+      // Caribbean non-election small countries
+      "JM", "HT", "DO", "PR", "TT", "BS", "BB",
     ]);
 
     // ─── Callout offsets for crowded regions (lon offset, lat offset, altitude multiplier) ───
