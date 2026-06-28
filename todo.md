@@ -2425,3 +2425,9 @@
 - [x] Fix Europe label clustering — hid non-election country labels, increased callout offsets
 - [x] Implement callout leader-lines for small/crowded European countries (HIDE_LABELS set + larger offsets)
 - [x] Verify Europe region is clear and readable after fix (CSS shift for panel, tilt factor 0.6, shortest-path rotation)
+
+## Globe Leader Lines Fix (Jun 28, 2026)
+- [x] Fix floating country labels — reduced callout offsets from 8-14° to 4-7°
+- [x] Add visible leader lines connecting offset labels to their actual country positions (brighter slate-300, 0.7 opacity)
+- [x] Make offset labels and leader lines clickable to open the country detail panel (added countryCode/countryName to userData)
+- [x] Verify all labels are properly connected, clickable, and not floating in empty space

@@ -1032,18 +1032,18 @@ export default function Globe({
     // These push labels outward with leader lines, like the NE callouts on the U.S. map
     // European ELECTION countries get LARGE offsets to spread them out clearly like spokes
     const CALLOUT_OFFSETS: Record<string, { dLon: number; dLat: number; alt: number }> = {
-      // ── European ELECTION countries (large offsets, spread like spokes from center) ──
-      SE: { dLon: 8, dLat: 10, alt: 1.20 },     // Sweden → push far north-east
-      IS: { dLon: -14, dLat: 8, alt: 1.22 },    // Iceland → push far north-west
-      LV: { dLon: 12, dLat: 6, alt: 1.20 },     // Latvia → push far east
-      GB: { dLon: -12, dLat: 4, alt: 1.18 },    // UK → push far west
-      CZ: { dLon: 10, dLat: 2, alt: 1.18 },     // Czech Republic → push east
-      SK: { dLon: 12, dLat: -2, alt: 1.18 },    // Slovakia → push east-south
-      HU: { dLon: 10, dLat: -6, alt: 1.18 },    // Hungary → push south-east
-      CH: { dLon: -10, dLat: -5, alt: 1.18 },   // Switzerland → push south-west
-      IT: { dLon: -8, dLat: -10, alt: 1.18 },   // Italy → push south
-      BA: { dLon: 8, dLat: -10, alt: 1.18 },    // Bosnia → push south-east
-      BG: { dLon: 12, dLat: -8, alt: 1.18 },    // Bulgaria → push east-south
+      // ── European ELECTION countries (moderate offsets with leader lines) ──
+      SE: { dLon: 4, dLat: 5, alt: 1.12 },      // Sweden → push north-east
+      IS: { dLon: -7, dLat: 4, alt: 1.14 },     // Iceland → push north-west
+      LV: { dLon: 6, dLat: 3, alt: 1.12 },      // Latvia → push east
+      GB: { dLon: -6, dLat: 2, alt: 1.12 },     // UK → push west
+      CZ: { dLon: 5, dLat: 1, alt: 1.11 },      // Czech Republic → push east
+      SK: { dLon: 6, dLat: -1, alt: 1.11 },     // Slovakia → push east-south
+      HU: { dLon: 5, dLat: -3, alt: 1.11 },     // Hungary → push south-east
+      CH: { dLon: -5, dLat: -3, alt: 1.11 },    // Switzerland → push south-west
+      IT: { dLon: -4, dLat: -5, alt: 1.11 },    // Italy → push south
+      BA: { dLon: 4, dLat: -5, alt: 1.11 },     // Bosnia → push south-east
+      BG: { dLon: 6, dLat: -4, alt: 1.11 },     // Bulgaria → push east-south
       // ── Middle East (crowded) ──
       IL: { dLon: -6, dLat: -4, alt: 1.15 },
       PS: { dLon: -7, dLat: 0, alt: 1.14 },
@@ -1097,9 +1097,9 @@ export default function Globe({
       const points = [from, mid, to];
       const geometry = new THREE.BufferGeometry().setFromPoints(points);
       const material = new THREE.LineBasicMaterial({
-        color: 0x94a3b8,
+        color: 0xcbd5e1, // Slate-300 for better visibility
         transparent: true,
-        opacity: 0.5,
+        opacity: 0.7,
         depthTest: false,
       });
       return new THREE.Line(geometry, material);
@@ -1143,15 +1143,15 @@ export default function Globe({
             GLOBE_RADIUS * 1.01,
             labelRadius * 0.99
           );
-          line.userData = { isLabel: true, isLeaderLine: true, countryLabel: code };
+          line.userData = { isLabel: true, isLeaderLine: true, countryLabel: code, countryCode: code, countryName: SHORT_NAMES[code] || code };
           globeGroup.add(line);
-          // Add a small dot at the country centroid
-          const dotGeo = new THREE.SphereGeometry(0.008, 6, 6);
-          const dotMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.7 });
+          // Add a small dot at the country centroid (clickable)
+          const dotGeo = new THREE.SphereGeometry(0.012, 8, 8);
+          const dotMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.8 });
           const dot = new THREE.Mesh(dotGeo, dotMat);
           const dotPos = latLonToVec3Internal(centroid.lon, centroid.lat, GLOBE_RADIUS * 1.015);
           dot.position.copy(dotPos);
-          dot.userData = { isLabel: true, isLeaderDot: true, countryLabel: code };
+          dot.userData = { isLabel: true, isLeaderDot: true, countryLabel: code, countryCode: code, countryName: SHORT_NAMES[code] || code };
           globeGroup.add(dot);
         }
 
@@ -1163,7 +1163,7 @@ export default function Globe({
           scale: labelScale * 1.5,
           flag: flagEmoji,
         });
-        mesh.userData = { isLabel: true, countryLabel: code };
+        mesh.userData = { isLabel: true, countryLabel: code, countryCode: code, countryName: SHORT_NAMES[code] || code };
         globeGroup.add(mesh);
       });
     };
@@ -1305,7 +1305,7 @@ export default function Globe({
             const dot = labelDir.dot(camDir);
             // Leader lines and dots get slightly lower opacity
             const isLeader = child.userData.isLeaderLine || child.userData.isLeaderDot;
-            const maxOpacity = isLeader ? 0.5 : 1;
+            const maxOpacity = isLeader ? 0.7 : 1;
             // Fade labels based on angle: fully visible > 0.3, fade between 0.0 and 0.3, hidden < 0.0
             if (dot < 0.0) {
               mat.opacity = 0;
@@ -1445,7 +1445,7 @@ export default function Globe({
       // Find first hit with a countryCode
       let foundCountry = false;
       for (const hit of allHits) {
-        const { countryCode, countryName } = hit.object.userData;
+        const { countryCode, countryName, isLabel } = hit.object.userData;
         if (countryCode) {
           foundCountry = true;
           hoveredCountryRef.current = { code: countryCode, name: countryName };
@@ -1457,10 +1457,11 @@ export default function Globe({
             name: election?.country || countryName || countryCode,
             status: election?.status || "No Election Tracked",
           });
-          // Highlight fill on hover
-          const mat = (hit.object as THREE.Mesh).material as THREE.MeshBasicMaterial;
-          if (countryCode !== selectedCountry) {
-            mat.color.setHex(HOVER_COLOR);
+          // Highlight the actual country mesh (not the label if we hit a label)
+          const countryMesh = countryMeshesRef.current.get(countryCode);
+          if (countryMesh && countryCode !== selectedCountry) {
+            const cMat = countryMesh.material as THREE.MeshBasicMaterial;
+            cMat.color.setHex(HOVER_COLOR);
           }
           // Also brighten the border glow on hover
           const hoveredBorder = countryBordersRef.current.get(countryCode);
