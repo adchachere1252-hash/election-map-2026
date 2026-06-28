@@ -1083,12 +1083,21 @@ export default function Globe({
       BJ: { dLon: 4, dLat: 5, alt: 1.13 },
       GQ: { dLon: 5, dLat: 5, alt: 1.14 },
       // ── East Africa small ──
+      SO: { dLon: -8, dLat: -3, alt: 1.13 },   // Somalia → push left with leader line
       RW: { dLon: -5, dLat: 4, alt: 1.13 },
       BI: { dLon: -5, dLat: -4, alt: 1.13 },
       DJ: { dLon: 5, dLat: 4, alt: 1.14 },
       // ── Southern Africa small ──
       SZ: { dLon: 5, dLat: 4, alt: 1.13 },
       LS: { dLon: 5, dLat: -5, alt: 1.13 },
+      // ── South/East Asia small ──
+      TW: { dLon: 6, dLat: -5, alt: 1.13 },    // Taiwan → push south-east away from China coast
+      NP: { dLon: -5, dLat: 5, alt: 1.13 },    // Nepal → push north-west away from India label
+      // ── Atlantic/Gulf islands ──
+      CV: { dLon: -6, dLat: -4, alt: 1.14 },   // Cape Verde → push west into Atlantic
+      ST: { dLon: -5, dLat: -5, alt: 1.14 },   // São Tomé → push south-west
+      // ── Pacific islands ──
+      CK: { dLon: 0, dLat: -6, alt: 1.14 },    // Cook Islands → push south
     };
 
     // Create a leader line from country centroid to offset label position

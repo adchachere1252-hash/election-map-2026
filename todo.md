@@ -2438,3 +2438,21 @@
 - [x] Verify all country flags are correctly matched to their country codes (all 46 verified)
 - [x] Verify all country names/labels are positioned at correct geographic coordinates (all within ±5°)
 - [x] Verify scrolling results banner information is accurate (all 15 world + 5 U.S. results verified)
+
+## Somalia Label Fix (Jun 28, 2026)
+- [x] Add Somalia (SO) to CALLOUT_OFFSETS with dLon:-8, dLat:-3, alt:1.13 to push label left of Horn of Africa
+- [x] Verify leader line connects offset label back to actual Somalia territory
+- [x] Verify globe rotates correctly to East Africa when Somalia is selected from search
+
+## Somalia Label Fix (Jun 28, 2026)
+- [x] Add Somalia (SO) to CALLOUT_OFFSETS with dLon:-8, dLat:-3, alt:1.13 to push label left of Horn of Africa
+- [x] Verify leader line connects offset label back to actual Somalia territory
+- [x] Verify globe rotates correctly to East Africa when Somalia is selected from search
+
+## Callout Offset Verification (Jun 28, 2026)
+- [x] Add Taiwan (TW) callout offset — push south-east away from China coast
+- [x] Add Nepal (NP) callout offset — push north away from India label
+- [x] Add São Tomé (ST) callout offset — push south-west away from Gulf of Guinea coast
+- [x] Add Cape Verde (CV) callout offset — push west into Atlantic
+- [x] Add Cook Islands (CK) callout offset — push south away from label cluster
+- [x] Verify all new offsets display correctly with leader lines
