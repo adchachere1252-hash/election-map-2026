@@ -1016,6 +1016,95 @@ export default function Globe({
       "Postponed": "#6b7280",
       "Cancelled": "#ef4444",
     };
+    // ─── Callout offsets for crowded regions (lon offset, lat offset, altitude multiplier) ───
+    // These push labels outward with leader lines, like the NE callouts on the U.S. map
+    const CALLOUT_OFFSETS: Record<string, { dLon: number; dLat: number; alt: number }> = {
+      // ── Western Europe (very crowded) ──
+      NL: { dLon: -4, dLat: 4, alt: 1.12 },
+      BE: { dLon: -5, dLat: 2, alt: 1.11 },
+      LU: { dLon: -5, dLat: 0, alt: 1.10 },
+      CH: { dLon: -4, dLat: -2, alt: 1.10 },
+      AT: { dLon: 3, dLat: -3, alt: 1.09 },
+      DK: { dLon: -3, dLat: 4, alt: 1.10 },
+      // ── Balkans / SE Europe ──
+      SI: { dLon: -3, dLat: 3, alt: 1.10 },
+      HR: { dLon: -4, dLat: 1, alt: 1.11 },
+      BA: { dLon: -4, dLat: -1, alt: 1.10 },
+      RS: { dLon: 3, dLat: 1, alt: 1.09 },
+      ME: { dLon: -4, dLat: -2, alt: 1.11 },
+      AL: { dLon: -3, dLat: -3, alt: 1.10 },
+      MK: { dLon: 3, dLat: -2, alt: 1.10 },
+      XK: { dLon: 3, dLat: 0, alt: 1.09 },
+      // ── Baltic states ──
+      LV: { dLon: 4, dLat: 2, alt: 1.09 },
+      LT: { dLon: 4, dLat: 0, alt: 1.09 },
+      EE: { dLon: 4, dLat: 3, alt: 1.10 },
+      MD: { dLon: 4, dLat: -1, alt: 1.09 },
+      // ── Middle East (crowded) ──
+      IL: { dLon: -3, dLat: -2, alt: 1.11 },
+      PS: { dLon: -3, dLat: 0, alt: 1.10 },
+      LB: { dLon: -3, dLat: 2, alt: 1.11 },
+      JO: { dLon: -3, dLat: -4, alt: 1.10 },
+      KW: { dLon: 3, dLat: 3, alt: 1.10 },
+      QA: { dLon: 3, dLat: 0, alt: 1.09 },
+      BH: { dLon: 4, dLat: 2, alt: 1.11 },
+      AE: { dLon: 3, dLat: -2, alt: 1.09 },
+      // ── Caribbean ──
+      JM: { dLon: -3, dLat: -3, alt: 1.11 },
+      HT: { dLon: -2, dLat: 3, alt: 1.11 },
+      DO: { dLon: 3, dLat: 3, alt: 1.11 },
+      PR: { dLon: 4, dLat: 2, alt: 1.12 },
+      TT: { dLon: 3, dLat: -2, alt: 1.12 },
+      BS: { dLon: 3, dLat: 3, alt: 1.10 },
+      // ── Central America (stacked) ──
+      BZ: { dLon: 3, dLat: 3, alt: 1.10 },
+      SV: { dLon: -3, dLat: -2, alt: 1.10 },
+      CR: { dLon: -3, dLat: -3, alt: 1.10 },
+      PA: { dLon: 3, dLat: -3, alt: 1.10 },
+      // ── Caucasus ──
+      GE: { dLon: -3, dLat: 3, alt: 1.10 },
+      AM: { dLon: -3, dLat: -1, alt: 1.10 },
+      AZ: { dLon: 3, dLat: 2, alt: 1.09 },
+      // ── SE Asia small ──
+      SG: { dLon: 3, dLat: -3, alt: 1.12 },
+      BN: { dLon: 3, dLat: 3, alt: 1.11 },
+      TL: { dLon: 3, dLat: -3, alt: 1.11 },
+      // ── West Africa (crowded coast) ──
+      GM: { dLon: -3, dLat: -3, alt: 1.11 },
+      GW: { dLon: -4, dLat: -1, alt: 1.10 },
+      SL: { dLon: -3, dLat: -3, alt: 1.10 },
+      TG: { dLon: 2, dLat: -3, alt: 1.10 },
+      BJ: { dLon: 2, dLat: 3, alt: 1.10 },
+      GQ: { dLon: 3, dLat: 3, alt: 1.11 },
+      // ── East Africa small ──
+      RW: { dLon: -3, dLat: 2, alt: 1.10 },
+      BI: { dLon: -3, dLat: -2, alt: 1.10 },
+      DJ: { dLon: 3, dLat: 2, alt: 1.11 },
+      // ── Southern Africa small ──
+      SZ: { dLon: 3, dLat: 2, alt: 1.10 },
+      LS: { dLon: 3, dLat: -3, alt: 1.10 },
+      // ── Small islands ──
+      CY: { dLon: 3, dLat: 3, alt: 1.11 },
+    };
+
+    // Create a leader line from country centroid to offset label position
+    function createLeaderLine(fromLon: number, fromLat: number, toLon: number, toLat: number, fromRadius: number, toRadius: number): THREE.Line {
+      const from = latLonToVec3Internal(fromLon, fromLat, fromRadius);
+      const to = latLonToVec3Internal(toLon, toLat, toRadius);
+      // Add a midpoint slightly above for a gentle arc
+      const mid = from.clone().add(to).multiplyScalar(0.5);
+      mid.normalize().multiplyScalar((fromRadius + toRadius) / 2);
+      const points = [from, mid, to];
+      const geometry = new THREE.BufferGeometry().setFromPoints(points);
+      const material = new THREE.LineBasicMaterial({
+        color: 0x94a3b8,
+        transparent: true,
+        opacity: 0.5,
+        depthTest: false,
+      });
+      return new THREE.Line(geometry, material);
+    }
+
     const addCountryLabels = () => {
       const map = electionMapRef.current;
       // Add labels for ALL countries that have centroids
@@ -1033,7 +1122,37 @@ export default function Globe({
         }
         // Generate flag emoji for this country
         const flagEmoji = countryCodeToFlag(code);
-        const mesh = createTextMesh(displayName, centroid.lon, centroid.lat, GLOBE_RADIUS * 1.02, {
+
+        // Check if this country needs a callout offset (crowded region)
+        const callout = CALLOUT_OFFSETS[code];
+        let labelLon = centroid.lon;
+        let labelLat = centroid.lat;
+        let labelRadius = GLOBE_RADIUS * 1.02;
+
+        if (callout) {
+          labelLon = centroid.lon + callout.dLon;
+          labelLat = centroid.lat + callout.dLat;
+          labelRadius = GLOBE_RADIUS * callout.alt;
+          // Create leader line from country surface to label
+          const line = createLeaderLine(
+            centroid.lon, centroid.lat,
+            labelLon, labelLat,
+            GLOBE_RADIUS * 1.01,
+            labelRadius * 0.99
+          );
+          line.userData = { isLabel: true, isLeaderLine: true, countryLabel: code };
+          globeGroup.add(line);
+          // Add a small dot at the country centroid
+          const dotGeo = new THREE.SphereGeometry(0.008, 6, 6);
+          const dotMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.7 });
+          const dot = new THREE.Mesh(dotGeo, dotMat);
+          const dotPos = latLonToVec3Internal(centroid.lon, centroid.lat, GLOBE_RADIUS * 1.015);
+          dot.position.copy(dotPos);
+          dot.userData = { isLabel: true, isLeaderDot: true, countryLabel: code };
+          globeGroup.add(dot);
+        }
+
+        const mesh = createTextMesh(displayName, labelLon, labelLat, labelRadius, {
           fontSize: 32,
           color: labelColor,
           fontStyle: "bold",
@@ -1060,14 +1179,23 @@ export default function Globe({
       // Smooth rotation to focused country
       if (focusTargetRef.current) {
         const target = focusTargetRef.current;
-        const dy = target.y - globeGroup.rotation.y;
+        // Normalize current rotation.y to [-PI, PI] range for proper comparison
+        let currentY = globeGroup.rotation.y;
+        // Wrap currentY to [-PI, PI]
+        currentY = ((currentY % (2 * Math.PI)) + 3 * Math.PI) % (2 * Math.PI) - Math.PI;
+        globeGroup.rotation.y = currentY;
+        
+        let dy = target.y - currentY;
+        // Shortest path around the circle (must be else-if to avoid undoing)
+        if (dy > Math.PI) dy -= 2 * Math.PI;
+        else if (dy < -Math.PI) dy += 2 * Math.PI;
+        
         const dx = target.x - globeGroup.rotation.x;
-        // Normalize dy to shortest rotation path
-        const normalizedDy = ((dy + Math.PI) % (2 * Math.PI)) - Math.PI;
-        globeGroup.rotation.y += normalizedDy * 0.06;
-        globeGroup.rotation.x += dx * 0.06;
+        const speed = 0.3; // Snappy rotation for long-distance focus
+        globeGroup.rotation.y += dy * speed;
+        globeGroup.rotation.x += dx * speed;
         // Stop when close enough
-        if (Math.abs(normalizedDy) < 0.005 && Math.abs(dx) < 0.005) {
+        if (Math.abs(dy) < 0.01 && Math.abs(dx) < 0.01) {
           globeGroup.rotation.y = target.y;
           globeGroup.rotation.x = target.x;
           focusTargetRef.current = null;
@@ -1151,9 +1279,15 @@ export default function Globe({
         globeGroup.getWorldPosition(globeCenter);
         const camDir = cameraWorldPos.clone().sub(globeCenter).normalize();
 
+        // Get the inverse of the globe's rotation to cancel it for billboard labels
+        const globeQuaternion = globeGroup.quaternion.clone();
+        const inverseGlobeQuat = globeQuaternion.clone().invert();
+
         globeGroup.children.forEach((child) => {
           if (child.userData && child.userData.isLabel) {
-            const mat = (child as THREE.Mesh).material as THREE.MeshBasicMaterial;
+            // Handle different material types (Mesh, Line, Sprite)
+            const mat = (child as any).material as THREE.Material & { opacity: number };
+            if (!mat) return;
             // If labels are toggled off, hide all
             if (!showLabelsRef.current) {
               mat.opacity = 0;
@@ -1166,13 +1300,24 @@ export default function Globe({
             const labelDir = labelWorldPos.clone().sub(globeCenter).normalize();
             // Dot product: 1 = facing camera, -1 = facing away
             const dot = labelDir.dot(camDir);
+            // Leader lines and dots get slightly lower opacity
+            const isLeader = child.userData.isLeaderLine || child.userData.isLeaderDot;
+            const maxOpacity = isLeader ? 0.5 : 1;
             // Fade labels based on angle: fully visible > 0.3, fade between 0.0 and 0.3, hidden < 0.0
             if (dot < 0.0) {
               mat.opacity = 0;
             } else if (dot < 0.3) {
-              mat.opacity = dot / 0.3;
+              mat.opacity = (dot / 0.3) * maxOpacity;
             } else {
-              mat.opacity = 1;
+              mat.opacity = maxOpacity;
+            }
+
+            // Billboard: make text labels always face the camera (not leader lines/dots)
+            if (!isLeader && child instanceof THREE.Mesh) {
+              // Cancel globe rotation, then face camera
+              child.quaternion.copy(inverseGlobeQuat);
+              // Apply camera's quaternion so text faces the viewer
+              child.quaternion.premultiply(camera.quaternion);
             }
           }
         });
@@ -1226,10 +1371,17 @@ export default function Globe({
     const centroid = COUNTRY_CENTROIDS[focusCountry];
     if (!centroid) return;
     // Convert lon/lat to globe rotation angles
-    // Globe rotation.y = -longitude in radians (negative because globe rotates opposite)
-    // Globe rotation.x = latitude in radians (negative for north)
-    const targetY = -centroid.lon * (Math.PI / 180);
-    const targetX = centroid.lat * (Math.PI / 180);
+    // The globe's coordinate system: at rotation.y=0, lon=-90 faces camera.
+    // Positive rotation.y rotates the globe CCW (from above), moving the facing longitude WEST.
+    // To bring longitude L to face camera: targetY = -(L * PI/180 + PI/2)
+    // Add panel offset: when the detail panel is open (right side), we need to rotate
+    // the globe a bit more so the target country appears in the visible left portion.
+    // The panel covers ~50% of the viewport, so we offset by ~0.7 rad (~40°).
+    const panelOffset = 0.7;
+    const targetY = -(centroid.lon * (Math.PI / 180) + Math.PI / 2) - panelOffset;
+    // Tilt toward the target latitude (negative because Y-axis is inverted)
+    // Factor of 0.5 ensures Northern Hemisphere countries are well-centered vertically
+    const targetX = -centroid.lat * (Math.PI / 180) * 0.5;
     focusTargetRef.current = { y: targetY, x: targetX };
     userInteracted.current = true; // Stop auto-rotate during focus
   }, [focusCountry]);

@@ -2418,3 +2418,5 @@
 - [x] Update stale notes for House races where primary already occurred
 - [x] Update Louisiana Senate with runoff winners: Julia Letlow (R) and Jamie Davis (D), photos added, status → General
 - [x] World map: change country abbreviations to AP style (periods in U.S./U.K./U.A.E., N./S. for North/South, full names where space allows)
+- [ ] World globe: callout leader-lines for small/crowded countries (Europe, Caribbean, Middle East, SE Asia) like the U.S. NE map
+- [x] World globe: ensure Northern Hemisphere labels display fully and properly (fixed rotation direction, panel offset, latitude tilt factor)
