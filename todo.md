@@ -2417,3 +2417,4 @@
 - [x] Add photos for 13 confirmed House candidates (AZ-7, FL-1, FL-6, TN-7, VA-11 special winners + NY-8, NC-2, UT-4 primary winners)
 - [x] Update stale notes for House races where primary already occurred
 - [x] Update Louisiana Senate with runoff winners: Julia Letlow (R) and Jamie Davis (D), photos added, status → General
+- [x] World map: change country abbreviations to AP style (periods in U.S./U.K./U.A.E., N./S. for North/South, full names where space allows)
