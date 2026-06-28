@@ -1016,75 +1016,75 @@ export default function Globe({
       "Postponed": "#6b7280",
       "Cancelled": "#ef4444",
     };
+    // ─── Countries to HIDE labels for in crowded regions (non-election, small, just clutter) ───
+    const HIDE_LABELS: Set<string> = new Set([
+      // Western Europe non-election small countries
+      "NL", "BE", "LU", "AT", "DK",
+      // Balkans non-election small countries
+      "SI", "HR", "RS", "ME", "AL", "MK", "XK",
+      // Baltic/Eastern non-election small countries
+      "LT", "EE", "MD",
+      // Other small non-election European countries
+      "CY", "GE", "AZ",
+    ]);
+
     // ─── Callout offsets for crowded regions (lon offset, lat offset, altitude multiplier) ───
     // These push labels outward with leader lines, like the NE callouts on the U.S. map
+    // European ELECTION countries get LARGE offsets to spread them out clearly like spokes
     const CALLOUT_OFFSETS: Record<string, { dLon: number; dLat: number; alt: number }> = {
-      // ── Western Europe (very crowded) ──
-      NL: { dLon: -4, dLat: 4, alt: 1.12 },
-      BE: { dLon: -5, dLat: 2, alt: 1.11 },
-      LU: { dLon: -5, dLat: 0, alt: 1.10 },
-      CH: { dLon: -4, dLat: -2, alt: 1.10 },
-      AT: { dLon: 3, dLat: -3, alt: 1.09 },
-      DK: { dLon: -3, dLat: 4, alt: 1.10 },
-      // ── Balkans / SE Europe ──
-      SI: { dLon: -3, dLat: 3, alt: 1.10 },
-      HR: { dLon: -4, dLat: 1, alt: 1.11 },
-      BA: { dLon: -4, dLat: -1, alt: 1.10 },
-      RS: { dLon: 3, dLat: 1, alt: 1.09 },
-      ME: { dLon: -4, dLat: -2, alt: 1.11 },
-      AL: { dLon: -3, dLat: -3, alt: 1.10 },
-      MK: { dLon: 3, dLat: -2, alt: 1.10 },
-      XK: { dLon: 3, dLat: 0, alt: 1.09 },
-      // ── Baltic states ──
-      LV: { dLon: 4, dLat: 2, alt: 1.09 },
-      LT: { dLon: 4, dLat: 0, alt: 1.09 },
-      EE: { dLon: 4, dLat: 3, alt: 1.10 },
-      MD: { dLon: 4, dLat: -1, alt: 1.09 },
+      // ── European ELECTION countries (large offsets, spread like spokes from center) ──
+      SE: { dLon: 8, dLat: 10, alt: 1.20 },     // Sweden → push far north-east
+      IS: { dLon: -14, dLat: 8, alt: 1.22 },    // Iceland → push far north-west
+      LV: { dLon: 12, dLat: 6, alt: 1.20 },     // Latvia → push far east
+      GB: { dLon: -12, dLat: 4, alt: 1.18 },    // UK → push far west
+      CZ: { dLon: 10, dLat: 2, alt: 1.18 },     // Czech Republic → push east
+      SK: { dLon: 12, dLat: -2, alt: 1.18 },    // Slovakia → push east-south
+      HU: { dLon: 10, dLat: -6, alt: 1.18 },    // Hungary → push south-east
+      CH: { dLon: -10, dLat: -5, alt: 1.18 },   // Switzerland → push south-west
+      IT: { dLon: -8, dLat: -10, alt: 1.18 },   // Italy → push south
+      BA: { dLon: 8, dLat: -10, alt: 1.18 },    // Bosnia → push south-east
+      BG: { dLon: 12, dLat: -8, alt: 1.18 },    // Bulgaria → push east-south
       // ── Middle East (crowded) ──
-      IL: { dLon: -3, dLat: -2, alt: 1.11 },
-      PS: { dLon: -3, dLat: 0, alt: 1.10 },
-      LB: { dLon: -3, dLat: 2, alt: 1.11 },
-      JO: { dLon: -3, dLat: -4, alt: 1.10 },
-      KW: { dLon: 3, dLat: 3, alt: 1.10 },
-      QA: { dLon: 3, dLat: 0, alt: 1.09 },
-      BH: { dLon: 4, dLat: 2, alt: 1.11 },
-      AE: { dLon: 3, dLat: -2, alt: 1.09 },
+      IL: { dLon: -6, dLat: -4, alt: 1.15 },
+      PS: { dLon: -7, dLat: 0, alt: 1.14 },
+      LB: { dLon: -6, dLat: 4, alt: 1.15 },
+      JO: { dLon: -6, dLat: -7, alt: 1.14 },
+      KW: { dLon: 6, dLat: 5, alt: 1.14 },
+      QA: { dLon: 6, dLat: 0, alt: 1.13 },
+      BH: { dLon: 7, dLat: 3, alt: 1.15 },
+      AE: { dLon: 6, dLat: -4, alt: 1.13 },
       // ── Caribbean ──
-      JM: { dLon: -3, dLat: -3, alt: 1.11 },
-      HT: { dLon: -2, dLat: 3, alt: 1.11 },
-      DO: { dLon: 3, dLat: 3, alt: 1.11 },
-      PR: { dLon: 4, dLat: 2, alt: 1.12 },
-      TT: { dLon: 3, dLat: -2, alt: 1.12 },
-      BS: { dLon: 3, dLat: 3, alt: 1.10 },
+      JM: { dLon: -5, dLat: -5, alt: 1.14 },
+      HT: { dLon: -4, dLat: 5, alt: 1.14 },
+      DO: { dLon: 5, dLat: 5, alt: 1.14 },
+      PR: { dLon: 6, dLat: 3, alt: 1.15 },
+      TT: { dLon: 5, dLat: -4, alt: 1.15 },
+      BS: { dLon: 5, dLat: 5, alt: 1.13 },
       // ── Central America (stacked) ──
-      BZ: { dLon: 3, dLat: 3, alt: 1.10 },
-      SV: { dLon: -3, dLat: -2, alt: 1.10 },
-      CR: { dLon: -3, dLat: -3, alt: 1.10 },
-      PA: { dLon: 3, dLat: -3, alt: 1.10 },
+      BZ: { dLon: 5, dLat: 5, alt: 1.13 },
+      SV: { dLon: -5, dLat: -4, alt: 1.13 },
+      CR: { dLon: -5, dLat: -5, alt: 1.13 },
+      PA: { dLon: 5, dLat: -5, alt: 1.13 },
       // ── Caucasus ──
-      GE: { dLon: -3, dLat: 3, alt: 1.10 },
-      AM: { dLon: -3, dLat: -1, alt: 1.10 },
-      AZ: { dLon: 3, dLat: 2, alt: 1.09 },
+      AM: { dLon: -6, dLat: -3, alt: 1.14 },
       // ── SE Asia small ──
-      SG: { dLon: 3, dLat: -3, alt: 1.12 },
-      BN: { dLon: 3, dLat: 3, alt: 1.11 },
-      TL: { dLon: 3, dLat: -3, alt: 1.11 },
+      SG: { dLon: 5, dLat: -5, alt: 1.15 },
+      BN: { dLon: 5, dLat: 5, alt: 1.14 },
+      TL: { dLon: 5, dLat: -5, alt: 1.14 },
       // ── West Africa (crowded coast) ──
-      GM: { dLon: -3, dLat: -3, alt: 1.11 },
-      GW: { dLon: -4, dLat: -1, alt: 1.10 },
-      SL: { dLon: -3, dLat: -3, alt: 1.10 },
-      TG: { dLon: 2, dLat: -3, alt: 1.10 },
-      BJ: { dLon: 2, dLat: 3, alt: 1.10 },
-      GQ: { dLon: 3, dLat: 3, alt: 1.11 },
+      GM: { dLon: -6, dLat: -5, alt: 1.14 },
+      GW: { dLon: -7, dLat: -2, alt: 1.13 },
+      SL: { dLon: -6, dLat: -5, alt: 1.13 },
+      TG: { dLon: 4, dLat: -5, alt: 1.13 },
+      BJ: { dLon: 4, dLat: 5, alt: 1.13 },
+      GQ: { dLon: 5, dLat: 5, alt: 1.14 },
       // ── East Africa small ──
-      RW: { dLon: -3, dLat: 2, alt: 1.10 },
-      BI: { dLon: -3, dLat: -2, alt: 1.10 },
-      DJ: { dLon: 3, dLat: 2, alt: 1.11 },
+      RW: { dLon: -5, dLat: 4, alt: 1.13 },
+      BI: { dLon: -5, dLat: -4, alt: 1.13 },
+      DJ: { dLon: 5, dLat: 4, alt: 1.14 },
       // ── Southern Africa small ──
-      SZ: { dLon: 3, dLat: 2, alt: 1.10 },
-      LS: { dLon: 3, dLat: -3, alt: 1.10 },
-      // ── Small islands ──
-      CY: { dLon: 3, dLat: 3, alt: 1.11 },
+      SZ: { dLon: 5, dLat: 4, alt: 1.13 },
+      LS: { dLon: 5, dLat: -5, alt: 1.13 },
     };
 
     // Create a leader line from country centroid to offset label position
@@ -1107,9 +1107,12 @@ export default function Globe({
 
     const addCountryLabels = () => {
       const map = electionMapRef.current;
-      // Add labels for ALL countries that have centroids
+      // Add labels for countries that have centroids (skip hidden ones in crowded regions)
       Object.entries(COUNTRY_CENTROIDS).forEach(([code, centroid]) => {
         const election = map.get(code);
+        // Skip labels for small non-election countries in crowded regions
+        // (they just add clutter without providing useful info)
+        if (HIDE_LABELS.has(code) && !election) return;
         const labelScale = COUNTRY_SCALE[code] || 0.04;
         const displayName = SHORT_NAMES[code] || code;
         // Election countries get BRIGHT WHITE (pops with dark outline against colored fills)
@@ -1374,14 +1377,12 @@ export default function Globe({
     // The globe's coordinate system: at rotation.y=0, lon=-90 faces camera.
     // Positive rotation.y rotates the globe CCW (from above), moving the facing longitude WEST.
     // To bring longitude L to face camera: targetY = -(L * PI/180 + PI/2)
-    // Add panel offset: when the detail panel is open (right side), we need to rotate
-    // the globe a bit more so the target country appears in the visible left portion.
-    // The panel covers ~50% of the viewport, so we offset by ~0.7 rad (~40°).
-    const panelOffset = 0.7;
-    const targetY = -(centroid.lon * (Math.PI / 180) + Math.PI / 2) - panelOffset;
+    const targetY = -(centroid.lon * (Math.PI / 180) + Math.PI / 2);
     // Tilt toward the target latitude (negative because Y-axis is inverted)
-    // Factor of 0.5 ensures Northern Hemisphere countries are well-centered vertically
-    const targetX = -centroid.lat * (Math.PI / 180) * 0.5;
+    // Factor of 0.6 gives a moderate tilt that shows the target hemisphere well
+    // Cap at ±0.55 rad (~31°) to avoid extreme tilt for polar regions
+    const rawTilt = -centroid.lat * (Math.PI / 180) * 0.6;
+    const targetX = Math.max(-0.55, Math.min(0.55, rawTilt));
     focusTargetRef.current = { y: targetY, x: targetX };
     userInteracted.current = true; // Stop auto-rotate during focus
   }, [focusCountry]);

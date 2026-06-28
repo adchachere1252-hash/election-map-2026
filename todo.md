@@ -2420,3 +2420,8 @@
 - [x] World map: change country abbreviations to AP style (periods in U.S./U.K./U.A.E., N./S. for North/South, full names where space allows)
 - [ ] World globe: callout leader-lines for small/crowded countries (Europe, Caribbean, Middle East, SE Asia) like the U.S. NE map
 - [x] World globe: ensure Northern Hemisphere labels display fully and properly (fixed rotation direction, panel offset, latitude tilt factor)
+
+## Globe Europe Clustering Fix (Jun 28, 2026)
+- [x] Fix Europe label clustering — hid non-election country labels, increased callout offsets
+- [x] Implement callout leader-lines for small/crowded European countries (HIDE_LABELS set + larger offsets)
+- [x] Verify Europe region is clear and readable after fix (CSS shift for panel, tilt factor 0.6, shortest-path rotation)

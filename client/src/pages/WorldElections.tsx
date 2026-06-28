@@ -722,15 +722,19 @@ export default function WorldElections() {
         {viewMode === "globe" ? (
           <>
             <Suspense fallback={<GlobeLoader />}>
-              <Globe
-                elections={electionData}
-                onCountryClick={handleCountryClick}
-                onCountryHover={handleCountryHover}
-                selectedCountry={selectedCountry?.code || null}
-                autoRotate={!selectedCountry}
-                showLabels={showLabels}
-                focusCountry={focusCountry}
-              />
+              <div className={`w-full h-full transition-transform duration-700 ease-out ${
+                selectedCountry ? 'sm:-translate-x-[180px]' : ''
+              }`}>
+                <Globe
+                  elections={electionData}
+                  onCountryClick={handleCountryClick}
+                  onCountryHover={handleCountryHover}
+                  selectedCountry={selectedCountry?.code || null}
+                  autoRotate={!selectedCountry}
+                  showLabels={showLabels}
+                  focusCountry={focusCountry}
+                />
+              </div>
             </Suspense>
 
             {/* Hover tooltip */}
