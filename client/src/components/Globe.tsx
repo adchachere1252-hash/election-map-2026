@@ -53,7 +53,7 @@ const DEFAULT_COLOR = 0x0a1628;
 const HOVER_COLOR = 0x60a5fa;
 const SELECTED_COLOR = 0x3b82f6;
 const OCEAN_COLOR = 0x0c1222;
-const BORDER_COLOR = 0x38bdf8;  // sky-400 — bright cyan for maximum contrast
+const BORDER_COLOR = 0x7dd3fc;  // sky-300 — bright cyan for maximum contrast on dark globe
 
 // ─── Ocean label positions (lon, lat) ────────────────────────────────────────
 const OCEAN_LABELS: { name: string; lon: number; lat: number }[] = [
@@ -897,8 +897,8 @@ export default function Globe({
             const borders = buildCountryBorders(feature, GLOBE_RADIUS * 1.003);
             if (borders) {
               const bMat = borders.material as THREE.LineBasicMaterial;
-              bMat.color.setHex(0x38bdf8);  // bright sky-blue
-              bMat.opacity = 0.55;
+              bMat.color.setHex(0x7dd3fc);  // sky-300 — brighter for more visibility
+              bMat.opacity = 0.75;
               globeGroup.add(borders);
             }
           }

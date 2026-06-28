@@ -2431,3 +2431,10 @@
 - [x] Add visible leader lines connecting offset labels to their actual country positions (brighter slate-300, 0.7 opacity)
 - [x] Make offset labels and leader lines clickable to open the country detail panel (added countryCode/countryName to userData)
 - [x] Verify all labels are properly connected, clickable, and not floating in empty space
+
+## Globe Borders & Flag Verification (Jun 28, 2026)
+- [x] Make country borders more visible on the globe (opacity 0.55→0.75, brighter sky-300 color)
+- [x] Make legend country markers stand out more (larger dots w-4 h-4, ring borders, bolder text)
+- [x] Verify all country flags are correctly matched to their country codes (all 46 verified)
+- [x] Verify all country names/labels are positioned at correct geographic coordinates (all within ±5°)
+- [x] Verify scrolling results banner information is accurate (all 15 world + 5 U.S. results verified)
