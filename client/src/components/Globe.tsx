@@ -1113,7 +1113,7 @@ export default function Globe({
       BJ: { dLon: 4, dLat: 5, alt: 1.13 },
       GQ: { dLon: 5, dLat: 5, alt: 1.14 },
       // ── East Africa small ──
-      SO: { dLon: -8, dLat: -3, alt: 1.13 },   // Somalia → push left with leader line
+      SO: { dLon: 12, dLat: 0, alt: 1.15 },    // Somalia → push RIGHT (east) into Indian Ocean with leader line back to Horn of Africa
       RW: { dLon: -5, dLat: 4, alt: 1.13 },
       BI: { dLon: -5, dLat: -4, alt: 1.13 },
       DJ: { dLon: 5, dLat: 4, alt: 1.14 },
@@ -1121,7 +1121,7 @@ export default function Globe({
       SZ: { dLon: 5, dLat: 4, alt: 1.13 },
       LS: { dLon: 5, dLat: -5, alt: 1.13 },
       // ── Archipelago nations (label in ocean/between islands → push to clear space) ──
-      ID: { dLon: 0, dLat: -12, alt: 1.12 },   // Indonesia → push south into Indian Ocean (below archipelago)
+      ID: { dLon: 8, dLat: -8, alt: 1.12 },    // Indonesia → push south-east (below and right of archipelago center)
       PH: { dLon: 6, dLat: -5, alt: 1.12 },    // Philippines → push south-east into Philippine Sea
       JP: { dLon: 6, dLat: 5, alt: 1.12 },     // Japan → push north-east into Pacific
       MY: { dLon: -5, dLat: -5, alt: 1.12 },   // Malaysia → push south-west to clear Borneo overlap
@@ -1181,26 +1181,7 @@ export default function Globe({
         let labelLat = centroid.lat;
         let labelRadius = GLOBE_RADIUS * 1.02;
 
-        // Add a subtle glow ring for small countries (scale <= 0.05) so their position is anchored visually
-        if (labelScale <= 0.05) {
-          const ringRadius = 0.035;
-          const ringGeo = new THREE.RingGeometry(ringRadius * 0.6, ringRadius, 24);
-          const ringColor = election ? (labelColor === "#ffffff" ? 0x60a5fa : 0x94a3b8) : 0x475569;
-          const ringMat = new THREE.MeshBasicMaterial({
-            color: ringColor,
-            transparent: true,
-            opacity: election ? 0.5 : 0.25,
-            side: THREE.DoubleSide,
-            depthTest: false,
-          });
-          const ring = new THREE.Mesh(ringGeo, ringMat);
-          const ringPos = latLonToVec3Internal(centroid.lon, centroid.lat, GLOBE_RADIUS * 1.012);
-          ring.position.copy(ringPos);
-          // Orient ring to face outward from globe center
-          ring.lookAt(ringPos.clone().multiplyScalar(2));
-          ring.userData = { isLabel: true, isGlowRing: true, countryLabel: code, countryCode: code, countryName: SHORT_NAMES[code] || code };
-          globeGroup.add(ring);
-        }
+
 
         if (callout) {
           labelLon = centroid.lon + callout.dLon;

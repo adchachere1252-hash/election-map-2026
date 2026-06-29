@@ -2479,3 +2479,19 @@
 - [x] Verify European labels display with leader lines in a fan pattern around the cluster
 - [x] Verify Somalia callout still working correctly with leader line
 - [x] Verify SE Asia (Indonesia, Japan, Philippines) still looks correct after changes
+
+## Fix Geographically Incorrect Label Positions (Jun 29, 2026)
+- [ ] Fix Somalia (SO) label — move to RIGHT (east) of territory with leader line pointing back to Horn of Africa
+- [ ] Fix Indonesia (ID) label — verify and correct position relative to actual archipelago
+- [ ] Full geographic verification of ALL callout offsets against real-world positions
+- [ ] Fix any other incorrectly positioned labels found during verification
+
+## Fix Geographically Incorrect Label Positions (Jun 29, 2026)
+- [x] Fix Somalia (SO) dLon from -12 to +12 — label now correctly pushes RIGHT (east) into Indian Ocean
+- [x] Fix Indonesia (ID) from dLon=0,dLat=-12 to dLon=8,dLat=-8 — label now pushes south-east
+- [x] Verify Somalia label appears to the RIGHT of Horn of Africa with leader line
+- [x] Verify Indonesia label appears south-east below archipelago
+- [x] Verify all Asia-Pacific labels (Philippines, Japan, Malaysia, New Zealand, Taiwan) correct
+- [x] Verify all Africa labels correct (Ethiopia, Nigeria, D.R. Congo, etc.)
+- [x] Verify European fan-out labels visible and correctly positioned
+- [x] Remove glow rings (user requested removal)
