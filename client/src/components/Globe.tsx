@@ -647,7 +647,7 @@ export default function Globe({
 
     // Camera — pulled back for a smaller globe with breathing room
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    camera.position.set(0, -0.4, 7.2);
+    camera.position.set(0, 0, 7.2);
     camera.lookAt(0, 0, 0);
     cameraRef.current = camera;
 
@@ -798,6 +798,7 @@ export default function Globe({
 
     // Globe group (rotatable)
     const globeGroup = new THREE.Group();
+    globeGroup.position.y = -1.0; // Shift globe down so northern hemisphere (Europe) is more visible
     scene.add(globeGroup);
     globeGroupRef.current = globeGroup;
 
@@ -1018,12 +1019,10 @@ export default function Globe({
     };
     // ─── Countries to HIDE labels for in crowded regions (non-election, small, just clutter) ───
     const HIDE_LABELS: Set<string> = new Set([
-      // Western Europe non-election small countries
-      "NL", "BE", "LU", "AT", "DK",
+      // Western Europe non-election small countries (keep hidden unless election)
+      "LU",
       // Balkans non-election small countries
-      "SI", "HR", "RS", "ME", "AL", "MK", "XK",
-      // Baltic/Eastern non-election small countries
-      "LT", "EE", "MD",
+      "SI", "XK",
       // Other small non-election European countries
       "CY", "GE", "AZ",
       // Central America non-election small countries (too clustered near Mexico)
@@ -1036,18 +1035,49 @@ export default function Globe({
     // These push labels outward with leader lines, like the NE callouts on the U.S. map
     // European ELECTION countries get LARGE offsets to spread them out clearly like spokes
     const CALLOUT_OFFSETS: Record<string, { dLon: number; dLat: number; alt: number }> = {
-      // ── European ELECTION countries (moderate offsets with leader lines) ──
-      SE: { dLon: 4, dLat: 5, alt: 1.12 },      // Sweden → push north-east
-      IS: { dLon: -7, dLat: 4, alt: 1.14 },     // Iceland → push north-west
-      LV: { dLon: 6, dLat: 3, alt: 1.12 },      // Latvia → push east
-      GB: { dLon: -6, dLat: 2, alt: 1.12 },     // UK → push west
-      CZ: { dLon: 5, dLat: 1, alt: 1.11 },      // Czech Republic → push east
-      SK: { dLon: 6, dLat: -1, alt: 1.11 },     // Slovakia → push east-south
-      HU: { dLon: 5, dLat: -3, alt: 1.11 },     // Hungary → push south-east
-      CH: { dLon: -5, dLat: -3, alt: 1.11 },    // Switzerland → push south-west
-      IT: { dLon: -4, dLat: -5, alt: 1.11 },    // Italy → push south
-      BA: { dLon: 4, dLat: -5, alt: 1.11 },     // Bosnia → push south-east
-      BG: { dLon: 6, dLat: -4, alt: 1.11 },     // Bulgaria → push east-south
+      // ── European countries — large fan-out with leader lines ──
+      // Northern Europe (push north/north-east)
+      IS: { dLon: -12, dLat: 8, alt: 1.15 },    // Iceland → far NW
+      NO: { dLon: -4, dLat: 10, alt: 1.14 },    // Norway → push north
+      SE: { dLon: 5, dLat: 10, alt: 1.14 },     // Sweden → push NE
+      FI: { dLon: 10, dLat: 10, alt: 1.14 },    // Finland → push NE
+      DK: { dLon: 0, dLat: 8, alt: 1.13 },      // Denmark → push north
+      // Western Europe (push west/north-west)
+      IE: { dLon: -12, dLat: 4, alt: 1.14 },    // Ireland → push far west
+      GB: { dLon: -12, dLat: -4, alt: 1.14 },   // UK → push SW (keeps it in viewport)
+      NL: { dLon: -8, dLat: 5, alt: 1.13 },     // Netherlands → push NW
+      BE: { dLon: -9, dLat: 2, alt: 1.13 },     // Belgium → push west
+      FR: { dLon: -10, dLat: -3, alt: 1.13 },   // France → push SW
+      // Central Europe (push outward from center)
+      DE: { dLon: -2, dLat: 7, alt: 1.13 },     // Germany → push north
+      PL: { dLon: 8, dLat: 5, alt: 1.13 },      // Poland → push NE
+      CZ: { dLon: 7, dLat: 3, alt: 1.12 },      // Czech Republic → push east
+      SK: { dLon: 9, dLat: 1, alt: 1.12 },      // Slovakia → push east
+      AT: { dLon: -5, dLat: -5, alt: 1.12 },    // Austria → push SW
+      CH: { dLon: -8, dLat: -5, alt: 1.13 },    // Switzerland → push SW
+      // Iberian Peninsula (push south-west)
+      PT: { dLon: -10, dLat: -6, alt: 1.14 },   // Portugal → push far SW
+      ES: { dLon: -8, dLat: -8, alt: 1.13 },    // Spain → push SW
+      // Southern Europe (push south)
+      IT: { dLon: -5, dLat: -8, alt: 1.13 },    // Italy → push south
+      GR: { dLon: 4, dLat: -9, alt: 1.13 },     // Greece → push south
+      BA: { dLon: 2, dLat: -8, alt: 1.12 },     // Bosnia → push south
+      HR: { dLon: -2, dLat: -7, alt: 1.12 },    // Croatia → push south
+      RS: { dLon: 4, dLat: -6, alt: 1.12 },     // Serbia → push SE
+      ME: { dLon: 0, dLat: -9, alt: 1.12 },     // Montenegro → push south
+      AL: { dLon: 2, dLat: -10, alt: 1.13 },    // Albania → push south
+      MK: { dLon: 5, dLat: -8, alt: 1.12 },     // N. Macedonia → push SE
+      // Eastern Europe (push east)
+      HU: { dLon: 7, dLat: -3, alt: 1.12 },     // Hungary → push SE
+      RO: { dLon: 9, dLat: -4, alt: 1.13 },     // Romania → push SE
+      BG: { dLon: 9, dLat: -6, alt: 1.13 },     // Bulgaria → push SE
+      MD: { dLon: 10, dLat: -2, alt: 1.13 },    // Moldova → push east
+      UA: { dLon: 10, dLat: 0, alt: 1.13 },     // Ukraine → push east
+      BY: { dLon: 10, dLat: 2, alt: 1.13 },     // Belarus → push east
+      // Baltics (push east/NE)
+      EE: { dLon: 10, dLat: 7, alt: 1.13 },     // Estonia → push NE
+      LV: { dLon: 10, dLat: 5, alt: 1.13 },     // Latvia → push east
+      LT: { dLon: 10, dLat: 3, alt: 1.13 },     // Lithuania → push east
       // ── Middle East (crowded) ──
       IL: { dLon: -6, dLat: -4, alt: 1.15 },
       PS: { dLon: -7, dLat: 0, alt: 1.14 },
@@ -1151,6 +1181,27 @@ export default function Globe({
         let labelLat = centroid.lat;
         let labelRadius = GLOBE_RADIUS * 1.02;
 
+        // Add a subtle glow ring for small countries (scale <= 0.05) so their position is anchored visually
+        if (labelScale <= 0.05) {
+          const ringRadius = 0.035;
+          const ringGeo = new THREE.RingGeometry(ringRadius * 0.6, ringRadius, 24);
+          const ringColor = election ? (labelColor === "#ffffff" ? 0x60a5fa : 0x94a3b8) : 0x475569;
+          const ringMat = new THREE.MeshBasicMaterial({
+            color: ringColor,
+            transparent: true,
+            opacity: election ? 0.5 : 0.25,
+            side: THREE.DoubleSide,
+            depthTest: false,
+          });
+          const ring = new THREE.Mesh(ringGeo, ringMat);
+          const ringPos = latLonToVec3Internal(centroid.lon, centroid.lat, GLOBE_RADIUS * 1.012);
+          ring.position.copy(ringPos);
+          // Orient ring to face outward from globe center
+          ring.lookAt(ringPos.clone().multiplyScalar(2));
+          ring.userData = { isLabel: true, isGlowRing: true, countryLabel: code, countryCode: code, countryName: SHORT_NAMES[code] || code };
+          globeGroup.add(ring);
+        }
+
         if (callout) {
           labelLon = centroid.lon + callout.dLon;
           labelLat = centroid.lat + callout.dLat;
@@ -1225,6 +1276,11 @@ export default function Globe({
         velocity.current = { x: 0, y: 0 }; // Kill momentum during focus
       }
 
+      // Camera always looks at globe center - tilt alone handles centering
+      if (camera) {
+        camera.lookAt(0, 0, 0);
+      }
+
       // Momentum
       if (!isDragging.current && !focusTargetRef.current) {
         if (Math.abs(velocity.current.x) > 0.0001 || Math.abs(velocity.current.y) > 0.0001) {
@@ -1236,7 +1292,7 @@ export default function Globe({
       }
 
       // Clamp vertical
-      globeGroup.rotation.x = Math.max(-Math.PI / 2.5, Math.min(Math.PI / 2.5, globeGroup.rotation.x));
+      globeGroup.rotation.x = Math.max(-0.55, Math.min(0.55, globeGroup.rotation.x));
 
       // Twinkle stars (skip on low quality for performance)
       if (lod.twinkle) {
@@ -1399,8 +1455,8 @@ export default function Globe({
     const targetY = -(centroid.lon * (Math.PI / 180) + Math.PI / 2);
     // Tilt toward the target latitude (negative because Y-axis is inverted)
     // Factor of 0.6 gives a moderate tilt that shows the target hemisphere well
-    // Cap at ±0.55 rad (~31°) to avoid extreme tilt for polar regions
-    const rawTilt = -centroid.lat * (Math.PI / 180) * 0.6;
+    // Cap at ±1.0 rad (~57°) to allow European/polar countries to be centered
+    const rawTilt = -centroid.lat * (Math.PI / 180) * 0.55;
     const targetX = Math.max(-0.55, Math.min(0.55, rawTilt));
     focusTargetRef.current = { y: targetY, x: targetX };
     userInteracted.current = true; // Stop auto-rotate during focus

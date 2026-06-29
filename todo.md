@@ -2464,3 +2464,18 @@
 - [x] Fix New Zealand (NZ) label — already looks okay but verify
 - [x] Fix Malaysia (MY) label — adjust so it's clearly on Peninsular Malaysia
 - [x] Verify all fixes visually on the globe
+
+## Globe Visual Fixes - Tilt, Camera, Glow (Jun 29, 2026)
+- [x] Fix #1: Increase globe tilt cap from ±0.55 to ±0.85 rad so Europe can be centered
+- [x] Fix #2: Adjust camera Y position from -0.4 to 0 to remove southern hemisphere bias
+- [x] Fix #4: Add subtle glow/highlight ring around small country dots so labels don't float
+- [x] Verify Europe (UK, Sweden, Italy) is properly visible and centered when focused
+- [x] Verify SE Asia (Indonesia, Japan, Philippines) still looks correct
+- [x] Verify overall globe appearance is appealing
+
+## European Fan-Out Callout Pattern (Jun 29, 2026)
+- [x] Add fan-out callout offsets for all European election countries (UK, France, Italy, Hungary, Switzerland, Czech Republic, Iceland, Sweden, Ireland, Netherlands, Belgium, Denmark, Austria, Poland, Germany, Spain, Portugal)
+- [x] Shift globe position down (-1.0 Y) to bring northern hemisphere into viewport
+- [x] Verify European labels display with leader lines in a fan pattern around the cluster
+- [x] Verify Somalia callout still working correctly with leader line
+- [x] Verify SE Asia (Indonesia, Japan, Philippines) still looks correct after changes
