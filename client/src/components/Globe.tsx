@@ -1241,7 +1241,7 @@ export default function Globe({
 
       // Auto-rotate
       if (!userInteracted.current && autoRotate) {
-        globeGroup.rotation.y += 0.0003; // Slow, realistic planetary rotation
+        globeGroup.rotation.y += 0.001; // Faster idle auto-rotation
       }
 
       // Smooth rotation to focused country
@@ -1259,7 +1259,7 @@ export default function Globe({
         else if (dy < -Math.PI) dy += 2 * Math.PI;
         
         const dx = target.x - globeGroup.rotation.x;
-        const speed = 0.3; // Snappy rotation for long-distance focus
+        const speed = 0.7; // Very fast, snappy rotation for long-distance focus
         globeGroup.rotation.y += dy * speed;
         globeGroup.rotation.x += dx * speed;
         // Stop when close enough
@@ -1281,8 +1281,8 @@ export default function Globe({
         if (Math.abs(velocity.current.x) > 0.0001 || Math.abs(velocity.current.y) > 0.0001) {
           globeGroup.rotation.y += velocity.current.x;
           globeGroup.rotation.x += velocity.current.y;
-          velocity.current.x *= 0.95;
-          velocity.current.y *= 0.95;
+          velocity.current.x *= 0.92;
+          velocity.current.y *= 0.92;
         }
       }
 
@@ -1499,9 +1499,9 @@ export default function Globe({
       const dx = e.clientX - prevMouse.current.x;
       const dy = e.clientY - prevMouse.current.y;
       dragDistance.current += Math.abs(dx) + Math.abs(dy);
-      globeGroupRef.current.rotation.y += dx * 0.005;
-      globeGroupRef.current.rotation.x += dy * 0.005;
-      velocity.current = { x: dx * 0.005, y: dy * 0.005 };
+      globeGroupRef.current.rotation.y += dx * 0.015;
+      globeGroupRef.current.rotation.x += dy * 0.015;
+      velocity.current = { x: dx * 0.015, y: dy * 0.015 };
       prevMouse.current = { x: e.clientX, y: e.clientY };
       setTooltip(null);
     } else if (globeGroupRef.current) {

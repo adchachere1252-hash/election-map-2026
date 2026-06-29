@@ -2513,3 +2513,15 @@
 - [x] Re-add Indonesia callout offset (dLon: 5, dLat: 0) with short stick east of archipelago
 - [x] Increase European election country label scales for better readability
 - [x] Make legend section smaller (reduced padding, font size, dot size)
+
+## Full Asia Label Verification (Jun 29, 2026)
+- [x] Verify ALL Asian country centroids against authoritative geographic coordinates
+- [x] Verify all callout offsets for Asian countries are geographically correct
+- [x] Visual verification of globe from multiple angles (Central Asia, SE Asia, East Asia, Middle East, South Asia)
+- [x] Fix any incorrectly positioned labels or centroids found during verification (none needed — all correct)
+
+## Full Europe Label Verification (Jun 29, 2026)
+- [x] Verify ALL European country centroids against authoritative geographic coordinates
+- [x] Verify all callout offsets for European countries are geographically correct
+- [x] Visual verification of globe from multiple angles (Western Europe, Eastern Europe, Scandinavia, Balkans)
+- [x] Fix any incorrectly positioned labels or centroids found during verification (none needed — all correct)
