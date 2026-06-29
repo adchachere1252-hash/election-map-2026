@@ -2481,10 +2481,10 @@
 - [x] Verify SE Asia (Indonesia, Japan, Philippines) still looks correct after changes
 
 ## Fix Geographically Incorrect Label Positions (Jun 29, 2026)
-- [ ] Fix Somalia (SO) label — move to RIGHT (east) of territory with leader line pointing back to Horn of Africa
-- [ ] Fix Indonesia (ID) label — verify and correct position relative to actual archipelago
-- [ ] Full geographic verification of ALL callout offsets against real-world positions
-- [ ] Fix any other incorrectly positioned labels found during verification
+- [x] Fix Somalia (SO) label — move to RIGHT (east) of territory with leader line pointing back to Horn of Africa
+- [x] Fix Indonesia (ID) label — verify and correct position relative to actual archipelago
+- [x] Full geographic verification of ALL callout offsets against real-world positions
+- [x] Fix any other incorrectly positioned labels found during verification (none needed — all verified correct)
 
 ## Fix Geographically Incorrect Label Positions (Jun 29, 2026)
 - [x] Fix Somalia (SO) dLon from -12 to +12 — label now correctly pushes RIGHT (east) into Indian Ocean
@@ -2495,3 +2495,21 @@
 - [x] Verify all Africa labels correct (Ethiopia, Nigeria, D.R. Congo, etc.)
 - [x] Verify European fan-out labels visible and correctly positioned
 - [x] Remove glow rings (user requested removal)
+
+## Globe Label Fixes Round 2 (Jun 29, 2026)
+- [x] Remove Indonesia from callout offsets — label should sit directly on territory (large country)
+- [x] Make leader lines more visible (thicker/brighter) for all callout countries including Somalia
+- [x] Full verification of all globe labels — ensure lines are visible where needed
+- [x] Declutter Europe — remove labels for small countries without tracked elections, keep only election countries + major nations
+- [x] Further declutter Europe — hide non-election major countries (FR, DE, ES, PL, UA, RO)
+- [x] Improve country border definition — switch from 110m to 50m resolution for more detailed borders
+- [x] Add gold glowing borders (thin THREE.LineSegments with additive blending, 3 layers) to ALL countries
+- [x] Fix hover/click detection — disable raycasting on glow layers, fix previous-country highlight reset bug
+- [x] Fix Taiwan label — increase scale from 0.03 to 0.07, add short stick east of island
+- [x] Fix Bangladesh label — add callout offset with short stick SE into Bay of Bengal
+- [x] Fix Vietnam label — add callout offset with short stick east into South China Sea
+- [x] Fix Cambodia label — add callout offset with short stick SW to separate from Vietnam
+- [x] Fix Malaysia and Singapore callout offsets to correct positions near Malay Peninsula
+- [x] Re-add Indonesia callout offset (dLon: 5, dLat: 0) with short stick east of archipelago
+- [x] Increase European election country label scales for better readability
+- [x] Make legend section smaller (reduced padding, font size, dot size)

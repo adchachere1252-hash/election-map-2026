@@ -3,6 +3,9 @@ import * as THREE from "three";
 import * as topojson from "topojson-client";
 import earcut from "earcut";
 import { numericToAlpha2 } from "@/lib/countryCodeMap";
+import { LineSegments2 } from "three/examples/jsm/lines/LineSegments2.js";
+import { LineSegmentsGeometry } from "three/examples/jsm/lines/LineSegmentsGeometry.js";
+import { LineMaterial } from "three/examples/jsm/lines/LineMaterial.js";
 
 // ─── LOD Quality Detection ───────────────────────────────────────────────────
 function detectQuality(): "high" | "medium" | "low" {
@@ -40,7 +43,7 @@ interface GlobeProps {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const GLOBE_RADIUS = 2;
-const TOPO_URL = "/manus-storage/countries-110m_b4a7267c.json";
+const TOPO_URL = "/manus-storage/countries-50m_da91a9ab.json";
 
 const STATUS_COLORS: Record<string, number> = {
   "Upcoming": 0xfbbf24,    // Brighter amber-400
@@ -53,7 +56,7 @@ const DEFAULT_COLOR = 0x0a1628;
 const HOVER_COLOR = 0x60a5fa;
 const SELECTED_COLOR = 0x3b82f6;
 const OCEAN_COLOR = 0x0c1222;
-const BORDER_COLOR = 0x7dd3fc;  // sky-300 — bright cyan for maximum contrast on dark globe
+const BORDER_COLOR = 0xfbbf24;  // amber-400 — gold glow for borders
 
 // ─── Ocean label positions (lon, lat) ────────────────────────────────────────
 const OCEAN_LABELS: { name: string; lon: number; lat: number }[] = [
@@ -582,6 +585,81 @@ function buildCountryBorders(feature: any, radius: number): THREE.LineSegments |
   return new THREE.LineSegments(geometry, material);
 }
 
+// ─── Build thin gold glowing border (additive blending for glow effect) ───────
+function buildGoldGlowBorder(feature: any, radius: number, color: number, opacity: number): THREE.LineSegments | null {
+  const coords: number[][][][] = [];
+  if (feature.geometry.type === "Polygon") {
+    coords.push(feature.geometry.coordinates);
+  } else if (feature.geometry.type === "MultiPolygon") {
+    coords.push(...feature.geometry.coordinates);
+  } else {
+    return null;
+  }
+
+  const points: THREE.Vector3[] = [];
+  for (const polygon of coords) {
+    for (const ring of polygon) {
+      for (let i = 0; i < ring.length - 1; i++) {
+        const lon0 = ring[i][0], lon1 = ring[i + 1][0];
+        if (Math.abs(lon1 - lon0) > 180) continue;
+        points.push(latLonToVec3(lon0, ring[i][1], radius));
+        points.push(latLonToVec3(lon1, ring[i + 1][1], radius));
+      }
+    }
+  }
+
+  if (points.length === 0) return null;
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+  const material = new THREE.LineBasicMaterial({
+    color,
+    transparent: true,
+    opacity,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+  });
+  return new THREE.LineSegments(geometry, material);
+}
+
+// ─── Build THICK country border lines using Line2 (supports real line width) ───────
+function buildThickBorders(feature: any, radius: number, color: number, lineWidth: number, resolution: THREE.Vector2): LineSegments2 | null {
+  const coords: number[][][][] = [];
+  if (feature.geometry.type === "Polygon") {
+    coords.push(feature.geometry.coordinates);
+  } else if (feature.geometry.type === "MultiPolygon") {
+    coords.push(...feature.geometry.coordinates);
+  } else {
+    return null;
+  }
+
+  const positions: number[] = [];
+  for (const polygon of coords) {
+    for (const ring of polygon) {
+      for (let i = 0; i < ring.length - 1; i++) {
+        const lon0 = ring[i][0], lon1 = ring[i + 1][0];
+        if (Math.abs(lon1 - lon0) > 180) continue;
+        const p0 = latLonToVec3(lon0, ring[i][1], radius);
+        const p1 = latLonToVec3(lon1, ring[i + 1][1], radius);
+        positions.push(p0.x, p0.y, p0.z, p1.x, p1.y, p1.z);
+      }
+    }
+  }
+
+  if (positions.length === 0) return null;
+  const geometry = new LineSegmentsGeometry();
+  geometry.setPositions(positions);
+  const material = new LineMaterial({
+    color,
+    linewidth: lineWidth,
+    transparent: true,
+    opacity: 1.0,
+    depthWrite: false,
+    worldUnits: false,
+    resolution,
+    blending: THREE.AdditiveBlending,
+  });
+  return new LineSegments2(geometry, material);
+}
+
 // ─── Main Globe Component ─────────────────────────────────────────────────────
 export default function Globe({
   elections,
@@ -859,50 +937,16 @@ export default function Globe({
             console.warn(`[Globe] FAILED to build mesh for ${alpha2} (feature.id=${feature.id})`);
           }
 
-          // Border lines — active election countries get thick glowing borders in their status color
-          if (isActiveElection) {
-            const glowBorder = buildCountryBorders(feature, GLOBE_RADIUS * 1.004);
-            if (glowBorder) {
-              const borderMat = glowBorder.material as THREE.LineBasicMaterial;
-              borderMat.color.setHex(STATUS_COLORS[election.status] ?? 0xf59e0b);
-              borderMat.opacity = 1.0;
-              borderMat.linewidth = 3;
-              glowBorder.userData = { countryCode: alpha2, isGlowBorder: true };
-              globeGroup.add(glowBorder);
-              if (alpha2) countryBordersRef.current.set(alpha2, glowBorder);
-            }
-            // Second glow layer (slightly larger, more transparent) for bloom effect — skip on low quality
-            if (lod.outerGlow) {
-              const outerGlow = buildCountryBorders(feature, GLOBE_RADIUS * 1.006);
-              if (outerGlow) {
-                const outerMat = outerGlow.material as THREE.LineBasicMaterial;
-                outerMat.color.setHex(STATUS_COLORS[election.status] ?? 0xf59e0b);
-                outerMat.opacity = 0.8;
-                outerMat.linewidth = 2;
-                outerGlow.userData = { isOuterGlow: true, countryCode: alpha2 };
-                globeGroup.add(outerGlow);
-              }
-            }
-            // Third ultra-glow layer for maximum visibility
-            const ultraGlow = buildCountryBorders(feature, GLOBE_RADIUS * 1.008);
-            if (ultraGlow) {
-              const ultraMat = ultraGlow.material as THREE.LineBasicMaterial;
-              ultraMat.color.setHex(STATUS_COLORS[election.status] ?? 0xf59e0b);
-              ultraMat.opacity = 0.4;
-              ultraMat.linewidth = 1;
-              ultraGlow.userData = { isUltraGlow: true, countryCode: alpha2 };
-              globeGroup.add(ultraGlow);
-            }
-          } else {
-            // Non-election countries: visible cyan borders
-            const borders = buildCountryBorders(feature, GLOBE_RADIUS * 1.003);
-            if (borders) {
-              const bMat = borders.material as THREE.LineBasicMaterial;
-              bMat.color.setHex(0x7dd3fc);  // sky-300 — brighter for more visibility
-              bMat.opacity = 0.75;
-              globeGroup.add(borders);
-            }
-          }
+          // ALL countries get thin gold GLOWING borders (multiple additive layers)
+          // Layer 1: soft outer glow
+          const glow1 = buildGoldGlowBorder(feature, GLOBE_RADIUS * 1.003, 0xffd700, 0.6);
+          if (glow1) { glow1.userData = { isUltraGlow: true }; glow1.raycast = () => {}; globeGroup.add(glow1); }
+          // Layer 2: mid glow
+          const glow2 = buildGoldGlowBorder(feature, GLOBE_RADIUS * 1.004, 0xffbf00, 0.8);
+          if (glow2) { glow2.userData = { isOuterGlow: true }; glow2.raycast = () => {}; globeGroup.add(glow2); }
+          // Layer 3: bright core (still stores countryCode for border highlight but excluded from raycast)
+          const glow3 = buildGoldGlowBorder(feature, GLOBE_RADIUS * 1.005, 0xffd700, 1.0);
+          if (glow3) { glow3.userData = { countryCode: alpha2, isGlowBorder: true }; glow3.raycast = () => {}; globeGroup.add(glow3); if (alpha2) countryBordersRef.current.set(alpha2, glow3 as any); }
         }
       })
       .catch(err => console.error("Failed to load globe data:", err));
@@ -924,31 +968,31 @@ export default function Globe({
     const COUNTRY_SCALE: Record<string, number> = {
       US: 0.16, RU: 0.18, BR: 0.14, CA: 0.16, CN: 0.14, AU: 0.14,
       KZ: 0.12, DZ: 0.10, ET: 0.09, IN: 0.12, AR: 0.10,
-      CO: 0.08, SE: 0.07, NZ: 0.07, SO: 0.07, ZM: 0.07, MA: 0.07,
+      CO: 0.08, SE: 0.09, NZ: 0.07, SO: 0.07, ZM: 0.07, MA: 0.07,
       MX: 0.09, ID: 0.10, SA: 0.08, IR: 0.08, MN: 0.08,
       LY: 0.08, SD: 0.07, CD: 0.08, AO: 0.07, ML: 0.07,
       NE: 0.07, TD: 0.07, EG: 0.07, NG: 0.07, ZA: 0.07,
       TR: 0.06, PK: 0.06, AF: 0.06, UA: 0.07, FR: 0.06,
-      ES: 0.06, DE: 0.05, PL: 0.05, IT: 0.05, GB: 0.05,
-      JP: 0.05, PH: 0.05, VN: 0.05, TH: 0.05, MM: 0.05,
+      ES: 0.06, DE: 0.05, PL: 0.05, IT: 0.08, GB: 0.08,
+      JP: 0.05, PH: 0.05, VN: 0.07, TH: 0.05, MM: 0.05,
       PE: 0.06, VE: 0.06, CL: 0.05, BO: 0.06, PY: 0.05,
       EC: 0.04, UY: 0.04, GY: 0.04, SR: 0.03,
       KE: 0.05, TZ: 0.05, MZ: 0.05, MG: 0.05, CM: 0.05,
       CI: 0.04, GH: 0.04, SN: 0.04, BF: 0.04, GN: 0.04,
       UG: 0.04, MW: 0.04, RW: 0.03, BI: 0.03,
       NO: 0.06, FI: 0.06, DK: 0.04, IE: 0.04,
-      NL: 0.03, BE: 0.03, CH: 0.03, AT: 0.04, PT: 0.04,
-      GR: 0.04, RO: 0.05, HU: 0.04, CZ: 0.04, BG: 0.04,
-      SK: 0.03, BA: 0.03, LV: 0.03, HR: 0.03, RS: 0.04,
-      IS: 0.04, IL: 0.03, BD: 0.05, AM: 0.03, SS: 0.06,
+      NL: 0.03, BE: 0.03, CH: 0.06, AT: 0.04, PT: 0.04,
+      GR: 0.04, RO: 0.05, HU: 0.07, CZ: 0.07, BG: 0.07,
+      SK: 0.06, BA: 0.06, LV: 0.06, HR: 0.03, RS: 0.04,
+      IS: 0.07, IL: 0.03, BD: 0.07, AM: 0.03, SS: 0.06,
       GM: 0.03, HT: 0.04, BH: 0.03, CV: 0.03, ST: 0.03, CK: 0.03,
       IQ: 0.05, SY: 0.04, JO: 0.03, LB: 0.03, AE: 0.04,
       OM: 0.04, YE: 0.05, KW: 0.03, QA: 0.03,
       GE: 0.03, AZ: 0.03, UZ: 0.05, TM: 0.05, KG: 0.04, TJ: 0.03,
-      NP: 0.04, LK: 0.03, KH: 0.04, LA: 0.04, MY: 0.05,
+      NP: 0.04, LK: 0.03, KH: 0.06, LA: 0.04, MY: 0.05,
       CU: 0.05, DO: 0.03, JM: 0.03, TT: 0.03,
       PA: 0.03, CR: 0.03, GT: 0.04, HN: 0.04, NI: 0.04, SV: 0.03, BZ: 0.03,
-      KR: 0.04, TW: 0.03, BY: 0.05, LT: 0.03, EE: 0.03,
+      KR: 0.04, TW: 0.07, BY: 0.05, LT: 0.03, EE: 0.03,
       AL: 0.03, MK: 0.03, ME: 0.03, SI: 0.03, XK: 0.03,
       // Newly added countries
       AQ: 0.14, GL: 0.12, PG: 0.06, NC: 0.03, FJ: 0.03,
@@ -1019,11 +1063,15 @@ export default function Globe({
     };
     // ─── Countries to HIDE labels for in crowded regions (non-election, small, just clutter) ───
     const HIDE_LABELS: Set<string> = new Set([
-      // Western Europe non-election small countries (keep hidden unless election)
-      "LU",
-      // Balkans non-election small countries
-      "SI", "XK",
-      // Other small non-election European countries
+      // Western Europe non-election major countries (declutter)
+      "FR", "DE", "ES", "LU", "NL", "BE", "IE", "PT", "AT",
+      // Northern Europe non-election (declutter)
+      "NO", "FI", "DK",
+      // Eastern Europe non-election major countries (declutter)
+      "PL", "UA", "RO", "MD", "BY", "EE", "LT",
+      // Balkans non-election small countries (declutter)
+      "SI", "XK", "HR", "RS", "ME", "AL", "MK", "GR",
+      // Other non-election European countries
       "CY", "GE", "AZ",
       // Central America non-election small countries (too clustered near Mexico)
       "GT", "HN", "SV", "BZ", "NI", "CR", "PA",
@@ -1035,49 +1083,14 @@ export default function Globe({
     // These push labels outward with leader lines, like the NE callouts on the U.S. map
     // European ELECTION countries get LARGE offsets to spread them out clearly like spokes
     const CALLOUT_OFFSETS: Record<string, { dLon: number; dLat: number; alt: number }> = {
-      // ── European countries — large fan-out with leader lines ──
-      // Northern Europe (push north/north-east)
-      IS: { dLon: -12, dLat: 8, alt: 1.15 },    // Iceland → far NW
-      NO: { dLon: -4, dLat: 10, alt: 1.14 },    // Norway → push north
-      SE: { dLon: 5, dLat: 10, alt: 1.14 },     // Sweden → push NE
-      FI: { dLon: 10, dLat: 10, alt: 1.14 },    // Finland → push NE
-      DK: { dLon: 0, dLat: 8, alt: 1.13 },      // Denmark → push north
-      // Western Europe (push west/north-west)
-      IE: { dLon: -12, dLat: 4, alt: 1.14 },    // Ireland → push far west
-      GB: { dLon: -12, dLat: -4, alt: 1.14 },   // UK → push SW (keeps it in viewport)
-      NL: { dLon: -8, dLat: 5, alt: 1.13 },     // Netherlands → push NW
-      BE: { dLon: -9, dLat: 2, alt: 1.13 },     // Belgium → push west
-      FR: { dLon: -10, dLat: -3, alt: 1.13 },   // France → push SW
-      // Central Europe (push outward from center)
-      DE: { dLon: -2, dLat: 7, alt: 1.13 },     // Germany → push north
-      PL: { dLon: 8, dLat: 5, alt: 1.13 },      // Poland → push NE
-      CZ: { dLon: 7, dLat: 3, alt: 1.12 },      // Czech Republic → push east
-      SK: { dLon: 9, dLat: 1, alt: 1.12 },      // Slovakia → push east
-      AT: { dLon: -5, dLat: -5, alt: 1.12 },    // Austria → push SW
-      CH: { dLon: -8, dLat: -5, alt: 1.13 },    // Switzerland → push SW
-      // Iberian Peninsula (push south-west)
-      PT: { dLon: -10, dLat: -6, alt: 1.14 },   // Portugal → push far SW
-      ES: { dLon: -8, dLat: -8, alt: 1.13 },    // Spain → push SW
-      // Southern Europe (push south)
-      IT: { dLon: -5, dLat: -8, alt: 1.13 },    // Italy → push south
-      GR: { dLon: 4, dLat: -9, alt: 1.13 },     // Greece → push south
-      BA: { dLon: 2, dLat: -8, alt: 1.12 },     // Bosnia → push south
-      HR: { dLon: -2, dLat: -7, alt: 1.12 },    // Croatia → push south
-      RS: { dLon: 4, dLat: -6, alt: 1.12 },     // Serbia → push SE
-      ME: { dLon: 0, dLat: -9, alt: 1.12 },     // Montenegro → push south
-      AL: { dLon: 2, dLat: -10, alt: 1.13 },    // Albania → push south
-      MK: { dLon: 5, dLat: -8, alt: 1.12 },     // N. Macedonia → push SE
-      // Eastern Europe (push east)
-      HU: { dLon: 7, dLat: -3, alt: 1.12 },     // Hungary → push SE
-      RO: { dLon: 9, dLat: -4, alt: 1.13 },     // Romania → push SE
-      BG: { dLon: 9, dLat: -6, alt: 1.13 },     // Bulgaria → push SE
-      MD: { dLon: 10, dLat: -2, alt: 1.13 },    // Moldova → push east
-      UA: { dLon: 10, dLat: 0, alt: 1.13 },     // Ukraine → push east
-      BY: { dLon: 10, dLat: 2, alt: 1.13 },     // Belarus → push east
-      // Baltics (push east/NE)
-      EE: { dLon: 10, dLat: 7, alt: 1.13 },     // Estonia → push NE
-      LV: { dLon: 10, dLat: 5, alt: 1.13 },     // Latvia → push east
-      LT: { dLon: 10, dLat: 3, alt: 1.13 },     // Lithuania → push east
+      // ── European countries — only small election countries get callout offsets ──
+      // Large countries (FR, DE, ES, PL, UA, RO, IT, GB, SE, HU, BG) have labels on territory
+      IS: { dLon: -8, dLat: 5, alt: 1.14 },     // Iceland → small island, push NW
+      CH: { dLon: -5, dLat: -4, alt: 1.13 },    // Switzerland → small, push SW
+      CZ: { dLon: 4, dLat: 3, alt: 1.12 },      // Czech Republic → small, push NE
+      SK: { dLon: 5, dLat: -2, alt: 1.12 },     // Slovakia → small, push SE
+      BA: { dLon: 3, dLat: -5, alt: 1.12 },     // Bosnia → small, push south
+      LV: { dLon: 5, dLat: 3, alt: 1.13 },      // Latvia → small, push NE
       // ── Middle East (crowded) ──
       IL: { dLon: -6, dLat: -4, alt: 1.15 },
       PS: { dLon: -7, dLat: 0, alt: 1.14 },
@@ -1102,7 +1115,7 @@ export default function Globe({
       // ── Caucasus ──
       AM: { dLon: -6, dLat: -3, alt: 1.14 },
       // ── SE Asia small ──
-      SG: { dLon: 5, dLat: -5, alt: 1.15 },
+      SG: { dLon: 3, dLat: -3, alt: 1.15 },    // Singapore → short stick south-east from tip of peninsula
       BN: { dLon: 5, dLat: 5, alt: 1.14 },
       TL: { dLon: 5, dLat: -5, alt: 1.14 },
       // ── West Africa (crowded coast) ──
@@ -1113,7 +1126,7 @@ export default function Globe({
       BJ: { dLon: 4, dLat: 5, alt: 1.13 },
       GQ: { dLon: 5, dLat: 5, alt: 1.14 },
       // ── East Africa small ──
-      SO: { dLon: 12, dLat: 0, alt: 1.15 },    // Somalia → push RIGHT (east) into Indian Ocean with leader line back to Horn of Africa
+      SO: { dLon: 6, dLat: 0, alt: 1.18 },     // Somalia → callout east with visible leader line (stick)
       RW: { dLon: -5, dLat: 4, alt: 1.13 },
       BI: { dLon: -5, dLat: -4, alt: 1.13 },
       DJ: { dLon: 5, dLat: 4, alt: 1.14 },
@@ -1121,13 +1134,16 @@ export default function Globe({
       SZ: { dLon: 5, dLat: 4, alt: 1.13 },
       LS: { dLon: 5, dLat: -5, alt: 1.13 },
       // ── Archipelago nations (label in ocean/between islands → push to clear space) ──
-      ID: { dLon: 8, dLat: -8, alt: 1.12 },    // Indonesia → push south-east (below and right of archipelago center)
+      ID: { dLon: 5, dLat: 0, alt: 1.14 },      // Indonesia → short stick east of archipelago
       PH: { dLon: 6, dLat: -5, alt: 1.12 },    // Philippines → push south-east into Philippine Sea
       JP: { dLon: 6, dLat: 5, alt: 1.12 },     // Japan → push north-east into Pacific
-      MY: { dLon: -5, dLat: -5, alt: 1.12 },   // Malaysia → push south-west to clear Borneo overlap
+      MY: { dLon: 0, dLat: -3, alt: 1.12 },    // Malaysia → short stick south below peninsula
       NZ: { dLon: 5, dLat: -6, alt: 1.12 },    // New Zealand → push south-east below islands
       // ── South/East Asia small ──
-      TW: { dLon: 6, dLat: -5, alt: 1.13 },    // Taiwan → push south-east away from China coast
+      TW: { dLon: 3, dLat: -2, alt: 1.13 },    // Taiwan → short stick east of island
+      BD: { dLon: 3, dLat: -3, alt: 1.13 },    // Bangladesh → short stick SE into Bay of Bengal
+      VN: { dLon: 4, dLat: 0, alt: 1.12 },     // Vietnam → short stick east into South China Sea
+      KH: { dLon: -3, dLat: -3, alt: 1.12 },   // Cambodia → short stick SW to separate from Vietnam
       NP: { dLon: -5, dLat: 5, alt: 1.13 },    // Nepal → push north-west away from India label
       // ── Atlantic/Gulf islands ──
       CV: { dLon: -6, dLat: -4, alt: 1.14 },   // Cape Verde → push west into Atlantic
@@ -1136,22 +1152,20 @@ export default function Globe({
       CK: { dLon: 0, dLat: -6, alt: 1.14 },    // Cook Islands → push south
     };
 
-    // Create a leader line from country centroid to offset label position
-    function createLeaderLine(fromLon: number, fromLat: number, toLon: number, toLat: number, fromRadius: number, toRadius: number): THREE.Line {
+    // Create a leader line (tube mesh) from country centroid to offset label position
+    function createLeaderLine(fromLon: number, fromLat: number, toLon: number, toLat: number, fromRadius: number, toRadius: number): THREE.Mesh {
       const from = latLonToVec3Internal(fromLon, fromLat, fromRadius);
       const to = latLonToVec3Internal(toLon, toLat, toRadius);
-      // Add a midpoint slightly above for a gentle arc
-      const mid = from.clone().add(to).multiplyScalar(0.5);
-      mid.normalize().multiplyScalar((fromRadius + toRadius) / 2);
-      const points = [from, mid, to];
-      const geometry = new THREE.BufferGeometry().setFromPoints(points);
-      const material = new THREE.LineBasicMaterial({
-        color: 0xcbd5e1, // Slate-300 for better visibility
+      // Create a tube along a straight path for visible thickness
+      const path = new THREE.LineCurve3(from, to);
+      const geometry = new THREE.TubeGeometry(path, 4, 0.007, 6, false);
+      const material = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
         transparent: true,
-        opacity: 0.7,
+        opacity: 0.85,
         depthTest: false,
       });
-      return new THREE.Line(geometry, material);
+      return new THREE.Mesh(geometry, material);
     }
 
     const addCountryLabels = () => {
@@ -1504,6 +1518,24 @@ export default function Globe({
         const { countryCode, countryName, isLabel } = hit.object.userData;
         if (countryCode) {
           foundCountry = true;
+          const prevHovered = hoveredCountryRef.current;
+          // Reset previous hovered country if different from new one
+          if (prevHovered && prevHovered.code !== countryCode && prevHovered.code !== selectedCountry) {
+            const prevMesh = countryMeshesRef.current.get(prevHovered.code);
+            if (prevMesh) {
+              const prevMat = prevMesh.material as THREE.MeshBasicMaterial;
+              const prevElection = electionMapRef.current.get(prevHovered.code);
+              const prevColor = prevElection ? (STATUS_COLORS[prevElection.status] ?? DEFAULT_COLOR) : 0x1a2744;
+              prevMat.color.setHex(prevColor);
+            }
+            const prevBorder = countryBordersRef.current.get(prevHovered.code);
+            if (prevBorder) {
+              const prevBMat = prevBorder.material as THREE.LineBasicMaterial;
+              const prevElection = electionMapRef.current.get(prevHovered.code);
+              prevBMat.color.setHex(prevElection ? (STATUS_COLORS[prevElection.status] ?? 0xf59e0b) : BORDER_COLOR);
+              prevBMat.opacity = 0.7;
+            }
+          }
           hoveredCountryRef.current = { code: countryCode, name: countryName };
           onCountryHover(countryCode, countryName);
           const election = electionMapRef.current.get(countryCode);

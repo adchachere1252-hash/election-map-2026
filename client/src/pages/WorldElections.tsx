@@ -556,18 +556,18 @@ const HoverTooltip = memo(function HoverTooltip({ name, elections }: { name: str
 // ─── Legend ────────────────────────────────────────────────────────────────────
 function Legend() {
   return (
-    <div className="absolute bottom-4 left-4 bg-slate-900/95 backdrop-blur-sm border border-slate-600/60 rounded-lg p-4 z-30 shadow-lg shadow-black/30">
-      <h4 className="text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-2.5">Legend</h4>
-      <div className="space-y-2">
+    <div className="absolute bottom-3 left-3 bg-slate-900/90 backdrop-blur-sm border border-slate-600/50 rounded-md px-2.5 py-2 z-30 shadow-md shadow-black/20">
+      <h4 className="text-[9px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Legend</h4>
+      <div className="space-y-1.5">
         {[
-          { color: "bg-amber-400 shadow-amber-400/50 shadow-sm", label: "Upcoming" },
-          { color: "bg-yellow-300 animate-pulse shadow-yellow-300/50 shadow-sm", label: "Voting Today" },
-          { color: "bg-green-400 shadow-green-400/50 shadow-sm", label: "Completed" },
-          { color: "bg-slate-500 shadow-slate-500/30 shadow-sm", label: "No Election Tracked" },
+          { color: "bg-amber-400", label: "Upcoming" },
+          { color: "bg-yellow-300", label: "Voting Today" },
+          { color: "bg-green-400", label: "Completed" },
+          { color: "bg-slate-500", label: "No Election Tracked" },
         ].map((item) => (
-          <div key={item.label} className="flex items-center gap-2.5">
-            <div className={`w-3.5 h-3.5 rounded-full ${item.color} ring-1 ring-white/20`} />
-            <span className="text-xs font-medium text-slate-200">{item.label}</span>
+          <div key={item.label} className="flex items-center gap-2">
+            <div className={`w-2.5 h-2.5 rounded-full ${item.color}`} />
+            <span className="text-[11px] text-slate-300">{item.label}</span>
           </div>
         ))}
       </div>
