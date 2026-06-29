@@ -2456,3 +2456,11 @@
 - [x] Add Cape Verde (CV) callout offset — push west into Atlantic
 - [x] Add Cook Islands (CK) callout offset — push south away from label cluster
 - [x] Verify all new offsets display correctly with leader lines
+
+## Improve Archipelago/Awkward Label Positioning (Jun 29, 2026)
+- [x] Fix Indonesia (ID) label — move south below archipelago with leader line to main territory
+- [x] Fix Philippines (PH) label — position label clearly to the east with leader line
+- [x] Fix Japan (JP) label — adjust centroid or add offset so label sits cleanly
+- [x] Fix New Zealand (NZ) label — already looks okay but verify
+- [x] Fix Malaysia (MY) label — adjust so it's clearly on Peninsular Malaysia
+- [x] Verify all fixes visually on the globe

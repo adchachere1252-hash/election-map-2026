@@ -1090,6 +1090,12 @@ export default function Globe({
       // ── Southern Africa small ──
       SZ: { dLon: 5, dLat: 4, alt: 1.13 },
       LS: { dLon: 5, dLat: -5, alt: 1.13 },
+      // ── Archipelago nations (label in ocean/between islands → push to clear space) ──
+      ID: { dLon: 0, dLat: -12, alt: 1.12 },   // Indonesia → push south into Indian Ocean (below archipelago)
+      PH: { dLon: 6, dLat: -5, alt: 1.12 },    // Philippines → push south-east into Philippine Sea
+      JP: { dLon: 6, dLat: 5, alt: 1.12 },     // Japan → push north-east into Pacific
+      MY: { dLon: -5, dLat: -5, alt: 1.12 },   // Malaysia → push south-west to clear Borneo overlap
+      NZ: { dLon: 5, dLat: -6, alt: 1.12 },    // New Zealand → push south-east below islands
       // ── South/East Asia small ──
       TW: { dLon: 6, dLat: -5, alt: 1.13 },    // Taiwan → push south-east away from China coast
       NP: { dLon: -5, dLat: 5, alt: 1.13 },    // Nepal → push north-west away from India label
