@@ -13,6 +13,7 @@ import {
 import { broadcastElectionEvent } from "./ws";
 import { nanoid } from "nanoid";
 import { handleScheduledApUpdate, handleScheduledApUpdateTrusted } from "./scheduledApUpdate";
+import { handleColoradoPrimaryUpdate } from "./scheduledColoradoPrimary";
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "";
 
@@ -215,6 +216,16 @@ export function registerScheduledRoutes(app: Express) {
       cookies: req.headers.cookie || "(none)",
       timestamp: new Date().toISOString(),
     });
+  });
+
+  /**
+   * POST /api/scheduled/colorado-primary
+   * Fetches live results from Colorado Secretary of State (Clarity Elections ENR)
+   * and updates the database. Verified against NBC News.
+   * Runs every 60 seconds after polls close (9 PM ET / 1 AM UTC).
+   */
+  app.post("/api/scheduled/colorado-primary", (req, res) => {
+    return handleColoradoPrimaryUpdate(req, res);
   });
 }
 // Redeploy trigger: Wed May  6 06:08:51 UTC 2026

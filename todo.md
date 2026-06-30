@@ -2547,3 +2547,11 @@
 ## Historical Atlas Enhancements
 - [x] Add Presidential election results overlay (which party won each state)
 - [x] Add Speaker of the House display for each Congress
+
+## Colorado Primary Automation (June 30, 2026)
+- [x] Build /api/scheduled/colorado-primary endpoint to fetch Clarity Elections data
+- [x] Add NBC as verification source alongside Colorado SOS
+- [x] All times displayed in Eastern Time
+- [x] Register route in scheduledRoutes.ts
+- [ ] Set up Heartbeat cron (every 60s starting 9 PM EDT / 1 AM UTC Jul 1)
+- [ ] Publish site so cron can hit the endpoint
