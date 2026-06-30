@@ -176,6 +176,41 @@ const SPEAKER_BY_CONGRESS: Record<number, { name: string; party: "D" | "R" }> = 
   119: { name: "Mike Johnson", party: "R" },
 };
 
+// ─── Senate Leaders by Congress ─────────────────────────────────────────────────
+const SENATE_LEADERS_BY_CONGRESS: Record<number, { majority: { name: string; party: "D" | "R" }; minority: { name: string; party: "D" | "R" } }> = {
+  89: { majority: { name: "Mike Mansfield", party: "D" }, minority: { name: "Everett Dirksen", party: "R" } },
+  90: { majority: { name: "Mike Mansfield", party: "D" }, minority: { name: "Everett Dirksen", party: "R" } },
+  91: { majority: { name: "Mike Mansfield", party: "D" }, minority: { name: "Hugh Scott", party: "R" } },
+  92: { majority: { name: "Mike Mansfield", party: "D" }, minority: { name: "Hugh Scott", party: "R" } },
+  93: { majority: { name: "Mike Mansfield", party: "D" }, minority: { name: "Hugh Scott", party: "R" } },
+  94: { majority: { name: "Mike Mansfield", party: "D" }, minority: { name: "Hugh Scott", party: "R" } },
+  95: { majority: { name: "Robert C. Byrd", party: "D" }, minority: { name: "Howard Baker", party: "R" } },
+  96: { majority: { name: "Robert C. Byrd", party: "D" }, minority: { name: "Howard Baker", party: "R" } },
+  97: { majority: { name: "Howard Baker", party: "R" }, minority: { name: "Robert C. Byrd", party: "D" } },
+  98: { majority: { name: "Howard Baker", party: "R" }, minority: { name: "Robert C. Byrd", party: "D" } },
+  99: { majority: { name: "Bob Dole", party: "R" }, minority: { name: "Robert C. Byrd", party: "D" } },
+  100: { majority: { name: "Robert C. Byrd", party: "D" }, minority: { name: "Bob Dole", party: "R" } },
+  101: { majority: { name: "George Mitchell", party: "D" }, minority: { name: "Bob Dole", party: "R" } },
+  102: { majority: { name: "George Mitchell", party: "D" }, minority: { name: "Bob Dole", party: "R" } },
+  103: { majority: { name: "George Mitchell", party: "D" }, minority: { name: "Bob Dole", party: "R" } },
+  104: { majority: { name: "Bob Dole / Trent Lott", party: "R" }, minority: { name: "Tom Daschle", party: "D" } },
+  105: { majority: { name: "Trent Lott", party: "R" }, minority: { name: "Tom Daschle", party: "D" } },
+  106: { majority: { name: "Trent Lott", party: "R" }, minority: { name: "Tom Daschle", party: "D" } },
+  107: { majority: { name: "Tom Daschle", party: "D" }, minority: { name: "Trent Lott", party: "R" } },
+  108: { majority: { name: "Bill Frist", party: "R" }, minority: { name: "Tom Daschle", party: "D" } },
+  109: { majority: { name: "Bill Frist", party: "R" }, minority: { name: "Harry Reid", party: "D" } },
+  110: { majority: { name: "Harry Reid", party: "D" }, minority: { name: "Mitch McConnell", party: "R" } },
+  111: { majority: { name: "Harry Reid", party: "D" }, minority: { name: "Mitch McConnell", party: "R" } },
+  112: { majority: { name: "Harry Reid", party: "D" }, minority: { name: "Mitch McConnell", party: "R" } },
+  113: { majority: { name: "Harry Reid", party: "D" }, minority: { name: "Mitch McConnell", party: "R" } },
+  114: { majority: { name: "Mitch McConnell", party: "R" }, minority: { name: "Harry Reid", party: "D" } },
+  115: { majority: { name: "Mitch McConnell", party: "R" }, minority: { name: "Chuck Schumer", party: "D" } },
+  116: { majority: { name: "Mitch McConnell", party: "R" }, minority: { name: "Chuck Schumer", party: "D" } },
+  117: { majority: { name: "Chuck Schumer", party: "D" }, minority: { name: "Mitch McConnell", party: "R" } },
+  118: { majority: { name: "Chuck Schumer", party: "D" }, minority: { name: "Mitch McConnell", party: "R" } },
+  119: { majority: { name: "John Thune", party: "R" }, minority: { name: "Chuck Schumer", party: "D" } },
+};
+
 // ─── Timeline milestones ──────────────────────────────────────────────────────
 const MILESTONES: { congress: number; label: string }[] = [
   { congress: 89, label: "VRA" },
@@ -426,13 +461,12 @@ async function startAtlasWarmup(startFrom: number = CONGRESS_END) {
   notifyWarmup();
 
   const adjacent: number[] = [];
-  for (let d = 1; d <= 3; d++) {
+  for (let d = 1; d <= 5; d++) {
     if (center - d >= CONGRESS_START) adjacent.push(center - d);
     if (center + d <= CONGRESS_END) adjacent.push(center + d);
   }
-  for (const c of adjacent) {
-    await warmupCongress(c);
-  }
+  // Load adjacent congresses in parallel for faster availability
+  await Promise.all(adjacent.map(c => warmupCongress(c)));
   warmupState = { ...warmupState, done: layerDataCache.size };
   notifyWarmup();
 
@@ -449,9 +483,12 @@ async function startBackgroundLoading(center: number) {
     if (d > 0 && center + d <= CONGRESS_END && !layerDataCache.has(center + d)) all.push(center + d);
   }
 
-  for (const c of all) {
-    if (layerDataCache.has(c)) continue;
-    await warmupCongress(c);
+  // Load in parallel batches of 4 for faster caching
+  const BATCH = 4;
+  for (let i = 0; i < all.length; i += BATCH) {
+    const batch = all.slice(i, i + BATCH).filter(c => !layerDataCache.has(c));
+    if (batch.length === 0) continue;
+    await Promise.all(batch.map(c => warmupCongress(c)));
     warmupState = {
       done: layerDataCache.size,
       total: TOTAL_CONGRESSES,
@@ -459,7 +496,6 @@ async function startBackgroundLoading(center: number) {
       initialReady: true,
     };
     notifyWarmup();
-    await new Promise(r => setTimeout(r, 100));
   }
   warmupState = { done: TOTAL_CONGRESSES, total: TOTAL_CONGRESSES, ready: true, initialReady: true };
   notifyWarmup();
@@ -1063,6 +1099,29 @@ const D3MapPanel = forwardRef(function D3MapPanel(
                   <span className="text-white font-semibold text-[11px]">{spk.name}</span>
                 </div>
                 <div className="text-white/40 text-[10px] mt-0.5">{spk.party === "D" ? "Democrat" : "Republican"}</div>
+              </div>
+            );
+          })()}
+          {/* Senate Leaders info */}
+          {(() => {
+            const sen = SENATE_LEADERS_BY_CONGRESS[congress];
+            if (!sen) return null;
+            const majColor = sen.majority.party === "D" ? "#5b8fd4" : "#e06060";
+            const minColor = sen.minority.party === "D" ? "#5b8fd4" : "#e06060";
+            return (
+              <div className="border-t border-white/10 mt-2 pt-2">
+                <div className="text-white/60 uppercase tracking-widest text-[10px] mb-1.5 font-semibold">Senate Majority Leader</div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ background: majColor }} />
+                  <span className="text-white font-semibold text-[11px]">{sen.majority.name}</span>
+                </div>
+                <div className="text-white/40 text-[10px] mt-0.5">{sen.majority.party === "D" ? "Democrat" : "Republican"}</div>
+                <div className="text-white/60 uppercase tracking-widest text-[10px] mb-1.5 mt-2 font-semibold">Senate Minority Leader</div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ background: minColor }} />
+                  <span className="text-white font-semibold text-[11px]">{sen.minority.name}</span>
+                </div>
+                <div className="text-white/40 text-[10px] mt-0.5">{sen.minority.party === "D" ? "Democrat" : "Republican"}</div>
               </div>
             );
           })()}

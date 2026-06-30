@@ -2553,5 +2553,12 @@
 - [x] Add NBC as verification source alongside Colorado SOS
 - [x] All times displayed in Eastern Time
 - [x] Register route in scheduledRoutes.ts
-- [ ] Set up Heartbeat cron (every 60s starting 9 PM EDT / 1 AM UTC Jul 1)
-- [ ] Publish site so cron can hit the endpoint
+- [x] Set up Heartbeat cron (every 60s starting 9 PM EDT / 1 AM UTC Jul 1) — task_uid: Dw8K6zFwyXMnDmqjkDq3nu
+- [x] Publish site so cron can hit the endpoint — deployed at electionmap-duqshn4d.manus.space
+
+## Historical Atlas Performance & Senate Leaders
+- [ ] Diagnose Historical Atlas slow load time (identify bottlenecks)
+- [ ] Implement caching/prefetching optimizations for faster Congress switching
+- [ ] Add Senate Majority Leader data for each Congress (89th-119th)
+- [ ] Add Senate Minority Leader data for each Congress (89th-119th)
+- [ ] Add Senate Leaders UI cards to the info panel
