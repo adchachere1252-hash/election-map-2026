@@ -1075,10 +1075,12 @@ export default function Globe({
       "CY", "GE", "AZ",
       // Middle East/Africa non-election (removed from tracker)
       "BH", "SO",
+      // UK removed (no confirmed 2026 election)
+      "GB",
       // Central America non-election small countries (too clustered near Mexico)
       "GT", "HN", "SV", "BZ", "NI", "CR", "PA",
       // Caribbean non-election small countries
-      "JM", "HT", "DO", "PR", "TT", "BS", "BB",
+      "JM", "DO", "PR", "TT", "BS", "BB",
     ]);
 
     // ─── Callout offsets for crowded regions (lon offset, lat offset, altitude multiplier) ───
