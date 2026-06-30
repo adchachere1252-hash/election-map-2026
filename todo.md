@@ -2525,3 +2525,25 @@
 - [x] Verify all callout offsets for European countries are geographically correct
 - [x] Visual verification of globe from multiple angles (Western Europe, Eastern Europe, Scandinavia, Balkans)
 - [x] Fix any incorrectly positioned labels or centroids found during verification (none needed — all correct)
+
+## World Election Data Corrections (Jun 29, 2026)
+- [x] Remove wrong-year elections: Latvia (LV), Iceland (IS), Italy (IT), Bahrain (BH)
+- [x] Mark Switzerland Inheritance Tax referendum as Completed (was Nov 30, 2025)
+- [x] Remove Somalia (SO) and Armenia (AM) Referendum (pushed to 2027)
+- [x] Update Hungary (HU) to Completed — Péter Magyar (TISZA) won Apr 12, 2026
+- [x] Fix Japan (JP) candidates — CDP+Komeito merged into Centrist Reform Alliance
+- [x] Fix Thailand (TH) candidates — Move Forward dissolved, successor is People's Party
+- [x] Fix Thailand (TH) referendum vote count — 21.62M not 5.47M
+- [x] Fix Sweden (SE) date — Sep 13 not Sep 14
+- [x] Fix Bulgaria (BG) incumbent — Iliana Iotova (Radev term-limited)
+- [x] Fix Cabo Verde (CV) date — Nov 15 not Oct 31
+- [x] Fix Guinea-Bissau (GW) incumbent — Embaló ousted in Nov 2025 coup
+- [x] Fix New Zealand (NZ) Labour leader — Chris Hipkins not TBD
+- [x] Fix UK (GB) — mark date as unconfirmed, note speculative
+- [x] Fix Bosnia (BA) incumbent — list actual presidency members
+- [x] Fix Czech Republic (CZ) incumbent field
+- [x] Change U.S. label from "U.S." to "United States" on globe
+
+## Historical Atlas Enhancements
+- [x] Add Presidential election results overlay (which party won each state)
+- [x] Add Speaker of the House display for each Congress

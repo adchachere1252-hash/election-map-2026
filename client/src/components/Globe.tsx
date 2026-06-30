@@ -1007,7 +1007,7 @@ export default function Globe({
     const SHORT_NAMES: Record<string, string> = {
       // AP Style abbreviations — periods in abbreviations, spelled-out where space allows
       // Very large countries (scale >= 0.12): full names
-      US: "U.S.", RU: "Russia", CN: "China", CA: "Canada", BR: "Brazil",
+      US: "United States", RU: "Russia", CN: "China", CA: "Canada", BR: "Brazil",
       AU: "Australia", IN: "India", KZ: "Kazakhstan", DZ: "Algeria",
       GL: "Greenland", AQ: "Antarctica",
       // Large countries (scale 0.08-0.11): AP short names
@@ -1064,15 +1064,17 @@ export default function Globe({
     // ─── Countries to HIDE labels for in crowded regions (non-election, small, just clutter) ───
     const HIDE_LABELS: Set<string> = new Set([
       // Western Europe non-election major countries (declutter)
-      "FR", "DE", "ES", "LU", "NL", "BE", "IE", "PT", "AT",
+      "FR", "DE", "ES", "LU", "NL", "BE", "IE", "PT", "AT", "IT",
       // Northern Europe non-election (declutter)
-      "NO", "FI", "DK",
+      "NO", "FI", "DK", "IS",
       // Eastern Europe non-election major countries (declutter)
-      "PL", "UA", "RO", "MD", "BY", "EE", "LT",
+      "PL", "UA", "RO", "MD", "BY", "EE", "LT", "LV",
       // Balkans non-election small countries (declutter)
       "SI", "XK", "HR", "RS", "ME", "AL", "MK", "GR",
       // Other non-election European countries
       "CY", "GE", "AZ",
+      // Middle East/Africa non-election (removed from tracker)
+      "BH", "SO",
       // Central America non-election small countries (too clustered near Mexico)
       "GT", "HN", "SV", "BZ", "NI", "CR", "PA",
       // Caribbean non-election small countries
@@ -1085,12 +1087,10 @@ export default function Globe({
     const CALLOUT_OFFSETS: Record<string, { dLon: number; dLat: number; alt: number }> = {
       // ── European countries — only small election countries get callout offsets ──
       // Large countries (FR, DE, ES, PL, UA, RO, IT, GB, SE, HU, BG) have labels on territory
-      IS: { dLon: -8, dLat: 5, alt: 1.14 },     // Iceland → small island, push NW
       CH: { dLon: -5, dLat: -4, alt: 1.13 },    // Switzerland → small, push SW
       CZ: { dLon: 4, dLat: 3, alt: 1.12 },      // Czech Republic → small, push NE
       SK: { dLon: 5, dLat: -2, alt: 1.12 },     // Slovakia → small, push SE
       BA: { dLon: 3, dLat: -5, alt: 1.12 },     // Bosnia → small, push south
-      LV: { dLon: 5, dLat: 3, alt: 1.13 },      // Latvia → small, push NE
       // ── Middle East (crowded) ──
       IL: { dLon: -6, dLat: -4, alt: 1.15 },
       PS: { dLon: -7, dLat: 0, alt: 1.14 },

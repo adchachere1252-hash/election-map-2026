@@ -105,6 +105,77 @@ const HOUSE_SEATS: Record<number, { D: number; R: number; O: number }> = {
   119: { D: 215, R: 220, O: 1 },
 };
 
+// ─── Presidential election results by Congress ─────────────────────────────────
+// Maps each Congress to the president serving during that Congress and the election that put them there
+const PRESIDENT_BY_CONGRESS: Record<number, { name: string; party: "D" | "R"; electedYear: number; evDem: number; evRep: number }> = {
+  89: { name: "Lyndon B. Johnson", party: "D", electedYear: 1964, evDem: 486, evRep: 52 },
+  90: { name: "Lyndon B. Johnson", party: "D", electedYear: 1964, evDem: 486, evRep: 52 },
+  91: { name: "Richard Nixon", party: "R", electedYear: 1968, evDem: 191, evRep: 301 },
+  92: { name: "Richard Nixon", party: "R", electedYear: 1968, evDem: 191, evRep: 301 },
+  93: { name: "Richard Nixon", party: "R", electedYear: 1972, evDem: 17, evRep: 520 },
+  94: { name: "Gerald Ford", party: "R", electedYear: 1972, evDem: 17, evRep: 520 },
+  95: { name: "Jimmy Carter", party: "D", electedYear: 1976, evDem: 297, evRep: 240 },
+  96: { name: "Jimmy Carter", party: "D", electedYear: 1976, evDem: 297, evRep: 240 },
+  97: { name: "Ronald Reagan", party: "R", electedYear: 1980, evDem: 49, evRep: 489 },
+  98: { name: "Ronald Reagan", party: "R", electedYear: 1980, evDem: 49, evRep: 489 },
+  99: { name: "Ronald Reagan", party: "R", electedYear: 1984, evDem: 13, evRep: 525 },
+  100: { name: "Ronald Reagan", party: "R", electedYear: 1984, evDem: 13, evRep: 525 },
+  101: { name: "George H.W. Bush", party: "R", electedYear: 1988, evDem: 111, evRep: 426 },
+  102: { name: "George H.W. Bush", party: "R", electedYear: 1988, evDem: 111, evRep: 426 },
+  103: { name: "Bill Clinton", party: "D", electedYear: 1992, evDem: 370, evRep: 168 },
+  104: { name: "Bill Clinton", party: "D", electedYear: 1992, evDem: 370, evRep: 168 },
+  105: { name: "Bill Clinton", party: "D", electedYear: 1996, evDem: 379, evRep: 159 },
+  106: { name: "Bill Clinton", party: "D", electedYear: 1996, evDem: 379, evRep: 159 },
+  107: { name: "George W. Bush", party: "R", electedYear: 2000, evDem: 266, evRep: 271 },
+  108: { name: "George W. Bush", party: "R", electedYear: 2000, evDem: 266, evRep: 271 },
+  109: { name: "George W. Bush", party: "R", electedYear: 2004, evDem: 251, evRep: 286 },
+  110: { name: "George W. Bush", party: "R", electedYear: 2004, evDem: 251, evRep: 286 },
+  111: { name: "Barack Obama", party: "D", electedYear: 2008, evDem: 365, evRep: 173 },
+  112: { name: "Barack Obama", party: "D", electedYear: 2008, evDem: 365, evRep: 173 },
+  113: { name: "Barack Obama", party: "D", electedYear: 2012, evDem: 332, evRep: 206 },
+  114: { name: "Barack Obama", party: "D", electedYear: 2012, evDem: 332, evRep: 206 },
+  115: { name: "Donald Trump", party: "R", electedYear: 2016, evDem: 227, evRep: 304 },
+  116: { name: "Donald Trump", party: "R", electedYear: 2016, evDem: 227, evRep: 304 },
+  117: { name: "Joe Biden", party: "D", electedYear: 2020, evDem: 306, evRep: 232 },
+  118: { name: "Joe Biden", party: "D", electedYear: 2020, evDem: 306, evRep: 232 },
+  119: { name: "Donald Trump", party: "R", electedYear: 2024, evDem: 226, evRep: 312 },
+};
+
+// ─── Speaker of the House by Congress ────────────────────────────────────────
+const SPEAKER_BY_CONGRESS: Record<number, { name: string; party: "D" | "R" }> = {
+  89: { name: "John McCormack", party: "D" },
+  90: { name: "John McCormack", party: "D" },
+  91: { name: "John McCormack", party: "D" },
+  92: { name: "Carl Albert", party: "D" },
+  93: { name: "Carl Albert", party: "D" },
+  94: { name: "Carl Albert", party: "D" },
+  95: { name: "Tip O'Neill", party: "D" },
+  96: { name: "Tip O'Neill", party: "D" },
+  97: { name: "Tip O'Neill", party: "D" },
+  98: { name: "Tip O'Neill", party: "D" },
+  99: { name: "Tip O'Neill", party: "D" },
+  100: { name: "Jim Wright", party: "D" },
+  101: { name: "Tom Foley", party: "D" },
+  102: { name: "Tom Foley", party: "D" },
+  103: { name: "Tom Foley", party: "D" },
+  104: { name: "Newt Gingrich", party: "R" },
+  105: { name: "Newt Gingrich", party: "R" },
+  106: { name: "Dennis Hastert", party: "R" },
+  107: { name: "Dennis Hastert", party: "R" },
+  108: { name: "Dennis Hastert", party: "R" },
+  109: { name: "Dennis Hastert", party: "R" },
+  110: { name: "Nancy Pelosi", party: "D" },
+  111: { name: "Nancy Pelosi", party: "D" },
+  112: { name: "John Boehner", party: "R" },
+  113: { name: "John Boehner", party: "R" },
+  114: { name: "Paul Ryan", party: "R" },
+  115: { name: "Paul Ryan", party: "R" },
+  116: { name: "Nancy Pelosi", party: "D" },
+  117: { name: "Nancy Pelosi", party: "D" },
+  118: { name: "Kevin McCarthy / Mike Johnson", party: "R" },
+  119: { name: "Mike Johnson", party: "R" },
+};
+
 // ─── Timeline milestones ──────────────────────────────────────────────────────
 const MILESTONES: { congress: number; label: string }[] = [
   { congress: 89, label: "VRA" },
@@ -954,6 +1025,47 @@ const D3MapPanel = forwardRef(function D3MapPanel(
             <span className="text-white/50 uppercase text-[10px]">Total</span>
             <span className="font-bold">{total}</span>
           </div>
+          {/* President info */}
+          {(() => {
+            const pres = PRESIDENT_BY_CONGRESS[congress];
+            if (!pres) return null;
+            const presColor = pres.party === "D" ? "#5b8fd4" : "#e06060";
+            const totalEV = pres.evDem + pres.evRep;
+            return (
+              <div className="border-t border-white/10 mt-2 pt-2">
+                <div className="text-white/60 uppercase tracking-widest text-[10px] mb-1.5 font-semibold">President</div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ background: presColor }} />
+                  <span className="text-white font-semibold text-[11px]">{pres.name}</span>
+                </div>
+                <div className="text-white/40 text-[10px] mt-1">Elected {pres.electedYear}</div>
+                <div className="mt-1.5 h-1.5 rounded-full overflow-hidden flex">
+                  <div style={{ width: `${(pres.evDem / totalEV) * 100}%`, background: '#1a4fa0' }} />
+                  <div style={{ width: `${(pres.evRep / totalEV) * 100}%`, background: '#b22222' }} />
+                </div>
+                <div className="flex justify-between text-[10px] mt-1">
+                  <span style={{ color: '#5b8fd4' }}>{pres.evDem} EV</span>
+                  <span style={{ color: '#e06060' }}>{pres.evRep} EV</span>
+                </div>
+              </div>
+            );
+          })()}
+          {/* Speaker info */}
+          {(() => {
+            const spk = SPEAKER_BY_CONGRESS[congress];
+            if (!spk) return null;
+            const spkColor = spk.party === "D" ? "#5b8fd4" : "#e06060";
+            return (
+              <div className="border-t border-white/10 mt-2 pt-2">
+                <div className="text-white/60 uppercase tracking-widest text-[10px] mb-1.5 font-semibold">Speaker of the House</div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ background: spkColor }} />
+                  <span className="text-white font-semibold text-[11px]">{spk.name}</span>
+                </div>
+                <div className="text-white/40 text-[10px] mt-0.5">{spk.party === "D" ? "Democrat" : "Republican"}</div>
+              </div>
+            );
+          })()}
         </div>
       )}
 
