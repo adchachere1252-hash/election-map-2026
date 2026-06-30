@@ -2557,8 +2557,9 @@
 - [x] Publish site so cron can hit the endpoint — deployed at electionmap-duqshn4d.manus.space
 
 ## Historical Atlas Performance & Senate Leaders
-- [ ] Diagnose Historical Atlas slow load time (identify bottlenecks)
-- [ ] Implement caching/prefetching optimizations for faster Congress switching
-- [ ] Add Senate Majority Leader data for each Congress (89th-119th)
-- [ ] Add Senate Minority Leader data for each Congress (89th-119th)
-- [ ] Add Senate Leaders UI cards to the info panel
+- [x] Diagnose Historical Atlas slow load time (identify bottlenecks)
+- [x] Implement caching/prefetching optimizations for faster Congress switching
+- [x] Add Senate Majority Leader data for each Congress (89th-119th)
+- [x] Add Senate Minority Leader data for each Congress (89th-119th)
+- [x] Add Senate Leaders UI cards to the info panel
+- [x] Full verification: 124/124 checks PASS (100%) — all Presidents, Speakers, Senate Majority/Minority Leaders verified correct
