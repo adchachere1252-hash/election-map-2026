@@ -212,6 +212,7 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "dwayne l. romero":         `/manus-storage/dane_romero_co_primary_3bbc2898.jpg`,           // CO-3 D (alias)
   "eileen laubacher":         `/manus-storage/eileen_laubacher_co_primary_d2b7b7e3.jpg`,     // CO-4 D
   "jessica killin":           `/manus-storage/jessica_killin_co_primary_dabe99be.jpg`,       // CO-5 D
+  "jason clark":              `/manus-storage/jason_clark_co6_7ce5bc07.png`,               // CO-6 R (replacement after Tewahade withdrawal)
   "tim bennett":              `/manus-storage/tim_bennett_co_primary_839518d7.jpg`,           // CO-7 R
   "jeff crank":               `/manus-storage/jeff_crank_co_primary_d71ea808.jpg`,            // CO-5 R (incumbent)
   "manny rutinel":            `/manus-storage/manny_rutinel_co_primary_5a7f4e57.jpg`,        // CO-8 D
