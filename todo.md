@@ -2595,3 +2595,7 @@
 - [x] CO-8: Add Manny Rutinel (D) photo — DONE
 - [x] TX Senate: Fixed — CDN photos resolve correctly; CandidateAvatar now falls back to CDN when DB photo 403s
 - [x] Run full site-wide photo audit — added 9 more candidates (GOV: CO-R, MD-R, NY-R, OK-D, OK-R, SD-R; SENATE: AL-D, NM-R, SC-D)
+
+## Empty-Data Failover & Photo Refresh (Jul 1)
+- [x] Add empty-data failover logic: if Clarity returns 0 counties for >15 min, trigger NBC/AP fallback
+- [x] Batch-refresh all expired manus-storage DB photo URLs across all states (cleared 9 Senate + 16 Governor + ~300 House broken URLs)

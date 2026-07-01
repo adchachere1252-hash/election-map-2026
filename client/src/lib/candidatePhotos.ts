@@ -662,6 +662,7 @@ const CDN_PHOTOS: Record<string, string> = {
   "ashley moody":           `${CDN_BASE}/ashley-moody_20ecb424.jpg`,  // FL R Senator
   "david roth":             `${CDN_BASE}/david-roth_1d92fd5c.jpg`,  // ID D challenger
   "david smith":            `${CDN_BASE}/david-smith-or_6682773f.jpg`,  // OR R challenger
+  "david brock smith":      `${CDN_BASE}/david-smith-or_6682773f.jpg`,  // OR R challenger (full name)
   "julian beaudion":        `${CDN_BASE}/julian-beaudion_d87af6af.jpg`,  // SD D challenger
   "dave mccormick":         `${CDN_BASE}/dave-mccormick_5fb329d8.jpg`,  // PA R Senator
   // LA Senate runoff candidates

@@ -567,6 +567,217 @@ async function processHouseRace(
   }
 }
 
+// ─── Empty-Data Failover Logic ───────────────────────────────────────────────
+
+/**
+ * Tracks consecutive runs where Clarity returns 0 counties reporting.
+ * After FAILOVER_THRESHOLD_MINUTES of empty data (calculated from run interval),
+ * automatically switches to NBC/AP as the primary data source.
+ */
+let consecutiveEmptyRuns = 0;
+let firstEmptyRunAt: Date | null = null;
+const FAILOVER_THRESHOLD_MINUTES = 15;
+const ASSUMED_RUN_INTERVAL_MINUTES = 2; // Heartbeat runs every 2 min
+
+/**
+ * Fetch results from NBC News / Associated Press as a fallback.
+ * Uses the NBC elections API which serves AP data.
+ */
+async function fetchNBCFallbackResults(): Promise<FetchResult | null> {
+  const log = (msg: string) => console.log(`[CO Primary/NBC Fallback] ${msg}`);
+
+  try {
+    // NBC exposes AP data via their elections API
+    // Try the AP elections API format (used by NBC, NPR, etc.)
+    const apUrl = "https://interactives.ap.org/elections/live-results/2026-06-30/results/2026-06-30/races/CO.json";
+    const response = await fetch(apUrl, {
+      headers: {
+        "User-Agent": "ElectionCenter/1.0",
+        Accept: "application/json",
+      },
+      signal: AbortSignal.timeout(15000),
+    });
+
+    if (!response.ok) {
+      log(`AP/NBC API returned ${response.status} — trying NBC scrape approach`);
+      return await fetchNBCScrapeFallback();
+    }
+
+    const data = await response.json();
+    return parseAPResults(data);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    log(`NBC/AP fallback error: ${msg}`);
+    return await fetchNBCScrapeFallback();
+  }
+}
+
+/**
+ * Secondary fallback: scrape NBC's results page for structured data.
+ */
+async function fetchNBCScrapeFallback(): Promise<FetchResult | null> {
+  const log = (msg: string) => console.log(`[CO Primary/NBC Scrape] ${msg}`);
+
+  try {
+    const response = await fetch(NBC_BASE, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (compatible; ElectionCenter/1.0)",
+        Accept: "text/html",
+      },
+      signal: AbortSignal.timeout(15000),
+    });
+
+    if (!response.ok) {
+      log(`NBC page returned ${response.status}`);
+      return null;
+    }
+
+    const html = await response.text();
+
+    // NBC embeds structured JSON in a <script> tag with __NEXT_DATA__ or similar
+    const jsonMatch = html.match(/<script[^>]*id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/)
+      || html.match(/window\.__INITIAL_STATE__\s*=\s*(\{[\s\S]*?\});/)
+      || html.match(/"races"\s*:\s*(\[[\s\S]*?\])(?=,\s*")/);
+
+    if (!jsonMatch) {
+      log("Could not extract structured data from NBC page");
+      return null;
+    }
+
+    const parsed = JSON.parse(jsonMatch[1]);
+    // NBC/Next.js format: props.pageProps.races or similar
+    const races = parsed?.props?.pageProps?.races || parsed?.races || parsed;
+
+    if (!Array.isArray(races) || races.length === 0) {
+      log("NBC data parsed but no races found");
+      return null;
+    }
+
+    return parseNBCRaces(races);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    log(`NBC scrape error: ${msg}`);
+    return null;
+  }
+}
+
+/**
+ * Parse AP-format election results JSON.
+ */
+function parseAPResults(data: any): FetchResult | null {
+  const log = (msg: string) => console.log(`[CO Primary/AP Parse] ${msg}`);
+  const races: ClarityRace[] = [];
+
+  try {
+    const apRaces = data.races || data.results || data;
+    if (!Array.isArray(apRaces)) {
+      log("AP data is not an array");
+      return null;
+    }
+
+    for (const race of apRaces) {
+      const contestName = race.officeName || race.raceName || race.name || "";
+      const candidates: ClarityCandidate[] = [];
+
+      const apCandidates = race.candidates || race.reportingUnits?.[0]?.candidates || [];
+      for (const c of apCandidates) {
+        candidates.push({
+          name: `${c.first || ""} ${c.last || c.name || ""}`.trim(),
+          party: c.party || "",
+          votes: c.voteCount || c.votes || 0,
+          pct: c.votePct || c.pct || 0,
+          isWinner: c.winner === "X" || c.winner === true || c.isWinner || false,
+        });
+      }
+
+      const precinctsReporting = race.precinctsReporting || race.reportingUnits?.[0]?.precinctsReporting || 0;
+      const precinctsTotal = race.precinctsTotal || race.reportingUnits?.[0]?.precinctsTotal || 0;
+
+      races.push({
+        contestName,
+        candidates,
+        precinctsReporting,
+        precinctsTotal,
+        pctReporting: precinctsTotal > 0 ? (precinctsReporting / precinctsTotal) * 100 : 0,
+        district: extractDistrict(contestName),
+        party: race.party || undefined,
+      });
+    }
+
+    log(`Parsed ${races.length} races from AP data`);
+    return {
+      races,
+      lastUpdated: toEasternTime(),
+      countiesReporting: data.countiesReporting || races.length,
+      countiesTotal: 64,
+      source: "Associated Press (via NBC News fallback)",
+    };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    log(`AP parse error: ${msg}`);
+    return null;
+  }
+}
+
+/**
+ * Parse NBC's internal race format.
+ */
+function parseNBCRaces(races: any[]): FetchResult | null {
+  const log = (msg: string) => console.log(`[CO Primary/NBC Parse] ${msg}`);
+  const parsed: ClarityRace[] = [];
+
+  try {
+    for (const race of races) {
+      const contestName = race.officeName || race.name || race.raceName || "";
+      const candidates: ClarityCandidate[] = [];
+
+      const nbcCandidates = race.candidates || [];
+      for (const c of nbcCandidates) {
+        candidates.push({
+          name: c.fullName || c.name || `${c.firstName || ""} ${c.lastName || ""}`.trim(),
+          party: c.party || c.partyId || "",
+          votes: c.votes || c.voteCount || 0,
+          pct: c.percentage || c.votePct || 0,
+          isWinner: c.winner || c.isWinner || false,
+        });
+      }
+
+      parsed.push({
+        contestName,
+        candidates,
+        precinctsReporting: race.precinctsReporting || 0,
+        precinctsTotal: race.precinctsTotal || 0,
+        pctReporting: race.pctReporting || (race.precinctsTotal > 0 ? (race.precinctsReporting / race.precinctsTotal) * 100 : 0),
+        district: extractDistrict(contestName),
+        party: race.party || undefined,
+      });
+    }
+
+    log(`Parsed ${parsed.length} races from NBC data`);
+    return {
+      races: parsed,
+      lastUpdated: toEasternTime(),
+      countiesReporting: parsed.length > 0 ? 64 : 0,
+      countiesTotal: 64,
+      source: "NBC News / Associated Press (fallback)",
+    };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    log(`NBC parse error: ${msg}`);
+    return null;
+  }
+}
+
+/**
+ * Determines if we should failover to NBC/AP based on consecutive empty Clarity results.
+ * Returns true if Clarity has returned 0 counties for >= FAILOVER_THRESHOLD_MINUTES.
+ */
+function shouldFailoverToNBC(): boolean {
+  if (firstEmptyRunAt === null) return false;
+  const minutesEmpty = (Date.now() - firstEmptyRunAt.getTime()) / (1000 * 60);
+  return minutesEmpty >= FAILOVER_THRESHOLD_MINUTES;
+}
+
 // ─── HTTP Handler ─────────────────────────────────────────────────────────────
 
 export async function handleColoradoPrimaryUpdate(req: Request, res: Response): Promise<void> {
@@ -576,21 +787,92 @@ export async function handleColoradoPrimaryUpdate(req: Request, res: Response): 
   log(`Starting Colorado Primary update at ${toEasternTime()}`);
 
   try {
-    // Fetch from Colorado SOS (Clarity Elections)
+    // Step 1: Fetch from Colorado SOS (Clarity Elections)
     const clarityData = await fetchClarityResults();
 
-    if (!clarityData) {
-      log("No data available from Clarity Elections — results may not be posted yet");
+    // Step 2: Check for empty-data condition
+    const clarityIsEmpty = !clarityData ||
+      (clarityData.countiesReporting === 0 && clarityData.races.length === 0) ||
+      (clarityData.countiesReporting === 0 && clarityData.races.every(r => r.candidates.length === 0 || r.candidates.every(c => c.votes === 0)));
+
+    if (clarityIsEmpty) {
+      consecutiveEmptyRuns++;
+      if (!firstEmptyRunAt) firstEmptyRunAt = new Date();
+      const minutesEmpty = (Date.now() - firstEmptyRunAt.getTime()) / (1000 * 60);
+
+      log(`Clarity returned empty data (run #${consecutiveEmptyRuns}, ${minutesEmpty.toFixed(1)} min since first empty)`);
+
+      // Step 3: If empty for >= threshold, failover to NBC/AP
+      if (shouldFailoverToNBC()) {
+        log(`⚠️ FAILOVER TRIGGERED: Clarity empty for ${minutesEmpty.toFixed(0)} min (threshold: ${FAILOVER_THRESHOLD_MINUTES} min). Switching to NBC/AP.`);
+
+        const nbcData = await fetchNBCFallbackResults();
+
+        if (nbcData && nbcData.races.length > 0) {
+          log(`NBC/AP fallback returned ${nbcData.races.length} races — processing`);
+
+          const updateResults = await processColoradoResults(nbcData);
+          const updated = updateResults.filter(r => r.status === "updated").length;
+          const skipped = updateResults.filter(r => r.status === "skipped").length;
+          const errors = updateResults.filter(r => r.status === "error").length;
+
+          log(`NBC/AP fallback done in ${Date.now() - startTime}ms — Updated: ${updated} | Skipped: ${skipped} | Errors: ${errors}`);
+
+          // Reset empty counter on successful NBC data
+          if (updated > 0) {
+            consecutiveEmptyRuns = 0;
+            firstEmptyRunAt = null;
+          }
+
+          res.json({
+            success: true,
+            timestamp: toEasternTime(),
+            source: nbcData.source,
+            failover: true,
+            failoverReason: `Clarity returned 0 counties for ${minutesEmpty.toFixed(0)} minutes`,
+            clarityEmptyRuns: consecutiveEmptyRuns,
+            countiesReporting: `${nbcData.countiesReporting}/${nbcData.countiesTotal}`,
+            updated,
+            skipped,
+            errors,
+            details: updateResults,
+            elapsed_ms: Date.now() - startTime,
+          });
+          return;
+        } else {
+          log(`NBC/AP fallback also returned no data — both sources empty`);
+          res.json({
+            success: true,
+            message: "Both Clarity and NBC/AP returned no data — results may not be posted yet",
+            timestamp: toEasternTime(),
+            failover: true,
+            failoverReason: `Clarity empty for ${minutesEmpty.toFixed(0)} min, NBC/AP also empty`,
+            clarityEmptyRuns: consecutiveEmptyRuns,
+            elapsed_ms: Date.now() - startTime,
+          });
+          return;
+        }
+      }
+
+      // Not yet at threshold — just report empty
       res.json({
         success: true,
-        message: "No results available yet — polls may still be open or results not yet posted",
+        message: `Clarity returned 0 counties (${minutesEmpty.toFixed(1)} min / ${FAILOVER_THRESHOLD_MINUTES} min until NBC failover)`,
         timestamp: toEasternTime(),
         source: "Colorado Secretary of State (Clarity Elections ENR)",
-        verification: "NBC News (pending)",
+        clarityEmptyRuns: consecutiveEmptyRuns,
+        minutesUntilFailover: Math.max(0, FAILOVER_THRESHOLD_MINUTES - minutesEmpty).toFixed(1),
         elapsed_ms: Date.now() - startTime,
       });
       return;
     }
+
+    // Step 4: Clarity has data — reset empty counter and process normally
+    if (consecutiveEmptyRuns > 0) {
+      log(`Clarity data restored after ${consecutiveEmptyRuns} empty runs — resetting failover counter`);
+    }
+    consecutiveEmptyRuns = 0;
+    firstEmptyRunAt = null;
 
     // Process and update DB
     const updateResults = await processColoradoResults(clarityData);
