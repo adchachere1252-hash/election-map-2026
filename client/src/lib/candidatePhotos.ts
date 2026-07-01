@@ -767,26 +767,26 @@ const CDN_PHOTOS: Record<string, string> = {
   "gil cisneros":              `${CDN_BASE}/gil_cisneros_e29e0c3b.jpg`,              // CA-31 D (returning challenger, House.gov portrait)
   "marni von wilpert":         `${CDN_BASE}/marni_von_wilpert_c2df38d6.jpg`,         // CA-48 D (Ballotpedia headshot)
   // CA Governor candidates (June 5 2026 — DDHQ projection)
-  "xavier becerra":            `${CDN_BASE}/xavier_becerra_d2b12c57.jpg`,              // CA Gov D (fmr HHS Secretary)
-  "steve hilton":              `${CDN_BASE}/steve_hilton_dc6ad31b.jpg`,                // CA Gov R (fmr Fox News host)
+  "xavier becerra":            "/manus-storage/xavier_becerra_2da8720c.jpg",              // CA Gov D (fmr HHS Secretary)
+  "steve hilton":              "/manus-storage/steve_hilton_82e0a8db.jpg",                // CA Gov R (fmr Fox News host)
   // CA-6 incumbent (June 5 2026)
-  "kevin kiley":               `${CDN_BASE}/kevin_kiley_5f0c3d28.jpg`,                 // CA-6 I (fmr R, now Independent — bioguide portrait)
+  "kevin kiley":               "/manus-storage/kevin_kiley_14f5b493_a4bbf90a.jpg",                 // CA-6 I (fmr R, now Independent — bioguide portrait)
   // CA House candidates (June 6 2026 — Friday ballot drop update)
-  "richard pan":               `${CDN_BASE}/richard_pan_fafb55ad.jpg`,                 // CA-6 D (fmr state senator)
-  "mai vang":                  `${CDN_BASE}/mai_vang_ed78789a.jpg`,                    // CA-7 D (Sacramento City Council)
-  "randy villegas":            `${CDN_BASE}/randy_villegas_e1035444.jpg`,              // CA-22 D (Visalia school board)
+  "richard pan":               "/manus-storage/richard_pan_78d0ad88.jpg",                 // CA-6 D (fmr state senator)
+  "mai vang":                  "/manus-storage/mai_vang_5d9832eb.jpg",                    // CA-7 D (Sacramento City Council)
+  "randy villegas":            "/manus-storage/randy_villegas_757a3f9b.jpg",              // CA-22 D (Visalia school board)
 
   // CA House candidates (June 6 2026 — 8-district fix batch)
-  "robb tucker":               `${CDN_BASE}/robb_tucker_7873c0dd.jpg`,                  // CA-3 R
-  "kyle kirkland":             `${CDN_BASE}/kyle_kirkland_6ea5e784.jpg`,                // CA-21 R
-  "jacqui irwin":              `${CDN_BASE}/jacqui_irwin_82b58144.jpg`,                 // CA-26 D
-  "sam gallucci":              `${CDN_BASE}/sam_gallucci_e81fb820.jpg`,                 // CA-26 R
-  "jason gibbs":               `${CDN_BASE}/jason_gibbs_40a4aad5.jpg`,                  // CA-27 R
-  "angela gonzales-torres":    `${CDN_BASE}/angela_gonzales_torres_69628858.jpg`,       // CA-34 D
-  "hilda solis":               `${CDN_BASE}/hilda_solis_669cb34d.jpg`,                  // CA-38 D
-  "pedro casas":               `${CDN_BASE}/pedro_casas_f79cf321.jpg`,                  // CA-38 R
-  "mitch clemmons":            `${CDN_BASE}/mitch_clemmons_8f836571.jpg`,               // CA-41 R
-  "chuong vo":                 `${CDN_BASE}/chuong_vo_ed3ee136.jpg`,                    // CA-45 R
+  "robb tucker":               "/manus-storage/robb_tucker_c953b5ce_beb6dda4.jpg",                  // CA-3 R
+  "kyle kirkland":             "/manus-storage/kyle_kirkland_ebc2143e_271dfc45.jpg",                // CA-21 R
+  "jacqui irwin":              "/manus-storage/jacqui_irwin_e8a59ffe_f7e4eaa1.jpg",                 // CA-26 D
+  "sam gallucci":              "/manus-storage/sam_gallucci_337fea91_efb8e9b1.png",                 // CA-26 R
+  "jason gibbs":               "/manus-storage/jason_gibbs_078526d0_5de9b5e3.png",                  // CA-27 R
+  "angela gonzales-torres":    "/manus-storage/angela_gonzales_torres_2d3b265f_a915b7d4.jpg",       // CA-34 D
+  "hilda solis":               "/manus-storage/hilda_solis_f5703aa6_052dd572.jpg",                  // CA-38 D
+  "pedro casas":               "/manus-storage/pedro_casas_85c21033_235baa32.png",                  // CA-38 R
+  "mitch clemmons":            "/manus-storage/mitch_clemmons_73f354a6_b06d0c06.jpg",               // CA-41 R
+  "chuong vo":                 "/manus-storage/chuong_vo_34629a70_20702ee4.jpg",                    // CA-45 R
 
   // NM & SD candidates (June 6 2026 — verification round 2)
   "ndidiamaka okpareke":       `/manus-storage/ndidiamaka_okpareke_1aa8335e.jpg`,        // NM-1 R
@@ -801,7 +801,7 @@ const CDN_PHOTOS: Record<string, string> = {
   "daniel butierez":         `/manus-storage/daniel_butierez_9027eac7.jpg`,     // AZ-7 R (Ballotpedia)
   "arthur purves":           `/manus-storage/arthur_purves_c9aa41b6.jpg`,       // VA-11 R (Ballotpedia)
   "eugene douglass":         `/manus-storage/eugene_douglass_dc7c2086.jpg`,     // NC-2 R (Ballotpedia)
-  "aftyn behn":              `/manus-storage/aftyn_behn_5b1a8e7c.jpg`,          // TN-7 D (Ballotpedia)
+  "aftyn behn":              `/manus-storage/aftyn_behn_ada5dffa.png`,          // TN-7 D (Ballotpedia)
   "lewis mizrahi":           `/manus-storage/mizrahi-placeholder_fd2814f1.png`, // NY-8 R (party letter placeholder)
 
   // Colorado Primary winners (July 1 2026)
