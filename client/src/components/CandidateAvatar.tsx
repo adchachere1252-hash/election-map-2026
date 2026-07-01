@@ -13,6 +13,11 @@ interface CandidateAvatarProps {
 /**
  * Circular candidate headshot using official Congressional bioguide photos.
  * Falls back to a party-colored initial avatar for non-Congress candidates.
+ *
+ * Resolution order:
+ * 1. Explicit DB photo prop (if provided and loads successfully)
+ * 2. Name-based lookup from CDN_PHOTOS / BIOGUIDE_MAP (if DB photo fails or absent)
+ * 3. Party-colored initial avatar (final fallback)
  */
 export function CandidateAvatar({
   name,
@@ -21,14 +26,24 @@ export function CandidateAvatar({
   className = "",
   photo,
 }: CandidateAvatarProps) {
-  // Use explicit DB photo first, then fall back to name-based lookup
-  const photoUrl = photo ?? getCandidatePhotoUrl(name);
-  const [imgError, setImgError] = useState(false);
+  const nameBasedUrl = getCandidatePhotoUrl(name);
+  // Track which source we're currently trying
+  const [dbPhotoFailed, setDbPhotoFailed] = useState(false);
+  const [namePhotoFailed, setNamePhotoFailed] = useState(false);
 
-  // Reset error state whenever the photo URL changes (e.g., popup opens for a different candidate)
+  // Determine which URL to show
+  let photoUrl: string | null = null;
+  if (photo && !dbPhotoFailed) {
+    photoUrl = photo;
+  } else if (nameBasedUrl && !namePhotoFailed) {
+    photoUrl = nameBasedUrl;
+  }
+
+  // Reset error states whenever the inputs change
   useEffect(() => {
-    setImgError(false);
-  }, [photoUrl]);
+    setDbPhotoFailed(false);
+    setNamePhotoFailed(false);
+  }, [photo, name]);
 
   // Determine party color for fallback avatar
   const partyKey = (party || "").toUpperCase();
@@ -67,13 +82,21 @@ export function CandidateAvatar({
     flexShrink: 0,
   };
 
-  if (photoUrl && !imgError) {
+  if (photoUrl) {
     return (
       <span style={style} className={`border border-white/20 ${className}`}>
         <img
           src={photoUrl}
           alt={name ?? ""}
-          onError={() => setImgError(true)}
+          onError={() => {
+            // If the DB photo failed, try name-based lookup next
+            if (photo && !dbPhotoFailed) {
+              setDbPhotoFailed(true);
+            } else {
+              // Name-based also failed, show initials
+              setNamePhotoFailed(true);
+            }
+          }}
           style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center" }}
           loading="eager"
         />

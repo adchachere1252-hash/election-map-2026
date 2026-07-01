@@ -199,6 +199,35 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "eugene douglass":         `/manus-storage/eugene_douglass_dc7c2086.jpg`,     // NC-2 R (Ballotpedia)
   "mike kennedy":            `/manus-storage/mike_kennedy_de9e233b.jpg`,        // UT-4 R (congress.gov)
   "lewis mizrahi":           `/manus-storage/mizrahi-placeholder_fd2814f1.png`, // NY-8 R (party letter placeholder — no public photo available)
+
+  // Colorado Primary winners (July 1 2026)
+  "melat kiros":              `/manus-storage/melat_kiros_co_primary_a5db2427.jpg`,           // CO-1 D (upset winner over DeGette)
+  "mark baisley":             `/manus-storage/mark_baisley_co_primary_5560975e.jpg`,         // CO Senate R nominee
+  "phil weiser":              `/manus-storage/phil_weiser_co_primary_75363862.jpg`,           // CO Governor D nominee
+  "christy peterson":         `/manus-storage/christy_peterson_co_primary_20648eba.jpg`,     // CO-1 R
+  "kelley dennison":          `/manus-storage/kelley_dennison_co_primary_af972911.jpg`,      // CO-2 R
+  "kelley anne dennison":     `/manus-storage/kelley_dennison_co_primary_af972911.jpg`,      // CO-2 R (alias)
+  "dane romero":              `/manus-storage/dane_romero_co_primary_3bbc2898.jpg`,           // CO-3 D
+  "dwayne romero":            `/manus-storage/dane_romero_co_primary_3bbc2898.jpg`,           // CO-3 D (alias)
+  "dwayne l. romero":         `/manus-storage/dane_romero_co_primary_3bbc2898.jpg`,           // CO-3 D (alias)
+  "eileen laubacher":         `/manus-storage/eileen_laubacher_co_primary_d2b7b7e3.jpg`,     // CO-4 D
+  "jessica killin":           `/manus-storage/jessica_killin_co_primary_dabe99be.jpg`,       // CO-5 D
+  "tim bennett":              `/manus-storage/tim_bennett_co_primary_839518d7.jpg`,           // CO-7 R
+  "jeff crank":               `/manus-storage/jeff_crank_co_primary_d71ea808.jpg`,            // CO-5 R (incumbent)
+  "manny rutinel":            `/manus-storage/manny_rutinel_co_primary_5a7f4e57.jpg`,        // CO-8 D
+
+  // Additional missing candidates (July 1 2026 — photo audit)
+  "scott bottoms":             `/manus-storage/scott_bottoms_8173762a.jpg`,          // CO Governor R
+  "dan cox":                   `/manus-storage/dan_cox_327096e2.jpg`,                // MD Governor R
+  "bruce blakeman":            `/manus-storage/bruce_blakeman_30439fb7.jpg`,         // NY Governor R
+  "cyndi munson":              `/manus-storage/cyndi_munson_b11d44b3.jpg`,           // OK Governor D
+  "t. shannon":                `/manus-storage/tw_shannon_d4a70d09.jpg`,             // OK Governor R
+  "t.w. shannon":              `/manus-storage/tw_shannon_d4a70d09.jpg`,             // OK Governor R (alias)
+  "tw shannon":                `/manus-storage/tw_shannon_d4a70d09.jpg`,             // OK Governor R (alias)
+  "toby doeden":               `/manus-storage/toby_doeden_f912bfcc.jpg`,            // SD Governor R
+  "everett wess":              `/manus-storage/everett_wess_f2ce4e6c.jpg`,           // AL Senate D
+  "larry marker":              `/manus-storage/larry_marker_22eaf901.jpg`,           // NM Senate R
+  "annie andrews":             `/manus-storage/annie_andrews_1cb42390.jpg`,          // SC Senate D
 };
 
 export const PARTY_LOGOS = {

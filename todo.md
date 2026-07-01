@@ -2303,8 +2303,8 @@
 - [x] Verified: All 14 Senate races with missing photos are TBD candidates (primaries not yet held) — no action needed
 - [x] Verified: All 18 Governor races with missing photos are TBD candidates (primaries not yet held) — no action needed
 - [x] Confirmed: Every confirmed candidate across all chambers has a properly centered photo
-- [ ] Process Colorado primary results (Jun 30) for CO-1 through CO-8 — PENDING (primary is June 30)
-- [ ] Update CO Senate and Governor nominees — PENDING (primary is June 30)
+- [x] Process Colorado primary results (Jun 30) for CO-1 through CO-8 — DONE (entered from NBC News/AP Jul 1)
+- [x] Update CO Senate and Governor nominees — DONE (Hickenlooper vs Baisley; Weiser D winner, R too close to call)
 - [x] Run full site-wide audit — comprehensive report generated (full-site-audit-jun25.md)
 - [x] All 130 tests passing, 0 TypeScript errors, 0 console errors in production
 
@@ -2578,3 +2578,20 @@
 - [x] Update House CO-8: Evans (R) uncontested; Rutinel (D) 61.5% WINNER
 - [x] Set general election candidate matchups for all 8 CO districts
 - [x] Pause Heartbeat cron (task_uid: Dw8K6zFwyXMnDmqjkDq3nu) — election over
+
+## Photo Fixes — Colorado Primary Winners & TX Senate (July 1, 2026)
+- [x] Fix CO Senate: Hickenlooper photo shows Baisley's image — FIXED: added both to candidatePhotos maps
+- [x] Fix CO Senate: Add Baisley photo to candidate2Photo — DONE
+- [x] Add CO Governor: Phil Weiser (D) photo — DONE
+- [x] Add CO Governor: R candidate photo (Scott Bottoms) — DONE
+- [x] CO-1: Replace DeGette photo with Melat Kiros photo (new primary winner) — DONE
+- [x] CO-1: Add Christy Peterson (R) photo — DONE
+- [x] CO-2: Add Kelley Dennison (R) photo — DONE
+- [x] CO-3: Add Dane Romero (D) photo — DONE
+- [x] CO-4: Add Eileen Laubacher (D) photo — DONE
+- [x] CO-5: Add Jessica Killin (D) photo — DONE
+- [x] CO-5: Add Jeff Crank (R) photo — DONE
+- [x] CO-7: Add Tim Bennett (R) photo — DONE
+- [x] CO-8: Add Manny Rutinel (D) photo — DONE
+- [x] TX Senate: Fixed — CDN photos resolve correctly; CandidateAvatar now falls back to CDN when DB photo 403s
+- [x] Run full site-wide photo audit — added 9 more candidates (GOV: CO-R, MD-R, NY-R, OK-D, OK-R, SD-R; SENATE: AL-D, NM-R, SC-D)
