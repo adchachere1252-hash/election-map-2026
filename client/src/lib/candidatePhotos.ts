@@ -546,226 +546,225 @@ export const BIOGUIDE_MAP: Record<string, string> = {
  * CDN photos for candidates who don't have bioguide IDs (non-Congress candidates).
  * Keyed by lowercase name. Sourced from the project's CloudFront CDN.
  */
-const CDN_BASE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663521029713/Duqshn4D3kdv9jkbtBdj4X";
 const CDN_PHOTOS: Record<string, string> = {
   // Previously uploaded
-  "juliana stratton":     `${CDN_BASE}/juliana-stratton_5e692d1c.jpg`,  // sharpened HD
-  "laurie buckhout":      `${CDN_BASE}/laurie-buckhout_18f4c9b7.jpg`,
-  "tina smith":           `${CDN_BASE}/tina-smith_853cdf1a.jpg`,
-  "jeanne shaheen":       `${CDN_BASE}/jeanne-shaheen_9a7397d7.jpg`,
+  "juliana stratton":     "/manus-storage/juliana-stratton_5e692d1c.jpg",  // sharpened HD
+  "laurie buckhout":      "/manus-storage/laurie-buckhout_18f4c9b7.jpg",
+  "tina smith":           "/manus-storage/tina-smith_853cdf1a.jpg",
+  "jeanne shaheen":       "/manus-storage/jeanne-shaheen_9a7397d7.jpg",
   // Note: gary-peters and dick-durbin removed — both retiring, not running in 2026
   // Senate challengers / non-Congress candidates (Round 2)
-  "don tracy":            `${CDN_BASE}/don-tracy_00be914e.jpg`,  // sharpened HD
-  "earl carter":          `${CDN_BASE}/earl-carter_cba92698.jpg`,
+  "don tracy":            "/manus-storage/don-tracy_00be914e.jpg",  // sharpened HD
+  "earl carter":          "/manus-storage/earl-carter_cba92698.jpg",
   // michael whatley updated below with better portrait
-  "ron kincaid":          `${CDN_BASE}/ron-kincaid_7bc5aec9.jpg`,
-  "graham platner":       `${CDN_BASE}/graham-platner_9f3a16bc.jpg`,  // sharpened HD
-  "cindy burbank":        `${CDN_BASE}/cindy-burbank_96083831.jpg`,  // sharpened HD
-  "james talarico":       `${CDN_BASE}/james-talarico_3cdf6d87.jpg`,  // sharpened HD
-  "john cornyn":          `${CDN_BASE}/john-cornyn_6230288e.jpg`,
-  "charles booker":       `${CDN_BASE}/charles-booker_a8c546aa.jpg`,  // sharpened HD
-  "scott colom":          `${CDN_BASE}/scott-colom_f64015b6.jpg`,  // sharpened HD
-  "rachel fetty anderson":`${CDN_BASE}/rachel-fetty-anderson_df3ac766.jpg`,  // sharpened HD
-  "james w. byrd":        `${CDN_BASE}/james-byrd_0484d960.jpg`,  // sharpened HD
-  "james byrd":           `${CDN_BASE}/james-byrd_0484d960.jpg`,  // sharpened HD
-  "hallie shoffner":      `${CDN_BASE}/hallie-shoffner_f5291478.jpg`,  // sharpened HD
-  "dakarai larriett":     `${CDN_BASE}/dakarai-larriett_eb9a26e2.jpg`,
+  "ron kincaid":          "/manus-storage/ron-kincaid_7bc5aec9.jpg",
+  "graham platner":       "/manus-storage/graham-platner_9f3a16bc.jpg",  // sharpened HD
+  "cindy burbank":        "/manus-storage/cindy-burbank_96083831.jpg",  // sharpened HD
+  "james talarico":       "/manus-storage/james-talarico_3cdf6d87.jpg",  // sharpened HD
+  "john cornyn":          "/manus-storage/john-cornyn_6230288e.jpg",
+  "charles booker":       "/manus-storage/charles-booker_a8c546aa.jpg",  // sharpened HD
+  "scott colom":          "/manus-storage/scott-colom_f64015b6.jpg",  // sharpened HD
+  "rachel fetty anderson":"/manus-storage/rachel-fetty-anderson_df3ac766.jpg",  // sharpened HD
+  "james w. byrd":        "/manus-storage/james-byrd_0484d960.jpg",  // sharpened HD
+  "james byrd":           "/manus-storage/james-byrd_0484d960.jpg",  // sharpened HD
+  "hallie shoffner":      "/manus-storage/hallie-shoffner_f5291478.jpg",  // sharpened HD
+  "dakarai larriett":     "/manus-storage/dakarai-larriett_eb9a26e2.jpg",
   // Governor candidates (Round 3 — confirmed running in 2026)
-  "wes moore":            `${CDN_BASE}/wes-moore_181f290a.jpg`,
-  "kathy hochul":         `${CDN_BASE}/kathy-hochul_ad50280c.jpg`,
-  "darren bailey":        `${CDN_BASE}/darren-bailey_a50797b3.jpg`,
-  "rob sand":             `${CDN_BASE}/rob-sand_f46705e4.jpg`,
-  "j.b. pritzker":        `${CDN_BASE}/jb-pritzker-hd_48b33ad9.jpg`,
-  "jb pritzker":          `${CDN_BASE}/jb-pritzker-hd_48b33ad9.jpg`,
-  "amy klobuchar":        `${CDN_BASE}/amy-klobuchar_4167e3f7.jpg`,
+  "wes moore":            "/manus-storage/wes-moore_181f290a.jpg",
+  "kathy hochul":         "/manus-storage/kathy-hochul_ad50280c.jpg",
+  "darren bailey":        "/manus-storage/darren-bailey_a50797b3.jpg",
+  "rob sand":             "/manus-storage/rob-sand_f46705e4.jpg",
+  "j.b. pritzker":        "/manus-storage/jb-pritzker-hd_48b33ad9.jpg",
+  "jb pritzker":          "/manus-storage/jb-pritzker-hd_48b33ad9.jpg",
+  "amy klobuchar":        "/manus-storage/amy-klobuchar_4167e3f7.jpg",
   // House competitive candidates (Round 3)
-  "frank mrvan":          `${CDN_BASE}/frank-mrvan_edfce460.jpg`,
-  "maggie goodlander":    `${CDN_BASE}/maggie-goodlander_031a7473.jpg`,
-  "ammar campa-najjar":   `${CDN_BASE}/ammar-campa-najjar_97ded915.jpg`,
-  "jim desmond":          `${CDN_BASE}/jim-desmond_8cace2ee.jpg`,
-  "tano tijerina":        `${CDN_BASE}/tano-tijerina_a5173754.jpg`,
+  "frank mrvan":          "/manus-storage/frank-mrvan_edfce460.jpg",
+  "maggie goodlander":    "/manus-storage/maggie-goodlander_031a7473.jpg",
+  "ammar campa-najjar":   "/manus-storage/ammar-campa-najjar_97ded915.jpg",
+  "jim desmond":          "/manus-storage/jim-desmond_8cace2ee.jpg",
+  "tano tijerina":        "/manus-storage/tano-tijerina_a5173754.jpg",
   // OH-9: Derek Merrin won primary (Josh Williams lost), faces Marcy Kaptur
-  "derek merrin":         `${CDN_BASE}/derek-merrin_431549e8.jpg`,
+  "derek merrin":         "/manus-storage/derek-merrin_431549e8.jpg",
   // Michael Whatley updated portrait (replaces old side-by-side crop)
-  "michael whatley":      `${CDN_BASE}/michael-whatley_b8972d07.jpg`,  // sharpened HD
+  "michael whatley":      "/manus-storage/michael-whatley_b8972d07.jpg",  // sharpened HD
   // Governor candidates (Round 4 — incumbents + new challengers)
-  "maura healey":         `${CDN_BASE}/maura-healey_38185e14.jpg`,
-  "josh shapiro":         `${CDN_BASE}/josh-shapiro_4af6b942.jpg`,
-  "katie hobbs":          `${CDN_BASE}/katie-hobbs_e47db872.jpg`,
-  "amy acton":            `${CDN_BASE}/amy-acton_45ab5be5.jpg`,
-  "vivek ramaswamy":      `${CDN_BASE}/vivek-ramaswamy_7c611a5f.jpg`,
-  "kelly ayotte":         `${CDN_BASE}/kelly-ayotte_97b4f521.jpg`,
-  "gina hinojosa":        `${CDN_BASE}/gina-hinojosa_cc08c1e9.jpg`,
-  "lynne walz":           `${CDN_BASE}/lynne-walz_85f391cd.jpg`,
-  "brad little":          `${CDN_BASE}/brad-little_bac763f9.jpg`,
-  "daniel mckee":         `${CDN_BASE}/daniel-mckee_6a589d0b.jpg`,
-  "tina kotek":           `${CDN_BASE}/tina-kotek_dc80abcd.jpg`,
-  "josh green":           `${CDN_BASE}/josh-green_c33a5362.jpg`,
+  "maura healey":         "/manus-storage/maura-healey_38185e14.jpg",
+  "josh shapiro":         "/manus-storage/josh-shapiro_4af6b942.jpg",
+  "katie hobbs":          "/manus-storage/katie-hobbs_e47db872.jpg",
+  "amy acton":            "/manus-storage/amy-acton_45ab5be5.jpg",
+  "vivek ramaswamy":      "/manus-storage/vivek-ramaswamy_7c611a5f.jpg",
+  "kelly ayotte":         "/manus-storage/kelly-ayotte_97b4f521.jpg",
+  "gina hinojosa":        "/manus-storage/gina-hinojosa_cc08c1e9.jpg",
+  "lynne walz":           "/manus-storage/lynne-walz_85f391cd.jpg",
+  "brad little":          "/manus-storage/brad-little_bac763f9.jpg",
+  "daniel mckee":         "/manus-storage/daniel-mckee_6a589d0b.jpg",
+  "tina kotek":           "/manus-storage/tina-kotek_dc80abcd.jpg",
+  "josh green":           "/manus-storage/josh-green_c33a5362.jpg",
   // AR Governor (Round 5)
-  "sarah huckabee sanders": `${CDN_BASE}/sarah-huckabee-sanders_916e3316.jpg`,
+  "sarah huckabee sanders": "/manus-storage/sarah-huckabee-sanders_916e3316.jpg",
   // TX Governor (Round 5)
-  "greg abbott":          `${CDN_BASE}/greg-abbott_a1c32b47.jpg`,
+  "greg abbott":          "/manus-storage/greg-abbott_a1c32b47.jpg",
   // OH Senate (Round 6) — Jon Husted (appointed R incumbent)
-  "jon husted":           `${CDN_BASE}/jon-husted_7cc5d67d.jpg`,  // sharpened HD
+  "jon husted":           "/manus-storage/jon-husted_7cc5d67d.jpg",  // sharpened HD
   // WV Senate (Round 6) — Jim Justice (R incumbent)
-  "jim justice":          `${CDN_BASE}/jim-justice_9559bc9b.jpg`,
+  "jim justice":          "/manus-storage/jim-justice_9559bc9b.jpg",
   // Governor photo audit (Round 7) — missing Governor candidates
   // Roy Cooper: bioguide C000760 returns 404 (never served in Congress), using CDN
-  "roy cooper":           `${CDN_BASE}/roy-cooper_20ad9d0f.jpg`,  // sharpened HD
-  "ned lamont":           `${CDN_BASE}/ned-lamont_24e0ecdd.jpg`,
-  "joe lombardo":         `${CDN_BASE}/joe-lombardo_fb7e8617.jpg`,
-  "larry rhoden":         `${CDN_BASE}/larry-rhoden_1ce6b32f.jpg`,
+  "roy cooper":           "/manus-storage/roy-cooper_20ad9d0f.jpg",  // sharpened HD
+  "ned lamont":           "/manus-storage/ned-lamont_24e0ecdd.jpg",
+  "joe lombardo":         "/manus-storage/joe-lombardo_fb7e8617.jpg",
+  "larry rhoden":         "/manus-storage/larry-rhoden_1ce6b32f.jpg",
   // House General candidates (Round 8 — competitive races)
-  "eric flores":           `${CDN_BASE}/eric-flores_e5208d5e.jpg`,
-  "denise powell":         `${CDN_BASE}/denise-powell_d3928462.jpg`,
-  "brinker harding":       `${CDN_BASE}/brinker-harding_690af229.jpg`,
-  "barb regnitz":          `${CDN_BASE}/barb-regnitz_ce484ef4.jpg`,
-  "kevin siembida":        `${CDN_BASE}/kevin-siembida_0f4e659b.jpg`,
-  "jamie ager":            `${CDN_BASE}/jamie-ager_025de85b.jpg`,
-  "bobby pulido":          `${CDN_BASE}/bobby-pulido_116cdf80.jpg`,
+  "eric flores":           "/manus-storage/eric-flores_e5208d5e.jpg",
+  "denise powell":         "/manus-storage/denise-powell_d3928462.jpg",
+  "brinker harding":       "/manus-storage/brinker-harding_690af229.jpg",
+  "barb regnitz":          "/manus-storage/barb-regnitz_ce484ef4.jpg",
+  "kevin siembida":        "/manus-storage/kevin-siembida_0f4e659b.jpg",
+  "jamie ager":            "/manus-storage/jamie-ager_025de85b.jpg",
+  "bobby pulido":          "/manus-storage/bobby-pulido_116cdf80.jpg",
   // House Solid D/R candidates (Round 9 — IL + TX)
   // IL Solid D
-  "donna miller":           `${CDN_BASE}/donna-miller-il2_227c6d2a.jpg`,
-  "michael noack":          `${CDN_BASE}/michael-noack-il2_ebcf6ecb.jpg`,
-  "angel oakley":           `${CDN_BASE}/angel-oakley-il3_cee94f74.jpg`,
-  "patty garcia":           `${CDN_BASE}/patty-garcia-il4_577b08c2.jpg`,
-  "lupe castillo":          `${CDN_BASE}/lupe-castillo-il4_8f6341ba.jpg`,
-  "tommy hanson":           `${CDN_BASE}/tommy-hanson-il5_f9482a27.jpg`,
-  "niki conforti":          `${CDN_BASE}/niki-conforti-il6_08f67ec0.jpg`,
-  "chad koppie":            `${CDN_BASE}/chad-koppie-il7_31586452.jpg`,
-  "melissa bean":           `${CDN_BASE}/melissa-bean-il8_3d5e2223.jpg`,
-  "jennifer davis":         `${CDN_BASE}/jennifer-davis-il8_2a1ad061.jpg`,
-  "daniel biss":            `${CDN_BASE}/daniel-biss-il9_6d4ce357.jpg`,
-  "daniel k. biss":         `${CDN_BASE}/daniel-biss-il9_6d4ce357.jpg`,
-  "john elleson":           `${CDN_BASE}/john-elleson-il9_c59d7fe7.jpg`,
-  "carl lambrecht":         `${CDN_BASE}/carl-lambrecht-il10_d09fb682.jpg`,
-  "jeff walter":            `${CDN_BASE}/jeff-walter-il11_5dde2f4d.jpg`,
-  "julie fortier":          `${CDN_BASE}/julie-fortier-il12_71a75bae.jpg`,
-  "jeff wilson":            `${CDN_BASE}/jeff-wilson-il13_b36f2cb2.jpg`,
-  "james marter":           `${CDN_BASE}/james-marter-il14_6532905e.jpg`,
-  "jennifer todd":          `${CDN_BASE}/jennifer-todd-il15_04eaf9be.jpg`,
-  "paul nolley":            `${CDN_BASE}/paul-nolley-il16_dbc74854.jpg`,
-  "dillan vancil":          `${CDN_BASE}/dillan-vancil-il17_61abca29.jpg`,
+  "donna miller":           "/manus-storage/donna-miller-il2_227c6d2a.jpg",
+  "michael noack":          "/manus-storage/michael-noack-il2_ebcf6ecb.jpg",
+  "angel oakley":           "/manus-storage/angel-oakley-il3_cee94f74.jpg",
+  "patty garcia":           "/manus-storage/patty-garcia-il4_577b08c2.jpg",
+  "lupe castillo":          "/manus-storage/lupe-castillo-il4_8f6341ba.jpg",
+  "tommy hanson":           "/manus-storage/tommy-hanson-il5_f9482a27.jpg",
+  "niki conforti":          "/manus-storage/niki-conforti-il6_08f67ec0.jpg",
+  "chad koppie":            "/manus-storage/chad-koppie-il7_31586452.jpg",
+  "melissa bean":           "/manus-storage/melissa-bean-il8_3d5e2223.jpg",
+  "jennifer davis":         "/manus-storage/jennifer-davis-il8_2a1ad061.jpg",
+  "daniel biss":            "/manus-storage/daniel-biss-il9_6d4ce357.jpg",
+  "daniel k. biss":         "/manus-storage/daniel-biss-il9_6d4ce357.jpg",
+  "john elleson":           "/manus-storage/john-elleson-il9_c59d7fe7.jpg",
+  "carl lambrecht":         "/manus-storage/carl-lambrecht-il10_d09fb682.jpg",
+  "jeff walter":            "/manus-storage/jeff-walter-il11_5dde2f4d.jpg",
+  "julie fortier":          "/manus-storage/julie-fortier-il12_71a75bae.jpg",
+  "jeff wilson":            "/manus-storage/jeff-wilson-il13_b36f2cb2.jpg",
+  "james marter":           "/manus-storage/james-marter-il14_6532905e.jpg",
+  "jennifer todd":          "/manus-storage/jennifer-todd-il15_04eaf9be.jpg",
+  "paul nolley":            "/manus-storage/paul-nolley-il16_dbc74854.jpg",
+  "dillan vancil":          "/manus-storage/dillan-vancil-il17_61abca29.jpg",
   // TX Solid D challengers
-  "shaun finnie":           `${CDN_BASE}/shaun-finnie-tx2_0f45b323.jpg`,
-  "evan hunt":              `${CDN_BASE}/evan-hunt-tx3_b0210e22.jpg`,
-  "jason pearce":           `${CDN_BASE}/jason-pearce-tx4_c9ded027.jpg`,
-  "danny minton":           `${CDN_BASE}/danny-minton-tx6_3d03635c.jpg`,
-  "laura jones":            `${CDN_BASE}/laura-jones-tx8_3bb80bd5.jpg`,
-  "jessica steinmann":      `${CDN_BASE}/jessica-steinmann-tx8_0289b96d.jpg`,
-  "caitlin rourk":          `${CDN_BASE}/caitlin-rourk-tx10_c50606bb.jpg`,
-  "chris gober":            `${CDN_BASE}/chris-gober-tx10_79064e79.jpg`,
-  "claire reynolds":        `${CDN_BASE}/claire-reynolds-tx11_20e2cb7a.jpg`,
-  "angel rodrigues-prillman": `${CDN_BASE}/angel-rodrigues-tx12_2c1e2bd0.jpg`,
-  "mark nair":              `${CDN_BASE}/mark-nair-tx13_e30b0587.jpg`,
-  "ronald whitfield":       `${CDN_BASE}/ronald-whitfield-tx18_9dba8f6a.jpg`,
-  "christian menefee":      `${CDN_BASE}/christian-menefee-headshot_85e2ff9b.png`,
-  "marquette greene-scott": `${CDN_BASE}/marquette-greene-scott-tx22_806026e0.jpg`,
-  "trever nehls":           `${CDN_BASE}/trever-nehls-tx22_a4c8eb5b.jpg`,
-  "tanya lloyd":            `${CDN_BASE}/tanya-lloyd-tx27_c793c82a.jpg`,
-  "martha fierro":          `${CDN_BASE}/martha-fierro-tx29_eadceada.jpg`,
-  "justin early":           `${CDN_BASE}/justin-early-tx31_b879849a.jpg`,
-  "rhonda hart":            `${CDN_BASE}/rhonda-hart-tx36_1c42977d.jpg`,
+  "shaun finnie":           "/manus-storage/shaun-finnie-tx2_0f45b323.jpg",
+  "evan hunt":              "/manus-storage/evan-hunt-tx3_b0210e22.jpg",
+  "jason pearce":           "/manus-storage/jason-pearce-tx4_c9ded027.jpg",
+  "danny minton":           "/manus-storage/danny-minton-tx6_3d03635c.jpg",
+  "laura jones":            "/manus-storage/laura-jones-tx8_3bb80bd5.jpg",
+  "jessica steinmann":      "/manus-storage/jessica-steinmann-tx8_0289b96d.jpg",
+  "caitlin rourk":          "/manus-storage/caitlin-rourk-tx10_c50606bb.jpg",
+  "chris gober":            "/manus-storage/chris-gober-tx10_79064e79.jpg",
+  "claire reynolds":        "/manus-storage/claire-reynolds-tx11_20e2cb7a.jpg",
+  "angel rodrigues-prillman": "/manus-storage/angel-rodrigues-tx12_2c1e2bd0.jpg",
+  "mark nair":              "/manus-storage/mark-nair-tx13_e30b0587.jpg",
+  "ronald whitfield":       "/manus-storage/ronald-whitfield-tx18_9dba8f6a.jpg",
+  "christian menefee":      "/manus-storage/christian-menefee-headshot_85e2ff9b.png",
+  "marquette greene-scott": "/manus-storage/marquette-greene-scott-tx22_806026e0.jpg",
+  "trever nehls":           "/manus-storage/trever-nehls-tx22_a4c8eb5b.jpg",
+  "tanya lloyd":            "/manus-storage/tanya-lloyd-tx27_c793c82a.jpg",
+  "martha fierro":          "/manus-storage/martha-fierro-tx29_eadceada.jpg",
+  "justin early":           "/manus-storage/justin-early-tx31_b879849a.jpg",
+  "rhonda hart":            "/manus-storage/rhonda-hart-tx36_1c42977d.jpg",
   // Governor candidates — May 19 2026 primaries
   "tommy tuberville":       `${PHOTO_BASE}/T000278.jpg`,
-  "doug jones":             `${CDN_BASE}/doug-jones_68b7351c.png`,  // bioguide J000300 returns 404
-  "stacy garrity":          `${CDN_BASE}/stacy-garrity-sharp_ce3606db.jpg`,
-  "keisha lance bottoms":   `${CDN_BASE}/keisha-lance-bottoms_ded16f80.jpg`,
-  "christine drazan":       `${CDN_BASE}/christine-drazan-sharp_47c2d6f6.jpg`,
-  "burt jones":             `${CDN_BASE}/burt-jones_08b2b196.jpg`,
-  "rick jackson":           `${CDN_BASE}/rick-jackson_40d48fbc.jpg`,
+  "doug jones":             "/manus-storage/doug-jones_68b7351c.png",  // bioguide J000300 returns 404
+  "stacy garrity":          "/manus-storage/stacy-garrity-sharp_ce3606db.jpg",
+  "keisha lance bottoms":   "/manus-storage/keisha-lance-bottoms_ded16f80.jpg",
+  "christine drazan":       "/manus-storage/christine-drazan-sharp_47c2d6f6.jpg",
+  "burt jones":             "/manus-storage/burt-jones_08b2b196.jpg",
+  "rick jackson":           "/manus-storage/rick-jackson_40d48fbc.jpg",
   // ID + NE Governor candidates
-  "terri pickens":          `${CDN_BASE}/terri-pickens_ca701396.jpg`,
-  "jim pillen":             `${CDN_BASE}/jim-pillen-sharp_ffb6db90.jpg`,
+  "terri pickens":          "/manus-storage/terri-pickens_ca701396.jpg",
+  "jim pillen":             "/manus-storage/jim-pillen-sharp_ffb6db90.jpg",
   // VT Governor incumbent
-  "phil scott":             `${CDN_BASE}/phil-scott_6f4482cf.jpg`,
+  "phil scott":             "/manus-storage/phil-scott_6f4482cf.jpg",
   // AR Governor candidates
-  "fred love":              `${CDN_BASE}/fred-love-sharp_3b39f47a.jpg`,
+  "fred love":              "/manus-storage/fred-love-sharp_3b39f47a.jpg",
   // Senate audit (Round 10) — new candidates
-  "ashley moody":           `${CDN_BASE}/ashley-moody_20ecb424.jpg`,  // FL R Senator
-  "david roth":             `${CDN_BASE}/david-roth_1d92fd5c.jpg`,  // ID D challenger
-  "david smith":            `${CDN_BASE}/david-smith-or_6682773f.jpg`,  // OR R challenger
-  "david brock smith":      `${CDN_BASE}/david-smith-or_6682773f.jpg`,  // OR R challenger (full name)
+  "ashley moody":           "/manus-storage/ashley-moody_20ecb424.jpg",  // FL R Senator
+  "david roth":             "/manus-storage/david-roth_1d92fd5c.jpg",  // ID D challenger
+  "david smith":            "/manus-storage/david-smith-or_6682773f.jpg",  // OR R challenger
+  "david brock smith":      "/manus-storage/david-smith-or_6682773f.jpg",  // OR R challenger (full name)
   "aaron ford":              "/manus-storage/aaron_ford_c0b10092.jpg",  // NV D Governor
   "brandon herrera":         "/manus-storage/brandon_herrera_b2d95326.jpg",  // TX-23 R
   "yassamin ansari":         "/manus-storage/yassamin_ansari_91008f30.jpg",  // AZ-3 D
   "keith pilkington":        "/manus-storage/keith_pilkington_c525294a.jpg",  // AL-6 D
-  "julian beaudion":        `${CDN_BASE}/julian-beaudion_d87af6af.jpg`,  // SD D challenger
-  "dave mccormick":         `${CDN_BASE}/dave-mccormick_5fb329d8.jpg`,  // PA R Senator
+  "julian beaudion":        "/manus-storage/julian-beaudion_d87af6af.jpg",  // SD D challenger
+  "dave mccormick":         "/manus-storage/dave-mccormick_5fb329d8.jpg",  // PA R Senator
   // LA Senate runoff candidates
-  "jamie davis":             `${CDN_BASE}/jamie_davis_la_867d6b8d.jpg`,  // LA D Senate runoff candidate (farmer, Ballotpedia portrait)
-  "ken paxton":              `${CDN_BASE}/ken-paxton-tx-senate_07ee6c8a.jpg`,  // TX R Senate nominee (won May 26 runoff)
-  "kevin burge":             `${CDN_BASE}/kevin_burge_v4_ff96832d.jpg`,           // TX-24 D primary winner (May 26 runoff) — face-centered crop
-  "casey shepard":           `${CDN_BASE}/casey_shepard_v5_67c25d2f.jpg`,           // TX-17 D primary winner (May 26 runoff) — head+shoulders padded square
+  "jamie davis":             "/manus-storage/jamie_davis_la_867d6b8d.jpg",  // LA D Senate runoff candidate (farmer, Ballotpedia portrait)
+  "ken paxton":              "/manus-storage/ken-paxton-tx-senate_07ee6c8a.jpg",  // TX R Senate nominee (won May 26 runoff)
+  "kevin burge":             "/manus-storage/kevin_burge_v4_ff96832d.jpg",           // TX-24 D primary winner (May 26 runoff) — face-centered crop
+  "casey shepard":           "/manus-storage/casey_shepard_v5_67c25d2f.jpg",           // TX-17 D primary winner (May 26 runoff) — head+shoulders padded square
   // TX May 26 runoff winners — photos added May 27 2026
-  "yolanda prince":           `${CDN_BASE}/yolanda_prince_318e7f9d.jpg`,   // TX-1 D nominee
-  "chelsey hockett":          `${CDN_BASE}/chelsey_hockett_356da4bd.jpg`,  // TX-5 D nominee
-  "thurman bartie":           `${CDN_BASE}/thurman_bartie_69a0bf13.jpg`,   // TX-14 D nominee
-  "tom sell":                 `${CDN_BASE}/tom_sell_75546d8b.jpg`,          // TX-19 R nominee
-  "colin allred":             `${CDN_BASE}/colin_allred_14cb6e63.jpg`,      // TX-33 D nominee
-  "johnny garcia":            `${CDN_BASE}/johnny_garcia_6c0010d6.jpg`,     // TX-35 D nominee
-  "jon bonck":                `${CDN_BASE}/jon_bonck_b5b66743.jpg`,         // TX-38 R nominee
-  "alex mealer":              `${CDN_BASE}/alex_mealer_c5a0dc89.jpg`,         // TX-9 R nominee (won May 26 runoff over Briscoe Cain)
+  "yolanda prince":           "/manus-storage/yolanda_prince_318e7f9d.jpg",   // TX-1 D nominee
+  "chelsey hockett":          "/manus-storage/chelsey_hockett_356da4bd.jpg",  // TX-5 D nominee
+  "thurman bartie":           "/manus-storage/thurman_bartie_69a0bf13.jpg",   // TX-14 D nominee
+  "tom sell":                 "/manus-storage/tom_sell_75546d8b.jpg",          // TX-19 R nominee
+  "colin allred":             "/manus-storage/colin_allred_14cb6e63.jpg",      // TX-33 D nominee
+  "johnny garcia":            "/manus-storage/johnny_garcia_6c0010d6.jpg",     // TX-35 D nominee
+  "jon bonck":                "/manus-storage/jon_bonck_b5b66743.jpg",         // TX-38 R nominee
+  "alex mealer":              "/manus-storage/alex_mealer_c5a0dc89.jpg",         // TX-9 R nominee (won May 26 runoff over Briscoe Cain)
   // Additional TX photos added May 27 2026
-  "randy weber":               `${CDN_BASE}/randy_weber_68b46e5f.jpg`,          // TX-14 R incumbent
-  "patrick david gillespie":   `${CDN_BASE}/patrick_gillespie_c208f7f7.jpg`,    // TX-32/33 R nominee (full name)
-  "patrick gillespie":         `${CDN_BASE}/patrick_gillespie_c208f7f7.jpg`,    // TX-32 R nominee (short name)
-  "leticia gutierrez":         `${CDN_BASE}/leticia_gutierrez_a85e0c99.jpg`,    // TX-9 D nominee
-  "carlos de la cruz":         `${CDN_BASE}/carlos_de_la_cruz_995856b9.jpg`,    // TX-35 R nominee
-  "dan barrios":               `${CDN_BASE}/dan_barrios_1c746312.jpg`,           // TX-32 D nominee
-  "alexander hale":            `${CDN_BASE}/alexander_hale_68a89b9f.jpg`,        // TX-7 R nominee (won May 26 runoff over Tina Blum Cohen)
+  "randy weber":               "/manus-storage/randy_weber_68b46e5f.jpg",          // TX-14 R incumbent
+  "patrick david gillespie":   "/manus-storage/patrick_gillespie_c208f7f7.jpg",    // TX-32/33 R nominee (full name)
+  "patrick gillespie":         "/manus-storage/patrick_gillespie_c208f7f7.jpg",    // TX-32 R nominee (short name)
+  "leticia gutierrez":         "/manus-storage/leticia_gutierrez_a85e0c99.jpg",    // TX-9 D nominee
+  "carlos de la cruz":         "/manus-storage/carlos_de_la_cruz_995856b9.jpg",    // TX-35 R nominee
+  "dan barrios":               "/manus-storage/dan_barrios_1c746312.jpg",           // TX-32 D nominee
+  "alexander hale":            "/manus-storage/alexander_hale_68a89b9f.jpg",        // TX-7 R nominee (won May 26 runoff over Tina Blum Cohen)
   // June 2 primary candidates — pre-sourced before tonight's results
-  "jim carlin":                `${CDN_BASE}/jim_carlin_15369a31.jpg`,              // IA-R Senate primary candidate
-  "zach wahls":                `${CDN_BASE}/zach_wahls_fdc6136d.jpg`,              // IA-D Senate primary candidate
-  "josh turek":                `${CDN_BASE}/josh_turek_922f3d97.jpg`,              // IA-D Senate primary candidate
-  "kurt alme":                 `${CDN_BASE}/kurt_alme_8e520b8c.jpg`,               // MT-R Senate primary candidate
-  "alex zdan":                 `${CDN_BASE}/alex_zdan_4aaa9881.jpg`,               // NJ-R Senate primary candidate
+  "jim carlin":                "/manus-storage/jim_carlin_15369a31.jpg",              // IA-R Senate primary candidate
+  "zach wahls":                "/manus-storage/zach_wahls_fdc6136d.jpg",              // IA-D Senate primary candidate
+  "josh turek":                "/manus-storage/josh_turek_922f3d97.jpg",              // IA-D Senate primary candidate
+  "kurt alme":                 "/manus-storage/kurt_alme_8e520b8c.jpg",               // MT-R Senate primary candidate
+  "alex zdan":                 "/manus-storage/alex_zdan_4aaa9881.jpg",               // NJ-R Senate primary candidate
   // June 2 confirmed nominees — photos added June 3 2026
-  "alani bankhead":            `${CDN_BASE}/alani_bankhead_64fa939f.jpg`,           // MT-D Senate nominee (Montana Public Radio portrait)
-  "justin murphy":             `${CDN_BASE}/justin_murphy_b4a44b43.jpg`,           // NJ-R Senate nominee (Ballotpedia portrait)
+  "alani bankhead":            "/manus-storage/alani_bankhead_64fa939f.jpg",           // MT-D Senate nominee (Montana Public Radio portrait)
+  "justin murphy":             "/manus-storage/justin_murphy_b4a44b43.jpg",           // NJ-R Senate nominee (Ballotpedia portrait)
   // NJ-12 candidates (added June 3 2026)
-  "adam hamawy":               `${CDN_BASE}/adam_hamawy_1769a586.jpg`,             // NJ-12 D nominee (NYT portrait, Jun 2 2026 primary winner)
-  "greg mele":                 `${CDN_BASE}/greg_mele_350691f2.jpg`,               // NJ-12 R nominee (NJ Globe portrait)
+  "adam hamawy":               "/manus-storage/adam_hamawy_1769a586.jpg",             // NJ-12 D nominee (NYT portrait, Jun 2 2026 primary winner)
+  "greg mele":                 "/manus-storage/greg_mele_350691f2.jpg",               // NJ-12 R nominee (NJ Globe portrait)
   // CA D vs D races — CA-11 and CA-12 (added June 3 2026)
-  "scott wiener":              `${CDN_BASE}/scott_wiener_61873c20.jpg`,             // CA-11 D (CA State Senator, official Senate portrait)
-  "connie chan":               `${CDN_BASE}/connie_chan_11dcae1f.jpg`,              // CA-11 D (SF Supervisor, campaign photo — Source: conniechansf.com)
-  "jamie joyce":               `${CDN_BASE}/jamie_joyce_e5b8b63a.jpg`,             // CA-12 D (Ballotpedia portrait)
+  "scott wiener":              "/manus-storage/scott_wiener_61873c20.jpg",             // CA-11 D (CA State Senator, official Senate portrait)
+  "connie chan":               "/manus-storage/connie_chan_11dcae1f.jpg",              // CA-11 D (SF Supervisor, campaign photo — Source: conniechansf.com)
+  "jamie joyce":               "/manus-storage/jamie_joyce_e5b8b63a.jpg",             // CA-12 D (Ballotpedia portrait)
   // June 3 2026 — full photo audit batch
-  "mike mcguire":              `${CDN_BASE}/mike_mcguire_b4d06a7e.jpg`,            // CA-1 D (CA State Senator, Healdsburg Tribune portrait)
-  "james gallagher":           `${CDN_BASE}/james_gallagher_0e653239.jpg`,         // CA-1 R (CA Assembly Speaker, official portrait)
-  "kevin lincoln":             `${CDN_BASE}/kevin_lincoln_0994a1ab.jpg`,           // CA-13 R (Stockton Mayor, press portrait)
-  "larry thompson":            `${CDN_BASE}/larry_thompson_5197132c.jpg`,          // CA-32 R (BallotReady official headshot)
+  "mike mcguire":              "/manus-storage/mike_mcguire_b4d06a7e.jpg",            // CA-1 D (CA State Senator, Healdsburg Tribune portrait)
+  "james gallagher":           "/manus-storage/james_gallagher_0e653239.jpg",         // CA-1 R (CA Assembly Speaker, official portrait)
+  "kevin lincoln":             "/manus-storage/kevin_lincoln_0994a1ab.jpg",           // CA-13 R (Stockton Mayor, press portrait)
+  "larry thompson":            "/manus-storage/larry_thompson_5197132c.jpg",          // CA-32 R (BallotReady official headshot)
   // jim desmond already in CDN_PHOTOS at line 561 (kept original)
-  "joe mitchell":              `${CDN_BASE}/joe_mitchell_643e31b1.jpg`,            // IA-2 R (Ballotpedia official portrait)
-  "sarah trone garriott":      `${CDN_BASE}/sarah_trone_garriott_0f2f52c7.jpg`,   // IA-3 D (JStreetPAC campaign headshot)
-  "dave dawson":               `${CDN_BASE}/dave_dawson_a73bfbbc.jpg`,             // IA-4 D (Iowa Capital Dispatch headshot)
-  "chris mcgowan":             `${CDN_BASE}/chris_mcgowan_5eebb45c.jpg`,           // IA-4 R (KCCI headshot)
-  "sam forstag":               `${CDN_BASE}/sam_forstag_8a25a32b.jpg`,             // MT-1 D (Ballotpedia portrait)
-  "aaron flint":               `${CDN_BASE}/aaron_flint_d5400e39.jpg`,             // MT-1 R (Montana Election Guide official portrait)
-  "deb haaland":               `${CDN_BASE}/deb_haaland_70d42c34.jpg`,             // NM Governor D (MVSKOKE Media outdoor portrait)
-  "gregg hull":                `${CDN_BASE}/gregg_hull_52308593.jpg`,              // NM Governor R (Ballotpedia official headshot)
+  "joe mitchell":              "/manus-storage/joe_mitchell_643e31b1.jpg",            // IA-2 R (Ballotpedia official portrait)
+  "sarah trone garriott":      "/manus-storage/sarah_trone_garriott_0f2f52c7.jpg",   // IA-3 D (JStreetPAC campaign headshot)
+  "dave dawson":               "/manus-storage/dave_dawson_a73bfbbc.jpg",             // IA-4 D (Iowa Capital Dispatch headshot)
+  "chris mcgowan":             "/manus-storage/chris_mcgowan_5eebb45c.jpg",           // IA-4 R (KCCI headshot)
+  "sam forstag":               "/manus-storage/sam_forstag_8a25a32b.jpg",             // MT-1 D (Ballotpedia portrait)
+  "aaron flint":               "/manus-storage/aaron_flint_d5400e39.jpg",             // MT-1 R (Montana Election Guide official portrait)
+  "deb haaland":               "/manus-storage/deb_haaland_70d42c34.jpg",             // NM Governor D (MVSKOKE Media outdoor portrait)
+  "gregg hull":                "/manus-storage/gregg_hull_52308593.jpg",              // NM Governor R (Ballotpedia official headshot)
   // rob sand already in CDN_PHOTOS at line 553 (kept original)
-  "zach lahn":                 `${CDN_BASE}/zach_lahn_a30bee0e.jpg`,               // IA Governor R (Iowa Public Radio outdoor portrait)
+  "zach lahn":                 "/manus-storage/zach_lahn_a30bee0e.jpg",               // IA Governor R (Iowa Public Radio outdoor portrait)
   // June 3 batch 2 — full verification additions
-  "dan ahlers":                `${CDN_BASE}/dan_ahlers_808ef1bf.jpg`,              // SD Governor D (Ballotpedia portrait)
-  "brian miller":              `${CDN_BASE}/brian_miller_90583729.jpg`,            // MT-2 D (Montana Election Guide portrait)
-  "zack mullock":              `${CDN_BASE}/zack_mullock_17ebd1af.jpg`,            // NJ-2 D (NJ Globe headshot)
-  "michael mcguire":           `${CDN_BASE}/michael_mcguire_nj3_a7d50bd9.jpg`,    // NJ-3 R (NJ Globe portrait — Marine Corps veteran)
-  "rachel peace":              `${CDN_BASE}/rachel_peace_a7d6f6d5.jpg`,            // NJ-4 D (WHYY beach campaign photo)
-  "sean kirrane":              `${CDN_BASE}/sean_kirrane_bebbda68.jpg`,            // NJ-5 R (Ballotpedia portrait)
-  "hillary herzig":            `${CDN_BASE}/hillary_herzig_048abfb2.jpg`,          // NJ-6 R (NJ Globe headshot)
-  "rosie pino":                `${CDN_BASE}/rosie_pino_233de605.jpg`,              // NJ-9 R (NJ Globe campaign photo)
-  "carmen bucco":              `${CDN_BASE}/carmen_bucco_3e3f9d95.jpg`,            // NJ-10 R (BallotReady portrait)
-  "damon galdo":               `${CDN_BASE}/damon_galdo_6d559bce.jpg`,             // NJ-1 R (NJ Globe flag background portrait)
+  "dan ahlers":                "/manus-storage/dan_ahlers_808ef1bf.jpg",              // SD Governor D (Ballotpedia portrait)
+  "brian miller":              "/manus-storage/brian_miller_90583729.jpg",            // MT-2 D (Montana Election Guide portrait)
+  "zack mullock":              "/manus-storage/zack_mullock_17ebd1af.jpg",            // NJ-2 D (NJ Globe headshot)
+  "michael mcguire":           "/manus-storage/michael_mcguire_nj3_a7d50bd9.jpg",    // NJ-3 R (NJ Globe portrait — Marine Corps veteran)
+  "rachel peace":              "/manus-storage/rachel_peace_a7d6f6d5.jpg",            // NJ-4 D (WHYY beach campaign photo)
+  "sean kirrane":              "/manus-storage/sean_kirrane_bebbda68.jpg",            // NJ-5 R (Ballotpedia portrait)
+  "hillary herzig":            "/manus-storage/hillary_herzig_048abfb2.jpg",          // NJ-6 R (NJ Globe headshot)
+  "rosie pino":                "/manus-storage/rosie_pino_233de605.jpg",              // NJ-9 R (NJ Globe campaign photo)
+  "carmen bucco":              "/manus-storage/carmen_bucco_3e3f9d95.jpg",            // NJ-10 R (BallotReady portrait)
+  "damon galdo":               "/manus-storage/damon_galdo_6d559bce.jpg",             // NJ-1 R (NJ Globe flag background portrait)
   // Louisiana Senate runoff — Gary Crockett (added June 4 2026)
-  "gary crockett":             `${CDN_BASE}/gary_crockett_dee51265.jpg`,            // LA D Senate runoff candidate (Ballotpedia portrait)
+  "gary crockett":             "/manus-storage/gary_crockett_dee51265.jpg",            // LA D Senate runoff candidate (Ballotpedia portrait)
   // CA-14 D vs D general election candidates (June 4 2026)
-  "aisha wahab":               `${CDN_BASE}/aisha_wahab_a9faf4ce.jpg`,              // CA-14 D (CA State Senator SD-10)
-  "melissa hernandez":         `${CDN_BASE}/melissa_hernandez_0309c12d.jpg`,        // CA-14 D (challenger)
+  "aisha wahab":               "/manus-storage/aisha_wahab_a9faf4ce.jpg",              // CA-14 D (CA State Senator SD-10)
+  "melissa hernandez":         "/manus-storage/melissa_hernandez_0309c12d.jpg",        // CA-14 D (challenger)
   // CA photo audit completions (June 4 2026)
-  "sam liccardo":              `${CDN_BASE}/sam_liccardo_e0db628c.jpg`,              // CA-16 D (former San Jose Mayor, House.gov portrait)
-  "gil cisneros":              `${CDN_BASE}/gil_cisneros_e29e0c3b.jpg`,              // CA-31 D (returning challenger, House.gov portrait)
-  "marni von wilpert":         `${CDN_BASE}/marni_von_wilpert_c2df38d6.jpg`,         // CA-48 D (Ballotpedia headshot)
+  "sam liccardo":              "/manus-storage/sam_liccardo_e0db628c.jpg",              // CA-16 D (former San Jose Mayor, House.gov portrait)
+  "gil cisneros":              "/manus-storage/gil_cisneros_e29e0c3b.jpg",              // CA-31 D (returning challenger, House.gov portrait)
+  "marni von wilpert":         "/manus-storage/marni_von_wilpert_c2df38d6.jpg",         // CA-48 D (Ballotpedia headshot)
   // CA Governor candidates (June 5 2026 — DDHQ projection)
   "xavier becerra":            "/manus-storage/xavier_becerra_2da8720c.jpg",              // CA Gov D (fmr HHS Secretary)
   "steve hilton":              "/manus-storage/steve_hilton_82e0a8db.jpg",                // CA Gov R (fmr Fox News host)
@@ -833,7 +832,7 @@ const CDN_PHOTOS: Record<string, string> = {
   "larry marker":              `/manus-storage/larry_marker_22eaf901.jpg`,           // NM Senate R
   "annie andrews":             `/manus-storage/annie_andrews_1cb42390.jpg`,          // SC Senate D
   // Name aliases for normalization misses
-  "dan mckee":                 `${CDN_BASE}/daniel-mckee_6a589d0b.jpg`,              // RI Governor D (alias for daniel mckee)
+  "dan mckee":                 "/manus-storage/daniel-mckee_6a589d0b.jpg",              // RI Governor D (alias for daniel mckee)
 
   // Batch add: House challengers (Jul 1 2026 — bulk photo audit)
   "james russell":             "/manus-storage/james_russell_13ed68b1.jpg",          // AR-4 D

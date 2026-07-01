@@ -78,7 +78,7 @@ const BIOGUIDE_QUICK_CHECK: Record<string, string> = {
   "Gabe Evans": "E000300",
 };
 
-const CDN_BASE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663521029713/Duqshn4D3kdv9jkbtBdj4X";
+// CDN_BASE removed — all photos now served via /manus-storage/ proxy
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -93,7 +93,7 @@ function expandPhotoToken(token: string): { source: CandidateCheck["photoSource"
   }
   if (token.startsWith("cdn:")) {
     const filename = token.slice("cdn:".length);
-    return { source: "client-cdn", url: `${CDN_BASE}/${filename}` };
+    return { source: "client-cdn", url: `/manus-storage/${filename}` };
   }
   if (token.startsWith("manus:")) {
     const path = token.slice("manus:".length);

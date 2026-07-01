@@ -2614,3 +2614,15 @@
 - [x] Re-run photo audit to verify coverage improvement — FINAL: 810/896 OK (90.4%), 0 critical, 0 high, 86 low (all TBD/upcoming primaries)
 - [x] Fixed photo audit token expansion bug (bioguide:/cdn:/manus: tokens now properly resolved to URLs)
 - [x] Added Aaron Ford, Brandon Herrera, Yassamin Ansari, Keith Pilkington photos
+
+
+## CDN Migration & Photo Health Checks (Round 39)
+- [x] Migrate all 170 CDN photos to manus-storage for unified source (all 219 files confirmed present)
+- [x] Update client/src/lib/candidatePhotos.ts to use manus-storage URLs instead of CDN
+- [x] Update server/candidatePhotos.ts to use manus-storage URLs instead of CDN
+- [x] Remove CDN_BASE constant from photoAudit.ts (no longer needed)
+- [x] Add automated weekly photo health check endpoint (POST /api/scheduled/photo-health-check)
+- [x] Health check verifies all 1169 unique photos (manus-storage + bioguide) with smart notification
+- [x] Only notifies owner for critical manus-storage failures (ignores expected bioguide 404s for freshmen)
+- [x] Schedule Heartbeat job: weekly-photo-health-check (every Monday 06:00 UTC, task_uid: 8YqUBsQUihPdgR59LQ2N28)
+- [x] Test: 1160/1169 healthy, 0 critical, 9 expected bioguide 404s (freshmen with fallback photos)

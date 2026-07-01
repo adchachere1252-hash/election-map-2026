@@ -15,6 +15,7 @@ import { nanoid } from "nanoid";
 import { handleScheduledApUpdate, handleScheduledApUpdateTrusted } from "./scheduledApUpdate";
 import { handleColoradoPrimaryUpdate } from "./scheduledColoradoPrimary";
 import { handlePhotoAudit } from "./photoAudit";
+import { handlePhotoHealthCheck } from "./photoHealthCheck";
 import { createElectionHandler, EXAMPLE_CONFIGS } from "./clarityFailoverTemplate";
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "";
@@ -238,6 +239,16 @@ export function registerScheduledRoutes(app: Express) {
    */
   app.post("/api/scheduled/photo-audit", (req, res) => {
     return handlePhotoAudit(req, res);
+  });
+
+  /**
+   * POST /api/scheduled/photo-health-check
+   * Weekly automated health check — verifies ALL photo URLs (manus-storage + bioguide)
+   * are still accessible. Sends owner notification if any broken URLs found.
+   * Scheduled via Heartbeat: every Monday at 06:00 UTC.
+   */
+  app.post("/api/scheduled/photo-health-check", (req, res) => {
+    return handlePhotoHealthCheck(req, res);
   });
 
   /**
