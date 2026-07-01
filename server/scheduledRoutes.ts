@@ -14,6 +14,8 @@ import { broadcastElectionEvent } from "./ws";
 import { nanoid } from "nanoid";
 import { handleScheduledApUpdate, handleScheduledApUpdateTrusted } from "./scheduledApUpdate";
 import { handleColoradoPrimaryUpdate } from "./scheduledColoradoPrimary";
+import { handlePhotoAudit } from "./photoAudit";
+import { createElectionHandler, EXAMPLE_CONFIGS } from "./clarityFailoverTemplate";
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "";
 
@@ -227,6 +229,24 @@ export function registerScheduledRoutes(app: Express) {
   app.post("/api/scheduled/colorado-primary", (req, res) => {
     return handleColoradoPrimaryUpdate(req, res);
   });
+
+  /**
+   * POST /api/scheduled/photo-audit
+   * Pre-election photo audit — verifies all candidates in upcoming races have
+   * working photos. Run 7 days before any primary.
+   * Can also be triggered manually with ?states=CO,TX query param.
+   */
+  app.post("/api/scheduled/photo-audit", (req, res) => {
+    return handlePhotoAudit(req, res);
+  });
+
+  /**
+   * Example: Georgia Runoff handler using the generalized failover template.
+   * Uncomment and update EXAMPLE_CONFIGS.GA_RUNOFF_2026 with real URLs when ready.
+   *
+   * const gaRunoffHandler = createElectionHandler(EXAMPLE_CONFIGS.GA_RUNOFF_2026);
+   * app.post("/api/scheduled/ga-runoff", gaRunoffHandler);
+   */
 }
 // Redeploy trigger: Wed May  6 06:08:51 UTC 2026
 // SCHEDULED_ROUTES_ACTIVE_1778048122

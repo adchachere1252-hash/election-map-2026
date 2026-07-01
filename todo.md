@@ -2599,3 +2599,10 @@
 ## Empty-Data Failover & Photo Refresh (Jul 1)
 - [x] Add empty-data failover logic: if Clarity returns 0 counties for >15 min, trigger NBC/AP fallback
 - [x] Batch-refresh all expired manus-storage DB photo URLs across all states (cleared 9 Senate + 16 Governor + ~300 House broken URLs)
+
+## Pre-Election Photo Audit & Failover Template (Jul 1)
+- [x] Build pre-election photo audit script (server/photoAudit.ts) that checks all candidates in upcoming races have working photos
+- [x] Build generalized Clarity ENR failover template (server/clarityFailoverTemplate.ts) reusable for any state primary
+- [x] Register photo audit at POST /api/scheduled/photo-audit
+- [x] Add allCandidatePhotos.json (452 entries) for comprehensive server-side resolution
+- [x] Photo audit results: CO 18/19 OK (only TBD R governor missing), site-wide 618/896 OK, 145 critical (mostly House challengers)
