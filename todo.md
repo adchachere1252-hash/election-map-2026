@@ -2563,3 +2563,18 @@
 - [x] Add Senate Minority Leader data for each Congress (89th-119th)
 - [x] Add Senate Leaders UI cards to the info panel
 - [x] Full verification: 124/124 checks PASS (100%) — all Presidents, Speakers, Senate Majority/Minority Leaders verified correct
+
+## Colorado Primary Results Entry (July 1, 2026)
+- [x] Fetch actual results from NBC News/AP (automation failed — Clarity Elections returned 0 counties)
+- [x] Update Senate race: Hickenlooper (D) 55.3% WINNER, Baisley (R) uncontested — set general election matchup
+- [x] Update Governor race: Phil Weiser (D) 55.7% WINNER; R primary TOO CLOSE TO CALL (Kirkmeyer 40.0% vs Marx 39.6%)
+- [x] Update House CO-1: Melat Kiros (D) UPSET over DeGette 51.3%-41.7%; Peterson (R) uncontested
+- [x] Update House CO-2: Dennison (R) 58.4% WINNER; Neguse (D) uncontested
+- [x] Update House CO-3: Hurd (R) 66.5% WINNER; Romero (D) 54.9% WINNER
+- [x] Update House CO-4: Boebert (R) uncontested; Laubacher (D) uncontested
+- [x] Update House CO-5: Crank (R) uncontested; Killin (D) 62.6% WINNER
+- [x] Update House CO-6: Crow (D) uncontested
+- [x] Update House CO-7: Bennett (R) uncontested; Pettersen (D) uncontested
+- [x] Update House CO-8: Evans (R) uncontested; Rutinel (D) 61.5% WINNER
+- [x] Set general election candidate matchups for all 8 CO districts
+- [x] Pause Heartbeat cron (task_uid: Dw8K6zFwyXMnDmqjkDq3nu) — election over
