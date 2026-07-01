@@ -78,7 +78,42 @@ const BIOGUIDE_QUICK_CHECK: Record<string, string> = {
   "Gabe Evans": "E000300",
 };
 
+const CDN_BASE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663521029713/Duqshn4D3kdv9jkbtBdj4X";
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
+
+/**
+ * Resolve a token from allCandidatePhotos.json into a real URL.
+ * Tokens are stored as: "bioguide:ID", "cdn:filename.jpg", "manus:/manus-storage/..."
+ */
+function expandPhotoToken(token: string): { source: CandidateCheck["photoSource"]; url: string } {
+  if (token.startsWith("bioguide:")) {
+    const id = token.slice("bioguide:".length);
+    return { source: "client-bioguide", url: `${PHOTO_BASE}/${id}.jpg` };
+  }
+  if (token.startsWith("cdn:")) {
+    const filename = token.slice("cdn:".length);
+    return { source: "client-cdn", url: `${CDN_BASE}/${filename}` };
+  }
+  if (token.startsWith("manus:")) {
+    const path = token.slice("manus:".length);
+    return { source: "client-cdn", url: path };
+  }
+  // Fallback: treat as raw URL
+  return { source: "client-cdn", url: token };
+}
+
+/**
+ * Look up a name in CLIENT_PHOTOS and expand the token to a real URL.
+ */
+function findInClientPhotos(
+  key: string,
+  _originalName: string
+): { source: CandidateCheck["photoSource"]; url: string } | null {
+  const token = CLIENT_PHOTOS[key];
+  if (!token) return null;
+  return expandPhotoToken(token);
+}
 
 /**
  * Determine priority based on race status and election proximity.
@@ -161,9 +196,8 @@ function resolvePhoto(
   // 3. Client-side comprehensive lookup (BIOGUIDE_MAP + CDN_PHOTOS)
   // Try exact match first
   const exactKey = name.toLowerCase().trim();
-  if (CLIENT_PHOTOS[exactKey]) {
-    return { source: "client-cdn", url: CLIENT_PHOTOS[exactKey] };
-  }
+  const clientPhoto = findInClientPhotos(exactKey, name);
+  if (clientPhoto) return clientPhoto;
 
   // 4. Normalized name variants (strip suffixes, parentheticals, middle initials)
   const normalized = name
@@ -171,14 +205,16 @@ function resolvePhoto(
     .replace(/\s*\([^)]*\)/g, "") // strip (incumbent) etc.
     .replace(/,?\s+(jr\.?|sr\.?|ii|iii|iv)$/i, "")
     .trim();
-  if (CLIENT_PHOTOS[normalized]) {
-    return { source: "client-cdn", url: CLIENT_PHOTOS[normalized] };
+  if (normalized !== exactKey) {
+    const normPhoto = findInClientPhotos(normalized, name);
+    if (normPhoto) return normPhoto;
   }
 
   // 5. Try without middle initial: "Mike D. Rogers" -> "mike rogers"
   const noMiddle = normalized.replace(/\s+[a-z]\.\s+/g, " ").replace(/\s+/g, " ");
-  if (noMiddle !== normalized && CLIENT_PHOTOS[noMiddle]) {
-    return { source: "client-cdn", url: CLIENT_PHOTOS[noMiddle] };
+  if (noMiddle !== normalized) {
+    const noMidPhoto = findInClientPhotos(noMiddle, name);
+    if (noMidPhoto) return noMidPhoto;
   }
 
   // 6. Bioguide lookup (for Congress members not in the JSON)

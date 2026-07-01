@@ -2606,3 +2606,11 @@
 - [x] Register photo audit at POST /api/scheduled/photo-audit
 - [x] Add allCandidatePhotos.json (452 entries) for comprehensive server-side resolution
 - [x] Photo audit results: CO 18/19 OK (only TBD R governor missing), site-wide 618/896 OK, 145 critical (mostly House challengers)
+
+## Bulk House Challenger Photos (Jul 1)
+- [x] Batch-search and add photos for all 142 missing House candidates (58 truly missing after fixing audit, 38 found via search + 20 bioguide)
+- [x] Process all photos to 400x400 center-cropped headshots
+- [x] Upload to webdev static assets and register in candidatePhotos maps (751 entries in allCandidatePhotos.json)
+- [x] Re-run photo audit to verify coverage improvement — FINAL: 810/896 OK (90.4%), 0 critical, 0 high, 86 low (all TBD/upcoming primaries)
+- [x] Fixed photo audit token expansion bug (bioguide:/cdn:/manus: tokens now properly resolved to URLs)
+- [x] Added Aaron Ford, Brandon Herrera, Yassamin Ansari, Keith Pilkington photos

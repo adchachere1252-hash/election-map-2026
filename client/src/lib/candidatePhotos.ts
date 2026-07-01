@@ -518,6 +518,29 @@ export const BIOGUIDE_MAP: Record<string, string> = {
   "Christopher A. Coons": "C001088",
   "Dutch Ruppersberger": "R000576",
   "C. A. Dutch Ruppersberger": "R000576",
+  // Batch add: House candidates missing photos (Jul 1 2026)
+  "Dale Strong": "S001220",
+  "David Valadao": "V000129",
+  "Salud Carbajal": "C001112",
+  "Luz Rivas": "R000620",
+  "Norma Torres": "T000474",
+  "Linda Sánchez": "S001156",
+  "Scott Peters": "P000608",
+  "Sanford Bishop": "B000490",
+  "Henry Johnson": "J000288",
+  "Mark Messmer": "M001233",
+  "April McClain Delaney": "M001232",
+  "Thomas Suozzi": "S001201",
+  "Gregory Meeks": "M001137",
+  "Yvette Clarke": "C001067",
+  "Pat Ryan": "R000579",
+  "Timothy Kennedy": "K000402",
+  "Frank Lucas": "L000491",
+  "Stephanie Bice": "B000740",
+  "William Timmons": "T000480",
+  "Greg Casar": "C001131",
+  "Gary Palmer": "P000609",
+  "Terri Sewell": "S001185",
 };
 /**
  * CDN photos for candidates who don't have bioguide IDs (non-Congress candidates).
@@ -663,6 +686,10 @@ const CDN_PHOTOS: Record<string, string> = {
   "david roth":             `${CDN_BASE}/david-roth_1d92fd5c.jpg`,  // ID D challenger
   "david smith":            `${CDN_BASE}/david-smith-or_6682773f.jpg`,  // OR R challenger
   "david brock smith":      `${CDN_BASE}/david-smith-or_6682773f.jpg`,  // OR R challenger (full name)
+  "aaron ford":              "/manus-storage/aaron_ford_c0b10092.jpg",  // NV D Governor
+  "brandon herrera":         "/manus-storage/brandon_herrera_b2d95326.jpg",  // TX-23 R
+  "yassamin ansari":         "/manus-storage/yassamin_ansari_91008f30.jpg",  // AZ-3 D
+  "keith pilkington":        "/manus-storage/keith_pilkington_c525294a.jpg",  // AL-6 D
   "julian beaudion":        `${CDN_BASE}/julian-beaudion_d87af6af.jpg`,  // SD D challenger
   "dave mccormick":         `${CDN_BASE}/dave-mccormick_5fb329d8.jpg`,  // PA R Senator
   // LA Senate runoff candidates
@@ -806,6 +833,49 @@ const CDN_PHOTOS: Record<string, string> = {
   "annie andrews":             `/manus-storage/annie_andrews_1cb42390.jpg`,          // SC Senate D
   // Name aliases for normalization misses
   "dan mckee":                 `${CDN_BASE}/daniel-mckee_6a589d0b.jpg`,              // RI Governor D (alias for daniel mckee)
+
+  // Batch add: House challengers (Jul 1 2026 — bulk photo audit)
+  "james russell":             "/manus-storage/james_russell_13ed68b1.jpg",          // AR-4 D
+  "houston gaines":            "/manus-storage/houston_gaines_ee82266e.jpg",         // GA-10 R
+  "christian maxwell":         "/manus-storage/christian_maxwell_abd62bd5.jpg",      // IL-1 R
+  "christina bohannan":        "/manus-storage/christina_bohannan_6ee38fcc.jpg",     // IA-1 D
+  "lindsay james":             "/manus-storage/lindsay_james_684446eb.jpg",          // IA-2 D
+  "ron russell":               "/manus-storage/ron_russell_2c10d6cd.jpg",            // ME-1 R
+  "adrian boafo":              "/manus-storage/adrian_boafo_f3a72c20.jpg",           // MD-5 D
+  "cliff johnson":             "/manus-storage/cliff_johnson_883e04fd.jpg",          // MS-1 D
+  "carrie buck":               "/manus-storage/carrie_buck_988501b1.jpg",            // NV-1 R
+  "david flippo":              "/manus-storage/david_flippo_08d4dc25.jpg",           // NV-2 R
+  "rebecca bennett":           "/manus-storage/rebecca_bennett_91cf9a42.jpg",        // NJ-7 D
+  "christopher gallant":       "/manus-storage/christopher_gallant_27eb5a77.jpg",    // NY-1 D
+  "kevin stocker":             "/manus-storage/kevin_stocker_1997da8d.jpg",          // NY-23 D
+  "kimberly hardy":            "/manus-storage/kimberly_hardy_a7b3e797.jpg",         // NC-7 D
+  "richard ojeda":             "/manus-storage/richard_ojeda_fdbd7d59.jpg",          // NC-9 D
+  "lakesha womack":            "/manus-storage/lakesha_womack_f404e451.jpg",         // NC-14 D
+  "trygve hammer":             "/manus-storage/trygve_hammer_4c98926b.jpg",          // ND-0 D
+  "jen mazzuckelli":           "/manus-storage/jen_mazzuckelli_cc0a7d3a.jpg",        // OH-2 D
+  "elizabeth kirtley":         "/manus-storage/elizabeth_kirtley_9cb329b8.jpg",      // OH-6 D
+  "maria jukic":               "/manus-storage/maria_jukic_fe425e4e.jpg",            // OH-14 D
+  "don leonard":               "/manus-storage/don_leonard_2eac546e.jpg",            // OH-15 D
+  "brandon wade":              "/manus-storage/brandon_wade_f5d865b5.jpg",           // OK-2 D
+  "suzie byrd":                "/manus-storage/suzie_byrd_b86997e0.jpg",             // OK-3 D
+  "mitchell jacob":            "/manus-storage/mitchell_jacob_5c6f3bb8.jpg",         // OK-4 D
+  "loran ayles":               "/manus-storage/loran_ayles_f55f537b.jpg",            // OR-3 R
+  "monique despain":           "/manus-storage/monique_despain_145e01e6.jpg",        // OR-4 R
+  "m. despain":                "/manus-storage/monique_despain_145e01e6.jpg",        // OR-4 R (alias)
+  "david russ":                "/manus-storage/david_russ_31c3124b.jpg",             // OR-6 R
+  "bob harvie":                "/manus-storage/bob_harvie_65d057ac.jpg",             // PA-1 D
+  "bob brooks":                "/manus-storage/bob_brooks_2d02f9dd.jpg",             // PA-7 D
+  "beth farnham":              "/manus-storage/beth_farnham_a66402c6.jpg",           // PA-13 D
+  "alan bradstock":            "/manus-storage/alan_bradstock_4c3e4ea4.jpg",         // PA-14 D
+  "ray bilger":                "/manus-storage/ray_bilger_13317b66.jpg",             // PA-15 D
+  "wes climer":                "/manus-storage/wes_climer_be7586b0.jpg",             // SC-5 R
+  "marty jackley":             "/manus-storage/marty_jackley_0a466c0c.jpg",          // SD-0 R
+  "dione sims":                "/manus-storage/dione_sims_9bb71975.jpg",             // TX-25 D
+  "lauren peña":               "/manus-storage/lauren_pe_a_9dbceea6.jpg",            // TX-37 R
+  "lauren pena":               "/manus-storage/lauren_pe_a_9dbceea6.jpg",            // TX-37 R (alias)
+  "melissa mcdonough":         "/manus-storage/melissa_mcdonough_c11d78cd.jpg",      // TX-38 D
+  "teresa benitez-thompson":    "/manus-storage/teresa_benitez_thompson_01d48fe5.jpg", // NV-2 D
+  "teresa benitez thompson":    "/manus-storage/teresa_benitez_thompson_01d48fe5.jpg", // NV-2 D (alias)
 };
 
 /**
