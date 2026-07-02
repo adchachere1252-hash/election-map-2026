@@ -205,9 +205,9 @@ export default function ElectionCalendar({
       });
     }
 
-    // Referendums
+    // Referendums (U.S. only — exclude global/world referendums)
     for (const ref of referendums) {
-      if (ref.electionDate) {
+      if (ref.electionDate && ref.scope !== "global" && (ref.countryCode === "US" || !ref.countryCode)) {
         const date = parseDate(ref.electionDate);
         if (date && date >= today && ref.status !== "Certified" && (!cutoff || date <= cutoff)) {
           evts.push({

@@ -2642,3 +2642,8 @@
 - [x] Update server/candidatePhotos.ts — added 4 new manus-storage entries
 - [x] Run health check: 1164/1164 healthy, 0 broken (all bioguide 404s eliminated)
 - [x] All 172 tests passing
+
+## Bug Fix: Separate World and U.S. Elections in Calendar (Round 41)
+- [x] Fix calendar component to only show U.S. elections (not world elections like Slovakia)
+- [x] Ensure world elections only appear in the World tab, not in the main U.S. calendar sidebar
+- [x] Filter: exclude referendums with scope="global" or countryCode != "US" from ElectionCalendar
