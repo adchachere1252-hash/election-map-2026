@@ -22,7 +22,7 @@ export const BIOGUIDE_MAP: Record<string, string> = {
   "Adam Schiff": "S001150",
   "Adam Smith": "S000510",
   "Addison P. McDowell": "M001240",
-  "Adelita S. Grijalva": "G000606",
+  // "Adelita S. Grijalva": "G000606",  // bioguide 404 — using manus-storage in CDN_PHOTOS
   "Adrian Smith": "S001172",
   "Adriano Espaillat": "E000297",
   "Al Green": "G000553",
@@ -157,7 +157,7 @@ export const BIOGUIDE_MAP: Record<string, string> = {
   "Gabe Amo": "A000380",
   "Gabe Evans": "E000300",
   "Gabe Vasquez": "V000136",
-  "Garlin Gilchrist": "G000181",
+  // "Garlin Gilchrist": "G000181",  // bioguide 404 — using manus-storage in CDN_PHOTOS
   "Garret Graves": "G000577",
   "Gary J. Palmer": "P000609",
   "George Latimer": "L000606",
@@ -192,7 +192,7 @@ export const BIOGUIDE_MAP: Record<string, string> = {
   "James E. Clyburn": "C000537",
   "James Gallagher": "G000017",
   "James P. McGovern": "M000312",
-  "James R. Walkinshaw": "W000831",
+  // "James R. Walkinshaw": "W000831",  // bioguide 404 — using manus-storage in CDN_PHOTOS
   "Jamie Raskin": "R000606",
   "Janelle S. Bynum": "B001326",
   "Janelle Bynum": "B001326",
@@ -260,7 +260,7 @@ export const BIOGUIDE_MAP: Record<string, string> = {
   "Kim Schrier": "S001216",
   "Kristen McDonald Rivet": "M001237",
   "Kweisi Mfume": "M000687",
-  "La Shawn Ford": "F000264",
+  // "La Shawn Ford": "F000264",  // bioguide 404 — using manus-storage in CDN_PHOTOS
   "LaMonica McIver": "M001229",
   "Lance Gooden": "G000589",
   "Lateefah Simon": "S001231",
@@ -301,7 +301,7 @@ export const BIOGUIDE_MAP: Record<string, string> = {
   "Mary Miller": "M001211",
   "Mary Gay Scanlon": "S001205",
   "Mary Peltola": "P000619",
-  "Matt Van Epps": "V000139",
+  // "Matt Van Epps": "V000139",  // bioguide 404 — using manus-storage in CDN_PHOTOS
   "Max L. Miller": "M001222",
   "Max Miller": "M001222",
   "Maxine Dexter": "D000635",
@@ -340,7 +340,7 @@ export const BIOGUIDE_MAP: Record<string, string> = {
   "Nathaniel Moran": "M001224",
   "Neal P. Dunn": "D000628",
   "Nellie Pou": "P000621",
-  "Nicholas J. Begich": "B001323",
+  // "Nicholas J. Begich": "B001323",  // bioguide 404 — using manus-storage in CDN_PHOTOS
   "Nick LaLota": "L000598",
   "Nicole Malliotakis": "M000317",
   "Nikema Williams": "W000788",
@@ -432,14 +432,14 @@ export const BIOGUIDE_MAP: Record<string, string> = {
   "Ted Lieu": "L000582",
   "Teresa Leger Fernandez": "L000273",
   "Terri A. Sewell": "S001185",
-  "Terri Yarbrough Green": "G000418",
+  // "Terri Yarbrough Green": "G000418",  // bioguide 404 — using manus-storage in CDN_PHOTOS
   "Thomas Kean Jr.": "K000398",
   "Thomas Massie": "M001184",
   "Tim Burchett": "B001309",
   "Tim Moore": "M001236",
   "Tim Walberg": "W000798",
   "Timothy M. Kennedy": "K000402",
-  "Tom Barrett": "B001321",
+  // "Tom Barrett": "B001321",  // bioguide 404 — using manus-storage in CDN_PHOTOS
   "Tom Cole": "C001053",
   "Tom Cotton": "C001095",
   "Tom Emmer": "E000294",
@@ -876,6 +876,19 @@ const CDN_PHOTOS: Record<string, string> = {
   "melissa mcdonough":         "/manus-storage/melissa_mcdonough_c11d78cd.jpg",      // TX-38 D
   "teresa benitez-thompson":    "/manus-storage/teresa_benitez_thompson_01d48fe5.jpg", // NV-2 D
   "teresa benitez thompson":    "/manus-storage/teresa_benitez_thompson_01d48fe5.jpg", // NV-2 D (alias)
+  // Backfilled bioguide 404 candidates (Round 40)
+  "garlin gilchrist":            "/manus-storage/garlin-gilchrist_cee4210e.jpg",       // MI Senate D
+  "la shawn ford":               "/manus-storage/la-shawn-ford_b425684b.jpg",          // IL House
+  "la shawn k. ford":            "/manus-storage/la-shawn-ford_b425684b.jpg",          // IL House (alias)
+  "terri yarbrough green":       "/manus-storage/terri-yarbrough-green_0d23b43c.jpg",  // AR-1 D
+  "tom barrett":                 "/manus-storage/tom-barrett_9fe8fd35.jpg",             // MI-7 R
+  "adelita s. grijalva":         "/manus-storage/adelita_grijalva_75765725.jpg",        // AZ-7 D
+  "adelita grijalva":            "/manus-storage/adelita_grijalva_75765725.jpg",        // AZ-7 D (alias)
+  "james r. walkinshaw":         "/manus-storage/james_walkinshaw_f846871d.jpg",       // VA-11 D
+  "james walkinshaw":            "/manus-storage/james_walkinshaw_f846871d.jpg",       // VA-11 D (alias)
+  "matt van epps":               "/manus-storage/matt_van_epps_1e22fd67.jpg",          // TN-7 R
+  "nicholas j. begich":          "/manus-storage/nicholas-begich_eb851933.jpg",        // AK-AL R
+  "nicholas begich":             "/manus-storage/nicholas-begich_eb851933.jpg",        // AK-AL R (alias)
 };
 
 /**

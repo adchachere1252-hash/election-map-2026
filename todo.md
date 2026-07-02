@@ -2626,3 +2626,19 @@
 - [x] Only notifies owner for critical manus-storage failures (ignores expected bioguide 404s for freshmen)
 - [x] Schedule Heartbeat job: weekly-photo-health-check (every Monday 06:00 UTC, task_uid: 8YqUBsQUihPdgR59LQ2N28)
 - [x] Test: 1160/1169 healthy, 0 critical, 9 expected bioguide 404s (freshmen with fallback photos)
+
+## Backfill 9 Freshmen Bioguide Photos (Round 40)
+- [x] Find and upload photo for Adelita S. Grijalva (AZ-7 D) — already in manus-storage
+- [x] Find and upload photo for Christian D. Menefee (TX-18 D) — already in manus-storage
+- [x] Find and upload photo for Garlin Gilchrist (MI Senate D) — uploaded garlin-gilchrist_cee4210e.jpg
+- [x] Find and upload photo for James R. Walkinshaw (VA-11 D) — already in manus-storage
+- [x] Find and upload photo for La Shawn Ford (IL House) — uploaded la-shawn-ford_b425684b.jpg
+- [x] Find and upload photo for Matt Van Epps (TN-7 R) — already in manus-storage
+- [x] Find and upload photo for Nicholas J. Begich (AK-AL R) — already in manus-storage
+- [x] Find and upload photo for Terri Yarbrough Green (AR-1 D) — uploaded terri-yarbrough-green_0d23b43c.jpg
+- [x] Find and upload photo for Tom Barrett (MI-7 R) — uploaded tom-barrett_9fe8fd35.jpg
+- [x] Update allCandidatePhotos.json to replace 9 bioguide tokens with manus-storage paths
+- [x] Update client/src/lib/candidatePhotos.ts — commented out 8 broken BIOGUIDE_MAP entries, added CDN_PHOTOS fallbacks
+- [x] Update server/candidatePhotos.ts — added 4 new manus-storage entries
+- [x] Run health check: 1164/1164 healthy, 0 broken (all bioguide 404s eliminated)
+- [x] All 172 tests passing

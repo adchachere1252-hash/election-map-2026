@@ -227,6 +227,12 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "everett wess":              `/manus-storage/everett_wess_f2ce4e6c.jpg`,           // AL Senate D
   "larry marker":              `/manus-storage/larry_marker_22eaf901.jpg`,           // NM Senate R
   "annie andrews":             `/manus-storage/annie_andrews_1cb42390.jpg`,          // SC Senate D
+  // Backfilled bioguide 404 candidates (Round 40)
+  "garlin gilchrist":            `/manus-storage/garlin-gilchrist_cee4210e.jpg`,       // MI Senate D
+  "la shawn ford":               `/manus-storage/la-shawn-ford_b425684b.jpg`,          // IL House
+  "la shawn k. ford":            `/manus-storage/la-shawn-ford_b425684b.jpg`,          // IL House (alias)
+  "terri yarbrough green":       `/manus-storage/terri-yarbrough-green_0d23b43c.jpg`,  // AR-1 D
+  "tom barrett":                 `/manus-storage/tom-barrett_9fe8fd35.jpg`,             // MI-7 R
 };
 
 export const PARTY_LOGOS = {
