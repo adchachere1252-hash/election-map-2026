@@ -209,9 +209,9 @@ async function runHealthCheck(): Promise<HealthCheckResult> {
   log(`Found ${allPhotos.length} unique photo entries to verify`);
 
   const broken: BrokenPhoto[] = [];
-  const BATCH_SIZE = 10;
+  const BATCH_SIZE = 5; // Reduced from 10 to avoid rate limiting from GitHub Pages
 
-  // Process in batches to avoid overwhelming the storage API
+  // Process in batches to avoid overwhelming the storage API and GitHub Pages
   for (let i = 0; i < allPhotos.length; i += BATCH_SIZE) {
     const batch = allPhotos.slice(i, i + BATCH_SIZE);
 
@@ -248,8 +248,8 @@ async function runHealthCheck(): Promise<HealthCheckResult> {
       log(`  Checked ${Math.min(i + BATCH_SIZE, allPhotos.length)}/${allPhotos.length}...`);
     }
 
-    // Small delay between batches
-    await new Promise(r => setTimeout(r, 50));
+    // Delay between batches to avoid rate limiting (GitHub Pages + storage API)
+    await new Promise(r => setTimeout(r, 200));
   }
 
   const elapsed = Date.now() - startTime;
