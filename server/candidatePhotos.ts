@@ -233,6 +233,19 @@ export const CANDIDATE_PHOTOS: Record<string, string> = {
   "la shawn k. ford":            `/manus-storage/la-shawn-ford_b425684b.jpg`,          // IL House (alias)
   "terri yarbrough green":       `/manus-storage/terri-yarbrough-green_0d23b43c.jpg`,  // AR-1 D
   "tom barrett":                 `/manus-storage/tom-barrett_9fe8fd35.jpg`,             // MI-7 R
+  "troy carter":                  `https://unitedstates.github.io/images/congress/225x275/C001125.jpg`,  // LA-2 D incumbent
+  // Backfilled placeholder photos (Round 41)
+  "melissa bean":                 `/manus-storage/melissa-bean_600.jpg`,                   // IL-8 D
+  "jennifer davis":               `/manus-storage/jennifer-davis_600.jpg`,                 // IL-8 R
+  "daniel biss":                  `/manus-storage/daniel-biss_600.jpg`,                    // IL-9 D
+  "daniel k. biss":               `/manus-storage/daniel-biss_600.jpg`,                    // IL-9 D (alias)
+  "john elleson":                 `/manus-storage/john-elleson_600.jpg`,                   // IL-9 R
+  "james marter":                 `/manus-storage/james-marter_600.jpg`,                   // IL-14 R
+  "paul nolley":                  `/manus-storage/paul-nolley_600.jpg`,                    // IL-16 D
+  "chris gober":                  `/manus-storage/chris-gober_600.jpg`,                    // TX-10 R
+  "martha fierro":                `/manus-storage/martha-fierro_600.jpg`,                  // TX-29 R
+  "tony wied":                    `/manus-storage/tony-wied_600.jpg`,                      // WI-8 R
+  "ashley bell":                  `/manus-storage/ashley-bell_600.jpg`,                    // NC-10 D
 };
 
 export const PARTY_LOGOS = {

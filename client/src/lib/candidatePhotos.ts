@@ -229,6 +229,7 @@ export const BIOGUIDE_MAP: Record<string, string> = {
   "John Moolenaar": "M001194",
   "John R. Carter": "C001051",
   "John W. Mannion": "M001231",
+  "John Mannion": "M001231",
   "John W. Rose": "R000612",
   // Jon Husted: photo not yet on unitedstates CDN — removed to avoid 404
   "Jon Ossoff": "O000174",
@@ -448,6 +449,7 @@ export const BIOGUIDE_MAP: Record<string, string> = {
   "Tracey Mann": "M000871",
   "Trent Kelly": "K000388",
   "Troy A. Carter Sr.": "C001125",
+  "Troy Carter": "C001125",
   "Troy Balderson": "B001306",
   "Troy Downing": "D000634",
   "Troy E. Nehls": "N000026",
@@ -632,18 +634,18 @@ const CDN_PHOTOS: Record<string, string> = {
   "tommy hanson":           "/manus-storage/tommy-hanson-il5_f9482a27.jpg",
   "niki conforti":          "/manus-storage/niki-conforti-il6_08f67ec0.jpg",
   "chad koppie":            "/manus-storage/chad-koppie-il7_31586452.jpg",
-  "melissa bean":           "/manus-storage/melissa-bean-il8_3d5e2223.jpg",
-  "jennifer davis":         "/manus-storage/jennifer-davis-il8_2a1ad061.jpg",
-  "daniel biss":            "/manus-storage/daniel-biss-il9_6d4ce357.jpg",
-  "daniel k. biss":         "/manus-storage/daniel-biss-il9_6d4ce357.jpg",
-  "john elleson":           "/manus-storage/john-elleson-il9_c59d7fe7.jpg",
+  "melissa bean":           "/manus-storage/melissa-bean_600.jpg",
+  "jennifer davis":         "/manus-storage/jennifer-davis_600.jpg",
+  "daniel biss":            "/manus-storage/daniel-biss_600.jpg",
+  "daniel k. biss":         "/manus-storage/daniel-biss_600.jpg",
+  "john elleson":           "/manus-storage/john-elleson_600.jpg",
   "carl lambrecht":         "/manus-storage/carl-lambrecht-il10_d09fb682.jpg",
   "jeff walter":            "/manus-storage/jeff-walter-il11_5dde2f4d.jpg",
   "julie fortier":          "/manus-storage/julie-fortier-il12_71a75bae.jpg",
   "jeff wilson":            "/manus-storage/jeff-wilson-il13_b36f2cb2.jpg",
-  "james marter":           "/manus-storage/james-marter-il14_6532905e.jpg",
+  "james marter":           "/manus-storage/james-marter_600.jpg",
   "jennifer todd":          "/manus-storage/jennifer-todd-il15_04eaf9be.jpg",
-  "paul nolley":            "/manus-storage/paul-nolley-il16_dbc74854.jpg",
+  "paul nolley":            "/manus-storage/paul-nolley_600.jpg",
   "dillan vancil":          "/manus-storage/dillan-vancil-il17_61abca29.jpg",
   // TX Solid D challengers
   "shaun finnie":           "/manus-storage/shaun-finnie-tx2_0f45b323.jpg",
@@ -653,7 +655,7 @@ const CDN_PHOTOS: Record<string, string> = {
   "laura jones":            "/manus-storage/laura-jones-tx8_3bb80bd5.jpg",
   "jessica steinmann":      "/manus-storage/jessica-steinmann-tx8_0289b96d.jpg",
   "caitlin rourk":          "/manus-storage/caitlin-rourk-tx10_c50606bb.jpg",
-  "chris gober":            "/manus-storage/chris-gober-tx10_79064e79.jpg",
+  "chris gober":            "/manus-storage/chris-gober_600.jpg",
   "claire reynolds":        "/manus-storage/claire-reynolds-tx11_20e2cb7a.jpg",
   "angel rodrigues-prillman": "/manus-storage/angel-rodrigues-tx12_2c1e2bd0.jpg",
   "mark nair":              "/manus-storage/mark-nair-tx13_e30b0587.jpg",
@@ -662,7 +664,7 @@ const CDN_PHOTOS: Record<string, string> = {
   "marquette greene-scott": "/manus-storage/marquette-greene-scott-tx22_806026e0.jpg",
   "trever nehls":           "/manus-storage/trever-nehls-tx22_a4c8eb5b.jpg",
   "tanya lloyd":            "/manus-storage/tanya-lloyd-tx27_c793c82a.jpg",
-  "martha fierro":          "/manus-storage/martha-fierro-tx29_eadceada.jpg",
+  "martha fierro":          "/manus-storage/martha-fierro_600.jpg",
   "justin early":           "/manus-storage/justin-early-tx31_b879849a.jpg",
   "rhonda hart":            "/manus-storage/rhonda-hart-tx36_1c42977d.jpg",
   // Governor candidates — May 19 2026 primaries
@@ -889,6 +891,9 @@ const CDN_PHOTOS: Record<string, string> = {
   "matt van epps":               "/manus-storage/matt_van_epps_1e22fd67.jpg",          // TN-7 R
   "nicholas j. begich":          "/manus-storage/nicholas-begich_eb851933.jpg",        // AK-AL R
   "nicholas begich":             "/manus-storage/nicholas-begich_eb851933.jpg",        // AK-AL R (alias)
+  // Backfilled placeholder photos (Round 41)
+  "tony wied":                    "/manus-storage/tony-wied_600.jpg",                    // WI-8 R
+  "ashley bell":                  "/manus-storage/ashley-bell_600.jpg",                  // NC-10 D
 };
 
 /**

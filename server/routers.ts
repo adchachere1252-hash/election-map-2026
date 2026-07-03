@@ -23,6 +23,7 @@ import { broadcastElectionEvent, getConnectedClientCount } from "./ws";
 import { getCandidatePhoto, PARTY_LOGOS } from "./candidatePhotos";
 import { smartCenterCrop } from "./smartCrop";
 import { storagePut } from "./storage";
+import { validateImageUrl } from "./imageValidation";
 
 // ─── Admin password (must be set via ADMIN_PASSWORD environment variable) ────────
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "";
@@ -117,6 +118,20 @@ export const appRouter = router({
       }))
       .mutation(async ({ input }) => {
         await requireAdminToken(input.adminToken);
+
+        // Validate the image before processing (checks magic bytes, dimensions, format)
+        const validation = await validateImageUrl(input.photoUrl, {
+          minWidth: 100,
+          minHeight: 100,
+          maxFileSize: 10 * 1024 * 1024,
+          allowedFormats: ["jpeg", "png", "webp"],
+        });
+        if (!validation.valid) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: `Image validation failed: ${validation.error}`,
+          });
+        }
 
         // Smart crop the photo (face-centered, 400x400)
         const { buffer } = await smartCenterCrop(input.photoUrl, { size: 400, quality: 85 });

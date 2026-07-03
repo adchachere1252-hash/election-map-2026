@@ -2655,3 +2655,14 @@
 - [x] Fixed storageProxy.ts to use downloadUrl (public CDN) instead of presign/get (private CDN with propagation delays)
 - [x] Verified photo loads correctly through the proxy (600x600 JPEG, correct person)
 - [x] All 172 tests passing
+
+## Image Validation & Full Photo Verification (Round 43)
+- [x] Add image validation middleware that checks JPEG/PNG/WebP magic bytes before saving (server/imageValidation.ts)
+- [x] Reject non-image files with clear error message (8 unit tests passing)
+- [x] Integrated validation into processPhoto mutation (rejects before smart-crop)
+- [x] Run full visual verification of all 811 candidate photos (12 contact sheets reviewed)
+- [x] Fixed 10 placeholder/generic photos: Melissa Bean, Jennifer Davis, Daniel Biss, John Elleson, James Marter, Paul Nolley, Chris Gober, Martha Fierro, Tony Wied, Ashley Bell
+- [x] Uploaded replacement headshots and updated all 3 photo maps (client, server, allCandidatePhotos.json)
+- [x] Fixed storage proxy (presign/get + downloadUrl fallback for reliable serving)
+- [x] Health check: 1165/1165 healthy, 0 broken
+- [x] All 180 tests passing
