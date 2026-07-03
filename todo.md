@@ -2647,3 +2647,11 @@
 - [x] Fix calendar component to only show U.S. elections (not world elections like Slovakia)
 - [x] Ensure world elections only appear in the World tab, not in the main U.S. calendar sidebar
 - [x] Filter: exclude referendums with scope="global" or countryCode != "US" from ElectionCalendar
+
+## Fix Ohio Senate Photo & Storage Proxy (Round 42)
+- [x] Identified Sherrod Brown DB photo was a corrupt image (caution sign instead of headshot)
+- [x] Uploaded correct Sherrod Brown headshot (sherrod-brown_oh_senate_2026.jpg) to manus-storage
+- [x] Updated DB candidate1_photo for OH Senate to new file
+- [x] Fixed storageProxy.ts to use downloadUrl (public CDN) instead of presign/get (private CDN with propagation delays)
+- [x] Verified photo loads correctly through the proxy (600x600 JPEG, correct person)
+- [x] All 172 tests passing

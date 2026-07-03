@@ -12,8 +12,11 @@ export function registerStorageProxy(app: Express) {
       return;
     }
     try {
+      // Use downloadUrl endpoint (public CDN) instead of presign/get (private CDN)
+      // because presign/get returns signed URLs that can 403 for newly uploaded files
+      // due to CDN propagation delay on the private distribution.
       const forgeUrl = new URL(
-        "v1/storage/presign/get",
+        "v1/storage/downloadUrl",
         ENV.forgeApiUrl.replace(/\/+$/, "") + "/",
       );
       forgeUrl.searchParams.set("path", key);
@@ -28,10 +31,10 @@ export function registerStorageProxy(app: Express) {
       }
       const { url } = (await forgeResp.json()) as { url: string };
       if (!url) {
-        res.status(502).send("Empty signed URL from backend");
+        res.status(502).send("Empty download URL from backend");
         return;
       }
-      res.set("Cache-Control", "no-store");
+      res.set("Cache-Control", "public, max-age=86400");
       res.redirect(307, url);
     } catch (err) {
       console.error("[StorageProxy] failed:", err);
