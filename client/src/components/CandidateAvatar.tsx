@@ -97,7 +97,7 @@ export function CandidateAvatar({
               setNamePhotoFailed(true);
             }
           }}
-          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center" }}
+          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 20%" }}
           loading="eager"
         />
       </span>
