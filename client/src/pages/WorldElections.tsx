@@ -658,7 +658,7 @@ export default function WorldElections() {
   const [hoveredCountry, setHoveredCountry] = useState<{ code: string; name: string } | null>(null);
   const [filter, setFilter] = useState("all");
   const [showSidebar, setShowSidebar] = useState(false);
-  const [viewMode, setViewMode] = useState<"globe" | "timeline" | "referendums">("globe");
+  const [viewMode, setViewMode] = useState<"globe" | "timeline" | "results" | "referendums">("globe");
   const [showLabels, setShowLabels] = useState(true);
   const [focusCountry, setFocusCountry] = useState<string | null>(null);
 
@@ -736,6 +736,15 @@ export default function WorldElections() {
           >
             <List className="w-4 h-4" />
             <span className="hidden sm:inline">Timeline</span>
+          </button>
+          <button
+            onClick={() => setViewMode("results")}
+            className={`px-3 py-2 text-sm flex items-center gap-1.5 transition-colors ${
+              viewMode === "results" ? "bg-blue-500/20 text-blue-300" : "text-slate-400 hover:text-slate-200"
+            }`}
+          >
+            <Trophy className="w-4 h-4" />
+            <span className="hidden sm:inline">Results</span>
           </button>
           <button
             onClick={() => setViewMode("referendums")}
@@ -821,9 +830,12 @@ export default function WorldElections() {
             {/* Legend */}
             <Legend />
 
-            {/* Results Summary Card */}
-            <WorldResultsSummary onCountryClick={handleCountryClick} />
+
           </>
+        ) : viewMode === "results" ? (
+          <div className="w-full h-full overflow-auto p-4 lg:p-6 flex items-start justify-center">
+            <WorldResultsSummary onCountryClick={handleCountryClick} fullWidth />
+          </div>
         ) : viewMode === "timeline" ? (
           <div className="w-full h-full overflow-hidden p-4 lg:p-6 flex items-start justify-center">
             <div className="w-full max-w-5xl max-h-[70vh] flex flex-col">

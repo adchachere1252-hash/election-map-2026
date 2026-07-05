@@ -2715,3 +2715,11 @@
 - [x] Updated Iowa Senate rating from Lean R to Toss-up (Fox News/Des Moines Register polls: Turek +2-4)
 - [x] Final result: 0 missing Senate photos, 0 missing Governor photos — all races now have both candidate photos
 - [x] All 187 tests passing, zero TypeScript errors
+
+## Move Results Summary to Tab Navigation (Round 48)
+- [x] Move WorldResultsSummary from floating overlay on globe to its own "Results" tab view (Globe, Timeline, Results, Referendums)
+- [x] Expand the Results view to full-width 3-column grid layout showing 12 Recent Winners + 8 Next Up
+- [x] Keep regional filter (All, Americas, Europe, Asia-Pac, Africa/ME) and clickable items
+- [x] Remove the floating card from the globe view
+- [x] Added Trophy icon tab button with "Results" label in view toggle bar
+- [x] All 187 tests passing, zero TypeScript errors

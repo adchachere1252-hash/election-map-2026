@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
-import { Trophy, TrendingUp, Calendar, ChevronRight, Globe2 } from "lucide-react";
+import { Trophy, TrendingUp, Calendar, ChevronRight, Globe2, MapPin } from "lucide-react";
 
 // Country code to flag emoji
 function countryFlag(code: string): string {
@@ -97,9 +97,10 @@ const REGION_LABELS: { key: Region; label: string; icon?: string }[] = [
 
 interface WorldResultsSummaryProps {
   onCountryClick: (code: string, name: string) => void;
+  fullWidth?: boolean;
 }
 
-export default function WorldResultsSummary({ onCountryClick }: WorldResultsSummaryProps) {
+export default function WorldResultsSummary({ onCountryClick, fullWidth = false }: WorldResultsSummaryProps) {
   const { data: elections = [] } = trpc.worldElections.getAll.useQuery();
   const [region, setRegion] = useState<Region>("all");
 
@@ -109,18 +110,183 @@ export default function WorldResultsSummary({ onCountryClick }: WorldResultsSumm
     const completed = filtered
       .filter((e) => e.status === "Completed" && e.winner)
       .sort((a, b) => new Date(b.electionDate).getTime() - new Date(a.electionDate).getTime())
-      .slice(0, 5);
+      .slice(0, fullWidth ? 12 : 5);
 
     const upcoming = filtered
       .filter((e) => e.status === "Upcoming" || e.status === "Voting Today")
       .sort((a, b) => new Date(a.electionDate).getTime() - new Date(b.electionDate).getTime())
-      .slice(0, 3);
+      .slice(0, fullWidth ? 8 : 3);
 
     return { recentResults: completed, upcomingNext: upcoming };
-  }, [elections, region]);
+  }, [elections, region, fullWidth]);
 
   if (elections.length === 0) return null;
 
+  // Full-width tab view
+  if (fullWidth) {
+    return (
+      <div className="w-full max-w-5xl">
+        {/* Header with regional filter */}
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
+              <Globe2 className="w-5 h-5 text-indigo-400" />
+              World Election Results
+            </h2>
+            <span className="text-xs text-slate-500">Sources: AP, IFES Election Guide, Reuters</span>
+          </div>
+          <div className="flex gap-1 bg-slate-800/60 rounded-lg p-1 w-fit">
+            {REGION_LABELS.map((r) => (
+              <button
+                key={r.key}
+                onClick={() => setRegion(r.key)}
+                className={`text-xs font-semibold py-1.5 px-3 rounded-md transition-all ${
+                  region === r.key
+                    ? "bg-indigo-500/30 text-indigo-200 shadow-sm"
+                    : "text-slate-500 hover:text-slate-300 hover:bg-slate-700/40"
+                }`}
+              >
+                {r.icon} {r.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Recent Results Section */}
+        {recentResults.length > 0 && (
+          <div className="mb-6">
+            <div className="flex items-center gap-2 mb-3">
+              <Trophy className="w-4 h-4 text-emerald-400" />
+              <h3 className="text-sm font-bold text-emerald-400 uppercase tracking-wider">Recent Winners</h3>
+              <span className="text-xs text-slate-500 ml-1">({recentResults.length})</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+              {recentResults.map((election) => (
+                <button
+                  key={election.id}
+                  onClick={() => onCountryClick(election.countryCode, election.country)}
+                  className={`w-full text-left px-3 py-3 rounded-xl border transition-all hover:scale-[1.01] hover:shadow-lg cursor-pointer ${getPartyBg(election.winnerParty)}`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl flex-shrink-0">{countryFlag(election.countryCode)}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-semibold text-slate-200 truncate">
+                          {election.country}
+                        </span>
+                        <span className="text-[10px] text-slate-500 font-medium flex-shrink-0">
+                          {new Date(election.electionDate + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-1.5 mt-0.5">
+                        <span className={`text-xs font-bold truncate ${getPartyColor(election.winnerParty)}`}>
+                          {election.winner}
+                        </span>
+                      </div>
+                      {election.winnerParty && (
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <span className="text-[10px] text-slate-500 truncate">
+                            {election.winnerParty}
+                          </span>
+                          <span className="text-[10px] text-slate-600">•</span>
+                          <span className="text-[10px] text-slate-500">
+                            {election.electionType}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-slate-600 flex-shrink-0" />
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Divider */}
+        {recentResults.length > 0 && upcomingNext.length > 0 && (
+          <div className="border-t border-slate-700/50 my-4" />
+        )}
+
+        {/* Upcoming Section */}
+        {upcomingNext.length > 0 && (
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <Calendar className="w-4 h-4 text-amber-400" />
+              <h3 className="text-sm font-bold text-amber-400 uppercase tracking-wider">Next Up</h3>
+              <span className="text-xs text-slate-500 ml-1">({upcomingNext.length})</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+              {upcomingNext.map((election) => {
+                let pollingLeader: string | null = null;
+                try {
+                  if (election.pollingData) {
+                    const pd = JSON.parse(election.pollingData as string);
+                    pollingLeader = pd.leader || null;
+                  }
+                } catch {}
+
+                const daysUntil = Math.ceil(
+                  (new Date(election.electionDate + "T00:00:00").getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+                );
+
+                return (
+                  <button
+                    key={election.id}
+                    onClick={() => onCountryClick(election.countryCode, election.country)}
+                    className="w-full text-left px-3 py-3 rounded-xl border border-slate-700/30 bg-slate-800/40 hover:bg-slate-800/70 transition-all hover:scale-[1.01] hover:shadow-lg cursor-pointer"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-xl flex-shrink-0">{countryFlag(election.countryCode)}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold text-slate-200 truncate">
+                            {election.country}
+                          </span>
+                          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                            election.status === "Voting Today"
+                              ? "bg-yellow-500/20 text-yellow-300 animate-pulse"
+                              : "bg-amber-500/15 text-amber-400"
+                          }`}>
+                            {election.status === "Voting Today" ? "LIVE" : `${daysUntil}d`}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <MapPin className="w-3 h-3 text-slate-500" />
+                          <span className="text-[11px] text-slate-400">{election.electionType}</span>
+                          {pollingLeader && (
+                            <>
+                              <span className="text-[9px] text-slate-600">•</span>
+                              <TrendingUp className="w-3 h-3 text-indigo-400" />
+                              <span className="text-[10px] text-indigo-300 truncate">{pollingLeader}</span>
+                            </>
+                          )}
+                        </div>
+                        <span className="text-[10px] text-slate-500 mt-0.5 block">
+                          {new Date(election.electionDate + "T00:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+                        </span>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-slate-600 flex-shrink-0" />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Empty state for filtered region */}
+        {recentResults.length === 0 && upcomingNext.length === 0 && (
+          <div className="py-12 text-center">
+            <Globe2 className="w-8 h-8 mx-auto mb-3 text-slate-600" />
+            <p className="text-sm text-slate-500">No elections in this region</p>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Compact floating card (for globe overlay - kept for potential future use)
   return (
     <div className="absolute bottom-3 right-3 z-30 w-[280px] max-h-[calc(100%-6rem)] overflow-y-auto">
       <div className="bg-slate-900/95 backdrop-blur-md border border-slate-700/50 rounded-xl shadow-xl shadow-black/30 overflow-hidden">
