@@ -2693,3 +2693,15 @@
 - [x] Auto-refresh every 30 seconds with visual pulse indicator, manual Refresh button, Auto toggle
 - [x] Updated Slovakia referendum with detailed results: 16.1% turnout, 95% Yes on Q1, 94% Yes on Q2, 3 verified sources
 - [x] All 187 tests passing, zero TypeScript errors
+
+## Comprehensive Verification Audit (Round 47)
+- [x] U.S. Senate: All 35 races verified against 270toWin/Inside Elections (June 25, 2026) — ratings match
+- [x] U.S. Senate: All competitive race candidates verified (Talarico/Paxton, Turek/Hinson, Cooper/Whatley, Platner/Collins, Brown/Husted, Ossoff/Collins)
+- [x] U.S. Senate: Special elections verified (FL: Moody vs TBD D primary Aug 18; OH: Husted vs Brown)
+- [x] U.S. Governor: Key races verified (Acton/Ramaswamy OH, Ford/Lombardo NV, Sand/Lahn IA, WI primaries Aug 11)
+- [x] World Elections: Algeria updated from "Voting Today" to "Completed" (20.79% turnout, FLN-led coalition)
+- [x] World Elections: Fixed 7 malformed JSON fields (Hungary, Kazakhstan, Morocco, Bosnia, Cabo Verde, Taiwan, Guinea-Bissau sources/candidates)
+- [x] World Elections: All sources now proper JSON arrays with clickable URLs
+- [x] World Elections: Detail panel already has "Data Sources" footer crediting IFES, CFR, AP
+- [x] Photo audit: Senate 13/35 races have both photos; Governor 9/36 have both photos (gaps identified for future fix)
+- [x] All 187 tests passing, zero TypeScript errors
