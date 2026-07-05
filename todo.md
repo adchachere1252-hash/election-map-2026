@@ -2675,3 +2675,12 @@
 - [x] VS matchup format with photos for multi-candidate races, single-candidate list for others
 - [x] Add vitest tests for candidate photo URLs, is_winner field, seats, pct (numeric + string), and parliamentary seat totals
 - [x] All 187 tests passing, zero TypeScript errors
+
+## World Elections Enhancement (Round 45)
+- [x] Research and add candidates for upcoming world elections (Algeria, Slovakia, São Tomé, Cook Islands, Zambia, Haiti, Kazakhstan, Sweden, Russia, Morocco, Brazil, Bosnia, Czech Republic, Israel, Palestine, New Zealand, Cabo Verde, Taiwan, Bulgaria, The Gambia, Guinea-Bissau, South Sudan)
+- [x] Upload candidate photos for upcoming world election frontrunners (Lula, Bolsonaro, Netanyahu, Eisenkot, Kristersson, Andersson, Luxon, Hipkins)
+- [x] Build "Results Summary" card on World globe view showing recent completed election winners + next upcoming elections with polling leaders
+- [x] Populate polling data for upcoming elections (Brazil AtlasIntel/Bloomberg, Israel Channel 12, Sweden Novus, New Zealand 1News-Verian)
+- [x] Ensure all sources are detailed and accurate — added sources for all 38 elections (Reuters, Al Jazeera, IFES, CFR, AP, France24, BBC, local outlets)
+- [x] Sources display in detail panel as clickable domain links (e.g., as-coa.org, reuters.com, datafolha.folha.uol.com.br)
+- [x] All 187 tests passing, zero TypeScript errors

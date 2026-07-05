@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback, memo, Suspense, lazy } from "react";
 import WorldElectionTimeline from "@/components/WorldElectionTimeline";
 import ReferendumsView from "@/components/ReferendumsView";
 import WorldResultsTicker from "@/components/WorldResultsTicker";
+import WorldResultsSummary from "@/components/WorldResultsSummary";
 import WorldSearchBar from "@/components/WorldSearchBar";
 import { CandidateAvatar } from "@/components/CandidateAvatar";
 import { trpc } from "@/lib/trpc";
@@ -121,6 +122,7 @@ function DetailPanel({
           const candidates: Candidate[] = election.candidates ? JSON.parse(election.candidates) : [];
           const pollingData = election.pollingData ? JSON.parse(election.pollingData as string) : null;
           const keyIssues: {issue: string; description: string}[] = (election as any).keyIssues ? JSON.parse((election as any).keyIssues) : [];
+          const sourcesArr: string[] = election.sources ? (() => { try { return JSON.parse(election.sources); } catch { return []; } })() : [];
 
           return (
             <div
@@ -411,21 +413,38 @@ function DetailPanel({
                   </div>
                 )}
 
-                {/* Sources - extracted from notes */}
-                {election.notes && election.notes.includes("Sources:") && (
-                  <div className="bg-slate-800/50 rounded-lg px-3 py-2.5 border border-slate-600/20">
-                    <p className="text-xs text-slate-500 font-medium mb-1">Data Sources</p>
-                    <p className="text-xs text-blue-400/80">
-                      {election.notes.split("Sources:").pop()?.trim()}
-                    </p>
-                  </div>
+                {/* Notes */}
+                {election.notes && (
+                  <p className="text-xs text-slate-400 leading-relaxed border-t border-slate-700/30 pt-3">
+                    {election.notes.includes("Sources:") ? election.notes.split("Sources:")[0].trim() : election.notes}
+                  </p>
                 )}
 
-                {/* Notes (non-source content) */}
-                {election.notes && !election.notes.includes("Sources:") && (
-                  <p className="text-xs text-slate-400 leading-relaxed border-t border-slate-700/30 pt-3">
-                    {election.notes}
-                  </p>
+                {/* Sources from dedicated field */}
+                {sourcesArr.length > 0 && (
+                  <div className="bg-slate-800/50 rounded-lg px-3 py-2.5 border border-slate-600/20">
+                    <p className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider mb-1.5">Sources</p>
+                    <div className="space-y-1">
+                      {sourcesArr.slice(0, 4).map((url: string, i: number) => {
+                        let domain = '';
+                        try { domain = new URL(url).hostname.replace('www.', ''); } catch { domain = url; }
+                        return (
+                          <a
+                            key={i}
+                            href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block text-[10px] text-blue-400/80 hover:text-blue-300 truncate transition-colors"
+                          >
+                            {domain}
+                          </a>
+                        );
+                      })}
+                      {sourcesArr.length > 4 && (
+                        <span className="text-[9px] text-slate-500">+{sourcesArr.length - 4} more sources</span>
+                      )}
+                    </div>
+                  </div>
                 )}
 
                 {/* Date confirmed badge */}
@@ -800,6 +819,9 @@ export default function WorldElections() {
 
             {/* Legend */}
             <Legend />
+
+            {/* Results Summary Card */}
+            <WorldResultsSummary onCountryClick={handleCountryClick} />
           </>
         ) : viewMode === "timeline" ? (
           <div className="w-full h-full overflow-hidden p-4 lg:p-6 flex items-start justify-center">
