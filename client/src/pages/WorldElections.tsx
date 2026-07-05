@@ -3,6 +3,7 @@ import WorldElectionTimeline from "@/components/WorldElectionTimeline";
 import ReferendumsView from "@/components/ReferendumsView";
 import WorldResultsTicker from "@/components/WorldResultsTicker";
 import WorldResultsSummary from "@/components/WorldResultsSummary";
+import ElectionNightLive from "@/components/ElectionNightLive";
 import WorldSearchBar from "@/components/WorldSearchBar";
 import { CandidateAvatar } from "@/components/CandidateAvatar";
 import { trpc } from "@/lib/trpc";
@@ -838,13 +839,19 @@ export default function WorldElections() {
           </div>
         )}
 
-        {/* Detail Panel (shared between views) */}
+        {/* Detail Panel or Election Night Live (shared between views) */}
         {selectedCountry && (
-          <DetailPanel
-            countryCode={selectedCountry.code}
-            countryName={selectedCountry.name}
-            onClose={() => setSelectedCountry(null)}
-          />
+          elections.some((e) => e.countryCode === selectedCountry.code && e.status === "Voting Today")
+            ? <ElectionNightLive
+                countryCode={selectedCountry.code}
+                countryName={selectedCountry.name}
+                onClose={() => setSelectedCountry(null)}
+              />
+            : <DetailPanel
+                countryCode={selectedCountry.code}
+                countryName={selectedCountry.name}
+                onClose={() => setSelectedCountry(null)}
+              />
         )}
       </div>
       </div>

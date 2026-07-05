@@ -2684,3 +2684,12 @@
 - [x] Ensure all sources are detailed and accurate — added sources for all 38 elections (Reuters, Al Jazeera, IFES, CFR, AP, France24, BBC, local outlets)
 - [x] Sources display in detail panel as clickable domain links (e.g., as-coa.org, reuters.com, datafolha.folha.uol.com.br)
 - [x] All 187 tests passing, zero TypeScript errors
+
+## World Elections Enhancement (Round 46)
+- [x] Add regional filter to Results Summary card (All, Americas, Europe, Asia-Pacific, Africa/Middle East)
+- [x] Regional filter filters both Recent Winners and Next Up sections (tested: Europe shows only Slovakia, Switzerland, Armenia, Hungary + Sweden, Russia, Switzerland next)
+- [x] Create "Election Night Live" mode for Algeria (voting today) with auto-refresh
+- [x] Live mode shows real-time seat count (0/407), turnout updates, party breakdown (FLN, RND, MSP, Independents)
+- [x] Auto-refresh every 30 seconds with visual pulse indicator, manual Refresh button, Auto toggle
+- [x] Updated Slovakia referendum with detailed results: 16.1% turnout, 95% Yes on Q1, 94% Yes on Q2, 3 verified sources
+- [x] All 187 tests passing, zero TypeScript errors
