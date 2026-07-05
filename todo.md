@@ -2705,3 +2705,13 @@
 - [x] World Elections: Detail panel already has "Data Sources" footer crediting IFES, CFR, AP
 - [x] Photo audit: Senate 13/35 races have both photos; Governor 9/36 have both photos (gaps identified for future fix)
 - [x] All 187 tests passing, zero TypeScript errors
+
+## Photo Completeness Fix (Round 47)
+
+- [x] Re-audited all Senate races for missing candidate photos — found 10 races with null photos
+- [x] Uploaded 12 Senate candidate photos: Talarico, Paxton, Cooper, Turek, Hinson, Hickenlooper, Platner, Stratton, Reed, Andrews, Hyde-Smith, David Smith (OR)
+- [x] Re-audited all Governor races for missing candidate photos — found 14 races with null photos
+- [x] Uploaded 18 Governor candidate photos: Hobbs, Becerra, Healey, Weiser, Ford, Sand, Lahn, Bottoms, Tuberville, Little, Pillen, Blakeman, Munson, Doeden, Hinojosa, Pickens, Walz, Jackson (GA)
+- [x] Updated Iowa Senate rating from Lean R to Toss-up (Fox News/Des Moines Register polls: Turek +2-4)
+- [x] Final result: 0 missing Senate photos, 0 missing Governor photos — all races now have both candidate photos
+- [x] All 187 tests passing, zero TypeScript errors
