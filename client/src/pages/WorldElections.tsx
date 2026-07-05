@@ -3,8 +3,9 @@ import WorldElectionTimeline from "@/components/WorldElectionTimeline";
 import ReferendumsView from "@/components/ReferendumsView";
 import WorldResultsTicker from "@/components/WorldResultsTicker";
 import WorldSearchBar from "@/components/WorldSearchBar";
+import { CandidateAvatar } from "@/components/CandidateAvatar";
 import { trpc } from "@/lib/trpc";
-import { Calendar, List, Globe2, Users, Clock, ChevronRight, X, MapPin, Vote, Award, ArrowLeft, ScrollText, Tag } from "lucide-react";
+import { Calendar, List, Globe2, Users, Clock, ChevronRight, X, MapPin, Vote, Award, ArrowLeft, ScrollText, Tag, Trophy } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Label as UILabel } from "@/components/ui/label";
 import { Link } from "wouter";
@@ -16,10 +17,13 @@ const Globe = lazy(() => import("@/components/Globe"));
 interface Candidate {
   name: string;
   party: string;
+  role?: string | null;
   description?: string | null;
   votes?: number | null;
-  pct?: string | null;
+  seats?: number | null;
+  pct?: number | string | null;
   photo?: string | null;
+  is_winner?: boolean;
 }
 
 // ─── Status badge colors ──────────────────────────────────────────────────────
@@ -202,18 +206,31 @@ function DetailPanel({
                           <div className="bg-gradient-to-r from-slate-800/80 via-slate-700/40 to-slate-800/80 rounded-xl border border-slate-600/30 p-4">
                             <div className="flex items-center justify-between gap-3">
                               {/* Candidate 1 */}
-                              <div className="flex-1 text-center">
-                                {candidates[0].photo ? (
-                                  <img src={candidates[0].photo} alt={candidates[0].name} className="w-14 h-14 mx-auto rounded-full border-2 border-blue-400/50 object-cover mb-2" />
-                                ) : (
-                                  <div className="w-14 h-14 mx-auto rounded-full bg-blue-500/20 border-2 border-blue-400/50 flex items-center justify-center text-lg font-bold text-blue-300 mb-2">
-                                    {candidates[0].name.charAt(0)}
+                              <div className="flex-1 text-center relative">
+                                {candidates[0].is_winner && (
+                                  <div className="absolute -top-1 left-1/2 -translate-x-1/2 z-10">
+                                    <Trophy className="w-4 h-4 text-amber-400" />
                                   </div>
                                 )}
+                                <div className="relative inline-block mb-2">
+                                  <CandidateAvatar
+                                    name={candidates[0].name}
+                                    party={candidates[0].party}
+                                    photo={candidates[0].photo}
+                                    size={56}
+                                    className={candidates[0].is_winner ? "ring-2 ring-amber-400/60" : ""}
+                                  />
+                                </div>
                                 <p className="text-sm font-semibold text-white leading-tight">{candidates[0].name}</p>
                                 <p className="text-xs text-blue-400 mt-0.5">{candidates[0].party}</p>
+                                {candidates[0].role && (
+                                  <p className="text-[10px] text-slate-400 mt-0.5">{candidates[0].role}</p>
+                                )}
                                 {candidates[0].pct && (
                                   <p className="text-sm font-mono text-blue-300 mt-1">{candidates[0].pct}%</p>
+                                )}
+                                {candidates[0].seats && (
+                                  <p className="text-xs text-blue-300/80 mt-0.5">{candidates[0].seats} seats</p>
                                 )}
                               </div>
                               {/* VS divider */}
@@ -223,18 +240,31 @@ function DetailPanel({
                                 </div>
                               </div>
                               {/* Candidate 2 */}
-                              <div className="flex-1 text-center">
-                                {candidates[1].photo ? (
-                                  <img src={candidates[1].photo} alt={candidates[1].name} className="w-14 h-14 mx-auto rounded-full border-2 border-red-400/50 object-cover mb-2" />
-                                ) : (
-                                  <div className="w-14 h-14 mx-auto rounded-full bg-red-500/20 border-2 border-red-400/50 flex items-center justify-center text-lg font-bold text-red-300 mb-2">
-                                    {candidates[1].name.charAt(0)}
+                              <div className="flex-1 text-center relative">
+                                {candidates[1].is_winner && (
+                                  <div className="absolute -top-1 left-1/2 -translate-x-1/2 z-10">
+                                    <Trophy className="w-4 h-4 text-amber-400" />
                                   </div>
                                 )}
+                                <div className="relative inline-block mb-2">
+                                  <CandidateAvatar
+                                    name={candidates[1].name}
+                                    party={candidates[1].party}
+                                    photo={candidates[1].photo}
+                                    size={56}
+                                    className={candidates[1].is_winner ? "ring-2 ring-amber-400/60" : ""}
+                                  />
+                                </div>
                                 <p className="text-sm font-semibold text-white leading-tight">{candidates[1].name}</p>
                                 <p className="text-xs text-red-400 mt-0.5">{candidates[1].party}</p>
+                                {candidates[1].role && (
+                                  <p className="text-[10px] text-slate-400 mt-0.5">{candidates[1].role}</p>
+                                )}
                                 {candidates[1].pct && (
                                   <p className="text-sm font-mono text-red-300 mt-1">{candidates[1].pct}%</p>
+                                )}
+                                {candidates[1].seats && (
+                                  <p className="text-xs text-red-300/80 mt-0.5">{candidates[1].seats} seats</p>
                                 )}
                               </div>
                             </div>
@@ -255,14 +285,13 @@ function DetailPanel({
                               {candidates.slice(2).map((c, i) => (
                                 <div key={i} className="bg-slate-700/30 rounded-lg px-3 py-2.5 border border-slate-600/20">
                                   <div className="flex items-center gap-2">
-                                    <div className="w-7 h-7 rounded-full bg-slate-600/50 flex items-center justify-center text-xs font-bold text-slate-300">
-                                      {c.name.charAt(0)}
-                                    </div>
+                                    <CandidateAvatar name={c.name} party={c.party} photo={c.photo} size={28} />
                                     <div className="flex-1">
                                       <span className="text-sm text-slate-200 font-medium">{c.name}</span>
                                       <span className="text-xs text-slate-500 ml-2">{c.party}</span>
                                     </div>
                                     {c.pct && <span className="text-sm font-mono text-slate-300">{c.pct}%</span>}
+                                    {c.seats && <span className="text-xs text-slate-400">{c.seats} seats</span>}
                                   </div>
                                   {c.description && (
                                     <p className="text-xs text-slate-400 mt-1 ml-9">{c.description}</p>
@@ -272,8 +301,8 @@ function DetailPanel({
                             </div>
                           )}
                         </>
-                      ) : (
-                        /* Referendum or single candidate - simple list */
+                      ) : election.electionType === "Referendum" ? (
+                        /* Referendum - Yes/No display */
                         <div className="space-y-2">
                           {candidates.map((c, i) => (
                             <div key={i} className={`rounded-lg px-4 py-3 border ${
@@ -292,6 +321,33 @@ function DetailPanel({
                               {c.description && (
                                 <p className="text-xs text-slate-500 mt-1 italic">{c.description}</p>
                               )}
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        /* Single candidate winner display */
+                        <div className="space-y-2">
+                          {candidates.map((c, i) => (
+                            <div key={i} className="bg-slate-700/30 rounded-lg px-4 py-3 border border-slate-600/20">
+                              <div className="flex items-center gap-3">
+                                <CandidateAvatar
+                                  name={c.name}
+                                  party={c.party}
+                                  photo={c.photo}
+                                  size={48}
+                                  className={c.is_winner ? "ring-2 ring-amber-400/60" : ""}
+                                />
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-sm font-semibold text-white">{c.name}</span>
+                                    {c.is_winner && <Trophy className="w-3.5 h-3.5 text-amber-400" />}
+                                  </div>
+                                  <p className="text-xs text-slate-400">{c.party}</p>
+                                  {c.role && <p className="text-[10px] text-slate-500">{c.role}</p>}
+                                </div>
+                                {c.pct && <span className="text-sm font-mono text-green-300">{c.pct}%</span>}
+                                {c.seats && <span className="text-xs text-slate-300">{c.seats} seats</span>}
+                              </div>
                             </div>
                           ))}
                         </div>

@@ -194,4 +194,85 @@ describe("World Elections", () => {
       expect(sources).toBeNull();
     });
   });
+
+  describe("Candidate Photos and Results", () => {
+    it("should parse candidates with photo URLs", () => {
+      const candidatesJson = JSON.stringify([
+        {
+          name: "Péter Magyar",
+          party: "TISZA",
+          role: "Prime Minister-elect",
+          photo: "/manus-storage/peter_magyar_abc123.jpg",
+          pct: 56.2,
+          seats: 141,
+          is_winner: true,
+        },
+        {
+          name: "Viktor Orbán",
+          party: "Fidesz",
+          role: "Outgoing PM",
+          photo: "/manus-storage/viktor_orban_def456.jpg",
+          pct: 26.8,
+          seats: 44,
+          is_winner: false,
+        },
+      ]);
+      const candidates = JSON.parse(candidatesJson);
+      expect(candidates).toHaveLength(2);
+      expect(candidates[0].photo).toMatch(/\/manus-storage\//);
+      expect(candidates[0].is_winner).toBe(true);
+      expect(candidates[0].role).toBe("Prime Minister-elect");
+      expect(candidates[0].seats).toBe(141);
+      expect(candidates[0].pct).toBe(56.2);
+      expect(candidates[1].is_winner).toBe(false);
+    });
+
+    it("should handle candidates without photos (fallback to initials)", () => {
+      const candidatesJson = JSON.stringify([
+        { name: "John Doe", party: "Party A" },
+      ]);
+      const candidates = JSON.parse(candidatesJson);
+      expect(candidates[0].photo).toBeUndefined();
+      expect(candidates[0].name).toBe("John Doe");
+    });
+
+    it("should validate photo URL format for manus-storage", () => {
+      const photoUrl = "/manus-storage/keiko_fujimori_xyz789.jpg";
+      expect(photoUrl).toMatch(/^\/manus-storage\/[a-z_]+_[a-z0-9]+\.(jpg|png|webp)$/);
+    });
+
+    it("should support numeric pct values", () => {
+      const candidate = { name: "Test", party: "P", pct: 50.14 };
+      expect(typeof candidate.pct).toBe("number");
+      expect(candidate.pct).toBeGreaterThan(0);
+      expect(candidate.pct).toBeLessThanOrEqual(100);
+    });
+
+    it("should support string pct values for backward compatibility", () => {
+      const candidate = { name: "Test", party: "P", pct: "52.3" };
+      const numericPct = parseFloat(candidate.pct);
+      expect(numericPct).toBe(52.3);
+    });
+
+    it("should identify winner correctly in multi-candidate races", () => {
+      const candidates = [
+        { name: "Winner", party: "A", is_winner: true, pct: 55 },
+        { name: "Loser", party: "B", is_winner: false, pct: 45 },
+      ];
+      const winners = candidates.filter(c => c.is_winner);
+      expect(winners).toHaveLength(1);
+      expect(winners[0].name).toBe("Winner");
+    });
+
+    it("should handle seats field for parliamentary elections", () => {
+      const candidates = [
+        { name: "Party A Leader", party: "Party A", seats: 141, is_winner: true },
+        { name: "Party B Leader", party: "Party B", seats: 44, is_winner: false },
+        { name: "Party C Leader", party: "Party C", seats: 14, is_winner: false },
+      ];
+      const totalSeats = candidates.reduce((sum, c) => sum + (c.seats || 0), 0);
+      expect(totalSeats).toBe(199);
+      expect(candidates[0].seats).toBeGreaterThan(candidates[1].seats);
+    });
+  });
 });

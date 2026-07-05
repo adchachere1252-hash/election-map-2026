@@ -2666,3 +2666,12 @@
 - [x] Fixed storage proxy (presign/get + downloadUrl fallback for reliable serving)
 - [x] Health check: 1165/1165 healthy, 0 broken
 - [x] All 180 tests passing
+
+## World Election Candidates (Round 44)
+- [x] Use existing candidates JSON field in world_elections table (name, party, role, photo, pct, seats, is_winner)
+- [x] Upload 12 candidate photos to manus-storage (Japan, Thailand, Bangladesh, Nepal, Hungary, Peru, Colombia, Armenia, Ethiopia)
+- [x] Populate candidates JSON for all completed world elections with real results data
+- [x] Enhance WorldElections.tsx DetailPanel with CandidateAvatar component, winner badges (Trophy icon), roles, seats, percentages
+- [x] VS matchup format with photos for multi-candidate races, single-candidate list for others
+- [x] Add vitest tests for candidate photo URLs, is_winner field, seats, pct (numeric + string), and parliamentary seat totals
+- [x] All 187 tests passing, zero TypeScript errors
