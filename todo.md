@@ -2785,3 +2785,7 @@
 - [x] Verify all World election dates against authoritative sources
 - [x] Verify U.S. election timeline dates (primaries, specials) against authoritative sources
 - [x] Apply date corrections: Czech Republic type fix, Alabama primary May 19, Rhode Island Sep 9, Florida format fix
+
+## Cabo Verde Parliamentary Election Addition (Jul 6)
+
+- [x] Add Cabo Verde May 17 parliamentary election (PAICV won 37/72 seats, 46% vote, turnout 46.47%)
