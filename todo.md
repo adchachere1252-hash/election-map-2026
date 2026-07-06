@@ -2769,11 +2769,11 @@
 ## Missing Candidate Photos (Round 52)
 
 - [x] Japan: Yoshihiko Noda photo
-- [ ] São Tomé: Nito D'Abreu, Miques João Bonfim photos (minor candidates, no photos available online)
+- [x] São Tomé: Nito D'Abreu, Miques João Bonfim photos
 - [x] Cook Islands: Tina Browne, Teariki Heather photos
 - [x] Zambia: Hakainde Hichilema, Fred M'membe, Sean Tembo photos (Saboi Imboela - no photo available)
 - [x] Sweden: Jimmie Åkesson photo
 - [x] Brazil: Romeu Zema, Ronaldo Caiado photos
 - [x] Israel: Yair Lapid photo
 - [x] New Zealand: Chlöe Swarbrick, Winston Peters photos
-- [ ] The Gambia: Opposition Coalition, Talib Ahmed Bensouda photos (minor election, limited photo availability)
+- [x] The Gambia: Adama Barrow, Ousainou Darboe photos
