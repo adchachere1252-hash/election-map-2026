@@ -465,7 +465,9 @@ export default function WorldElectionTimeline({ elections, onElectionClick }: Wo
                   <span
                     className={`text-xs px-2 py-0.5 rounded font-medium ${
                       isToday
-                        ? "bg-blue-600 text-white"
+                        ? "bg-blue-600 text-white animate-pulse"
+                        : isTomorrow
+                        ? "bg-red-600/90 text-white animate-pulse border border-red-400/50 shadow-lg shadow-red-500/20"
                         : days <= 7 && days > 0
                         ? "bg-amber-900/50 text-amber-400 border border-amber-500/30"
                         : days <= 30 && days > 0
@@ -473,7 +475,7 @@ export default function WorldElectionTimeline({ elections, onElectionClick }: Wo
                         : "text-slate-500"
                     }`}
                   >
-                    {dayLabel}
+                    {isTomorrow ? "🗳️ TOMORROW" : dayLabel}
                   </span>
                 </div>
 
@@ -531,6 +533,11 @@ export default function WorldElectionTimeline({ elections, onElectionClick }: Wo
                             {evt.status === "Voting Today" && (
                               <span className="text-[10px] font-bold text-yellow-300 bg-yellow-500/20 px-1.5 py-0.5 rounded border border-yellow-500/30 animate-pulse">
                                 LIVE
+                              </span>
+                            )}
+                            {isTomorrow && evt.status !== "Completed" && (
+                              <span className="text-[10px] font-bold text-red-300 bg-red-500/20 px-1.5 py-0.5 rounded border border-red-500/30 animate-pulse">
+                                🗳️ VOTING TOMORROW
                               </span>
                             )}
                             {evt.status === "Completed" && (

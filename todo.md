@@ -2759,3 +2759,9 @@
 - [x] Add candidate photos and polling data for Zambia (Aug 13)
 - [x] Add candidate photos and polling data for Kazakhstan (Aug 23)
 - [x] Add candidate photos and polling data for Haiti (Aug 30) — LIKELY POSTPONED, no candidates registered
+
+## Tomorrow Badge & São Tomé Live Results (Round 51)
+
+- [x] Add "Tomorrow" badge/alert on World timeline for São Tomé
+- [x] Create São Tomé election-night live results page with auto-refresh
+- [x] Explain Haiti election postponement context

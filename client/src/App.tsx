@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 import MapComparison from "./pages/MapComparison";
 import WorldElections from "./pages/WorldElections";
+import SaoTomeLive from "./pages/SaoTomeLive";
 
 function Router() {
   return (
@@ -16,6 +17,7 @@ function Router() {
       <Route path={"/admin"} component={Admin} />
       <Route path={"/map-comparison"} component={MapComparison} />
       <Route path={"/world"} component={WorldElections} />
+      <Route path={"/world/sao-tome-live"} component={SaoTomeLive} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
