@@ -2777,3 +2777,11 @@
 - [x] Israel: Yair Lapid photo
 - [x] New Zealand: Chlöe Swarbrick, Winston Peters photos
 - [x] The Gambia: Adama Barrow, Ousainou Darboe photos
+
+## Tomorrow Badge Fix & Date Verification (Jul 6)
+
+- [x] Fix Tomorrow badge logic to only show when election is actually 1 day away (ALREADY CORRECT - uses dynamic daysFromNow())
+- [x] Fix Tomorrow alert banner to use dynamic date comparison (ALREADY CORRECT - compares to today+1)
+- [x] Verify all World election dates against authoritative sources
+- [x] Verify U.S. election timeline dates (primaries, specials) against authoritative sources
+- [x] Apply date corrections: Czech Republic type fix, Alabama primary May 19, Rhode Island Sep 9, Florida format fix
