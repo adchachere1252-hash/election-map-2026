@@ -9,7 +9,23 @@ import { getLoginUrl } from "./const";
 import { ElectionSocketProvider } from "./contexts/ElectionSocketContext";
 import "./index.css";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: (failureCount, error) => {
+        // Don't retry auth errors
+        if (error instanceof TRPCClientError && error.message === UNAUTHED_ERR_MSG) return false;
+        // Retry up to 3 times for cold-start / HTML response errors
+        if (error instanceof TRPCClientError && error.message.includes("is not valid JSON")) {
+          return failureCount < 3;
+        }
+        // Default: retry up to 2 times for other errors
+        return failureCount < 2;
+      },
+      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 5000),
+    },
+  },
+});
 
 const redirectToLoginIfUnauthorized = (error: unknown) => {
   if (!(error instanceof TRPCClientError)) return;
@@ -26,7 +42,10 @@ queryClient.getQueryCache().subscribe(event => {
   if (event.type === "updated" && event.action.type === "error") {
     const error = event.query.state.error;
     redirectToLoginIfUnauthorized(error);
-    console.error("[API Query Error]", error);
+    // Only log non-retryable errors to avoid noise during cold starts
+    if (!(error instanceof TRPCClientError && error.message.includes("is not valid JSON"))) {
+      console.error("[API Query Error]", error);
+    }
   }
 });
 
