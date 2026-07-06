@@ -2765,3 +2765,15 @@
 - [x] Add "Tomorrow" badge/alert on World timeline for São Tomé
 - [x] Create São Tomé election-night live results page with auto-refresh
 - [x] Explain Haiti election postponement context
+
+## Missing Candidate Photos (Round 52)
+
+- [x] Japan: Yoshihiko Noda photo
+- [ ] São Tomé: Nito D'Abreu, Miques João Bonfim photos (minor candidates, no photos available online)
+- [x] Cook Islands: Tina Browne, Teariki Heather photos
+- [x] Zambia: Hakainde Hichilema, Fred M'membe, Sean Tembo photos (Saboi Imboela - no photo available)
+- [x] Sweden: Jimmie Åkesson photo
+- [x] Brazil: Romeu Zema, Ronaldo Caiado photos
+- [x] Israel: Yair Lapid photo
+- [x] New Zealand: Chlöe Swarbrick, Winston Peters photos
+- [ ] The Gambia: Opposition Coalition, Talib Ahmed Bensouda photos (minor election, limited photo availability)
