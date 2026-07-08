@@ -760,6 +760,31 @@ export default function Globe({
     // Stars are placed ONLY in space (minimum distance from center > globe radius + atmosphere)
     const MIN_STAR_DISTANCE = GLOBE_RADIUS * 1.8; // Stars must be outside the atmosphere glow
     const starLayers: { mat: THREE.PointsMaterial; baseOpacity: number; speed: number }[] = [];
+
+    // Generate a circular/glowing star texture via canvas (prevents square rendering)
+    function createStarTexture(glowIntensity = 1.0): THREE.CanvasTexture {
+      const size = 64;
+      const canvas = document.createElement("canvas");
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext("2d")!;
+      const center = size / 2;
+      const radius = size / 2;
+      // Radial gradient: bright center fading to transparent edge
+      const gradient = ctx.createRadialGradient(center, center, 0, center, center, radius);
+      gradient.addColorStop(0, `rgba(255, 255, 255, ${glowIntensity})`);
+      gradient.addColorStop(0.15, `rgba(255, 255, 255, ${glowIntensity * 0.8})`);
+      gradient.addColorStop(0.4, `rgba(255, 255, 255, ${glowIntensity * 0.3})`);
+      gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, size, size);
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.needsUpdate = true;
+      return texture;
+    }
+
+    const starTexture = createStarTexture(1.0);
+
     const addStarLayer = (count: number, size: number, opacity: number, spread: number, twinkleSpeed: number) => {
       const positions = new Float32Array(count * 3);
       let placed = 0;
@@ -778,13 +803,22 @@ export default function Globe({
       }
       const geo = new THREE.BufferGeometry();
       geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-      const mat = new THREE.PointsMaterial({ size, color: 0xffffff, transparent: true, opacity });
+      const mat = new THREE.PointsMaterial({
+        size,
+        color: 0xffffff,
+        transparent: true,
+        opacity,
+        map: starTexture,
+        sizeAttenuation: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+      });
       scene.add(new THREE.Points(geo, mat));
       starLayers.push({ mat, baseOpacity: opacity, speed: twinkleSpeed });
     };
-    addStarLayer(lod.starCounts[0], 0.03, 0.6, 120, 0.8);   // distant dim stars
-    addStarLayer(lod.starCounts[1], 0.06, 0.85, 80, 1.2);   // mid stars
-    addStarLayer(lod.starCounts[2], 0.12, 1.0, 60, 1.8);     // bright nearby stars (twinkle most)
+    addStarLayer(lod.starCounts[0], 0.04, 0.6, 120, 0.8);   // distant dim stars
+    addStarLayer(lod.starCounts[1], 0.08, 0.85, 80, 1.2);   // mid stars
+    addStarLayer(lod.starCounts[2], 0.15, 1.0, 60, 1.8);     // bright nearby stars (twinkle most)
     // A few colored stars for depth
     const colorStarCount = lod.colorStars ? lod.starCounts[3] : 0;
     const colorStarPositions = new Float32Array(Math.max(colorStarCount, 1) * 3);
@@ -804,7 +838,16 @@ export default function Globe({
     if (colorStarCount > 0) {
       const colorStarGeo = new THREE.BufferGeometry();
       colorStarGeo.setAttribute("position", new THREE.BufferAttribute(colorStarPositions, 3));
-      const colorStarMat = new THREE.PointsMaterial({ size: 0.08, color: 0xaaccff, transparent: true, opacity: 0.5 });
+      const colorStarMat = new THREE.PointsMaterial({
+        size: 0.1,
+        color: 0xaaccff,
+        transparent: true,
+        opacity: 0.5,
+        map: starTexture,
+        sizeAttenuation: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+      });
       scene.add(new THREE.Points(colorStarGeo, colorStarMat));
       starLayers.push({ mat: colorStarMat, baseOpacity: 0.5, speed: 1.5 });
     }
@@ -828,7 +871,16 @@ export default function Globe({
       }
       const warmGeo = new THREE.BufferGeometry();
       warmGeo.setAttribute("position", new THREE.BufferAttribute(warmPositions, 3));
-      const warmMat = new THREE.PointsMaterial({ size: 0.07, color: 0xffd699, transparent: true, opacity: 0.4 });
+      const warmMat = new THREE.PointsMaterial({
+        size: 0.09,
+        color: 0xffd699,
+        transparent: true,
+        opacity: 0.4,
+        map: starTexture,
+        sizeAttenuation: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+      });
       scene.add(new THREE.Points(warmGeo, warmMat));
       starLayers.push({ mat: warmMat, baseOpacity: 0.4, speed: 0.9 });
     }
@@ -876,6 +928,9 @@ export default function Globe({
           color,
           transparent: true,
           opacity: 0.12 + idx * 0.03,
+          map: starTexture,
+          sizeAttenuation: true,
+          depthWrite: false,
           blending: THREE.AdditiveBlending,
         });
         scene.add(new THREE.Points(geo, mat));

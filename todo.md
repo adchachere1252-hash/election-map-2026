@@ -2797,6 +2797,7 @@
 - [x] Add distance-based label scaling (labels shrink as camera moves away)
 - [x] Add label opacity fade at extreme zoom distances
 
+<<<<<<< Updated upstream
 ## Health Monitoring Endpoint (Jul 7)
 
 - [x] Add /api/health endpoint returning DB status, last AP update time, error count
@@ -2805,3 +2806,10 @@
 
 - [x] Pre-build and upload all 31 Congress bundles to S3
 - [x] Update server to serve from S3 cache first, fallback to on-the-fly build
+=======
+## Globe Star Rendering Fix (Jul 8)
+
+- [x] Fix stars rendering as large square boxes instead of point-like stars
+- [x] Generate circular star texture using canvas and apply as map to PointsMaterial
+- [x] Enable sizeAttenuation so stars scale properly with distance
+>>>>>>> Stashed changes
