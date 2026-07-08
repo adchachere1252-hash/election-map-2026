@@ -1393,6 +1393,21 @@ export default function Globe({
               child.quaternion.copy(inverseGlobeQuat);
               // Apply camera's quaternion so text faces the viewer
               child.quaternion.premultiply(camera.quaternion);
+              // Scale labels down when camera is far away to prevent giant squares at max zoom-out
+              const camDist = cameraWorldPos.distanceTo(globeCenter);
+              const baseZ = 7.2; // Default camera distance
+              const scaleFactor = Math.min(1, baseZ / camDist);
+              const origScale = child.userData.origScale;
+              if (origScale) {
+                child.scale.set(origScale.x * scaleFactor, origScale.y * scaleFactor, origScale.z * scaleFactor);
+              } else {
+                // Store original scale on first encounter
+                child.userData.origScale = { x: child.scale.x, y: child.scale.y, z: child.scale.z };
+              }
+              // Also fade labels out at extreme zoom to prevent visual clutter
+              if (camDist > 8) {
+                mat.opacity = Math.max(0, mat.opacity * (1 - (camDist - 8) / 2));
+              }
             }
           }
         });
@@ -1607,7 +1622,7 @@ export default function Globe({
     if (!cameraRef.current) return;
     e.preventDefault();
     const z = cameraRef.current.position.z + e.deltaY * 0.003;
-    cameraRef.current.position.z = Math.max(3.5, Math.min(10, z));
+    cameraRef.current.position.z = Math.max(3.5, Math.min(8.5, z));
   }, []);
 
   return (

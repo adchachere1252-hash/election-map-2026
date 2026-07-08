@@ -2789,3 +2789,10 @@
 ## Cabo Verde Parliamentary Election Addition (Jul 6)
 
 - [x] Add Cabo Verde May 17 parliamentary election (PAICV won 37/72 seats, 46% vote, turnout 46.47%)
+
+## Globe Zoom-Out Square Fix (Jul 7)
+
+- [x] Fix huge square visible when zooming all the way out on World globe (label PlaneGeometry not scaling with distance)
+- [x] Reduce max zoom-out from 10 to 8.5 to prevent extreme zoom
+- [x] Add distance-based label scaling (labels shrink as camera moves away)
+- [x] Add label opacity fade at extreme zoom distances
