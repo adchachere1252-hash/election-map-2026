@@ -202,12 +202,45 @@ async function startServer() {
   const bundleCache = new Map<string, string>(); // congress -> compressed JSON
   const bundleBuildInFlight = new Map<number, Promise<string | null>>();
 
+  // Try to fetch pre-built bundle from S3 (instant cold start)
+  async function fetchBundleFromS3(congress: number): Promise<string | null> {
+    try {
+      const { ENV } = await import("./env");
+      const baseUrl = ENV.forgeApiUrl?.replace(/\/+$/, "");
+      const apiKey = ENV.forgeApiKey;
+      if (!baseUrl || !apiKey) return null;
+      const downloadUrl = new URL("v1/storage/downloadUrl", baseUrl + "/");
+      downloadUrl.searchParams.set("path", `atlas-bundles/congress-${congress}.json`);
+      const metaRes = await fetch(downloadUrl, {
+        headers: { Authorization: `Bearer ${apiKey}` },
+        signal: AbortSignal.timeout(5000),
+      });
+      if (!metaRes.ok) return null;
+      const { url } = await metaRes.json() as { url: string };
+      if (!url) return null;
+      const dataRes = await fetch(url, { signal: AbortSignal.timeout(15000) });
+      if (!dataRes.ok) return null;
+      return await dataRes.text();
+    } catch {
+      return null;
+    }
+  }
+
   async function buildCongressBundle(congress: number): Promise<string | null> {
     const cacheKey = String(congress);
     if (bundleCache.has(cacheKey)) return bundleCache.get(cacheKey)!;
     if (bundleBuildInFlight.has(congress)) return bundleBuildInFlight.get(congress)!;
     const promise = (async () => {
       try {
+        // 1. Try S3 pre-built bundle first (fast path for cold starts)
+        const s3Bundle = await fetchBundleFromS3(congress);
+        if (s3Bundle) {
+          console.log(`[Atlas] Congress ${congress} loaded from S3 cache`);
+          bundleCache.set(cacheKey, s3Bundle);
+          return s3Bundle;
+        }
+        // 2. Fallback: build from GitHub (slower but always works)
+        console.log(`[Atlas] Congress ${congress} building from GitHub (S3 miss)`);
         const { LEWIS_MANIFEST } = await import("../../shared/lewisManifest");
         const US_STATES = Object.keys(LEWIS_MANIFEST);
         // Determine which files are needed for this congress

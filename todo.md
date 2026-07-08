@@ -2800,3 +2800,8 @@
 ## Health Monitoring Endpoint (Jul 7)
 
 - [x] Add /api/health endpoint returning DB status, last AP update time, error count
+
+## Pre-compress Atlas Bundles to S3 (Jul 7)
+
+- [x] Pre-build and upload all 31 Congress bundles to S3
+- [x] Update server to serve from S3 cache first, fallback to on-the-fly build
