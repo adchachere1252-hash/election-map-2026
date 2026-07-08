@@ -361,6 +361,7 @@ function createTextMesh(
   const mat = new THREE.MeshBasicMaterial({
     map: texture,
     transparent: true,
+    alphaTest: 0.01,
     depthTest: false,
     depthWrite: false,
     side: THREE.DoubleSide,
@@ -537,12 +538,19 @@ function buildCountryMesh(feature: any, radius: number, color: number): THREE.Me
 
   if (allVertices.length === 0) return null;
 
+  // Skip extremely tiny meshes that render as visible squares/dots
+  // (tiny island nations with < 6 vertices often produce degenerate geometry)
+  if (allVertices.length < 18) return null; // Less than 6 vertices (18 floats for x,y,z)
+
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute("position", new THREE.Float32BufferAttribute(allVertices, 3));
   geometry.setIndex(allIndices);
   geometry.computeVertexNormals();
   geometry.computeBoundingSphere();
   geometry.computeBoundingBox();
+
+  // Skip meshes with very small bounding sphere (tiny islands that appear as squares)
+  if (geometry.boundingSphere && geometry.boundingSphere.radius < 0.02) return null;
 
   const material = new THREE.MeshBasicMaterial({
     color,
