@@ -30,6 +30,22 @@ let worldTrackerTimer: ReturnType<typeof setInterval> | null = null;
 let lastApRun = 0;
 let lastPromotionRun = 0;
 let lastWorldTrackerRun = 0;
+let lastApErrorCount = 0;
+let lastApOkCount = 0;
+let lastApError: string | null = null;
+
+/** Exported health stats for /api/health */
+export function getSchedulerHealth() {
+  return {
+    state: currentState ?? "uninitialized",
+    lastApRun: lastApRun ? new Date(lastApRun).toISOString() : null,
+    lastPromotionRun: lastPromotionRun ? new Date(lastPromotionRun).toISOString() : null,
+    lastWorldTrackerRun: lastWorldTrackerRun ? new Date(lastWorldTrackerRun).toISOString() : null,
+    lastApErrorCount,
+    lastApOkCount,
+    lastApError,
+  };
+}
 
 /**
  * Initialize the election scheduler. Call once at server startup.
@@ -51,8 +67,13 @@ export async function initElectionScheduler(): Promise<void> {
         log(`AP Update — Updated: ${okCount} | Skipped: ${skipCount} | Errors: ${errCount} (${result.elapsed_ms}ms)`);
       }
       lastApRun = Date.now();
+      lastApOkCount = okCount;
+      lastApErrorCount = errCount;
+      lastApError = errCount > 0 ? `${errCount} race update errors` : null;
     } catch (err) {
-      log(`AP Update Error: ${err instanceof Error ? err.message : String(err)}`);
+      lastApError = err instanceof Error ? err.message : String(err);
+      lastApErrorCount = -1;
+      log(`AP Update Error: ${lastApError}`);
     }
   }
 

@@ -12,6 +12,8 @@ import { serveStatic, setupVite } from "./vite";
 import { attachWebSocketServer } from "../ws";
 import { handleScheduledApUpdate, handleScheduledApUpdateTrusted } from "../scheduledApUpdate";
 import { registerScheduledRoutes } from "../scheduledRoutes";
+import { getSchedulerHealth } from "../electionScheduler";
+import { getDb } from "../db";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -50,6 +52,45 @@ async function startServer() {
   app.post("/scheduled/ap-update", handleScheduledApUpdate);
   // Password-based scheduled routes (includes /api/scheduled/ap-update with body password)
   registerScheduledRoutes(app);
+
+  // Health monitoring endpoint
+  app.get("/api/health", async (_req, res) => {
+    const startTime = Date.now();
+    let dbStatus: "connected" | "disconnected" = "disconnected";
+    let dbLatencyMs = 0;
+    try {
+      const db = await getDb();
+      if (db) {
+        const dbStart = Date.now();
+        await db.execute("SELECT 1");
+        dbLatencyMs = Date.now() - dbStart;
+        dbStatus = "connected";
+      }
+    } catch {
+      dbStatus = "disconnected";
+    }
+    const scheduler = getSchedulerHealth();
+    const uptime = process.uptime();
+    res.json({
+      status: dbStatus === "connected" ? "healthy" : "degraded",
+      timestamp: new Date().toISOString(),
+      uptime: Math.round(uptime),
+      database: {
+        status: dbStatus,
+        latencyMs: dbLatencyMs,
+      },
+      scheduler: {
+        state: scheduler.state,
+        lastApUpdate: scheduler.lastApRun,
+        lastApUpdatedCount: scheduler.lastApOkCount,
+        lastApErrorCount: scheduler.lastApErrorCount,
+        lastApError: scheduler.lastApError,
+        lastPromotionRun: scheduler.lastPromotionRun,
+        lastWorldTrackerRun: scheduler.lastWorldTrackerRun,
+      },
+      responseTimeMs: Date.now() - startTime,
+    });
+  });
 
   // Storage proxy for uploaded candidate photos
   registerStorageProxy(app);

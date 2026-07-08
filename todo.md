@@ -2796,3 +2796,7 @@
 - [x] Reduce max zoom-out from 10 to 8.5 to prevent extreme zoom
 - [x] Add distance-based label scaling (labels shrink as camera moves away)
 - [x] Add label opacity fade at extreme zoom distances
+
+## Health Monitoring Endpoint (Jul 7)
+
+- [x] Add /api/health endpoint returning DB status, last AP update time, error count
