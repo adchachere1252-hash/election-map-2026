@@ -2837,3 +2837,4 @@
 - [x] Increase sparkle point length so 4 rays are more elongated and visibly star-shaped
 - [x] Add brighter center glow to each sparkle star
 - [x] Make globe start fully zoomed out
+- [x] Fix Redistricting map click handler: prioritize redistricting popup over referendum popup when state has active redistricting data

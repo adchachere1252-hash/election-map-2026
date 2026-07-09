@@ -315,19 +315,15 @@ export default function Home() {
       const stateRaces = houseRaces.filter(r => r.stateCode === stateCode);
       if (stateRaces.length === 1) { setPopup({ type: "house", data: stateRaces[0] }); setSelectedId(stateRaces[0].id); }
     } else if (view === "redistricting") {
-      // If an active (non-voided) referendum exists for this state, show the referendum popup.
-      // If the referendum was struck down / voided by a court, show the redistricting state popup instead.
+      // Prioritize redistricting state popup when the state has active redistricting.
+      // Only fall back to referendum popup if no redistricting record exists.
       const ref = referendums.find(r => r.stateCode === stateCode);
       const redistState = redistrictingStates.find(r => r.stateCode === stateCode);
-      const isVoided = redistState?.status === 'Struck Down';
-      if (ref && !isVoided) {
-        setPopup({ type: "referendum", data: ref });
-        setSelectedId(ref.id);
-      } else if (redistState) {
+      if (redistState) {
         setPopup({ type: "redistricting", data: redistState });
         setSelectedId(redistState.id);
       } else if (ref) {
-        // Fallback: show referendum if no redistricting record
+        // No redistricting record — show referendum if available
         setPopup({ type: "referendum", data: ref });
         setSelectedId(ref.id);
       }
