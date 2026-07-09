@@ -935,7 +935,9 @@ export default function Globe({
       starLayers.push({ mat: coreMat, baseOpacity: 0.6, speed: 0.4 });
     }
 
-    // ─── Layer 4: Nebula clouds (multiple, varied colors and positions) ───
+    // ─── Layer 4: Nebula clouds in a parallax group (rotates independently) ───
+    const nebulaGroup = new THREE.Group();
+    scene.add(nebulaGroup);
     {
       const nebulaConfigs = [
         // Large blue nebula (upper-left)
@@ -957,7 +959,6 @@ export default function Globe({
       nebulaSubset.forEach((cfg) => {
         const positions = new Float32Array(cfg.count * 3);
         for (let i = 0; i < cfg.count; i++) {
-          // Gaussian-like distribution (sum of randoms)
           const gx = ((Math.random() + Math.random() + Math.random()) / 3 - 0.5) * 2;
           const gy = ((Math.random() + Math.random() + Math.random()) / 3 - 0.5) * 2;
           const gz = ((Math.random() + Math.random() + Math.random()) / 3 - 0.5) * 2;
@@ -977,17 +978,16 @@ export default function Globe({
           depthWrite: false,
           blending: THREE.AdditiveBlending,
         });
-        scene.add(new THREE.Points(geo, mat));
+        nebulaGroup.add(new THREE.Points(geo, mat));
       });
     }
 
-    // ─── Layer 5: Cosmic dust lanes (dark-ish streaks that add depth) ───
+    // ─── Layer 5: Cosmic dust lanes (in parallax group) ───
     if (quality !== "low") {
       const dustCount = quality === "high" ? 3000 : 1500;
       const dustPositions = new Float32Array(dustCount * 3);
       let dustPlaced = 0;
       while (dustPlaced < dustCount) {
-        // Concentrated in bands
         const band = Math.floor(Math.random() * 3);
         const bandY = [-8, 3, 15][band];
         const x = (Math.random() - 0.5) * 160;
@@ -1013,7 +1013,51 @@ export default function Globe({
         depthWrite: false,
         blending: THREE.AdditiveBlending,
       });
-      scene.add(new THREE.Points(dustGeo, dustMat));
+      nebulaGroup.add(new THREE.Points(dustGeo, dustMat));
+    }
+
+    // ─── Layer 5b: Star cluster hotspots (dense groupings like Pleiades) ───
+    {
+      const clusterCount = quality === "high" ? 8 : quality === "medium" ? 5 : 3;
+      const clusterColors = [0xffffff, 0xddeeff, 0xffeedd, 0xccddff, 0xfff5e0, 0xe8e0ff, 0xffe8d0, 0xd0e8ff];
+      for (let c = 0; c < clusterCount; c++) {
+        const starCount = 40 + Math.floor(Math.random() * 60); // 40-100 stars per cluster
+        const positions = new Float32Array(starCount * 3);
+        // Random cluster center in space (outside globe)
+        let cx: number, cy: number, cz: number, dist: number;
+        do {
+          cx = (Math.random() - 0.5) * 100;
+          cy = (Math.random() - 0.5) * 70;
+          cz = -15 - Math.random() * 60;
+          dist = Math.sqrt(cx * cx + cy * cy + cz * cz);
+        } while (dist < MIN_STAR_DISTANCE);
+        // Tight Gaussian spread (cluster radius ~2-5 units)
+        const clusterRadius = 2 + Math.random() * 3;
+        for (let i = 0; i < starCount; i++) {
+          // Box-Muller-like via sum of randoms for Gaussian distribution
+          const gx = ((Math.random() + Math.random() + Math.random() + Math.random()) / 4 - 0.5) * 2;
+          const gy = ((Math.random() + Math.random() + Math.random() + Math.random()) / 4 - 0.5) * 2;
+          const gz = ((Math.random() + Math.random() + Math.random() + Math.random()) / 4 - 0.5) * 2;
+          positions[i * 3] = cx + gx * clusterRadius;
+          positions[i * 3 + 1] = cy + gy * clusterRadius;
+          positions[i * 3 + 2] = cz + gz * clusterRadius;
+        }
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+        const clusterColor = clusterColors[c % clusterColors.length];
+        const mat = new THREE.PointsMaterial({
+          size: 0.05 + Math.random() * 0.04, // slightly varied sizes per cluster
+          color: clusterColor,
+          transparent: true,
+          opacity: 0.7 + Math.random() * 0.3,
+          map: brightStarTexture,
+          sizeAttenuation: true,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+        });
+        scene.add(new THREE.Points(geo, mat));
+        starLayers.push({ mat, baseOpacity: mat.opacity, speed: 0.4 + Math.random() * 0.6 });
+      }
     }
 
     // ─── Layer 6: Shooting stars (animated streaks) ───
@@ -1463,6 +1507,13 @@ export default function Globe({
           layer.mat.opacity = layer.baseOpacity * twinkle;
         });
       }
+
+      // Parallax rotation for nebula/dust group (independent of globe)
+      // Very slow multi-axis drift creates depth perception
+      const nebulaTime = Date.now() * 0.0001; // very slow
+      nebulaGroup.rotation.y = Math.sin(nebulaTime * 0.7) * 0.03 + nebulaTime * 0.02;
+      nebulaGroup.rotation.x = Math.cos(nebulaTime * 0.5) * 0.015;
+      nebulaGroup.rotation.z = Math.sin(nebulaTime * 0.3) * 0.008;
 
       // Animate shooting stars
       if (shootingStarMeshes.length > 0) {

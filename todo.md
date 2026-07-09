@@ -2821,3 +2821,8 @@
 - [x] Increase star density and add more size variation layers
 - [x] Add subtle galaxy dust lanes / cosmic cloud effects
 - [x] Match the richness and depth of the U.S. map's starfield background
+
+## World Globe Parallax & Star Clusters (Jul 8)
+
+- [x] Add independent slow rotation to nebula/dust layers for parallax depth effect
+- [x] Add star cluster hotspots (dense groupings of 50-100 stars mimicking open clusters like Pleiades)
