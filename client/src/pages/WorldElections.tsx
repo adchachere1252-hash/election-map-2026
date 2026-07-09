@@ -11,6 +11,8 @@ import { Calendar, List, Globe2, Users, Clock, ChevronRight, X, MapPin, Vote, Aw
 import { Switch } from "@/components/ui/switch";
 import { Label as UILabel } from "@/components/ui/label";
 import { Link } from "wouter";
+import { TwinklingStars } from "@/components/TwinklingStars";
+import { ShootingStar } from "@/components/ShootingStar";
 
 // Lazy load the 3D globe to keep initial bundle small
 const Globe = lazy(() => import("@/components/Globe"));
@@ -723,7 +725,9 @@ export default function WorldElections() {
   }
 
   return (
-    <div id="main-content" className="w-full h-screen flex flex-col bg-slate-950 relative overflow-hidden">
+    <div id="main-content" className="w-full h-screen flex flex-col relative overflow-hidden" style={{ background: "#080b14 url('https://d2xsxph8kpxj0f.cloudfront.net/310519663521029713/Duqshn4D3kdv9jkbtBdj4X/bg-starfield-mockup-JqYe2bKJ8FLDDszMe8FmV9.webp') center/cover no-repeat" }}>
+      <TwinklingStars />
+      <ShootingStar />
       {/* World Results Banner */}
       <WorldResultsTicker />
 

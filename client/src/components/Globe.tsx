@@ -940,18 +940,18 @@ export default function Globe({
     scene.add(nebulaGroup);
     {
       const nebulaConfigs = [
-        // Large blue nebula (upper-left)
-        { color: 0x3355bb, count: 500, cx: -35, cy: 20, cz: -50, spreadX: 25, spreadY: 18, spreadZ: 12, size: 0.4, opacity: 0.08 },
+        // Large blue nebula (upper-left) — brought closer and brighter
+        { color: 0x4477cc, count: 600, cx: -12, cy: 8, cz: -15, spreadX: 10, spreadY: 8, spreadZ: 6, size: 0.6, opacity: 0.14 },
         // Purple/violet nebula (lower-right)
-        { color: 0x6633aa, count: 400, cx: 30, cy: -15, cz: -45, spreadX: 20, spreadY: 15, spreadZ: 10, size: 0.35, opacity: 0.07 },
-        // Teal nebula (center-back)
-        { color: 0x225588, count: 350, cx: 5, cy: 5, cz: -60, spreadX: 30, spreadY: 20, spreadZ: 15, size: 0.5, opacity: 0.06 },
+        { color: 0x7744bb, count: 500, cx: 10, cy: -6, cz: -12, spreadX: 8, spreadY: 7, spreadZ: 5, size: 0.5, opacity: 0.12 },
+        // Teal nebula (behind globe, visible at edges)
+        { color: 0x3377aa, count: 450, cx: 2, cy: 3, cz: -18, spreadX: 14, spreadY: 10, spreadZ: 8, size: 0.7, opacity: 0.10 },
         // Pink/magenta nebula (upper-right)
-        { color: 0x883366, count: 300, cx: 40, cy: 25, cz: -55, spreadX: 18, spreadY: 14, spreadZ: 10, size: 0.3, opacity: 0.06 },
-        // Deep blue diffuse cloud (fills gaps)
-        { color: 0x1a2a55, count: 600, cx: 0, cy: 0, cz: -70, spreadX: 60, spreadY: 40, spreadZ: 20, size: 0.6, opacity: 0.04 },
-        // Warm orange emission nebula (small, bright)
-        { color: 0xaa5522, count: 200, cx: -20, cy: -25, cz: -40, spreadX: 12, spreadY: 10, spreadZ: 8, size: 0.25, opacity: 0.09 },
+        { color: 0x993377, count: 400, cx: 14, cy: 9, cz: -14, spreadX: 7, spreadY: 6, spreadZ: 5, size: 0.45, opacity: 0.11 },
+        // Deep blue diffuse cloud (fills gaps around globe)
+        { color: 0x223366, count: 700, cx: 0, cy: 0, cz: -20, spreadX: 20, spreadY: 15, spreadZ: 10, size: 0.8, opacity: 0.07 },
+        // Warm orange emission nebula (small, bright accent)
+        { color: 0xcc6633, count: 300, cx: -8, cy: -8, cz: -10, spreadX: 5, spreadY: 4, spreadZ: 4, size: 0.35, opacity: 0.15 },
       ];
 
       const nebulaSubset = quality === "low" ? nebulaConfigs.slice(0, 2) : quality === "medium" ? nebulaConfigs.slice(0, 4) : nebulaConfigs;
@@ -1021,20 +1021,19 @@ export default function Globe({
       const clusterCount = quality === "high" ? 8 : quality === "medium" ? 5 : 3;
       const clusterColors = [0xffffff, 0xddeeff, 0xffeedd, 0xccddff, 0xfff5e0, 0xe8e0ff, 0xffe8d0, 0xd0e8ff];
       for (let c = 0; c < clusterCount; c++) {
-        const starCount = 40 + Math.floor(Math.random() * 60); // 40-100 stars per cluster
+        const starCount = 50 + Math.floor(Math.random() * 70); // 50-120 stars per cluster
         const positions = new Float32Array(starCount * 3);
-        // Random cluster center in space (outside globe)
+        // Cluster center — placed in visible space around the globe (not too far)
         let cx: number, cy: number, cz: number, dist: number;
         do {
-          cx = (Math.random() - 0.5) * 100;
-          cy = (Math.random() - 0.5) * 70;
-          cz = -15 - Math.random() * 60;
+          cx = (Math.random() - 0.5) * 30;
+          cy = (Math.random() - 0.5) * 25;
+          cz = -5 - Math.random() * 20;
           dist = Math.sqrt(cx * cx + cy * cy + cz * cz);
         } while (dist < MIN_STAR_DISTANCE);
-        // Tight Gaussian spread (cluster radius ~2-5 units)
-        const clusterRadius = 2 + Math.random() * 3;
+        // Tight Gaussian spread (cluster radius ~1-3 units)
+        const clusterRadius = 1 + Math.random() * 2;
         for (let i = 0; i < starCount; i++) {
-          // Box-Muller-like via sum of randoms for Gaussian distribution
           const gx = ((Math.random() + Math.random() + Math.random() + Math.random()) / 4 - 0.5) * 2;
           const gy = ((Math.random() + Math.random() + Math.random() + Math.random()) / 4 - 0.5) * 2;
           const gz = ((Math.random() + Math.random() + Math.random() + Math.random()) / 4 - 0.5) * 2;
@@ -1046,10 +1045,10 @@ export default function Globe({
         geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
         const clusterColor = clusterColors[c % clusterColors.length];
         const mat = new THREE.PointsMaterial({
-          size: 0.05 + Math.random() * 0.04, // slightly varied sizes per cluster
+          size: 0.10 + Math.random() * 0.08, // larger, more visible
           color: clusterColor,
           transparent: true,
-          opacity: 0.7 + Math.random() * 0.3,
+          opacity: 0.85 + Math.random() * 0.15,
           map: brightStarTexture,
           sizeAttenuation: true,
           depthWrite: false,
@@ -1509,11 +1508,11 @@ export default function Globe({
       }
 
       // Parallax rotation for nebula/dust group (independent of globe)
-      // Very slow multi-axis drift creates depth perception
-      const nebulaTime = Date.now() * 0.0001; // very slow
-      nebulaGroup.rotation.y = Math.sin(nebulaTime * 0.7) * 0.03 + nebulaTime * 0.02;
-      nebulaGroup.rotation.x = Math.cos(nebulaTime * 0.5) * 0.015;
-      nebulaGroup.rotation.z = Math.sin(nebulaTime * 0.3) * 0.008;
+      // Slow multi-axis drift creates depth perception
+      const nebulaTime = Date.now() * 0.0001;
+      nebulaGroup.rotation.y = Math.sin(nebulaTime * 1.2) * 0.08 + nebulaTime * 0.05;
+      nebulaGroup.rotation.x = Math.cos(nebulaTime * 0.8) * 0.04;
+      nebulaGroup.rotation.z = Math.sin(nebulaTime * 0.5) * 0.02;
 
       // Animate shooting stars
       if (shootingStarMeshes.length > 0) {
