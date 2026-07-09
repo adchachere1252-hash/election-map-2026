@@ -935,6 +935,36 @@ export default function Globe({
       starLayers.push({ mat: coreMat, baseOpacity: 0.6, speed: 0.4 });
     }
 
+    // ─── Layer 3b: Galactic core glow (large soft sprite at Milky Way center) ───
+    if (quality !== "low") {
+      const glowCanvas = document.createElement("canvas");
+      glowCanvas.width = 256;
+      glowCanvas.height = 256;
+      const glowCtx = glowCanvas.getContext("2d")!;
+      // Soft radial gradient: warm center fading to transparent
+      const gradient = glowCtx.createRadialGradient(128, 128, 0, 128, 128, 128);
+      gradient.addColorStop(0, "rgba(255, 230, 180, 0.35)");
+      gradient.addColorStop(0.15, "rgba(220, 200, 160, 0.25)");
+      gradient.addColorStop(0.4, "rgba(150, 140, 180, 0.12)");
+      gradient.addColorStop(0.7, "rgba(80, 90, 140, 0.05)");
+      gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+      glowCtx.fillStyle = gradient;
+      glowCtx.fillRect(0, 0, 256, 256);
+      const glowTexture = new THREE.CanvasTexture(glowCanvas);
+      const glowMat = new THREE.SpriteMaterial({
+        map: glowTexture,
+        transparent: true,
+        opacity: 0.6,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      });
+      const glowSprite = new THREE.Sprite(glowMat);
+      // Position at the galactic center (along the Milky Way band, behind globe)
+      glowSprite.position.set(0, 2, -35);
+      glowSprite.scale.set(30, 20, 1); // large elliptical glow
+      scene.add(glowSprite);
+    }
+
     // ─── Layer 4: Nebula clouds in a parallax group (rotates independently) ───
     const nebulaGroup = new THREE.Group();
     scene.add(nebulaGroup);

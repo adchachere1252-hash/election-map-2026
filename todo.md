@@ -2826,3 +2826,10 @@
 
 - [x] Add independent slow rotation to nebula/dust layers for parallax depth effect
 - [x] Add star cluster hotspots (dense groupings of 50-100 stars mimicking open clusters like Pleiades)
+
+## World Globe Visual Polish (Jul 9)
+
+- [x] Add galactic core glow sprite behind Milky Way band center
+- [x] Reduce TwinklingStars SVG dot sizes on World page
+- [x] Make TwinklingStars look like actual stars (sparkle/cross shape) instead of plain circles
+- [x] Update Maine Senate race: Graham Platner (D) withdrawing, move race back to TBD/update candidates
