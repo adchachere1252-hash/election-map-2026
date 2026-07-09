@@ -2834,3 +2834,6 @@
 - [x] Make TwinklingStars look like actual stars (sparkle/cross shape) instead of plain circles
 - [x] Update Maine Senate race: Graham Platner (D) withdrawing, move race back to TBD/update candidates
 - [x] Add Maryland to Redistricting map: special session called Aug 3-5 for constitutional amendment on congressional redistricting
+- [x] Increase sparkle point length so 4 rays are more elongated and visibly star-shaped
+- [x] Add brighter center glow to each sparkle star
+- [x] Make globe start fully zoomed out
