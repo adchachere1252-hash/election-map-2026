@@ -2813,3 +2813,11 @@
 - [x] Generate circular star texture using canvas and apply as map to PointsMaterial
 - [x] Enable sizeAttenuation so stars scale properly with distance
 >>>>>>> Stashed changes
+
+## World Globe Background Enhancement (Jul 8)
+
+- [x] Add Milky Way band (dense star cluster along galactic plane) to World globe
+- [x] Add more nebula clusters with varied colors and positions
+- [x] Increase star density and add more size variation layers
+- [x] Add subtle galaxy dust lanes / cosmic cloud effects
+- [x] Match the richness and depth of the U.S. map's starfield background

@@ -756,13 +756,14 @@ export default function Globe({
     dirLight.position.set(5, 3, 5);
     scene.add(dirLight);
 
-    // Stars — rich multi-layer starfield with twinkling
-    // Stars are placed ONLY in space (minimum distance from center > globe radius + atmosphere)
-    const MIN_STAR_DISTANCE = GLOBE_RADIUS * 1.8; // Stars must be outside the atmosphere glow
+    // ═══════════════════════════════════════════════════════════════════════════
+    // RICH GALAXY STARFIELD — Multi-layer deep space background
+    // ═══════════════════════════════════════════════════════════════════════════
+    const MIN_STAR_DISTANCE = GLOBE_RADIUS * 1.8;
     const starLayers: { mat: THREE.PointsMaterial; baseOpacity: number; speed: number }[] = [];
 
-    // Generate a circular/glowing star texture via canvas (prevents square rendering)
-    function createStarTexture(glowIntensity = 1.0): THREE.CanvasTexture {
+    // ─── Star texture generator (circular glow, prevents square rendering) ───
+    function createStarTexture(glowIntensity = 1.0, sharpness = 0.15): THREE.CanvasTexture {
       const size = 64;
       const canvas = document.createElement("canvas");
       canvas.width = size;
@@ -770,11 +771,11 @@ export default function Globe({
       const ctx = canvas.getContext("2d")!;
       const center = size / 2;
       const radius = size / 2;
-      // Radial gradient: bright center fading to transparent edge
       const gradient = ctx.createRadialGradient(center, center, 0, center, center, radius);
       gradient.addColorStop(0, `rgba(255, 255, 255, ${glowIntensity})`);
-      gradient.addColorStop(0.15, `rgba(255, 255, 255, ${glowIntensity * 0.8})`);
-      gradient.addColorStop(0.4, `rgba(255, 255, 255, ${glowIntensity * 0.3})`);
+      gradient.addColorStop(sharpness, `rgba(255, 255, 255, ${glowIntensity * 0.85})`);
+      gradient.addColorStop(0.4, `rgba(255, 255, 255, ${glowIntensity * 0.25})`);
+      gradient.addColorStop(0.7, `rgba(255, 255, 255, ${glowIntensity * 0.05})`);
       gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, size, size);
@@ -783,16 +784,38 @@ export default function Globe({
       return texture;
     }
 
-    const starTexture = createStarTexture(1.0);
+    // Soft diffuse glow texture for nebula/dust clouds
+    function createNebulaTexture(): THREE.CanvasTexture {
+      const size = 128;
+      const canvas = document.createElement("canvas");
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext("2d")!;
+      const center = size / 2;
+      const gradient = ctx.createRadialGradient(center, center, 0, center, center, size / 2);
+      gradient.addColorStop(0, "rgba(255, 255, 255, 0.6)");
+      gradient.addColorStop(0.2, "rgba(255, 255, 255, 0.3)");
+      gradient.addColorStop(0.5, "rgba(255, 255, 255, 0.08)");
+      gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, size, size);
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.needsUpdate = true;
+      return texture;
+    }
 
-    const addStarLayer = (count: number, size: number, opacity: number, spread: number, twinkleSpeed: number) => {
+    const starTexture = createStarTexture(1.0, 0.12);
+    const brightStarTexture = createStarTexture(1.0, 0.08); // sharper core for bright stars
+    const nebulaTexture = createNebulaTexture();
+
+    // ─── Layer 1: Ultra-fine background dust (thousands of tiny dim points) ───
+    const addStarLayer = (count: number, size: number, opacity: number, spread: number, twinkleSpeed: number, color = 0xffffff, tex?: THREE.Texture) => {
       const positions = new Float32Array(count * 3);
       let placed = 0;
       while (placed < count) {
         const x = (Math.random() - 0.5) * spread;
         const y = (Math.random() - 0.5) * spread;
         const z = (Math.random() - 0.5) * spread;
-        // Only place star if it's far enough from center (outside globe + atmosphere)
         const dist = Math.sqrt(x * x + y * y + z * z);
         if (dist > MIN_STAR_DISTANCE) {
           positions[placed * 3] = x;
@@ -805,10 +828,10 @@ export default function Globe({
       geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
       const mat = new THREE.PointsMaterial({
         size,
-        color: 0xffffff,
+        color,
         transparent: true,
         opacity,
-        map: starTexture,
+        map: tex || starTexture,
         sizeAttenuation: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
@@ -816,64 +839,57 @@ export default function Globe({
       scene.add(new THREE.Points(geo, mat));
       starLayers.push({ mat, baseOpacity: opacity, speed: twinkleSpeed });
     };
-    addStarLayer(lod.starCounts[0], 0.04, 0.6, 120, 0.8);   // distant dim stars
-    addStarLayer(lod.starCounts[1], 0.08, 0.85, 80, 1.2);   // mid stars
-    addStarLayer(lod.starCounts[2], 0.15, 1.0, 60, 1.8);     // bright nearby stars (twinkle most)
-    // A few colored stars for depth
-    const colorStarCount = lod.colorStars ? lod.starCounts[3] : 0;
-    const colorStarPositions = new Float32Array(Math.max(colorStarCount, 1) * 3);
-    let colorPlaced = 0;
-    while (colorPlaced < colorStarCount) {
-      const x = (Math.random() - 0.5) * 100;
-      const y = (Math.random() - 0.5) * 100;
-      const z = (Math.random() - 0.5) * 100;
-      const dist = Math.sqrt(x * x + y * y + z * z);
-      if (dist > MIN_STAR_DISTANCE) {
-        colorStarPositions[colorPlaced * 3] = x;
-        colorStarPositions[colorPlaced * 3 + 1] = y;
-        colorStarPositions[colorPlaced * 3 + 2] = z;
-        colorPlaced++;
-      }
-    }
-    if (colorStarCount > 0) {
-      const colorStarGeo = new THREE.BufferGeometry();
-      colorStarGeo.setAttribute("position", new THREE.BufferAttribute(colorStarPositions, 3));
-      const colorStarMat = new THREE.PointsMaterial({
-        size: 0.1,
-        color: 0xaaccff,
-        transparent: true,
-        opacity: 0.5,
-        map: starTexture,
-        sizeAttenuation: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-      });
-      scene.add(new THREE.Points(colorStarGeo, colorStarMat));
-      starLayers.push({ mat: colorStarMat, baseOpacity: 0.5, speed: 1.5 });
+
+    // Background dust — very fine, very numerous
+    addStarLayer(lod.starCounts[0] * 2, 0.02, 0.35, 150, 0.5);    // ultra-distant faint dust
+    addStarLayer(lod.starCounts[0], 0.035, 0.5, 130, 0.7);        // distant dim stars
+    addStarLayer(lod.starCounts[1], 0.06, 0.7, 100, 1.0);         // mid-field stars
+    addStarLayer(lod.starCounts[1], 0.09, 0.85, 80, 1.3);         // mid-bright stars
+    addStarLayer(lod.starCounts[2], 0.14, 1.0, 60, 1.8, 0xffffff, brightStarTexture); // bright nearby
+    addStarLayer(Math.floor(lod.starCounts[2] * 0.3), 0.22, 1.0, 50, 2.2, 0xffffff, brightStarTexture); // very bright feature stars
+
+    // ─── Layer 2: Colored stars (blue, amber, red) for spectral realism ───
+    if (lod.colorStars) {
+      const colorCount = lod.starCounts[3];
+      // Cool blue stars (hot young stars)
+      addStarLayer(colorCount, 0.08, 0.55, 100, 1.4, 0xaaccff);
+      // Warm amber/gold stars (older stars)
+      addStarLayer(Math.floor(colorCount * 0.6), 0.07, 0.45, 90, 0.9, 0xffd699);
+      // Red giant stars (sparse, larger)
+      addStarLayer(Math.floor(colorCount * 0.25), 0.12, 0.35, 80, 0.6, 0xff9977);
     }
 
-    // Warm-toned stars (gold/amber) for visual variety
-    if (lod.colorStars) {
-      const warmCount = Math.floor(lod.starCounts[3] * 0.5);
-      const warmPositions = new Float32Array(warmCount * 3);
-      let warmPlaced = 0;
-      while (warmPlaced < warmCount) {
-        const x = (Math.random() - 0.5) * 90;
-        const y = (Math.random() - 0.5) * 90;
-        const z = (Math.random() - 0.5) * 90;
+    // ─── Layer 3: Milky Way band (dense star concentration along galactic plane) ───
+    {
+      const milkyWayCount = quality === "high" ? 8000 : quality === "medium" ? 4000 : 2000;
+      const positions = new Float32Array(milkyWayCount * 3);
+      let placed = 0;
+      // Galactic plane: tilted ~60° from horizontal, running diagonally across the sky
+      const tiltAngle = Math.PI * 0.33; // tilt of the galactic plane
+      const cosT = Math.cos(tiltAngle);
+      const sinT = Math.sin(tiltAngle);
+      while (placed < milkyWayCount) {
+        // Gaussian distribution concentrated near the plane
+        const along = (Math.random() - 0.5) * 200; // spread along the band
+        const perp = (Math.random() - 0.5) * 12 * (1 + Math.random()); // narrow perpendicular spread (Gaussian-ish)
+        const depth = (Math.random() - 0.5) * 80;
+        // Rotate into tilted galactic plane
+        const x = along;
+        const y = perp * cosT - depth * sinT * 0.3;
+        const z = perp * sinT + depth * cosT * 0.3 - 40; // push behind globe
         const dist = Math.sqrt(x * x + y * y + z * z);
         if (dist > MIN_STAR_DISTANCE) {
-          warmPositions[warmPlaced * 3] = x;
-          warmPositions[warmPlaced * 3 + 1] = y;
-          warmPositions[warmPlaced * 3 + 2] = z;
-          warmPlaced++;
+          positions[placed * 3] = x;
+          positions[placed * 3 + 1] = y;
+          positions[placed * 3 + 2] = z;
+          placed++;
         }
       }
-      const warmGeo = new THREE.BufferGeometry();
-      warmGeo.setAttribute("position", new THREE.BufferAttribute(warmPositions, 3));
-      const warmMat = new THREE.PointsMaterial({
-        size: 0.09,
-        color: 0xffd699,
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+      const mat = new THREE.PointsMaterial({
+        size: 0.03,
+        color: 0xddeeff,
         transparent: true,
         opacity: 0.4,
         map: starTexture,
@@ -881,60 +897,144 @@ export default function Globe({
         depthWrite: false,
         blending: THREE.AdditiveBlending,
       });
-      scene.add(new THREE.Points(warmGeo, warmMat));
-      starLayers.push({ mat: warmMat, baseOpacity: 0.4, speed: 0.9 });
-    }
+      scene.add(new THREE.Points(geo, mat));
+      starLayers.push({ mat, baseOpacity: 0.4, speed: 0.3 });
 
-    // Shooting stars (animated streaks) — only on high/medium
-    const shootingStarMeshes: THREE.Mesh[] = [];
-    if ((lod as any).shootingStars) {
-      for (let i = 0; i < 3; i++) {
-        const streakGeo = new THREE.CylinderGeometry(0.005, 0.001, 1.5, 4);
-        streakGeo.rotateZ(Math.PI / 2);
-        const streakMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0 });
-        const streak = new THREE.Mesh(streakGeo, streakMat);
-        streak.userData = {
-          active: false,
-          progress: 0,
-          speed: 0.8 + Math.random() * 1.2,
-          startDelay: i * 4 + Math.random() * 6,
-          startPos: new THREE.Vector3(),
-          direction: new THREE.Vector3(),
-        };
-        scene.add(streak);
-        shootingStarMeshes.push(streak);
+      // Brighter core stars along the Milky Way center
+      const coreCount = Math.floor(milkyWayCount * 0.15);
+      const corePositions = new Float32Array(coreCount * 3);
+      let corePlaced = 0;
+      while (corePlaced < coreCount) {
+        const along = (Math.random() - 0.5) * 140;
+        const perp = (Math.random() - 0.5) * 4; // very tight to center
+        const depth = (Math.random() - 0.5) * 40;
+        const x = along;
+        const y = perp * cosT - depth * sinT * 0.3;
+        const z = perp * sinT + depth * cosT * 0.3 - 40;
+        const dist = Math.sqrt(x * x + y * y + z * z);
+        if (dist > MIN_STAR_DISTANCE) {
+          corePositions[corePlaced * 3] = x;
+          corePositions[corePlaced * 3 + 1] = y;
+          corePositions[corePlaced * 3 + 2] = z;
+          corePlaced++;
+        }
       }
+      const coreGeo = new THREE.BufferGeometry();
+      coreGeo.setAttribute("position", new THREE.BufferAttribute(corePositions, 3));
+      const coreMat = new THREE.PointsMaterial({
+        size: 0.06,
+        color: 0xffeedd,
+        transparent: true,
+        opacity: 0.6,
+        map: brightStarTexture,
+        sizeAttenuation: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+      });
+      scene.add(new THREE.Points(coreGeo, coreMat));
+      starLayers.push({ mat: coreMat, baseOpacity: 0.6, speed: 0.4 });
     }
 
-    // Nebula dust clouds (subtle colored point clusters) — high quality only
-    if ((lod as any).nebula) {
-      const nebulaColors = [0x4466aa, 0x6633aa, 0x2244aa];
-      nebulaColors.forEach((color, idx) => {
-        const count = 300;
-        const positions = new Float32Array(count * 3);
-        // Cluster center
-        const cx = (Math.random() - 0.5) * 60;
-        const cy = (Math.random() - 0.5) * 40;
-        const cz = -30 - Math.random() * 40;
-        for (let i = 0; i < count; i++) {
-          positions[i * 3] = cx + (Math.random() - 0.5) * 20;
-          positions[i * 3 + 1] = cy + (Math.random() - 0.5) * 15;
-          positions[i * 3 + 2] = cz + (Math.random() - 0.5) * 15;
+    // ─── Layer 4: Nebula clouds (multiple, varied colors and positions) ───
+    {
+      const nebulaConfigs = [
+        // Large blue nebula (upper-left)
+        { color: 0x3355bb, count: 500, cx: -35, cy: 20, cz: -50, spreadX: 25, spreadY: 18, spreadZ: 12, size: 0.4, opacity: 0.08 },
+        // Purple/violet nebula (lower-right)
+        { color: 0x6633aa, count: 400, cx: 30, cy: -15, cz: -45, spreadX: 20, spreadY: 15, spreadZ: 10, size: 0.35, opacity: 0.07 },
+        // Teal nebula (center-back)
+        { color: 0x225588, count: 350, cx: 5, cy: 5, cz: -60, spreadX: 30, spreadY: 20, spreadZ: 15, size: 0.5, opacity: 0.06 },
+        // Pink/magenta nebula (upper-right)
+        { color: 0x883366, count: 300, cx: 40, cy: 25, cz: -55, spreadX: 18, spreadY: 14, spreadZ: 10, size: 0.3, opacity: 0.06 },
+        // Deep blue diffuse cloud (fills gaps)
+        { color: 0x1a2a55, count: 600, cx: 0, cy: 0, cz: -70, spreadX: 60, spreadY: 40, spreadZ: 20, size: 0.6, opacity: 0.04 },
+        // Warm orange emission nebula (small, bright)
+        { color: 0xaa5522, count: 200, cx: -20, cy: -25, cz: -40, spreadX: 12, spreadY: 10, spreadZ: 8, size: 0.25, opacity: 0.09 },
+      ];
+
+      const nebulaSubset = quality === "low" ? nebulaConfigs.slice(0, 2) : quality === "medium" ? nebulaConfigs.slice(0, 4) : nebulaConfigs;
+
+      nebulaSubset.forEach((cfg) => {
+        const positions = new Float32Array(cfg.count * 3);
+        for (let i = 0; i < cfg.count; i++) {
+          // Gaussian-like distribution (sum of randoms)
+          const gx = ((Math.random() + Math.random() + Math.random()) / 3 - 0.5) * 2;
+          const gy = ((Math.random() + Math.random() + Math.random()) / 3 - 0.5) * 2;
+          const gz = ((Math.random() + Math.random() + Math.random()) / 3 - 0.5) * 2;
+          positions[i * 3] = cfg.cx + gx * cfg.spreadX;
+          positions[i * 3 + 1] = cfg.cy + gy * cfg.spreadY;
+          positions[i * 3 + 2] = cfg.cz + gz * cfg.spreadZ;
         }
         const geo = new THREE.BufferGeometry();
         geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
         const mat = new THREE.PointsMaterial({
-          size: 0.15 + idx * 0.05,
-          color,
+          size: cfg.size,
+          color: cfg.color,
           transparent: true,
-          opacity: 0.12 + idx * 0.03,
-          map: starTexture,
+          opacity: cfg.opacity,
+          map: nebulaTexture,
           sizeAttenuation: true,
           depthWrite: false,
           blending: THREE.AdditiveBlending,
         });
         scene.add(new THREE.Points(geo, mat));
       });
+    }
+
+    // ─── Layer 5: Cosmic dust lanes (dark-ish streaks that add depth) ───
+    if (quality !== "low") {
+      const dustCount = quality === "high" ? 3000 : 1500;
+      const dustPositions = new Float32Array(dustCount * 3);
+      let dustPlaced = 0;
+      while (dustPlaced < dustCount) {
+        // Concentrated in bands
+        const band = Math.floor(Math.random() * 3);
+        const bandY = [-8, 3, 15][band];
+        const x = (Math.random() - 0.5) * 160;
+        const y = bandY + (Math.random() - 0.5) * 6;
+        const z = -20 - Math.random() * 60;
+        const dist = Math.sqrt(x * x + y * y + z * z);
+        if (dist > MIN_STAR_DISTANCE) {
+          dustPositions[dustPlaced * 3] = x;
+          dustPositions[dustPlaced * 3 + 1] = y;
+          dustPositions[dustPlaced * 3 + 2] = z;
+          dustPlaced++;
+        }
+      }
+      const dustGeo = new THREE.BufferGeometry();
+      dustGeo.setAttribute("position", new THREE.BufferAttribute(dustPositions, 3));
+      const dustMat = new THREE.PointsMaterial({
+        size: 0.08,
+        color: 0x8899bb,
+        transparent: true,
+        opacity: 0.15,
+        map: nebulaTexture,
+        sizeAttenuation: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+      });
+      scene.add(new THREE.Points(dustGeo, dustMat));
+    }
+
+    // ─── Layer 6: Shooting stars (animated streaks) ───
+    const shootingStarMeshes: THREE.Mesh[] = [];
+    if ((lod as any).shootingStars) {
+      for (let i = 0; i < 5; i++) {
+        const streakGeo = new THREE.CylinderGeometry(0.004, 0.001, 2.0, 4);
+        streakGeo.rotateZ(Math.PI / 2);
+        const streakMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0 });
+        const streak = new THREE.Mesh(streakGeo, streakMat);
+        streak.userData = {
+          active: false,
+          progress: 0,
+          speed: 0.6 + Math.random() * 1.5,
+          startDelay: i * 3 + Math.random() * 8,
+          startPos: new THREE.Vector3(),
+          direction: new THREE.Vector3(),
+        };
+        scene.add(streak);
+        shootingStarMeshes.push(streak);
+      }
     }
 
     // Globe group (rotatable)
