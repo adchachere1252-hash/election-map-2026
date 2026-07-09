@@ -2833,3 +2833,4 @@
 - [x] Reduce TwinklingStars SVG dot sizes on World page
 - [x] Make TwinklingStars look like actual stars (sparkle/cross shape) instead of plain circles
 - [x] Update Maine Senate race: Graham Platner (D) withdrawing, move race back to TBD/update candidates
+- [x] Add Maryland to Redistricting map: special session called Aug 3-5 for constitutional amendment on congressional redistricting
