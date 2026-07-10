@@ -2838,3 +2838,7 @@
 - [x] Add brighter center glow to each sparkle star
 - [x] Make globe start fully zoomed out
 - [x] Fix Redistricting map click handler: prioritize redistricting popup over referendum popup when state has active redistricting data
+
+## Arizona Primary Prep & World Globe Fix
+- [x] Research and update AZ-1 through AZ-9 primary candidates for July 21 primary
+- [x] Fix referendum section overlap on World globe page (decided/upcoming totals not visible)

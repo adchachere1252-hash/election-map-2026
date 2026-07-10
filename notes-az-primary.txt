@@ -1,0 +1,52 @@
+Arizona 2026 Primary - July 21 - All 9 Congressional Districts
+Source: FOX 10 Phoenix (July 9, 2026)
+
+AZ-1 (Toss-up):
+  D Primary: Amish Shah, Marlene Galán-Woods, Rick McCartney, Jonathan Treble
+  R Primary: Joseph Chaplik, Jay Feely, John Trobough
+  Leading D: Amish Shah (per polls/debate coverage)
+  
+AZ-2 (Likely R):
+  D: Jonathan Nez (only candidate)
+  R: Eli Crane (incumbent, only candidate)
+  → General: Jonathan Nez (D) vs Eli Crane (R)
+
+AZ-3 (Solid D):
+  D: Yassamin Ansari (incumbent, only candidate)
+  R: Nicholas N. Glenn (write-in only)
+  → General: Yassamin Ansari (D) vs Nicholas N. Glenn (R)
+
+AZ-4 (Solid D):
+  D Primary: Greg Stanton (incumbent), Kai Newkirk
+  R: Zuhdi Jasser (only remaining candidate)
+  Leading D: Greg Stanton (incumbent)
+
+AZ-5 (Solid R):
+  D Primary: Brian Hualde, Chris James, Elizabeth Lee
+  R Primary: Daniel Keenan, Mark Lamb
+  
+AZ-6 (Toss-up):
+  D: Joanna Mendoza (only candidate)
+  R: Juan Ciscomani (incumbent, only candidate)
+  → General: Joanna Mendoza (D) vs Juan Ciscomani (R)
+
+AZ-7 (Solid D) - ALREADY CALLED (special election):
+  Adelita S. Grijalva (D) won vs Daniel Butierez (R)
+
+AZ-8 (Solid R):
+  D Primary: Ray Keeler, Bernadette Placentia-Greene
+  R: Abraham Hamadeh (incumbent, only candidate)
+
+AZ-9 (Solid R):
+  D: Danielle "Dani" Sterbinsky (only candidate)
+  R: Paul Gosar (incumbent, only candidate)
+  → General: Danielle Sterbinsky (D) vs Paul Gosar (R)
+
+Summary of what needs updating:
+- AZ-1: Currently "TBD" for both. Should show primary candidates (contested on both sides)
+- AZ-2: Currently shows Eli Crane (R) only. Add Jonathan Nez (D)
+- AZ-4: Currently shows Greg Stanton (D) only. Add Zuhdi Jasser (R)
+- AZ-5: Currently "TBD" for both. Should show primary candidates (contested on both sides)
+- AZ-6: Currently shows Juan Ciscomani (R) only. Add Joanna Mendoza (D)
+- AZ-8: Currently shows Abraham Hamadeh (R) only. D primary is contested
+- AZ-9: Currently shows Paul Gosar (R) only. Add Danielle Sterbinsky (D)

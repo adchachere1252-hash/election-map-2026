@@ -910,7 +910,7 @@ export default function WorldElections() {
             </div>
           </div>
         ) : (
-          <div className="w-full h-full overflow-hidden">
+          <div className="w-full h-full overflow-hidden pt-14">
             <ReferendumsView />
           </div>
         )}
