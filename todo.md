@@ -2842,3 +2842,4 @@
 ## Arizona Primary Prep & World Globe Fix
 - [x] Research and update AZ-1 through AZ-9 primary candidates for July 21 primary
 - [x] Fix referendum section overlap on World globe page (decided/upcoming totals not visible)
+- [x] Confirm São Tomé presidential election candidate data is current for July 19 (added Eugénio Tiny, fixed Vila Nova party, marked Bom Jesus as withdrawn, updated voter count to 142,296)
