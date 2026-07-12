@@ -580,8 +580,16 @@ export async function deleteFecFundraising(id: number) {
 // ─── Candidate Photos (Name-Keyed Lookup) ────────────────────────────────────
 
 /**
+ * Strip accents/diacritics from a string for fuzzy matching.
+ */
+function stripAccents(str: string): string {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+/**
  * Batch-lookup candidate photos by normalized names.
  * Returns a Map of normalized_name → photo_url for all matches found.
+ * Also tries accent-stripped versions of names as fallback.
  */
 export async function batchGetCandidatePhotos(names: string[]): Promise<Map<string, string>> {
   const db = await getDb();
@@ -595,16 +603,32 @@ export async function batchGetCandidatePhotos(names: string[]): Promise<Map<stri
 
   if (normalizedNames.length === 0) return result;
 
+  // Build a combined list: original names + accent-stripped variants
+  const accentMap = new Map<string, string>(); // stripped → original
+  const allNamesToQuery = new Set(normalizedNames);
+  for (const name of normalizedNames) {
+    const stripped = stripAccents(name);
+    if (stripped !== name) {
+      allNamesToQuery.add(stripped);
+      accentMap.set(stripped, name);
+    }
+  }
+
   // Query in batches of 100 to avoid MySQL IN clause limits
   const BATCH_SIZE = 100;
-  for (let i = 0; i < normalizedNames.length; i += BATCH_SIZE) {
-    const batch = normalizedNames.slice(i, i + BATCH_SIZE);
+  const allNames = Array.from(allNamesToQuery);
+  for (let i = 0; i < allNames.length; i += BATCH_SIZE) {
+    const batch = allNames.slice(i, i + BATCH_SIZE);
     const rows = await db
       .select({ normalizedName: candidatePhotos.normalizedName, photoUrl: candidatePhotos.photoUrl })
       .from(candidatePhotos)
       .where(inArray(candidatePhotos.normalizedName, batch));
     for (const row of rows) {
       result.set(row.normalizedName, row.photoUrl);
+      // If this was an accent-stripped match, also map back to the original accented name
+      if (accentMap.has(row.normalizedName)) {
+        result.set(accentMap.get(row.normalizedName)!, row.photoUrl);
+      }
     }
   }
 
