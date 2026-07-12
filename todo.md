@@ -2885,3 +2885,17 @@
 - [x] Final coverage: 622/624 named General election candidates have photos (99.7%)
 - [x] Remaining 2 "missing" are TBD placeholder entries (not real candidates)
 - [x] Effective coverage with accent fallback: 100% of all named candidates
+
+## Election Prep — August Primaries
+
+- [ ] Pre-source photos for Aug 4 primary candidates (KS Senate D, MI Senate D, VA Senate R, MI-4 House D)
+- [ ] Pre-source photos for Aug 11 primary candidates (MN Senate D+R, SC Special R, House races)
+- [ ] Pre-source photos for Aug 18+ primary candidates (AK, FL, WY Senate; OK D runoff)
+- [ ] Document election night update workflow for primary results
+
+## Election Prep Blockers — July 12, 2026
+
+- [x] Add governor primary promotion procedure (promoteGovernor) to backend router
+- [x] Add photo upload UI to Admin Panel (paste URL → smart-crop → upload)
+- [x] Add governor promotion UI to Admin Panel Primary Results Editor
+- [x] Change KS Senate, MI Senate, VA Senate status to "Primary" (MI-4 already in General with TBD candidate)

@@ -787,11 +787,99 @@ function RedistrictingEditor({ state, token, onUpdated }: { state: Redistricting
   );
 }
 
+//// ─── Photo Upload Panel ────────────────────────────────────────────────────
+function PhotoUploadPanel({ token }: { token: string }) {
+  const [photoUrl, setPhotoUrl] = useState("");
+  const [candidateName, setCandidateName] = useState("");
+  const [chamber, setChamber] = useState<"senate" | "house" | "governor">("senate");
+  const [raceId, setRaceId] = useState("");
+  const [slot, setSlot] = useState<"candidate1" | "candidate2" | "dem" | "rep">("candidate1");
+
+  const processPhoto = trpc.admin.processPhoto.useMutation({
+    onSuccess: (data) => { toast.success(`Photo uploaded for ${candidateName}`); setPhotoUrl(""); setCandidateName(""); setRaceId(""); },
+    onError: (e) => toast.error(e.message),
+  });
+
+  const handleUpload = () => {
+    if (!photoUrl.trim() || !candidateName.trim() || !raceId.trim()) return;
+    processPhoto.mutate({
+      adminToken: token,
+      photoUrl: photoUrl.trim(),
+      candidateName: candidateName.trim(),
+      chamber,
+      raceId: parseInt(raceId, 10),
+      slot,
+    });
+  };
+
+  return (
+    <div className="max-w-md mx-auto p-6">
+      <h2 className="text-lg font-bold text-foreground mb-1">Upload Candidate Photo</h2>
+      <p className="text-xs text-muted-foreground mb-6">Paste a photo URL — it will be smart-cropped (face-centered, 400x400) and uploaded to storage.</p>
+      <div className="space-y-4">
+        <div>
+          <label className="block text-xs text-muted-foreground mb-1">Candidate Name</label>
+          <input className="w-full bg-muted border border-border rounded px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            placeholder="Full name (e.g. Abdul El-Sayed)" value={candidateName} onChange={e => setCandidateName(e.target.value)} />
+        </div>
+        <div>
+          <label className="block text-xs text-muted-foreground mb-1">Photo URL</label>
+          <input className="w-full bg-muted border border-border rounded px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            placeholder="https://example.com/photo.jpg" value={photoUrl} onChange={e => setPhotoUrl(e.target.value)} />
+        </div>
+        <div className="grid grid-cols-3 gap-3">
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Chamber</label>
+            <select className="w-full bg-muted border border-border rounded px-2 py-2 text-sm text-foreground focus:outline-none"
+              value={chamber} onChange={e => { setChamber(e.target.value as any); setSlot(e.target.value === "governor" ? "dem" : "candidate1"); }}>
+              <option value="senate">Senate</option>
+              <option value="house">House</option>
+              <option value="governor">Governor</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Race ID</label>
+            <input className="w-full bg-muted border border-border rounded px-2 py-2 text-sm text-foreground focus:outline-none"
+              placeholder="ID" value={raceId} onChange={e => setRaceId(e.target.value)} type="number" />
+          </div>
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Slot</label>
+            <select className="w-full bg-muted border border-border rounded px-2 py-2 text-sm text-foreground focus:outline-none"
+              value={slot} onChange={e => setSlot(e.target.value as any)}>
+              {chamber === "governor" ? (
+                <><option value="dem">Dem</option><option value="rep">Rep</option></>
+              ) : (
+                <><option value="candidate1">Candidate 1</option><option value="candidate2">Candidate 2</option></>
+              )}
+            </select>
+          </div>
+        </div>
+        {photoUrl && (
+          <div className="border border-border rounded-lg p-3 bg-muted/30">
+            <p className="text-xs text-muted-foreground mb-2">Preview:</p>
+            <img src={photoUrl} alt="Preview" className="w-20 h-20 rounded-full object-cover mx-auto" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+          </div>
+        )}
+        <button onClick={handleUpload}
+          disabled={!photoUrl.trim() || !candidateName.trim() || !raceId.trim() || processPhoto.isPending}
+          className="w-full bg-green-700 hover:bg-green-600 disabled:opacity-50 text-white font-semibold py-2.5 rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
+          {processPhoto.isPending ? "Uploading..." : "Upload & Process Photo"}
+        </button>
+        {processPhoto.isSuccess && (
+          <p className="text-xs text-green-400 text-center">Photo uploaded successfully!</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
 //// ─── Primary Results Editor ────────────────────────────────────────────────
 function PrimaryResultsPanel({ token, onUpdated }: { token: string; onUpdated: () => void }) {
-  const [selectedRace, setSelectedRace] = useState<{ type: "senate" | "house"; race: SenateRace | HouseRace } | null>(null);
+  const [selectedRace, setSelectedRace] = useState<{ type: "senate" | "house" | "governor"; race: SenateRace | HouseRace | GovernorRace } | null>(null);
   const [winnerName, setWinnerName] = useState("");
   const [winnerParty, setWinnerParty] = useState<"D" | "R" | "I" | "L" | "G">("D");
+  const [govSlot, setGovSlot] = useState<"dem" | "rep">("dem");
+  const [showPhotoUpload, setShowPhotoUpload] = useState(false);
 
   const { data, isLoading, refetch } = trpc.primary.listPending.useQuery({ adminToken: token });
 
@@ -805,16 +893,36 @@ function PrimaryResultsPanel({ token, onUpdated }: { token: string; onUpdated: (
     onError: (e) => toast.error(e.message),
   });
 
+  const promoteGovernor = trpc.primary.promoteGovernor.useMutation({
+    onSuccess: () => { toast.success("Governor primary winner recorded!"); setSelectedRace(null); setWinnerName(""); onUpdated(); refetch(); },
+    onError: (e) => toast.error(e.message),
+  });
+
   const handlePromote = () => {
     if (!selectedRace || !winnerName.trim()) return;
     if (selectedRace.type === "senate") {
       promoteSenate.mutate({ id: selectedRace.race.id, adminToken: token, winnerName: winnerName.trim(), winnerParty });
-    } else {
+    } else if (selectedRace.type === "house") {
       promoteHouse.mutate({ id: selectedRace.race.id, adminToken: token, winnerName: winnerName.trim(), winnerParty });
+    } else {
+      promoteGovernor.mutate({ id: selectedRace.race.id, adminToken: token, winnerName: winnerName.trim(), winnerParty: winnerParty as "D" | "R" | "I", slot: govSlot });
     }
   };
 
-  const totalPending = (data?.senate.length ?? 0) + (data?.house.length ?? 0);
+  const totalPending = (data?.senate.length ?? 0) + (data?.house.length ?? 0) + ((data as any)?.governors?.length ?? 0);
+  const isPending = promoteSenate.isPending || promoteHouse.isPending || promoteGovernor.isPending;
+
+  if (showPhotoUpload) {
+    return (
+      <div className="h-full overflow-y-auto">
+        <div className="p-4 border-b border-border flex items-center gap-2">
+          <button onClick={() => setShowPhotoUpload(false)} className="text-xs text-muted-foreground hover:text-foreground"><ArrowLeft className="w-4 h-4" /></button>
+          <p className="text-sm font-semibold text-foreground">Upload Candidate Photo</p>
+        </div>
+        <PhotoUploadPanel token={token} />
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-full overflow-hidden">
@@ -823,6 +931,12 @@ function PrimaryResultsPanel({ token, onUpdated }: { token: string; onUpdated: (
         <div className="p-3 border-b border-border">
           <p className="text-xs font-semibold text-foreground">Races in Primary Status</p>
           <p className="text-xs text-muted-foreground mt-0.5">{isLoading ? "Loading..." : `${totalPending} pending`}</p>
+        </div>
+        <div className="p-2 border-b border-border">
+          <button onClick={() => setShowPhotoUpload(true)}
+            className="w-full text-xs bg-green-900/30 border border-green-700/40 text-green-400 hover:bg-green-900/50 rounded px-2 py-1.5 transition-colors">
+            📷 Upload Candidate Photo
+          </button>
         </div>
         {!isLoading && totalPending === 0 && (
           <div className="p-4 text-center text-xs text-muted-foreground">
@@ -837,7 +951,7 @@ function PrimaryResultsPanel({ token, onUpdated }: { token: string; onUpdated: (
               <button key={race.id}
                 onClick={() => { setSelectedRace({ type: "senate", race }); setWinnerName(race.incumbent ?? ""); }}
                 className={`w-full text-left px-3 py-2.5 border-b border-border/50 hover:bg-accent transition-colors ${
-                  selectedRace?.race.id === race.id ? "bg-accent" : ""
+                  selectedRace?.race.id === race.id && selectedRace?.type === "senate" ? "bg-accent" : ""
                 }`}>
                 <p className="text-sm font-medium">{race.stateName}</p>
                 <p className="text-xs text-muted-foreground">{race.primaryDate ?? "Date TBD"}</p>
@@ -854,13 +968,28 @@ function PrimaryResultsPanel({ token, onUpdated }: { token: string; onUpdated: (
                 <button key={race.id}
                   onClick={() => { setSelectedRace({ type: "house", race }); setWinnerName(race.incumbent ?? ""); }}
                   className={`w-full text-left px-3 py-2.5 border-b border-border/50 hover:bg-accent transition-colors ${
-                    selectedRace?.race.id === race.id ? "bg-accent" : ""
+                    selectedRace?.race.id === race.id && selectedRace?.type === "house" ? "bg-accent" : ""
                   }`}>
                   <p className="text-sm font-medium">{hr.stateCode}-{hr.districtLabel}</p>
                   <p className="text-xs text-muted-foreground truncate">{race.incumbent ?? "Open seat"}</p>
                 </button>
               );
             })}
+          </div>
+        )}
+        {((data as any)?.governors ?? []).length > 0 && (
+          <div>
+            <p className="px-3 py-1.5 text-xs font-bold text-muted-foreground bg-muted/30 border-b border-border">GOVERNORS</p>
+            {((data as any)?.governors ?? []).map((race: GovernorRace) => (
+              <button key={race.id}
+                onClick={() => { setSelectedRace({ type: "governor", race }); setWinnerName(""); setGovSlot(race.demCandidate?.includes("TBD") ? "dem" : "rep"); }}
+                className={`w-full text-left px-3 py-2.5 border-b border-border/50 hover:bg-accent transition-colors ${
+                  selectedRace?.race.id === race.id && selectedRace?.type === "governor" ? "bg-accent" : ""
+                }`}>
+                <p className="text-sm font-medium">{race.stateCode} Governor</p>
+                <p className="text-xs text-muted-foreground">{race.primaryDate ?? "Date TBD"}</p>
+              </button>
+            ))}
           </div>
         )}
       </div>
@@ -880,10 +1009,17 @@ function PrimaryResultsPanel({ token, onUpdated }: { token: string; onUpdated: (
             <h2 className="text-lg font-bold text-foreground mb-1">
               {selectedRace.type === "senate"
                 ? `${(selectedRace.race as SenateRace).stateName} Senate Primary`
-                : `${(selectedRace.race as HouseRace).stateName} — ${(selectedRace.race as HouseRace).districtLabel === "AL" ? "At-Large" : `District ${(selectedRace.race as HouseRace).district}`} Primary`
+                : selectedRace.type === "house"
+                ? `${(selectedRace.race as HouseRace).stateName} — ${(selectedRace.race as HouseRace).districtLabel === "AL" ? "At-Large" : `District ${(selectedRace.race as HouseRace).district}`} Primary`
+                : `${(selectedRace.race as GovernorRace).stateCode} Governor Primary`
               }
             </h2>
-            <p className="text-xs text-muted-foreground mb-6">Recording the primary winner will set them as Candidate 1 and advance the race status to General.</p>
+            <p className="text-xs text-muted-foreground mb-6">
+              {selectedRace.type === "governor"
+                ? "Recording the primary winner will update the candidate name for this governor race."
+                : "Recording the primary winner will set them as Candidate 1 and advance the race status to General."
+              }
+            </p>
 
             <div className="space-y-4">
               <div>
@@ -896,35 +1032,60 @@ function PrimaryResultsPanel({ token, onUpdated }: { token: string; onUpdated: (
                   autoFocus
                 />
               </div>
-              <div>
-                <label className="block text-xs text-muted-foreground mb-1">Party</label>
-                <select
-                  className="w-full bg-muted border border-border rounded px-3 py-2 text-sm text-foreground focus:outline-none"
-                  value={winnerParty}
-                  onChange={e => setWinnerParty(e.target.value as any)}
-                >
-                  <option value="D">Democrat (D)</option>
-                  <option value="R">Republican (R)</option>
-                  <option value="I">Independent (I)</option>
-                  <option value="L">Libertarian (L)</option>
-                  <option value="G">Green (G)</option>
-                </select>
+              <div className={selectedRace.type === "governor" ? "grid grid-cols-2 gap-3" : ""}>
+                <div>
+                  <label className="block text-xs text-muted-foreground mb-1">Party</label>
+                  <select
+                    className="w-full bg-muted border border-border rounded px-3 py-2 text-sm text-foreground focus:outline-none"
+                    value={winnerParty}
+                    onChange={e => setWinnerParty(e.target.value as any)}
+                  >
+                    <option value="D">Democrat (D)</option>
+                    <option value="R">Republican (R)</option>
+                    <option value="I">Independent (I)</option>
+                    {selectedRace.type !== "governor" && <option value="L">Libertarian (L)</option>}
+                    {selectedRace.type !== "governor" && <option value="G">Green (G)</option>}
+                  </select>
+                </div>
+                {selectedRace.type === "governor" && (
+                  <div>
+                    <label className="block text-xs text-muted-foreground mb-1">Slot</label>
+                    <select
+                      className="w-full bg-muted border border-border rounded px-3 py-2 text-sm text-foreground focus:outline-none"
+                      value={govSlot}
+                      onChange={e => setGovSlot(e.target.value as "dem" | "rep")}
+                    >
+                      <option value="dem">Democratic Nominee</option>
+                      <option value="rep">Republican Nominee</option>
+                    </select>
+                  </div>
+                )}
               </div>
               <div className="bg-yellow-900/20 border border-yellow-700/30 rounded-lg p-3">
                 <p className="text-xs text-yellow-400 font-medium">What happens next:</p>
                 <ul className="text-xs text-muted-foreground mt-1 space-y-0.5">
-                  <li>• Candidate 1 will be set to <strong className="text-foreground">{winnerName || "[winner name]"}</strong> ({winnerParty})</li>
-                  <li>• Race status will advance from Primary → General</li>
-                  <li>• Map and scoreboard will update immediately</li>
+                  {selectedRace.type === "governor" ? (
+                    <>
+                      <li>• {govSlot === "dem" ? "Dem" : "Rep"} candidate will be set to <strong className="text-foreground">{winnerName || "[winner name]"}</strong></li>
+                      <li>• Governor race notes will be updated</li>
+                      <li>• Map will reflect the new candidate</li>
+                    </>
+                  ) : (
+                    <>
+                      <li>• Candidate 1 will be set to <strong className="text-foreground">{winnerName || "[winner name]"}</strong> ({winnerParty})</li>
+                      <li>• Race status will advance from Primary → General</li>
+                      <li>• Map and scoreboard will update immediately</li>
+                    </>
+                  )}
                 </ul>
               </div>
               <button
                 onClick={handlePromote}
-                disabled={!winnerName.trim() || promoteSenate.isPending || promoteHouse.isPending}
+                disabled={!winnerName.trim() || isPending}
                 className="w-full bg-yellow-700 hover:bg-yellow-600 disabled:opacity-50 text-white font-semibold py-2.5 rounded-lg transition-colors text-sm flex items-center justify-center gap-2"
               >
                 <Save className="w-4 h-4" />
-                {(promoteSenate.isPending || promoteHouse.isPending) ? "Promoting..." : "Promote to General Election"}
+                {isPending ? "Promoting..." : selectedRace.type === "governor" ? "Record Governor Nominee" : "Promote to General Election"}
               </button>
               <button
                 onClick={() => setSelectedRace(null)}

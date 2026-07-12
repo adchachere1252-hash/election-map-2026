@@ -407,18 +407,44 @@ export const appRouter = router({
         return { success: true };
       }),
 
+    promoteGovernor: publicProcedure
+      .input(z.object({
+        id: z.number(),
+        adminToken: z.string(),
+        winnerName: z.string().min(1),
+        winnerParty: z.enum(["D", "R", "I"]),
+        slot: z.enum(["dem", "rep"]),
+        primaryVotePct: z.number().min(0).max(100).nullable().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        await requireAdminToken(input.adminToken);
+        const updateData: Record<string, unknown> = {
+          status: "Scheduled", // Governor uses Scheduled → Voting → Called (no "General" status)
+          notes: `Primary winner: ${input.winnerName} (${input.winnerParty})`,
+        };
+        if (input.slot === "dem") {
+          updateData.demCandidate = input.winnerName;
+        } else {
+          updateData.repCandidate = input.winnerName;
+        }
+        await updateGovernorRace(input.id, updateData as Parameters<typeof updateGovernorRace>[1]);
+        return { success: true };
+      }),
+
     // List all races currently in Primary status
     listPending: publicProcedure
       .input(z.object({ adminToken: z.string() }))
       .query(async ({ input }) => {
         await requireAdminToken(input.adminToken);
-        const [senateRaces, houseRaces] = await Promise.all([
+        const [senateRaces, houseRaces, govRaces] = await Promise.all([
           getAllSenateRaces(),
           getAllHouseRaces(),
+          getAllGovernorRaces(),
         ]);
         return {
           senate: senateRaces.filter(r => r.status === "Primary"),
           house: houseRaces.filter(r => r.status === "Primary"),
+          governors: govRaces.filter(r => r.status === "Scheduled" && (r.demCandidate?.includes("TBD") || r.repCandidate?.includes("TBD"))),
         };
       }),
   }),
