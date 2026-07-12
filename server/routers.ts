@@ -1081,7 +1081,7 @@ export const appRouter = router({
   photos: router({
     // Batch lookup: given an array of candidate names, return a map of name → photoUrl
     batchLookup: publicProcedure
-      .input(z.object({ names: z.array(z.string()).max(500) }))
+      .input(z.object({ names: z.array(z.string()).max(2000) }))
       .query(async ({ input }) => {
         const photoMap = await batchGetCandidatePhotos(input.names);
         // Return as a plain object for easy client-side consumption
