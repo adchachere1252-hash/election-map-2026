@@ -1,0 +1,44 @@
+LINDSEY GRAHAM DEATH - VERIFIED RESEARCH (July 12, 2026)
+==========================================================
+
+FACTS (confirmed by NPR, NBC, CNN, NYT, WaPo, Politico, CBS):
+- Lindsey Graham (R-SC) died Saturday evening July 11/12, 2026
+- Age: 71
+- Cause: "brief and sudden illness" per his office
+- He was running for a 5th term (had already won the Republican primary one month ago)
+- He was scheduled to appear on NBC's Meet the Press on Sunday
+- He recently visited Ukraine touring a drone production facility
+- Dispatch audio indicates EMS responded to cardiac arrest at his home
+
+WHAT HAPPENS NEXT (per Townhall/Christian Heiens and WJCL):
+
+1. GOVERNOR APPOINTMENT (INTERIM):
+   - Gov. Henry McMaster (R) can appoint an interim senator immediately
+   - SC does NOT require same-party appointment (but McMaster is R, so will appoint R)
+   - Appointee serves until special election
+
+2. REPLACEMENT NOMINEE (SC Republican Party):
+   - Since Graham already won the primary, the SC GOP must choose a replacement nominee
+   - Per SC election law timeline (from Christian Heiens @ChristianHeiens):
+     * "On the second Tuesday after today, candidate filing opens for one week"
+     * "The special primary is then held on the second Tuesday after filing closes"
+     * So special primary would be around July 28, 2026
+     * "If no candidate wins a majority, there is a runoff two weeks later"
+
+3. GENERAL ELECTION:
+   - The Republican replacement nominee will face Democrat Annie Andrews in the November 3 general
+   - This was already rated Solid R before Graham's death
+
+IMPLICATIONS FOR OUR MAP:
+- SC Senate race: incumbent changes from "Lindsey Graham" to "TBD (R nominee)" 
+- Status: needs to reflect the special primary process
+- Democrat challenger: Annie Andrews (confirmed)
+- Rating: likely remains Solid R (SC is deep red)
+- Need to mark this as a special circumstance
+- Current composition: R loses 1 seat temporarily until McMaster appoints interim
+
+SOURCES:
+- https://www.npr.org/2026/07/12/nx-s1-5890790/us-sen-lindsey-graham-dies
+- https://townhall.com/tipsheet/mattvespa/2026/07/12/with-lindsey-grahams-passing-whats-next-for-the-sc-senate-race-n2679262
+- https://www.wjcl.com/article/south-carolina-lindsey-graham-senate-seat-vacancy/71908556
+- https://www.nbcnews.com/politics/politics-news/sen-lindsey-graham-dies-71-brief-sudden-illness-rcna552722
