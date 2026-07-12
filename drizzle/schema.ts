@@ -28,9 +28,11 @@ export type InsertUser = typeof users.$inferInsert;
 // ─── Rating enum ──────────────────────────────────────────────────────────────
 export const ratingEnum = mysqlEnum("rating", [
   "Solid D",
+  "Likely D",
   "Lean D",
   "Toss-up",
   "Lean R",
+  "Likely R",
   "Solid R",
   "Safe D",
   "Safe R",
@@ -74,7 +76,7 @@ export const senateRaces = mysqlTable("senate_races", {
   otherVotes: bigint("other_votes", { mode: "number" }).default(0),
   otherVotePct: decimal("other_vote_pct", { precision: 5, scale: 2 }),
   previousParty: mysqlEnum("previous_party", ["D", "R", "I"]), // party that held seat before this election
-  rating: mysqlEnum("rating", ["Solid D", "Lean D", "Toss-up", "Lean R", "Solid R", "Safe D", "Safe R"]),
+  rating: mysqlEnum("rating", ["Solid D", "Likely D", "Lean D", "Toss-up", "Lean R", "Likely R", "Solid R", "Safe D", "Safe R"]),
   status: mysqlEnum("status", ["Scheduled", "Primary", "Primary Runoff", "General", "Called", "Certified"]).default("Scheduled").notNull(),
   primaryDate: varchar("primary_date", { length: 32 }),
   primaryRunoffDate: varchar("primary_runoff_date", { length: 32 }),
@@ -121,7 +123,7 @@ export const houseRaces = mysqlTable("house_races", {
   otherVotes: bigint("other_votes", { mode: "number" }).default(0),
   otherVotePct: decimal("other_vote_pct", { precision: 5, scale: 2 }),
   previousParty: mysqlEnum("previous_party", ["D", "R", "I"]), // party that held seat before this election
-  rating: mysqlEnum("rating", ["Solid D", "Lean D", "Toss-up", "Lean R", "Solid R", "Safe D", "Safe R"]),
+  rating: mysqlEnum("rating", ["Solid D", "Likely D", "Lean D", "Toss-up", "Lean R", "Likely R", "Solid R", "Safe D", "Safe R"]),
   status: mysqlEnum("status", ["Scheduled", "Primary", "Primary Runoff", "General", "Called", "Certified"]).default("Scheduled").notNull(),
   primaryDate: varchar("primary_date", { length: 32 }),
   generalDate: varchar("general_date", { length: 32 }).default("November 3, 2026"),
