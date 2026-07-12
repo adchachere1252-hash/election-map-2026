@@ -149,6 +149,13 @@ function CurrentComposition({ composition }: { composition: { senate: Compositio
             <span className="font-semibold text-gray-400">{senate.I}</span>
             <span className="text-muted-foreground">Ind.</span>
           </div>
+          {senate.vacancies > 0 && (
+            <div className="flex items-center gap-1">
+              <div className="w-2 h-2 rounded-sm flex-shrink-0" style={{ background: "#374151", backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 1px, rgba(255,255,255,0.2) 1px, rgba(255,255,255,0.2) 2px)" }} />
+              <span className="font-semibold text-gray-500">{senate.vacancies}</span>
+              <span className="text-muted-foreground">vacant</span>
+            </div>
+          )}
           <div className="flex items-center gap-1">
             <span className="text-muted-foreground">R</span>
             <span className="font-bold text-red-400">{senate.R}</span>

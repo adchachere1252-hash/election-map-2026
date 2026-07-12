@@ -147,7 +147,8 @@ export async function updateReferendum(id: number, data: Partial<typeof referend
 // The base represents CURRENT seated members. Called vacancy-fill races (isVacancy=true)
 // will decrement vacancies and add to the winning party's count.
 const BASE_COMPOSITION = {
-  senate: { D: 45, R: 53, I: 2, total: 100, vacancies: 0 },
+  // Updated Jul 12, 2026: Sen. Lindsey Graham (R-SC) died; seat vacant until McMaster appoints interim
+  senate: { D: 45, R: 52, I: 2, total: 100, vacancies: 1 },
   // House Press Gallery Party Breakdown (pressgallery.house.gov, Jun 9, 2026):
   //   217 Republicans, 212 Democrats, 1 Independent, 5 Vacancies = 435
   // Vacancies: CA-01 (LaMalfa R, died 1/6/26), CA-14 (Swalwell D, resigned 4/14/26),

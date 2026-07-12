@@ -2849,3 +2849,5 @@
 - [x] Set Democrat candidate to Annie Andrews
 - [x] Add notes about special primary timeline (filing ~Jul 22, primary ~Jul 28)
 - [x] Update current Senate composition (R loses 1 seat temporarily)
+- [x] Update BASE_COMPOSITION: R 53→52, vacancies 0→1
+- [x] Add vacancy indicator to Senate composition bar in Scoreboard
