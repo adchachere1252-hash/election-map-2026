@@ -3,6 +3,7 @@ import { Search, X, MapPin, Building2, Vote, ChevronRight, User, Landmark } from
 import { getRatingClass, getPartyColor } from "@/lib/electionUtils";
 import type { SenateRace, HouseRace, RedistrictingState, Referendum, Senator, GovernorRace } from "../../../drizzle/schema";
 import { trpc } from "@/lib/trpc";
+import { usePhotos } from "@/hooks/usePhotos";
 
 
 // CDN base for candidate photos (same base as server/candidatePhotos.ts)
@@ -239,12 +240,13 @@ function CandidateAvatar({
   name,
   party,
   size = "sm",
+  photo,
 }: {
   name: string | null | undefined;
   party?: "D" | "R" | null;
   size?: "sm" | "xs";
+  photo?: string | null;
 }) {
-  const photo = getCandidatePhoto(name);
   const dim = size === "xs" ? "w-5 h-5" : "w-7 h-7";
   const textSize = size === "xs" ? "text-[9px]" : "text-[10px]";
   const border = party === "D" ? "border-blue-500/60" : party === "R" ? "border-red-500/60" : "border-border";
@@ -285,8 +287,16 @@ export default function GlobalSearch({
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const inputRef = useRef<HTMLInputElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Collect all candidate names for photo lookup
+  const allCandidateNames = useMemo(() => [
+    ...senateRaces.flatMap(r => [r.candidate1Name, r.candidate2Name]),
+    ...houseRaces.flatMap(r => [r.candidate1Name, r.candidate2Name]),
+    ...governorRaces.flatMap(r => [r.demCandidate, r.repCandidate]),
+  ], [senateRaces, houseRaces, governorRaces]);
+  const { getPhoto } = usePhotos(allCandidateNames);
 
   // Detect chamber keyword shortcuts and smart queries
   const chamberKeyword = useMemo(() => {
@@ -562,7 +572,7 @@ export default function GlobalSearch({
               <div className="flex items-center gap-2">
                 {race.candidate1Name ? (
                   <div className="flex items-center gap-1">
-                    <CandidateAvatar name={race.candidate1Name} party={c1Party} size="xs" />
+                    <CandidateAvatar name={race.candidate1Name} party={c1Party} size="xs" photo={getPhoto(race.candidate1Name)} />
                     <span className="text-xs text-foreground/80 truncate max-w-[90px]">
                       <HighlightText text={race.candidate1Name} query={q} />
                     </span>
@@ -575,7 +585,7 @@ export default function GlobalSearch({
                   <>
                     <span className="text-muted-foreground/40 text-xs">vs</span>
                     <div className="flex items-center gap-1">
-                      <CandidateAvatar name={race.candidate2Name} party={c2Party} size="xs" />
+                      <CandidateAvatar name={race.candidate2Name} party={c2Party} size="xs" photo={getPhoto(race.candidate2Name)} />
                       <span className="text-xs text-foreground/80 truncate max-w-[90px]">
                         <HighlightText text={race.candidate2Name} query={q} />
                       </span>
@@ -629,7 +639,7 @@ export default function GlobalSearch({
               <div className="flex items-center gap-2">
                 {race.candidate1Name ? (
                   <div className="flex items-center gap-1">
-                    <CandidateAvatar name={race.candidate1Name} party={c1Party} size="xs" />
+                    <CandidateAvatar name={race.candidate1Name} party={c1Party} size="xs" photo={getPhoto(race.candidate1Name)} />
                     <span className="text-xs text-foreground/80 truncate max-w-[90px]">
                       <HighlightText text={race.candidate1Name} query={q} />
                     </span>
@@ -642,7 +652,7 @@ export default function GlobalSearch({
                   <>
                     <span className="text-muted-foreground/40 text-xs">vs</span>
                     <div className="flex items-center gap-1">
-                      <CandidateAvatar name={race.candidate2Name} party={c2Party} size="xs" />
+                      <CandidateAvatar name={race.candidate2Name} party={c2Party} size="xs" photo={getPhoto(race.candidate2Name)} />
                       <span className="text-xs text-foreground/80 truncate max-w-[90px]">
                         <HighlightText text={race.candidate2Name} query={q} />
                       </span>
@@ -691,7 +701,7 @@ export default function GlobalSearch({
               <div className="flex items-center gap-2">
                 {race.demCandidate ? (
                   <div className="flex items-center gap-1">
-                    <CandidateAvatar name={race.demCandidate} party="D" size="xs" />
+                    <CandidateAvatar name={race.demCandidate} party="D" size="xs" photo={getPhoto(race.demCandidate)} />
                     <span className="text-xs text-foreground/80 truncate max-w-[90px]">
                       <HighlightText text={race.demCandidate} query={q} />
                     </span>
@@ -704,7 +714,7 @@ export default function GlobalSearch({
                   <>
                     <span className="text-muted-foreground/40 text-xs">vs</span>
                     <div className="flex items-center gap-1">
-                      <CandidateAvatar name={race.repCandidate} party="R" size="xs" />
+                      <CandidateAvatar name={race.repCandidate} party="R" size="xs" photo={getPhoto(race.repCandidate)} />
                       <span className="text-xs text-foreground/80 truncate max-w-[90px]">
                         <HighlightText text={race.repCandidate} query={q} />
                       </span>

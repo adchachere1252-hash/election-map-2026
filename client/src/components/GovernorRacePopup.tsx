@@ -2,6 +2,7 @@ import { X, User, Calendar, TrendingUp, Award, Briefcase, ChevronDown, ChevronUp
 import { useState } from "react";
 import { getRatingColor, getRatingClass, getPartyColor, getPartyLabel } from "@/lib/electionUtils";
 import { CandidateAvatar } from "./CandidateAvatar";
+import { usePhotos } from "@/hooks/usePhotos";
 
 interface GovernorRace {
   id: number;
@@ -320,6 +321,10 @@ function GeneralMatchupCard({
 export default function GovernorRacePopup({ race, onClose, onFocusMap }: GovernorRacePopupProps) {
   const isCalled = !!race.calledParty;
   const isOpenSeat = race.isOpen || race.isTermLimited;
+  // Name-keyed photo lookup (source of truth)
+  const { getPhoto } = usePhotos([race.demCandidate, race.repCandidate]);
+  const demPhotoResolved = getPhoto(race.demCandidate);
+  const repPhotoResolved = getPhoto(race.repCandidate);
   // Show the matchup card when at least the D candidate is confirmed
   // For Primary Runoff races, show matchup card with TBD Republican if D is confirmed
   const hasDemCandidate = !!(race.demCandidate && !race.demCandidate.startsWith("TBD"));
@@ -463,8 +468,8 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
           <GeneralMatchupCard
             demCandidate={race.demCandidate}
             repCandidate={race.repCandidate}
-            demPhoto={race.demPhoto}
-            repPhoto={race.repPhoto}
+            demPhoto={demPhotoResolved}
+            repPhoto={repPhotoResolved}
             rating={race.rating}
             incumbentName={race.incumbentName}
             incumbentParty={race.incumbentParty}
@@ -518,7 +523,7 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
               party="D"
               previousOffice={race.demPreviousOffice}
               bio={race.demBio}
-              photo={race.demPhoto}
+              photo={demPhotoResolved}
               isIncumbent={incumbentIsRunning && incumbentParty === "D"}
             />
 
@@ -528,7 +533,7 @@ export default function GovernorRacePopup({ race, onClose, onFocusMap }: Governo
               party="R"
               previousOffice={race.repPreviousOffice}
               bio={race.repBio}
-              photo={race.repPhoto}
+              photo={repPhotoResolved}
               isIncumbent={incumbentIsRunning && incumbentParty === "R"}
             />
           </div>

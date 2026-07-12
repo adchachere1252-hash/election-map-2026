@@ -6,6 +6,7 @@ import type { SenateRace, HouseRace, RedistrictingState, Referendum } from "../.
 import { trpc } from "@/lib/trpc";
 import SenatorDetailPopup from "./SenatorDetailPopup";
 import { CandidateAvatar } from "./CandidateAvatar";
+import { usePhotos } from "@/hooks/usePhotos";
 
 interface RacePopupProps {
   type: "senate" | "house" | "redistricting" | "referendum";
@@ -338,6 +339,7 @@ function PrimaryMatchupSection({
   candidate1Name, candidate1Party, candidate1VotePct,
   candidate2Name, candidate2Party, candidate2VotePct,
   primaryDate, generalDate, notes, chamber, pctReporting, primaryWinner,
+  candidate1Photo, candidate2Photo,
 }: {
   candidate1Name: string | null | undefined;
   candidate1Party: string | null | undefined;
@@ -351,6 +353,8 @@ function PrimaryMatchupSection({
   chamber?: string;
   pctReporting?: string | number | null;
   primaryWinner?: string | null;
+  candidate1Photo?: string | null;
+  candidate2Photo?: string | null;
 }) {
   const primaryColor = "#a855f7"; // purple-500
 
@@ -497,7 +501,7 @@ function PrimaryMatchupSection({
           <div className="flex flex-col items-center gap-1.5 flex-1 min-w-0 px-3 pt-4 pb-3 z-10">
             <div className="rounded-full p-[3px] flex-shrink-0"
               style={{ background: "linear-gradient(135deg, " + c1Color + ", " + c1Color + "88)" }}>
-              <CandidateAvatar name={displayC1Name} party={displayC1Party} size={photoSize} />
+              <CandidateAvatar name={displayC1Name} party={displayC1Party} size={photoSize} photo={c1IsWriteIn ? null : candidate1Photo} />
             </div>
             <span className={`text-sm font-bold text-center leading-tight ${c1IsWriteIn ? "text-muted-foreground italic" : ""}`}>{displayC1Name}</span>
             {!c1IsWriteIn && (
@@ -525,7 +529,7 @@ function PrimaryMatchupSection({
           <div className="flex flex-col items-center gap-1.5 flex-1 min-w-0 px-3 pt-4 pb-3 z-10">
             <div className="rounded-full p-[3px] flex-shrink-0"
               style={{ background: "linear-gradient(135deg, " + c2Color + ", " + c2Color + "88)" }}>
-              <CandidateAvatar name={displayC2Name} party={displayC2Party} size={photoSize} />
+              <CandidateAvatar name={displayC2Name} party={displayC2Party} size={photoSize} photo={c2IsWriteIn ? null : candidate2Photo} />
             </div>
             <span className={`text-sm font-bold text-center leading-tight ${c2IsWriteIn ? "text-muted-foreground italic" : ""}`}>{displayC2Name}</span>
             {!c2IsWriteIn && (
@@ -583,6 +587,7 @@ function RunoffMatchupSection({
   chamber,
   incumbent, incumbentParty,
   runoffLabel,
+  candidate1Photo, candidate2Photo,
 }: {
   candidate1Name: string | null | undefined;
   candidate1Party: string | null | undefined;
@@ -598,6 +603,8 @@ function RunoffMatchupSection({
   incumbentParty?: string | null;
   /** Override the header label — defaults to "Primary Runoff" */
   runoffLabel?: string | null;
+  candidate1Photo?: string | null;
+  candidate2Photo?: string | null;
 }) {
   if (!candidate1Name || !candidate2Name) return null;
 
@@ -679,7 +686,7 @@ function RunoffMatchupSection({
               className="rounded-full p-[3px] flex-shrink-0"
               style={{ background: "linear-gradient(135deg, " + c1Color + ", " + c1Color + "88)" }}
             >
-              <CandidateAvatar name={candidate1Name} party={candidate1Party} size={photoSize} />
+                            <CandidateAvatar name={candidate1Name} party={candidate1Party} size={photoSize} photo={candidate1Photo} />
             </div>
             <span className="text-sm font-bold text-center leading-tight">{candidate1Name}</span>
             <div className="flex flex-col items-center gap-1">
@@ -700,7 +707,6 @@ function RunoffMatchupSection({
               )}
             </div>
           </div>
-
           {/* VS divider */}
           <div className="flex flex-col items-center justify-center gap-2 flex-shrink-0 px-1 z-10">
             <div className="w-px h-8" style={{ background: runoffColor + "33" }} />
@@ -712,14 +718,13 @@ function RunoffMatchupSection({
             </span>
             <div className="w-px h-8" style={{ background: runoffColor + "33" }} />
           </div>
-
           {/* Candidate 2 */}
           <div className="flex flex-col items-center gap-2 flex-1 min-w-0 px-3 pt-4 pb-3 z-10">
             <div
               className="rounded-full p-[3px] flex-shrink-0"
               style={{ background: "linear-gradient(135deg, " + c2Color + ", " + c2Color + "88)" }}
             >
-              <CandidateAvatar name={candidate2Name} party={candidate2Party} size={photoSize} />
+              <CandidateAvatar name={candidate2Name} party={candidate2Party} size={photoSize} photo={candidate2Photo} />
             </div>
             <span className="text-sm font-bold text-center leading-tight">{candidate2Name}</span>
             <div className="flex flex-col items-center gap-1">
@@ -827,6 +832,10 @@ function BioCandidateCard({
 function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose: () => void; onFocusMap?: () => void }) {
   const { data: senators } = trpc.senators.byState.useQuery({ stateCode: race.stateCode });
   const [selectedSenatorId, setSelectedSenatorId] = useState<number | null>(null);
+  // Name-keyed photo lookup (source of truth — ignores positional race table photos)
+  const { getPhoto } = usePhotos([race.candidate1Name, race.candidate2Name]);
+  const c1Photo = getPhoto(race.candidate1Name);
+  const c2Photo = getPhoto(race.candidate2Name);
   return (
     <div className="popup-enter">
       <div className="flex items-start justify-between mb-3">
@@ -917,10 +926,10 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
           <GeneralMatchupSection
             candidate1Name={race.candidate1Name}
             candidate1Party={race.candidate1Party}
-            candidate1Photo={(race as any).candidate1Photo}
+            candidate1Photo={c1Photo}
             candidate2Name={race.candidate2Name}
             candidate2Party={race.candidate2Party}
-            candidate2Photo={(race as any).candidate2Photo}
+            candidate2Photo={c2Photo}
             rating={race.rating}
             chamber="senate"
             incumbent={race.incumbent}
@@ -945,14 +954,14 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
                 name={race.candidate1Name}
                 party={race.candidate1Party}
                 bio={(race as any).candidate1Bio}
-                photo={(race as any).candidate1Photo}
+                photo={c1Photo}
                 isIncumbent={!race.incumbentRetiring && race.incumbentParty === race.candidate1Party}
               />
               <BioCandidateCard
                 name={race.candidate2Name}
                 party={race.candidate2Party}
                 bio={(race as any).candidate2Bio}
-                photo={(race as any).candidate2Photo}
+                photo={c2Photo}
                 isIncumbent={!race.incumbentRetiring && race.incumbentParty === race.candidate2Party}
               />
             </div>
@@ -972,6 +981,8 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
           chamber="senate"
           pctReporting={race.pctReporting}
           primaryWinner={(race as any).primaryWinner}
+          candidate1Photo={c1Photo}
+          candidate2Photo={c2Photo}
         />
       ) : race.status === "Primary Runoff" && !race.candidate1Name && !race.candidate2Name ? (
         /* Both parties still in runoff — neither nominee confirmed */
@@ -1034,6 +1045,8 @@ function SenatePopup({ race, onClose, onFocusMap }: { race: SenateRace; onClose:
             chamber="senate"
             incumbent={race.incumbent}
             incumbentParty={race.incumbentParty}
+            candidate1Photo={c1Photo}
+            candidate2Photo={c2Photo}
           />
           {/* Expandable candidate bios */}
           {((race as any).candidate1Bio || (race as any).candidate2Bio) && (
@@ -1134,6 +1147,10 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
   const districtName = race.districtLabel === "AL"
     ? `${race.stateName} At-Large`
     : `${race.stateName} ${race.district}${getOrdinal(race.district)} District`;
+  // Name-keyed photo lookup (source of truth — ignores positional race table photos)
+  const { getPhoto } = usePhotos([race.candidate1Name, race.candidate2Name]);
+  const c1Photo = getPhoto(race.candidate1Name);
+  const c2Photo = getPhoto(race.candidate2Name);
 
   return (
     <div className="popup-enter">
@@ -1195,10 +1212,10 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
           <GeneralMatchupSection
             candidate1Name={race.candidate1Name}
             candidate1Party={race.candidate1Party}
-            candidate1Photo={(race as any).candidate1Photo}
+            candidate1Photo={c1Photo}
             candidate2Name={race.candidate2Name}
             candidate2Party={race.candidate2Party}
-            candidate2Photo={(race as any).candidate2Photo}
+            candidate2Photo={c2Photo}
             rating={race.rating}
             chamber="house"
             incumbent={race.incumbent}
@@ -1222,14 +1239,14 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
                 name={race.candidate1Name}
                 party={race.candidate1Party}
                 bio={(race as any).candidate1Bio}
-                photo={(race as any).candidate1Photo}
+                photo={c1Photo}
                 isIncumbent={!race.incumbentRetiring && race.incumbentParty === race.candidate1Party}
               />
               <BioCandidateCard
                 name={race.candidate2Name}
                 party={race.candidate2Party}
                 bio={(race as any).candidate2Bio}
-                photo={(race as any).candidate2Photo}
+                photo={c2Photo}
                 isIncumbent={!race.incumbentRetiring && race.incumbentParty === race.candidate2Party}
               />
             </div>
@@ -1249,6 +1266,8 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
           chamber="house"
           pctReporting={race.pctReporting}
           primaryWinner={(race as any).primaryWinner}
+          candidate1Photo={c1Photo}
+          candidate2Photo={c2Photo}
         />
       ) : race.status === "Primary Runoff" && race.candidate1Name && race.candidate2Name ? (
         <RunoffMatchupSection
@@ -1262,6 +1281,8 @@ function HousePopup({ race, onClose, onFocusMap }: { race: HouseRace; onClose: (
           chamber="house"
           incumbent={race.incumbent}
           incumbentParty={race.incumbentParty}
+          candidate1Photo={c1Photo}
+          candidate2Photo={c2Photo}
         />
       ) : (race.candidate1Name || race.candidate2Name) ? (
         <div className="space-y-1.5 mb-3">

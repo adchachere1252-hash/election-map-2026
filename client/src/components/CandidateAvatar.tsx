@@ -1,23 +1,25 @@
 import { useState, useEffect } from "react";
-import { getCandidatePhotoUrl } from "@/lib/candidatePhotos";
 
 interface CandidateAvatarProps {
   name: string | null | undefined;
   party?: string | null;
   size?: number; // diameter in px, default 36
   className?: string;
-  /** Explicit photo URL (e.g., from DB candidate1_photo column). Takes priority over name-based lookup. */
+  /** Photo URL from the candidate_photos table (name-keyed source of truth). */
   photo?: string | null;
 }
 
 /**
- * Circular candidate headshot using official Congressional bioguide photos.
- * Falls back to a party-colored initial avatar for non-Congress candidates.
- *
+ * Circular candidate headshot.
+ * 
  * Resolution order:
- * 1. Explicit DB photo prop (if provided and loads successfully)
- * 2. Name-based lookup from CDN_PHOTOS / BIOGUIDE_MAP (if DB photo fails or absent)
- * 3. Party-colored initial avatar (final fallback)
+ * 1. photo prop (from candidate_photos DB table, looked up by name)
+ * 2. Party-colored initial avatar (final fallback)
+ *
+ * The photo prop should be provided by the parent component which gets it
+ * from either:
+ * - Server-side batch lookup (key races, race popups)
+ * - Client-side usePhotos() hook
  */
 export function CandidateAvatar({
   name,
@@ -26,23 +28,11 @@ export function CandidateAvatar({
   className = "",
   photo,
 }: CandidateAvatarProps) {
-  const nameBasedUrl = getCandidatePhotoUrl(name);
-  // Track which source we're currently trying
-  const [dbPhotoFailed, setDbPhotoFailed] = useState(false);
-  const [namePhotoFailed, setNamePhotoFailed] = useState(false);
+  const [photoFailed, setPhotoFailed] = useState(false);
 
-  // Determine which URL to show
-  let photoUrl: string | null = null;
-  if (photo && !dbPhotoFailed) {
-    photoUrl = photo;
-  } else if (nameBasedUrl && !namePhotoFailed) {
-    photoUrl = nameBasedUrl;
-  }
-
-  // Reset error states whenever the inputs change
+  // Reset error state when photo URL changes
   useEffect(() => {
-    setDbPhotoFailed(false);
-    setNamePhotoFailed(false);
+    setPhotoFailed(false);
   }, [photo, name]);
 
   // Determine party color for fallback avatar
@@ -82,21 +72,13 @@ export function CandidateAvatar({
     flexShrink: 0,
   };
 
-  if (photoUrl) {
+  if (photo && !photoFailed) {
     return (
       <span style={style} className={`border border-white/20 ${className}`}>
         <img
-          src={photoUrl}
+          src={photo}
           alt={name ?? ""}
-          onError={() => {
-            // If the DB photo failed, try name-based lookup next
-            if (photo && !dbPhotoFailed) {
-              setDbPhotoFailed(true);
-            } else {
-              // Name-based also failed, show initials
-              setNamePhotoFailed(true);
-            }
-          }}
+          onError={() => setPhotoFailed(true)}
           style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 20%" }}
           loading="eager"
         />

@@ -16,11 +16,12 @@ import {
   getAllGovernorRaces, getGovernorRaceById, getGovernorRaceByState, updateGovernorRace,
   getAllWorldElections, getWorldElectionById, getWorldElectionsByCountry, createWorldElection, updateWorldElection, deleteWorldElection,
   getAllFecFundraising, getFecByRace, upsertFecFundraising, deleteFecFundraising,
+  batchGetCandidatePhotos, upsertCandidatePhoto,
 } from "./db";
 import { nanoid } from "nanoid";
 import { ENV } from "./_core/env";
 import { broadcastElectionEvent, getConnectedClientCount } from "./ws";
-import { getCandidatePhoto, PARTY_LOGOS } from "./candidatePhotos";
+import { PARTY_LOGOS } from "./candidatePhotos";
 import { smartCenterCrop } from "./smartCrop";
 import { storagePut } from "./storage";
 import { validateImageUrl } from "./imageValidation";
@@ -145,7 +146,16 @@ export const appRouter = router({
         const { url } = await storagePut(storageKey, buffer, "image/jpeg");
         const photoPath = `/manus-storage/${storageKey}`;
 
-        // Update the database
+        // Update the candidate_photos table (name-keyed source of truth)
+        await upsertCandidatePhoto({
+          normalizedName: input.candidateName.toLowerCase().trim(),
+          displayName: input.candidateName,
+          photoUrl: photoPath,
+          source: "manus-storage",
+          chamber: input.chamber,
+        });
+
+        // Also update legacy race table columns (for backward compat during migration)
         const { getDb } = await import("./db");
         const db = await getDb();
         if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
@@ -582,6 +592,17 @@ export const appRouter = router({
         getPinnedKeyRaces(),
       ]);
 
+      // Batch-fetch all candidate photos from the name-keyed table
+      const allNames = [
+        ...senateRaces.flatMap(r => [r.candidate1Name, r.candidate2Name]),
+        ...houseRaces.flatMap(r => [r.candidate1Name, r.candidate2Name]),
+      ].filter(Boolean) as string[];
+      const photoMap = await batchGetCandidatePhotos(allNames);
+      const getPhoto = (name: string | null | undefined) => {
+        if (!name) return null;
+        return photoMap.get(name.toLowerCase().trim()) ?? null;
+      };
+
       const RATING_ORDER: Record<string, number> = {
         "Toss-up": 0,
         "Lean D": 1,
@@ -603,10 +624,10 @@ export const appRouter = router({
         incumbentParty: r.incumbentParty,
         candidate1Name: r.candidate1Name,
         candidate1Party: r.candidate1Party,
-        candidate1Photo: getCandidatePhoto(r.candidate1Name),
+        candidate1Photo: getPhoto(r.candidate1Name),
         candidate2Name: r.candidate2Name,
         candidate2Party: r.candidate2Party,
-        candidate2Photo: getCandidatePhoto(r.candidate2Name),
+        candidate2Photo: getPhoto(r.candidate2Name),
         partyLogos: PARTY_LOGOS,
         status: r.status,
         calledParty: r.calledParty,
@@ -631,10 +652,10 @@ export const appRouter = router({
         incumbentParty: r.incumbentParty,
         candidate1Name: r.candidate1Name,
         candidate1Party: r.candidate1Party,
-        candidate1Photo: getCandidatePhoto(r.candidate1Name),
+        candidate1Photo: getPhoto(r.candidate1Name),
         candidate2Name: r.candidate2Name,
         candidate2Party: r.candidate2Party,
-        candidate2Photo: getCandidatePhoto(r.candidate2Name),
+        candidate2Photo: getPhoto(r.candidate2Name),
         partyLogos: PARTY_LOGOS,
         status: r.status,
         calledParty: r.calledParty,
@@ -1053,6 +1074,22 @@ export const appRouter = router({
         await requireAdminToken(input.adminToken);
         await deleteFecFundraising(input.id);
         return { success: true };
+      }),
+  }),
+
+  // ─── Candidate Photos (Name-Keyed) ─────────────────────────────────────────
+  photos: router({
+    // Batch lookup: given an array of candidate names, return a map of name → photoUrl
+    batchLookup: publicProcedure
+      .input(z.object({ names: z.array(z.string()).max(500) }))
+      .query(async ({ input }) => {
+        const photoMap = await batchGetCandidatePhotos(input.names);
+        // Return as a plain object for easy client-side consumption
+        const result: Record<string, string> = {};
+        photoMap.forEach((url, name) => {
+          result[name] = url;
+        });
+        return result;
       }),
   }),
 });

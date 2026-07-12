@@ -1,7 +1,7 @@
-import { eq, and, sql } from "drizzle-orm";
+import { eq, and, sql, inArray } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { createRequire } from "module";
-import { InsertUser, users, senateRaces, houseRaces, redistrictingStates, referendums, adminSessions, senators, pinnedKeyRaces, governorRaces, worldElections, fecFundraising } from "../drizzle/schema";
+import { InsertUser, users, senateRaces, houseRaces, redistrictingStates, referendums, adminSessions, senators, pinnedKeyRaces, governorRaces, worldElections, fecFundraising, candidatePhotos } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 const _require = createRequire(import.meta.url);
@@ -575,4 +575,85 @@ export async function deleteFecFundraising(id: number) {
   const db = await getDb();
   if (!db) throw new Error("DB not available");
   await db.delete(fecFundraising).where(eq(fecFundraising.id, id));
+}
+
+// ─── Candidate Photos (Name-Keyed Lookup) ────────────────────────────────────
+
+/**
+ * Batch-lookup candidate photos by normalized names.
+ * Returns a Map of normalized_name → photo_url for all matches found.
+ */
+export async function batchGetCandidatePhotos(names: string[]): Promise<Map<string, string>> {
+  const db = await getDb();
+  const result = new Map<string, string>();
+  if (!db || names.length === 0) return result;
+
+  // Normalize all input names
+  const normalizedNames = names
+    .filter(Boolean)
+    .map(n => n.toLowerCase().trim());
+
+  if (normalizedNames.length === 0) return result;
+
+  // Query in batches of 100 to avoid MySQL IN clause limits
+  const BATCH_SIZE = 100;
+  for (let i = 0; i < normalizedNames.length; i += BATCH_SIZE) {
+    const batch = normalizedNames.slice(i, i + BATCH_SIZE);
+    const rows = await db
+      .select({ normalizedName: candidatePhotos.normalizedName, photoUrl: candidatePhotos.photoUrl })
+      .from(candidatePhotos)
+      .where(inArray(candidatePhotos.normalizedName, batch));
+    for (const row of rows) {
+      result.set(row.normalizedName, row.photoUrl);
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Get a single candidate photo by name.
+ */
+export async function getCandidatePhotoByName(name: string | null | undefined): Promise<string | null> {
+  if (!name) return null;
+  const db = await getDb();
+  if (!db) return null;
+  const normalized = name.toLowerCase().trim();
+  const rows = await db
+    .select({ photoUrl: candidatePhotos.photoUrl })
+    .from(candidatePhotos)
+    .where(eq(candidatePhotos.normalizedName, normalized))
+    .limit(1);
+  return rows[0]?.photoUrl ?? null;
+}
+
+/**
+ * Upsert a candidate photo (insert or update on conflict).
+ */
+export async function upsertCandidatePhoto(data: {
+  normalizedName: string;
+  displayName: string;
+  photoUrl: string;
+  source?: "manus-storage" | "bioguide" | "cdn" | "manual";
+  chamber?: "senate" | "house" | "governor" | "world" | null;
+  party?: "D" | "R" | "I" | "L" | "G" | null;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("DB not available");
+  await db.insert(candidatePhotos)
+    .values({
+      normalizedName: data.normalizedName,
+      displayName: data.displayName,
+      photoUrl: data.photoUrl,
+      source: data.source || "manual",
+      chamber: data.chamber || null,
+      party: data.party || null,
+    })
+    .onDuplicateKeyUpdate({
+      set: {
+        photoUrl: sql`VALUES(photo_url)`,
+        displayName: sql`VALUES(display_name)`,
+        source: sql`VALUES(source)`,
+      },
+    });
 }

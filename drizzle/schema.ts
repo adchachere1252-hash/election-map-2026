@@ -373,3 +373,19 @@ export const fecFundraising = mysqlTable("fec_fundraising", {
 
 export type FecFundraising = typeof fecFundraising.$inferSelect;
 export type InsertFecFundraising = typeof fecFundraising.$inferInsert;
+
+// ─── Candidate Photos (Name-Keyed Single Source of Truth) ────────────────────
+export const candidatePhotos = mysqlTable("candidate_photos", {
+  id: int("id").autoincrement().primaryKey(),
+  normalizedName: varchar("normalized_name", { length: 256 }).notNull().unique(), // lowercase trimmed
+  displayName: varchar("display_name", { length: 256 }).notNull(), // original casing
+  photoUrl: text("photo_url").notNull(), // resolved URL (manus-storage or bioguide)
+  source: mysqlEnum("source", ["manus-storage", "bioguide", "cdn", "manual"]).default("manual").notNull(),
+  chamber: mysqlEnum("chamber", ["senate", "house", "governor", "world"]), // optional context
+  party: mysqlEnum("party", ["D", "R", "I", "L", "G"]),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type CandidatePhoto = typeof candidatePhotos.$inferSelect;
+export type InsertCandidatePhoto = typeof candidatePhotos.$inferInsert;

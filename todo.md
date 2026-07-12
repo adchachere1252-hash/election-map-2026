@@ -2851,3 +2851,22 @@
 - [x] Update current Senate composition (R loses 1 seat temporarily)
 - [x] Update BASE_COMPOSITION: R 53→52, vacancies 0→1
 - [x] Add vacancy indicator to Senate composition bar in Scoreboard
+
+## Photo System Refactor — Option A: Name-Keyed Lookup Table (Jul 12)
+
+- [x] Create candidate_photos table (normalized_name PRIMARY KEY, photo_url, source, uploaded_at)
+- [x] Migrate existing photos from senate_races candidate1_photo/candidate2_photo into new table
+- [x] Migrate existing photos from house_races candidate1_photo/candidate2_photo into new table
+- [x] Migrate existing photos from governor_races dem_photo/rep_photo into new table
+- [x] Migrate server-side CANDIDATE_PHOTOS map entries into new table
+- [x] Migrate allCandidatePhotos.json entries into new table
+- [x] Create server-side tRPC endpoint to batch-lookup photos by candidate names
+- [x] Update CandidateAvatar to use new name-keyed tRPC lookup (remove positional photo prop dependency)
+- [x] Update GlobalSearch to use shared CandidateAvatar (remove duplicate photo map)
+- [x] Update KeyRaces to use name-keyed lookup (remove slot-based photo derivation)
+- [ ] Remove candidate1_photo/candidate2_photo columns from senate_races and house_races (kept for backward compat)
+- [ ] Remove dem_photo/rep_photo columns from governor_races (kept for backward compat)
+- [x] Fix 29+ known photo/name mismatches caused by AP candidate reordering
+- [ ] Clean up old candidatePhotos.ts server file and client/src/lib/candidatePhotos.ts (kept as fallback)
+- [x] Write vitest tests for the new photo lookup system
+- [x] Verify photos render correctly for all race types (Senate, House, Governor)

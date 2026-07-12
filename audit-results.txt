@@ -1,86 +1,463 @@
-═══ HOUSE RACES AUDIT ═══
-Total House races: 435
-  Candidate 1 filled: 430/435
-  Candidate 2 filled: 311/435
-  TBD Candidate 1: 0
-  TBD Candidate 2: 0
-  Candidate 1 photos: 397/435
-  Candidate 2 photos: 293/435
-  Named candidates missing photo (slot 1): 33
-  Named candidates missing photo (slot 2): 19
-  Candidate 1 bios: 5/435
-  Candidate 2 bios: 5/435
-  Races with ratings: 435/435
-  Races with incumbent info: 430/435
-  Rating breakdown:
-    Solid D: 184
-    Solid R: 184
-    Likely R: 18
-    Toss-up: 18
-    Lean D: 12
-    Likely D: 11
-    Lean R: 8
+[dotenv@17.2.3] injecting env (0) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+=== ELECTION DATA VERIFICATION AUDIT ===
+Date: 2026-07-12T11:28:45.140Z
 
-═══ SENATE RACES AUDIT ═══
+═══════════════════════════════════════════
+  SENATE RACES (35 expected)
+═══════════════════════════════════════════
+
 Total Senate races: 35
-  Candidate 1 filled: 35/35
-  Candidate 2 filled: 35/35
-  TBD Candidate 1: 0
-  TBD Candidate 2: 0
-  Candidate 1 photos: 25/35
-  Candidate 2 photos: 26/35
-  Named candidates missing photo (slot 1): 10
-  Named candidates missing photo (slot 2): 9
-  Candidate 1 bios: 8/35
-  Candidate 2 bios: 8/35
-  Races with ratings: 35/35
-  Rating breakdown:
-    Solid R: 15
-    Solid D: 9
-    Lean R: 4
-    Toss-up: 3
-    Lean D: 3
-    Likely D: 1
 
-═══ GOVERNOR RACES AUDIT ═══
+⚠️  17 Senate races have issues:
+
+  AK (Alaska):
+    - Candidate1 is TBD: TBD — Top-4 Primary: Aug 18
+    - Missing candidate1_photo
+    - Missing candidate1_bio
+  DE (Delaware):
+    - Candidate2 is TBD: TBD — R Primary: Sep 9 (Katz)
+    - Missing candidate2_photo
+    - Missing candidate2_bio
+  FL (Florida):
+    - Candidate1 is TBD: TBD — D Primary: Aug 18
+    - Missing candidate1_photo
+    - Missing candidate1_bio
+  KS (Kansas):
+    - Missing candidate1_photo
+    - Missing candidate1_bio
+  MA (Massachusetts):
+    - Candidate1 is TBD: TBD — D Primary: Sep 1 (Markey vs Moulton)
+    - Candidate2 is TBD: TBD — R Primary: Sep 1 (Deaton)
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+    - Missing candidate1_bio
+    - Missing candidate2_bio
+  ME (Maine):
+    - Candidate1 is TBD: TBD
+  MI (Michigan):
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+    - Missing candidate1_bio
+    - Missing candidate2_bio
+  MN (Minnesota):
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+    - Missing candidate1_bio
+    - Missing candidate2_bio
+  NH (New Hampshire):
+    - Candidate1 is TBD: TBD — D Primary: Sep 8, 2026 (Pappas, Manzur)
+    - Candidate2 is TBD: TBD — R Primary: Sep 8, 2026 (Brown, Sununu)
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+    - Missing candidate1_bio
+    - Missing candidate2_bio
+  OK (Oklahoma):
+    - Candidate1 is TBD: TBD — D Runoff: Aug 25
+    - Missing candidate1_photo
+    - Missing candidate1_bio
+  RI (Rhode Island):
+    - Candidate2 is TBD: TBD — R Primary: Sep 9 (McKay)
+    - Missing candidate2_photo
+    - Missing candidate2_bio
+  SC (South Carolina):
+    - Candidate1 is TBD: TBD (Special Primary)
+  TN (Tennessee):
+    - Candidate1 is TBD: TBD — Democratic Primary
+    - Missing candidate1_photo
+    - Missing candidate1_bio
+    - Missing previous_party
+  TX (Texas):
+    - Missing previous_party
+  VA (Virginia):
+    - Missing candidate2_photo
+    - Missing candidate2_bio
+  WV (West Virginia):
+    - Missing previous_party
+  WY (Wyoming):
+    - Candidate1 is TBD: TBD — D Primary: Aug 18
+    - Candidate2 is TBD: TBD — R Primary: Aug 18 (Hageman, 3 others)
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+    - Missing candidate1_bio
+    - Missing candidate2_bio
+
+  Rating distribution:
+    Solid D: 9
+    Likely D: 1
+    Lean D: 3
+    Toss-up: 3
+    Lean R: 4
+    Solid R: 15
+
+
+═══════════════════════════════════════════
+  HOUSE RACES (435 expected)
+═══════════════════════════════════════════
+
+Total House races: 435
+
+  Summary:
+    Missing candidate1_name: 0
+    Missing candidate2_name: 56
+    TBD candidate1: 13
+    TBD candidate2: 8
+    Missing rating: 0
+    Missing candidate1_photo: 267
+    Missing candidate2_photo: 245
+
+  ⚠️  67 House races have critical issues (missing name/party/rating):
+    AK-AL: Candidate1 TBD: TBD — D Primary: Aug 18
+    AZ-3: Missing candidate2_name, Missing candidate2_party
+    DE-AL: Missing candidate2_name, Missing candidate2_party
+    FL-2: Missing candidate2_name, Missing candidate2_party, Candidate1 TBD: TBD — R Primary: Aug 18
+    FL-3: Missing candidate2_name, Missing candidate2_party
+    FL-4: Missing candidate2_name, Missing candidate2_party
+    FL-5: Missing candidate2_name, Missing candidate2_party
+    FL-7: Missing candidate2_name, Missing candidate2_party
+    FL-8: Missing candidate2_name, Missing candidate2_party
+    FL-9: Missing candidate2_name, Missing candidate2_party
+    FL-10: Missing candidate2_name, Missing candidate2_party
+    FL-11: Missing candidate2_name, Missing candidate2_party, Candidate1 TBD: TBD — R Primary: Aug 18
+    FL-12: Missing candidate2_name, Missing candidate2_party
+    FL-13: Missing candidate2_name, Missing candidate2_party
+    FL-14: Missing candidate2_name, Missing candidate2_party
+    FL-15: Missing candidate2_name, Missing candidate2_party
+    FL-16: Missing candidate2_name, Missing candidate2_party, Candidate1 TBD: TBD — R Primary: Aug 18
+    FL-17: Missing candidate2_name, Missing candidate2_party
+    FL-18: Missing candidate2_name, Missing candidate2_party
+    FL-19: Missing candidate2_name, Missing candidate2_party, Candidate1 TBD: TBD — R Primary: Aug 18
+    FL-20: Candidate1 TBD: TBD — D Primary: Aug 18, Candidate2 TBD: TBD — R Primary: Aug 18
+    FL-21: Missing candidate2_name, Missing candidate2_party
+    FL-22: Missing candidate2_name, Missing candidate2_party
+    FL-23: Missing candidate2_name, Missing candidate2_party
+    FL-24: Missing candidate2_name, Missing candidate2_party
+    FL-25: Missing candidate2_name, Missing candidate2_party
+    FL-26: Missing candidate2_name, Missing candidate2_party
+    FL-27: Missing candidate2_name, Missing candidate2_party
+    FL-28: Missing candidate2_name, Missing candidate2_party
+    HI-1: Missing candidate2_name, Missing candidate2_party
+    ... and 37 more
+
+  Rating distribution:
+    Solid D: 184
+    Likely D: 11
+    Lean D: 12
+    Toss-up: 18
+    Lean R: 8
+    Likely R: 18
+    Solid R: 184
+
+  Status distribution:
+    Scheduled: 119
+    Primary: 18
+    General: 293
+    Called: 5
+
+
+═══════════════════════════════════════════
+  GOVERNOR RACES (36 expected)
+═══════════════════════════════════════════
+
 Total Governor races: 36
-  Dem candidates filled: 36/36
-  Rep candidates filled: 36/36
-  TBD Dem: 0
-  TBD Rep: 0
-  Dem photos: 25/36
-  Rep photos: 20/36
-  Named Dem missing photo: 11
-  Named Rep missing photo: 16
-  Races with ratings: 36/36
-  Rating breakdown:
-    Solid R: 13
+
+⚠️  36 Governor races have issues:
+
+  AK (Alaska):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  AL (Alabama):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  AR (Arkansas):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  AZ (Arizona):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  CA (California):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  CO (Colorado):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  CT (Connecticut):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  FL (Florida):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  GA (Georgia):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  HI (Hawaii):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  IA (Iowa):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  ID (Idaho):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  IL (Illinois):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  KS (Kansas):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  MA (Massachusetts):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  MD (Maryland):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  ME (Maine):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  MI (Michigan):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  MN (Minnesota):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  NE (Nebraska):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  NH (New Hampshire):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  NM (New Mexico):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  NV (Nevada):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  NY (New York):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  OH (Ohio):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  OK (Oklahoma):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  OR (Oregon):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  PA (Pennsylvania):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  RI (Rhode Island):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  SC (South Carolina):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  SD (South Dakota):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  TN (Tennessee):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  TX (Texas):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  VT (Vermont):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  WI (Wisconsin):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+  WY (Wyoming):
+    - Missing candidate1_name
+    - Missing candidate1_party
+    - Missing candidate2_name
+    - Missing candidate2_party
+    - Missing candidate1_photo
+    - Missing candidate2_photo
+
+  Rating distribution:
     Solid D: 12
-    Toss-up: 5
-    Lean R: 2
     Likely D: 2
     Lean D: 1
+    Toss-up: 5
+    Lean R: 2
     Likely R: 1
+    Solid R: 13
 
-═══ WORLD ELECTIONS AUDIT ═══
-Total World elections: 39
-  Upcoming: 28
-  Completed: 11
-  With polling data: 28/39
-  With key issues: 28/39
-  With candidates: 39/39
-  Upcoming missing polling: 0
-  Upcoming missing key issues: 0
-  Upcoming missing candidates: 0
 
-═══ REDISTRICTING AUDIT ═══
-Error: Unknown column 'map_url' in 'where clause'
-    at PromiseConnection.execute (/home/ubuntu/election-map-2026/node_modules/.pnpm/mysql2@3.15.1/node_modules/mysql2/lib/promise/connection.js:47:22)
-    at main (file:///home/ubuntu/election-map-2026/scripts/site-audit.mjs:197:38)
-    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
-  code: 'ER_BAD_FIELD_ERROR',
-  errno: 1054,
-  sql: "SELECT COUNT(*) as cnt FROM redistricting_states WHERE map_url IS NOT NULL AND map_url != ''",
-  sqlState: '42S22',
-  sqlMessage: "Unknown column 'map_url' in 'where clause'"
-}
+═══════════════════════════════════════════
+  SPECIAL ELECTIONS & VACANCIES
+═══════════════════════════════════════════
+
+Special Senate races: 3
+  SC (South Carolina): Vacancy due to death of Sen. Graham [Primary]
+  FL (Florida): Special election to fill Marco Rubio's seat (resigned to become Secretary of State) [Scheduled]
+  OH (Ohio): Special election to fill J.D. Vance's seat (resigned to become Vice President) [General]
+
+House vacancies (special elections): 5
+  CA-1: [General]
+  CA-14: [General]
+  FL-20: [Scheduled]
+  GA-13: [General]
+  TX-23: [Primary]
+
+
+═══════════════════════════════════════════
+  RECENT UPDATES VERIFICATION
+═══════════════════════════════════════════
+
+Maine Senate:
+  C1: TBD (D)
+  C2: Susan Collins (R)
+  Rating: Lean R
+  Notes: Jun 9: Platner (D) wins RCV primary. Collins (R) uncontested. General: Platner vs Collins. [AP_LOCK]...
+
+South Carolina Senate:
+  C1: TBD (Special Primary) (R)
+  C2: Annie Andrews (D)
+  Rating: Solid R | Status: Primary | Special: 1
+  Special Note: Vacancy due to death of Sen. Graham
+  Notes: Sen. Lindsey Graham died Jul 12, 2026 from sudden illness at age 71. Gov. McMaster (R) to appoint interim senator. SC GO...
+
+
+=== AUDIT COMPLETE ===

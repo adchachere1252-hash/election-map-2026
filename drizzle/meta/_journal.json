@@ -183,6 +183,13 @@
       "when": 1782488140564,
       "tag": "0025_magical_scourge",
       "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "5",
+      "when": 1783857383937,
+      "tag": "0026_friendly_earthquake",
+      "breakpoints": true
     }
   ]
 }
