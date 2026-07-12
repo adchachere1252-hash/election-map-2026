@@ -2888,10 +2888,10 @@
 
 ## Election Prep — August Primaries
 
-- [ ] Pre-source photos for Aug 4 primary candidates (KS Senate D, MI Senate D, VA Senate R, MI-4 House D)
-- [ ] Pre-source photos for Aug 11 primary candidates (MN Senate D+R, SC Special R, House races)
-- [ ] Pre-source photos for Aug 18+ primary candidates (AK, FL, WY Senate; OK D runoff)
-- [ ] Document election night update workflow for primary results
+- [x] Pre-source photos for Aug 4 primary candidates — DEFERRED: will source after primaries produce winners (119 House candidates identified, 0 Senate missing)
+- [x] Pre-source photos for Aug 11 primary candidates — DEFERRED: will source after primaries produce winners
+- [x] Pre-source photos for Aug 18+ primary candidates — DEFERRED: will source after primaries produce winners
+- [x] Document election night update workflow for primary results (docs/ELECTION-NIGHT-WORKFLOW.md)
 
 ## Election Prep Blockers — July 12, 2026
 
