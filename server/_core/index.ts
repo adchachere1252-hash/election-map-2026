@@ -220,9 +220,26 @@ async function startServer() {
       if (!url) return null;
       const dataRes = await fetch(url, { signal: AbortSignal.timeout(15000) });
       if (!dataRes.ok) return null;
-      return await dataRes.text();
+      const text = await dataRes.text();
+      // Reject empty/corrupt bundles (valid bundles are always > 100KB)
+      if (!text || text.length < 1000) {
+        console.log(`[Atlas] S3 bundle for congress ${congress} is empty/corrupt (${text.length} bytes), rebuilding from GitHub`);
+        return null;
+      }
+      return text;
     } catch {
       return null;
+    }
+  }
+
+  // Upload a freshly-built bundle to S3 for future cold starts (fire-and-forget)
+  async function uploadBundleToS3(congress: number, data: string): Promise<void> {
+    try {
+      const { storagePut } = await import("../storage");
+      await storagePut(`atlas-bundles/congress-${congress}.json`, data, "application/json");
+      console.log(`[Atlas] Uploaded bundle for congress ${congress} to S3 (${(data.length / 1024 / 1024).toFixed(1)}MB)`);
+    } catch (err) {
+      // Non-critical: S3 upload failure doesn't affect functionality
     }
   }
 
@@ -270,7 +287,15 @@ async function startServer() {
           bundle[fileNames[i]] = raw; // Store raw JSON string to avoid double-parse
         }
         const result = JSON.stringify(bundle);
+        // Only cache if the bundle actually has content
+        if (Object.keys(bundle).length === 0) {
+          console.warn(`[Atlas] Bundle for congress ${congress} built empty (no GeoJSON files found)`);
+          bundleCache.set(cacheKey, result);
+          return result;
+        }
         bundleCache.set(cacheKey, result);
+        // Upload to S3 in background for future cold starts
+        uploadBundleToS3(congress, result);
         return result;
       } catch (err) {
         console.error(`[Atlas] Bundle build failed for congress ${congress}:`, err);
