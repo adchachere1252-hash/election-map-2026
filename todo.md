@@ -2910,3 +2910,9 @@
 - [x] Source and upload photo for Darline Graham (SC Senate R interim)
 - [x] Clean up NY-7 notes (removed stale "TBD" language, cleared pct_reporting from primary count)
 - [x] Fix merge conflict in todo.md (Git conflict markers from Jul 7/Jul 8 sessions)
+
+## World Map Updates — Jul 20, 2026
+
+- [x] São Tomé and Príncipe: Updated to Completed — Carlos Vila Nova wins second term (55%+ vs Nito D'Abreu 41%+, no runoff needed)
+- [x] Verified no stale elections (all past-date elections already marked Completed)
+- [x] UK leadership change (Burnham replaces Starmer) — NOT added: internal party contest, not a public election
