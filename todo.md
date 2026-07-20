@@ -2797,7 +2797,6 @@
 - [x] Add distance-based label scaling (labels shrink as camera moves away)
 - [x] Add label opacity fade at extreme zoom distances
 
-<<<<<<< Updated upstream
 ## Health Monitoring Endpoint (Jul 7)
 
 - [x] Add /api/health endpoint returning DB status, last AP update time, error count
@@ -2806,13 +2805,12 @@
 
 - [x] Pre-build and upload all 31 Congress bundles to S3
 - [x] Update server to serve from S3 cache first, fallback to on-the-fly build
-=======
+
 ## Globe Star Rendering Fix (Jul 8)
 
 - [x] Fix stars rendering as large square boxes instead of point-like stars
 - [x] Generate circular star texture using canvas and apply as map to PointsMaterial
 - [x] Enable sizeAttenuation so stars scale properly with distance
->>>>>>> Stashed changes
 
 ## World Globe Background Enhancement (Jul 8)
 
@@ -2899,3 +2897,16 @@
 - [x] Add photo upload UI to Admin Panel (paste URL → smart-crop → upload)
 - [x] Add governor promotion UI to Admin Panel Primary Results Editor
 - [x] Change KS Senate, MI Senate, VA Senate status to "Primary" (MI-4 already in General with TBD candidate)
+
+## Data Updates — Jul 20, 2026
+
+- [x] Update SC Senate notes: Trump endorsed Darline Graham (Jul 17), Ralph Norman declared, filing Jul 21-28, primary Aug 11
+- [x] Update ME Senate: Troy Jackson as D nominee (won 481/500 delegates Jul 19-20, all opponents dropped out, convention Jul 25 to formalize)
+- [x] Update CA-22 rating: Toss-up → Lean D (Sabato Crystal Ball Jul 16)
+- [x] Update AK Senate rating: Lean R → Toss-up (Sabato Crystal Ball Jun 11)
+- [x] Fix CA Governor: status → Voting, fix notes (was incorrectly referencing Polis/Colorado instead of Newsom)
+- [x] Update WI Governor notes: Sara Rodriguez dropped out Jul 17, David Crowley re-entered, Evers endorsed Crowley
+- [x] Source and upload photo for Troy Jackson (ME Senate D)
+- [x] Source and upload photo for Darline Graham (SC Senate R interim)
+- [x] Clean up NY-7 notes (removed stale "TBD" language, cleared pct_reporting from primary count)
+- [x] Fix merge conflict in todo.md (Git conflict markers from Jul 7/Jul 8 sessions)
