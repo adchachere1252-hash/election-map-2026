@@ -2916,3 +2916,4 @@
 - [x] São Tomé and Príncipe: Updated to Completed — Carlos Vila Nova wins second term (55%+ vs Nito D'Abreu 41%+, no runoff needed)
 - [x] Verified no stale elections (all past-date elections already marked Completed)
 - [x] UK leadership change (Burnham replaces Starmer) — NOT added: internal party contest, not a public election
+- [x] Added United Kingdom to world map: upcoming Parliamentary election (by Jul 2029) with note about Andy Burnham becoming PM Jul 20, 2026 via Labour leadership contest (no general election held). Includes Reform UK polling lead context.
