@@ -2917,3 +2917,9 @@
 - [x] Verified no stale elections (all past-date elections already marked Completed)
 - [x] UK leadership change (Burnham replaces Starmer) — NOT added: internal party contest, not a public election
 - [x] Added United Kingdom to world map: upcoming Parliamentary election (by Jul 2029) with note about Andy Burnham becoming PM Jul 20, 2026 via Labour leadership contest (no general election held). Includes Reform UK polling lead context.
+
+## Updates — Jul 21, 2026
+
+- [x] LA-6 House: Cleo Fields (D) announces retirement after GOP redistricting. Incumbent party fixed to D. Open seat, Solid R.
+- [x] Nicaragua: Added to world map as Cancelled — Ortega abolished elections Jul 20, 2026
+- [ ] Arizona primary results (polls close 10pm EDT tonight) — check back for governor/House results
