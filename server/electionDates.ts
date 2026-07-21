@@ -12,30 +12,35 @@
 export const ELECTION_DATES: string[] = [
   // ── 2026 Primaries ──────────────────────────────────────────────────────────
   "2026-03-03", // Texas primary
-  "2026-05-06", // Indiana, Ohio primaries
+  "2026-05-05", // Indiana, Ohio primaries
   "2026-05-12", // Nebraska, West Virginia primaries
   "2026-05-19", // Georgia, Kentucky, Oregon primaries
   "2026-06-02", // California, Iowa, Montana, New Jersey, New Mexico, South Dakota primaries
   "2026-06-09", // Maine, Nevada, North Dakota, South Carolina primaries
-  "2026-06-16", // Georgia runoff, Oklahoma primary, DC, Virginia primaries
+  "2026-06-16", // Georgia runoff, Oklahoma primary, DC primaries
   "2026-06-23", // South Carolina runoff (if needed), New York, Utah primaries
   "2026-06-27", // Louisiana runoffs
   "2026-06-30", // Colorado, Mississippi primaries
   "2026-07-07", // Alabama runoff
-  "2026-08-04", // Arizona, Kansas, Michigan, Missouri, Tennessee, Washington primaries
-  "2026-08-11", // Connecticut, Minnesota, Vermont, Wisconsin primaries
+  "2026-07-21", // Arizona primary (governor, House, state legislature)
+  "2026-07-28", // South Dakota runoff
+  "2026-08-04", // Kansas, Michigan, Missouri, Virginia, Washington primaries
+  "2026-08-06", // Tennessee primary
+  "2026-08-08", // Hawaii primary
+  "2026-08-11", // Alabama (House CD-1,2,6,7), Connecticut, Minnesota, SC Senate special (R), Vermont, Wisconsin primaries
   "2026-08-18", // Alaska, Florida, Wyoming primaries
   "2026-08-25", // Oklahoma runoffs (Governor R: Drummond vs Mazzei, Senate D: Thomas vs Priest, CD-1 R: Tedford)
-  "2026-09-08", // Delaware, New Hampshire, Rhode Island primaries
-  "2026-09-15", // Massachusetts primary
-  "2026-10-01", // Louisiana primary (jungle)
+  "2026-09-01", // Massachusetts primary
+  "2026-09-08", // New Hampshire primary
+  "2026-09-09", // Rhode Island primary
+  "2026-09-15", // Delaware primary
 
   // ── 2026 General Election ───────────────────────────────────────────────────
   "2026-11-03", // General Election Day
 
   // ── 2026 Runoffs (post-general) ─────────────────────────────────────────────
   "2026-12-01", // Georgia runoff (if needed)
-  "2026-12-08", // Louisiana runoff (if needed)
+  "2026-12-12", // Louisiana House runoff (if needed)
 
   // ── 2028 Presidential Primaries (major dates) ───────────────────────────────
   "2028-01-24", // Iowa caucuses (estimated)

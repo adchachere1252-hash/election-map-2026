@@ -2923,3 +2923,21 @@
 - [x] LA-6 House: Cleo Fields (D) announces retirement after GOP redistricting. Incumbent party fixed to D. Open seat, Solid R.
 - [x] Nicaragua: Added to world map as Cancelled — Ortega abolished elections Jul 20, 2026
 - [ ] Arizona primary results (polls close 10pm EDT tonight) — check back for governor/House results
+
+## Election Date Verification & Fixes — Jul 21, 2026
+
+- [x] Verified all future primary dates against NCSL (official) and 270toWin
+- [x] Fixed: Tennessee moved from Aug 4 to Aug 6
+- [x] Fixed: Hawaii added (Aug 8) — was completely missing
+- [x] Fixed: South Dakota runoff added (Jul 28) — was missing
+- [x] Fixed: Alabama House CD-1,2,6,7 added to Aug 11 — was missing
+- [x] Fixed: SC Senate special (R) added to Aug 11 — was missing
+- [x] Fixed: Massachusetts moved from Sep 15 to Sep 1
+- [x] Fixed: Rhode Island moved from Sep 8 to Sep 9
+- [x] Fixed: Delaware moved from Sep 8 to Sep 15
+- [x] Fixed: New Hampshire correctly isolated at Sep 8
+- [x] Fixed: Virginia moved from Jun 16 to Aug 4
+- [x] Fixed: Louisiana House runoff corrected from Dec 8 to Dec 12
+- [x] Fixed: Indiana/Ohio corrected from May 6 to May 5 (past, no impact)
+- [x] AP auto-updater unpaused (status: active, every 5 min)
+- [x] Scheduled morning status report for Jul 22 at 8:30 AM ET
