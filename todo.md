@@ -2922,7 +2922,7 @@
 
 - [x] LA-6 House: Cleo Fields (D) announces retirement after GOP redistricting. Incumbent party fixed to D. Open seat, Solid R.
 - [x] Nicaragua: Added to world map as Cancelled — Ortega abolished elections Jul 20, 2026
-- [ ] Arizona primary results (polls close 10pm EDT tonight) — check back for governor/House results
+- [x] Arizona primary results — manually updated Jul 22 morning (see below)
 
 ## Election Date Verification & Fixes — Jul 21, 2026
 
@@ -2941,3 +2941,15 @@
 - [x] Fixed: Indiana/Ohio corrected from May 6 to May 5 (past, no impact)
 - [x] AP auto-updater unpaused (status: active, every 5 min)
 - [x] Scheduled morning status report for Jul 22 at 8:30 AM ET
+
+## Arizona Primary Results — Jul 22, 2026
+
+- [x] AZ Governor: Andy Biggs (R) won primary decisively — AP called at 8pm. Updated DB.
+- [x] AZ-1 R: Jay Feely (Trump-backed) won 49.7% — updated DB
+- [ ] AZ-1 D: Shah vs Galan-Woods NOT YET CALLED (Shah leads 40.5%-33.6% at 83.6% in, ~14K remaining)
+- [x] AZ-4: Stanton (D) def. Newkirk 65%-35% — AP called. Status set to General.
+- [x] AZ-5: Mark Lamb (R) won 58.4%, Elizabeth Lee (D) won 65.2% — both called. Status General.
+- [x] AZ-8: Greene-Placentia (D) won 65.1% — updated DB. Status General.
+- [x] AZ-2,3,6,7,9: No competitive primaries — all already set to General with correct candidates.
+- [x] Fixed electionDates.ts (production had old dates, AP engine missed election night)
+- [x] AP engine ran successfully post-fix: 331 updated, 127 skipped, 0 errors
