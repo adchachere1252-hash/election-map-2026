@@ -9,7 +9,12 @@ import {
   updateHouseRace,
   createAdminSession,
   validateAdminSession,
+  getAllHouseRaces,
+  getAllGovernorRaces,
+  getDb,
 } from "./db";
+import { broadcastLog } from "../drizzle/schema";
+import { eq, desc } from "drizzle-orm";
 import { broadcastElectionEvent } from "./ws";
 import { nanoid } from "nanoid";
 import { handleScheduledApUpdate, handleScheduledApUpdateTrusted } from "./scheduledApUpdate";
@@ -258,6 +263,45 @@ export function registerScheduledRoutes(app: Express) {
    * const gaRunoffHandler = createElectionHandler(EXAMPLE_CONFIGS.GA_RUNOFF_2026);
    * app.post("/api/scheduled/ga-runoff", gaRunoffHandler);
    */
+
+  /**
+   * GET /api/scheduled/az-status
+   * Returns Arizona primary race status and broadcast log for July 21, 2026.
+   * Secured by Manus proxy (only cron cookie can access /api/scheduled/* paths).
+   */
+  app.get("/api/scheduled/az-status", async (_req, res) => {
+    try {
+      const [allHouse, allGovernor] = await Promise.all([
+        getAllHouseRaces(),
+        getAllGovernorRaces(),
+      ]);
+      const azHouse = allHouse.filter((r: any) => r.stateCode === "AZ");
+      const azGov = allGovernor.filter((r: any) => r.stateCode === "AZ");
+      const db = await getDb();
+      let azBroadcasts: any[] = [];
+      let allRecentBroadcasts: any[] = [];
+      if (db) {
+        azBroadcasts = await db.select().from(broadcastLog)
+          .where(eq(broadcastLog.stateCode, "AZ"))
+          .orderBy(desc(broadcastLog.id))
+          .limit(100);
+        allRecentBroadcasts = await db.select().from(broadcastLog)
+          .orderBy(desc(broadcastLog.id))
+          .limit(500);
+      }
+      res.json({
+        timestamp: new Date().toISOString(),
+        arizona: { house: azHouse, governor: azGov },
+        broadcastLog: {
+          azBroadcasts,
+          totalRecentBroadcasts: allRecentBroadcasts.length,
+          allRecentBroadcasts,
+        },
+      });
+    } catch (err) {
+      res.status(500).json({ error: String(err) });
+    }
+  });
 }
 // Redeploy trigger: Wed May  6 06:08:51 UTC 2026
 // SCHEDULED_ROUTES_ACTIVE_1778048122
