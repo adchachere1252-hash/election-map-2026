@@ -32,6 +32,7 @@
 import { getDb } from "./db";
 import { senateRaces, houseRaces, governorRaces } from "../drizzle/schema";
 import { and, eq, inArray, isNotNull, or } from "drizzle-orm";
+import { withDbRetry } from "./dbRetry";
 
 // ─── Date Parsing ─────────────────────────────────────────────────────────────
 
@@ -106,15 +107,18 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
 
   // ── Senate Races ────────────────────────────────────────────────────────────
   try {
-    const senateEligible = await db
-      .select()
-      .from(senateRaces)
-      .where(
-        and(
-          inArray(senateRaces.status, ["Scheduled", "Primary", "Primary Runoff"]),
-          isNotNull(senateRaces.primaryWinner)
-        )
-      );
+    const senateEligible = await withDbRetry(
+      () => db
+        .select()
+        .from(senateRaces)
+        .where(
+          and(
+            inArray(senateRaces.status, ["Scheduled", "Primary", "Primary Runoff"]),
+            isNotNull(senateRaces.primaryWinner)
+          )
+        ),
+      "Promotion: Senate query"
+    );
 
     for (const race of senateEligible) {
       // [AP_LOCK] — skip manually locked races
@@ -182,15 +186,18 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
 
   // ── House Races ─────────────────────────────────────────────────────────────
   try {
-    const houseEligible = await db
-      .select()
-      .from(houseRaces)
-      .where(
-        and(
-          inArray(houseRaces.status, ["Scheduled", "Primary", "Primary Runoff"]),
-          isNotNull(houseRaces.primaryWinner)
-        )
-      );
+    const houseEligible = await withDbRetry(
+      () => db
+        .select()
+        .from(houseRaces)
+        .where(
+          and(
+            inArray(houseRaces.status, ["Scheduled", "Primary", "Primary Runoff"]),
+            isNotNull(houseRaces.primaryWinner)
+          )
+        ),
+      "Promotion: House query"
+    );
 
     for (const race of houseEligible) {
       // [AP_LOCK] — skip manually locked races
@@ -270,15 +277,18 @@ export async function runPrimaryToGeneralPromotion(): Promise<PromotionResult> {
   // both parties have winners. When both are known, status → "Voting" to signal
   // the general election is underway (closest available enum value).
   try {
-    const govEligible = await db
-      .select()
-      .from(governorRaces)
-      .where(
-        and(
-          inArray(governorRaces.status, ["Scheduled", "Primary Runoff"]),
-          isNotNull(governorRaces.primaryWinner)
-        )
-      );
+    const govEligible = await withDbRetry(
+      () => db
+        .select()
+        .from(governorRaces)
+        .where(
+          and(
+            inArray(governorRaces.status, ["Scheduled", "Primary Runoff"]),
+            isNotNull(governorRaces.primaryWinner)
+          )
+        ),
+      "Promotion: Governor query"
+    );
 
     for (const race of govEligible) {
       // [AP_LOCK] — skip manually locked races

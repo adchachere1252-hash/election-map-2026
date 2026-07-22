@@ -2953,3 +2953,11 @@
 - [x] AZ-2,3,6,7,9: No competitive primaries — all already set to General with correct candidates.
 - [x] Fixed electionDates.ts (production had old dates, AP engine missed election night)
 - [x] AP engine ran successfully post-fix: 331 updated, 127 skipped, 0 errors
+
+## Reliability Fixes — Jul 22, 2026 (Post-Incident)
+
+- [x] Fix 1: Defer Atlas pre-warm during election windows to prevent resource exhaustion
+- [x] Fix 2: Add DB query retry with exponential backoff to AP engine and promotion
+- [x] Fix 3: Add failure alerting via notifyOwner when AP engine fails 3+ consecutive times
+- [x] Re-verify all upcoming election dates against NCSL official sources
+- [x] Test full AP engine flow end-to-end with fixes applied

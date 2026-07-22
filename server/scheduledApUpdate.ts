@@ -21,6 +21,7 @@ import { broadcastElectionEvent } from "./ws";
 import { broadcastLog } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
 import { ELECTION_DATES as CANONICAL_ELECTION_DATES, getElectionWindowStatus } from "./electionDates";
+import { withDbRetry } from "./dbRetry";
 
 // ── Broadcast deduplication (DB-backed, survives server restarts) ───────────────────────────────
 // Key format: "<electionDate>:<stateCode>:<chamber>:<district|0>"
@@ -417,12 +418,15 @@ export async function scrapeAndPushResults(): Promise<{
   const updates: Array<{ race: string; id: number; status: "ok" | "error" | "skip"; detail?: string }> = [];
   const log = (msg: string) => console.log(`[AP Engine] ${msg}`);
 
-  // Load all races from DB
-  const [allSenate, allHouse, allGovernor] = await Promise.all([
-    getAllSenateRaces(),
-    getAllHouseRaces(),
-    getAllGovernorRaces(),
-  ]);
+  // Load all races from DB (with retry for transient connection failures)
+  const [allSenate, allHouse, allGovernor] = await withDbRetry(
+    () => Promise.all([
+      getAllSenateRaces(),
+      getAllHouseRaces(),
+      getAllGovernorRaces(),
+    ]),
+    "AP Engine: load all races"
+  );
 
   log(`Loaded ${allSenate.length} senate, ${allHouse.length} house, ${allGovernor.length} governor races`);
 
@@ -499,7 +503,7 @@ export async function scrapeAndPushResults(): Promise<{
           return;
         }
         try {
-          await fn(id, payload);
+          await withDbRetry(() => fn(id, payload), `AP write: ${label}`);
           updates.push({ race: label, id, status: "ok" });
           // Broadcast WS if race was called — only once per race per server session
           if (payload.calledWinner || payload.primaryWinner) {

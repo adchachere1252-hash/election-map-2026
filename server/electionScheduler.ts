@@ -12,6 +12,7 @@
 
 import { getElectionWindowStatus, isApproachingElectionWindow } from "./electionDates";
 import { runWorldElectionTracker } from "./worldElectionTracker";
+import { notifyOwner } from "./_core/notification";
 
 // Intervals
 const ACTIVE_AP_INTERVAL_MS = 1 * 60 * 1000;       // 1 minute during election window
@@ -33,6 +34,8 @@ let lastWorldTrackerRun = 0;
 let lastApErrorCount = 0;
 let lastApOkCount = 0;
 let lastApError: string | null = null;
+let consecutiveFailures = 0;
+let alertSentForCurrentWindow = false;
 
 /** Exported health stats for /api/health */
 export function getSchedulerHealth() {
@@ -56,7 +59,7 @@ export async function initElectionScheduler(): Promise<void> {
 
   const log = (msg: string) => console.log(`[ElectionScheduler] ${msg}`);
 
-  // Run AP update
+  // Run AP update with consecutive failure tracking and owner alerting
   async function runApUpdate() {
     try {
       const result = await scrapeAndPushResults();
@@ -70,10 +73,46 @@ export async function initElectionScheduler(): Promise<void> {
       lastApOkCount = okCount;
       lastApErrorCount = errCount;
       lastApError = errCount > 0 ? `${errCount} race update errors` : null;
+
+      // Track consecutive failures (a cycle with ALL errors and 0 ok is a failure)
+      if (okCount === 0 && errCount > 0) {
+        consecutiveFailures++;
+        log(`⚠️ Consecutive failure #${consecutiveFailures} (0 successful updates, ${errCount} errors)`);
+      } else {
+        // Reset on any successful cycle
+        if (consecutiveFailures > 0) {
+          log(`✅ AP Engine recovered after ${consecutiveFailures} consecutive failures.`);
+        }
+        consecutiveFailures = 0;
+        alertSentForCurrentWindow = false;
+      }
+
+      // Alert owner after 3 consecutive failures (once per election window)
+      if (consecutiveFailures >= 3 && !alertSentForCurrentWindow) {
+        alertSentForCurrentWindow = true;
+        const alertMsg = `AP Engine has failed ${consecutiveFailures} consecutive cycles during an active election window. Last error: ${lastApError}. The auto-updater may not be capturing live results. Manual intervention may be required.`;
+        log(`🚨 ALERTING OWNER: ${alertMsg}`);
+        notifyOwner({
+          title: "🚨 AP Engine Failure Alert — Election Night",
+          content: alertMsg,
+        }).catch(e => log(`Failed to send owner alert: ${e}`));
+      }
     } catch (err) {
       lastApError = err instanceof Error ? err.message : String(err);
       lastApErrorCount = -1;
-      log(`AP Update Error: ${lastApError}`);
+      consecutiveFailures++;
+      log(`AP Update Error (consecutive failure #${consecutiveFailures}): ${lastApError}`);
+
+      // Alert owner after 3 consecutive total failures
+      if (consecutiveFailures >= 3 && !alertSentForCurrentWindow) {
+        alertSentForCurrentWindow = true;
+        const alertMsg = `AP Engine has CRASHED ${consecutiveFailures} consecutive times during an active election window. Error: ${lastApError}. The auto-updater is completely non-functional. Immediate attention required.`;
+        log(`🚨 ALERTING OWNER: ${alertMsg}`);
+        notifyOwner({
+          title: "🚨 CRITICAL: AP Engine Down — Election Night",
+          content: alertMsg,
+        }).catch(e => log(`Failed to send owner alert: ${e}`));
+      }
     }
   }
 

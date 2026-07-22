@@ -484,8 +484,22 @@ async function startServer() {
   });
 
   // Pre-warm ALL congress bundles on startup (background, non-blocking)
-  // Builds bundles for all 31 congresses so client requests are instant
+  // CRITICAL: Skip pre-warm during election windows to preserve resources for AP engine
+  // Incident Jul 21 2026: pre-warm exhausted 512MB instance, causing AP engine DB failures
   setImmediate(async () => {
+    const { getElectionWindowStatus } = await import("../electionDates");
+    const windowStatus = getElectionWindowStatus();
+    if (windowStatus.isActive) {
+      console.log("[Atlas] ⚠️ SKIPPING bundle pre-warm — election window ACTIVE. Preserving resources for AP engine.");
+      // Only pre-warm the 3 most recent congresses (minimal footprint)
+      const recentCongresses = [119, 118, 117];
+      for (const c of recentCongresses) {
+        await Promise.allSettled([buildCongressBundle(c)]);
+        await new Promise(r => setTimeout(r, 200));
+      }
+      console.log(`[Atlas] Minimal pre-warm complete (${bundleCache.size} cached). Full pre-warm deferred.`);
+      return;
+    }
     console.log("[Atlas] Pre-warming all congress bundles (119 down to 89)...");
     // Start from 119th (most commonly viewed) and work backward
     const congresses = Array.from({ length: 31 }, (_, i) => 119 - i);
@@ -499,9 +513,15 @@ async function startServer() {
     console.log(`[Atlas] All congress bundles pre-warmed (${bundleCache.size} cached).`);
   });
 
-  // Pre-warm all 31 congresses on server startup (background, non-blocking)
-  // Use batches of 8 with 150ms delay for fast warmup
+  // Pre-warm Voteview data on server startup (background, non-blocking)
+  // CRITICAL: Skip during election windows to preserve resources for AP engine
   setImmediate(async () => {
+    const { getElectionWindowStatus } = await import("../electionDates");
+    const windowStatus = getElectionWindowStatus();
+    if (windowStatus.isActive) {
+      console.log("[Atlas] ⚠️ SKIPPING Voteview pre-warm — election window ACTIVE.");
+      return;
+    }
     console.log("[Atlas] Pre-warming Voteview party data for all congresses...");
     const congresses = Array.from({ length: 31 }, (_, i) => 119 - i); // 119 down to 89
     const BATCH_SIZE = 8;
