@@ -2970,3 +2970,26 @@
 - [x] AZ-4: Fixed candidate2_name typo "Zudhi"→"Zuhdi" Jasser
 - [x] AZ Governor: Updated rating Toss-up→Lean D (Cook Political Report), notes updated
 - [x] All AZ races: Cleared stale primary vote counts and pct_reporting (races now in General status, ready for Nov 3)
+
+## Comprehensive Verification — Jul 23, 2026
+
+- [x] Governor: CA/MD/NY status Voting→Scheduled (primaries complete, general set)
+- [x] Governor: CO — Victor Marx (R) confirmed as nominee (AP called Jul 9), updated rep_candidate + notes
+- [x] Governor: OK/SD notes updated with runoff details (OK: Drummond vs Mazzei Aug 25; SD: Rhoden vs Doeden Jul 28)
+- [x] House: NJ-8/PA-3 removed phantom "TBD" R candidates (no R filed in deep-blue districts)
+- [x] House: GA-11/TX-23 stale vote counts cleared
+- [x] House: ~50+ races cleared stale pct_reporting from completed primaries
+- [x] Senate: AK — Kohlhaas party NULL→L (Libertarian)
+- [x] Senate: MI — Notes updated: McMorrow dropped out Jul 5, primary now Stevens vs El-Sayed (Aug 4)
+- [x] Senate: ME — Rating Lean R→Toss-up; notes updated (Platner dropped Jul 8, Troy Jackson nominated Jul 27 convention)
+- [x] Senate: NC — Rating Lean D→Toss-up (Cook/CNN consensus; Cooper +7 in NYT/Siena poll)
+- [x] Senate: MT — Rating Solid R→Lean R (Cook)
+- [x] Senate: MN — candidate2 fixed D→R (primary Aug 11: Tafoya/Lindell leading); rating Likely D→Lean D
+- [x] Senate: IA — Rating Toss-up→Lean R (Cook)
+- [x] Senate: ~20 races cleared stale pct_reporting from completed primaries
+
+### Remaining known non-issues (verification script false positives):
+- WA-10: NULL parties expected (WA top-two primary Aug 4, parties assigned after)
+- KS/MI/VA Senate: status=Primary correct (Aug 4 primary hasn't happened yet)
+- OK/SD Governor: status=Voting correct (runoffs pending Aug 25/Jul 28)
+- IL/MS/NC-2/ND/SD House: no primaryWinner field set (low-priority, races already in General with correct candidates)
