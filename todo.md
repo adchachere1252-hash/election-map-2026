@@ -2946,7 +2946,7 @@
 
 - [x] AZ Governor: Andy Biggs (R) won primary decisively — AP called at 8pm. Updated DB.
 - [x] AZ-1 R: Jay Feely (Trump-backed) won 49.7% — updated DB
-- [ ] AZ-1 D: Shah vs Galan-Woods NOT YET CALLED (Shah leads 40.5%-33.6% at 83.6% in, ~14K remaining)
+- [x] AZ-1 D: AP called Amish Shah as winner Jul 23 (def. Galán-Woods). Updated to General status.
 - [x] AZ-4: Stanton (D) def. Newkirk 65%-35% — AP called. Status set to General.
 - [x] AZ-5: Mark Lamb (R) won 58.4%, Elizabeth Lee (D) won 65.2% — both called. Status General.
 - [x] AZ-8: Greene-Placentia (D) won 65.1% — updated DB. Status General.
@@ -2966,3 +2966,7 @@
 
 - [x] AZ-1 D primary: AP called Amish Shah as winner (def. Galán-Woods 40.5%-33.6%). Updated to General status.
 - [x] SC Senate: Filing opened Jul 21. Updated notes with 5 filed candidates + 3 expected (Graham, Fry, Norman). Mace NOT running.
+- [x] AZ-1: Fixed candidate1_party NULL→D, primaryWinner "Thomas Feely"→"Jay Feely", cleared stale pct_reporting/vote data
+- [x] AZ-4: Fixed candidate2_name typo "Zudhi"→"Zuhdi" Jasser
+- [x] AZ Governor: Updated rating Toss-up→Lean D (Cook Political Report), notes updated
+- [x] All AZ races: Cleared stale primary vote counts and pct_reporting (races now in General status, ready for Nov 3)
