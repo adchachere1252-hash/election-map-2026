@@ -2961,3 +2961,8 @@
 - [x] Fix 3: Add failure alerting via notifyOwner when AP engine fails 3+ consecutive times
 - [x] Re-verify all upcoming election dates against NCSL official sources
 - [x] Test full AP engine flow end-to-end with fixes applied
+
+## Updates — Jul 23, 2026
+
+- [x] AZ-1 D primary: AP called Amish Shah as winner (def. Galán-Woods 40.5%-33.6%). Updated to General status.
+- [x] SC Senate: Filing opened Jul 21. Updated notes with 5 filed candidates + 3 expected (Graham, Fry, Norman). Mace NOT running.
